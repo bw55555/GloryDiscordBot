@@ -11,7 +11,7 @@ module.exports = function (message) {
     functions.replyMessage(message, "Choose another ID to merge the first item with!")
     return
   }
-  if (userData[id].cooldowns.merge > ts) { return functions.replyMessage("You cannot merge now. Try again in " + functions.calcTime(userData[id].cooldowns.merge,ts)+" seconds.") }
+  if (userData[id].cooldowns.merge > ts) { return functions.replyMessage(message,"You cannot merge now. Try again in " + functions.calcTime(userData[id].cooldowns.merge,ts)+" seconds.") }
   let weaponid = words[1]
   let weaponid2 = words[2]
   if (weaponid == weaponid2) {
