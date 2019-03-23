@@ -34,7 +34,7 @@ module.exports=function(message) {
     return
   }
   
-  let materials = Math.pow(10, rarity)
+  let materials = Math.pow(5, rarity)
   let money = rarity * rarity * 1000
   let xp = rarity * rarity * 1000
   userData[id].materials += materials
