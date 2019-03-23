@@ -71,7 +71,7 @@ module.exports = function (message) {
     functions.replyMessage(message, "The first item cannot be upgraded any further!")
     return
   }
-  let extratime = (rarity<2) ? 0 : Math.pow(rarity-2)*60*1000*15
+  let extratime = (rarity<2) ? 0 : Math.pow(2,rarity-2)*60*1000*15
   let wepatk = itemData[weaponid].attack
   let wepdef = itemData[weaponid].defense
   let y = (raritystats[rarity] - (wepatk + wepdef)) / (10 - itemData[weaponid].merge)
