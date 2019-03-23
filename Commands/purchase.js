@@ -74,11 +74,11 @@ module.exports = function (message) {
   }
 
   else if (purchaseID == 201) {
-      if (userData[id].materials < 1000) {
+      if (userData[id].materials < 5000) {
           functions.replyMessage(message, "You do not have enough materials to buy this!")
           return;
       }
-      userData[id].materials -= 1000
+      userData[id].materials -= 5000
       functions.replyMessage(message, "You successfully spent 1000 materials for a Phoenix Feather! Use `!feather` to rez yourself!")
       userData[id].phoenixfeather += 1;
   }

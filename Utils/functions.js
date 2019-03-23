@@ -540,9 +540,9 @@ function voteItem(message, dm) {
     let prefixsum = 0
     for (var i = 0; i < chances.length; i++) {
         prefixsum += chances[i]
-        if (randomfactor < chances[i]) { break}
+        if (randomfactor < prefixsum) { break }
     }
-    let rarity = i
+    rarity = i
     let itemid = generateRandomItem(target, rarity)
 
     if (userData[target].glory != undefined && userData[target].glory < 100) {
