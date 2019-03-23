@@ -1,0 +1,6 @@
+config.json
+Storage/
+BackupsOld/
+AutoBackup/
+OldCommandLogs/
+nohup.out
