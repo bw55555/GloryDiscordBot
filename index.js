@@ -283,7 +283,7 @@ bot.on("guildCreate", guild => {
     console.log("Joined a new guild: " + guild.name);
     addServer(guild)
     
-    var allowedchannels = guild.channels.filter(channel => channel.memberPermissions(bot.user).has("SEND_MESSAGES"))
+    var allowedchannels = guild.channels.filter(channel => channel.type == "text" && channel.memberPermissions(bot.user).has("SEND_MESSAGES") )
     if (allowedchannels.size == 0) { return }
     var channel = allowedchannels.find(channel => channel.name == "botspam" || channel.name == "general")
     if (channel == undefined) { channel = allowedchannels.first()}
