@@ -68,7 +68,7 @@ module.exports = function (message) {
           return;
       }
       userData[id].materials -= 100000
-      functions.replyMessage(message, "You successfully spent 1000000 materials for an Explosion! Use !explosion to cast it!")
+      functions.replyMessage(message, "You successfully spent 100000 materials for an Explosion! Use !explosion to cast it!")
       userData[id].explosion += 1;
 
   }

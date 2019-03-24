@@ -30,7 +30,7 @@ module.exports = function (message) {
       functions.replyMessage(message, "They are already bolstered!");
       return;
     }
-    if (target == id && userData[id].triangleid != 9) { return functions.replyMessage("You cannot bolster yourself!") }
+    if (target == id && userData[id].triangleid != 9) { return functions.replyMessage(message,"You cannot bolster yourself!") }
     userData[target].bolster = true;
     if (target == id) {
         functions.replyMessage(message, "You have been bolstered!");

@@ -87,7 +87,7 @@ module.exports=function(message) {
     for (let i = 0; i < iterations; i++) {
       let modifier = wordsmodifiers[2 * i]
       let modifierstat = parseFloat(wordsmodifiers[2 * i + 1])
-      if (allowedmodifiers.indexOf(modifier) == -1) { return functions.sendMessage(message.channel, modifier + "is not an allowed modifier.") }
+      if (allowedmodifiers.indexOf(modifier) == -1) { return functions.sendMessage(message.channel, modifier + " is not an allowed modifier.") }
       if (isNaN(modifierstat)) {
         functions.sendMessage(message.channel, "Every modifier must have a corresponding float!")
         return
