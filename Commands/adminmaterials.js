@@ -8,8 +8,8 @@ module.exports = function (message) {
     if (target == false) { return; }
     var amount = parseInt(words[2]);
     if (!isNaN(amount)) {
-        functions.sendMessage(message.channel, 'Sent $' + amount + ' to <@' + target + ">");
-        userData[target].money += amount;
+        functions.sendMessage(message.channel, 'Sent ' + amount + ' materials to <@' + target + ">");
+        userData[target].materials += amount;
     } else {
         functions.sendMessage(message.channel, amount + ' is an incorrect argument');
     }

@@ -570,8 +570,14 @@ function voteItem(message, dm) {
 function craftItem(message, minrarity, maxrarity, reply) {
     reply = (reply == false) ? false : true
     let target = message.author.id
-    let itemid = generateRandomItem(target)
-    if (reply) sendMessage(message.channel, "<@" + target + "> has recieved an item with id " + itemid + " and of rarity " + rarity)
+    let itemid = 0
+    if (minrarity == -1 || maxrarity == -1) {
+        itemid = generateRandomItem(target)
+    } else {
+        let rarity = Math.floor((maxrarity-minrarity+1)*Math.random()+minrarity)
+        itemid = generateRandomItem(target,rarity)
+    }
+    if (reply) sendMessage(message.channel, "<@" + target + "> has recieved an item with id " + itemid + " and of rarity " + itemData[itemid].rarity)
     return itemid
 }
 function raidInfo(message, raid) {
