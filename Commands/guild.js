@@ -427,7 +427,7 @@ module.exports=function(message) {
       let matscost = ((guildData[guild].level % 5) == 4) ? (((guildData[guild].level % 10) == 9) ? guildData[guild].materialmax / 100 : guildData[guild].materialmax / 500) : Math.floor(guildData[guild].materialmax / 1000)
       if (guildData[guild].bank < cost) { return functions.replyMessage(message, "Your guild does not have enough money! You need $" + cost) }
       if (guildData[guild].materials < matscost) { return functions.replyMessage(message, "Your guild does not have enough materials! You need " + matscost + " materials") }
-      functions.messageAwait(message.channel, id, "It costs $" + cost + " and " + matscost + " materials to level up your guild to level " + (guildData[guild].level + 1)+". Are you sure you want to do this? If so, type confirm.","confirm",
+      new functions.MessageAwait(message.channel, id, "It costs $" + cost + " and " + matscost + " materials to level up your guild to level " + (guildData[guild].level + 1)+". Are you sure you want to do this? If so, type confirm.","confirm",
       function (response, guild) {
           guildData[guild].xp -= Math.pow(guildData[guild].level + 1, 4)
           guildData[guild].bank -= cost
