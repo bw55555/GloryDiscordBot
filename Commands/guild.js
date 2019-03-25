@@ -433,8 +433,9 @@ module.exports=function(message) {
           guildData[guild].bank -= cost
           guildData[guild].materials -= matscost
           guildData[guild].level += 1
-          functions.replyMessage(message, "You have successfully upgraded your guild to level " + guildData[guild].level + "! It cost $" + cost + " and " + matscost + " materials.")
           let leveluptext = ""
+          leveluptext+= "You have successfully upgraded your guild to level " + guildData[guild].level + "! It cost $" + cost + " and " + matscost + " materials.\n"
+          
           while (guild != "None" && guildData[guild].level * 200000 + 800000 > guildData[guild].bankmax) {
               guildData[guild].bankmax += 200000
               guildData[guild].materialmax += 200000
@@ -447,31 +448,6 @@ module.exports=function(message) {
           if (leveluptext != "") { functions.replyMessage(message, leveluptext) }
       }, guild)
       //functions.replyMessage(message, "It costs $" + cost + " and " + matscost + " materials to level up your guild to level " + (guildData[guild].level + 1)+". Are you sure you want to do this? If so, type !guild upgradeconfirm")
-  }
-  else if (words[1].toUpperCase() == "UPGRADECONFIRM") {
-      if (guild == "None") { return functions.replyMessage(message, "You do not have a guild!") }
-      if (userData[id].guildpos != "Leader" && userData[id].guildpos != "Co-Leader") { return functions.replyMessage(message, "You must be a Leader or a Co-Leader to upgrade the guild!") }
-      if (Math.pow(guildData[guild].level + 1, 4) > guildData[guild].xp) { return functions.replyMessage(message, "Your guild does not have enough xp!") }
-      let cost = ((guildData[guild].level % 5) == 4) ? (((guildData[guild].level % 10) == 9) ? guildData[guild].bankmax : guildData[guild].bankmax / 5) : Math.floor(guildData[guild].bankmax / 10)
-      let matscost = ((guildData[guild].level % 5) == 4) ? (((guildData[guild].level % 10) == 9) ? guildData[guild].materialmax / 100 : guildData[guild].materialmax / 500) : Math.floor(guildData[guild].materialmax / 1000)
-      if (guildData[guild].bank < cost) { return functions.replyMessage(message, "Your guild does not have enough money! You need $" + cost) }
-      if (guildData[guild].materials < matscost) { return functions.replyMessage(message, "Your guild does not have enough materials! You need " + matscost + " materials") }
-      guildData[guild].xp -= Math.pow(guildData[guild].level + 1, 4)
-      guildData[guild].bank -= cost
-      guildData[guild].materials -= matscost
-      guildData[guild].level += 1
-      functions.replyMessage(message, "You have successfully upgraded your guild to level " + guildData[guild].level + "! It cost $" + cost + " and " + matscost + " materials.")
-      let leveluptext = ""
-      while (userData[id].guild != "None" && guildData[userData[id].guild].level * 200000 + 800000 > guildData[userData[id].guild].bankmax) {
-          guildData[userData[id].guild].bankmax += 200000
-          guildData[userData[id].guild].materialmax += 200000
-          leveluptext += userData[id].guild + " had their guild bank max increased to " + guildData[userData[id].guild].bankmax + "\n" + userData[id].guild + " had their guild materials max increased to " + guildData[userData[id].guild].materialmax
-          if (leveluptext.length > 1900) {
-              functions.replyMessage(message, leveluptext)
-              leveluptext = ""
-          }
-      }
-      if (leveluptext != "") { functions.replyMessage(message, leveluptext) }
   }
   else if (words[1].toUpperCase() == "STORE") {
       let text = "Your guild's store: ```\n"
