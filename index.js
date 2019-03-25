@@ -28,7 +28,7 @@ fs.readdir("./Commands/", (err, files) => {
     //console.log(commandlist)
 });
 
-const respond = require('./Utils/respond.js');
+//const respond = require('./Utils/respond.js');
 //const ability = require('./ability.js');
 let config = require('./config.json')
 global.talkedRecently = new Set();
@@ -60,7 +60,6 @@ global.guildData = JSON.parse(fs.readFileSync('Storage/guildData.json', 'utf8'))
 global.serverData = JSON.parse(fs.readFileSync('Storage/serverData.json', 'utf8'));
 global.quizData = JSON.parse(fs.readFileSync('Storage/quizData.json', 'utf8'));
 global.skillData = JSON.parse(fs.readFileSync('Storage/skillData.json', 'utf8'));
-
 global.questData = JSON.parse(fs.readFileSync('Storage/questData.json', 'utf8'));
 
 if (devData.dblenable) {
@@ -75,7 +74,7 @@ if (devData.dblenable) {
 
 function addServer(guild) {
     if (serverData[guild.id] == undefined) { serverData[guild.id] = {} }
-    
+
     serverData[guild.id].prefix = defaultPrefix
     serverData[guild.id].disabledChannels = []
 }
@@ -129,7 +128,7 @@ bot.on("message", message => {
         words.splice(0, 1)
         message.content = prefix + words.join(" ")
     }
-    respond(message)
+    functions.respond(message)
     if (!message.content.startsWith(prefix)) {
         return;
     }
@@ -298,6 +297,7 @@ bot.on("error", error => {
     console.log(error.message + "\nFile name:" + error.fileName + "\nLine number:" + error.lineNumber);
 })
 bot.on("debug", debug => {
+    if (devData.debugenable == false) { return }
     if (debug.indexOf(config.token) != -1) { return }
     if (ready == false) { console.log(debug); return }
     functions.sendMessage(bot.guilds.get("536599503608872961").channels.get("547538741699280914"), debug)
