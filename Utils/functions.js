@@ -212,6 +212,17 @@ function generateItem(owner, itemid, attack, defense, rarity, name, modifiers) {
 function generateRandomItem(owner, rarity) {
     //console.log(owner)
     //console.log(rarity)
+    rarity = parseInt(rarity)
+    if (isNaN(rarity)) {
+        let randomfactor = 1000000 * Math.random()
+        let chances = [100000, 333333, 333333, 183334, 49000, 900, 90, 10]
+        let prefixsum = 0
+        for (var i = 0; i < chances.length; i++) {
+            prefixsum += chances[i]
+            if (randomfactor < prefixsum) { break }
+        }
+        rarity = i
+    }
     let itemid = itemData.length
     let total = 0
     if (rarity == 0) {
@@ -535,15 +546,8 @@ function voteItem(message, dm) {
     dm = dm == true ? true : false
     let target = validate(message)
     if (target == false) { return }
-    let randomfactor = 1000000 * Math.random()
-    let chances = [100000, 333333, 333333, 183334, 49000, 900, 90, 10]
-    let prefixsum = 0
-    for (var i = 0; i < chances.length; i++) {
-        prefixsum += chances[i]
-        if (randomfactor < prefixsum) { break }
-    }
-    rarity = i
-    let itemid = generateRandomItem(target, rarity)
+
+    let itemid = generateRandomItem(target)
 
     if (userData[target].glory != undefined && userData[target].glory < 100) {
         userData[target].glory += Math.random() * 0.5;
@@ -556,19 +560,7 @@ function voteItem(message, dm) {
 function craftItem(message, minrarity, maxrarity, reply) {
     reply = (reply == false) ? false : true
     let target = message.author.id
-    let randomfactor = 1000000 * Math.random()
-    let rarity = 0
-    rarity = Math.floor(((maxrarity - minrarity + 1) * Math.random()) + minrarity)
-    if (minrarity == -1 || maxrarity == -1) {
-        let chances = [100000, 333333, 333333, 183334, 49000, 900, 90, 10]
-        let prefixsum = 0
-        for (var i = 0; i < chances.length; i++) {
-            prefixsum += chances[i]
-            if (randomfactor < prefixsum) { break }
-        }
-        rarity = i
-    }
-    let itemid = generateRandomItem(target, rarity)
+    let itemid = generateRandomItem(target)
     if (reply) sendMessage(message.channel, "<@" + target + "> has recieved an item with id " + itemid + " and of rarity " + rarity)
     return itemid
 }
