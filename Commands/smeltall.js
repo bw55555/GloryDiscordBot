@@ -35,9 +35,6 @@ module.exports=function(message) {
     count += 1
   }
   if (count == 0) { return functions.replyMessage(message, "You do not have any items to smelt!") }
-  userData[id].materials += totalmaterials
-  userData[id].money += totalmoney
-  userData[id].xp += totalxp
   userData[id].cooldowns.smeltall = ts + smeltallcd * 1000 * 60
   functions.sendMessage(message.channel, "You have smelted " + count + " items for " + totalmaterials + " materials, $" + totalmoney + ", and " + totalxp + " xp.")
 }
