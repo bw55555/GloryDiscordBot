@@ -373,8 +373,10 @@ function calcDamage(message, attacker, defender, initiator) {
             lifesteal += 0.1;
         }
         if (lifesteal > 0) {
-            userData[attacker].currenthealth += Math.abs(Math.floor((attack * 0.75 * roll + attack * 0.25 - defense) * lifesteal))
-            text += "<@" + attacker + "> lifestole **" + Math.abs(Math.floor((attack * 0.75 * roll + attack * 0.25 - defense) * lifesteal)) + "** Health!\n";
+            let stealAmount = Math.abs(Math.floor((attack * 0.75 * roll + attack * 0.25 - defense) * lifesteal))
+            if (stealAmount < 0) { stealAmount = 0}
+            userData[attacker].currenthealth += stealAmount
+            text += "<@" + attacker + "> lifestole **" + stealAmount + "** health!\n";
         }
     }
 
