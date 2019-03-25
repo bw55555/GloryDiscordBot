@@ -5,7 +5,7 @@ module.exports = function (message) {
   let words = message.content.split(/\s+/)
   if (userData[id].cooldowns.attack > ts) {
     functions.deleteMessage(message);
-    functions.replyMessage(message, 'You can\'t attack right now. You can attack again in ' + functions.calcTime(userData[id].cooldowns.attack, ts) + " seconds.");
+    functions.replyMessage(message, 'You can\'t attack right now. You can attack again in ' + functions.displayTime(userData[id].cooldowns.attack, ts));
     return;
   }
 
@@ -26,7 +26,7 @@ module.exports = function (message) {
     return;
   }
   if (userData[target].shield > ts) {
-    functions.replyMessage(message, "They are protected from attacks! Try again in " + functions.calcTime(userData[target].shield, ts) + " seconds.");
+    functions.replyMessage(message, "They are protected from attacks! Try again in " + functions.displayTime(userData[target].shield, ts));
     return;
   }
   if (userData[id].level > userData[target].level + 25 && (userData[id].ascension == 0 || userData[target].ascension == 0)) {

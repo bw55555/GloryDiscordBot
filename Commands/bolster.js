@@ -8,7 +8,7 @@ module.exports = function (message) {
   }
   if (userData[id].cooldowns.bolster > ts) {
     functions.deleteMessage(message);
-    return functions.replyMessage(message, "You can't bolster right now. You can bolster again in " + functions.calcTime(userData[id].cooldowns.bolster, ts) + "seconds. ");
+    return functions.replyMessage(message, "You can't bolster right now. You can bolster again in " + functions.displayTime(userData[id].cooldowns.bolster, ts));
   }
   if (words.length == 1) {
     if (userData[id].bolster === true) {

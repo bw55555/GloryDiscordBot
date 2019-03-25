@@ -254,6 +254,16 @@ function calcLuckyBuff(id) {
 function calcTime(time1, time2) {
     return Math.floor((time1 - time2) / 1000)
 }
+function displayTime(time1, time2) {
+    let totalseconds = calcTime(time1, time2)
+    let hours = Math.floor(totalseconds / 3600)
+    totalseconds -= 3600 * hours
+    let minutes = Math.floor(totalseconds / 60)
+    if (minutes < 10) { minutes = "0" + minutes }
+    let seconds = totalseconds - 60 * minutes
+    if (seconds < 10) { seconds = "0" + seconds }
+    return hours+":"+minutes+":"+seconds
+}
 ///---------------------
 function calcDamage(message, attacker, defender, initiator) {
     let text = ""
@@ -752,7 +762,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) {
     }
     if (userData[id].cooldowns.attack > ts) {
         deleteMessage(message);
-        replyMessage(message, 'You can\'t attack right now.\n You can attack again in ' + calcTime(userData[id].cooldowns.attack, ts) + " seconds.");
+        replyMessage(message, 'You can\'t attack right now.\n You can attack again in ' + displayTime(userData[id].cooldowns.attack, ts) + ".");
         return false;
     }
     if (raid.alive === false) {
@@ -954,6 +964,7 @@ module.exports.generateItem = function (owner, itemid, attack, defense, rarity, 
 module.exports.generateRandomItem = function (owner, rarity) { return generateRandomItem(owner, rarity) }
 module.exports.calcLuckyBuff = function (id) { return calcLuckyBuff(id) }
 module.exports.calcTime = function (time1, time2) { return calcTime(time1, time2) }
+module.exports.displayTime = function (time1, time2) { return displayTime(time1, time2) }
 module.exports.calcDamage = function (message, attacker, defender, initiator) { return calcDamage(message, attacker, defender, initiator) }
 module.exports.calcStats = function (message, id, stat) { return calcStats(message, id, stat) }
 module.exports.voteItem = function (message, dm) { return voteItem(message, dm) }

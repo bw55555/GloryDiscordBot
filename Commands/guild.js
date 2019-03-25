@@ -367,7 +367,7 @@ module.exports=function(message) {
       //if (devs.indexOf(id)==-1) {return functions.replyMessage(message, "This feature is under development...")}
       if (isNaN(guildData[guild].raid)) {return functions.replyMessage(message, "You already have a raid going on!")}
       if (guildData[guild].raid>ts) {
-	    functions.replyMessage(message, "You can next summon a raid boss in "+functions.calcTime(guildData[guild].raid,ts)+" seconds.")
+	    functions.replyMessage(message, "You can next summon a raid boss in "+functions.displayTime(guildData[guild].raid,ts))
         return;
       }
       if (words[2] == undefined) { return functions.replyMessage(message,"Please specify a boss rarity!!!")}

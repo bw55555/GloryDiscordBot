@@ -5,7 +5,7 @@ module.exports = function (message) {
   let words = message.content.trim().split(/\s+/)
   let text = ""
   if (userData[id].cooldowns.work > ts) {
-    functions.replyMessage(message, "More work will be available in " + functions.calcTime(userData[id].cooldowns.work, ts) + " seconds.")
+    functions.replyMessage(message, "More work will be available in " + functions.displayTime(userData[id].cooldowns.work, ts))
     return;
   }
   if (userData[id].dead === true) {
