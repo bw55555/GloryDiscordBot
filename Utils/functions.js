@@ -553,8 +553,8 @@ function voteItem(message, dm) {
         userData[target].glory += Math.random() * 0.5;
     }
 
-    sendMessage(message.channel, "<@" + target + "> has been given an item with id " + itemid + " and of rarity " + rarity)
-    if (dm) dmUser(target, "Thank you for voting! You have been given an item with id " + itemid + " and of rarity " + rarity)
+    sendMessage(message.channel, "<@" + target + "> has been given an item with id " + itemid + " and of rarity " + itemData[itemid].rarity)
+    if (dm) dmUser(target, "Thank you for voting! You have been given an item with id " + itemid + " and of rarity " + itemData[itemid].rarity)
     return itemid
 }
 function craftItem(message, minrarity, maxrarity, reply) {

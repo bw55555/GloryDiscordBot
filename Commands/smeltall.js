@@ -27,7 +27,7 @@ module.exports=function(message) {
   }
   let count = 0
   for (var weaponid in userData[id].inventory) {
-    if (userData[id].inventory[weaponid] != weaponid || weaponid == userData[id].weapon || itemData[weaponid].favorite==true) { continue }
+    if (userData[id].inventory[weaponid] != weaponid || weaponid == userData[id].weapon || itemData[weaponid].favorite==true || itemData[weaponid].rarity<minrarity || itemData[weaponid].rarity>maxrarity) { continue }
     let itemRewards = functions.smeltItem(id, weaponid)
     totalxp += itemRewards[0]
     totalmoney += itemRewards[1]
