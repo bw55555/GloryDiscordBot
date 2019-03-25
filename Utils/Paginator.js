@@ -52,7 +52,21 @@ class Paginator {
                             break;
                         case this.number:
                             this.pause = true;
-                            new MessageAwait(this.message.channel,dad.id, "Please enter a number between 1 and "+pages.length+".",function(response) {let number = parseInt(response.content);if (!isNaN(number) && number>=1 && number <= pages.length) {return "true"} else {return "false"}}, function (response,currPaginator) { currPaginator.current = parseInt(response.content)-1;currPaginator.pause = false;currPaginator.refresh()},this)
+                            new MessageAwait(this.message.channel,dad.id, "Please enter a number between 1 and "+pages.length+".",
+                            function(response) {
+                                let number = parseInt(response.content);
+                                if (!isNaN(number) && number>=1 && number <= pages.length) {
+                                    return true
+                                } else {
+                                    return false
+                                }
+                            }, 
+                            function (response,currPaginator) { 
+                                currPaginator.current = parseInt(response.content)-1;
+                                currPaginator.pause = false;
+                                currPaginator.refresh()
+                            },
+                            this)
                     }
                     this.refresh();
                 }
