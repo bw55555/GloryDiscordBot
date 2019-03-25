@@ -39,9 +39,10 @@ module.exports=function(message) {
   for (var item in userInv) {
     //console.log(item)
       //console.log(itemData[item])
-    count++
+    
     if (item == userData[id].weapon || userData[id].inventory[item] != item || itemData[parseInt(item)].rarity < minrarity || itemData[parseInt(item)].rarity > maxrarity) continue
-    page = functions.generateWeaponTemplate(item,count,total)
+    count++
+    page = functions.generateWeaponTemplate(item, count, total)
     pages.push(page)
     
   }
