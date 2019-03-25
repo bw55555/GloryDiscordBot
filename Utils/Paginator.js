@@ -30,7 +30,7 @@ class Paginator {
             this.collector = this.message.createReactionCollector((reaction, user) => reaction.me && user.id === dad.id && user.id !== this.message.author.id, { time: 100000 });
             this.collector.on("collect", (reaction, collector) => {
                 if (!this.pause) {
-                    if (this.message.channel.type != "dm" && this.message.channel.type != "group" && (this.message.channel.memberPermissions(bot.user) != null && !this.message.channel.memberPermissions(bot.user).has("MANAGE_MESSAGES"))) {reaction.remove(dad)};
+                    if (this.message.channel.type == "dm" || this.message.channel.type || "group" || (this.message.channel.memberPermissions(bot.user) == null || this.message.channel.memberPermissions(bot.user).has("MANAGE_MESSAGES"))) {reaction.remove(dad)};
                     switch (reaction.emoji.toString()) {
                         case this.first:
                             this.current = 0;
