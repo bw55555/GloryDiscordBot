@@ -20,25 +20,30 @@ module.exports=function(message) {
   //console.log(userData[id].weapon)
   
   let page = ""
-  let total = 1
+  let total = 0
+  if (userData[id].weapon != false && userData[id].weapon != "None") {
+      total++
+  }
   for (var item in userInv) {
       //console.log(item)
       //console.log(itemData[item])
-      if ((item == userData[id].weapon || userData[id].inventory[item] != item || itemData[parseInt(item)].rarity < minrarity || itemData[parseInt(item)].rarity > maxrarity)) continue
+      if (item == userData[id].weapon || userData[id].inventory[item] != item || itemData[parseInt(item)].rarity < minrarity || itemData[parseInt(item)].rarity > maxrarity) continue
       total++
   }
-  let count = 1
+  let count = 0
   if (userData[id].weapon != false && userData[id].weapon != "None") {
+      count++
       pages.push(functions.generateWeaponTemplate(userData[id].weapon,1,total))
-      count+=1
+      
   }
   for (var item in userInv) {
     //console.log(item)
       //console.log(itemData[item])
-      if (item == userData[id].weapon || userData[id].inventory[item] != item || itemData[parseInt(item)].rarity < minrarity || itemData[parseInt(item)].rarity > maxrarity) continue
+    count++
+    if (item == userData[id].weapon || userData[id].inventory[item] != item || itemData[parseInt(item)].rarity < minrarity || itemData[parseInt(item)].rarity > maxrarity) continue
     page = functions.generateWeaponTemplate(item,count,total)
     pages.push(page)
-    count+=1
+    
   }
   if (pages.length == 0) {
     functions.sendMessage(message.channel, "There's nothing in your inventory...")

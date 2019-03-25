@@ -83,6 +83,7 @@ function addServer(guild) {
 //console.log("Hello")
 
 bot.on("message", message => {
+    if (ready == false) { return}
     if (bot.user.id === message.author.id) { return }
     if (!devData.enable && devs.indexOf(message.author.id) == -1) {
         return;
