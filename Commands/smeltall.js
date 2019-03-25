@@ -28,16 +28,13 @@ module.exports=function(message) {
   let count = 0
   for (var weaponid in userData[id].inventory) {
     if (userData[id].inventory[weaponid] != weaponid || weaponid == userData[id].weapon || itemData[weaponid].favorite==true) { continue }
-    let rarity = itemData[weaponid].rarity
-    if (rarity == "Unique" || rarity == 9 || rarity>maxrarity || rarity < minrarity) { continue }
-    totalmaterials += Math.pow(5, rarity)
-    totalmoney += rarity * rarity * 1000
-    totalxp += rarity * rarity * 1000
-    delete userData[id].inventory[weaponid];
-    itemData[weaponid] = 0
+    let itemRewards = functions.smeltItem(id, weaponid)
+    totalxp += itemRewards[0]
+    totalmoney += itemRewards[1]
+    totalmaterials += itemRewards[2]
     count += 1
   }
-  if (totalmaterials == 0) { return functions.replyMessage(message, "You do not have any items to smelt!") }
+  if (count == 0) { return functions.replyMessage(message, "You do not have any items to smelt!") }
   userData[id].materials += totalmaterials
   userData[id].money += totalmoney
   userData[id].xp += totalxp

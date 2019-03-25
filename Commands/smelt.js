@@ -1,5 +1,5 @@
 var functions=require("../Utils/functions.js")
-module.exports=function(message) {
+module.exports = function (message) {
   let id = message.author.id;
   let ts = message.createdTimestamp;
   let words = message.content.trim().split(/\s+/)
@@ -34,13 +34,6 @@ module.exports=function(message) {
     return
   }
   
-  let materials = Math.pow(5, rarity)
-  let money = rarity * rarity * 1000
-  let xp = rarity * rarity * 1000
-  userData[id].materials += materials
-  userData[id].money += money
-  userData[id].xp += xp
-  delete userData[id].inventory[weaponid];
-  itemData[weaponid] = 0
-  functions.sendMessage(message.channel, "You have smelted item " + weaponid + " for " + materials + " materials, $" + money + " ,and " + xp + " xp.")
+  let itemRewards=functions.smeltItem(id,weaponid)
+  functions.sendMessage(message.channel, "You have smelted item " + weaponid + " for " + itemRewards[2] + " materials, $" + itemRewards[1] + " ,and " + itemRewards[0] + " xp.")
 }

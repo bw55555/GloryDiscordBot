@@ -928,7 +928,18 @@ function raidAttack(message, raid, resummon, isguild, isevent) {
     userData[id].cooldowns.attack = ts + attackcd * 60 * 1000;
     userData[id].speed += 1;
 }
-
+function smeltItem(id, weaponid) {
+    let rarity = itemData[weaponid].rarity
+    let materials = Math.pow(5, rarity)
+    let money = rarity * rarity * 500
+    let xp = rarity * rarity * 500
+    userData[id].materials += materials
+    userData[id].money += money
+    userData[id].xp += xp
+    delete userData[id].inventory[weaponid];
+    itemData[weaponid] = 0
+    return [xp, money, materials]
+}
 module.exports.clean = function (text) { return clean(text) }
 module.exports.sendMessage = function (channel, text, override) { return sendMessage(channel, text, override) }
 module.exports.replyMessage = function (message, text, override) { return replyMessage(message, text, override) }
@@ -951,7 +962,7 @@ module.exports.raidInfo = function (message, raid) { return raidInfo(message, ra
 module.exports.summon = function (channel, minlevel, maxlevel, name, image) { return summon(channel, minlevel, maxlevel, name, image) }
 module.exports.checkStuff = function (message) { return checkStuff(message) }
 module.exports.raidAttack = function (message, raid, resummon, isguild, isevent) { return raidAttack(message, raid, resummon, isguild, isevent) }
-
+module.exports.smeltItem = function (id, weaponid) { return smeltItem(id, weaponid)}
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
