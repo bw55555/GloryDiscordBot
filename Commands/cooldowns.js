@@ -11,7 +11,7 @@ text += '**Next Daily:** ' + moment().endOf('day').fromNow() + "\n"
   let cooldowns=Object.keys(userData[id].cooldowns)
   for (var i=0;i<cooldowns.length;i++) {
      if (functions.calcTime(userData[id].cooldowns[cooldowns[i]],ts)<0) {continue}
-     text+="**"+cooldowns[i]+"**: "+functions.displayTime(userData[id].cooldowns[cooldowns[i]],ts)
+     text+="**"+cooldowns[i]+"**: "+functions.displayTime(userData[id].cooldowns[cooldowns[i]],ts)+"\n"
   }
   //text+="```"
 if (text == ""){
