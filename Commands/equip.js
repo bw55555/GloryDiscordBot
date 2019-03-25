@@ -15,7 +15,7 @@ module.exports=function(message) {
   if (weaponid == "none") {
       if (userData[id].weapon != false && itemData[userData[id].weapon].modifiers.maxhp != undefined) { userData[id].health -= itemData[userData[id].weapon].modifiers.maxhp }
       userData[id].weapon = false
-      return index.replyMessage(message, "You have successfully unequipped your weapon!")
+      return functions.replyMessage(message, "You have successfully unequipped your weapon!")
   }
   if (userData[id].inventory[weaponid] != weaponid) {
     functions.replyMessage(message, "You don't own this item!")
