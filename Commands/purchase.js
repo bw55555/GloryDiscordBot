@@ -23,42 +23,42 @@ module.exports = function (message) {
     functions.replyMessage(message, "You successfully bought a " + shieldtimes[purchaseID] + " hour shield for $" + shieldprices[purchaseID] + "!")
   }
   else if (purchaseID == 101) {
+      if (userData[id].materials < 400) {
+          functions.replyMessage(message, "You do not have enough materials to buy this!")
+          return;
+      }
+      userData[id].materials -= 400
+      functions.replyMessage(message, "You successfully spent 400 materials for a RANDOM ITEM!")
+      functions.craftItem(message, -1, -1);
+  }
+
+  else if (purchaseID == 102) {
       if (userData[id].materials < 200) {
           functions.replyMessage(message, "You do not have enough materials to buy this!")
           return;
       }
       userData[id].materials -= 200
-      functions.replyMessage(message, "You successfully spent 200 materials for a RANDOM ITEM!")
-      functions.craftItem(message, -1, -1);
-  }
-
-  else if (purchaseID == 102) {
-      if (userData[id].materials < 100) {
-          functions.replyMessage(message, "You do not have enough materials to buy this!")
-          return;
-      }
-      userData[id].materials -= 100
-      functions.replyMessage(message, "You successfully spent 100 materials for SIMPLE CRAFTING...")
+      functions.replyMessage(message, "You successfully spent 200 materials for SIMPLE CRAFTING...")
       functions.craftItem(message, 0, 2)
   }
 
   else if (purchaseID == 103) {
-      if (userData[id].materials < 2500) {
+      if (userData[id].materials < 5000) {
           functions.replyMessage(message, "You do not have enough materials to buy this!")
           return;
       }
-      userData[id].materials -= 2500
-      functions.replyMessage(message, "You successfully spent 2500 materials for MODERATE CRAFTING...")
+      userData[id].materials -= 5000
+      functions.replyMessage(message, "You successfully spent 5000 materials for MODERATE CRAFTING...")
       functions.craftItem(message, 2, 4)
   }
 
   else if (purchaseID == 104) {
-      if (userData[id].materials < 50000) {
+      if (userData[id].materials < 100000) {
           functions.replyMessage(message, "You do not have enough materials to buy this!")
           return;
       }
-      userData[id].materials -= 50000
-      functions.replyMessage(message, "You successfully spent 50000 materials for EXQUISITE CRAFTING...")
+      userData[id].materials -= 100000
+      functions.replyMessage(message, "You successfully spent 100000 materials for EXQUISITE CRAFTING...")
       functions.craftItem(message, 4, 6)
   }
 

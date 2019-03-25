@@ -941,8 +941,8 @@ function raidAttack(message, raid, resummon, isguild, isevent) {
 function smeltItem(id, weaponid) {
     let rarity = itemData[weaponid].rarity
     let materials = Math.pow(5, rarity)
-    let money = rarity * rarity * 500
-    let xp = rarity * rarity * 500
+    let money = rarity * rarity * 1000
+    let xp = rarity * rarity * 1000
     userData[id].materials += materials
     userData[id].money += money
     userData[id].xp += xp
