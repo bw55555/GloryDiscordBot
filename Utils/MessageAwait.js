@@ -12,22 +12,24 @@ class MessageAwait {
         }
         if (onSuccess == undefined || onSuccess == null) { onSuccess = function (response) { return response } }
         if (onFail == undefined || onFail == null) { onFail = "`Timeout`" }
-        channel.send(initialTextToSend).then(() => {
-            channel.awaitMessages(response => compareFunc(response) == true && response.author.id==userid && response.channel.id==channel.id, {
-                max: 1,
-                time: 30000,
-                errors: ['time'],
-            })
-            .then((collected) => {
-                onSuccess(collected.first(),argsForSuccess)
-                //collected.reply("It worked")
-                //console.log(collected.first)
-            })
-            .catch(() => {
-                if (typeof onFail == "string") { channel.send(onFail); }
-                else {onFail(argsForFail)}
+        if (channel.type == "dm" || channel.type == "group" || channel.memberPermissions(bot.user) == null || channel.memberPermissions(bot.user).has("SEND_MESSAGES")) {
+            channel.send(initialTextToSend).then(() => {
+                channel.awaitMessages(response => compareFunc(response) == true && response.author.id == userid && response.channel.id == channel.id, {
+                    max: 1,
+                    time: 30000,
+                    errors: ['time'],
+                })
+                .then((collected) => {
+                    onSuccess(collected.first(), argsForSuccess)
+                    //collected.reply("It worked")
+                    //console.log(collected.first)
+                })
+                .catch(() => {
+                    if (typeof onFail == "string") { channel.send(onFail).catch(function (err) { console.error(err) }); }
+                    else { onFail(argsForFail) }
+                });
             });
-        });
+        }
     }
 }
 module.exports = MessageAwait
