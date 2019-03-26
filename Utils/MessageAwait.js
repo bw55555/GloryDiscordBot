@@ -19,7 +19,6 @@ class MessageAwait {
                 errors: ['time'],
             })
             .then((collected) => {
-                console.log("Ran this")
                 onSuccess(collected.first(),argsForSuccess)
                 //collected.reply("It worked")
                 //console.log(collected.first)
