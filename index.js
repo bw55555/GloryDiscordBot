@@ -312,8 +312,12 @@ bot.on("guildCreate", guild => {
                   "value": "To get started, type `!start`"
               },
               {
-                  "name": "Settings",
-                  "value": "Admin of the server? Have too many other bots with the same prefix? Use `!settings prefix <newprefix>` to change the prefix. \n Don't want glory to send messages in a certain channel? Use `!settings disable` in that channel (or `!settings enable`)"
+                  "name": "Prefix",
+                  "value": "Admin of the server? Have too many other bots with the same prefix? Use `!settings prefix <newprefix>` to change the prefix."
+              },
+              {
+                  "name": "Disabling Channels",
+                  "value": "Don't want glory to send messages in a certain channel? Use `!settings disable` in that channel (or `!settings enable`)"
               },
               {
                   "name": "Forgot your prefix?",
