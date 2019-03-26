@@ -23,7 +23,7 @@ module.exports = function (message) {
         functions.sendMessage(message.channel, "You are already married 😭");
     }
     else if (userData[target].marry === "None") {
-        functions.MessageAwait(message.channel, target, "<@" + target + ">, <@" + id + "> wishes to marry you! Type `I will` become married!", "I will",
+        new functions.MessageAwait(message.channel, target, "<@" + target + ">, <@" + id + "> wishes to marry you! Type `I will` become married!", "I will",
             function (response, extraArgs) {
                 let id = extraArgs[0]
                 let target = extraArgs[1]
