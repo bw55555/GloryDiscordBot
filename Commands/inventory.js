@@ -33,7 +33,7 @@ module.exports=function(message) {
   let count = 0
   if (userData[id].weapon != false && userData[id].weapon != "None") {
       count++
-      pages.push(functions.generateWeaponTemplate(userData[id].weapon,1,total))
+      pages.push(functions.generateWeaponTemplate(userData[id].weapon,count,total))
       
   }
   for (var item in userInv) {

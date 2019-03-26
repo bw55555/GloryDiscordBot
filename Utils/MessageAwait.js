@@ -1,11 +1,17 @@
 class MessageAwait {
-    constructor(channel, userid, initialTextToSend, compareFunc, onSuccess, argsForSuccess) {
-        if (compareFunc == undefined || compareFunc == "" || compareFunc == "confirm") {
+    constructor(channel, userid, initialTextToSend, compareFunc, onSuccess, argsForSuccess, onFail, argsForFail) {
+        if (compareFunc == undefined || compareFunc == null) {
+            compareFunc = function (response) { return true }
+        }
+        else if (typeof compareFunc == "string") {
+            let save = compareFunc
             compareFunc = function (response) {
-                if (response == "confirm") { return true }
+                if (response == save) { return true }
                 else { return false }
             }
         }
+        if (onSuccess == undefined || onSuccess == null) { onSuccess = function (response) { return response } }
+        if (onFail == undefined || onFail == null) { onFail = "`Timeout`" }
         channel.send(initialTextToSend).then(() => {
             channel.awaitMessages(response => compareFunc(response) == true && response.author.id==userid && response.channel.id==channel.id, {
                 max: 1,
@@ -19,7 +25,8 @@ class MessageAwait {
                 //console.log(collected.first)
             })
             .catch(() => {
-                channel.send("`Timeout`");
+                if (typeof onFail == "string") { channel.send(onFail); }
+                else {onFail(argsForFail)}
             });
         });
     }
