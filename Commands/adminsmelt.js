@@ -33,5 +33,5 @@ module.exports = function (message) {
     }*/
 
     let itemRewards = functions.smeltItem(id, weaponid)
-    functions.sendMessage(message.channel, "You have smelted item " + weaponid + " for " + itemRewards[2] + " materials, $" + itemRewards[1] + " ,and " + itemRewards[0] + " xp.")
+    functions.sendMessage(message.channel, "You have adminsmelted item " + weaponid + "!")
 }
