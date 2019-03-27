@@ -98,6 +98,7 @@ function gvalidate(message) {
     return target
 }
 function generateWeaponTemplate(weaponid, current, total) {
+    weaponid = weaponid.toString();
     //let name = userData[itemData[weaponid].owner].username
     let mergetext = itemData[weaponid].merge //+ " (Merges until next rarity: " + (10-itemData[weaponid].merge) + ")";
     if (itemData[weaponid].rarity == 'Unique' || itemData[weaponid].rarity == 9) {
@@ -197,16 +198,13 @@ function generateGuildTemplate(guild) {
 }
 function generateItem(owner, itemid, attack, defense, rarity, name, modifiers) {
     if (itemid == null || itemid == "") {
-        itemid = itemData.length
+        itemid = currentItemList;
     }
     if (owner != "event") { userData[owner].inventory[itemid] = itemid }
     let maxenhance = (rarity == "Unique") ? 1024 : Math.pow(2, rarity)
     let item = { "owner": owner, "id": itemid, "attack": attack, "defense": defense, "rarity": rarity, "modifiers": modifiers, "name": name, "enhancementlevel": 0, "maxenhancement": maxenhance, "enhancementattempts": 0, "favorite": false, "merge": 0 }
-    if (itemid < itemData.length) {
-        itemData[itemid] = item
-    } else {
-        itemData.push(item)
-    }
+    itemData[itemid] = item;
+    currentItemList++;
 }
 
 function generateRandomItem(owner, rarity) {
@@ -223,7 +221,7 @@ function generateRandomItem(owner, rarity) {
         }
         rarity = i
     }
-    let itemid = itemData.length
+    let itemid = currentItemList
     let total = 0
     if (rarity == 0) {
         total = Math.floor((Math.random()) * 5 + 1)
@@ -233,11 +231,12 @@ function generateRandomItem(owner, rarity) {
     let attack = Math.floor(Math.random() * (total + 1))
     let defense = total - attack
     generateItem(owner, itemid, attack, defense, rarity, rarities[rarity] + " Sword", {})
+    currentItemList++;
     return itemid
 }
 function calcLuckyBuff(id) {
     let luckybuff = 1
-    if (userData[id].weapon != false && userData[id].weapon != "None" && userData[id].weapon < itemData.length) { //lucky enchant
+    if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) { //lucky enchant
         //console.log(userData[id].weapon)
         if (itemData[userData[id].weapon].modifiers.lucky != undefined) {
             luckybuff = itemData[userData[id].weapon].modifiers.lucky
@@ -437,7 +436,7 @@ function calcStats(message, id, stat) {
     if (userData[id].guild != "None" && guildData[userData[id].guild].buffs.defense != undefined) {
         dbuff += guildData[userData[id].guild].buffs.defense.value
     }
-    if (userData[id].weapon != false && userData[id].weapon != "None" && userData[id].weapon < itemData.length) {
+    if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined ) {
         //console.log(userData[id].weapon)
         if (itemData[userData[id].weapon].modifiers == undefined) { itemData[userData[id].weapon].modifiers = {} }
         if (itemData[userData[id].weapon].modifiers.critRate != undefined) {
@@ -500,7 +499,7 @@ function calcStats(message, id, stat) {
 
     if (stat == "attack") {
 
-        if (userData[id].weapon != false && userData[id].weapon != "None" && userData[id].weapon < itemData.length) {
+        if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) {
             attack += itemData[userData[id].weapon].attack;
         }
         if (rage > 0) {
@@ -545,8 +544,8 @@ function calcStats(message, id, stat) {
         //console.log(userData[id].weapon)
 
         //console.log(userData[id].weapon)
-        //console.log("ItemData length:" + itemData.length)
-        if (userData[id].weapon != false && userData[id].weapon != "None" && userData[id].weapon < itemData.length) {
+        //console.log("ItemData length:" + currentItemList)
+        if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) {
             defense += itemData[userData[id].weapon].defense
         }
         if (text != "") { sendMessage(message.channel, text) }

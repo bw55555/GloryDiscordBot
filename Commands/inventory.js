@@ -27,7 +27,8 @@ module.exports=function(message) {
   for (var item in userInv) {
       //console.log(item)
       //console.log(itemData[item])
-      if (item == userData[id].weapon || userData[id].inventory[item] != item || itemData[parseInt(item)].rarity < minrarity || itemData[parseInt(item)].rarity > maxrarity) continue
+      let itemID = item.toString();
+      if (itemData[itemID] == undefined || item == userData[id].weapon || userData[id].inventory[item] != item || itemData[itemID].rarity < minrarity || itemData[itemID].rarity > maxrarity) continue
       total++
   }
   let count = 0
@@ -39,10 +40,10 @@ module.exports=function(message) {
   for (var item in userInv) {
     //console.log(item)
       //console.log(itemData[item])
-    
-    if (item == userData[id].weapon || userData[id].inventory[item] != item || itemData[parseInt(item)].rarity < minrarity || itemData[parseInt(item)].rarity > maxrarity) continue
+    let itemID = item.toString();
+    if (itemData[itemID] == undefined || item == userData[id].weapon || userData[id].inventory[item] != item || itemData[itemID].rarity < minrarity || itemData[itemID].rarity > maxrarity) continue
     count++
-    page = functions.generateWeaponTemplate(item, count, total)
+    page = functions.generateWeaponTemplate(itemID, count, total)
     pages.push(page)
     
   }

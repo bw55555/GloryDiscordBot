@@ -5,6 +5,7 @@ module.exports=function(message) {
     //questData.questInfo.questList[2].completed = 5;
     let notindex = questData.questInfo.current;
     let text = "oops";
+    let follows = 0;
     try {
     text = questData.questInfo.questList[notindex].objective;
     if(notindex == 0) {
@@ -22,6 +23,9 @@ module.exports=function(message) {
     if(notindex == 4) {
 	text = text + " The server has been unsuccessful in writing bad poetry.";
     }
+/*    if(notindex == 5) {
+        text = text + "The server is currently at " + follows + " followers.";
+    }*/
     }
     catch (err) {}
     functions.sendMessage(message.channel, text)
@@ -47,6 +51,6 @@ questData.questInfo = {current : 0, questList : [{objective : "Contribute to the
         {objective : "It's time for sacrifice! Kill user Razoreign 10 times to appease the gods of incompetence -- again, this is a server-wide total; the same user does not have to kill Razoreign 10 times! (Although that's fine, too)", total: 10, completed: 0},
         {objective : "Who doesn't like boxes? As a server, open a total of 1000 daily boxes!", total: 1000, completed: 0},
         {objective : "Write some bad poetry! Enter your submissions in the awful poetry channel and we will decide if your poem passes the atrocity test!", total: 1, completed: 0},
-        {objective : "TBD... ", total: 1, completed: 0}
+        {objective : "Glory is now on Instagram! As a server, get Glory to a total of 25 followers!", total: 25, completed: 0}
     ]}; 
 */

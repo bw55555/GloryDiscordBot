@@ -41,7 +41,7 @@ module.exports=function(message) {
       return
     }
     place = 4
-  } else { itemid = itemData.length }
+  } else { itemid = itemData.length.toString() }
   if (words.length < place + 2) {
     functions.sendMessage(message.channel, "Please specify an attack and a defense stat.")
     return
