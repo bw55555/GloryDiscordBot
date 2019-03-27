@@ -32,7 +32,7 @@ module.exports=function(message) {
       return
     }
     itemid = words[3]
-    if (itemid >= itemData.length) {
+    if (itemid >= itemData.next) {
       functions.sendMessage(message.channel, "You can only generate existing items!")
       return
     }
@@ -41,7 +41,7 @@ module.exports=function(message) {
       return
     }
     place = 4
-  } else { itemid = itemData.length.toString() }
+  } else { itemid = itemData.next }
   if (words.length < place + 2) {
     functions.sendMessage(message.channel, "Please specify an attack and a defense stat.")
     return

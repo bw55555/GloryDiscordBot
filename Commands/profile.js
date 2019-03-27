@@ -17,7 +17,7 @@ module.exports=function(message) {
   let weapon = (userData[target].weapon == false) ? "None" : itemData[userData[target].weapon].name + " (" + userData[target].weapon + ")"
   let weaponatk = 0
   let weapondef = 0
-  if (userData[target].weapon != false && userData[target].weapon != "None" && userData[target].weapon != undefined && userData[target].weapon < itemData.length) {
+  if (userData[target].weapon != false && userData[target].weapon != "None" && userData[target].weapon != undefined && userData[target].weapon < itemData.next) {
     weaponatk = itemData[userData[target].weapon].attack
     weapondef = itemData[userData[target].weapon].defense
   }

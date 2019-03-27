@@ -18,11 +18,11 @@ module.exports = function (message) {
     functions.replyMessage(message, "You cannot merge an item with itself.")
   }
 
-  if (itemData.length <= weaponid) {
+  if (itemData.next <= weaponid) {
     functions.replyMessage(message, "The first item does not exist!")
     return
   }
-  if (itemData.length <= weaponid2) {
+  if (itemData.next <= weaponid2) {
     functions.replyMessage(message, "The second item does not exist!")
     return
   }

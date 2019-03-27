@@ -39,7 +39,7 @@ module.exports = function (message) {
     functions.replyMessage(message, "You do not own this item!")
     return
   }
-  if (itemData.length <= weaponid) {
+  if (itemData.next <= weaponid) {
     functions.replyMessage(message, "This item does not exist!")
     return
   }
