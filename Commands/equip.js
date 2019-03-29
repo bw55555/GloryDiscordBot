@@ -28,7 +28,7 @@ module.exports=function(message) {
     return
   }
   if (userData[id].weapon!=false) {
-    if (itemData[userData[id].weapon].modifiers.maxhp!=undefined) {userData[id].health-=itemData[userData[id].weapon].modifiers.maxhp}
+    //if (itemData[userData[id].weapon].modifiers.maxhp!=undefined) {userData[id].health-=itemData[userData[id].weapon].modifiers.maxhp}
   }
   userData[id].weapon = weaponid
   //if (itemData[weaponid].modifiers.maxhp!=undefined) {userData[id].health+=itemData[weaponid].modifiers.maxhp}
