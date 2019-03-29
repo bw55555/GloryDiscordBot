@@ -8,6 +8,8 @@ module.exports=function(message) {
     return
   }
   let weaponid = words[1].toLowerCase()
+  if (itemData[weaponid] == undefined)
+	{return;}
   if (userData[id].weapon == weaponid) {
     functions.replyMessage(message, "You already have this weapon equipped!")
     return

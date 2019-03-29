@@ -16,6 +16,10 @@ module.exports=function(message) {
           maxrarity = parseInt(words[2])
       }
   }
+
+  if (maxrarity < 0 || maxrarity > 9 || minrarity < 0 || minrarity > 9)
+    {return functions.replyMessage(message, "No items exist at that level! Choose different bounds")} 
+
   let pages = []
   //console.log(userData[id].weapon)
   
@@ -41,7 +45,7 @@ module.exports=function(message) {
     //console.log(item)
       //console.log(itemData[item])
     let itemID = item.toString();
-    if (itemData[itemID] == undefined || item == userData[id].weapon || userData[id].inventory[item] != item || itemData[itemID].rarity < minrarity || itemData[itemID].rarity > maxrarity) continue
+    if (itemData[itemID] == undefined || item == userData[id].weapon || userData[id].inventory[item] != item || itemData[itemID].rarity < minrarity || itemData[itemID].rarity > maxrarity) { continue; }
     count++
     page = functions.generateWeaponTemplate(itemID, count, total)
     pages.push(page)
