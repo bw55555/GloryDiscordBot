@@ -31,9 +31,7 @@ module.exports = function (message) {
         functions.replyMessage(message, "You cannot smelt a GLORY weapon!")
         return
     }*/
-    let person = itemData[weaponid].owner
 
-    itemData[weaponid] = undefined
-    delete userData[person].inventory[weaponid];
+    let itemRewards = functions.smeltItem(id, weaponid)
     functions.sendMessage(message.channel, "You have adminsmelted item " + weaponid + "!")
 }
