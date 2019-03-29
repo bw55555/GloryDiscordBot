@@ -259,7 +259,7 @@ function generateRandomItem(owner, rarity) {
 
 function calcLuckyBuff(id) {
     let luckybuff = 1
-    if (itemData[userData[id].weapon] != undefined && userData[id].weapon != false && userData[id].weapon != "None" ) { //lucky enchant
+    if (itemData[userData[id].weapon] != undefined && userData[id].weapon != false && userData[id].weapon != "None") { //lucky enchant
         //console.log(userData[id].weapon)
         if (itemData[userData[id].weapon].modifiers != undefined && itemData[userData[id].weapon].modifiers.lucky != undefined) {
             luckybuff = itemData[userData[id].weapon].modifiers.lucky
@@ -320,10 +320,18 @@ function calcDamage(message, attacker, defender, initiator) {
 
         }
     }
-    let weaponid = userData[attacker].weapon.toString();
-    let dweaponid = userData[attacker].weapon.toString();
-    let weapon = (userData[attacker] != undefined && userData[attacker].weapon != false) ? itemData[weaponid] : false
-    let dweapon = (userData[defender] != undefined && userData[defender].weapon != false) ? itemData[dweaponid] : false
+
+    let weapon = false
+    if (userData[attacker] != undefined) {
+        let weaponid = userData[attacker].weapon.toString();
+        weapon = (userData[attacker].weapon != false) ? itemData[weaponid] : false
+    }
+
+    let dweapon = false
+    if (userData[defender] != undefined) {
+        let dweaponid = userData[defender].weapon.toString();
+        dweapon = (userData[defender].weapon != false) ? itemData[dweaponid] : false
+    }
     //let weaponid = userData[attacker].weapon
 
 
@@ -465,7 +473,7 @@ function calcDamage(message, attacker, defender, initiator) {
             revmod *= 2;
         }
     }
-    
+
     if (userData[attacker] != undefined) {
         if (revengechance < revmod) {
             userData[attacker].currenthealth = 0;

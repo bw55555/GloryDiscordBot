@@ -9,7 +9,7 @@ module.exports=function(message) {
   }
 
   let weaponid = words[1]
-  if (itemData[weaponid] == 0 || itemData[weaponid] == undefined || itemData[weaponid] == null) {
+  if (itemData[weaponid] == 0 || itemData[weaponid] == undefined || itemData[weaponid] == null || weaponid == "next") {
     functions.replyMessage(message, "This item does not exist!")
     return
   }

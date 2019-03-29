@@ -23,7 +23,7 @@ module.exports = function (message) {
             "fields": [
                 {
                     "name": "Developers",
-                    "value": "Nix#6340 (Kinda just here)\nbw55555#5977 (Hosting and Digitechnics)\nDosei#4141 (Backing Up and Doublehosting)\n3628800#4251 (Artwork and Probability and Crashing Things)\nRazoreign#6576 (OFF THE TEEEAAM!!!)"
+                    "value": "Nix#6340 (Kinda just here)\nbw55555#5977 (Hosting and Digitechnics)\nDosei#4141 (Backing Up and Doublehosting)\n3628800#4251 (Artwork and Probability and Crashing Things)\nRazoreign#6576 (Just Ignore Me)"
                 },
                 {
                     "name": "Administrators",
