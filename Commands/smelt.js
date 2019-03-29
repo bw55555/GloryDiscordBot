@@ -8,16 +8,13 @@ module.exports = function (message) {
     return
   }
   let weaponid = words[1]
+
+  if (itemData[weaponid] == 0 || itemData[weaponid] == null || itemData[weaponid] == undefined) {
+    functions.replyMessage(message, "This item does not exist!")
+    return
+  }
   if (userData[id].inventory[weaponid] != weaponid) {
     functions.replyMessage(message, "You do not own this item!")
-    return
-  }
-  if (itemData.length <= weaponid) {
-    functions.replyMessage(message, "This item does not exist!")
-    return
-  }
-  if (itemData[weaponid] == 0) {
-    functions.replyMessage(message, "This item does not exist!")
     return
   }
   if (weaponid == userData[id].weapon) {

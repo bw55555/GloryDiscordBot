@@ -13,7 +13,7 @@ module.exports = function (message) {
         "url": "https://i.imgur.com/RfbvLJg.jpg"
       },
       "author": {
-        "name": "Glory - An Discord RPG Bot",
+        "name": "Glory - A Discord RPG Bot",
         "url": "https://discordapp.com",
         "icon_url": "https://imgur.com/afYUwxM.jpg"
       },

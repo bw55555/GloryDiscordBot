@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+﻿const Discord = require('discord.js');
 const asyncpkg = require("async")
 global.ready = false
 global.bot = new Discord.Client();
@@ -61,6 +61,8 @@ global.serverData = JSON.parse(fs.readFileSync('Storage/serverData.json', 'utf8'
 global.quizData = JSON.parse(fs.readFileSync('Storage/quizData.json', 'utf8'));
 global.skillData = JSON.parse(fs.readFileSync('Storage/skillData.json', 'utf8'));
 global.questData = JSON.parse(fs.readFileSync('Storage/questData.json', 'utf8'));
+global.currentItemList = JSON.parse(fs.readFileSync('Storage/currentItemList.json', 'utf8'));
+
 
 if (devData.dblenable) {
     const http = require('http');
@@ -99,6 +101,8 @@ bot.on("message", message => {
         addServer(message.guild)
     }
     let prefix = (message.channel.type == "dm") ? defaultPrefix : serverData[message.guild.id].prefix;
+    if (message.content.startsWith("<@536622022709608468>")) prefix = "<@536622022709608468>"
+    if (message.content.startsWith("<@!536622022709608468>")) prefix = "<@!536622022709608468>"
     if (message.author.bot == true) {
         if (message.author.id == "537622416604528654" && (message.channel.id == "538800067507650590" || message.channel.id == "553385894183174165")) {
             let command = message.content.trim().split(/\s+/)
@@ -268,6 +272,7 @@ bot.on('ready', function () {
         }
     })
     bot.setInterval(function () {
+        fs.writeFileSync('Storage/currentItemList.json', JSON.stringify(currentItemList, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
         fs.writeFileSync('Storage/userData.json', JSON.stringify(userData, null, 4))//.then(sendMessage(message.channel,"userData backed up!"))
         fs.writeFileSync('Storage/itemData.json', JSON.stringify(itemData, null, 4))//.then(sendMessage(message.channel,"itemData backed up!"))
         fs.writeFileSync('Storage/mobData.json', JSON.stringify(mobData, null, 4))//.then(sendMessage(message.channel,"mobData backed up!"))
@@ -287,7 +292,43 @@ bot.on("guildCreate", guild => {
     if (allowedchannels.size == 0) { return }
     var channel = allowedchannels.find(channel => channel.name == "botspam" || channel.name == "general")
     if (channel == undefined) { channel = allowedchannels.first()}
-    commands.info({"channel":channel})
+    functions.sendMessage(channel, {
+        "embed": {
+            "description": "Join the Glory Support server by clicking [here!](https://discord.gg/QsdmhgX) ",
+            "color": 5251510,
+            "timestamp": "2019-01-23T21:42:00.210Z",
+            "footer": {
+                "icon_url": "https://i.imgur.com/NI4HDRs.jpg",
+                "text": "Made by Nix#6340 and bw55555#5977"
+            },
+            "image": {
+                "url": "https://i.imgur.com/RfbvLJg.jpg"
+            },
+            "author": {
+                "name": "Glory - A Discord RPG Bot",
+                "url": "https://discordapp.com",
+                "icon_url": "https://imgur.com/afYUwxM.jpg"
+            },
+            "fields": [
+              {
+                  "name": "Getting Started",
+                  "value": "To get started, type `!start`"
+              },
+              {
+                  "name": "Prefix",
+                  "value": "Admin of the server? Have too many other bots with the same prefix? Use `!settings prefix <newprefix>` to change the prefix."
+              },
+              {
+                  "name": "Disabling Channels",
+                  "value": "Don't want glory to send messages in a certain channel? Use `!settings disable` in that channel (or `!settings enable`)"
+              },
+              {
+                  "name": "Forgot your prefix?",
+                  "value": "Mention the bot as another prefix, or kicking and readding the bot will reset it's prefix to `!`"
+              }
+            ]
+        }
+    });
 
 })
 bot.on("disconnect", event => {

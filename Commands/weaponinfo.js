@@ -8,16 +8,8 @@ module.exports=function(message) {
     return
   }
 
-  let weaponid = parseInt(words[1])
-  if (isNaN(weaponid)) {
-    functions.replyMessage(message, "This item does not exist!")
-    return
-  }
-  if (itemData.length <= weaponid) {
-    functions.replyMessage(message, "This item does not exist!")
-    return
-  }
-  if (itemData[weaponid] == 0) {
+  let weaponid = words[1]
+  if (itemData[weaponid] == 0 || itemData[weaponid] == undefined || itemData[weaponid] == null || weaponid == "next") {
     functions.replyMessage(message, "This item does not exist!")
     return
   }

@@ -8,6 +8,8 @@ module.exports=function(message) {
     return
   }
   let weaponid = words[1].toLowerCase()
+  if (itemData[weaponid] == undefined)
+	{return;}
   if (userData[id].weapon == weaponid) {
     functions.replyMessage(message, "You already have this weapon equipped!")
     return
@@ -26,10 +28,10 @@ module.exports=function(message) {
     return
   }
   if (userData[id].weapon!=false) {
-    if (itemData[userData[id].weapon].modifiers.maxhp!=undefined) {userData[id].health-=itemData[userData[id].weapon].modifiers.maxhp}
+    //if (itemData[userData[id].weapon].modifiers.maxhp!=undefined) {userData[id].health-=itemData[userData[id].weapon].modifiers.maxhp}
   }
   userData[id].weapon = weaponid
-  if (itemData[weaponid].modifiers.maxhp!=undefined) {userData[id].health+=itemData[weaponid].modifiers.maxhp}
+  //if (itemData[weaponid].modifiers.maxhp!=undefined) {userData[id].health+=itemData[weaponid].modifiers.maxhp}
   functions.sendMessage(message.channel, "You successfully equipped the weapon with id " + weaponid)
 }
 

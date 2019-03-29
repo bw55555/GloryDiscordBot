@@ -1,9 +1,9 @@
-var functions=require("../Utils/functions.js")
-module.exports=function(message) {
+var functions = require("../Utils/functions.js")
+module.exports = function (message) {
   let id = message.author.id;
   let ts = message.createdTimestamp;
   let words = message.content.trim().split(/\s+/)
-  if (admins.indexOf(id)==-1){return}
+  if (admins.indexOf(id) == -1) { return }
   if (words.length == 1) {
     if (userData[id].dead === false) {
       functions.replyMessage(message, "You're not dead. Why do you need to rez?");

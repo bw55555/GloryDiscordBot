@@ -45,9 +45,4 @@ module.exports=function(message) {
 	if (msg === 'WHO AM I') {
 		functions.sendMessage(message.channel,'You are: ' + sendername);
 	}
-    /*
-	if (msg === 'FUCK') {
-		functions.sendMessage(message.channel,'Not here, ' + sendername);
-	}
-    */
 }
