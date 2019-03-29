@@ -61,7 +61,6 @@ global.serverData = JSON.parse(fs.readFileSync('Storage/serverData.json', 'utf8'
 global.quizData = JSON.parse(fs.readFileSync('Storage/quizData.json', 'utf8'));
 
 global.questData = JSON.parse(fs.readFileSync('Storage/questData.json', 'utf8'));
-//global.currentItemList = JSON.parse(fs.readFileSync('Storage/currentItemList.json', 'utf8'));
 
 global.skillData = JSON.parse(fs.readFileSync('Assets/skillData.json', 'utf8'));
 if (devData.dblenable) {
@@ -272,7 +271,6 @@ bot.on('ready', function () {
         }
     })
     bot.setInterval(function () {
-        fs.writeFileSync('Storage/currentItemList.json', JSON.stringify(currentItemList, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
         fs.writeFileSync('Storage/userData.json', JSON.stringify(userData, null, 4))//.then(sendMessage(message.channel,"userData backed up!"))
         fs.writeFileSync('Storage/itemData.json', JSON.stringify(itemData, null, 4))//.then(sendMessage(message.channel,"itemData backed up!"))
         fs.writeFileSync('Storage/mobData.json', JSON.stringify(mobData, null, 4))//.then(sendMessage(message.channel,"mobData backed up!"))
