@@ -28,10 +28,10 @@ module.exports=function(message) {
   let id = message.author.id;
   let ts = message.createdTimestamp;
   let words = message.content.trim().split(/\s+/)
-  
+  let command = (words.length == 1) ? "" : words[1].toUpperCase()
   let leveluptext = ""
   let guild = userData[id].guild;
-  if ((guild == "None" || guild == undefined || guildData[guild] == undefined) && (words.length> 1 && words[1].toUpperCase()!="CREATE")) { return functions.replyMessage(message,"You don't have a guild! Ask a guild leader to invite you or create one with !guild create")}
+  if ((guild == "None" || guild == undefined || guildData[guild] == undefined) && (words.length> 1 && command!="CREATE")) { return functions.replyMessage(message,"You don't have a guild! Ask a guild leader to invite you or create one with !guild create")}
   while (userData[id].guild != "None" && guildData[guild].level*200000+800000>guildData[guild].bankmax) {
     guildData[guild].bankmax+=200000
     guildData[guild].materialmax+=200000
@@ -42,7 +42,7 @@ module.exports=function(message) {
     }
   }
   if (leveluptext != "") { functions.replyMessage(message,leveluptext)}
-  
+
   if (words.length == 1) {
     if (guild == "None") {
       functions.replyMessage(message, "You don't have a guild!");
@@ -50,14 +50,14 @@ module.exports=function(message) {
     }
     functions.sendMessage(message.channel, functions.generateGuildTemplate(guild))
   }
-  else if (words[1].toUpperCase() == "INFO") {
-    let command = words[1].toUpperCase()
+  else if (command == "INFO") {
+    
     if (words.length <= 2) { return functions.replyMessage(message, "Please specify a guild to view!") }
     guild = message.content.slice(message.content.indexOf(words[2]));
     if (guildData[guild] == undefined) { return functions.replyMessage(message, "That guild does not exist!") }
     functions.sendMessage(message.channel, functions.generateGuildTemplate(guild));
   }
-  else if (words[1].toUpperCase() == "MEMBERS" || words[1].toUpperCase() == "MEMBER") {
+  else if (command == "MEMBERS" || command == "MEMBER") {
     let messages = "**Guild Members** \n```\n"
     let guildmembers = guildData[guild].members
     for (i = 0; i < guildData[guild].members.length; i++) {
@@ -66,7 +66,7 @@ module.exports=function(message) {
     messages += "```"
     functions.sendMessage(message.channel, messages);
   }
-  else if (words[1].toUpperCase() == "CREATE") {//guild creation
+  else if (command == "CREATE") {//guild creation
     if (guild == "None") {
         if (userData[id].ascension < 3) { return functions.replyMessage(message, "You need to be at least ascension 3 to create a guild!") }
         if (userData[id].money < 1000000) { return functions.replyMessage(message, "You need at least $1000000 to create a guild!") }
@@ -123,7 +123,7 @@ module.exports=function(message) {
       return;
     }
   }
-  else if (words[1].toUpperCase() == "INVITE") {
+  else if (command == "INVITE") {
     if (userData[id].guildpos != "Leader" && userData[id].guildpos != "Co-Leader") {
       functions.replyMessage(message, "You must be the Leader or a Co-Leader to invite someone!");
       return;
@@ -145,7 +145,6 @@ module.exports=function(message) {
             let message = extraArgs[2]
             userData[id].guild = guild;
             guildData[guild].members.push(id);
-            functions.replyMessage(message, "You joined " + guild + "!");
             userData[id].guildpos = "Member";
             functions.sendMessage(message.channel, "<@"+target+"> has joined "+guild+"!");
         },
@@ -155,7 +154,7 @@ module.exports=function(message) {
       //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, userData[id].username + " (id " + id + ") invited "+userData[target].username + " (id " + target + ") to your guild.") }
   }
   /*
-  else if (words[1].toUpperCase() == "ACCEPT") {
+  else if (command == "ACCEPT") {
     if (userData[id].guildtarget == "None") {
       functions.replyMessage(message, "No guild is trying to invite you!");
       return;
@@ -168,7 +167,7 @@ module.exports=function(message) {
     //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, userData[id].username +"(id "+id+") joined your guild.") }
   }
   */
-  else if (words[1].toUpperCase() == "LEAVE") {
+  else if (command == "LEAVE") {
     if (userData[id].guildpos == "Leader") {
       functions.replyMessage(message, "Guild leaders can't leave their guild! Disband it or appoint someone else!");
       return;
@@ -187,7 +186,7 @@ module.exports=function(message) {
     functions.replyMessage(message, "You left your guild!");
     //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, userData[id].username + "(id " + id + ") left your guild.") }
   }
-  else if (words[1].toUpperCase() == "DISBAND") {
+  else if (command == "DISBAND") {
     if (guild == "None") {
       functions.replyMessage(message, "You can't leave a guild if you're not in one!");
     }
@@ -207,7 +206,7 @@ module.exports=function(message) {
 
     functions.replyMessage(message, "You disbanded your guild! Everyone in it is now guildless :(");
   }
-  else if (words[1].toUpperCase() == "DEPOSIT" || words[1].toUpperCase() == "INVEST" || words[1].toUpperCase() == "DEP") {//It's enough already with youknowwhoafter me xD lmao
+  else if (command == "DEPOSIT" || command == "INVEST" || command == "DEP") {//It's enough already with youknowwhoafter me xD lmao
     if (guild == "None") {
       return functions.replyMessage(message, "You're not in a guild!")
     }
@@ -247,7 +246,7 @@ module.exports=function(message) {
     if (type == "materials") { functions.replyMessage(message, "You deposited " + amount + " materials into " + guild + "'s guild bank!"); }
   //  if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, userData[id].username + "(id " + id + ") deposited " + amount + " " + type + " into " + guild + "'s guild bank!") }
   }
-  else if (words[1].toUpperCase() == "PAY" || words[1].toUpperCase() == "GIVE") { //I personally hate when if statements aren't written out, but it doesn't make a difference
+  else if (command == "PAY" || command == "GIVE") { //I personally hate when if statements aren't written out, but it doesn't make a difference
     if (guild == "None") {
       functions.replyMessage(message, "You're not in a guild!");
       return;
@@ -299,7 +298,7 @@ module.exports=function(message) {
     }
    // if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, userData[id].username + "(id " + id + ") has paid " + amount + " " + type + " to "+userData[target].username + "(id " + target + ")") }
   }
-  else if (words[1].toUpperCase() == "PROMOTE") {
+  else if (command == "PROMOTE") {
     if (userData[id].guildpos != "Leader") {//Honestly, there should be a better name for a "coleader"
       functions.replyMessage(message, "Only Leaders can promote others!")
       return;
@@ -319,7 +318,7 @@ module.exports=function(message) {
       functions.replyMessage(message, "They can't be promoted any further!");
     }
   }
-  else if (words[1].toUpperCase() == "DEMOTE") {
+  else if (command == "DEMOTE") {
     if (userData[id].guildpos != "Leader") {//Honestly, there should be a better name for a "coleader"
       functions.replyMessage(message, "Only Leaders can demote others!")
       return;
@@ -341,7 +340,7 @@ module.exports=function(message) {
       return;
     }
   }
-  else if (words[1].toUpperCase() == "KICK") {
+  else if (command == "KICK") {
     if (userData[id].guildpos != "Leader" && userData[id].guildpos != "Co-Leader") {//Honestly, there should be a better name for a "coleader"
       functions.replyMessage(message, "Only Leaders and Co-Leaders can kick others!")
       return;
@@ -369,7 +368,7 @@ module.exports=function(message) {
     }
 
   }
-  else if (words[1].toUpperCase() == "SUMMON") {
+  else if (command == "SUMMON") {
       if (userData[id].guildpos != "Leader" && userData[id].guildpos != "Co-Leader") {//Honestly, there should be a better name for a "coleader"
           functions.replyMessage(message, "Only Leaders and Co-Leaders can summon bosses!")
           return;
@@ -404,20 +403,20 @@ module.exports=function(message) {
       functions.replyMessage(message,"You have successfully summoned a "+raid.name+" at level "+summonlevel+"!")
       functions.raidInfo(message,guildData[guild].raid)
   }
-  else if (words[1].toUpperCase() == "RAIDINFO" || words[1].toUpperCase() == "RI") {
+  else if (command == "RAIDINFO" || command == "RI") {
       if (guild=="None") {return functions.replyMessage(message,"You do not have a guild!")}
       //if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
       if (guildData[guild].raid.alive != true) { return functions.replyMessage(message, "You don't have a raid going on!") }
       functions.raidInfo(message, guildData[guild].raid)
   }
-  else if (words[1].toUpperCase() == "RAIDATTACK" || words[1].toUpperCase()=="RATK") {
+  else if (command == "RAIDATTACK" || command=="RATK") {
       if (guild=="None") {return functions.replyMessage(message,"You do not have a guild!")}
       //if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
       if (guildData[guild].raid.alive != true) { return functions.replyMessage(message, "You don't have a raid going on!") }
       functions.raidAttack(message, guildData[guild].raid, false, true, false)
       if (guildData[guild].raid.alive == false) { guildData[guild].raid=ts + 1000 * 60 * guildData[guild].raid.level }
   }
-  else if (words[1].toUpperCase() == "SCROLLS") {
+  else if (command == "SCROLLS") {
       if (guild=="None") {return functions.replyMessage(message,"You do not have a guild!")}
       let text="Your guild has: \n"
       text += "<:Common:546173232764682241> Common Scrolls: " + guildData[guild].scrolls[0] + "\n"
@@ -427,7 +426,7 @@ module.exports=function(message) {
       text += "<:Legendary:546170457548783627> Legendary Scrolls: " + guildData[guild].scrolls[4]
       functions.replyMessage(message,text)
   }
-  else if (words[1].toUpperCase() == "UPGRADE") {
+  else if (command == "UPGRADE") {
       if (guild == "None") { return functions.replyMessage(message, "You do not have a guild!") }
       if (userData[id].guildpos != "Leader" && userData[id].guildpos != "Co-Leader") { return functions.replyMessage(message,"You must be a Leader or a Co-Leader to upgrade the guild!")}
       if (Math.pow(guildData[guild].level + 1, 4) > guildData[guild].xp) { return functions.replyMessage(message, "Your guild does not have enough xp!") }
@@ -457,7 +456,7 @@ module.exports=function(message) {
       }, guild)
       //functions.replyMessage(message, "It costs $" + cost + " and " + matscost + " materials to level up your guild to level " + (guildData[guild].level + 1)+". Are you sure you want to do this? If so, type !guild upgradeconfirm")
   }
-  else if (words[1].toUpperCase() == "STORE") {
+  else if (command == "STORE") {
       let text = "Your guild's store: ```\n"
       if (guild=="None") {return functions.replyMessage(message,"You don't have a guild!")}
       let level=guildData[guild].level
@@ -512,7 +511,7 @@ module.exports=function(message) {
       //functions.Paginator(message.channel,message.author,pages)
       
   }
-  else if (words[1].toUpperCase() == "PURCHASE" || words[1].toUpperCase() == "BUY" || words[1].toUpperCase() == "B") {
+  else if (command == "PURCHASE" || command == "BUY" || command == "B") {
       //if (admins.indexOf(id) == -1) { return }
       if (guild == "None") { return functions.replyMessage(message, "You don't have a guild!") }
       let level = guildData[guild].level
@@ -541,7 +540,7 @@ module.exports=function(message) {
       if (item == 5) { userData[id].box += amount }
       functions.replyMessage(message,"You have successfully bought "+amount+" "+guildStore[item].name+" for $"+guildStore[item].price*amount)
   }
-  else if (words[1].toUpperCase() == "RESET") {
+  else if (command == "RESET") {
       let time = 0
       let regexp = /\b([0-9]+h)?([0-9]+m)?([0-9]+s)?\b/
       if (words[3] != undefined && regexp.test(words[3])) {
@@ -568,7 +567,7 @@ module.exports=function(message) {
       }, time)
       functions.replyMessage(message,"Guild store will reset in "+time+" ms.")
   }
-  else if (words[1].toUpperCase() == "BUFFS") {
+  else if (command == "BUFFS") {
       if (devs.indexOf(id) == -1) { return functions.replyMessage(message,"This feature is under development...")}
       let text = "Your guild's buffs: ```\n"
       if (guild == "None") { return functions.replyMessage(message, "You don't have a guild!") }
@@ -579,10 +578,10 @@ module.exports=function(message) {
       if (text == "Your guild's buffs: ```\nUpgrade a buff with !guild purchase buff [buff]```") { text = "Your guild has no buffs! Purchase one with !guild purchase buff [buff]" }
       functions.replyMessage(message, text)
   }
-  else if (words[1].toUpperCase() == "QUEST") {
+  else if (command == "QUEST") {
       if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
   }
-  else if (words[1].toUpperCase() == "DELETE") {
+  else if (command == "DELETE") {
       if (admins.indexOf(id) == -1) { return }
       words.splice(0,2)
       let guildName = words.join(" ")
