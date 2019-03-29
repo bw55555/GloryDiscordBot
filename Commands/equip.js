@@ -31,7 +31,7 @@ module.exports=function(message) {
     if (itemData[userData[id].weapon].modifiers.maxhp!=undefined) {userData[id].health-=itemData[userData[id].weapon].modifiers.maxhp}
   }
   userData[id].weapon = weaponid
-  if (itemData[weaponid].modifiers.maxhp!=undefined) {userData[id].health+=itemData[weaponid].modifiers.maxhp}
+  //if (itemData[weaponid].modifiers.maxhp!=undefined) {userData[id].health+=itemData[weaponid].modifiers.maxhp}
   functions.sendMessage(message.channel, "You successfully equipped the weapon with id " + weaponid)
 }
 
