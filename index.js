@@ -59,11 +59,11 @@ global.mobData = JSON.parse(fs.readFileSync('Storage/mobData.json', 'utf8'));
 global.guildData = JSON.parse(fs.readFileSync('Storage/guildData.json', 'utf8'));
 global.serverData = JSON.parse(fs.readFileSync('Storage/serverData.json', 'utf8'));
 global.quizData = JSON.parse(fs.readFileSync('Storage/quizData.json', 'utf8'));
-global.skillData = JSON.parse(fs.readFileSync('Storage/skillData.json', 'utf8'));
+
 global.questData = JSON.parse(fs.readFileSync('Storage/questData.json', 'utf8'));
-global.currentItemList = JSON.parse(fs.readFileSync('Storage/currentItemList.json', 'utf8'));
+//global.currentItemList = JSON.parse(fs.readFileSync('Storage/currentItemList.json', 'utf8'));
 
-
+global.skillData = JSON.parse(fs.readFileSync('Assets/skillData.json', 'utf8'));
 if (devData.dblenable) {
     const http = require('http');
     const DBL = require('dblapi.js');
@@ -279,7 +279,6 @@ bot.on('ready', function () {
         fs.writeFileSync('Storage/guildData.json', JSON.stringify(guildData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
         fs.writeFileSync('Storage/serverData.json', JSON.stringify(serverData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
         fs.writeFileSync('Storage/devData.json', JSON.stringify(devData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
-        fs.writeFileSync('Storage/skillData.json', JSON.stringify(skillData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
         fs.writeFileSync('Storage/questData.json', JSON.stringify(questData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
     }, 10000)
     //console.timeEnd("actual ping")

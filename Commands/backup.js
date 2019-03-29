@@ -11,7 +11,6 @@ module.exports=function(message) {
   fs.writeFileSync('AutoBackup/guildData.json', JSON.stringify(guildData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
   fs.writeFileSync('AutoBackup/serverData.json', JSON.stringify(serverData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
   fs.writeFileSync('AutoBackup/devData.json', JSON.stringify(devData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
-  fs.writeFileSync('AutoBackup/skillData.json', JSON.stringify(skillData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
   fs.writeFileSync('AutoBackup/questData.json', JSON.stringify(questData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
 
   functions.replyMessage(message, "Data backed up!")
