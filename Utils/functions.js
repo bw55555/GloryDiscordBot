@@ -329,7 +329,7 @@ function calcDamage(message, attacker, defender, initiator) {
 
     let dweapon = false
     if (userData[defender] != undefined) {
-        let dweaponid = userData[attacker].weapon.toString();
+        let dweaponid = userData[defender].weapon.toString();
         dweapon = (userData[defender].weapon != false) ? itemData[dweaponid] : false
     }
     //let weaponid = userData[attacker].weapon
