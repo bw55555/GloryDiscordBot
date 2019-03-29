@@ -534,7 +534,7 @@ function calcStats(message, id, stat) {
     }
     if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) {
         //console.log(userData[id].weapon)
-        if (itemData[userData[id].weapon].modifiers == undefined) { itemData[userData[id].weapon].modifiers = {} }
+        if (itemData[userData[id].weapon].modifiers == undefined) { itemData[userData[id].weapon].modifiers = {}; }
         if (itemData[userData[id].weapon].modifiers.critRate != undefined) {
             critrate += itemData[userData[id].weapon].modifiers.critRate
         }
