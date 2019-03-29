@@ -73,8 +73,8 @@ module.exports=function(message) {
   else if (words[1].toUpperCase() == "CREATE") {//guild creation
     if (userData[id].guild == "None") {
         if (userData[id].ascension < 3) { return functions.replyMessage(message, "You need to be at least ascension 3 to create a guild!") }
-        if (userData[id].money <= 1000000) { return functions.replyMessage(message, "You need at least $1000000 to create a guild!") }
-        if (userData[id].materials <= 10000) { return functions.replyMessage(message, "You need at least 10000 materials to create a guild!") }
+        if (userData[id].money < 1000000) { return functions.replyMessage(message, "You need at least $1000000 to create a guild!") }
+        if (userData[id].materials < 10000) { return functions.replyMessage(message, "You need at least 10000 materials to create a guild!") }
       if (words.length <= 2) {
         functions.replyMessage(message, "Choose a name for your guild!");
         return;
