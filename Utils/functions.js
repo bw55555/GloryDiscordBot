@@ -253,7 +253,6 @@ function generateRandomItem(owner, rarity) {
     }
     let name = rarities[rarity] + " " + items[Math.floor(Math.random() * items.length)]
     generateItem(owner, itemid, attack, defense, rarity, name, {})
-    itemData.next++;
     return itemid
 }
 
@@ -422,7 +421,7 @@ function calcDamage(message, attacker, defender, initiator) {
 
     if (userData[attacker] != undefined) {
         let lifesteal = (userData[attacker].triangleid == 11) ? 0.15 : 0;
-        if (weapon != false && weapon.modifiers.lifeSteal != undefined) {
+        if (weapon != false && weapon.modifiers != undefined && weapon.modifiers.lifeSteal != undefined) {
             lifesteal += weapon.modifiers.lifeSteal
         }
         if (userData[attacker].skillA == 3 || userData[attacker].skillB == 3 || userData[attacker].skillC == 3) {
@@ -461,7 +460,7 @@ function calcDamage(message, attacker, defender, initiator) {
     let revmod = 0;
     let revengechance = Math.random()
     if (defender != -1) {
-        if (attacker == initiator && dweapon != false && dweapon.modifiers.revenge != undefined) {
+        if (attacker == initiator && dweapon != false && dweapon.modifiers != undefined && dweapon.modifiers.revenge != undefined) {
             revmod += dweapon.modifiers.revenge;
         }
 
@@ -534,7 +533,7 @@ function calcStats(message, id, stat) {
     }
     if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) {
         //console.log(userData[id].weapon)
-        if (itemData[userData[id].weapon].modifiers == undefined) { itemData[userData[id].weapon].modifiers = {} }
+        if (itemData[userData[id].weapon].modifiers == undefined) { itemData[userData[id].weapon].modifiers = {}; }
         if (itemData[userData[id].weapon].modifiers.critRate != undefined) {
             critrate += itemData[userData[id].weapon].modifiers.critRate
         }
@@ -792,7 +791,6 @@ function checkStuff(message) {
     if (!userData[id].marrytarget) userData[id].marrytarget = "None";
     if (!userData[id].guild) userData[id].guild = "None";
     if (!userData[id].guildpos) userData[id].guildpos = "None";
-    if (!userData[id].guildtarget) userData[id].guildtarget = "None";
     if (!userData[id].bolster) userData[id].bolster = false;
     if (!userData[id].shield) userData[id].shield = ts + 24 * 1000 * 60 * 60;
     if (!userData[id].materials) userData[id].materials = 0;

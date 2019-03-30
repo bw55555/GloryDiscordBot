@@ -31,7 +31,7 @@ module.exports=function(message) {
   let command = (words.length == 1) ? "" : words[1].toUpperCase()
   let leveluptext = ""
   let guild = userData[id].guild;
-  if ((guild == "None" || guild == undefined || guildData[guild] == undefined) && (words.length> 1 && command!="CREATE")) { return functions.replyMessage(message,"You don't have a guild! Ask a guild leader to invite you or create one with !guild create")}
+  if ((guild == "None" || guild == undefined || guildData[guild] == undefined) && (words.length > 1 && command != "CREATE" && command != "INFO" )) { return functions.replyMessage(message, "You don't have a guild! Ask a guild leader to invite you or create one with !guild create") }
   while (userData[id].guild != "None" && guildData[guild].level*200000+800000>guildData[guild].bankmax) {
     guildData[guild].bankmax+=200000
     guildData[guild].materialmax+=200000
@@ -153,20 +153,6 @@ module.exports=function(message) {
     );
       //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, userData[id].username + " (id " + id + ") invited "+userData[target].username + " (id " + target + ") to your guild.") }
   }
-  /*
-  else if (command == "ACCEPT") {
-    if (userData[id].guildtarget == "None") {
-      functions.replyMessage(message, "No guild is trying to invite you!");
-      return;
-    }
-    userData[id].guild = userData[id].guildtarget;
-    guildData[userData[id].guildtarget].members.push(id);
-    functions.replyMessage(message, "You joined " + userData[id].guildtarget + "!");
-    userData[id].guildpos = "Member";
-    userData[id].guildtarget = "None";
-    //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, userData[id].username +"(id "+id+") joined your guild.") }
-  }
-  */
   else if (command == "LEAVE") {
     if (userData[id].guildpos == "Leader") {
       functions.replyMessage(message, "Guild leaders can't leave their guild! Disband it or appoint someone else!");
@@ -182,7 +168,6 @@ module.exports=function(message) {
     }
     userData[id].guild = "None";
     userData[id].guildpos = "None";
-    userData[id].guildtarget = "None";
     functions.replyMessage(message, "You left your guild!");
     //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, userData[id].username + "(id " + id + ") left your guild.") }
   }
@@ -198,7 +183,6 @@ module.exports=function(message) {
     for (var i = 0; i < guildData[guildName].members.length; i++) {
       userData[guildData[guildName].members[i]].guild = "None";
       userData[guildData[guildName].members[i]].guildpos = "None";
-      userData[guildData[guildName].members[i]].guildtarget = "None";
     }
     userData[id].money += guildData[guildName].bank
     userData[id].materials += guildData[guildName].materials
@@ -362,7 +346,6 @@ module.exports=function(message) {
       }
       userData[target].guild = "None";
       userData[target].guildpos = "None";
-      userData[target].guildtarget = "None";
       functions.sendMessage(message.channel, "<@" + target + "> was kicked from the guild!");
       //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, userData[id].username + "(id " + id + ") has kicked "+userData[target].username + "(id " + target + ") from your guild.") }
     }
@@ -589,7 +572,6 @@ module.exports=function(message) {
       for (var i = 0; i < guildData[guildName].members.length; i++) {
           userData[guildData[guildName].members[i]].guild = "None";
           userData[guildData[guildName].members[i]].guildpos = "None";
-          userData[guildData[guildName].members[i]].guildtarget = "None";
       }
       userData[guildData[guildName].leader].money += guildData[guildName].bank
       userData[guildData[guildName].leader].materials += guildData[guildName].materials

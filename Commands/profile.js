@@ -42,7 +42,7 @@ module.exports=function(message) {
     xptext = "(MAX LEVEL)";
   }
   let nametext = "<@" + target + ">"
-  if (userData[target].glory != undefined){
+  if (userData[target].glory != undefined && userData[target].glory != null && !isNaN(parseInt(userData[target].glory))) {
     nametext +=  " (" + parseInt(userData[target].glory) + " Glory)"
   }
   functions.sendMessage(message.channel, {
