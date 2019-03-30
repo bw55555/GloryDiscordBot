@@ -253,7 +253,6 @@ function generateRandomItem(owner, rarity) {
     }
     let name = rarities[rarity] + " " + items[Math.floor(Math.random() * items.length)]
     generateItem(owner, itemid, attack, defense, rarity, name, {})
-    itemData.next++;
     return itemid
 }
 
@@ -422,7 +421,7 @@ function calcDamage(message, attacker, defender, initiator) {
 
     if (userData[attacker] != undefined) {
         let lifesteal = (userData[attacker].triangleid == 11) ? 0.15 : 0;
-        if (weapon != false && weapon.modifiers.lifeSteal != undefined) {
+        if (weapon != false && weapon.modifiers != undefined && weapon.modifiers.lifeSteal != undefined) {
             lifesteal += weapon.modifiers.lifeSteal
         }
         if (userData[attacker].skillA == 3 || userData[attacker].skillB == 3 || userData[attacker].skillC == 3) {
@@ -461,7 +460,7 @@ function calcDamage(message, attacker, defender, initiator) {
     let revmod = 0;
     let revengechance = Math.random()
     if (defender != -1) {
-        if (attacker == initiator && dweapon != false && dweapon.modifiers.revenge != undefined) {
+        if (attacker == initiator && dweapon != false && dweapon.modifiers != undefined && dweapon.modifiers.revenge != undefined) {
             revmod += dweapon.modifiers.revenge;
         }
 
