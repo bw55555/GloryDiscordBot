@@ -45,6 +45,7 @@ module.exports=function(message) {
    else {
      target = functions.validate(message).toString();
      if (target == false) {return functions.sendMessage(message.channel, "This is not a valid user!");}
+     if (target == id) {return functions.sendMessage(message.channel, "You cannot challenge yourself!");}
      challenged = userData[target];
      if (challenged == undefined) {return functions.sendMessage(message.channel, "This is not a valid user!");}
      duel.opponent = challenged.id;
