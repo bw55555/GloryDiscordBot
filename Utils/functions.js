@@ -791,7 +791,6 @@ function checkStuff(message) {
     if (!userData[id].marrytarget) userData[id].marrytarget = "None";
     if (!userData[id].guild) userData[id].guild = "None";
     if (!userData[id].guildpos) userData[id].guildpos = "None";
-    if (!userData[id].guildtarget) userData[id].guildtarget = "None";
     if (!userData[id].bolster) userData[id].bolster = false;
     if (!userData[id].shield) userData[id].shield = ts + 24 * 1000 * 60 * 60;
     if (!userData[id].materials) userData[id].materials = 0;
