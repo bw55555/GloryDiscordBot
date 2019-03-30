@@ -5,6 +5,10 @@ module.exports=function(message) {
   let words = message.content.trim().split(/\s+/)
   let target = 0;
   let challenged = 0;
+
+   if (duel.happening != undefined && duel.happening == true) {
+       return functions.sendMessage(message.channel, "A duel is already in session, check back later!");
+   }
   
    if (words.length < 2) {
       return functions.replyMessage(message, "Please specify a user to challenge. If you want to issue an open challenge, use '!challenge any'.")
@@ -12,9 +16,7 @@ module.exports=function(message) {
    words.splice(0, 1)
   
    if (words[0] == "accept") {  
-      if (duel.opponent != undefined && (ts - duel.chalStart) <= 6000) {
-         let timeLeft = 0;
-         timeLeft = Math.ceil((ts - duel.chalStart)/1000);
+      if (duel.chalStart != undefined && (ts - duel.chalStart) >= 60000) {
          return functions.replyMessage(message, "This challenge has expired after a minute without response. Start a new one with '!challenge' followed by your opponent or 'any'!");
       }
       if (duel.opponent == undefined) {
@@ -25,29 +27,30 @@ module.exports=function(message) {
       }
       if (duel.opponent == "any" || duel.opponent == id) {
           duel.duelStart = ts;
-          functions.sendMessage(message.channel, "The duel begins now!");
+          duel.happening = true;
+          return functions.sendMessage(message.channel, "The duel begins now!");
       }
    }
-   else if (duel.opponent != undefined && (ts - duel.chalStart) <= 6000) {
+   else if (duel.chalStart != undefined && (ts - duel.chalStart) <= 60000) {
        let timeLeft = 0;
-       timeLeft = Math.ceil((ts - duel.chalStart)/1000);
+       timeLeft = 60000 - Math.floor((ts - duel.chalStart)/1000);
        return functions.replyMessage(message, "There is a challenge currently being given. Try again in " + timeLeft + " seconds once the previous challenge expires!");
    }
    if (words[0] == "any") {
-      challenged = "any";
-      duel.opponent = challenged.id;
+      duel.opponent = "any";
       duel.challenger = id;
       duel.chalStart = ts;
       functions.sendMessage(message.channel, "You have started an open challenge to duel. Anyone can respond with '!challenge accept'!");
    }
    else {
-     target = validate(message);
+     target = functions.validate(message).toString();
      if (target == false) {return functions.sendMessage(message.channel, "This is not a valid user!");}
-     challenged = target;
+     challenged = userData[target];
+     if (challenged == undefined) {return functions.sendMessage(message.channel, "This is not a valid user!");}
      duel.opponent = challenged.id;
      duel.challenger = id;
      duel.chalStart = ts;
-     functions.sendMessage(message.channel, "You have challenged " + challenged + " to a duel! Accept this challenge with '!challenge accept'.")
+     functions.sendMessage(message.channel, "You have challenged " + words[0] + " to a duel! Accept this challenge with '!challenge accept'.")
    }
  
 }
