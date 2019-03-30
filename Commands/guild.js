@@ -182,7 +182,6 @@ module.exports=function(message) {
     }
     userData[id].guild = "None";
     userData[id].guildpos = "None";
-    userData[id].guildtarget = "None";
     functions.replyMessage(message, "You left your guild!");
     //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, userData[id].username + "(id " + id + ") left your guild.") }
   }
@@ -198,7 +197,6 @@ module.exports=function(message) {
     for (var i = 0; i < guildData[guildName].members.length; i++) {
       userData[guildData[guildName].members[i]].guild = "None";
       userData[guildData[guildName].members[i]].guildpos = "None";
-      userData[guildData[guildName].members[i]].guildtarget = "None";
     }
     userData[id].money += guildData[guildName].bank
     userData[id].materials += guildData[guildName].materials
@@ -362,7 +360,6 @@ module.exports=function(message) {
       }
       userData[target].guild = "None";
       userData[target].guildpos = "None";
-      userData[target].guildtarget = "None";
       functions.sendMessage(message.channel, "<@" + target + "> was kicked from the guild!");
       //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, userData[id].username + "(id " + id + ") has kicked "+userData[target].username + "(id " + target + ") from your guild.") }
     }
