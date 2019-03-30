@@ -10,8 +10,13 @@ module.exports=function(message) {
       return functions.replyMessage(message, "Please specify a user to challenge. If you want to issue an open challenge, use '!challenge any'.")
    }
    words.splice(0, 1)
-
-   if (words[0] == "accept") {         
+  
+   if (words[0] == "accept") {  
+      if (duel.opponent != undefined && (ts - duel.chalStart) <= 6000) {
+         let timeLeft = 0;
+         timeLeft = Math.ceil((ts - duel.chalStart)/1000);
+         return functions.replyMessage(message, "This challenge has expired after a minute without response. Start a new one with '!challenge' followed by your opponent or 'any'!");
+      }
       if (duel.opponent == undefined) {
           return functions.replyMessage(message, "No challenges are open right now. Start one with '!challenge' followed by your opponent or 'any'!");
       }
@@ -23,12 +28,12 @@ module.exports=function(message) {
           functions.sendMessage(message.channel, "The duel begins now!");
       }
    }
-   else if (words[0] == "any") {
-      if (duel.opponent != undefined && (ts - duel.chalStart) <= 6000) {
-           let timeLeft = 0;
-           timeLeft = Math.ceil((ts - duel.chalStart)/1000);
-           return functions.replyMessage(message, "There is a challenge currently being given. Try again in " + timeLeft + " seconds once the previous challenge expires!");
-      }
+   else if (duel.opponent != undefined && (ts - duel.chalStart) <= 6000) {
+       let timeLeft = 0;
+       timeLeft = Math.ceil((ts - duel.chalStart)/1000);
+       return functions.replyMessage(message, "There is a challenge currently being given. Try again in " + timeLeft + " seconds once the previous challenge expires!");
+   }
+   if (words[0] == "any") {
       challenged = "any";
       duel.opponent = challenged.id;
       duel.challenger = id;
@@ -45,5 +50,4 @@ module.exports=function(message) {
      functions.sendMessage(message.channel, "You have challenged " + challenged + " to a duel! Accept this challenge with '!challenge accept'.")
    }
  
-}
 }
