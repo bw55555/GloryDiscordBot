@@ -31,7 +31,7 @@ module.exports=function(message) {
   let command = (words.length == 1) ? "" : words[1].toUpperCase()
   let leveluptext = ""
   let guild = userData[id].guild;
-  if ((guild == "None" || guild == undefined || guildData[guild] == undefined) && (words.length> 1 && command!="CREATE")) { return functions.replyMessage(message,"You don't have a guild! Ask a guild leader to invite you or create one with !guild create")}
+  if ((guild == "None" || guild == undefined || guildData[guild] == undefined) && (words.length > 1 && command != "CREATE" && command != "INFO" )) { return functions.replyMessage(message, "You don't have a guild! Ask a guild leader to invite you or create one with !guild create") }
   while (userData[id].guild != "None" && guildData[guild].level*200000+800000>guildData[guild].bankmax) {
     guildData[guild].bankmax+=200000
     guildData[guild].materialmax+=200000
