@@ -36,7 +36,6 @@ module.exports = function (message) {
   for (i = dam.length - 1; i >= 0; i--) {
     if (ts - dam[i].time > 2000) {
       userData[otherID].currenthealth -= dam[i].damage;
-      functions.replyMessage(message, "" + dam[i].damage + " damage taken to " + userData[otherID].username + "!");
       functions.duelCheckDeath(message, otherID);
       dam.splice(i, i+1);
     }
@@ -44,7 +43,6 @@ module.exports = function (message) {
   for (i = myDam.length - 1; i >= 0; i--) {
     if (ts - myDam[i].time > 2000) {
       userData[id].currenthealth -= myDam[i].damage;
-      functions.replyMessage(message, "" + myDam[i].damage + " damage taken to " + userData[id].username + "!");
       functions.duelCheckDeath(message, id);
       myDam.splice(i, i+1);
     }
@@ -83,7 +81,7 @@ module.exports = function (message) {
         damage = Math.floor(myDam[i].damage * calc / 100);
         myDam.splice(i, i+1);
         userData[id].currenthealth -= damage;
-        functions.replyMessage(message, "" + damage + " damage taken to " + userData[id].username + " after attack with parry for " + calc + "% damage reduction");
+        functions.replyMessage(message, "" + userData[id].username + " parried for " + calc + "% damage reduction");
         return functions.duelCheckDeath(message, id);
       }
     } 
@@ -118,7 +116,7 @@ module.exports = function (message) {
         damage = Math.floor(myDam[i].damage * calc / 100);
         myDam.splice(i, i+1);
         userData[id].currenthealth -= damage;
-        functions.replyMessage(message, "" + damage + " damage taken to " + userData[id].username + " after shot with dodge for " + calc + "% damage reduction");
+        functions.replyMessage(message, "" + userData[id].username + " dodged the shot for " + calc + "% damage reduction");
         return functions.duelCheckDeath(message, id);
       }
     }
@@ -153,7 +151,7 @@ module.exports = function (message) {
         damage = Math.floor(myDam[i].damage * calc / 100);
         myDam.splice(i, i+1);
         userData[id].currenthealth -= damage;
-        functions.replyMessage(message, "" + damage + " damage taken to " + userData[id].username + " after stab with evade for " + calc + "% damage reduction");
+        functions.replyMessage(message, "" + userData[id].username + " evaded the stab for " + calc + "% damage reduction");
         return functions.duelCheckDeath(message, id);
       }
     }
