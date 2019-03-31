@@ -59,7 +59,7 @@ module.exports = function (message) {
     dam.push(move);
     return functions.replyMessage(message, "Attack for " + rnd + " damage");
   }
-  else if (words[1] == "p" || words[1] == "parry") {
+  else if (words[1] == "b" || words[1] == "block") {
     if (ts - cds[2] < 3000) {return functions.replyMessage(message, "On cooldown");}
     cds[2] = ts;
     move = {action: 2, time: ts, damage: 0};
@@ -68,25 +68,25 @@ module.exports = function (message) {
       if (myDam[i].action == 1 && ts - myDam[i].time < reactTime) {
         let calc = 0;
         let damage = 0;
-        calc = Math.floor(100 - (ts - myDam[i].time) * 80 / reactTime);
+        calc = Math.floor(80 - (ts - myDam[i].time) * 80 / reactTime);
         damage = Math.floor(myDam[i].damage * calc / 100);
         myDam.splice(i, i+1);
         userData[id].currenthealth -= damage;
-        functions.replyMessage(message, "Parry for " + calc + "% damage reduction");
+        functions.replyMessage(message, "Block for " + calc + "% damage reduction");
         return functions.duelCheckDeath(message, id, otherID, ts);
       }
       else if ((myDam[i].action == 3 || myDam[i].action == 5) && ts - myDam[i].time < reactTime) {
         let calc = 0;
         let damage = 0;
-        calc = Math.floor(100 - (ts - myDam[i].time) * 40 / reactTime);
+        calc = Math.floor(40 - (ts - myDam[i].time) * 40 / reactTime);
         damage = Math.floor(myDam[i].damage * calc / 100);
         myDam.splice(i, i+1);
         userData[id].currenthealth -= damage;
-        functions.replyMessage(message, "Parry for " + calc + "% damage reduction");
+        functions.replyMessage(message, "Block for " + calc + "% damage reduction");
         return functions.duelCheckDeath(message, id, otherID, ts);
       }
     } 
-    return functions.replyMessage(message, "Parry failed. Too slow!");
+    return functions.replyMessage(message, "Block failed. Too slow!");
   }
   else if (words[1] == "sh" || words[1] == "shoot") {
     if (ts - cds[3] < 5000) {return functions.replyMessage(message, "On cooldown");}
