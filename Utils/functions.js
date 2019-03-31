@@ -286,6 +286,15 @@ function displayTime(time1, time2) {
     return hours + ":" + minutes + ":" + seconds
 }
 ///---------------------
+
+function duelCheckDeath(message, id) {
+  if (userData[id].currenthealth <= 0) {
+     duel = {};
+     functions.replyMessage(message, "" + userData[id].username + " has died. " + userData[otherID].username + " has won the duel!");
+     return;
+  }
+}
+
 function calcDamage(message, attacker, defender, initiator) {
     let text = ""
     let roll = Math.random()
