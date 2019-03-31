@@ -39,7 +39,7 @@ module.exports = function (message) {
       functions.replyMessage(message, "" + dam[i].damage + " damage taken.");
       if (userData[otherID].currenthealth <= 0) {
         duel = {};
-        functions.replyMessage(message, "" + userData[otherID] + " has died. " + userData[id].username + " has won the duel!");
+        functions.replyMessage(message, "" + userData[otherID].username + " has died. " + userData[id].username + " has won the duel!");
         return;
       }
       dam.splice(i, i+1);
@@ -51,15 +51,15 @@ module.exports = function (message) {
       functions.replyMessage(message, "" + myDam[i].damage + " damage taken.");
       if (userData[id].currenthealth <= 0) {
         duel = {};
-        functions.replyMessage(message, "" + userData[id] + " has died. " + userData[otherID].username + " has won the duel!");
+        functions.replyMessage(message, "" + userData[id].username + " has died. " + userData[otherID].username + " has won the duel!");
         return;
       }
       myDam.splice(i, i+1);
     }
   }
 
-  rnd = (Math.random() / 2 + 0.35) * stat;
-  if (cds[0] == true) {rnd *= 1.5; cds[0] = false;}
+  rnd = Math.floor((Math.random() / 2 + 0.35) * stat);
+  if (cds[0] == true) {rnd = Math.floor(rnd * 1.5); cds[0] = false;}
 
   if (words[1] == "a" || words[1] == "attack") {
     if (ts - cds[1] < 3000) {return functions.replyMessage(message, "On cooldown");}
@@ -76,13 +76,13 @@ module.exports = function (message) {
         let calc = 0;
         let damage = 0;
         calc = Math.floor(100 - (ts - myDam[i].time) / 25);
-        damage = Math.ceiling(myDam[i].damage * calc / 100);
+        damage = Math.floor(myDam[i].damage * calc / 100);
         myDam.splice(i, i+1);
         userData[id].currenthealth -= damage;
         functions.replyMessage(message, "" + damage + " damage taken after attack with parry for " + calc + "% damage reduction");
         if (userData[id].currenthealth <= 0) {
           duel = {};
-          functions.replyMessage(message, "" + userData[id] + " has died. " + userData[otherID].username + " has won the duel!");
+          functions.replyMessage(message, "" + userData[id].username + " has died. " + userData[otherID].username + " has won the duel!");
           return;
         }
       }
