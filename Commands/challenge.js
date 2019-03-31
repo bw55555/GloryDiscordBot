@@ -9,7 +9,8 @@ module.exports=function(message) {
    if (duel.happening != undefined && duel.happening == true) {
        return functions.sendMessage(message.channel, "A duel is already in session, check back later!");
    }
-  
+   if (userData[id].dead == true) {return functions.sendMessage(message.channel, "You cannot engage in a duel while dead!");}
+
    if (words.length < 2) {
       return functions.replyMessage(message, "Please specify a user to challenge. If you want to issue an open challenge, use '!challenge any'.")
    }
@@ -28,6 +29,20 @@ module.exports=function(message) {
       if (duel.opponent == "any" || duel.opponent == id) {
           duel.duelStart = ts;
           duel.happening = true;
+
+          duel.cAtk = userData[duel.challenger].attack;
+          duel.cDef = userData[duel.challenger].defense;
+          duel.oAtk = userData[duel.opponent].attack;
+          duel.oDef = userData[duel.opponent].defense;
+          if (userData[duel.opponent].weapon != false && itemData[userData[duel.opponent]] != undefined) {
+              duel.oAtk += itemData[userData[duel.opponent]].attack;
+              duel.oDef += itemData[userData[duel.opponent]].defense;
+          }
+          if (userData[duel.challenger].weapon != false && itemData[userData[duel.challenger]] != undefined) {
+              duel.cAtk += itemData[userData[duel.challenger]].attack;
+              duel.cDef += itemData[userData[duel.challenger]].defense;
+          }
+
           return functions.sendMessage(message.channel, "The duel begins now!");
       }
    }
