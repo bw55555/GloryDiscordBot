@@ -206,14 +206,14 @@ function generateGuildTemplate(guild) {
     }
 }
 function generateItem(owner, itemid, attack, defense, rarity, name, modifiers) {
-    if (itemid == null || itemid == "" || itemid == undefined) {
-        itemid = itemData.next;
+    if (itemid == null || itemid == "") {
+        itemid = currentItemList;
     }
     if (owner != "event") { userData[owner].inventory[itemid] = itemid }
     let maxenhance = (rarity == "Unique") ? 1024 : Math.pow(2, rarity)
     let item = { "owner": owner, "id": itemid, "attack": attack, "defense": defense, "rarity": rarity, "modifiers": modifiers, "name": name, "enhancementlevel": 0, "maxenhancement": maxenhance, "enhancementattempts": 0, "favorite": false, "merge": 0 }
     itemData[itemid] = item;
-    itemData.next++;
+    currentItemList++;
 }
 
 function generateRandomItem(owner, rarity) {
@@ -230,7 +230,7 @@ function generateRandomItem(owner, rarity) {
         }
         rarity = i
     }
-    let itemid = itemData.next
+    let itemid = currentItemList
     let total = 0
     if (rarity == 0) {
         total = Math.floor((Math.random()) * 5 + 1)
@@ -253,14 +253,15 @@ function generateRandomItem(owner, rarity) {
     }
     let name = rarities[rarity] + " " + items[Math.floor(Math.random() * items.length)]
     generateItem(owner, itemid, attack, defense, rarity, name, {})
+    currentItemList++;
     return itemid
 }
 
 function calcLuckyBuff(id) {
     let luckybuff = 1
-    if (itemData[userData[id].weapon] != undefined && userData[id].weapon != false && userData[id].weapon != "None") { //lucky enchant
+    if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) { //lucky enchant
         //console.log(userData[id].weapon)
-        if (itemData[userData[id].weapon].modifiers != undefined && itemData[userData[id].weapon].modifiers.lucky != undefined) {
+        if (itemData[userData[id].weapon].modifiers.lucky != undefined) {
             luckybuff = itemData[userData[id].weapon].modifiers.lucky
         }
     }
@@ -320,17 +321,8 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
 
-    let weapon = false
-    if (userData[attacker] != undefined) {
-        let weaponid = userData[attacker].weapon.toString();
-        weapon = (userData[attacker].weapon != false) ? itemData[weaponid] : false
-    }
-
-    let dweapon = false
-    if (userData[defender] != undefined) {
-        let dweaponid = userData[defender].weapon.toString();
-        dweapon = (userData[defender].weapon != false) ? itemData[dweaponid] : false
-    }
+    let weapon = (userData[attacker] != undefined && userData[attacker].weapon != false) ? itemData[userData[attacker].weapon] : false
+    let dweapon = (userData[defender] != undefined && userData[defender].weapon != false) ? itemData[userData[defender].weapon] : false
     //let weaponid = userData[attacker].weapon
 
 
@@ -339,7 +331,7 @@ function calcDamage(message, attacker, defender, initiator) {
     let piercerate = 0
     if (userData[attacker] != undefined) {
 
-        if (weapon != false && weapon.modifiers != undefined && weapon.modifiers.pierce != undefined) { piercerate += weapon.modifiers.pierce }
+        if (weapon != false && weapon.modifiers.pierce != undefined) { piercerate += weapon.modifiers.pierce }
 
         if (userData[attacker].skillA == 6 || userData[attacker].skillB == 6 || userData[attacker].skillC == 6) {
             piercerate += 0.2;
@@ -364,7 +356,7 @@ function calcDamage(message, attacker, defender, initiator) {
 
     //Both?
     let spikedmod = 0;
-    if (dweapon != false && dweapon.modifiers != undefined && dweapon.modifiers.spikes != undefined) {
+    if (dweapon != false && dweapon.modifiers.spikes != undefined) {
         spikedmod += dweapon.modifiers.spikes
     }
     if (userData[defender] != undefined) {
@@ -421,7 +413,7 @@ function calcDamage(message, attacker, defender, initiator) {
 
     if (userData[attacker] != undefined) {
         let lifesteal = (userData[attacker].triangleid == 11) ? 0.15 : 0;
-        if (weapon != false && weapon.modifiers != undefined && weapon.modifiers.lifeSteal != undefined) {
+        if (weapon != false && weapon.modifiers.lifeSteal != undefined) {
             lifesteal += weapon.modifiers.lifeSteal
         }
         if (userData[attacker].skillA == 3 || userData[attacker].skillB == 3 || userData[attacker].skillC == 3) {
@@ -460,7 +452,7 @@ function calcDamage(message, attacker, defender, initiator) {
     let revmod = 0;
     let revengechance = Math.random()
     if (defender != -1) {
-        if (attacker == initiator && dweapon != false && dweapon.modifiers != undefined && dweapon.modifiers.revenge != undefined) {
+        if (attacker == initiator && dweapon != false && dweapon.modifiers.revenge != undefined) {
             revmod += dweapon.modifiers.revenge;
         }
 
@@ -499,7 +491,7 @@ function calcDamage(message, attacker, defender, initiator) {
     //Last Breath Check
     if (userData[defender] != undefined) {
         if (userData[defender].skillA == 25 || userData[defender].skillB == 25 || userData[defender].skillC == 25) {
-            if (truedamage > userData[defender].currenthealth && userData[defender].currenthealth * 10 > userData[defender].health) {
+            if (truedamage > userData[defender].currenthealth && userData[defender].currenthealth * 2 > userData[defender].health) {
                 userData[defender].currenthealth = truedamage + 1
                 text += "<@" + defender + "> has activated Last Breath!"
             }
@@ -533,7 +525,7 @@ function calcStats(message, id, stat) {
     }
     if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) {
         //console.log(userData[id].weapon)
-        if (itemData[userData[id].weapon].modifiers == undefined) { itemData[userData[id].weapon].modifiers = {}; }
+        if (itemData[userData[id].weapon].modifiers == undefined) { itemData[userData[id].weapon].modifiers = {} }
         if (itemData[userData[id].weapon].modifiers.critRate != undefined) {
             critrate += itemData[userData[id].weapon].modifiers.critRate
         }
@@ -669,7 +661,7 @@ function calcStats(message, id, stat) {
         //console.log(userData[id].weapon)
 
         //console.log(userData[id].weapon)
-        //console.log("ItemData length:" + itemData.next)
+        //console.log("ItemData length:" + currentItemList)
         if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) {
             defense += itemData[userData[id].weapon].defense
         }
@@ -791,6 +783,7 @@ function checkStuff(message) {
     if (!userData[id].marrytarget) userData[id].marrytarget = "None";
     if (!userData[id].guild) userData[id].guild = "None";
     if (!userData[id].guildpos) userData[id].guildpos = "None";
+    if (!userData[id].guildtarget) userData[id].guildtarget = "None";
     if (!userData[id].bolster) userData[id].bolster = false;
     if (!userData[id].shield) userData[id].shield = ts + 24 * 1000 * 60 * 60;
     if (!userData[id].materials) userData[id].materials = 0;
@@ -1092,7 +1085,7 @@ function smeltItem(id, weaponid) {
     userData[id].money += money
     userData[id].xp += xp
     delete userData[id].inventory[weaponid];
-    delete itemData[weaponid];
+    itemData[weaponid] = 0
     return [xp, money, materials]
 }
 module.exports.clean = function (text) { return clean(text) }
