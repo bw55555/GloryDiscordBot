@@ -6,8 +6,8 @@ module.exports = function (message)
 
     actions += "!d a or !d attack --"
     actions += "This is the basic attack action. It has a 3 sec cooldown." + "\n"
-    actions += "!d p or !d parry --"
-    actions += "A parry reduces damage after all attacks. It is most effective for defending after an attack, but it also reduces damage at half rate for other attacks. It has a 3 sec cooldown." + "\n"
+    actions += "!d b or !d block --"
+    actions += "A block reduces damage after all attacks. It is most effective for defending after an attack, but it also reduces damage at half rate for other attacks. It has a 3 sec cooldown." + "\n"
     actions += "!d sh or !d shoot -- "
     actions += "Shooting similarly to the attack, but it has 30% more damage if done right after the opponent 'evades'. It has a 5 sec cooldown" + "\n"
     actions += "!d d or !d dodge -- "
