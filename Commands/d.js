@@ -3,13 +3,7 @@ module.exports = function (message) {
   let id = message.author.id;
   let ts = message.createdTimestamp;
   let words = message.content.split(/\s+/)
-  let stat = 0;
-  let cds = 0;
-  let rnd = 0;
-  let dam = 0;
-  let myDam = 0;
-  let move = 0;  
-  let otherID = 0;
+  let stat = 0; let cds = 0; let rnd = 0; let dam = 0; let myDam = 0; let move = 0; let otherID = 0;
   let reactTime = 2500;
 
   if (duel.happening == undefined) {return functions.replyMessage(message, "There is no duel currently!");}
@@ -157,6 +151,12 @@ module.exports = function (message) {
       }
     }
     return functions.replyMessage(message, "Evasion failed. Too slow!"); 
+ }
+ else if (words[1] == "br" || words[1] == "bolster") {
+    if (ts - cds[7] < 20000) {return functions.replyMessage(message, "On cooldown");}
+    cds[7] = ts;
+    cds[0] = true;
+    return functions.replyMessage(message, "Bolstered next attack"); 
  }
  else if (words[1] == "r" || words[1] == "resign") {
     userData[id].cooldowns.heal = ts - 60000;
