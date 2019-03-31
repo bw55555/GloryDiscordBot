@@ -290,6 +290,7 @@ function displayTime(time1, time2) {
 function calcDamage(message, attacker, defender, initiator) {
     let text = ""
     let roll = Math.random()
+    let burn = 0;
     let attack = 0;
     if (userData[attacker] != undefined) {
         attack = 2 * calcStats(message, attacker, "attack")
@@ -384,6 +385,25 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
 
+    //burn check
+
+    if (userData[attacker] != undefined) {
+        if (weapon != false && weapon.modifiers.burn != undefined) {
+            burn += weapon.modifiers.burn
+        }
+        if (userData[attacker].skillA == 34 || userData[attacker].skillB == 34 || userData[defender].skillC == 34) {
+            burn += 1;
+        }
+    }
+    if (burn > 0) {
+        if (userData[defender] != undefined) {
+            userData[attacker].burn = burn;
+            text += "<@" + defnder + "> is now burning!"
+        } else {
+            text += "Raid boss cannot be burned!"
+        }
+    }
+
 
     let blockrate = 0;
     let blockchance = Math.random()
@@ -451,7 +471,7 @@ function calcDamage(message, attacker, defender, initiator) {
     //defender only skills
     let revmod = 0;
     let revengechance = Math.random()
-    if (defender != -1) {
+    if (userData[defender] != undefined) {
         if (attacker == initiator && dweapon != false && dweapon.modifiers.revenge != undefined) {
             revmod += dweapon.modifiers.revenge;
         }
@@ -497,6 +517,8 @@ function calcDamage(message, attacker, defender, initiator) {
             }
         }
     }
+
+
 
     if (text != "") { sendMessage(message.channel, text) }
     return truedamage
@@ -869,7 +891,7 @@ function checkStuff(message) {
     }
 
     if (userData[id].burn != undefined && userData[id].dead == false) {
-        let burndamage = Math.floor(userData[id].currenthealth * .05)
+        let burndamage = Math.floor(userData[id].health * .05)
         userData[id].burn -= Math.floor(Math.random() + 0.3)
         userData[id].currenthealth -= burndamage
         let burntext = "You took " + burndamage + " from burning."
