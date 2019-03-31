@@ -16,6 +16,8 @@ module.exports = function (message)
     actions += "Stabbing works similarly to the attack, but it has 30% more damage if done right after the opponent 'dodges'. It has a 5 sec cooldown" + "\n"
     actions += "!d e or !d evade -- "
     actions += "Evading reduces damage only after being stabbed, and it is twice as effective as a parry. It has a 5 sec cooldown. Be careful, being shot after evading results in taking 30% more damage. " + "\n"
+    actions += "!d br or !d bolster -- "
+    actions += "Bolster any next attack by 25%." + "\n"
     actions += "!d r or !d resign -- "
     actions += "A true fighter knows when a battle is lost. Resign from a duel to avoid imminent death." + "\n"
 
