@@ -19,7 +19,7 @@ module.exports = function (message)
     actions += "!d r or !d resign -- "
     actions += "A true fighter knows when a battle is lost. Resign from a duel to avoid imminent death." + "\n"
 
-    functions.sendMessage(message.channel, "To start a duel use '!challenge'. \nIn dueling, the effectiveness of blocks depend on the speed of reaction. So, it is recommended that during duels, users should copy/paste '!d ' for greater speed. \n Skills and modifiers are not factored in for dueling. This is a test of skill, not brute strength. Think fast!\n");
+    functions.sendMessage(message.channel, "To start a duel use '!challenge'. \nIn dueling, the effectiveness of blocks depend on the speed of reaction. So, it is recommended that during duels, users should copy/paste '!d ' for greater speed. \nSkills and modifiers are not factored in for dueling. This is a test of skill, not brute strength. Think fast!\n");
     return functions.sendMessage(message.channel, actions);
 
 }
