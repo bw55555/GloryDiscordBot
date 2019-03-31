@@ -37,14 +37,14 @@ module.exports = function (message) {
   for (i = dam.length - 1; i >= 0; i--) {
     if (ts - dam[i].time > reactTime) {
       userData[otherID].currenthealth -= dam[i].damage;
-      functions.duelCheckDeath(message, otherID, id);
+      functions.duelCheckDeath(message, otherID, id, ts);
       dam.splice(i, i+1);
     }
   }
   for (i = myDam.length - 1; i >= 0; i--) {
     if (ts - myDam[i].time > reactTime) {
       userData[id].currenthealth -= myDam[i].damage;
-      functions.duelCheckDeath(message, id, otherID);
+      functions.duelCheckDeath(message, id, otherID, ts);
       myDam.splice(i, i+1);
     }
   }
@@ -73,7 +73,7 @@ module.exports = function (message) {
         myDam.splice(i, i+1);
         userData[id].currenthealth -= damage;
         functions.replyMessage(message, "Parry for " + calc + "% damage reduction");
-        return functions.duelCheckDeath(message, id, otherID);
+        return functions.duelCheckDeath(message, id, otherID, ts);
       }
       else if ((myDam[i].action == 3 || myDam[i].action == 5) && ts - myDam[i].time < reactTime) {
         let calc = 0;
@@ -83,7 +83,7 @@ module.exports = function (message) {
         myDam.splice(i, i+1);
         userData[id].currenthealth -= damage;
         functions.replyMessage(message, "Parry for " + calc + "% damage reduction");
-        return functions.duelCheckDeath(message, id, otherID);
+        return functions.duelCheckDeath(message, id, otherID, ts);
       }
     } 
     return functions.replyMessage(message, "Parry failed. Too slow!");
@@ -118,7 +118,7 @@ module.exports = function (message) {
         myDam.splice(i, i+1);
         userData[id].currenthealth -= damage;
         functions.replyMessage(message, "Dodged the shot for " + calc + "% damage reduction");
-        return functions.duelCheckDeath(message, id, otherID);
+        return functions.duelCheckDeath(message, id, otherID, ts);
       }
     }
     return functions.replyMessage(message, "Dodge from " + userData[id].username + " failed. Too slow!");
@@ -153,12 +153,14 @@ module.exports = function (message) {
         myDam.splice(i, i+1);
         userData[id].currenthealth -= damage;
         functions.replyMessage(message, "Evaded the stab for " + calc + "% damage reduction");
-        return functions.duelCheckDeath(message, id, otherID);
+        return functions.duelCheckDeath(message, id, otherID, ts);
       }
     }
     return functions.replyMessage(message, "Evasion failed. Too slow!"); 
  }
  else if (words[1] == "r" || words[1] == "resign") {
+    userData[id].cooldowns.heal = ts - 60000;
+    userData[otherID].cooldowns.heal = ts - 60000;
     duel = {};
     return functions.replyMessage(message, "" + userData[id].username + " has resigned. " + userData[otherID].username + " won!"); 
  }
