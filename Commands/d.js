@@ -158,5 +158,9 @@ module.exports = function (message) {
     }
     return functions.replyMessage(message, "Evasion failed. Too slow!"); 
  }
+ else if (words[1] == "r" || words[1] == "resign") {
+    duel = {};
+    return functions.replyMessage(message, "" + userData[id].username + " has resigned. " + userData[otherID].username + " won!"); 
+ }
 
 }
