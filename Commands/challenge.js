@@ -27,6 +27,7 @@ module.exports=function(message) {
           return functions.replyMessage(message, "You cannot accept your own challenge!");
       }
       if (duel.opponent == "any" || duel.opponent == id) {
+          duel.opponent = id;
           duel.duelStart = ts;
           duel.happening = true;
 
