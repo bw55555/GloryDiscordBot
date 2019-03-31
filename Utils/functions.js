@@ -391,7 +391,7 @@ function calcDamage(message, attacker, defender, initiator) {
         if (weapon != false && weapon.modifiers.burn != undefined) {
             burn += weapon.modifiers.burn
         }
-        if (userData[attacker].skillA == 34 || userData[attacker].skillB == 34 || userData[defender].skillC == 34) {
+        if (userData[attacker].skillA == 36 || userData[attacker].skillB == 36 || userData[defender].skillC == 36) {
             burn += 1;
         }
     }
@@ -441,7 +441,7 @@ function calcDamage(message, attacker, defender, initiator) {
         }
         if (userData[attacker].skillA == 21 || userData[attacker].skillB == 21 || userData[attacker].skillC == 21) {
             if (userData[attacker].currenthealth >= userData[attacker].health) {
-                lifesteal += 1;
+                lifesteal += 0.5;
             }
         }
         if (lifesteal > 0) {
@@ -634,8 +634,8 @@ function calcStats(message, id, stat) {
         if (sacrifice > 0) {
             buff += sacrifice
             if (skillA == 26 || skillB == 26 || skillC == 26) {
-                userData[id].currenthealth += Math.floor(buff * attack * sacrifice)
-                text += "<@" + id + "> \"sacrificed\" **" + Math.floor(buff * attack * sacrifice) + "** Health, but mysteriously healed instead!\n";
+                //userData[id].currenthealth += Math.floor(buff * attack * sacrifice)
+                text += "<@" + id + "> \"sacrificed\" **" + Math.floor(buff * attack * sacrifice) + "** Health, but mysteriously just didn't!\n";
             } else {
                 userData[id].currenthealth -= Math.floor(buff * attack * sacrifice)
                 text += "<@" + id + "> sacrificed **" + Math.floor(buff * attack * sacrifice) + "** Health!\n";
@@ -894,8 +894,11 @@ function checkStuff(message) {
         let burndamage = Math.floor(userData[id].health * .05)
         userData[id].burn -= Math.floor(Math.random() + 0.3)
         userData[id].currenthealth -= burndamage
-        let burntext = "You took " + burndamage + " from burning."
-        if (userData[id].burn < 0) {
+        let burntext = "You took **" + burndamage + "** from burning."
+        if (userData[id].dead){
+            burntext += " You burned to death!"
+        }
+        if (userData[id].burn < 0 || userData[id].dead == true) {
             userData[id].burn = undefined
             burntext += " The flames have ceased."
         }
