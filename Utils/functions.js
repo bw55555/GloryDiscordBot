@@ -1128,6 +1128,7 @@ module.exports.summon = function (channel, minlevel, maxlevel, name, image) { re
 module.exports.checkStuff = function (message) { return checkStuff(message) }
 module.exports.raidAttack = function (message, raid, resummon, isguild, isevent) { return raidAttack(message, raid, resummon, isguild, isevent) }
 module.exports.smeltItem = function (id, weaponid) { return smeltItem(id, weaponid) }
+module.exports.duelCheckDeath = function (message, id) {return duelCheckDeath(message, id) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
