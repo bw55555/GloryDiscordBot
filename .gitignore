@@ -5,3 +5,5 @@ AutoBackup/
 OldCommandLogs/
 nohup.out
 .vs/
+runGLORYauto.sh
+runGLORY.sh
