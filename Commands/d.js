@@ -10,7 +10,7 @@ module.exports = function (message) {
   let myDam = 0;
   let move = 0;  
   let otherID = 0;
-  let reactTime = 3000;
+  let reactTime = 2500;
 
   if (duel.happening == undefined) {return functions.replyMessage(message, "There is no duel currently!");}
   
