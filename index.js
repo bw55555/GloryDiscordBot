@@ -226,7 +226,7 @@ bot.on("message", message => {
     if (commandlist[command] == undefined) { return }
 
 
-    if (userData[id].cooldowns.normal + cdseconds * 1000 > ts && (admins.indexOf(message.author.id) == -1 || (duel.start == true && duel.challenger != id && duel.opponent != id )) { //admins no longer have command cds
+    if (userData[id].cooldowns.normal + cdseconds * 1000 > ts && (admins.indexOf(message.author.id) == -1 || (duel.start == true && duel.challenger != id && duel.opponent != id ))) { //admins no longer have command cds
         functions.replyMessage(message, 'don\'t spam commands');
         functions.deleteMessage(message);
         return; //fml
