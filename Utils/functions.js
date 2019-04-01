@@ -891,7 +891,7 @@ function checkStuff(message) {
     }
 
     if (userData[id].burn != undefined && userData[id].dead == false) {
-        let burndamage = Math.floor(userData[id].health * .05)
+        let burndamage = Math.floor(userData[id].health * .03)
         userData[id].burn -= Math.floor(Math.random() + 0.3)
         userData[id].currenthealth -= burndamage
         let burntext = "You took **" + burndamage + "** from burning."
