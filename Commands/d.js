@@ -3,7 +3,14 @@ module.exports = function (message) {
   let id = message.author.id;
   let ts = message.createdTimestamp;
   let words = message.content.split(/\s+/)
-  let stat = 0; let cds = 0; let rnd = 0; let dam = 0; let myDam = 0; let move = 0; let otherID = 0;
+  let stat = 0;
+  let cds = 0;
+  let rnd = 0;
+  let dam = 0;
+  let myDam = 0;
+  let move = 0;  
+  let otherID = 0;
+  let myLast = 0;
   let reactTime = 2500;
 
   if (duel.happening == undefined) {return functions.replyMessage(message, "There is no duel currently!");}
@@ -44,10 +51,10 @@ module.exports = function (message) {
   }
 
   rnd = Math.floor((Math.random() / 2 + 0.35) * stat);
-  if (cds[0] == true) {rnd = Math.floor(rnd * 1.5); cds[0] = false;}
+  if (cds[0] == true) {rnd = Math.floor(rnd * 1.25); cds[0] = false;}
 
   if (words[1] == "a" || words[1] == "attack") {
-    if (ts - cds[1] < 3000) {return functions.replyMessage(message, "On cooldown");}
+    if (ts - cds[1] < 5000) {return functions.replyMessage(message, "On cooldown");}
     cds[1] = ts;
     move = {action: 1, time: ts, damage: rnd};
     dam.push(move);
@@ -62,7 +69,7 @@ module.exports = function (message) {
       if (myDam[i].action == 1 && ts - myDam[i].time < reactTime) {
         let calc = 0;
         let damage = 0;
-        calc = Math.floor(80 - (ts - myDam[i].time) * 80 / reactTime);
+        calc = Math.floor(200 - (ts - myDam[i].time) * 200 / reactTime);
         damage = Math.floor(myDam[i].damage * calc / 100);
         myDam.splice(i, i+1);
         userData[id].currenthealth -= damage;
@@ -99,7 +106,7 @@ module.exports = function (message) {
     return functions.replyMessage(message, "Shot for " + rnd + " damage");
   }
   else if (words[1] == "d" || words[1] == "dodge") {
-    if (ts - cds[4] < 5000) {return functions.replyMessage(message, "On cooldown");}
+    if (ts - cds[4] < 4000) {return functions.replyMessage(message, "On cooldown");}
     cds[4] = ts;
     move = {action: 4, time: ts, damage: 0};
     myDam.push(move);
@@ -134,7 +141,7 @@ module.exports = function (message) {
     return functions.replyMessage(message, "Stab for " + rnd + " damage");
   }
   else if (words[1] == "e" || words[1] == "evade") {
-    if (ts - cds[6] < 5000) {return functions.replyMessage(message, "On cooldown");}
+    if (ts - cds[6] < 4000) {return functions.replyMessage(message, "On cooldown");}
     cds[6] = ts;
     move = {action: 6, time: ts, damage: 0};
     myDam.push(move);
