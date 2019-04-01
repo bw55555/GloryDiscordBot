@@ -207,13 +207,13 @@ function generateGuildTemplate(guild) {
 }
 function generateItem(owner, itemid, attack, defense, rarity, name, modifiers) {
     if (itemid == null || itemid == "") {
-        itemid = currentItemList;
+        itemid = itemData.next;
     }
     if (owner != "event") { userData[owner].inventory[itemid] = itemid }
     let maxenhance = (rarity == "Unique") ? 1024 : Math.pow(2, rarity)
     let item = { "owner": owner, "id": itemid, "attack": attack, "defense": defense, "rarity": rarity, "modifiers": modifiers, "name": name, "enhancementlevel": 0, "maxenhancement": maxenhance, "enhancementattempts": 0, "favorite": false, "merge": 0 }
     itemData[itemid] = item;
-    currentItemList++;
+    itemData.next++;
 }
 
 function generateRandomItem(owner, rarity) {
@@ -230,7 +230,7 @@ function generateRandomItem(owner, rarity) {
         }
         rarity = i
     }
-    let itemid = currentItemList
+    let itemid = itemData.next
     let total = 0
     if (rarity == 0) {
         total = Math.floor((Math.random()) * 5 + 1)
@@ -253,7 +253,7 @@ function generateRandomItem(owner, rarity) {
     }
     let name = rarities[rarity] + " " + items[Math.floor(Math.random() * items.length)]
     generateItem(owner, itemid, attack, defense, rarity, name, {})
-    currentItemList++;
+    itemData.next++;
     return itemid
 }
 
@@ -683,7 +683,7 @@ function calcStats(message, id, stat) {
         //console.log(userData[id].weapon)
 
         //console.log(userData[id].weapon)
-        //console.log("ItemData length:" + currentItemList)
+        //console.log("ItemData length:" + itemData.next)
         if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) {
             defense += itemData[userData[id].weapon].defense
         }
