@@ -528,13 +528,19 @@ module.exports=function(message) {
       let regexp = /\b([0-9]+h)?([0-9]+m)?([0-9]+s)?\b/
       if (words[3] != undefined && regexp.test(words[3])) {
           let timeword = words[3]
-          let ishour = timeword.split("h")
-          if (!isNaN(ishour[0])) {time +=1000*60*60*ishour[0];timeword = ishour[1]}
-          let ismin = timeword.split("m")
-          if (!isNaN(ismin[0])) { time += 1000 * 60 * ismin[0]; timeword = ismin[1] }
-          console.log(timeword)
-          let issec = timeword.split("s")
-          if (!isNaN(issec[0])) {time +=1000*issec[0]}
+          let timearr = words.split(/(m|h|s)/)
+          if (timearr.length % 2 == 1) {
+              return functions.replyMessage(message, "Something happened here. The regex broke.")
+          }
+          let len = Math.floor(timearr.length / 2)
+          const timevalues = { "h": 3600000, "m": 60000, "s": 1000 }
+          for (var i = 0; i < len; i++) {
+              if (isNaN(parseInt(timerarr[2 * i])) || timeValues[timearr[2 * i + 1]] != undefined) {
+                  time += parseInt(timerarr[2 * i]) * timeValues[timearr[2 * i + 1]]
+              } else {
+                  return index.replyMessage(message, "Something happened, the regex broke. ")
+              }
+          }
       }
       bot.setTimeout(function () {
           if (admins.indexOf(id) == -1) { return}
