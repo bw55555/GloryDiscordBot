@@ -1,172 +1,187 @@
 [
-  {
-    "name": "Attack+",
-    "id": 0,
-    "description": "Increase attack by 20"
-  },
-  {
-    "name": "Defense+",
-    "id": 1,
-    "description": "Increase Defense by 20"
-  },
-  {
-    "name": "Rage",
-    "id": 2,
-    "description": "Deal more damage while at low health"
-  },
-  {
-    "name": "Drain",
-    "id": 3,
-    "description": "Lifesteal 10% of the damage you deal"
-  },
-  {
-    "name": "Sacrifice",
-    "id": 4,
-    "description": "Spend health to increase your damage"
-  },
-  {
-    "name": "Adrenaline",
-    "id": 5,
-    "description": "Deal increased damage for each consecutive attack"
-  },
-  {
-    "name": "Pierce",
-    "id": 6,
-    "description": "Have a 20% chance to ignore defenses"
-  },
-  {
-    "name": "Spikes",
-    "id": 7,
-    "description": "Deal guaranteed damage to anyone who attacks you"
-  },
-  {
-    "name": "Vengeance",
-    "id": 8,
-    "description": "Have a 5% chance to instantly kill your opponent when attacked."
-  },
-  {
-    "name": "Opportunity",
-    "id": 9,
-    "description": "Have a 6% chance to hit a critical"
-  },
-  {
-    "name": "Parry",
-    "id": 10,
-    "description": "Have a 15% chance to block any attack."
-  },
-  {
-    "name": "Bolster",
-    "id": 11,
-    "description": "Gain the ability to !bolster other players other than yourself (Activate with !bolster [target])"
-  },
-  {
-    "name": "Vitality",
-    "id": 12,
-    "description": "Gain increased stats while at full health"
-  },
-  {
-    "name": "Advantage",
-    "id": 13,
-    "description": "Double the effects of triangle advantage"
-  },
-  {
-    "name": "Angelic",
-    "id": 14,
-    "description": "Healing costs 0 and resurrecting others doesn't cause you to take damage"
-  },
-  {
-    "name": "Soulsteal",
-    "id": 15,
-    "description": "After you kill something, restore full health."
-  },
-  {
-    "name": "Royalty",
-    "id": 16,
-    "description": "Earn 50% more money"
-  },
-  {
-    "name": "Reckless",
-    "id": 17,
-    "description": "Increase Attack by 50, but decrease Defense by 50"
-  },
-  {
-    "name": "Offensive Strike",
-    "id": 18,
-    "description": "Gain 30% Attack while initiating attack"
-  },
-  {
-    "name": "Defensive Stance",
-    "id": 19,
-    "description": "Gain 30% Defense when attacked"
-  },
-  {
-    "name": "Combo",
-    "id": 20,
-    "description": "Have a higher chance of hitting critical hits after consecutive attacks."
-  },
-  {
-    "name": "Indulgence",
-    "id": 21,
-    "description": "Gain 100% lifesteal at full health"
-  },
-  {
-    "name": "Leech",
-    "id": 22,
-    "description": "Steal 5% of your opponents remaining health while attacking"
-  },
-  {
-    "name": "Confusion",
-    "id": 23,
-    "description": "Swap the attack and defense of other players during combat"
-  },
-  {
-    "name": "Regeneration",
-    "id": 24,
-    "description": "Charge up a health pack over time and use it with with `!regenerate`"
-  },
-  {
-    "name": "Last Breath",
-    "id": 25,
-    "description": "While you have at least 10% health remaining and take fatal damage, prevent it and set your health to 1"
-  },
-  {
-    "name": "Chthonic",
-    "id": 26,
-    "description": "Sacrifice +5%; Sacrificing health heals you instead"
-  },
-  {
-    "name": "Odysseus",
-    "id": 27,
-    "description": "Critical Chance +1%; Double damage dealt by critical hits"
-  },
-  {
-    "name": "Coeus",
-    "id": 28,
-    "description": "Pierce Chance +5% Whenever you pierce through defenses, deal increased damage"
-  },
-  {
-    "name": "Dies Irae",
-    "id": 29,
-    "description": "Rage + 0.3; Rage assumes your health is half of its true value"
-  },
-  {
-    "name": "Aegis",
-    "id": 30,
-    "description": "Block +5%; Whenever you block an attack, you become bolstered"
-  },
-  {
-    "name": "Aura Ignition",
-    "id": 31,
-    "description": "Spikes + 0.2; Spikes also cause players to burn"
-  },
-  {
-    "name": "Nemesis",
-    "id": 32,
-    "description": "Revenge +0.5%; Double the chances of instantly killing your opponent"
-  },
-  {
-    "name": "Epinephrine",
-    "id": 33,
-    "description": "Gain increased defense through consecutive attacks."
-  }
+    {
+        "name": "Attack+",
+        "id": 0,
+        "description": "Increase attack by 20"
+    },
+    {
+        "name": "Defense+",
+        "id": 1,
+        "description": "Increase Defense by 20"
+    },
+    {
+        "name": "Rage",
+        "id": 2,
+        "description": "Deal more damage while at low health"
+    },
+    {
+        "name": "Drain",
+        "id": 3,
+        "description": "Lifesteal 10% of the damage you deal"
+    },
+    {
+        "name": "Sacrifice",
+        "id": 4,
+        "description": "Spend health to increase your damage"
+    },
+    {
+        "name": "Adrenaline",
+        "id": 5,
+        "description": "Deal increased damage for each consecutive attack"
+    },
+    {
+        "name": "Pierce",
+        "id": 6,
+        "description": "Have a 20% chance to ignore defenses"
+    },
+    {
+        "name": "Spikes",
+        "id": 7,
+        "description": "Deal guaranteed damage to anyone who attacks you"
+    },
+    {
+        "name": "Vengeance",
+        "id": 8,
+        "description": "Have a 5% chance to instantly kill your opponent when attacked."
+    },
+    {
+        "name": "Opportunity",
+        "id": 9,
+        "description": "Have a 6% chance to hit a critical"
+    },
+    {
+        "name": "Parry",
+        "id": 10,
+        "description": "Have a 15% chance to block any attack."
+    },
+    {
+        "name": "Bolster",
+        "id": 11,
+        "description": "Gain the ability to !bolster other players other than yourself (Activate with !bolster [target])"
+    },
+    {
+        "name": "Vitality",
+        "id": 12,
+        "description": "Gain increased stats while at full health"
+    },
+    {
+        "name": "Advantage",
+        "id": 13,
+        "description": "Double the effects of triangle advantage"
+    },
+    {
+        "name": "Angelic",
+        "id": 14,
+        "description": "Healing costs 0 and resurrecting others doesn't cause you to take damage"
+    },
+    {
+        "name": "Soulsteal",
+        "id": 15,
+        "description": "After you kill something, restore full health."
+    },
+    {
+        "name": "Royalty",
+        "id": 16,
+        "description": "Earn 50% more money"
+    },
+    {
+        "name": "Reckless",
+        "id": 17,
+        "description": "Increase Attack by 50, but decrease Defense by 50"
+    },
+    {
+        "name": "Offensive Strike",
+        "id": 18,
+        "description": "Gain 30% Attack while initiating attack"
+    },
+    {
+        "name": "Defensive Stance",
+        "id": 19,
+        "description": "Gain 30% Defense when attacked"
+    },
+    {
+        "name": "Combo",
+        "id": 20,
+        "description": "Have a higher chance of hitting critical hits after consecutive attacks."
+    },
+    {
+        "name": "Indulgence",
+        "id": 21,
+        "description": "Gain 100% lifesteal at full health"
+    },
+    {
+        "name": "Leech",
+        "id": 22,
+        "description": "Steal 5% of your opponents remaining health while attacking"
+    },
+    {
+        "name": "Confusion",
+        "id": 23,
+        "description": "Swap the attack and defense of other players during combat"
+    },
+    {
+        "name": "Regeneration",
+        "id": 24,
+        "description": "Charge up a health pack over time and use it with with `!regenerate`"
+    },
+    {
+        "name": "Last Breath",
+        "id": 25,
+        "description": "While you have at least 10% health remaining and take fatal damage, prevent it and set your health to 1"
+    },
+    {
+        "name": "Chthonic",
+        "id": 26,
+        "description": "Sacrifice +5%; Sacrificing health heals you instead"
+    },
+    {
+        "name": "Odysseus",
+        "id": 27,
+        "description": "Critical Chance +1%; Double damage dealt by critical hits"
+    },
+    {
+        "name": "Coeus",
+        "id": 28,
+        "description": "Pierce Chance +5% Whenever you pierce through defenses, deal increased damage"
+    },
+    {
+        "name": "Dies Irae",
+        "id": 29,
+        "description": "Rage + 0.3; Rage assumes your health is half of its true value"
+    },
+    {
+        "name": "Aegis",
+        "id": 30,
+        "description": "Block +5%; Whenever you block an attack, you become bolstered"
+    },
+    {
+        "name": "Aura Ignition",
+        "id": 31,
+        "description": "Spikes + 0.2; Spikes also cause players to burn"
+    },
+    {
+        "name": "Nemesis",
+        "id": 32,
+        "description": "Revenge +0.5%; Double the chances of instantly killing your opponent"
+    },
+    {
+        "name": "Epinephrine",
+        "id": 33,
+        "description": "Gain increased defense through consecutive attacks."
+    },
+    {
+        "name": "Speed Healing",
+        "id": 34,
+        "description": "Healing has a much shorter cooldown"
+    },
+    {
+        "name": "Craftsmanship",
+        "id": 35,
+        "description": "Merging has a much shorter cooldown"
+    },
+    {
+        "name": "Pyromancy",
+        "id": 36,
+        "description": "Enemies you fight become burned and take damage over time"
+    }
 ]
