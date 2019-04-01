@@ -10,7 +10,8 @@ module.exports = function (message) {
   let myDam = 0;
   let move = 0;  
   let otherID = 0;
-  let reactTime = 3000;
+  let myLast = 0;
+  let reactTime = 2500;
 
   if (duel.happening == undefined) {return functions.replyMessage(message, "There is no duel currently!");}
   
@@ -37,29 +38,29 @@ module.exports = function (message) {
   for (i = dam.length - 1; i >= 0; i--) {
     if (ts - dam[i].time > reactTime) {
       userData[otherID].currenthealth -= dam[i].damage;
-      functions.duelCheckDeath(message, otherID, id);
+      functions.duelCheckDeath(message, otherID, id, ts);
       dam.splice(i, i+1);
     }
   }
   for (i = myDam.length - 1; i >= 0; i--) {
     if (ts - myDam[i].time > reactTime) {
       userData[id].currenthealth -= myDam[i].damage;
-      functions.duelCheckDeath(message, id, otherID);
+      functions.duelCheckDeath(message, id, otherID, ts);
       myDam.splice(i, i+1);
     }
   }
 
   rnd = Math.floor((Math.random() / 2 + 0.35) * stat);
-  if (cds[0] == true) {rnd = Math.floor(rnd * 1.5); cds[0] = false;}
+  if (cds[0] == true) {rnd = Math.floor(rnd * 1.25); cds[0] = false;}
 
   if (words[1] == "a" || words[1] == "attack") {
-    if (ts - cds[1] < 3000) {return functions.replyMessage(message, "On cooldown");}
+    if (ts - cds[1] < 5000) {return functions.replyMessage(message, "On cooldown");}
     cds[1] = ts;
     move = {action: 1, time: ts, damage: rnd};
     dam.push(move);
     return functions.replyMessage(message, "Attack for " + rnd + " damage");
   }
-  else if (words[1] == "p" || words[1] == "parry") {
+  else if (words[1] == "b" || words[1] == "block") {
     if (ts - cds[2] < 3000) {return functions.replyMessage(message, "On cooldown");}
     cds[2] = ts;
     move = {action: 2, time: ts, damage: 0};
@@ -68,25 +69,25 @@ module.exports = function (message) {
       if (myDam[i].action == 1 && ts - myDam[i].time < reactTime) {
         let calc = 0;
         let damage = 0;
-        calc = Math.floor(100 - (ts - myDam[i].time) * 80 / reactTime);
+        calc = Math.floor(200 - (ts - myDam[i].time) * 200 / reactTime);
         damage = Math.floor(myDam[i].damage * calc / 100);
         myDam.splice(i, i+1);
         userData[id].currenthealth -= damage;
-        functions.replyMessage(message, "Parry for " + calc + "% damage reduction");
-        return functions.duelCheckDeath(message, id, otherID);
+        functions.replyMessage(message, "Block for " + calc + "% damage reduction");
+        return functions.duelCheckDeath(message, id, otherID, ts);
       }
       else if ((myDam[i].action == 3 || myDam[i].action == 5) && ts - myDam[i].time < reactTime) {
         let calc = 0;
         let damage = 0;
-        calc = Math.floor(100 - (ts - myDam[i].time) * 40 / reactTime);
+        calc = Math.floor(40 - (ts - myDam[i].time) * 40 / reactTime);
         damage = Math.floor(myDam[i].damage * calc / 100);
         myDam.splice(i, i+1);
         userData[id].currenthealth -= damage;
-        functions.replyMessage(message, "Parry for " + calc + "% damage reduction");
-        return functions.duelCheckDeath(message, id, otherID);
+        functions.replyMessage(message, "Block for " + calc + "% damage reduction");
+        return functions.duelCheckDeath(message, id, otherID, ts);
       }
     } 
-    return functions.replyMessage(message, "Parry failed. Too slow!");
+    return functions.replyMessage(message, "Block failed. Too slow!");
   }
   else if (words[1] == "sh" || words[1] == "shoot") {
     if (ts - cds[3] < 5000) {return functions.replyMessage(message, "On cooldown");}
@@ -105,7 +106,7 @@ module.exports = function (message) {
     return functions.replyMessage(message, "Shot for " + rnd + " damage");
   }
   else if (words[1] == "d" || words[1] == "dodge") {
-    if (ts - cds[4] < 5000) {return functions.replyMessage(message, "On cooldown");}
+    if (ts - cds[4] < 4000) {return functions.replyMessage(message, "On cooldown");}
     cds[4] = ts;
     move = {action: 4, time: ts, damage: 0};
     myDam.push(move);
@@ -118,7 +119,7 @@ module.exports = function (message) {
         myDam.splice(i, i+1);
         userData[id].currenthealth -= damage;
         functions.replyMessage(message, "Dodged the shot for " + calc + "% damage reduction");
-        return functions.duelCheckDeath(message, id, otherID);
+        return functions.duelCheckDeath(message, id, otherID, ts);
       }
     }
     return functions.replyMessage(message, "Dodge from " + userData[id].username + " failed. Too slow!");
@@ -140,7 +141,7 @@ module.exports = function (message) {
     return functions.replyMessage(message, "Stab for " + rnd + " damage");
   }
   else if (words[1] == "e" || words[1] == "evade") {
-    if (ts - cds[6] < 5000) {return functions.replyMessage(message, "On cooldown");}
+    if (ts - cds[6] < 4000) {return functions.replyMessage(message, "On cooldown");}
     cds[6] = ts;
     move = {action: 6, time: ts, damage: 0};
     myDam.push(move);
@@ -153,10 +154,22 @@ module.exports = function (message) {
         myDam.splice(i, i+1);
         userData[id].currenthealth -= damage;
         functions.replyMessage(message, "Evaded the stab for " + calc + "% damage reduction");
-        return functions.duelCheckDeath(message, id, otherID);
+        return functions.duelCheckDeath(message, id, otherID, ts);
       }
     }
     return functions.replyMessage(message, "Evasion failed. Too slow!"); 
+ }
+ else if (words[1] == "br" || words[1] == "bolster") {
+    if (ts - cds[7] < 20000) {return functions.replyMessage(message, "On cooldown");}
+    cds[7] = ts;
+    cds[0] = true;
+    return functions.replyMessage(message, "Bolstered next attack"); 
+ }
+ else if (words[1] == "r" || words[1] == "resign") {
+    userData[id].cooldowns.heal = ts - 60000;
+    userData[otherID].cooldowns.heal = ts - 60000;
+    duel = {};
+    return functions.replyMessage(message, "" + userData[id].username + " has resigned. " + userData[otherID].username + " won!"); 
  }
 
 }

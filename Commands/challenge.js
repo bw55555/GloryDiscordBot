@@ -43,7 +43,10 @@ module.exports=function(message) {
               duel.cAtk += itemData[userData[duel.challenger]].attack;
               duel.cDef += itemData[userData[duel.challenger]].defense;
           }
-
+         
+          userData[id].cooldowns.heal = Infinity;
+          userData[duel.challenger].cooldowns.heal = Infinity;
+        
           return functions.sendMessage(message.channel, "The duel begins now!");
       }
    }

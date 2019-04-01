@@ -287,8 +287,10 @@ function displayTime(time1, time2) {
 }
 ///---------------------
 
-function duelCheckDeath(message, id, otherID) {
-  if (userData[id].currenthealth <= 0) {
+function duelCheckDeath(message, id, otherID, ts) {
+  if (userData[id].currenthealth <= 0) { 
+     userData[id].cooldowns.heal = ts - 60000;
+     userData[otherID].cooldowns.heal = ts - 60000;
      duel = {};
      functions.replyMessage(message, "" + userData[id].username + " has died. " + userData[otherID].username + " has won the duel!");
      return;
@@ -1128,7 +1130,7 @@ module.exports.summon = function (channel, minlevel, maxlevel, name, image) { re
 module.exports.checkStuff = function (message) { return checkStuff(message) }
 module.exports.raidAttack = function (message, raid, resummon, isguild, isevent) { return raidAttack(message, raid, resummon, isguild, isevent) }
 module.exports.smeltItem = function (id, weaponid) { return smeltItem(id, weaponid) }
-module.exports.duelCheckDeath = function (message, id, otherID) {return duelCheckDeath(message, id, otherID) }
+module.exports.duelCheckDeath = function (message, id, otherID, ts) {return duelCheckDeath(message, id, otherID, ts) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
