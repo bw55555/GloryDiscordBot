@@ -78,6 +78,10 @@ module.exports = function (message) {
     userData[id].speed = 0;
     userData[id].cooldowns.heal = ts + healcd * 60 * 1000
     userData[id].speed = 0;
-
+    if (userData[id].skillA == 34 || userData[id].skillB == 34 || userData[id].skillC == 34) {
+      userData[id].speed = 0;
+      userData[id].cooldowns.heal = ts + healcd * 30 * 1000
+      userData[id].speed = 0;
+    }
   }
 }
