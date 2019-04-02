@@ -301,7 +301,7 @@ function calcDamage(message, attacker, defender, initiator) {
         attack = attacker.attack;
     }
     let defense = 0;
-    if (defender != -1) {
+    if (userData[defender] != undefined) {
         defense = calcStats(message, defender, "defense")
         if (userData[attacker] != undefined && (userData[attacker].skillA == 23 || userData[attacker].skillB == 23 || userData[attacker].skillC == 23)) {
             defense = calcStats(message, defender, "attack")
@@ -391,7 +391,7 @@ function calcDamage(message, attacker, defender, initiator) {
         if (weapon != false && weapon.modifiers.burn != undefined) {
             burn += weapon.modifiers.burn
         }
-        if (userData[attacker].skillA == 36 || userData[attacker].skillB == 36 || userData[defender].skillC == 36) {
+        if (userData[attacker].skillA == 36 || userData[attacker].skillB == 36 || userData[attacker].skillC == 36) {
             burn += 1;
         }
     }
