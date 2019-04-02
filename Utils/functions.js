@@ -901,6 +901,9 @@ function checkStuff(message) {
         userData[id].dead = true;
     }
 
+}
+
+function checkBurn(message){
     if (userData[id].burn != undefined && userData[id].dead == false) {
         let burndamage = Math.floor(userData[id].health * .03)
         userData[id].burn -= Math.floor(Math.random() + 0.3)
@@ -1146,6 +1149,7 @@ module.exports.craftItem = function (message, minrarity, maxrarity, reply) { ret
 module.exports.raidInfo = function (message, raid) { return raidInfo(message, raid) }
 module.exports.summon = function (channel, minlevel, maxlevel, name, image) { return summon(channel, minlevel, maxlevel, name, image) }
 module.exports.checkStuff = function (message) { return checkStuff(message) }
+module.exports.checkBurn = function (message) { return checkBurn(message) }
 module.exports.raidAttack = function (message, raid, resummon, isguild, isevent) { return raidAttack(message, raid, resummon, isguild, isevent) }
 module.exports.smeltItem = function (id, weaponid) { return smeltItem(id, weaponid) }
 module.exports.duelCheckDeath = function (message, id, otherID, ts) {return duelCheckDeath(message, id, otherID, ts) }
