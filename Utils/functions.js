@@ -1109,7 +1109,7 @@ function smeltItem(id, weaponid) {
     userData[id].money += money
     userData[id].xp += xp
     delete userData[id].inventory[weaponid];
-    itemData[weaponid] = 0
+    delete itemData[weaponid];
     return [xp, money, materials]
 }
 module.exports.clean = function (text) { return clean(text) }
