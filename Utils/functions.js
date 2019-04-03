@@ -896,14 +896,15 @@ function checkBurn(message) {
     //let ts = message.createdTimestamp;
     if (userData[id].burn != undefined && userData[id].dead == false) {
         let burndamage = Math.floor(userData[id].health * .03)
-        userData[id].burn -= Math.floor(Math.random() + 0.3)
+        userData[id].burn -= Math.floor(Math.random() + 0.5)
         userData[id].currenthealth -= burndamage
         let burntext = "You took **" + burndamage + "** from burning."
         if (userData[id].dead) {
             burntext += " You burned to death!"
+            userData[id].dead = true
         }
         if (userData[id].burn < 0 || userData[id].dead == true) {
-            userData[id].burn = undefined
+            delete userData[id].burn
             burntext += " The flames have ceased."
         }
         replyMessage(message, burntext)
