@@ -724,6 +724,10 @@ function raidInfo(message, raid) {
     if (raid.itemReward != undefined) {
         itemRewardText = "\n**Item Reward Id:** " + raid.itemReward
     }
+    let abilitytext = ""
+    if (raid.ability != undefined) {
+        abilitytext = "\n**Ability:** " + raid.ability
+    }
     sendMessage(message.channel, {
         embed: {
             thumbnail: {
@@ -733,7 +737,7 @@ function raidInfo(message, raid) {
             fields: [
                 {
                     name: "Level " + raid.level + " " + raid.name,
-                    value: "**Health Remaining:** " + raid.currenthealth + "\n**Max Attack:** " + raid.attack + "\n**Reward:** " + raid.reward + " Money and XP" + itemRewardText
+                    value: "**Health Remaining:** " + raid.currenthealth + "\n**Max Attack:** " + raid.attack + "\n**Reward:** " + raid.reward + " Money and XP" + itemRewardText+abilitytext
                 }
             ]
         }
