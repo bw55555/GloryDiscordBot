@@ -253,7 +253,6 @@ function generateRandomItem(owner, rarity) {
     }
     let name = rarities[rarity] + " " + items[Math.floor(Math.random() * items.length)]
     generateItem(owner, itemid, attack, defense, rarity, name, {})
-    itemData.next++;
     return itemid
 }
 
