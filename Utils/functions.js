@@ -374,6 +374,7 @@ function calcDamage(message, attacker, defender, initiator) {
             text += "<@" + attacker + "> has been damaged for " + spiked + " health due to spikes!\n"
             if (userData[defender] != undefined) {
                 if (userData[defender].skillA == 31 || userData[defender].skillB == 31 || userData[defender].skillC == 31) {
+                    if (userData[attacker].burn == undefined) { userData[attacker].burn=0 }
                     userData[attacker].burn += spikedmod * 5; //Burn status, if burning, have a chance to take 5% damage after talking.
                     text += "<@" + attacker + "> is now burning!"
                 }
@@ -894,7 +895,7 @@ function checkStuff(message) {
 function checkBurn(message) {
     let id = message.author.id
     //let ts = message.createdTimestamp;
-    if (userData[id].burn != undefined && userData[id].dead == false) {
+    if (userData[id].burn != undefined && userData[id].dead == false && userData[id].burn != NaN) {
         let burndamage = Math.floor(userData[id].health * .03)
         userData[id].burn -= Math.floor(Math.random() + 0.5)
         userData[id].currenthealth -= burndamage
