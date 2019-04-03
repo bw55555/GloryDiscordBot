@@ -153,6 +153,7 @@ bot.on("message", message => {
         return;
     }
     functions.checkStuff(message)
+    functions.checkBurn(message)
     if (command != 'work' && userData[id].speed < 0) { //If health is 0, you are dead.
         userData[id].speed = 0;
     } //workspeedchekc
