@@ -59,8 +59,8 @@ global.mobData = JSON.parse(fs.readFileSync('Storage/mobData.json', 'utf8'));
 global.guildData = JSON.parse(fs.readFileSync('Storage/guildData.json', 'utf8'));
 global.serverData = JSON.parse(fs.readFileSync('Storage/serverData.json', 'utf8'));
 global.quizData = JSON.parse(fs.readFileSync('Storage/quizData.json', 'utf8'));
-
 global.questData = JSON.parse(fs.readFileSync('Storage/questData.json', 'utf8'));
+global.duel = {};
 
 global.skillData = JSON.parse(fs.readFileSync('Assets/skillData.json', 'utf8'));
 if (devData.dblenable) {
@@ -153,6 +153,7 @@ bot.on("message", message => {
         return;
     }
     functions.checkStuff(message)
+    functions.checkBurn(message)
     if (command != 'work' && userData[id].speed < 0) { //If health is 0, you are dead.
         userData[id].speed = 0;
     } //workspeedchekc
@@ -226,7 +227,7 @@ bot.on("message", message => {
     if (commandlist[command] == undefined) { return }
 
 
-    if (userData[id].cooldowns.normal + cdseconds * 1000 > ts && admins.indexOf(message.author.id) == -1) { //admins no longer have command cds
+    if (userData[id].cooldowns.normal + cdseconds * 1000 > ts && (admins.indexOf(message.author.id) == -1 || (duel.start == true && duel.challenger != id && duel.opponent != id ))) { //admins no longer have command cds
         functions.replyMessage(message, 'don\'t spam commands');
         functions.deleteMessage(message);
         return; //fml
