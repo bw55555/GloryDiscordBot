@@ -6,9 +6,15 @@ module.exports=function(message) {
   let target = 0;
   let challenged = 0;
 
-   if (duel.happening != undefined && duel.happening == true) {
+   if (duel.happening != undefined && duel.happening == true && ts - duel.duelStart <= 600000) {
        return functions.sendMessage(message.channel, "A duel is already in session, check back later!");
    }
+   if (duel.happening == true && ts - duel.duelStart > 600000) {
+       duel = {};
+       return functions.sendMessage(message.channel, "The last duel exceeded the ten minute limit. A new one may begin.");
+   }
+
+   
    if (userData[id].dead == true) {return functions.sendMessage(message.channel, "You cannot engage in a duel while dead!");}
 
    if (words.length < 2) {
@@ -38,10 +44,13 @@ module.exports=function(message) {
               duel.cAtk += itemData[userData[duel.challenger]].attack;
           }
 
-          duel.oCds = [false, 0,0,0,0,0,0,0];
-          duel.cCds = [false, 0,0,0,0,0,0,0]; 
+          duel.oCds = [false, 0,0,0,0,0,0,0,0];
+          duel.cCds = [false, 0,0,0,0,0,0,0,0]; 
           duel.oDam = [];
           duel.cDam = []; 
+          
+          userData[id].cooldowns.heal = Infinity;
+          userData[duel.challenger].cooldowns.heal = Infinity;
 
           duel.duelStart = ts;
           duel.happening = true;

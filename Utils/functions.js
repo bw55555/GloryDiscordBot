@@ -206,7 +206,7 @@ function generateGuildTemplate(guild) {
     }
 }
 function generateItem(owner, itemid, attack, defense, rarity, name, modifiers) {
-    if (itemid == null || itemid == "" || itemid == undefined) {
+    if (itemid == null || itemid == "") {
         itemid = itemData.next;
     }
     if (owner != "event") { userData[owner].inventory[itemid] = itemid }
@@ -258,9 +258,9 @@ function generateRandomItem(owner, rarity) {
 
 function calcLuckyBuff(id) {
     let luckybuff = 1
-    if (itemData[userData[id].weapon] != undefined && userData[id].weapon != false && userData[id].weapon != "None") { //lucky enchant
+    if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) { //lucky enchant
         //console.log(userData[id].weapon)
-        if (itemData[userData[id].weapon].modifiers != undefined && itemData[userData[id].weapon].modifiers.lucky != undefined) {
+        if (itemData[userData[id].weapon].modifiers.lucky != undefined) {
             luckybuff = itemData[userData[id].weapon].modifiers.lucky
         }
     }
@@ -287,18 +287,20 @@ function displayTime(time1, time2) {
 }
 ///---------------------
 
-function duelCheckDeath(message, id, otherID) {
-  if (userData[id].currenthealth <= 0) {
+function duelCheckDeath(message, id, otherID, ts) {
+  if (userData[id].currenthealth <= 0) { 
+     userData[id].cooldowns.heal = ts - 60000;
+     userData[otherID].cooldowns.heal = ts - 60000;
      duel = {};
      replyMessage(message, "" + userData[id].username + " has died. " + userData[otherID].username + " has won the duel!");
      return;
   }
 }
 
-
 function calcDamage(message, attacker, defender, initiator) {
     let text = ""
     let roll = Math.random()
+    let burn = 0;
     let attack = 0;
     if (userData[attacker] != undefined) {
         attack = 2 * calcStats(message, attacker, "attack")
@@ -330,17 +332,8 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
 
-    let weapon = false
-    if (userData[attacker] != undefined) {
-        let weaponid = userData[attacker].weapon.toString();
-        weapon = (userData[attacker].weapon != false) ? itemData[weaponid] : false
-    }
-
-    let dweapon = false
-    if (userData[defender] != undefined) {
-        let dweaponid = userData[defender].weapon.toString();
-        dweapon = (userData[defender].weapon != false) ? itemData[dweaponid] : false
-    }
+    let weapon = (userData[attacker] != undefined && userData[attacker].weapon != false) ? itemData[userData[attacker].weapon] : false
+    let dweapon = (userData[defender] != undefined && userData[defender].weapon != false) ? itemData[userData[defender].weapon] : false
     //let weaponid = userData[attacker].weapon
 
 
@@ -349,7 +342,7 @@ function calcDamage(message, attacker, defender, initiator) {
     let piercerate = 0
     if (userData[attacker] != undefined) {
 
-        if (weapon != false && weapon.modifiers != undefined && weapon.modifiers.pierce != undefined) { piercerate += weapon.modifiers.pierce }
+        if (weapon != false && weapon.modifiers.pierce != undefined) { piercerate += weapon.modifiers.pierce }
 
         if (userData[attacker].skillA == 6 || userData[attacker].skillB == 6 || userData[attacker].skillC == 6) {
             piercerate += 0.2;
@@ -374,7 +367,7 @@ function calcDamage(message, attacker, defender, initiator) {
 
     //Both?
     let spikedmod = 0;
-    if (dweapon != false && dweapon.modifiers != undefined && dweapon.modifiers.spikes != undefined) {
+    if (dweapon != false && dweapon.modifiers.spikes != undefined) {
         spikedmod += dweapon.modifiers.spikes
     }
     if (userData[defender] != undefined) {
@@ -392,13 +385,32 @@ function calcDamage(message, attacker, defender, initiator) {
             text += "<@" + attacker + "> has been damaged for " + spiked + " health due to spikes!\n"
             if (userData[defender] != undefined) {
                 if (userData[defender].skillA == 31 || userData[defender].skillB == 31 || userData[defender].skillC == 31) {
-                    userData[attacker].burn += spikemod * 5; //Burn status, if burning, have a chance to take 5% damage after talking.
+                    userData[attacker].burn += spikedmod * 5; //Burn status, if burning, have a chance to take 5% damage after talking.
                     text += "<@" + attacker + "> is now burning!"
                 }
             }
         } else {
             attack += spiked;
             text += "<@" + defender + "> has damaged the raid boss with spikes!\n"
+        }
+    }
+
+    //burn check
+
+    if (userData[attacker] != undefined) {
+        if (weapon != false && weapon.modifiers.burn != undefined) {
+            burn += weapon.modifiers.burn
+        }
+        if (userData[attacker].skillA == 36 || userData[attacker].skillB == 36 || userData[attacker].skillC == 36) {
+            burn += 1;
+        }
+    }
+    if (burn > 0) {
+        if (userData[defender] != undefined) {
+            userData[attacker].burn = burn;
+            text += "<@" + defnder + "> is now burning!"
+        } else {
+            text += "Raid boss cannot be burned!"
         }
     }
 
@@ -431,7 +443,7 @@ function calcDamage(message, attacker, defender, initiator) {
 
     if (userData[attacker] != undefined) {
         let lifesteal = (userData[attacker].triangleid == 11) ? 0.15 : 0;
-        if (weapon != false && weapon.modifiers != undefined && weapon.modifiers.lifeSteal != undefined) {
+        if (weapon != false && weapon.modifiers.lifeSteal != undefined) {
             lifesteal += weapon.modifiers.lifeSteal
         }
         if (userData[attacker].skillA == 3 || userData[attacker].skillB == 3 || userData[attacker].skillC == 3) {
@@ -439,7 +451,7 @@ function calcDamage(message, attacker, defender, initiator) {
         }
         if (userData[attacker].skillA == 21 || userData[attacker].skillB == 21 || userData[attacker].skillC == 21) {
             if (userData[attacker].currenthealth >= userData[attacker].health) {
-                lifesteal += 1;
+                lifesteal += 0.5;
             }
         }
         if (lifesteal > 0) {
@@ -469,8 +481,8 @@ function calcDamage(message, attacker, defender, initiator) {
     //defender only skills
     let revmod = 0;
     let revengechance = Math.random()
-    if (defender != -1) {
-        if (attacker == initiator && dweapon != false && dweapon.modifiers != undefined && dweapon.modifiers.revenge != undefined) {
+    if (userData[defender] != undefined) {
+        if (attacker == initiator && dweapon != false && dweapon.modifiers.revenge != undefined) {
             revmod += dweapon.modifiers.revenge;
         }
 
@@ -509,12 +521,14 @@ function calcDamage(message, attacker, defender, initiator) {
     //Last Breath Check
     if (userData[defender] != undefined) {
         if (userData[defender].skillA == 25 || userData[defender].skillB == 25 || userData[defender].skillC == 25) {
-            if (truedamage > userData[defender].currenthealth && userData[defender].currenthealth * 10 > userData[defender].health) {
+            if (truedamage > userData[defender].currenthealth && userData[defender].currenthealth * 2 > userData[defender].health) {
                 userData[defender].currenthealth = truedamage + 1
                 text += "<@" + defender + "> has activated Last Breath!"
             }
         }
     }
+
+
 
     if (text != "") { sendMessage(message.channel, text) }
     return truedamage
@@ -543,7 +557,7 @@ function calcStats(message, id, stat) {
     }
     if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) {
         //console.log(userData[id].weapon)
-        if (itemData[userData[id].weapon].modifiers == undefined) { itemData[userData[id].weapon].modifiers = {}; }
+        if (itemData[userData[id].weapon].modifiers == undefined) { itemData[userData[id].weapon].modifiers = {} }
         if (itemData[userData[id].weapon].modifiers.critRate != undefined) {
             critrate += itemData[userData[id].weapon].modifiers.critRate
         }
@@ -630,8 +644,8 @@ function calcStats(message, id, stat) {
         if (sacrifice > 0) {
             buff += sacrifice
             if (skillA == 26 || skillB == 26 || skillC == 26) {
-                userData[id].currenthealth += Math.floor(buff * attack * sacrifice)
-                text += "<@" + id + "> \"sacrificed\" **" + Math.floor(buff * attack * sacrifice) + "** Health, but mysteriously healed instead!\n";
+                //userData[id].currenthealth += Math.floor(buff * attack * sacrifice)
+                text += "<@" + id + "> \"sacrificed\" **" + Math.floor(buff * attack * sacrifice) + "** Health, but mysteriously just didn't!\n";
             } else {
                 userData[id].currenthealth -= Math.floor(buff * attack * sacrifice)
                 text += "<@" + id + "> sacrificed **" + Math.floor(buff * attack * sacrifice) + "** Health!\n";
@@ -679,7 +693,7 @@ function calcStats(message, id, stat) {
         //console.log(userData[id].weapon)
 
         //console.log(userData[id].weapon)
-        //console.log("ItemData length:" + itemData.next)
+        //console.log("ItemData length:" + currentItemList)
         if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) {
             defense += itemData[userData[id].weapon].defense
         }
@@ -801,6 +815,7 @@ function checkStuff(message) {
     if (!userData[id].marrytarget) userData[id].marrytarget = "None";
     if (!userData[id].guild) userData[id].guild = "None";
     if (!userData[id].guildpos) userData[id].guildpos = "None";
+    if (!userData[id].guildtarget) userData[id].guildtarget = "None";
     if (!userData[id].bolster) userData[id].bolster = false;
     if (!userData[id].shield) userData[id].shield = ts + 24 * 1000 * 60 * 60;
     if (!userData[id].materials) userData[id].materials = 0;
@@ -886,11 +901,14 @@ function checkStuff(message) {
     }
 
     if (userData[id].burn != undefined && userData[id].dead == false) {
-        let burndamage = Math.floor(userData[id].currenthealth * .05)
+        let burndamage = Math.floor(userData[id].health * .03)
         userData[id].burn -= Math.floor(Math.random() + 0.3)
         userData[id].currenthealth -= burndamage
-        let burntext = "You took " + burndamage + " from burning."
-        if (userData[id].burn < 0) {
+        let burntext = "You took **" + burndamage + "** from burning."
+        if (userData[id].dead){
+            burntext += " You burned to death!"
+        }
+        if (userData[id].burn < 0 || userData[id].dead == true) {
             userData[id].burn = undefined
             burntext += " The flames have ceased."
         }
@@ -1102,7 +1120,7 @@ function smeltItem(id, weaponid) {
     userData[id].money += money
     userData[id].xp += xp
     delete userData[id].inventory[weaponid];
-    delete itemData[weaponid];
+    itemData[weaponid] = 0
     return [xp, money, materials]
 }
 module.exports.clean = function (text) { return clean(text) }
@@ -1129,7 +1147,7 @@ module.exports.summon = function (channel, minlevel, maxlevel, name, image) { re
 module.exports.checkStuff = function (message) { return checkStuff(message) }
 module.exports.raidAttack = function (message, raid, resummon, isguild, isevent) { return raidAttack(message, raid, resummon, isguild, isevent) }
 module.exports.smeltItem = function (id, weaponid) { return smeltItem(id, weaponid) }
-module.exports.duelCheckDeath = function (message, id, otherID) {return duelCheckDeath(message, id, otherID) }
+module.exports.duelCheckDeath = function (message, id, otherID, ts) {return duelCheckDeath(message, id, otherID, ts) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {

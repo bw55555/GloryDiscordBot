@@ -104,4 +104,7 @@ module.exports = function (message) {
   itemData[weaponid2] = 0;
     
   userData[id].cooldowns.merge=ts+extratime
+  if (userData[id].skillA == 35 || userData[id].skillB == 35 || userData[id].skillC == 35) {
+    userData[id].cooldowns.merge=ts+extratime/2
+  }
 }
