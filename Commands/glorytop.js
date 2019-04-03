@@ -6,13 +6,13 @@ module.exports = function (message) {
     let globalUsers = 0
     let xparrtosort = []
     for (var userid in userData) {//loops through user data to check. //w/o if statement, it checks everyone
-        if (userData[userid].glory != undefined) {
+        if (userData[userid].glory != undefined && userData[userid].ascension > 0) {
             xparrtosort.push(userData[userid].glory + " " + userid) // push level + 100*ascensions for sorting purposes. Add the " " and the id for identification.
             globalUsers += 1
         }
     }
     xparrtosort.sort(function (a, b) { return parseInt(b.split(" ")[0]) - parseInt(a.split(" ")[0]) }) //what sorts the array. Search up array.sort() on w3schools.
-    let numPerPage = 5
+    let numPerPage = 10
     let page = {
         "embed": { //displays guild stats
             "title": "Global Levels",
@@ -31,8 +31,8 @@ module.exports = function (message) {
         let user = xparrtosort[i].split(" ")
         let text = parseInt(user[0])
         //let leveltext = parseInt(user[0]) - 100 * asctext
-        let username = userData[xparrtosort[i].split(" ")[1]].username
-        page.embed.fields[0].value += "**" + (i + 1) + ". " + username + "** with id " + user[1] + " and " + text + " Glory"
+        let username = userData[user[1]].username
+        page.embed.fields[0].value += "**" + (i + 1) + ". " + username + "** (ID: " + user[1] + ") with **" + text + "** Glory"
         if (i % numPerPage == numPerPage - 1) { // separate pages
             page.embed.footer.text = (pages.length * numPerPage + 1) + "-" + (i + 1) + " out of " + globalUsers //add footer to display where you are
             pages.push(page)

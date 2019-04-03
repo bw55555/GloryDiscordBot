@@ -175,8 +175,13 @@
         "description": "Healing has a much shorter cooldown"
     },
     {
-        "name": "Blacksmith",
+        "name": "Craftsmanship",
         "id": 35,
-        "description": "Merging now has a much shorter cooldown"
+        "description": "Merging has a much shorter cooldown"
+    },
+    {
+        "name": "Pyromancy",
+        "id": 36,
+        "description": "Enemies you fight become burned and take damage over time"
     }
 ]

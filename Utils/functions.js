@@ -311,7 +311,7 @@ function calcDamage(message, attacker, defender, initiator) {
         attack = attacker.attack;
     }
     let defense = 0;
-    if (defender != -1) {
+    if (userData[defender] != undefined) {
         defense = calcStats(message, defender, "defense")
         if (userData[attacker] != undefined && (userData[attacker].skillA == 23 || userData[attacker].skillB == 23 || userData[attacker].skillC == 23)) {
             defense = calcStats(message, defender, "attack")
@@ -407,8 +407,8 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     if (burn > 0) {
         if (userData[defender] != undefined) {
-            userData[attacker].burn = burn;
-            text += "<@" + defnder + "> is now burning!"
+            userData[defender].burn = burn;
+            text += "<@" + defender + "> is now burning!"
         } else {
             text += "Raid boss cannot be burned!"
         }
@@ -735,6 +735,10 @@ function raidInfo(message, raid) {
     if (raid.itemReward != undefined) {
         itemRewardText = "\n**Item Reward Id:** " + raid.itemReward
     }
+    let abilitytext = ""
+    if (raid.ability != undefined) {
+        abilitytext = "\n**Ability:** " + raid.ability
+    }
     sendMessage(message.channel, {
         embed: {
             thumbnail: {
@@ -744,7 +748,7 @@ function raidInfo(message, raid) {
             fields: [
                 {
                     name: "Level " + raid.level + " " + raid.name,
-                    value: "**Health Remaining:** " + raid.currenthealth + "\n**Max Attack:** " + raid.attack + "\n**Reward:** " + raid.reward + " Money and XP" + itemRewardText
+                    value: "**Health Remaining:** " + raid.currenthealth + "\n**Max Attack:** " + raid.attack + "\n**Reward:** " + raid.reward + " Money and XP" + itemRewardText+abilitytext
                 }
             ]
         }
@@ -900,16 +904,22 @@ function checkStuff(message) {
         userData[id].dead = true;
     }
 
+}
+
+function checkBurn(message) {
+    let id = message.author.id
+    //let ts = message.createdTimestamp;
     if (userData[id].burn != undefined && userData[id].dead == false) {
         let burndamage = Math.floor(userData[id].health * .03)
-        userData[id].burn -= Math.floor(Math.random() + 0.3)
+        userData[id].burn -= Math.floor(Math.random() + 0.5)
         userData[id].currenthealth -= burndamage
         let burntext = "You took **" + burndamage + "** from burning."
-        if (userData[id].dead){
+        if (userData[id].dead) {
             burntext += " You burned to death!"
+            userData[id].dead = true
         }
         if (userData[id].burn < 0 || userData[id].dead == true) {
-            userData[id].burn = undefined
+            delete userData[id].burn
             burntext += " The flames have ceased."
         }
         replyMessage(message, burntext)
@@ -1120,7 +1130,7 @@ function smeltItem(id, weaponid) {
     userData[id].money += money
     userData[id].xp += xp
     delete userData[id].inventory[weaponid];
-    itemData[weaponid] = 0
+    delete itemData[weaponid] 
     return [xp, money, materials]
 }
 module.exports.clean = function (text) { return clean(text) }
@@ -1145,9 +1155,10 @@ module.exports.craftItem = function (message, minrarity, maxrarity, reply) { ret
 module.exports.raidInfo = function (message, raid) { return raidInfo(message, raid) }
 module.exports.summon = function (channel, minlevel, maxlevel, name, image) { return summon(channel, minlevel, maxlevel, name, image) }
 module.exports.checkStuff = function (message) { return checkStuff(message) }
+module.exports.checkBurn = function (message) { return checkBurn(message) }
 module.exports.raidAttack = function (message, raid, resummon, isguild, isevent) { return raidAttack(message, raid, resummon, isguild, isevent) }
 module.exports.smeltItem = function (id, weaponid) { return smeltItem(id, weaponid) }
-module.exports.duelCheckDeath = function (message, id, otherID, ts) {return duelCheckDeath(message, id, otherID, ts) }
+module.exports.duelCheckDeath = function (message, id, otherID, ts) { return duelCheckDeath(message, id, otherID, ts) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
