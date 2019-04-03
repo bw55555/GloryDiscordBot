@@ -903,7 +903,7 @@ function checkBurn(message) {
             burntext += " You burned to death!"
             userData[id].dead = true
         }
-        if (userData[id].burn < 0 || userData[id].dead == true) {
+        if (userData[id].burn < 0 || userData[id].dead == true || isNaN(userData[id].burn)) {
             delete userData[id].burn
             burntext += " The flames have ceased."
         }
