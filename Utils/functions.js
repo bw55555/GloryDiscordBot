@@ -374,6 +374,7 @@ function calcDamage(message, attacker, defender, initiator) {
             text += "<@" + attacker + "> has been damaged for " + spiked + " health due to spikes!\n"
             if (userData[defender] != undefined) {
                 if (userData[defender].skillA == 31 || userData[defender].skillB == 31 || userData[defender].skillC == 31) {
+                    if (userData[attacker].burn == undefined) { userData[attacker].burn = 0 }
                     userData[attacker].burn += spikedmod * 5; //Burn status, if burning, have a chance to take 5% damage after talking.
                     text += "<@" + attacker + "> is now burning!"
                 }
@@ -737,7 +738,7 @@ function raidInfo(message, raid) {
             fields: [
                 {
                     name: "Level " + raid.level + " " + raid.name,
-                    value: "**Health Remaining:** " + raid.currenthealth + "\n**Max Attack:** " + raid.attack + "\n**Reward:** " + raid.reward + " Money and XP" + itemRewardText+abilitytext
+                    value: "**Health Remaining:** " + raid.currenthealth + "\n**Max Attack:** " + raid.attack + "\n**Reward:** " + raid.reward + " Money and XP" + itemRewardText + abilitytext
                 }
             ]
         }
@@ -898,7 +899,7 @@ function checkStuff(message) {
 function checkBurn(message) {
     let id = message.author.id
     //let ts = message.createdTimestamp;
-    if (userData[id].burn != undefined && userData[id].dead == false) {
+    if (userData[id].burn != undefined && userData[id].dead == false && !isNaN(userData[id].burn)) {
         let burndamage = Math.floor(userData[id].health * .03)
         userData[id].burn -= Math.floor(Math.random() + 0.5)
         userData[id].currenthealth -= burndamage
@@ -907,7 +908,7 @@ function checkBurn(message) {
             burntext += " You burned to death!"
             userData[id].dead = true
         }
-        if (userData[id].burn < 0 || userData[id].dead == true) {
+        if (userData[id].burn < 0 || userData[id].dead == true || isNaN(userData[id].burn)) {
             delete userData[id].burn
             burntext += " The flames have ceased."
         }
@@ -1119,7 +1120,7 @@ function smeltItem(id, weaponid) {
     userData[id].money += money
     userData[id].xp += xp
     delete userData[id].inventory[weaponid];
-    delete itemData[weaponid] 
+    delete itemData[weaponid];
     return [xp, money, materials]
 }
 module.exports.clean = function (text) { return clean(text) }
