@@ -383,6 +383,7 @@ module.exports=function(message) {
       guildData[guild].raid.alive = true;
       guildData[guild].raid.attacklist = {};
       guildData[guild].raid.level = summonlevel;
+      if (raid.ability != undefined) { guildData[guild].raid.ability = raid.ability; }
       functions.replyMessage(message,"You have successfully summoned a "+raid.name+" at level "+summonlevel+"!")
       functions.raidInfo(message,guildData[guild].raid)
   }
