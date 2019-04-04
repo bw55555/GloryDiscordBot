@@ -31,7 +31,7 @@ module.exports = function (message) {
         let user = xparrtosort[i].split(" ")
         let text = parseInt(user[0])
         //let leveltext = parseInt(user[0]) - 100 * asctext
-        let username = userData[xparrtosort[i].split(" ")[1]].username
+        let username = userData[user[1]].username
         page.embed.fields[0].value += "**" + (i + 1) + ". " + username + "** (ID: " + user[1] + ") with **" + text + "** Glory"
         if (i % numPerPage == numPerPage - 1) { // separate pages
             page.embed.footer.text = (pages.length * numPerPage + 1) + "-" + (i + 1) + " out of " + globalUsers //add footer to display where you are

@@ -107,4 +107,8 @@ module.exports = function (message) {
   if (userData[id].skillA == 35 || userData[id].skillB == 35 || userData[id].skillC == 35) {
     userData[id].cooldowns.merge=ts+extratime/2
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> a6a7a067b95a71b70fb437f693bfa8e06c48c66d

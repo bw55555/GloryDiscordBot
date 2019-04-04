@@ -286,6 +286,17 @@ function displayTime(time1, time2) {
     return hours + ":" + minutes + ":" + seconds
 }
 ///---------------------
+
+function duelCheckDeath(message, id, otherID, ts) {
+  if (userData[id].currenthealth <= 0) { 
+     userData[id].cooldowns.heal = ts - 60000;
+     userData[otherID].cooldowns.heal = ts - 60000;
+     duel = {};
+     replyMessage(message, "" + userData[id].username + " has died. " + userData[otherID].username + " has won the duel!");
+     return;
+  }
+}
+
 function calcDamage(message, attacker, defender, initiator) {
     let text = ""
     let roll = Math.random()
@@ -683,7 +694,7 @@ function calcStats(message, id, stat) {
         //console.log(userData[id].weapon)
 
         //console.log(userData[id].weapon)
-        //console.log("ItemData length:" + itemData.next)
+        //console.log("ItemData length:" + currentItemList)
         if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) {
             defense += itemData[userData[id].weapon].defense
         }
