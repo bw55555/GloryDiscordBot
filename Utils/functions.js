@@ -42,7 +42,8 @@ function logCommand(message, extratext) {
     sendMessage(bot.guilds.get(debugGuildId).channels.get(debugChannelId), clean(message.author.id + "|" + message.content + "|" + message.createdTimestamp + extratext))
 }
 
-function validate(message) {
+function validate(message, spot) {
+    if (isNaN(parseInt(spot))) { spot = 1}
     let words = message.content.trim().split(/\s+/)
     if (words.length == 1) {
         sendMessage(message.channel, "Choose a target!")
@@ -76,26 +77,7 @@ function validate(message) {
     return target
 }
 function gvalidate(message) {
-    let words = message.content.trim().split(/\s+/)
-    if (words.length < 3) {
-        sendMessage(message.channel, "Choose a target!")
-        return false;
-    }
-    let target = words[2];
-    let targetname = words[2];
-    if (target.startsWith('<@') && target.endsWith('>')) {
-        target = target.slice(2, -1);
-    }
-    if (target.startsWith('!')) {
-        target = target.slice(1);
-    }
-    if (userData[target] == undefined) {
-        //Send fail message here
-        sendMessage(message.channel, targetname + " is not a real person");
-        return false;
-    }
-
-    return target
+    return validate(target,2)
 }
 function generateWeaponTemplate(weaponid, current, total) {
     weaponid = weaponid.toString();
@@ -1140,7 +1122,7 @@ module.exports.replyMessage = function (message, text, override) { return replyM
 module.exports.deleteMessage = function (message) { return deleteMessage(message) }
 module.exports.dmUser = function (user, text) { return dmUser(user, text) }
 module.exports.logCommand = function (message, extratext) { return logCommand(message, extratext) }
-module.exports.validate = function (message) { return validate(message) }
+module.exports.validate = function (message,spot) { return validate(message,spot) }
 module.exports.gvalidate = function (message) { return gvalidate(message) }
 module.exports.generateWeaponTemplate = function (weaponid, current, total) { return generateWeaponTemplate(weaponid, current, total) }
 module.exports.generateGuildTemplate = function (guild) { return generateGuildTemplate(guild) }
