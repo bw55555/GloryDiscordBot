@@ -35,7 +35,7 @@ module.exports=function(message) {
   while (userData[id].guild != "None" && guildData[guild].level*200000+800000>guildData[guild].bankmax) {
     guildData[guild].bankmax+=200000
     guildData[guild].materialmax+=200000
-    leveluptext+=guild+" had their guild bank max increased to "+guildData[guild].bankmax+"\n"+guild+" had their guild materials max increased to "+guildData[guild].materialmax
+    leveluptext+=guild+" had their guild bank max increased to "+guildData[guild].bankmax+"\n"+guild+" had their guild materials max increased to "+guildData[guild].materialmax+"\n"
     if (leveluptext.length > 1900) {
         functions.replyMessage(message, leveluptext)
         leveluptext=""
