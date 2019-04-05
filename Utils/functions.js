@@ -49,8 +49,8 @@ function validate(message, spot) {
         sendMessage(message.channel, "Choose a target!")
         return false;
     }
-    let target = words[1];
-    let targetname = words[1];
+    let target = words[spot];
+    let targetname = words[spot];
     if (target.startsWith('<@') && target.endsWith('>')) {
         target = target.slice(2, -1);
     }
