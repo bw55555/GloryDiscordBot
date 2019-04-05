@@ -526,7 +526,7 @@ module.exports=function(message) {
   }
   else if (command == "RESET") {
       let time = 0
-      let regexp = new RegExp("/\b([0-9]+h)?([0-9]+m)?([0-9]+s)?\b/")
+      let regexp = /\b([0-9]+h)?([0-9]+m)?([0-9]+s)?\b/
       if (words[3] != undefined && regexp.test(words[3])) {
           let timeword = words[3]
           let timearr = words.split(/(m|h|s)/)
