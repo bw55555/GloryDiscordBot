@@ -77,7 +77,7 @@ function validate(message, spot) {
     return target
 }
 function gvalidate(message) {
-    return validate(target,2)
+    return validate(message,2)
 }
 function generateWeaponTemplate(weaponid, current, total) {
     weaponid = weaponid.toString();
