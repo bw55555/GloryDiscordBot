@@ -846,7 +846,7 @@
       "defense": 0,
       "health": 20,
       "reward": 75,
-      "ability":  "Burns the opponent. "
+      "ability":  "Burns the opponent. (5) "
     },
     {
       "name": "Typhon",
@@ -865,7 +865,7 @@
       "defense": 0,
       "health": 20,
       "reward": 75,
-      "ability": "33% chance to block the attack and take no damage."
+      "ability": "20% chance to block the attack and take no damage."
     },
     {
       "name": "Charybdis",
@@ -885,7 +885,7 @@
       "defense": 0,
       "health": 1,
       "reward": 100,
-      "ability": "95% chance to evade the attack and take no damage."
+      "ability": "95% chance to evade the attack and cancel it."
     },
     {
       "name": "Asmodeus",
@@ -895,7 +895,7 @@
       "defense": 0,
       "health": 20,
       "reward": 100,
-      "ability": "20% chance to parry the opponent's attack and counter it for 2x damage. "
+      "ability": "20% chance to parry the opponent's attack, and 10% chance to instantly kill the opponent. "
     },
     {
       "name": "Godzilla",

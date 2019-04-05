@@ -284,6 +284,17 @@ function calcDamage(message, attacker, defender, initiator) {
     let roll = Math.random()
     let burn = 0;
     let attack = 0;
+    let evadechance = Math.random()
+    let evaderate = 0;
+    if (defender.name == "Will-o'-the-wisp") {
+        evaderate+=0.95
+    }
+    if (evadechance < evaderate) {
+        let defendername = defender.name
+        if (userData[defender] != undefined) { defendername = "<@" + defender + ">" }
+        replyMessage(message, defendername + " has evaded the attack!")
+        return 0
+    }
     if (userData[attacker] != undefined) {
         attack = 2 * calcStats(message, attacker, "attack")
         if (userData[defender] != undefined && hasSkill(defender, 23)) {
@@ -333,17 +344,22 @@ function calcDamage(message, attacker, defender, initiator) {
             piercerate += 0.05;
         }
 
-        if (piercechance < piercerate) {
-            if (userData[defender] == undefined) {
-                attack *= 1.8
-            } else {
-                defense = 0
-            }
+        
+    } else {
+        if (attacker.name == "Godzilla") {
+            piercerate += 1
+        }
+    }
+    if (piercechance < piercerate) {
+        if (userData[defender] == undefined) {
+            attack *= 1.5
+        } else {
+            defense = 0
+        }
 
-            text += "<@" + attacker + ">" + " has pierced their opponents defense!\n"
-            if (hasSkill(attacker, 28)) {
-                attack *= 1.4
-            }
+        text += "<@" + attacker + ">" + " has pierced their opponents defense!\n"
+        if (userData[attacker]!=undefined && hasSkill(attacker, 28)) {
+            attack *= 1.4
         }
     }
 
@@ -379,7 +395,6 @@ function calcDamage(message, attacker, defender, initiator) {
     }
 
     //burn check
-
     if (userData[attacker] != undefined) {
         if (weapon != false && weapon.modifiers.burn != undefined) {
             burn += weapon.modifiers.burn
@@ -387,13 +402,17 @@ function calcDamage(message, attacker, defender, initiator) {
         if (hasSkill(attacker, 36)) {
             burn += 1;
         }
+    } else {
+        if (attacker.name == "Ignis") {
+            burn += 5;
+        }
     }
     if (burn > 0) {
         if (userData[defender] != undefined) {
             userData[defender].burn = burn;
-            text += "<@" + defender + "> is now burning!"
+            text += "<@" + defender + "> is now burning!\n"
         } else {
-            text += "Raid boss cannot be burned!"
+            text += "Raid boss cannot be burned!\n"
         }
     }
 
@@ -410,15 +429,26 @@ function calcDamage(message, attacker, defender, initiator) {
         if (hasSkill(defender, 30)) {
             blockrate += 0.05;
         }
+    } else if (userData[defender] == undefined) {
+        if (defender.name == "Baba Yaga") {
+            blockrate += 0.2
+        }
+        if (defender.name == "Asmodeus") {
+            blockrate += 0.2
+        }
     }
 
     if (blockrate > blockchance) {
+        let defendername = defender.name
+        if (userData[defender] != undefined) { defendername = "<@" + defender + ">" }
+        let attackername = attacker.name
+        if (userData[attacker] != undefined) { defendername = "<@"+attacker + ">"}
         if (piercechance < piercerate) {
-            text += "<@" + defender + "> has blocked the attack, but" + attacker + "pierced though anyway!\n"
+            text += defendername + " has blocked the attack, but" + attackername + "pierced though anyway!\n"
         } else {
-            text += "<@" + defender + "> has blocked the attack!\n"
+            text += defendername + " has blocked the attack!\n"
             attack = 0;
-            if (hasSkill(defender, 30)) {
+            if (userData[defender]!=undefined && hasSkill(defender, 30)) {
                 userData[defender].bolster = true
             }
         }
@@ -481,8 +511,21 @@ function calcDamage(message, attacker, defender, initiator) {
     if (userData[attacker] != undefined) {
         if (revengechance < revmod) {
             userData[attacker].currenthealth = 0;
-            text += "<@" + defender + "> has avenged the attack!"
+            text += "<@" + defender + "> has avenged the attack!\n"
             //return false
+        }
+    } else {
+        if (attacker.name == "Medusa" && revengechance < 0.15) {
+            userData[defender].currenthealth = 0;
+            text += "<@" + defender + "> has been turned to stone! (And killed)\n"
+        }
+        else if (attacker.name == "Asmodeus" && revengechance < 0.1) {
+            userData[defender].currenthealth = 0;
+            text += "<@" + defender + "> has been beheaded! (And killed)\n"
+        }
+        else if (attacker.name == "Godzilla" && revengechance < 0.2) {
+            userData[defender].currenthealth = 0;
+            text += "<@" + defender + "> has been squashed! (And killed)\n"
         }
     }
 
@@ -952,6 +995,13 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
     //let theiratk = Math.floor((raid.attack) * Math.random());
     //let yourdef = (Math.floor(calcStats(message, id, "defense") * Math.random()));
     let counter = calcDamage(message, raid, id, id);
+    if (raid.name == "Cerberus") {
+        for (var i = 0; i < 2 * Math.random() ; i++) {
+            counter += calcDamage(message, raid, id, id);
+        }
+        functions.sendMessage(message.channel,"Cerberus attacked " + i+" times!")
+    }
+    
     if (damage < 0) {
         damage = 0;
     }
