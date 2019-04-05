@@ -1113,6 +1113,56 @@ function hasSkill(id, skillid) {
     if (userData[id].skillA == skillid || userData[id].skillB == skillid || userData[id].skillC == skillid) return true
     else return false
 }
+function itemFilter(message) {
+    let id = message.author.id;
+    let ts = message.createdTimestamp;
+    let words = message.content.trim().split(/\s+/)
+    let userInv = userData[id].inventory
+    let minrarity = 0
+    let maxrarity = 9
+    let fav = "None"
+    let unique = false
+    if (words.indexOf("-min") != -1) {
+        minrarity = parseInt(words[words.indexOf("-min") + 1])
+        if (isNaN(minrarity)) {
+            replyMessage(message, "Please enter an integer for the minimum rarity.")
+            return false
+        }
+    }
+    if (words.indexOf("-max") != -1) {
+        maxrarity = parseInt(words[words.indexOf("-max") + 1])
+        if (isNaN(maxrarity)) {
+            replyMessage(message, "Please enter an integer for the maximum rarity.")
+            return false
+        }
+    }
+    if (words.indexOf("-fav") != -1) {
+        fav = true
+    }
+    if (words.indexOf("-nofav") != -1) {
+        fav = false
+    }
+    if (words.indexOf("-unique") != -1) {
+        unique = true
+    }
+    //console.log(userData[id].weapon)
+    displayItems = []
+    if (userData[id].weapon != false && userData[id].weapon != "None") {
+        displayItems.push(userData[id].weapon)
+    }
+
+    for (var item in userInv) {
+        //console.log(item)
+        //console.log(itemData[item])
+        let itemID = item.toString();
+        if (!unique && itemData[item].rarity == "Unique") { continue }
+        if (itemData[itemID] == undefined || item == userData[id].weapon || userData[id].inventory[item] != item || itemData[itemID].rarity < minrarity || itemData[itemID].rarity > maxrarity) continue
+        if (fav == true && itemData[itemID].favorite == false) { continue }
+        if (fav == false && itemData[itemID].favorite == true) { continue }
+        displayItems.push(item)
+    }
+    return displayItems
+}
 module.exports.clean = function (text) { return clean(text) }
 module.exports.sendMessage = function (channel, text, override) { return sendMessage(channel, text, override) }
 module.exports.replyMessage = function (message, text, override) { return replyMessage(message, text, override) }
@@ -1139,7 +1189,8 @@ module.exports.checkBurn = function (message) { return checkBurn(message) }
 module.exports.raidAttack = function (message, raid, resummon, isguild, isevent) { return raidAttack(message, raid, resummon, isguild, isevent) }
 module.exports.smeltItem = function (id, weaponid) { return smeltItem(id, weaponid) }
 module.exports.duelCheckDeath = function (message, id, otherID, ts) { return duelCheckDeath(message, id, otherID, ts) }
-module.exports.hasSkill = function (id, skillid) { return hasSkill(id,skillid)}
+module.exports.hasSkill = function (id, skillid) { return hasSkill(id, skillid) }
+module.exports.itemFilter = function (message) { return itemFilter(message) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
