@@ -8,16 +8,17 @@ module.exports=function(message) {
     return
   }
   let weaponid = words[1].toLowerCase()
-  if (itemData[weaponid] == undefined) {return functions.replyMessage(message,"This weapon does not exist!");}
-  if (userData[id].weapon == weaponid) {
-    functions.replyMessage(message, "You already have this weapon equipped!")
-    return
-  }
   if (weaponid == "none") {
       if (userData[id].weapon != false && itemData[userData[id].weapon].modifiers.maxhp != undefined) { userData[id].health -= itemData[userData[id].weapon].modifiers.maxhp }
       userData[id].weapon = false
       return functions.replyMessage(message, "You have successfully unequipped your weapon!")
   }
+  if (itemData[weaponid] == undefined) {return functions.replyMessage(message,"This weapon does not exist!");}
+  if (userData[id].weapon == weaponid) {
+    functions.replyMessage(message, "You already have this weapon equipped!")
+    return
+  }
+  
   if (userData[id].inventory[weaponid] != weaponid) {
     functions.replyMessage(message, "You don't own this item!")
     return
