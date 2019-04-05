@@ -13,8 +13,8 @@ module.exports=function(message) {
       if (isNaN(minrarity)) { return functions.replyMessage(message,"Please enter an integer for the minimum rarity.")}
   }
   if (words.indexOf("-max") != -1) {
-      minrarity = parseInt(words[words.indexOf("-max") + 1])
-      if (isNaN(minrarity)) { return functions.replyMessage(message, "Please enter an integer for the maximum rarity.") }
+      maxrarity = parseInt(words[words.indexOf("-max") + 1])
+      if (isNaN(maxrarity)) { return functions.replyMessage(message, "Please enter an integer for the maximum rarity.") }
   }
   if (words.indexOf("-fav") != -1) {
       fav = true
