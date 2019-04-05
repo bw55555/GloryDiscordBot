@@ -529,7 +529,7 @@ module.exports=function(message) {
       let regexp = /\b([0-9]+h)?([0-9]+m)?([0-9]+s)?\b/
       if (words[3] != undefined && regexp.test(words[3])) {
           let timeword = words[3]
-          let timearr = words.split(/(m|h|s)/)
+          let timearr = words[3].split(/(m|h|s)/)
           if (timearr.length % 2 == 1) {
               return functions.replyMessage(message, "Something happened here. The regex broke.")
           }
