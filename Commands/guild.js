@@ -528,18 +528,13 @@ module.exports=function(message) {
       let time = 0
       let regexp = /\b([0-9]+h)?([0-9]+m)?([0-9]+s)?\b/
       if (words[3] != undefined && regexp.test(words[3])) {
-          let timeword = words[3]
-          let timearr = words[3].split(/(m|h|s)/)
-          if (timearr.length % 2 == 1) {
-              return functions.replyMessage(message, "Something happened here. The regex broke.")
-          }
-          let len = Math.floor(timearr.length / 2)
+          let saveindex = 0
           const timevalues = { "h": 3600000, "m": 60000, "s": 1000 }
-          for (var i = 0; i < len; i++) {
-              if (isNaN(parseInt(timerarr[2 * i])) || timeValues[timearr[2 * i + 1]] != undefined) {
-                  time += parseInt(timerarr[2 * i]) * timeValues[timearr[2 * i + 1]]
-              } else {
-                  return index.replyMessage(message, "Something happened, the regex broke. ")
+          for (var i = 0; i < words[3].length; i++) {
+              if (timevalues[words[3].slice(i, i + 1)] != undefined) {
+                  if (isNaN(parseInt(words[3].slice(saveindex, i)))) { return functions.replyMessage(message,"Something happened. The regex broke.")}
+                  time += parseInt(words[3].slice(saveindex, i)) * timevalues[words[3].slice(i, i + 1)]
+                  saveindex = i+1
               }
           }
       }
@@ -555,7 +550,7 @@ module.exports=function(message) {
           guildData[words[2]].store = {}
           functions.replyMessage(message,words[2]+"'s guild store has been reset!")
       }, time)
-      functions.replyMessage(message,"Guild store will reset in "+time+" ms.")
+      functions.replyMessage(message,"Guild store will reset in "+functions.displayTime(time,0))
   }
   else if (command == "BUFFS") {
       if (devs.indexOf(id) == -1) { return functions.replyMessage(message,"This feature is under development...")}
