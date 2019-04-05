@@ -999,7 +999,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
         for (var i = 0; i < 2 * Math.random() ; i++) {
             counter += calcDamage(message, raid, id, id);
         }
-        functions.sendMessage(message.channel,"Cerberus attacked " + i+" times!")
+        sendMessage(message.channel,"Cerberus attacked " + i+" times!")
     }
     
     if (damage < 0) {
