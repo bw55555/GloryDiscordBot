@@ -581,6 +581,11 @@ module.exports=function(message) {
 
       functions.replyMessage(message, guildName+" was disbanded! Everyone in it is now guildless :(");
   }
+  else if (command == "RESETRAID") {
+      if (admins.indexOf(id) == -1) { return }
+      guildData[guild].raid = 1
+      functions.replyMessage(message, guildName + " was disbanded! Everyone in it is now guildless :(");
+  }
   else {
       if (guild=="None") {return functions.replyMessage(message,"You don't have a guild!")}
       functions.sendMessage(message.channel, functions.generateGuildTemplate(guild))
