@@ -1116,6 +1116,10 @@ function smeltItem(id, weaponid) {
     delete itemData[weaponid];
     return [xp, money, materials]
 }
+function hasSkill(id, skillid) {
+    if (userData[id].skillA == skillid || userData[id].skillB == skillid || userData[id].skillC == skillid) return true
+    else return false
+}
 module.exports.clean = function (text) { return clean(text) }
 module.exports.sendMessage = function (channel, text, override) { return sendMessage(channel, text, override) }
 module.exports.replyMessage = function (message, text, override) { return replyMessage(message, text, override) }
@@ -1142,6 +1146,7 @@ module.exports.checkBurn = function (message) { return checkBurn(message) }
 module.exports.raidAttack = function (message, raid, resummon, isguild, isevent) { return raidAttack(message, raid, resummon, isguild, isevent) }
 module.exports.smeltItem = function (id, weaponid) { return smeltItem(id, weaponid) }
 module.exports.duelCheckDeath = function (message, id, otherID, ts) { return duelCheckDeath(message, id, otherID, ts) }
+module.exports.hasSkill = function (id, skillid) { return hasSkill(id,skillid)}
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
