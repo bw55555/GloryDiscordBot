@@ -364,7 +364,7 @@ module.exports=function(message) {
       }
       if (words[2] == undefined) { return functions.replyMessage(message,"Please specify a boss rarity!!!")}
       let summonrarity = words[2].toLowerCase()
-      let scrollrarities = { "common": 0, "uncommon": 1, "rare": 2, "epic": 3, "legendary": 4 }
+      let scrollrarities = { "0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "common": 0, "uncommon": 1, "rare": 2, "epic": 3, "legendary": 4 }
       if (summonrarity == undefined || summonrarity == "" || scrollrarities[summonrarity] == undefined) { return functions.replyMessage(message,"That rarity does not exist! See "+serverData[message.guild.id].prefix+"guild scrolls for a list of available rarities.") }
       if (guildData[guild].scrolls[scrollrarities[summonrarity]] < 1) { return functions.replyMessage(message,"Your guild does not have enough scrolls!") }
       guildData[guild].scrolls[scrollrarities[summonrarity]]-=1
