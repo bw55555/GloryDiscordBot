@@ -7,15 +7,12 @@ module.exports = function (message) {
     pages = []
     page = ""
     displayItems = functions.itemFilter(message)
-    if (displayItems == false) {return }
+    if (displayItems == false) { return }
+    if (displayItems.length == 0) { return functions.sendMessage(message.channel, "There's nothing in your inventory that matches the selected filters... ") }
     for (var i = 0; i < displayItems.length;i++) {
         let itemID = displayItems[i].toString();
         page = functions.generateWeaponTemplate(itemID, i+1, displayItems.length)
         pages.push(page)
     }
-    if (pages.length == 0) {
-        functions.sendMessage(message.channel, "There's nothing in your inventory...")
-    } else {
-        new functions.Paginator(message.channel, message.author, pages)
-    }
+    new functions.Paginator(message.channel, message.author, pages)
 }
