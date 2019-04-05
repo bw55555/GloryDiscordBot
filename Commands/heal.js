@@ -43,7 +43,7 @@ module.exports = function (message) {
     userData[target].speed = 0;
     userData[target].currenthealth += heal
     userData[id].xp += heal
-    if (userData[id].skillA != 14 && userData[id].skillB != 14 && userData[id].skillC != 14) {
+    if (!functions.hasSkill(id, 14)) {
         userData[id].currenthealth -= Math.floor(heal * Math.random())
     }
     functions.replyMessage(message, "<@" + target + "> was healed for " + heal + " health!")
@@ -57,7 +57,7 @@ module.exports = function (message) {
       return functions.replyMessage(message, "You are already at full health!");
     }
     let heal = userData[id].health - userData[id].currenthealth;
-    if (userData[id].skillA != 14 && userData[id].skillB != 14 && userData[id].skillC != 14) {
+    if (!functions.hasSkill(id, 14)) {
       if (heal * 5 > userData[id].money) {
         heal = Math.floor((userData[id].money) / 5);
       }
@@ -69,7 +69,7 @@ module.exports = function (message) {
       functions.replyMessage(message, "(You don't have any money. You can't heal!)");
       return;
     }
-    if (userData[id].skillA != 14 && userData[id].skillB != 14 && userData[id].skillC != 14) {
+    if (!functions.hasSkill(id, 14)) {
       functions.replyMessage(message, "You healed for " + heal + " Health! It cost you $" + (heal * 5));
     }
     else{
@@ -78,7 +78,7 @@ module.exports = function (message) {
     userData[id].speed = 0;
     userData[id].cooldowns.heal = ts + healcd * 60 * 1000
     userData[id].speed = 0;
-    if (userData[id].skillA == 34 || userData[id].skillB == 34 || userData[id].skillC == 34) {
+    if (functions.hasSkill(id, 34)) {
       userData[id].speed = 0;
       userData[id].cooldowns.heal = ts + healcd * 30 * 1000
       userData[id].speed = 0;

@@ -131,7 +131,7 @@ module.exports = function (message) {
       userData[id].glory += glorywon
     }
 
-    if (userData[id].currenthealth > 0 && (userData[id].skillA == 15 || userData[id].skillB == 15 || userData[id].skillC == 15)) {
+    if (userData[id].currenthealth > 0 && functions.hasSkill(id, 15)) {
       userData[id].currenthealth = userData[id].health
       functions.sendMessage(message.channel, "Soulsteal activated. <@" + id + "> has been restored to full health.");
     }
@@ -160,7 +160,7 @@ module.exports = function (message) {
     }
 
 
-    if (userData[target].currenthealth > 0 && (userData[target].skillA == 15 || userData[target].skillB == 15 || userData[target].skillC == 15)) {
+    if (userData[target].currenthealth > 0 && functions.hasSkill(target, 15)) {
       userData[target].currenthealth = userData[target].health
       functions.sendMessage(message.channel, "Soulsteal activated. <@" + target + "> has been restored to full health.");
     }

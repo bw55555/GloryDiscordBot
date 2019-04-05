@@ -44,7 +44,7 @@ module.exports = function (message) {
                 functions.replyMessage(message, "You don't own this skill!")
                 return;
             }
-            if (userData[id].skillA == skillid || userData[id].skillB == skillid || userData[id].skillC == skillid) {
+            if (functions.hasSkill(id, skillid)) {
                 functions.replyMessage(message, "You already have this skill equipped!")
                 return;
             }

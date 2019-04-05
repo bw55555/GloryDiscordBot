@@ -40,7 +40,7 @@ module.exports = function (message) {
       functions.replyMessage(message, "They're not dead. Why do you need to rez?");
       return;
     }
-    if (userData[id].skillA != 14 && userData[id].skillB != 14 && userData[id].skillC != 14) {
+    if (!functions.hasSkill(id, 14)) {
       userData[id].currenthealth -= Math.abs(Math.floor(Math.random() * Math.random() * userData[target].health) - userData[id].defense);
     }
     userData[target].speed = 0;
@@ -50,7 +50,7 @@ module.exports = function (message) {
     userData[target].dead = false;
     userData[target].shield = ts + 1800000;
     let text = "<@" + target + "> has been resurrected! They feel wonderful!"
-    if (userData[id].skillA != 14 && userData[id].skillB != 14 && userData[id].skillC != 14) {
+    if (!functions.hasSkill(id, 14)) {
       text += " (On the other hand, you don't feel so well)"
     }
     functions.replyMessage(message, text);

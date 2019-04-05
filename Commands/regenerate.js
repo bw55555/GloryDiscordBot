@@ -4,7 +4,7 @@ module.exports = function (message) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
 
-    if (userData[id].skillA == 24 || userData[id].skillB == 24 || userData[id].skillC == 24) {
+    if (functions.hasSkill(id, 24)) {
         let target = id
         if (words.length == 2) {
             target = functions.validate(message)

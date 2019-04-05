@@ -3,7 +3,7 @@ module.exports = function (message) {
   let id = message.author.id;
   let ts = message.createdTimestamp;
   let words = message.content.trim().split(/\s+/)
-  if (userData[id].triangleid != 9 && userData[id].skillA != 11 && userData[id].skillB != 11 && userData[id].skillC != 11) {
+  if (userData[id].triangleid != 9 && !functions.hasSkill(id, 11)) {
     return functions.replyMessage(message, "You can't bolster!");
   }
   if (userData[id].cooldowns.bolster > ts) {
