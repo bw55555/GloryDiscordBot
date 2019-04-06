@@ -323,6 +323,10 @@ bot.on("guildCreate", guild => {
               {
                   "name": "Forgot your prefix?",
                   "value": "Mention the bot as another prefix, or kicking and readding the bot will reset it's prefix to `!`"
+              },
+              {
+                  "name": "Halp plz? How do I play? ",
+                  "value": "Check out `!tutorial`."
               }
             ]
         }
