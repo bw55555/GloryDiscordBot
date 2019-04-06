@@ -237,7 +237,14 @@ function generateRandomItem(owner, rarity) {
     generateItem(owner, itemid, attack, defense, rarity, name, {})
     return itemid
 }
-
+function calcExtraStat(id, stat) {
+    const statlevels = {"health":100,"attack":10,"defense":10}
+    let extrastat = userData[id].ascension*statlevels[stat]
+    if (stat == "health") {
+        if (userData[id].weapon != false && itemData[userData[id].weapon] != undefined && itemData[userData[id].weapon].modifiers.maxhp != undefined) extrastat += itemData[userData[id].weapon].modifiers.maxhp
+    }
+    return extrastat
+}
 function calcLuckyBuff(id) {
     let luckybuff = 1
     if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) { //lucky enchant
@@ -1225,6 +1232,7 @@ module.exports.generateWeaponTemplate = function (weaponid, current, total) { re
 module.exports.generateGuildTemplate = function (guild) { return generateGuildTemplate(guild) }
 module.exports.generateItem = function (owner, itemid, attack, defense, rarity, name, modifiers) { return generateItem(owner, itemid, attack, defense, rarity, name, modifiers) }
 module.exports.generateRandomItem = function (owner, rarity) { return generateRandomItem(owner, rarity) }
+module.exports.calcExtraStat = function (id,stat) { return calcExtraStat(id,stat) }
 module.exports.calcLuckyBuff = function (id) { return calcLuckyBuff(id) }
 module.exports.calcTime = function (time1, time2) { return calcTime(time1, time2) }
 module.exports.displayTime = function (time1, time2) { return displayTime(time1, time2) }
