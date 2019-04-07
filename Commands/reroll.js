@@ -47,7 +47,7 @@ module.exports = function (message) {
         return;
     }
     userData[id].skills[skillid] = skillid
-
+    
     functions.replyMessage(message, "You replaced the skill " + skillData[removalid].name + " (" + skillData[removalid].id + ") with the skill " + skillData[skillid].name + " (" + skillData[skillid].id + ")!");
     userData[id].reroll -= 1;
 }
