@@ -1060,6 +1060,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
         raid.alive = false;
         //raid.raid = false;
         let keys = Object.keys(raid.attacklist);
+        luckyperson = keys[keys.length * Math.random()]
         if (isevent) {
             let listtotal = 0;
             for (var i = 0; i < keys.length; i++) {
@@ -1093,22 +1094,58 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                     let where = [" in the boss's corpse", " in a treasure chest", " randomly", " because they felt like it", " rotting in a pile", " in a tunnel", " in a cave", " in the boss's stomach", " hit them on the head", " drop from the sky"];
                     if (Math.random() > 0.90) {
                         let boxesfound = Math.floor(1 + Math.random() * 5);
-                        userData[id].box += boxesfound;
+                        userData[luckyperson].box += boxesfound;
                         itemfound = boxesfound + " Box(es) " + where[Math.floor(Math.random() * where.length)];
                     }
-                    else if (Math.random() > 0.95) {
+                    else if (Math.random() > 0.9) {
                         let feathersfound = Math.floor(1 + Math.random() * 3);
-                        userData[id].phoenixfeather += feathersfound;
+                        userData[luckyperson].phoenixfeather += feathersfound;
                         itemfound = feathersfound + " Phoenix Feather(s) " + where[Math.floor(Math.random() * where.length)];
                     }
                     else if (Math.random() > 0.8) {
                         let materialsfound = Math.floor(1001 + Math.random() * 4000);
-                        userData[id].materials += materialsfound;
+                        userData[luckyperson].materials += materialsfound;
                         itemfound = materialsfound + " Material(s) " + where[Math.floor(Math.random() * where.length)];
                     } else if (Math.random() > 0.6) {
                         let materialsfound = Math.floor(10001 + Math.random() * 40000);
-                        userData[id].materials += materialsfound;
+                        userData[luckyperson].money += materialsfound;
                         itemfound = materialsfound + " Money(s) " + where[Math.floor(Math.random() * where.length)];
+                    } else if (Math.random() > 0.97) {
+                        let materialsfound = 1;
+                        if (!userData[luckyperson].reroll) {
+                            userData[luckyperson].reroll = 0;
+                        }
+                        userData[luckyperson].reroll += materialsfound;
+                        itemfound = materialsfound + " **REROLL** " + where[Math.floor(Math.random() * where.length)];
+                    }
+                }
+                if (raid.level >= 100) {
+                    let where = [" in the boss's corpse", " in a treasure chest", " randomly", " because they felt like it", " rotting in a pile", " in a tunnel", " in a cave", " in the boss's stomach", " hit them on the head", " drop from the sky"];
+                    if (Math.random() > 0.8) {
+                        let boxesfound = Math.floor(1 + Math.random() * 5);
+                        userData[luckyperson].box += boxesfound;
+                        itemfound = boxesfound + " Box(es) " + where[Math.floor(Math.random() * where.length)];
+                    }
+                    else if (Math.random() > 0.7) {
+                        let feathersfound = Math.floor(1 + Math.random() * 3);
+                        userData[luckyperson].phoenixfeather += feathersfound;
+                        itemfound = feathersfound + " Phoenix Feather(s) " + where[Math.floor(Math.random() * where.length)];
+                    }
+                    else if (Math.random() > 0.6) {
+                        let materialsfound = Math.floor(1001 + Math.random() * 4000);
+                        userData[luckyperson].materials += materialsfound;
+                        itemfound = materialsfound + " Material(s) " + where[Math.floor(Math.random() * where.length)];
+                    } else if (Math.random() > 0.5) {
+                        let materialsfound = Math.floor(10001 + Math.random() * 40000);
+                        userData[luckyperson].money += materialsfound;
+                        itemfound = materialsfound + " Money(s) " + where[Math.floor(Math.random() * where.length)];
+                    } else if (Math.random() > 0.9) {
+                        let materialsfound = 1;
+                        if (!userData[luckyperson].reroll) {
+                            userData[luckyperson].reroll = 0;
+                        }
+                        userData[luckyperson].reroll += materialsfound;
+                        itemfound = materialsfound + " **REROLL** " + where[Math.floor(Math.random() * where.length)];
                     }
                 }
                 //console.log(rarity)
@@ -1129,7 +1166,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
         userData[id].xp += Math.floor(luckybuff * raid.reward);
 
         if (itemfound != "none") {
-            text += userData[id].username + " also found " + itemfound + "! "
+            text += "<@" + luckyperson + "> also found " + itemfound + "! "
         }
 
         text += "Rewards have been given to everyone who participated in the raid!\n"

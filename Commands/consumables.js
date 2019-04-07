@@ -20,6 +20,11 @@ if (userData[id].sp != 0){
 items += "**Skill Points** (`!skillpoint`): " + userData[id].sp + "\n"
 }
 
+if (userData[id].reroll != undefined && userData[id].reroll != 0){
+  items += "**Skill Rerolls** (`!reroll`): " + userData[id].reroll + "\n"
+}
+
+
 if (userData[id].nametag != undefined && userData[id].nametag != 0){
   items += "**Nametags** (`!nametag`): " + userData[id].nametag + "\n"
 }
