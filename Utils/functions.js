@@ -43,7 +43,7 @@ function logCommand(message, extratext) {
 }
 
 function validate(message, spot) {
-    if (isNaN(parseInt(spot))) { spot = 1}
+    if (isNaN(parseInt(spot))) { spot = 1 }
     let words = message.content.trim().split(/\s+/)
     if (words.length == 1) {
         sendMessage(message.channel, "Choose a target!")
@@ -77,7 +77,7 @@ function validate(message, spot) {
     return target
 }
 function gvalidate(message) {
-    return validate(message,2)
+    return validate(message, 2)
 }
 function generateWeaponTemplate(weaponid, current, total) {
     weaponid = weaponid.toString();
@@ -226,11 +226,14 @@ function generateRandomItem(owner, rarity) {
         if (userData[owner].triangleid % 3 == 1) {
             items = ["Bow", "Crossbow", "Longbow", "Recurve Bow", "Flatbow", "Rifle Crossbow", "Kunai", "Throwing Stars", "Shuriken", "Sniper", "Yumi", "Blow Darts", "Throwing Knife", "Rifle", "Pistol"]
         }
-        if (userData[owner].triangleid % 3 == 2) {
-            items = ["Staff", "Wand", "Gem", "Talisman", "Spellblade", "Orb", "Tome", "Book", "Focus", "Flames", "Asta", "Crystal", "Runes", "Runestaff", "Ragnell", "Aura", "Arcanics", "Skull", "Rite"]
+        else if (userData[owner].triangleid % 3 == 2) {
+            items = ["Diamond", "Amulet", "Staff", "Wand", "Gem", "Talisman", "Spellblade", "Orb", "Tome", "Book", "Focus", "Flames", "Asta", "Crystal", "Runes", "Runestaff", "Ragnell", "Aura", "Arcanics", "Skull", "Rite"]
         }
-        if (userData[owner].triangleid % 3 == 0 && userData[owner].triangleid != 0) {
+        else if (userData[owner].triangleid % 3 == 0 && userData[owner].triangleid != 0) {
             items = ["Sword", "Axe", "Lance", "Spear", "Rapier", "Mace", "Scythe", "Hammer", "Longsword", "Claymore", "Dagger", "Knife", "Scimitar", "Broadsword", "Katana", "Falchion", "Cutlass", "Sabre", "Dao", "Khopesh", "Tachi"]
+        }
+        if (attack * 5 < defense) {
+            items = ["Shield", "Plate", "Robes", "Armor", "Mail"];
         }
     }
     let name = rarities[rarity] + " " + items[Math.floor(Math.random() * items.length)]
@@ -238,8 +241,8 @@ function generateRandomItem(owner, rarity) {
     return itemid
 }
 function calcExtraStat(id, stat) {
-    const statlevels = {"health":100,"attack":10,"defense":10}
-    let extrastat = userData[id].ascension*statlevels[stat]
+    const statlevels = { "health": 100, "attack": 10, "defense": 10 }
+    let extrastat = userData[id].ascension * statlevels[stat]
     if (stat == "health") {
         if (userData[id].weapon != false && itemData[userData[id].weapon] != undefined && itemData[userData[id].weapon].modifiers.maxhp != undefined) extrastat += itemData[userData[id].weapon].modifiers.maxhp
     }
@@ -253,7 +256,7 @@ function calcLuckyBuff(id) {
             luckybuff = itemData[userData[id].weapon].modifiers.lucky
         }
     }
-    if (hasSkill(id,16)) { //Royalty Skill
+    if (hasSkill(id, 16)) { //Royalty Skill
         luckybuff *= 1.5
     }
     if (userData[id].guild != "None" && guildData[userData[id].guild].buffs.lucky != undefined) {
@@ -277,13 +280,13 @@ function displayTime(time1, time2) {
 ///---------------------
 
 function duelCheckDeath(message, id, otherID, ts) {
-  if (userData[id].currenthealth <= 0) { 
-     userData[id].cooldowns.heal = ts - 60000;
-     userData[otherID].cooldowns.heal = ts - 60000;
-     duel = {};
-     replyMessage(message, "" + userData[id].username + " has died. " + userData[otherID].username + " has won the duel!");
-     return;
-  }
+    if (userData[id].currenthealth <= 0) {
+        userData[id].cooldowns.heal = ts - 60000;
+        userData[otherID].cooldowns.heal = ts - 60000;
+        duel = {};
+        replyMessage(message, "" + userData[id].username + " has died. " + userData[otherID].username + " has won the duel!");
+        return;
+    }
 }
 
 function calcDamage(message, attacker, defender, initiator) {
@@ -294,7 +297,7 @@ function calcDamage(message, attacker, defender, initiator) {
     let evadechance = Math.random()
     let evaderate = 0;
     if (defender.name == "Will-o'-the-wisp") {
-        evaderate+=0.95
+        evaderate += 0.95
     }
     if (evadechance < evaderate) {
         let defendername = defender.name
@@ -313,7 +316,7 @@ function calcDamage(message, attacker, defender, initiator) {
     let defense = 0;
     if (userData[defender] != undefined) {
         defense = calcStats(message, defender, "defense")
-        if (userData[attacker] != undefined && hasSkill(attacker,23)) {
+        if (userData[attacker] != undefined && hasSkill(attacker, 23)) {
             defense = calcStats(message, defender, "attack")
         }
     }
@@ -351,7 +354,7 @@ function calcDamage(message, attacker, defender, initiator) {
             piercerate += 0.05;
         }
 
-        
+
     } else {
         if (attacker.name == "Godzilla") {
             piercerate += 1
@@ -365,7 +368,7 @@ function calcDamage(message, attacker, defender, initiator) {
         }
 
         text += "<@" + attacker + ">" + " has pierced their opponents defense!\n"
-        if (userData[attacker]!=undefined && hasSkill(attacker, 28)) {
+        if (userData[attacker] != undefined && hasSkill(attacker, 28)) {
             attack *= 1.4
         }
     }
@@ -449,13 +452,13 @@ function calcDamage(message, attacker, defender, initiator) {
         let defendername = defender.name
         if (userData[defender] != undefined) { defendername = "<@" + defender + ">" }
         let attackername = attacker.name
-        if (userData[attacker] != undefined) { defendername = "<@"+attacker + ">"}
+        if (userData[attacker] != undefined) { defendername = "<@" + attacker + ">" }
         if (piercechance < piercerate) {
             text += defendername + " has blocked the attack, but" + attackername + "pierced though anyway!\n"
         } else {
             text += defendername + " has blocked the attack!\n"
             attack = 0;
-            if (userData[defender]!=undefined && hasSkill(defender, 30)) {
+            if (userData[defender] != undefined && hasSkill(defender, 30)) {
                 userData[defender].bolster = true
             }
         }
@@ -606,7 +609,7 @@ function calcStats(message, id, stat) {
         }
     }
     //if (userData[id].skills == undefined) { userData[id].skills = {} }
-    if (hasSkill(id,0)) {
+    if (hasSkill(id, 0)) {
         attack += 20;
     }
     if (hasSkill(id, 1)) {
@@ -943,12 +946,16 @@ function checkBurn(message) {
         if (userData[id].dead) {
             burntext += " You burned to death!"
             userData[id].dead = true
+            delete userData[id].burn
+            burntext += " The flames have ceased."
         }
         if (userData[id].burn < 0 || userData[id].dead == true || isNaN(userData[id].burn)) {
             delete userData[id].burn
             burntext += " The flames have ceased."
         }
         replyMessage(message, burntext)
+    } else if (isNaN(userData[id].burn)) {
+        delete userData[id].burn
     }
 }
 
@@ -1003,12 +1010,12 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
     //let yourdef = (Math.floor(calcStats(message, id, "defense") * Math.random()));
     let counter = calcDamage(message, raid, id, id);
     if (raid.name == "Cerberus") {
-        for (var i = 0; i < 2 * Math.random() ; i++) {
+        for (var i = 0; i < 2 * Math.random(); i++) {
             counter += calcDamage(message, raid, id, id);
         }
-        sendMessage(message.channel,"Cerberus attacked " + i+" times!")
+        sendMessage(message.channel, "Cerberus attacked " + i + " times!")
     }
-    
+
     if (damage < 0) {
         damage = 0;
     }
@@ -1053,6 +1060,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
         raid.alive = false;
         //raid.raid = false;
         let keys = Object.keys(raid.attacklist);
+        luckyperson = keys[keys.length * Math.random()]
         if (isevent) {
             let listtotal = 0;
             for (var i = 0; i < keys.length; i++) {
@@ -1061,7 +1069,9 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                 listtotal += raid.attacklist[user];
             }
             for (var i = 0; i < keys.length; i++) {
-                userData[keys[i]].glory += (raid.level / 15) * (raid.attacklist[keys[i]] / listtotal);
+                if (userData[keys[i]].ascension > 0) {
+                    userData[keys[i]].glory += (raid.level / 25) * (raid.attacklist[keys[i]] / listtotal);
+                }
             }
         } else {
             for (var i = 0; i < keys.length; i++) {
@@ -1078,24 +1088,64 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                     rarity = 5
                 }
                 if (isevent) {
-                    rarity = Math.floor(5.5 + (Math.random()))
+                    rarity = Math.floor(5.5 + (2 * Math.random()))
                 }
                 if (raid.level > 75) {
                     let where = [" in the boss's corpse", " in a treasure chest", " randomly", " because they felt like it", " rotting in a pile", " in a tunnel", " in a cave", " in the boss's stomach", " hit them on the head", " drop from the sky"];
                     if (Math.random() > 0.90) {
                         let boxesfound = Math.floor(1 + Math.random() * 5);
-                        userData[id].box += boxesfound;
+                        userData[luckyperson].box += boxesfound;
                         itemfound = boxesfound + " Box(es) " + where[Math.floor(Math.random() * where.length)];
                     }
-                    else if (Math.random() > 0.95) {
+                    else if (Math.random() > 0.9) {
                         let feathersfound = Math.floor(1 + Math.random() * 3);
-                        userData[id].phoenixfeather += feathersfound;
+                        userData[luckyperson].phoenixfeather += feathersfound;
                         itemfound = feathersfound + " Phoenix Feather(s) " + where[Math.floor(Math.random() * where.length)];
                     }
                     else if (Math.random() > 0.8) {
                         let materialsfound = Math.floor(1001 + Math.random() * 4000);
-                        userData[id].materials += materialsfound;
+                        userData[luckyperson].materials += materialsfound;
                         itemfound = materialsfound + " Material(s) " + where[Math.floor(Math.random() * where.length)];
+                    } else if (Math.random() > 0.6) {
+                        let materialsfound = Math.floor(10001 + Math.random() * 40000);
+                        userData[luckyperson].money += materialsfound;
+                        itemfound = materialsfound + " Money(s) " + where[Math.floor(Math.random() * where.length)];
+                    } else if (Math.random() > 0.97) {
+                        let materialsfound = 1;
+                        if (!userData[luckyperson].reroll) {
+                            userData[luckyperson].reroll = 0;
+                        }
+                        userData[luckyperson].reroll += materialsfound;
+                        itemfound = materialsfound + " **REROLL** " + where[Math.floor(Math.random() * where.length)];
+                    }
+                }
+                if (raid.level >= 100) {
+                    let where = [" in the boss's corpse", " in a treasure chest", " randomly", " because they felt like it", " rotting in a pile", " in a tunnel", " in a cave", " in the boss's stomach", " hit them on the head", " drop from the sky"];
+                    if (Math.random() > 0.8) {
+                        let boxesfound = Math.floor(1 + Math.random() * 5);
+                        userData[luckyperson].box += boxesfound;
+                        itemfound = boxesfound + " Box(es) " + where[Math.floor(Math.random() * where.length)];
+                    }
+                    else if (Math.random() > 0.7) {
+                        let feathersfound = Math.floor(1 + Math.random() * 3);
+                        userData[luckyperson].phoenixfeather += feathersfound;
+                        itemfound = feathersfound + " Phoenix Feather(s) " + where[Math.floor(Math.random() * where.length)];
+                    }
+                    else if (Math.random() > 0.6) {
+                        let materialsfound = Math.floor(1001 + Math.random() * 4000);
+                        userData[luckyperson].materials += materialsfound;
+                        itemfound = materialsfound + " Material(s) " + where[Math.floor(Math.random() * where.length)];
+                    } else if (Math.random() > 0.5) {
+                        let materialsfound = Math.floor(10001 + Math.random() * 40000);
+                        userData[luckyperson].money += materialsfound;
+                        itemfound = materialsfound + " Money(s) " + where[Math.floor(Math.random() * where.length)];
+                    } else if (Math.random() > 0.9) {
+                        let materialsfound = 1;
+                        if (!userData[luckyperson].reroll) {
+                            userData[luckyperson].reroll = 0;
+                        }
+                        userData[luckyperson].reroll += materialsfound;
+                        itemfound = materialsfound + " **REROLL** " + where[Math.floor(Math.random() * where.length)];
                     }
                 }
                 //console.log(rarity)
@@ -1116,12 +1166,12 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
         userData[id].xp += Math.floor(luckybuff * raid.reward);
 
         if (itemfound != "none") {
-            text += userData[id].username + " also found " + itemfound + "! "
+            text += "<@" + luckyperson + "> also found " + itemfound + "! "
         }
 
         text += "Rewards have been given to everyone who participated in the raid!\n"
 
-        if (userData[id].currenthealth > 0 && hasSkill(id,15)) { //soulsteal skill in raids.
+        if (userData[id].currenthealth > 0 && hasSkill(id, 15)) { //soulsteal skill in raids.
             userData[id].currenthealth = userData[id].health
             text += "Soulsteal activated. <@" + id + "> has been restored to full health. ";
         }
@@ -1226,13 +1276,13 @@ module.exports.replyMessage = function (message, text, override) { return replyM
 module.exports.deleteMessage = function (message) { return deleteMessage(message) }
 module.exports.dmUser = function (user, text) { return dmUser(user, text) }
 module.exports.logCommand = function (message, extratext) { return logCommand(message, extratext) }
-module.exports.validate = function (message,spot) { return validate(message,spot) }
+module.exports.validate = function (message, spot) { return validate(message, spot) }
 module.exports.gvalidate = function (message) { return gvalidate(message) }
 module.exports.generateWeaponTemplate = function (weaponid, current, total) { return generateWeaponTemplate(weaponid, current, total) }
 module.exports.generateGuildTemplate = function (guild) { return generateGuildTemplate(guild) }
 module.exports.generateItem = function (owner, itemid, attack, defense, rarity, name, modifiers) { return generateItem(owner, itemid, attack, defense, rarity, name, modifiers) }
 module.exports.generateRandomItem = function (owner, rarity) { return generateRandomItem(owner, rarity) }
-module.exports.calcExtraStat = function (id,stat) { return calcExtraStat(id,stat) }
+module.exports.calcExtraStat = function (id, stat) { return calcExtraStat(id, stat) }
 module.exports.calcLuckyBuff = function (id) { return calcLuckyBuff(id) }
 module.exports.calcTime = function (time1, time2) { return calcTime(time1, time2) }
 module.exports.displayTime = function (time1, time2) { return displayTime(time1, time2) }
