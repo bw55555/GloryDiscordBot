@@ -28,7 +28,7 @@ function upgradeStats(attributeToUpgrade, amount,id) {
     }
     let basestat = userData[id][attributeToUpgrade] - extrastat
     if (totalcost > 1) {
-        text += 'You spent $' + totalcost + ' increasing your ' + attributeToUpgrade + ' to ' + userData[id][attributeToUpgrade]+"\n";
+        text += 'You spent $' + totalcost + ' increasing your ' + attributeToUpgrade + ' to ' + basestat+"\n";
     }
     if (levelstop == true) {
         text += 'You must be level ' + (Math.floor(basestat / attrcosts[attributeToUpgrade]) + 1) + ' to level up your ' + attributeToUpgrade + ' to ' + (basestat + attrcosts[attributeToUpgrade]) + '. You are level ' + userData[id].level + '!' + "\n";
