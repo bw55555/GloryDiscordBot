@@ -397,7 +397,8 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     if (burn > 0) {
         if (userData[defender] != undefined) {
-            userData[defender].burn = burn;
+            if (userData[defender].burn == undefined) { userData[defender].burn = 0 }
+            userData[defender].burn += burn;
             text += "<@" + defender + "> is now burning!"
         } else {
             text += "Raid boss cannot be burned!"
