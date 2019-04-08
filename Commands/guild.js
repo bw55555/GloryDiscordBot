@@ -524,69 +524,70 @@ module.exports=function(message) {
       functions.replyMessage(message,"You have successfully bought "+amount+" "+guildStore[item].name+" for $"+guildStore[item].price*amount)
   }
   else if (command == "RESET") {
-      let time = 0
-      let regexp = /\b([0-9]+h)?([0-9]+m)?([0-9]+s)?\b/
-      if (words[3] != undefined && regexp.test(words[3])) {
-          let timeword = words[3]
-          let timearr = words.split(/(m|h|s)/)
-          if (timearr.length % 2 == 1) {
-              return functions.replyMessage(message,"Something happened here. The regex broke.")
-          }
-          let len = Math.floor(timearr.length / 2)
-          const timevalues = {"h": 3600000, "m":60000,"s": 1000}
-          for (var i = 0; i < len; i++) {
-              if (isNaN(parseInt(timerarr[2*i])) || timeValues[timearr[2 * i + 1]] != undefined) {
-                  time += parseInt(timerarr[2 * i])*timeValues[timearr[2 * i + 1]]
-              } else {
-                  return index.replyMessage(message, "Something happened, the regex broke. ")
+          let time = 0
+          let regexp = /\b([0-9]+h)?([0-9]+m)?([0-9]+s)?\b/
+          if (words[3] != undefined && regexp.test(words[3])) {
+              let saveindex = 0
+              const timevalues = { "h": 3600000, "m": 60000, "s": 1000 }
+              for (var i = 0; i < words[3].length; i++) {
+                  if (timevalues[words[3].slice(i, i + 1)] != undefined) {
+                      if (isNaN(parseInt(words[3].slice(saveindex, i)))) { return functions.replyMessage(message, "Something happened. The regex broke.") }
+                      time += parseInt(words[3].slice(saveindex, i)) * timevalues[words[3].slice(i, i + 1)]
+                      saveindex = i + 1
+                  }
               }
           }
-      }
-      bot.setTimeout(function () {
-          if (admins.indexOf(id) == -1) { return}
-          if (words[2].toUpperCase() == "ALL") {
-              for (var resetGuild in guildData) {
-                  guildData[resetGuild].store = {}
+          bot.setTimeout(function () {
+              if (admins.indexOf(id) == -1) { return }
+              if (words[2].toUpperCase() == "ALL") {
+                  for (var resetGuild in guildData) {
+                      guildData[resetGuild].store = {}
+                  }
+                  return functions.replyMessage(message, "The guild store has been reset for all guilds!")
               }
-              return functions.replyMessage(message, "The guild store has been reset for all guilds!")
+              if (words[2] == undefined || guildData[words[2]] == undefined) { return functions.replyMessage(message, "Please specify a valid guild! (or all for all guilds)") }
+              guildData[words[2]].store = {}
+              functions.replyMessage(message, words[2] + "'s guild store has been reset!")
+          }, time)
+          functions.replyMessage(message, "Guild store will reset in " + functions.displayTime(time, 0))
+      }
+      else if (command == "BUFFS") {
+          if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
+          let text = "Your guild's buffs: ```\n"
+          if (guild == "None") { return functions.replyMessage(message, "You don't have a guild!") }
+          for (var buff in guildData[guild].buffs) {
+              text += buff + ": " + (100 * guildData[guild].buffs[buff].value) + "% (level " + guildData[guild].buffs[buff].level + ")\n"
           }
-          if (words[2] == undefined || guildData[words[2]] == undefined) { return functions.replyMessage(message, "Please specify a valid guild! (or all for all guilds)") }
-          guildData[words[2]].store = {}
-          functions.replyMessage(message,words[2]+"'s guild store has been reset!")
-      }, time)
-      functions.replyMessage(message,"Guild store will reset in "+time+" ms.")
-  }
-  else if (command == "BUFFS") {
-      if (devs.indexOf(id) == -1) { return functions.replyMessage(message,"This feature is under development...")}
-      let text = "Your guild's buffs: ```\n"
-      if (guild == "None") { return functions.replyMessage(message, "You don't have a guild!") }
-      for (var buff in guildData[guild].buffs) {
-          text += buff + ": " + (100 * guildData[guild].buffs[buff].value) + "% (level " + guildData[guild].buffs[buff].level + ")\n"
+          text += "Upgrade a buff with !guild purchase buff [buff]```"
+          if (text == "Your guild's buffs: ```\nUpgrade a buff with !guild purchase buff [buff]```") { text = "Your guild has no buffs! Purchase one with !guild purchase buff [buff]" }
+          functions.replyMessage(message, text)
       }
-      text += "Upgrade a buff with !guild purchase buff [buff]```"
-      if (text == "Your guild's buffs: ```\nUpgrade a buff with !guild purchase buff [buff]```") { text = "Your guild has no buffs! Purchase one with !guild purchase buff [buff]" }
-      functions.replyMessage(message, text)
-  }
-  else if (command == "QUEST") {
-      if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
-  }
-  else if (command == "DELETE") {
-      if (admins.indexOf(id) == -1) { return }
-      words.splice(0,2)
-      let guildName = words.join(" ")
-      if (guildName == undefined || guildData[guildName] == undefined) { return functions.replyMessage(message,"Please specify a valid guild.")}
-      for (var i = 0; i < guildData[guildName].members.length; i++) {
-          userData[guildData[guildName].members[i]].guild = "None";
-          userData[guildData[guildName].members[i]].guildpos = "None";
+      else if (command == "QUEST") {
+          if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
       }
-      userData[guildData[guildName].leader].money += guildData[guildName].bank
-      userData[guildData[guildName].leader].materials += guildData[guildName].materials
-      delete guildData[guildName];
+      else if (command == "DELETE") {
+          if (admins.indexOf(id) == -1) { return }
+          words.splice(0, 2)
+          let guildName = words.join(" ")
+          if (guildName == undefined || guildData[guildName] == undefined) { return functions.replyMessage(message, "Please specify a valid guild.") }
+          for (var i = 0; i < guildData[guildName].members.length; i++) {
+              userData[guildData[guildName].members[i]].guild = "None";
+              userData[guildData[guildName].members[i]].guildpos = "None";
+          }
+          userData[guildData[guildName].leader].money += guildData[guildName].bank
+          userData[guildData[guildName].leader].materials += guildData[guildName].materials
+          delete guildData[guildName];
 
-      functions.replyMessage(message, guildName+" was disbanded! Everyone in it is now guildless :(");
-  }
-  else {
-      if (guild=="None") {return functions.replyMessage(message,"You don't have a guild!")}
-      functions.sendMessage(message.channel, functions.generateGuildTemplate(guild))
-  }
+          functions.replyMessage(message, guildName + " was disbanded! Everyone in it is now guildless :(");
+      }
+      else if (command == "RESETRAID") {
+          if (admins.indexOf(id) == -1) { return }
+          guildData[guild].raid = 1
+          functions.replyMessage(message, guild + " had their raid reset!");
+      }
+      else {
+          if (guild == "None") { return functions.replyMessage(message, "You don't have a guild!") }
+          functions.sendMessage(message.channel, functions.generateGuildTemplate(guild))
+      }
+}
 }
