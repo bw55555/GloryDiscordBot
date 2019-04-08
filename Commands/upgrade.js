@@ -26,6 +26,7 @@ function upgradeStats(attributeToUpgrade, amount,id) {
         totalcost += cost
         amount -= 1;
     }
+    let basestat = userData[id][attributeToUpgrade] - extrastat
     if (totalcost > 1) {
         text += 'You spent $' + totalcost + ' increasing your ' + attributeToUpgrade + ' to ' + userData[id][attributeToUpgrade]+"\n";
     }
