@@ -18,11 +18,7 @@ module.exports=function(message) {
     functions.sendMessage(message.channel, attribute + " is not a defined attribute");
     return;
   }
-  if (amount > 0) {
-    functions.sendMessage(message.channel, 'Set <@' + target + ">\'s " + attribute + " to " + amount);
-    userData[target][attribute] = amount;
-  } else {
-    functions.sendMessage(message.channel, 'Incorrect Argument');
-  }
+  functions.sendMessage(message.channel, 'Set <@' + target + ">\'s " + attribute + " to " + amount);
+  userData[target][attribute] = amount;
   functions.logCommand(message)
 }
