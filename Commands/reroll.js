@@ -4,7 +4,13 @@ module.exports = function (message) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     personskills = userData[id].skills
-    if (userData[id].reroll <= 0 || userData[id].reroll == undefined) {//Checks if user has skill points
+    /*
+    if (admins.indexOf(id) == -1) {//Soo nobody but admins can use it (for now)
+        functions.replyMessage(message, "This feature is still being developed.");
+        return
+    }
+    */
+    if (userData[id].reroll <= 0) {//Checks if user has skill points
         functions.replyMessage(message, "You have no more rerolls. Get them by buying in the shop.");
         return;
     }

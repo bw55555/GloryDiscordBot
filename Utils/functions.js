@@ -492,7 +492,7 @@ function calcDamage(message, attacker, defender, initiator) {
                 leech = Math.floor(0.05 * userData[defender].currenthealth);
                 userData[attacker].currenthealth += leech
                 userData[defender].currenthealth -= leech
-		text += "<@" + attacker + "> leeched **" + leech + "** health!\n";
+                text += "<@" + attacker + "> leeched **" + leech + "** health!\n";
             }
             else {
                 //leech = Math.floor(0.05 * defender.currenthealth);
@@ -1072,6 +1072,14 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                 if (userData[keys[i]].ascension > 0) {
                     userData[keys[i]].glory += (raid.level / 25) * (raid.attacklist[keys[i]] / listtotal);
                 }
+            }
+            for (var k = 0; k < 3; k++) {
+                var i = Math.floor(Math.random() * keys.length)
+                if (userData[keys[i]].reroll == undefined) {
+                    userData[keys[i]].reroll = 0;
+                }
+                userData[keys[i]].reroll += 1;
+                text += "<@" + keys[i] + "> was lucky!\n"
             }
         } else {
             for (var i = 0; i < keys.length; i++) {
