@@ -107,7 +107,7 @@
     {
         "name": "Indulgence",
         "id": 21,
-        "description": "Gain 100% lifesteal at full health"
+        "description": "Gain 50% lifesteal at full health"
     },
     {
         "name": "Leech",
@@ -132,7 +132,7 @@
     {
         "name": "Chthonic",
         "id": 26,
-        "description": "Sacrifice +5%; Sacrificing health heals you instead"
+        "description": "You take no damage from sacrificing"
     },
     {
         "name": "Odysseus",
