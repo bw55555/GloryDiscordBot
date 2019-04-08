@@ -107,7 +107,7 @@
     {
         "name": "Indulgence",
         "id": 21,
-        "description": "Gain 100% lifesteal at full health"
+        "description": "Gain 50% lifesteal at full health"
     },
     {
         "name": "Leech",
@@ -125,14 +125,14 @@
         "description": "Charge up a health pack over time and use it with with `!regenerate`"
     },
     {
-        "name": "Last Breath",
+        "name": "LastBreath",
         "id": 25,
-        "description": "While you have at least 10% health remaining and take fatal damage, prevent it and set your health to 1"
+        "description": "While you have at least 50% health remaining and take fatal damage, prevent it and set your heal"
     },
     {
         "name": "Chthonic",
         "id": 26,
-        "description": "Sacrifice +5%; Sacrificing health heals you instead"
+        "description": "You take no damage from sacrificing"
     },
     {
         "name": "Odysseus",

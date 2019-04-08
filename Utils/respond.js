@@ -7,7 +7,7 @@ module.exports=function(message) {
 	if (message.author.bot) return;
 	//Autoresponders
 	if (msg === 'DOSEI') {
-		functions.sendMessage(message.channel,'Dosei is the best Dosei.');
+		functions.sendMessage(message.channel,'Dosei is the worst Dosei.');
 	}
 	if (msg === 'NIX') {
 		functions.sendMessage(message.channel,"sup.");

@@ -4,12 +4,12 @@ module.exports = function (message) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     personskills = userData[id].skills
-    if (admins.indexOf(id) == -1) {//Soo nobody but admins can use it (for now)
+    /*if (admins.indexOf(id) == -1) {//Soo nobody but admins can use it (for now)
         functions.replyMessage(message, "This feature is still being developed.");
         return
-    }
+    }*/
 
-    if (userData[id].reroll <= 0) {//Checks if user has skill points
+    if (userData[id].reroll <= 0 || userData[id].reroll == undefined) {//Checks if user has skill points
         functions.replyMessage(message, "You have no more rerolls. Get them by buying in the shop.");
         return;
     }
@@ -31,7 +31,7 @@ module.exports = function (message) {
     }*/
     delete userData[id].skills[removalid]
     let count = 0;
-    while (personskills[skillid] == skillid) {
+    while (personskills[skillid] == skillid && skillid != removalid) {
         skillid = Math.floor(skillData.length * Math.random());
         count += 1;
         if (count > 1000) {
@@ -46,8 +46,8 @@ module.exports = function (message) {
         userData[id].skills[removalid] = removalid
         return;
     }
-    userData[id].skills[skillid] = skillid
-
+    
+    userData[id].skills[skillid] = skillid;
     functions.replyMessage(message, "You replaced the skill " + skillData[removalid].name + " (" + skillData[removalid].id + ") with the skill " + skillData[skillid].name + " (" + skillData[skillid].id + ")!");
     userData[id].reroll -= 1;
 }
