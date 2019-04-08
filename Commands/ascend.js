@@ -20,9 +20,9 @@ module.exports = function (message) {
         userData[id].sp += 1
         userData[id].ascension += 1
         userData[id].level = 1
-        userData[id].attack = 1
-        userData[id].defense = 1
-        userData[id].health = 10
+        userData[id].attack = userData[id].ascension*10
+        userData[id].defense = userData[id].ascension*10
+        userData[id].health = userData[id].ascension*100
         userData[id].xp = 0
         userData[id].weapon = false
         if (!userData[id].glory) {

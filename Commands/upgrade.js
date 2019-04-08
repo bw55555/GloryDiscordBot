@@ -7,13 +7,14 @@ function upgradeStats(attributeToUpgrade, amount,id) {
     let levelstop = false;
     let moneystop = false;
     let text = ""
+    let extrastat = functions.calcExtraStat(id, attributeToUpgrade)
     while (amount > 0) {
-        cost = Math.floor(100 / attrcosts[attributeToUpgrade] * (userData[id][attributeToUpgrade] + attrcosts[attributeToUpgrade]));
-        extrahp = (attributeToUpgrade=="health" && userData[id].weapon != false && itemData[userData[id].weapon].modifiers.maxhp != undefined) ? itemData[userData[id].weapon].modifiers.maxhp : 0
-        if (userData[id].money >= cost && userData[id].level * attrcosts[attributeToUpgrade] > userData[id][attributeToUpgrade]) {
+        let basestat = userData[id][attributeToUpgrade]-extrastat
+        cost = Math.floor(100 / attrcosts[attributeToUpgrade] * (basestat + attrcosts[attributeToUpgrade]));
+        if (userData[id].money >= cost && userData[id].level * attrcosts[attributeToUpgrade] > basestat) {
             userData[id].money -= cost;
             userData[id][attributeToUpgrade] += attrcosts[attributeToUpgrade];
-        } else if (userData[id].level <= (Math.floor(userData[id][attributeToUpgrade]-extrahp) / attrcosts[attributeToUpgrade])) {
+        } else if (userData[id].level <= Math.floor(basestat / attrcosts[attributeToUpgrade])) {
             levelstop = true;
             //functions.replyMessage(message, 'You must be level ' + (Math.floor(userData[id][attributeToUpgrade] / attrcosts[attributeToUpgrade]) + 1) + ' to level up your ' + attributeToUpgrade + ' to ' + (userData[id][attributeToUpgrade] + attrcosts[attributeToUpgrade]) + '. You are level ' + userData[id].level + '!');
             break;
@@ -29,10 +30,10 @@ function upgradeStats(attributeToUpgrade, amount,id) {
         text += 'You spent $' + totalcost + ' increasing your ' + attributeToUpgrade + ' to ' + userData[id][attributeToUpgrade]+"\n";
     }
     if (levelstop == true) {
-        text += 'You must be level ' + (Math.floor(userData[id][attributeToUpgrade] / attrcosts[attributeToUpgrade]) + 1) + ' to level up your ' + attributeToUpgrade + ' to ' + (userData[id][attributeToUpgrade] + attrcosts[attributeToUpgrade]) + '. You are level ' + userData[id].level + '!' + "\n";
+        text += 'You must be level ' + (Math.floor(basestat / attrcosts[attributeToUpgrade]) + 1) + ' to level up your ' + attributeToUpgrade + ' to ' + (basestat + attrcosts[attributeToUpgrade]) + '. You are level ' + userData[id].level + '!' + "\n";
     }
     if (moneystop == true) {
-        text += 'You need $' + cost + ' to level up your ' + attributeToUpgrade + ' to ' + (userData[id][attributeToUpgrade] + attrcosts[attributeToUpgrade]) + '. You have $' + userData[id].money + "\n";
+        text += 'You need $' + cost + ' to level up your ' + attributeToUpgrade + ' to ' + (basestat + attrcosts[attributeToUpgrade]) + '. You have $' + userData[id].money + "\n";
     }
     return text;
 }
