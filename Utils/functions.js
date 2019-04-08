@@ -374,7 +374,7 @@ function calcDamage(message, attacker, defender, initiator) {
             text += "<@" + attacker + "> has been damaged for " + spiked + " health due to spikes!\n"
             if (userData[defender] != undefined) {
                 if (userData[defender].skillA == 31 || userData[defender].skillB == 31 || userData[defender].skillC == 31) {
-                    if (userData[attacker].burn == undefined) { userData[attacker].burn=0 }
+                    if (userData[attacker].burn == undefined) { userData[attacker].burn = 0 }
                     userData[attacker].burn += spikedmod * 5; //Burn status, if burning, have a chance to take 5% damage after talking.
                     text += "<@" + attacker + "> is now burning!"
                 }
@@ -459,7 +459,7 @@ function calcDamage(message, attacker, defender, initiator) {
                 leech = Math.floor(0.05 * userData[defender].currenthealth);
                 userData[attacker].currenthealth += leech
                 userData[defender].currenthealth -= leech
-		text += "<@" + attacker + "> leeched **" + leech + "** health!\n";
+                text += "<@" + attacker + "> leeched **" + leech + "** health!\n";
             }
             else {
                 //leech = Math.floor(0.05 * defender.currenthealth);
@@ -1015,6 +1015,14 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
             }
             for (var i = 0; i < keys.length; i++) {
                 userData[keys[i]].glory += (raid.level / 15) * (raid.attacklist[keys[i]] / listtotal);
+            }
+            for (var k = 0; k < 3; k++) {
+                var i = Math.floor(Math.random() * keys.length)
+                if (userData[keys[i]].reroll == undefined) {
+                    userData[keys[i]].reroll = 0;
+                }
+                userData[keys[i]].reroll += 1;
+                text += "<@" + keys[i] + "> was lucky!\n"
             }
         } else {
             for (var i = 0; i < keys.length; i++) {
