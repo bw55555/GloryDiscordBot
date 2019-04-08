@@ -14,7 +14,7 @@ module.exports = function (message) {
     userData[id].health = 10
     userData[id].xp = 0
     userData[id].weapon=false */
-    new functions.MessageAwait(message.channel, id, "", "confirm", function (response, extraArgs) {
+    new functions.MessageAwait(message.channel, id, "Are you sure you want to Ascend? You will be set back to level 1 and leveling will become twice as hard!\nIf you are sure, type `confirm`", "confirm", function (response, extraArgs) {
         let id = extraArgs[1]
         let message = extraArgs[0]
         userData[id].sp += 1
