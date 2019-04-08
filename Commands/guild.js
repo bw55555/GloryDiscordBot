@@ -590,4 +590,3 @@ module.exports=function(message) {
           functions.sendMessage(message.channel, functions.generateGuildTemplate(guild))
       }
 }
-}
