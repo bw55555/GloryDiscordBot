@@ -14,5 +14,23 @@ module.exports = function (message) {
     userData[id].health = 10
     userData[id].xp = 0
     userData[id].weapon=false */
-    functions.replyMessage(message,"Are you sure you want to Ascend? You will be set back to level 1 and leveling will become twice as hard!\nIf you are sure, type `!ascendconfirm`")
+    new functions.MessageAwait(message.channel, id, "", "confirm", function (response, extraArgs) {
+        let id = extraArgs[1]
+        let message = extraArgs[0]
+        userData[id].sp += 1
+        userData[id].ascension += 1
+        userData[id].level = 1
+        userData[id].attack = 1
+        userData[id].defense = 1
+        userData[id].health = 10
+        userData[id].xp = 0
+        userData[id].weapon = false
+        if (!userData[id].glory) {
+            userData[id].glory = 10;
+        } else {
+            userData[id].glory += 10;
+        }
+        functions.replyMessage(message, "You have ascended! You now have " + userData[id].sp + " skill points!\n(Note that your weapon has been dequipped. Favorite it before smelting everything!)")
+    }, [message,id]);
+    //functions.replyMessage(message,"Are you sure you want to Ascend? You will be set back to level 1 and leveling will become twice as hard!\nIf you are sure, type `!ascendconfirm`")
 }
