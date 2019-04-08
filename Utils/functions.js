@@ -833,8 +833,8 @@ function checkStuff(message) {
     if (!userData[id].currenthealth) userData[id].currenthealth = 0; //Health
     if (!userData[id].xp) userData[id].xp = 0; //XP
     if (!userData[id].level) userData[id].level = 1; //XP
-    if (!userData[id].attack) userData[id].attack = 1; //character's attack
-    if (!userData[id].defense) userData[id].defense = 1; //character's defense
+    if (!userData[id].attack) userData[id].attack = 0; //character's attack
+    if (!userData[id].defense) userData[id].defense = 0; //character's defense
     if (!userData[id].speed) userData[id].speed = 0; //character's speed
     if (!userData[id].dead) userData[id].dead = false; //character's status (alive/dead)
     if (!userData[id].start) userData[id].start = false; //character's speed
@@ -896,13 +896,13 @@ function checkStuff(message) {
         userData[id].start = true;
         //console.log(userData[id].start);
     }
-
+    
     if (admins.indexOf(message.author.id) == -1) {
-        if (userData[id].attack > userData[id].level) userData[id].attack = userData[id].level; //prevents overleveling
-        if (userData[id].defense > userData[id].level) userData[id].defense = userData[id].level;
+        if (userData[id].attack > userData[id].level + calcExtraStat(id,"attack")) userData[id].attack = userData[id].level + userData[id].ascension * 10; //prevents overleveling
+        if (userData[id].defense > userData[id].level + calcExtraStat(id, "defense")) userData[id].defense = userData[id].level + userData[id].ascension * 10;
         //extrahp = (userData[id].weapon != false && itemData[userData[id].weapon].modifiers.maxhp != undefined) ? itemData[userData[id].weapon].modifiers.maxhp : 0
         // if (userData[id].health > userData[id].level * 10 + extrahp) userData[id].health = userData[id].level * 10;
-        if (userData[id].health > userData[id].level * 10) userData[id].health = userData[id].level * 10;
+        if (userData[id].health > userData[id].level * 10 + +calcExtraStat(id, "health")) userData[id].health = userData[id].level * 10 + userData[id].ascension * 100;
     }
 
     //userData[id].xp += Math.floor(20 * Math.random() + 1); //whenever a message is sent, their experience increases by a random number 1-25.
@@ -1139,13 +1139,13 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                         let materialsfound = Math.floor(10001 + Math.random() * 40000);
                         userData[luckyperson].money += materialsfound;
                         itemfound = materialsfound + " Money(s) " + where[Math.floor(Math.random() * where.length)];
-                    } else if (Math.random() > 0.9) {
+                    } else if (Math.random() > 0.98) {
                         let materialsfound = 1;
                         if (!userData[luckyperson].reroll) {
                             userData[luckyperson].reroll = 0;
                         }
                         userData[luckyperson].reroll += materialsfound;
-                        itemfound = materialsfound + " **REROLL** " + where[Math.floor(Math.random() * where.length)];
+                        itemfound = materialsfound + " **SKILL REROLL** " + where[Math.floor(Math.random() * where.length)];
                     }
                 }
                 //console.log(rarity)
