@@ -7,16 +7,11 @@ module.exports = function (message) {
   let totalmaterials = 0
   let totalmoney = 0
   let totalxp = 0
-  if (Object.keys(userData[id].inventory).length == 0) {
-    return functions.replyMessage(message, "You do not have any items to smelt!")
-  }
   let smeltItems = functions.itemFilter(message)
   if (smeltItems == false) { return }
   let count = 0
   for (var i = 0; i < smeltItems.length; i++) {
     let weaponid = smeltItems[i]
-    if (itemData[weaponid] == undefined) { continue; }
-    if (userData[id].inventory[weaponid] != weaponid || weaponid == userData[id].weapon || itemData[weaponid].favorite == true || itemData[weaponid].rarity < minrarity || itemData[weaponid].rarity > maxrarity) { continue }
     let itemRewards = functions.smeltItem(id, weaponid)
     if (isNaN(itemRewards[0])||isNaN(itemRewards[1])||isNaN(itemRewards[2])){
       continue
