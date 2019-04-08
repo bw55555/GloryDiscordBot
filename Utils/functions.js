@@ -455,17 +455,17 @@ function calcDamage(message, attacker, defender, initiator) {
 
         if (userData[attacker].skillA == 22 || userData[attacker].skillB == 22 || userData[attacker].skillC == 22) {
             let leech = 0
-            if (userData[attacker] != undefined) {
+            if (userData[defender] != undefined) {
                 leech = Math.floor(0.05 * userData[defender].currenthealth);
                 userData[attacker].currenthealth += leech
                 userData[defender].currenthealth -= leech
+		text += "<@" + attacker + "> leeched **" + leech + "** health!\n";
             }
             else {
-                leech = Math.floor(0.05 * defender.currenthealth);
-                userData[attacker].currenthealth += leech;
-                defender.currenthealth -= leech;
+                //leech = Math.floor(0.05 * defender.currenthealth);
+                //userData[attacker].currenthealth += leech;
+                //defender.currenthealth -= leech;
             }
-            text += "<@" + attacker + "> leeched **" + leech + "** health!\n";
         }
     }
     //defender only skills
