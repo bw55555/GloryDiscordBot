@@ -280,6 +280,19 @@ bot.on('ready', function () {
         fs.writeFileSync('Storage/devData.json', JSON.stringify(devData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
         fs.writeFileSync('Storage/questData.json', JSON.stringify(questData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
     }, 10000)
+    let resettimer = (Date.now() % 86400000)
+    bot.setTimer(function () {
+        for (var resetGuild in guildData) {
+            guildData[resetGuild].store = {}
+        }
+        functions.sendMessage(bot.channels.get(devData.debugChannelId), "The guild store has been reset for all guilds!")
+        bot.setInterval(function () {
+            for (var resetGuild in guildData) {
+                guildData[resetGuild].store = {}
+            }
+            functions.sendMessage(bot.channels.get(devData.debugChannelId), "The guild store has been reset for all guilds!")
+        }, 86400000)
+    }, resettimer)
     //console.timeEnd("actual ping")
 })
 bot.on("guildCreate", guild => {
