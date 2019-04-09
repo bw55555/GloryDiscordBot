@@ -3,6 +3,7 @@ module.exports = function (message) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
+    if (devs.indexOf(id) == -1) { return functions.replyMessage(message,"This function is under development...")}
     let target = 0;
     let challenged = 0;
     if (duel.happening != undefined && duel.happening == true && ts - duel.duelStart <= 600000) {
