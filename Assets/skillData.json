@@ -125,9 +125,9 @@
         "description": "Charge up a health pack over time and use it with with `!regenerate`"
     },
     {
-        "name": "Last Breath",
+        "name": "LastBreath",
         "id": 25,
-        "description": "While you have at least 10% health remaining and take fatal damage, prevent it and set your health to 1"
+        "description": "While you have at least 50% health remaining and take fatal damage, prevent it and set your heal"
     },
     {
         "name": "Chthonic",
