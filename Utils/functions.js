@@ -79,6 +79,11 @@ function validate(message, spot) {
 function gvalidate(message) {
     return validate(message, 2)
 }
+function hasSkill(id, skillid, enable) {
+    enable = (enable == false) ? false : true
+    if (userData[id].skillA == skillid || userData[id].skillB == skillid || userData[id].skillC == skillid) return enable
+    else return false
+}
 function generateWeaponTemplate(weaponid, current, total) {
     weaponid = weaponid.toString();
     //let name = userData[itemData[weaponid].owner].username
@@ -294,6 +299,8 @@ function calcDamage(message, attacker, defender, initiator) {
     let roll = Math.random()
     let burn = 0;
     let attack = 0;
+    let skillenable = true;
+    if (userData[defender] == undefined && defender.name == "Charybdis") { skillenable = false}
     let evadechance = Math.random()
     let evaderate = 0;
     if (defender.name == "Will-o'-the-wisp") {
@@ -306,18 +313,18 @@ function calcDamage(message, attacker, defender, initiator) {
         return 0
     }
     if (userData[attacker] != undefined) {
-        attack = 2 * calcStats(message, attacker, "attack")
-        if (userData[defender] != undefined && hasSkill(defender, 23)) {
-            attack = calcStats(message, defender, "defense")
+        attack = 2 * calcStats(message, attacker, "attack", skillenable)
+        if (userData[defender] != undefined && hasSkill(defender, 23,skillenable)) {
+            attack = calcStats(message, defender, "defense", skillenable)
         }
     } else {
         attack = attacker.attack;
     }
     let defense = 0;
     if (userData[defender] != undefined) {
-        defense = calcStats(message, defender, "defense")
-        if (userData[attacker] != undefined && hasSkill(attacker, 23)) {
-            defense = calcStats(message, defender, "attack")
+        defense = calcStats(message, defender, "defense", skillenable)
+        if (userData[attacker] != undefined && hasSkill(attacker, 23, skillenable)) {
+            defense = calcStats(message, defender, "attack", skillenable)
         }
     }
     if (userData[attacker] != undefined && userData[defender] != undefined) {
@@ -325,13 +332,21 @@ function calcDamage(message, attacker, defender, initiator) {
 
         } else if ((userData[attacker].triangleid - userData[defender].triangleid) % 3 == 2) {
 
-            if (hasSkill(attacker, 13)) {
+            if (hasSkill(attacker, 13, skillenable)) {
                 attack *= 1.8
             } else {
                 attack *= 1.4
             }
         } else {
 
+        }
+        if (hasSkill(attacker, 37, skillenable)) {
+            userData[defender].speed = 0
+            text += "<@"+defender+">'s tempo was dispelled!"
+        }
+        if (hasSkill(defender, 37, skillenable)) {
+            userData[attacker].speed = 0
+            text += "<@" + attacker + ">'s tempo was dispelled!"
         }
     }
 
@@ -347,10 +362,10 @@ function calcDamage(message, attacker, defender, initiator) {
 
         if (weapon != false && weapon.modifiers.pierce != undefined) { piercerate += weapon.modifiers.pierce }
 
-        if (hasSkill(attacker, 6)) {
+        if (hasSkill(attacker, 6, skillenable)) {
             piercerate += 0.2;
         }
-        if (hasSkill(attacker, 28)) {
+        if (hasSkill(attacker, 28, skillenable)) {
             piercerate += 0.05;
         }
 
@@ -368,7 +383,7 @@ function calcDamage(message, attacker, defender, initiator) {
         }
 
         text += "<@" + attacker + ">" + " has pierced their opponents defense!\n"
-        if (userData[attacker] != undefined && hasSkill(attacker, 28)) {
+        if (userData[attacker] != undefined && hasSkill(attacker, 28, skillenable)) {
             attack *= 1.4
         }
     }
@@ -379,20 +394,20 @@ function calcDamage(message, attacker, defender, initiator) {
         spikedmod += dweapon.modifiers.spikes
     }
     if (userData[defender] != undefined) {
-        if (hasSkill(defender, 7)) {
+        if (hasSkill(defender, 7, skillenable)) {
             spikedmod += 0.5;
         }
-        if (hasSkill(defender, 31)) {
+        if (hasSkill(defender, 31, skillenable)) {
             spikedmod += 0.2;
         }
     }
     if (spikedmod > 0) {
         let spiked = Math.floor(defense * spikedmod)
-        if (userData[attacker] != undefined) {
+        if (userData[attacker] != undefined && !hasSkill(attacker, 37)) {
             userData[attacker].currenthealth -= spiked
             text += "<@" + attacker + "> has been damaged for " + spiked + " health due to spikes!\n"
             if (userData[defender] != undefined) {
-                if (hasSkill(defender, 31)) {
+                if (hasSkill(defender, 31, skillenable) && !hasSkill(attacker, 37)) {
                     if (userData[attacker].burn == undefined) { userData[attacker].burn = 0 }
                     userData[attacker].burn += spikedmod * 5; //Burn status, if burning, have a chance to take 5% damage after talking.
                     text += "<@" + attacker + "> is now burning!"
@@ -409,7 +424,7 @@ function calcDamage(message, attacker, defender, initiator) {
         if (weapon != false && weapon.modifiers.burn != undefined) {
             burn += weapon.modifiers.burn
         }
-        if (hasSkill(attacker, 36)) {
+        if (hasSkill(attacker, 36, skillenable)) {
             burn += 1;
         }
     } else {
@@ -417,6 +432,7 @@ function calcDamage(message, attacker, defender, initiator) {
             burn += 5;
         }
     }
+    if (userData[defender] != undefined && hasSkill(defender, 37, skillenable)) { burn = 0 }
     if (burn > 0) {
         if (userData[defender] != undefined) {
             userData[defender].burn = burn;
@@ -433,10 +449,10 @@ function calcDamage(message, attacker, defender, initiator) {
         if (dweapon != false && dweapon.modifiers.block != undefined) {
             blockrate += dweapon.modifiers.block
         }
-        if (hasSkill(defender, 10)) {
+        if (hasSkill(defender, 10, skillenable)) {
             blockrate += 0.15;
         }
-        if (hasSkill(defender, 30)) {
+        if (hasSkill(defender, 30, skillenable)) {
             blockrate += 0.05;
         }
     } else if (userData[defender] == undefined) {
@@ -458,7 +474,7 @@ function calcDamage(message, attacker, defender, initiator) {
         } else {
             text += defendername + " has blocked the attack!\n"
             attack = 0;
-            if (userData[defender] != undefined && hasSkill(defender, 30)) {
+            if (userData[defender] != undefined && hasSkill(defender, 30, skillenable)) {
                 userData[defender].bolster = true
             }
         }
@@ -469,10 +485,10 @@ function calcDamage(message, attacker, defender, initiator) {
         if (weapon != false && weapon.modifiers.lifeSteal != undefined) {
             lifesteal += weapon.modifiers.lifeSteal
         }
-        if (hasSkill(attacker, 3)) {
+        if (hasSkill(attacker, 3, skillenable)) {
             lifesteal += 0.1;
         }
-        if (hasSkill(attacker, 21)) {
+        if (hasSkill(attacker, 21, skillenable)) {
             if (userData[attacker].currenthealth >= userData[attacker].health) {
                 lifesteal += 0.5;
             }
@@ -486,7 +502,7 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     if (userData[attacker] != undefined) {
 
-        if (hasSkill(attacker, 22)) {
+        if (hasSkill(attacker, 22, skillenable)) {
             let leech = 0
             if (userData[defender] != undefined) {
                 leech = Math.floor(0.05 * userData[defender].currenthealth);
@@ -509,10 +525,10 @@ function calcDamage(message, attacker, defender, initiator) {
             revmod += dweapon.modifiers.revenge;
         }
 
-        if (hasSkill(defender, 8)) {
+        if (hasSkill(defender, 8, skillenable)) {
             revmod += 0.02;
         }
-        if (hasSkill(defender, 32)) {
+        if (hasSkill(defender, 32, skillenable)) {
             revmod += 0.005;
             revmod *= 2;
         }
@@ -541,12 +557,12 @@ function calcDamage(message, attacker, defender, initiator) {
 
     //Percentage increases
     if (defender != -1 && attacker == initiator) {
-        if (hasSkill(defender, 19)) {
+        if (hasSkill(defender, 19, skillenable)) {
             defense *= 1.3;
         }
     }
     if (userData[attacker] != undefined && attacker == initiator) {
-        if (hasSkill(attacker, 18)) {
+        if (hasSkill(attacker, 18, skillenable)) {
             attack *= 1.3;
         }
     }
@@ -556,7 +572,7 @@ function calcDamage(message, attacker, defender, initiator) {
 
     //Last Breath Check
     if (userData[defender] != undefined) {
-        if (hasSkill(defender, 25)) {
+        if (hasSkill(defender, 25, skillenable)) {
             if (truedamage > userData[defender].currenthealth && userData[defender].currenthealth * 2 > userData[defender].health) {
                 userData[defender].currenthealth = truedamage + 1
                 text += "<@" + defender + "> has activated Last Breath!"
@@ -569,7 +585,8 @@ function calcDamage(message, attacker, defender, initiator) {
     if (text != "") { sendMessage(message.channel, text) }
     return truedamage
 }
-function calcStats(message, id, stat) {
+function calcStats(message, id, stat, skillenable) {
+    skillenable = (skillenable == false) ? false: true
     let text = ""
     let attack = userData[id].attack
     let defense = userData[id].defense
@@ -609,46 +626,46 @@ function calcStats(message, id, stat) {
         }
     }
     //if (userData[id].skills == undefined) { userData[id].skills = {} }
-    if (hasSkill(id, 0)) {
+    if (hasSkill(id, 0, skillenable)) {
         attack += 20;
     }
-    if (hasSkill(id, 1)) {
+    if (hasSkill(id, 1, skillenable)) {
         defense += 20;
     }
-    if (hasSkill(id, 2)) {
+    if (hasSkill(id, 2, skillenable)) {
         rage += .7;
     }
-    if (hasSkill(id, 4)) {
+    if (hasSkill(id, 4, skillenable)) {
         sacrifice += 0.2;
     }
-    if (hasSkill(id, 5)) {
+    if (hasSkill(id, 5, skillenable)) {
         tempo += 1;
     }
-    if (hasSkill(id, 9)) {
+    if (hasSkill(id, 9, skillenable)) {
         critrate += 0.06;
     }
-    if (hasSkill(id, 12)) {
+    if (hasSkill(id, 12, skillenable)) {
         if (userData[id].health == userData[id].currenthealth) {
             buff *= 1.5;
             /*buff += 1;
             dbuff += 1;*/
         }
     }
-    if (hasSkill(id, 17)) {
+    if (hasSkill(id, 17, skillenable)) {
         attack += 50;
         defense -= 50;
     }
-    if (hasSkill(id, 26)) {
+    if (hasSkill(id, 26, skillenable)) {
         sacrifice += 0.05
     }
-    if (hasSkill(id, 27)) {
+    if (hasSkill(id, 27, skillenable)) {
         critrate += 0.01
         critdmg += 2
     }
-    if (hasSkill(id, 28)) {
+    if (hasSkill(id, 28, skillenable)) {
         rage += 0.3
     }
-    if (hasSkill(id, 33)) {
+    if (hasSkill(id, 33, skillenable)) {
         antitempo += 1;
     }
 
@@ -665,14 +682,14 @@ function calcStats(message, id, stat) {
         }
         if (rage > 0) {
             let x = userData[id].currenthealth / userData[id].health
-            if (hasSkill(id, 28)) {
+            if (hasSkill(id, 28, skillenable)) {
                 x = userData[id].currenthealth / userData[id].health / 2
             }
             buff *= 1 + (rage * -1 * Math.log(x));
         }
         if (sacrifice > 0) {
             buff += sacrifice
-            if (hasSkill(id, 26)) {
+            if (hasSkill(id, 26, skillenable)) {
                 //userData[id].currenthealth += Math.floor(buff * attack * sacrifice)
                 text += "<@" + id + "> \"sacrificed\" **" + Math.floor(buff * attack * sacrifice) + "** Health, but mysteriously just didn't!\n";
             } else {
@@ -690,7 +707,6 @@ function calcStats(message, id, stat) {
             buff += ((urspeed * 0.05 * tempo));
             text += "<@" + id + "> has **" + urspeed + "** tempo\n";
         }
-
         if (antitempo > 0) {
 
             if (urspeed > 25) {
@@ -700,7 +716,7 @@ function calcStats(message, id, stat) {
             text += "<@" + id + "> has **" + urspeed + "** antitempo\n";
         }
 
-        if (hasSkill(id, 20)) {
+        if (hasSkill(id, 20, skillenable)) {
             if (urspeed > 25) {
                 urspeed = 25
             }
@@ -1224,10 +1240,7 @@ function smeltItem(id, weaponid) {
     delete itemData[weaponid];
     return [xp, money, materials]
 }
-function hasSkill(id, skillid) {
-    if (userData[id].skillA == skillid || userData[id].skillB == skillid || userData[id].skillC == skillid) return true
-    else return false
-}
+
 function itemFilter(message) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
@@ -1295,7 +1308,7 @@ module.exports.calcLuckyBuff = function (id) { return calcLuckyBuff(id) }
 module.exports.calcTime = function (time1, time2) { return calcTime(time1, time2) }
 module.exports.displayTime = function (time1, time2) { return displayTime(time1, time2) }
 module.exports.calcDamage = function (message, attacker, defender, initiator) { return calcDamage(message, attacker, defender, initiator) }
-module.exports.calcStats = function (message, id, stat) { return calcStats(message, id, stat) }
+module.exports.calcStats = function (message, id, stat,skillenable) { return calcStats(message, id, stat,skillenable) }
 module.exports.voteItem = function (message, dm) { return voteItem(message, dm) }
 module.exports.craftItem = function (message, minrarity, maxrarity, reply) { return craftItem(message, minrarity, maxrarity, reply) }
 module.exports.raidInfo = function (message, raid) { return raidInfo(message, raid) }
