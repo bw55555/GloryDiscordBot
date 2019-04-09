@@ -281,6 +281,7 @@ bot.on('ready', function () {
         fs.writeFileSync('Storage/questData.json', JSON.stringify(questData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
     }, 10000)
     let resettimer = (Date.now() % 86400000) - 15840000
+    console.log(resettimer)
     bot.setTimeout(function () {
         for (var resetGuild in guildData) {
             guildData[resetGuild].store = {}
