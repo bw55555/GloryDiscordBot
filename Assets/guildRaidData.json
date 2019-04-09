@@ -875,7 +875,7 @@
       "defense": 0,
       "health": 20,
       "reward": 100,
-      "ability":  "Dispel the opponent's skills and enchantments."
+      "ability":  "Dispel the opponent's skills."
     },
     {
       "name": "Will-o'-the-wisp",
