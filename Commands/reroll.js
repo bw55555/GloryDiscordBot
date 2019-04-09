@@ -4,12 +4,13 @@ module.exports = function (message) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     personskills = userData[id].skills
+    /*
     if (admins.indexOf(id) == -1) {//Soo nobody but admins can use it (for now)
         functions.replyMessage(message, "This feature is still being developed.");
         return
     }
-
-    if (userData[id].reroll <= 0 || userData[id].reroll == undefined) {//Checks if user has skill points
+    */
+    if (userData[id].reroll <= 0) {//Checks if user has skill points
         functions.replyMessage(message, "You have no more rerolls. Get them by buying in the shop.");
         return;
     }
@@ -19,7 +20,7 @@ module.exports = function (message) {
         return;
     }
     let removalid = words[1]
-    if (removalid == undefined || personskills[removalid] == undefined) { return functions.replyMessage(message, "Please choose a valid message that you own!") }
+    if (removalid == undefined || personskills[removalid] == undefined) { return functions.replyMessage(message, "Please choose a valid skill that you own!") }
     let skillid = Math.floor(skillData.length * Math.random());
     //while (userData[id].inventory[skillid] != skillid) {
     //    skillrecieved = Math.floor(skillData.length * Math.random);

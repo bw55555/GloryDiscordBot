@@ -3,6 +3,7 @@ module.exports = function (message) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.split(/\s+/)
+    if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This function is under development...") }
     let stat = 0;
     let cds = 0;
     let rnd = 0;
