@@ -20,9 +20,9 @@ const guildBuffStore = [
     { "name": "Tempo +", "stat": "tempo", "levels": [0,20,40,60,80,100], "bonus": [0,0.5,1,1.5,2,2.5] },
     { "name": "Sacrifice +", "stat": "sacrifice", "levels": [0,20,40,60,80,100], "bonus": [0,0.1,0.2,0.3,0.4,0.5] },
     { "name": "Lucky +", "stat": "lucky", "levels": [0,10,20,30,40,50,60,70,80,90,100], "bonus": [0,0.1,0.2,0.3,0.5,0.8,1.3,2.1,3.4,5.5,8.9] },
-    { "name": "Revenge +", "stat": "revenge", "levels": [], "bonus": [] },
-    { "name": "Rage +", "stat": "rage", "levels": [], "bonus": [] },
-    { "name": "Pierce +", "stat": "pierce", "levels": [], "bonus": [] }
+    { "name": "Revenge +", "stat": "revenge", "levels": [0,30,60,90,100], "bonus": [0,0.01,0.02,0.04,0.05] },
+    { "name": "Rage +", "stat": "rage", "levels": [0,20,40,60,80,100], "bonus": [0,0.2,0.4,0.6,0.8,1] },
+    { "name": "Pierce +", "stat": "pierce", "levels": [0,20,40,60,80,100], "bonus": [0,0.04,0.08,0.12,0.16,0.2] }
 ]
 module.exports=function(message) {
   let id = message.author.id;
@@ -558,8 +558,9 @@ module.exports=function(message) {
       if (devs.indexOf(id) == -1) { return functions.replyMessage(message,"This feature is under development...")}
       let text = "Your guild's buffs: ```\n"
       if (guild == "None") { return functions.replyMessage(message, "You don't have a guild!") }
-      for (var buff in guildData[guild].buffs) {
-          text += buff + ": " + (100 * guildData[guild].buffs[buff].value) + "% (level " + guildData[guild].buffs[buff].level + ")\n"
+      for (var buff in guildBuffStore) {
+          let bufflevel = guildData[guild].buffs[buff] == undefined ? 0 : guildData[guild].buffs[buff].level
+          text += buff + ": " + (100 * guildBuffStore[buff].bonus[bufflevel]) + "% (level " + bufflevel + ")\n"
       }
       text += "Upgrade a buff with !guild purchase buff [buff]```"
       if (text == "Your guild's buffs: ```\nUpgrade a buff with !guild purchase buff [buff]```") { text = "Your guild has no buffs! Purchase one with !guild purchase buff [buff]" }
