@@ -560,7 +560,9 @@ module.exports=function(message) {
       if (guild == "None") { return functions.replyMessage(message, "You don't have a guild!") }
       for (var buff in guildBuffStore) {
           let bufflevel = guildData[guild].buffs[buff] == undefined ? 0 : guildData[guild].buffs[buff].level
-          text += buff + ": " + (100 * guildBuffStore[buff].bonus[bufflevel]) + "% (level " + bufflevel + ")\n"
+          let numspaces = 15 - guildBuffStore[buff].name.length - buff.length
+          let leveltext = " (guild level " + guildBuffStore[buff].levels[bufflevel+1]+ " required for next upgrade)"
+          text += "[" + buff + "] " + guildBuffStore[buff].name + " ".repeat(numspaces) + ": " + (100 * guildBuffStore[buff].bonus[bufflevel]) + "% (level " + bufflevel + ")"+leveltext+"\n"
       }
       text += "Upgrade a buff with !guild purchase buff [buff]```"
       if (text == "Your guild's buffs: ```\nUpgrade a buff with !guild purchase buff [buff]```") { text = "Your guild has no buffs! Purchase one with !guild purchase buff [buff]" }
