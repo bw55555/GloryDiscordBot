@@ -183,5 +183,10 @@
         "name": "Pyromancy",
         "id": 36,
         "description": "Enemies you fight become burned and take damage over time"
+    },
+    {
+        "name": "Dispel",
+        "id": 37,
+        "description": "Dispels the opponent's tempo, combo, spikes, and burn."
     }
 ]
