@@ -187,6 +187,11 @@ function generateGuildTemplate(guild) {
                     name: "<:materialsgem:542178396474572805> Guild Materials <:materialsgem:542178396474572805>",
                     value: guildData[guild].materials + " / " + guildData[guild].materialmax,
                     inline: true
+                },
+                {
+                    name: "<:materialsgem:542178396474572805> Guild Crystals <:materialsgem:542178396474572805>",
+                    value: guildData[guild].crystals,
+                    inline: true
                 }
             ]
         }
