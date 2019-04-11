@@ -9,20 +9,20 @@ const guildStore = [
     { "name": "Box", "level": 1, "stock": 10, "price": 20000, "id": 5, "levels": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50], "stocks": [25, 75, 150, 250, 500, 1000, 2000, 3000, 4000, 5000, 10000] }
 ]
 const guildBuffStore = [
-    { "name": "Attack +", "stat": "attack", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.2, 0.4, 0.6, 0.8, 1, 1.5, 2, 2.5, 3, 4] },
-    { "name": "Defense +", "stat": "defense", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.2, 0.4, 0.6, 0.8, 1, 1.5, 2, 2.5, 3, 4] },
-    { "name": "CritDamage +", "stat": "critDamage", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 2, 4, 6, 8, 10] },
-    { "name": "CritRate +", "stat": "critRate", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 0.02, 0.04, 0.06, 0.08, 0.1] },
-    { "name": "LifeSteal +", "stat": "lifeSteal", "levels": [0, 20, 30, 40, 50, 60], "bonus": [0, 0.1, 0.2, 0.3, 0.4, 0.5] },
-    { "name": "Spikes +", "stat": "spikes", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 0.2, 0.4, 0.6, 0.8, 1] },
-    { "name": "Block +", "stat": "spikes", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 0.02, 0.05, 0.1, 0.15, 0.2] },
-    { "name": "Revenge +", "stat": "revenge", "levels": [0, 25, 50, 75, 90, 100], "bonus": [0, 0.02, 0.05, 0.1, 0.15, 0.2] },
-    { "name": "Tempo +", "stat": "tempo", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 0.5, 1, 1.5, 2, 2.5] },
-    { "name": "Sacrifice +", "stat": "sacrifice", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 0.1, 0.2, 0.3, 0.4, 0.5] },
-    { "name": "Lucky +", "stat": "lucky", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.1, 0.2, 0.3, 0.5, 0.8, 1.3, 2.1, 3.4, 5.5, 8.9] },
-    { "name": "Revenge +", "stat": "revenge", "levels": [0, 30, 60, 90, 100], "bonus": [0, 0.01, 0.02, 0.04, 0.05] },
-    { "name": "Rage +", "stat": "rage", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 0.2, 0.4, 0.6, 0.8, 1] },
-    { "name": "Pierce +", "stat": "pierce", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 0.04, 0.08, 0.12, 0.16, 0.2] }
+    { "name": "Attack +", "stat": "attack", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.2, 0.4, 0.6, 0.8, 1, 1.5, 2, 2.5, 3, 4], "prices": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+    { "name": "Defense +", "stat": "defense", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.2, 0.4, 0.6, 0.8, 1, 1.5, 2, 2.5, 3, 4], "prices": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+    { "name": "CritDamage +", "stat": "critDamage", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 2, 4, 6, 8, 10], "prices": [0, 0, 0, 0, 0, 0] },
+    { "name": "CritRate +", "stat": "critRate", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 0.02, 0.04, 0.06, 0.08, 0.1], "prices": [0, 0, 0, 0, 0, 0] },
+    { "name": "LifeSteal +", "stat": "lifeSteal", "levels": [0, 20, 30, 40, 50, 60], "bonus": [0, 0.1, 0.2, 0.3, 0.4, 0.5], "prices": [0, 0, 0, 0, 0, 0] },
+    { "name": "Spikes +", "stat": "spikes", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 0.2, 0.4, 0.6, 0.8, 1], "prices": [0, 0, 0, 0, 0, 0] },
+    { "name": "Block +", "stat": "spikes", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 0.02, 0.05, 0.1, 0.15, 0.2], "prices": [0, 0, 0, 0, 0, 0] },
+    { "name": "Revenge +", "stat": "revenge", "levels": [0, 25, 50, 75, 90, 100], "bonus": [0, 0.02, 0.05, 0.1, 0.15, 0.2], "prices": [0, 0, 0, 0, 0, 0] },
+    { "name": "Tempo +", "stat": "tempo", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 0.5, 1, 1.5, 2, 2.5], "prices": [0, 0, 0, 0, 0, 0] },
+    { "name": "Sacrifice +", "stat": "sacrifice", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 0.1, 0.2, 0.3, 0.4, 0.5], "prices": [0, 0, 0, 0, 0, 0] },
+    { "name": "Lucky +", "stat": "lucky", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.1, 0.2, 0.3, 0.5, 0.8, 1.3, 2.1, 3.4, 5.5, 8.9], "prices": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+    { "name": "Revenge +", "stat": "revenge", "levels": [0, 30, 60, 90, 100], "bonus": [0, 0.01, 0.02, 0.04, 0.05], "prices": [0, 0, 0, 0, 0] },
+    { "name": "Rage +", "stat": "rage", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 0.2, 0.4, 0.6, 0.8, 1], "prices": [0, 0, 0, 0, 0, 0] },
+    { "name": "Pierce +", "stat": "pierce", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 0.04, 0.08, 0.12, 0.16, 0.2], "prices": [0, 0, 0, 0, 0, 0] }
 ]
 module.exports = function (message) {
     let id = message.author.id;
@@ -109,6 +109,7 @@ module.exports = function (message) {
                 guildData[guildName].store = {};
                 guildData[guildName].buffs = {};
                 guildData[guildName].quests = {};
+                guildData[guildName].crystals = 0;
                 userData[id].guild = guildName;
                 userData[id].guildpos = "Leader";
                 userData[id].money -= 1000000
@@ -161,10 +162,9 @@ module.exports = function (message) {
         if (guild == "None") {
             functions.replyMessage(message, "You can't leave a guild if you're not in one!");
         }
-        let guildName = guild;
-        var place = guildData[guildName].members.indexOf(id);
+        var place = guildData[guild].members.indexOf(id);
         if (place > -1) {
-            guildData[guildName].members.splice(place, 1);
+            guildData[guild].members.splice(place, 1);
         }
         userData[id].guild = "None";
         userData[id].guildpos = "None";
@@ -179,14 +179,13 @@ module.exports = function (message) {
             functions.replyMessage(message, "Only the leader can disband the guild!");
             return;
         }
-        let guildName = guild;
-        for (var i = 0; i < guildData[guildName].members.length; i++) {
-            userData[guildData[guildName].members[i]].guild = "None";
-            userData[guildData[guildName].members[i]].guildpos = "None";
+        for (var i = 0; i < guildData[guild].members.length; i++) {
+            userData[guildData[guild].members[i]].guild = "None";
+            userData[guildData[guild].members[i]].guildpos = "None";
         }
-        userData[id].money += guildData[guildName].bank
-        userData[id].materials += guildData[guildName].materials
-        delete guildData[guildName];
+        userData[id].money += guildData[guild].bank
+        userData[id].materials += guildData[guild].materials
+        delete guildData[guild];
 
         functions.replyMessage(message, "You disbanded your guild! Everyone in it is now guildless :(");
     }
@@ -447,6 +446,12 @@ module.exports = function (message) {
             if (isNaN(buff) || guildBuffStore[buff] == undefined) { return functions.replyMessage(message, "This buff does not exist!") }
             let bufflevel = guildData[guild].buffs[buff] == undefined ? 0 : guildData[guild].buffs[buff].level
             if (guildBuffStore[buff].levels[bufflevel + 1] > guildData[guild].level) { return functions.replyMessage(message, "You cannot upgrade this buff since your guild is not at a high enough level!") }
+            if (guildData[guild].crystals < guildBuffStore[buff].prices[bufflevel + 1]) { return functions.replyMessage(message, "Your guild does not have enough crystals!") }
+            let buffname = guildBuffStore[buff].name
+            guildData[guild].crystals -= guildBuffStore[buff].prices[bufflevel + 1]
+            if (guildData[guild].buffs[buffname] == undefined) { guildData[guild].buffs[buffname] = { "level": 0, "stat": guildBuffStore[buff].stats[0] } }
+            guildData[guild].buffs[buffname].level = bufflevel + 1
+            guildData[guild].buffs[buffname].value = guildBuffStore[buff].bonus[bufflevel + 1]
         }
     }
     else if (command == "STORE") {
@@ -572,7 +577,7 @@ module.exports = function (message) {
             text += "[" + buff + "] " + guildBuffStore[buff].name + " ".repeat(numspaces) + ": " + (100 * guildBuffStore[buff].bonus[bufflevel]) + "% (level " + bufflevel + ")" + leveltext + "\n"
         }
         text += "Upgrade a buff with !guild upgrade buff [id]```"
-        if (text == "Your guild's buffs: ```\nUpgrade a buff with !guild purchase buff [buff]```") { text = "Your guild has no buffs! Purchase one with !guild purchase buff [buff]" }
+        if (text == "Your guild's buffs: ```\nUpgrade a buff with !guild upgrade buff [buff]```") { text = "Your guild has no buffs! Purchase one with !guild upgrade buff [buff]" }
         functions.replyMessage(message, text)
     }
 
