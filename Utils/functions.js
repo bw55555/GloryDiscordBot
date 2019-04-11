@@ -1189,6 +1189,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
         } else {
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\n"
             guildData[userData[id].guild].xp += raid.reward
+            guildData[userData[id].guild].crystals += raid.crystalreward
         }
 
         userData[id].money += Math.floor(luckybuff * raid.reward);

@@ -381,6 +381,7 @@ module.exports = function (message) {
         guildData[guild].raid.currenthealth = summonlevel * raid.health;
         guildData[guild].raid.maxhealth = summonlevel * raid.health;
         guildData[guild].raid.reward = summonlevel * raid.reward * 50;
+        guildData[guild].raid.crystalreward = summonlevel * raid.crystalreward;
         guildData[guild].raid.alive = true;
         guildData[guild].raid.attacklist = {};
         guildData[guild].raid.level = summonlevel;
