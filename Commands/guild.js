@@ -450,7 +450,7 @@ module.exports = function (message) {
             if (guildData[guild].crystals < guildBuffStore[buff].prices[bufflevel + 1]) { return functions.replyMessage(message, "Your guild does not have enough crystals!") }
             let buffname = guildBuffStore[buff].name
             guildData[guild].crystals -= guildBuffStore[buff].prices[bufflevel + 1]
-            if (guildData[guild].buffs[buffname] == undefined) { guildData[guild].buffs[buffname] = { "level": 0, "stat": guildBuffStore[buff].stats[0] } }
+            if (guildData[guild].buffs[buffname] == undefined) { guildData[guild].buffs[buffname] = { "level": 0, "stat": guildBuffStore[buff].bonus[0] } }
             guildData[guild].buffs[buffname].level = bufflevel + 1
             guildData[guild].buffs[buffname].value = guildBuffStore[buff].bonus[bufflevel + 1]
         }
@@ -574,7 +574,7 @@ module.exports = function (message) {
         for (var buff in guildBuffStore) {
             let bufflevel = guildData[guild].buffs[buff] == undefined ? 0 : guildData[guild].buffs[buff].level
             let numspaces = 15 - guildBuffStore[buff].name.length - buff.length
-            let leveltext = (guildBuffStore[buff].levels[bufflevel + 1] <= guildData[guild].level) ? " (guild level " + guildBuffStore[buff].levels[bufflevel + 1] + " required for next upgrade)" : "(Ready to upgrade to " + (100 * guildBuffStore[buff].bonus[bufflevel + 1]) + "%)"
+            let leveltext = (guildBuffStore[buff].levels[bufflevel + 1] > guildData[guild].level) ? " (guild level " + guildBuffStore[buff].levels[bufflevel + 1] + " required for next upgrade)" : "(Ready to upgrade to " + (100 * guildBuffStore[buff].bonus[bufflevel + 1]) + "%)"
             text += "[" + buff + "] " + guildBuffStore[buff].name + " ".repeat(numspaces) + ": " + (100 * guildBuffStore[buff].bonus[bufflevel]) + "% (level " + bufflevel + ")" + leveltext + "\n"
         }
         text += "Upgrade a buff with !guild upgrade buff [id]```"
