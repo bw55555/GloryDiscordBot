@@ -33,6 +33,7 @@ function deleteMessage(message) {
 }
 
 function dmUser(user, text) {
+    if (bot.users.get(user) == undefined) { return}
     if (userData[user].dmmute != true) bot.users.get(user).send(text).catch(function (err) { console.error(err) })
 }
 
