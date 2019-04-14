@@ -1017,13 +1017,13 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
             for (var i = 0; i < keys.length; i++) {
                 userData[keys[i]].glory += (raid.level / 15) * (raid.attacklist[keys[i]] / listtotal);
             }
-            for (var k = 0; k < 3; k++) {
+            for (var k = 0; k < 2; k++) {
                 var i = Math.floor(Math.random() * keys.length)
                 if (userData[keys[i]].reroll == undefined) {
                     userData[keys[i]].reroll = 0;
                 }
                 userData[keys[i]].reroll += 1;
-                text += "<@" + keys[i] + "> was lucky!\n"
+                text += "<@" + keys[i] + "> was lucky and recieved a skill reroll!\n"
             }
         } else {
             for (var i = 0; i < keys.length; i++) {
