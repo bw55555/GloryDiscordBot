@@ -374,7 +374,9 @@ function calcDamage(message, attacker, defender, initiator) {
         if (hasSkill(attacker, 28, skillenable)) {
             piercerate += 0.05;
         }
-
+        if (userData[attacker] != undefined && userData[attacker].guild != "None" && guildData[userData[attacker].guild].buffs.pierce != undefined) {
+            piercerate += guildData[userData[attacker].guild].buffs.pierce.value
+        }
 
     } else {
         if (attacker.name == "Godzilla") {
@@ -398,6 +400,9 @@ function calcDamage(message, attacker, defender, initiator) {
     let spikedmod = 0;
     if (dweapon != false && dweapon.modifiers.spikes != undefined) {
         spikedmod += dweapon.modifiers.spikes
+    }
+    if (userData[defender] != undefined && userData[defender].guild != "None" && guildData[userData[defender].guild].buffs.spikes != undefined) {
+        spikedmod += guildData[userData[defender].guild].buffs.spikes.value
     }
     if (userData[defender] != undefined) {
         if (hasSkill(defender, 7, skillenable)) {
@@ -451,6 +456,9 @@ function calcDamage(message, attacker, defender, initiator) {
 
     let blockrate = 0;
     let blockchance = Math.random()
+    if (userData[defender] != undefined && userData[defender].guild != "None" && guildData[userData[defender].guild].buffs.block != undefined) {
+        blockrate += guildData[userData[defender].guild].buffs.block.value
+    }
     if (userData[defender] != undefined && userData[defender].dead == false) {
         if (dweapon != false && dweapon.modifiers.block != undefined) {
             blockrate += dweapon.modifiers.block
@@ -461,6 +469,7 @@ function calcDamage(message, attacker, defender, initiator) {
         if (hasSkill(defender, 30, skillenable)) {
             blockrate += 0.05;
         }
+
     } else if (userData[defender] == undefined) {
         if (defender.name == "Baba Yaga") {
             blockrate += 0.2
@@ -487,7 +496,11 @@ function calcDamage(message, attacker, defender, initiator) {
     }
 
     if (userData[attacker] != undefined) {
+        
         let lifesteal = (userData[attacker].triangleid == 11) ? 0.15 : 0;
+        if (userData[attacker] != undefined && userData[attacker].guild != "None" && guildData[userData[attacker].guild].buffs.lifeSteal != undefined) {
+            lifesteal += guildData[userData[attacker].guild].buffs.lifeSteal.value
+        }
         if (weapon != false && weapon.modifiers.lifeSteal != undefined) {
             lifesteal += weapon.modifiers.lifeSteal
         }
@@ -537,6 +550,9 @@ function calcDamage(message, attacker, defender, initiator) {
         if (hasSkill(defender, 32, skillenable)) {
             revmod += 0.005;
             revmod *= 2;
+        }
+        if (userData[defender] != undefined && userData[defender].guild != "None" && guildData[userData[defender].guild].buffs.revenge != undefined) {
+            revmod += guildData[userData[defender].guild].buffs.revenge.value
         }
     }
 
@@ -610,6 +626,21 @@ function calcStats(message, id, stat, skillenable) {
     }
     if (userData[id].guild != "None" && guildData[userData[id].guild].buffs.defense != undefined) {
         dbuff += guildData[userData[id].guild].buffs.defense.value
+    }
+    if (userData[id].guild != "None" && guildData[userData[id].guild].buffs.critDamage != undefined) {
+        critdmg += guildData[userData[id].guild].buffs.critDamage.value
+    }
+    if (userData[id].guild != "None" && guildData[userData[id].guild].buffs.critRate != undefined) {
+        critrate += guildData[userData[id].guild].buffs.critRate.value
+    }
+    if (userData[id].guild != "None" && guildData[userData[id].guild].buffs.tempo != undefined) {
+        tempo += guildData[userData[id].guild].buffs.tempo.value
+    }
+    if (userData[id].guild != "None" && guildData[userData[id].guild].buffs.sacrifice != undefined) {
+        sacrifice += guildData[userData[id].guild].buffs.sacrifice.value
+    }
+    if (userData[id].guild != "None" && guildData[userData[id].guild].buffs.rage != undefined) {
+        rage += guildData[userData[id].guild].buffs.rage.value
     }
     if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) {
         //console.log(userData[id].weapon)
