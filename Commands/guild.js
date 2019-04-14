@@ -415,6 +415,7 @@ module.exports = function (message) {
         if (guild == "None") { return functions.replyMessage(message, "You do not have a guild!") }
         if (userData[id].guildpos != "Leader" && userData[id].guildpos != "Co-Leader") { return functions.replyMessage(message, "You must be a Leader or a Co-Leader to upgrade the guild!") }
         if (words.length == 2 || words[2].toLowerCase == "base") {
+            if (guildData[guild].level >= 100) { return functions.replyMessage(message, "Your guild is already at maximum level!")}
             if (Math.pow(guildData[guild].level + 1, 4) > guildData[guild].xp) { return functions.replyMessage(message, "Your guild does not have enough xp!") }
             let cost = ((guildData[guild].level % 5) == 4) ? (((guildData[guild].level % 10) == 9) ? guildData[guild].bankmax : guildData[guild].bankmax / 5) : Math.floor(guildData[guild].bankmax / 10)
             let matscost = ((guildData[guild].level % 5) == 4) ? (((guildData[guild].level % 10) == 9) ? guildData[guild].materialmax / 100 : guildData[guild].materialmax / 500) : Math.floor(guildData[guild].materialmax / 1000)
@@ -447,11 +448,12 @@ module.exports = function (message) {
             let bufflevel = guildData[guild].buffs[buff] == undefined ? 0 : guildData[guild].buffs[buff].level
             if (guildBuffStore[buff].levels[bufflevel + 1] > guildData[guild].level) { return functions.replyMessage(message, "You cannot upgrade this buff since your guild is not at a high enough level!") }
             if (guildData[guild].crystals < guildBuffStore[buff].prices[bufflevel + 1]) { return functions.replyMessage(message, "Your guild does not have enough crystals!") }
-            let buffname = guildBuffStore[buff].name
+            let buffname = guildBuffStore[buff].stat
             guildData[guild].crystals -= guildBuffStore[buff].prices[bufflevel + 1]
             if (guildData[guild].buffs[buffname] == undefined) { guildData[guild].buffs[buffname] = { "level": 0, "stat": guildBuffStore[buff].bonus[0] } }
             guildData[guild].buffs[buffname].level = bufflevel + 1
             guildData[guild].buffs[buffname].value = guildBuffStore[buff].bonus[bufflevel + 1]
+            functions.replyMessage(message, "You have successfully upgraded " + buffname + " to level " + (bufflevel + 1))
         }
     }
     else if (command == "STORE") {
