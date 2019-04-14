@@ -576,8 +576,8 @@ module.exports = function (message) {
             let buff = guildBuffStore[buffno].stat
             let bufflevel = guildData[guild].buffs[buff] == undefined ? 0 : guildData[guild].buffs[buff].level
             let numspaces = 15 - guildBuffStore[buffno].name.length - buff.length
-            let leveltext = (guildBuffStore[buffno].levels[bufflevel + 1] > guildData[guild].level) ? " (guild level " + guildBuffStore[buff].levels[bufflevel + 1] + " required for next upgrade)" : "(Ready to upgrade to " + (100 * guildBuffStore[buff].bonus[bufflevel + 1]) + "%)"
-            text += "[" + buff + "] " + guildBuffStore[buff].name + " ".repeat(numspaces) + ": " + (100 * guildBuffStore[buffno].bonus[bufflevel]) + "% (level " + bufflevel + ")" + leveltext + "\n"
+            let leveltext = (guildBuffStore[buffno].levels[bufflevel + 1] > guildData[guild].level) ? " (guild level " + guildBuffStore[buffno].levels[bufflevel + 1] + " required for next upgrade)" : "(Ready to upgrade to " + (100 * guildBuffStore[buffno].bonus[bufflevel + 1]) + "%)"
+            text += "[" + buffno + "] " + guildBuffStore[buff].name + " ".repeat(numspaces) + ": " + (100 * guildBuffStore[buffno].bonus[bufflevel]) + "% (level " + bufflevel + ")" + leveltext + "\n"
         }
         text += "Upgrade a buff with !guild upgrade buff [id]```"
         if (text == "Your guild's buffs: ```\nUpgrade a buff with !guild upgrade buff [buff]```") { text = "Your guild has no buffs! Purchase one with !guild upgrade buff [buff]" }
