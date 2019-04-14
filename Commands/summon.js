@@ -6,7 +6,7 @@ function countMembers(guild) {
     for (let value of keys) {
         if (!members.get(value).user.bot) {
             count++
-        }
+        } 
     }
     return count
 }
