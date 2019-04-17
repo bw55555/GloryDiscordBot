@@ -36,7 +36,7 @@ module.exports=function(message) {
       functions.sendMessage(message.channel, "You can only generate existing items!")
       return
     }
-    if (itemData[itemid].owner != undefined && itemData[itemid].owner != target) {
+    if (itemData[itemid] != undefined && itemData[itemid].owner != undefined && itemData[itemid].owner != target) {
       functions.sendMessage(message.channel, "Someone owns this item!")
       return
     }
