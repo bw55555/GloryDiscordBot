@@ -31,8 +31,8 @@ module.exports=function(message) {
       functions.sendMessage(message.channel, "Please specify an id.")
       return
     }
-    itemid = words[3]
-    if (itemid >= itemData.next) {
+    itemid = parseInt(words[3])
+    if (isNaN(itemid) || itemid <=0 || itemid >= itemData.next) {
       functions.sendMessage(message.channel, "You can only generate existing items!")
       return
     }
