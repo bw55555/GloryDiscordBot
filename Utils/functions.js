@@ -190,7 +190,7 @@ function generateGuildTemplate(guild) {
                     inline: true
                 },
                 {
-                    name: "<:materialsgem:542178396474572805> Guild Crystals <:materialsgem:542178396474572805>",
+                    name: "<:guildcrystal:567335577645613057> Guild Crystals <:guildcrystal:567335577645613057>",
                     value: guildData[guild].crystals,
                     inline: true
                 }
@@ -306,7 +306,8 @@ function calcDamage(message, attacker, defender, initiator) {
     let burn = 0;
     let attack = 0;
     let skillenable = true;
-    if (userData[defender] == undefined && defender.name == "Charybdis") { skillenable = false}
+    if (userData[defender] == undefined && defender.name == "Charybdis") { skillenable = false }
+    if (userData[attacker] == undefined && attacker.name == "Charybdis") { skillenable = false }
     let evadechance = Math.random()
     let evaderate = 0;
     if (defender.name == "Will-o'-the-wisp") {
