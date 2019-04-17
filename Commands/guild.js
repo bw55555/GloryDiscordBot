@@ -444,8 +444,9 @@ module.exports = function (message) {
         }
         else if (words[2].toLowerCase() == "buff") {
             let buff = parseInt(words[3])
-            let buffname = guildBuffStore[buff].stat
+            
             if (isNaN(buff) || guildBuffStore[buff] == undefined) { return functions.replyMessage(message, "This buff does not exist!") }
+            let buffname = guildBuffStore[buff].stat
             let bufflevel = guildData[guild].buffs[buffname] == undefined ? 0 : guildData[guild].buffs[buffname].level
             if (guildBuffStore[buff].levels[bufflevel + 1] > guildData[guild].level) { return functions.replyMessage(message, "You cannot upgrade this buff since your guild is not at a high enough level!") }
             if (guildData[guild].crystals < guildBuffStore[buff].prices[bufflevel + 1]) { return functions.replyMessage(message, "Your guild does not have enough crystals!") }
