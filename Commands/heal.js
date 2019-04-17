@@ -48,7 +48,7 @@ module.exports = function (message) {
     }
     functions.replyMessage(message, "<@" + target + "> was healed for " + heal + " health!")
     if (userData[id].triangleid == "5") {
-      //userData[id].cooldowns.heal = ts + healcd * 20 * 1000
+      userData[id].cooldowns.heal = ts + healcd * 45 * 1000
     } else {
       userData[id].cooldowns.heal = ts + healcd * 60 * 1000
     }
