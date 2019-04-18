@@ -30,10 +30,9 @@ module.exports = function (message) {
             return;
         }
         userData[id].materials -= 400 * amount
-        functions.replyMessage(message, "You successfully spent " + 400 * amount + " materials for a RANDOM ITEM!")
-        for (var i = 0; i < amount; i++) {
-            functions.craftItem(message, -1, -1)
-        }
+        text = "You successfully spent " + 400 * amount + " materials for RANDOM ITEMS...\n"
+        text += functions.craftItems(message, -1, -1,amount)
+        if (amount != 1) { functions.replyMessage(message, text) }
     }
 
     else if (purchaseID == 102) {
@@ -42,7 +41,7 @@ module.exports = function (message) {
             return;
         }
         userData[id].materials -= 125 * amount
-        let text = "You successfully spent " + 125 * amount + " materials for SIMPLE CRAFTING..."
+        let text = "You successfully spent " + 125 * amount + " materials for SIMPLE CRAFTING...\n"
         text += functions.craftItems(message, 0, 2, amount)
         if (amount != 1) { functions.replyMessage(message, text) }
         
@@ -65,7 +64,7 @@ module.exports = function (message) {
             return;
         }
         userData[id].materials -= 78125 * amount
-        let text = "You successfully spent " + 78125 * amount + " materials for EXQUISITE CRAFTING..."
+        let text = "You successfully spent " + 78125 * amount + " materials for EXQUISITE CRAFTING...\n"
         text +=functions.craftItem(message, 4, 6,amount)
         if (amount != 1) { functions.replyMessage(message, text) }
     }
