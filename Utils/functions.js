@@ -812,6 +812,27 @@ function voteItem(message, dm) {
     if (dm) dmUser(target, "Thank you for voting! You have been given an item with id " + itemid + " and of rarity " + itemData[itemid].rarity)
     return itemid
 }
+function craftItems(message, minrarity, maxrarity, amount) {
+    amount = (isNaN(parseInt(amount))) ? 1 : parseInt(amount)
+    if (amount > 1) {
+        let id = message.author.id;
+        let getrarities = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        for (var i = 0; i < amount; i++) {
+            itemid = functions.craftItem(message, minrarity, maxrarity, false);
+            rarity = itemData[itemid].rarity
+            getrarities[rarity] += 1
+        }
+        let text = ""
+        for (var i = 0; i < 9; i++) {
+            if (getrarities[i] == 0) { continue }
+            text += global.rarities[i] + ": " + getrarities[i] + "\n"
+        }
+        return text
+    } else {
+        functions.craftItem(message, minrarity, maxrarity, true)
+        return ""
+    }
+}
 function craftItem(message, minrarity, maxrarity, reply) {
     reply = (reply == false) ? false : true
     let target = message.author.id
@@ -1364,6 +1385,7 @@ module.exports.displayTime = function (time1, time2) { return displayTime(time1,
 module.exports.calcDamage = function (message, attacker, defender, initiator) { return calcDamage(message, attacker, defender, initiator) }
 module.exports.calcStats = function (message, id, stat, skillenable) { return calcStats(message, id, stat, skillenable) }
 module.exports.voteItem = function (message, dm) { return voteItem(message, dm) }
+module.exports.craftItems = function (message, minrarity, maxrarity, amount) { return craftItems(message, minrarity, maxrarity, amount) }
 module.exports.craftItem = function (message, minrarity, maxrarity, reply) { return craftItem(message, minrarity, maxrarity, reply) }
 module.exports.raidInfo = function (message, raid) { return raidInfo(message, raid) }
 module.exports.summon = function (channel, minlevel, maxlevel, name, image) { return summon(channel, minlevel, maxlevel, name, image) }

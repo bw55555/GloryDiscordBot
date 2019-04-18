@@ -42,10 +42,10 @@ module.exports = function (message) {
             return;
         }
         userData[id].materials -= 125 * amount
-        functions.replyMessage(message, "You successfully spent " + 125 * amount + " materials for SIMPLE CRAFTING...")
-        for (var i = 0; i < amount; i++) {
-            functions.craftItem(message, 0, 2)
-        }
+        let text = "You successfully spent " + 125 * amount + " materials for SIMPLE CRAFTING..."
+        text += functions.craftItems(message, 0, 2, amount)
+        if (amount != 1) { functions.replyMessage(message, text) }
+        
     }
 
     else if (purchaseID == 103) {
@@ -54,10 +54,9 @@ module.exports = function (message) {
             return;
         }
         userData[id].materials -= 3125 * amount
-        functions.replyMessage(message, "You successfully spent " + 3125 * amount + " materials for MODERATE CRAFTING...")
-        for (var i = 0; i < amount; i++) {
-            functions.craftItem(message, 2, 4)
-        }
+        let text = "You successfully spent " + 3125 * amount + " materials for MODERATE CRAFTING and got:\n"
+        text += functions.craftItems(message, -1, -1, amount)
+        if (amount != 1) { functions.replyMessage(message, text) }
     }
 
     else if (purchaseID == 104) {
@@ -66,10 +65,9 @@ module.exports = function (message) {
             return;
         }
         userData[id].materials -= 78125 * amount
-        functions.replyMessage(message, "You successfully spent " + 78125 * amount + " materials for EXQUISITE CRAFTING...")
-        for (var i = 0; i < amount; i++) {
-            functions.craftItem(message, 4, 6)
-        }
+        let text = "You successfully spent " + 78125 * amount + " materials for EXQUISITE CRAFTING..."
+        text +=functions.craftItem(message, 4, 6,amount)
+        if (amount != 1) { functions.replyMessage(message, text) }
     }
 
     else if (purchaseID == 200) {
@@ -109,7 +107,7 @@ module.exports = function (message) {
         return;
 
         /*if (userData[id].money < 500000*amount) {
-            functions.replyMessage(message, "You do not have enough materials to buy this!")
+            functions.replyMessage(message, "You do not have enough money to buy this!")
             return;
         }
         userData[id].money -= 500000*amount
