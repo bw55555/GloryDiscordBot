@@ -28,6 +28,17 @@ module.exports=function(message) {
     itemDesc += "Rename a weapon!\n"
     itemCost += "10000\n"
 
+    //event items
+    itemName += "ID 301 - Sweet n' Salty Egg\n"
+    itemDesc += "Will it be sweet or salty?\n"
+    itemCost += "10000\n"
+    itemName += "ID 302 - Mystery Egg\n"
+    itemDesc += "Pelt someone with an egg (ow)\n"
+    itemCost += "10000\n"
+    itemName += "ID 303 - Egg Fiesta\n"
+    itemDesc += "Pelt everyone nearby with eggs\n"
+    itemCost += "100000\n"
+
     functions.sendMessage(message.channel, {
       "embed": {
         "title": "The Blacksmith",
