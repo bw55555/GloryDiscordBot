@@ -47,7 +47,7 @@ let id = message.author.id
     //if (!userData[id].phoenixfeather) userData[id].phoenixfeather = 0;
     //if (!userData[id].nametag) userData[id].nametag = 0;
     //if (!userData[id].reroll) userData[id].reroll = 0;
-
+//test
     if (!userData[id].glory) userData[id].glory = 0;
 
     if (!userData[id].buffs) userData[id].buffs = {};
