@@ -4,13 +4,16 @@ module.exports = function (message) {
   let ts = message.createdTimestamp;
   let words = message.content.trim().split(/\s+/)
   let text = ""
+  
   if (userData[id].cooldowns.work > ts) {
     functions.replyMessage(message, "More work will be available in " + functions.displayTime(userData[id].cooldowns.work, ts))
-    return;
+    functions.deleteMessage(message);
+	  return;
   }
   if (userData[id].dead === true) {
     functions.replyMessage(message, "Corpses can\'t work! Do !resurrect");
-    return;
+    functions.deleteMessage(message);
+	  return;
   }
   let earnings = Math.floor((-4 * ((Math.random() - 0.5) ** 2) + 1) * (Math.sqrt(userData[id].level) * 50 + 1));
   if (userData[id].triangleid == 7) {
@@ -35,5 +38,7 @@ module.exports = function (message) {
     }*/
   }
   userData[id].speed = 0;
+  functions.deleteMessage(message);
+
   functions.sendMessage(message.channel, text)
 }
