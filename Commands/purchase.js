@@ -79,7 +79,7 @@ module.exports = function (message) {
       }
       userData[id].materials -= 100000*amount
       functions.replyMessage(message, "You successfully spent " + 100000*amount + " materials for an Explosion! Use !explosion to cast it!")
-      functions.consumGive(id, explosion, amount);;
+      functions.consumGive(id, "explosion", amount);;
 
   }
 
@@ -100,7 +100,7 @@ module.exports = function (message) {
       }
       userData[id].materials -= 10000*amount
       functions.replyMessage(message, "You successfully spent " + 10000*amount + " materials for a weapon nametag! Use `!nametag` to rename something!")
-      functions.consumGive(id, nametag, amount);
+      functions.consumGive(id, "nametag", amount);
   }
 
   else if (purchaseID == 20) {

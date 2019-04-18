@@ -1142,7 +1142,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
             }
             for (var k = 0; k < 2; k++) {
                 var i = Math.floor(Math.random() * keys.length)
-                functions.consumGive(id, reroll, 1);
+                functions.consumGive(id, "reroll", 1);
                 text += "<@" + keys[i] + "> was lucky and recieved a skill reroll!\n"
             }
         } else {
@@ -1166,12 +1166,12 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                     let where = [" in the boss's corpse", " in a treasure chest", " randomly", " because they felt like it", " rotting in a pile", " in a tunnel", " in a cave", " in the boss's stomach", " hit them on the head", " drop from the sky"];
                     if (Math.random() > 0.90) {
                         let boxesfound = Math.floor(1 + Math.random() * 5);
-                        functions.consumGive(id, box, boxesfound);;
+                        functions.consumGive(id, "box", boxesfound);;
                         itemfound = boxesfound + " Box(es) " + where[Math.floor(Math.random() * where.length)];
                     }
                     else if (Math.random() > 0.9) {
                         let feathersfound = Math.floor(1 + Math.random() * 3);
-                        functions.consumGive(id, phoenixfeather, feathersfound);;
+                        functions.consumGive(id, "phoenixfeather", feathersfound);;
                         itemfound = feathersfound + " Phoenix Feather(s) " + where[Math.floor(Math.random() * where.length)];
                     }
                     else if (Math.random() > 0.8) {
@@ -1183,7 +1183,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                         userData[luckyperson].money += materialsfound;
                         itemfound = materialsfound + " Money(s) " + where[Math.floor(Math.random() * where.length)];
                     } else if (Math.random() > 0.97) {
-                        functions.consumGive(id, reroll, 1);
+                        functions.consumGive(id, "reroll", 1);
                         itemfound = materialsfound + " **REROLL** " + where[Math.floor(Math.random() * where.length)];
                     }
                 }
@@ -1191,12 +1191,12 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                     let where = [" in the boss's corpse", " in a treasure chest", " randomly", " because they felt like it", " rotting in a pile", " in a tunnel", " in a cave", " in the boss's stomach", " hit them on the head", " drop from the sky"];
                     if (Math.random() > 0.8) {
                         let boxesfound = Math.floor(1 + Math.random() * 5);
-                        functions.consumGive(id, box, boxesfound);
+                        functions.consumGive(id, "box", boxesfound);
                         itemfound = boxesfound + " Box(es) " + where[Math.floor(Math.random() * where.length)];
                     }
                     else if (Math.random() > 0.7) {
                         let feathersfound = Math.floor(1 + Math.random() * 3);
-                        functions.consumGive(id, phoenixfeather, feathersfound);
+                        functions.consumGive(id, "phoenixfeather", feathersfound);
                         itemfound = feathersfound + " Phoenix Feather(s) " + where[Math.floor(Math.random() * where.length)];
                     }
                     else if (Math.random() > 0.6) {
@@ -1209,7 +1209,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                         itemfound = materialsfound + " Money(s) " + where[Math.floor(Math.random() * where.length)];
                     } else if (Math.random() > 0.98) {
                         let materialsfound = 1;
-                        functions.consumGive(id, reroll, materialsfound);
+                        functions.consumGive(id, "reroll", materialsfound);
                         itemfound = materialsfound + " **SKILL REROLL** " + where[Math.floor(Math.random() * where.length)];
                     }
                 }

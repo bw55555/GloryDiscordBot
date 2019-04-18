@@ -15,17 +15,17 @@ module.exports = function (message) {
 
     if (attempt == 'EXAMPLE') {
         if (check(id, 1)) { return; }
-        functions.consumGive(id, box, 1);
+        functions.consumGive(id, "box", 1);
         return functions.replyMessage(message, "Well that was easy! You get a box!")
     }
     else if (attempt == 'EGGHUNT') {
         if (check(id, 2)) { return; }
-        functions.consumGive(id, box, 3);;
+        functions.consumGive(id, "box", 3);;
         return functions.replyMessage(message, "You're getting the hang of things! You get 3 boxes!")
     }
     else if (attempt == 'NIXOLIA') {
         if (check(id, 3)) { return; }
-        functions.consumGive(id, phoenixfeather, 3);
+        functions.consumGive(id, "phoenixfeather", 3);
         return functions.replyMessage(message, "You got 3 phoenix feathers! They tickle a bit.")
     }
     else if (attempt == 'BW55555') {
@@ -45,7 +45,7 @@ module.exports = function (message) {
     }
     else if (attempt == 'EXPLSHN') {
         if (check(id, 7)) { return; }
-        functions.consumGive(id, explosion, 1);
+        functions.consumGive(id, "explosion", 1);
         return functions.replyMessage(message, "**BOOOOOOM!** (You recieved an explosion)")
     }
     else if (attempt == '1234567') {
@@ -55,7 +55,7 @@ module.exports = function (message) {
     }
     else if (attempt == 'NAMETAG') {
         if (check(id, 9)) { return; }
-        functions.consumGive(id, nametag, 2);
+        functions.consumGive(id, "nametag", 2);
         return functions.replyMessage(message, "EZ! 2 nametags given!")
     }
     else {

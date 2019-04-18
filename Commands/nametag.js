@@ -32,5 +32,5 @@ module.exports = function (message) {
     }
     itemData[weaponid].name = name;
     functions.replyMessage(message, "Weapon ID " + weaponid + " is now called " + name);
-    functions.consumGive(id, nametag, -1);
+    functions.consumGive(id, "nametag", -1);
 }

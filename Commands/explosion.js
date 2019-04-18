@@ -32,7 +32,7 @@ module.exports=function(message) {
     functions.replyMessage(message, "You have no explosions! Go buy one from the `!blacksmith`")
   }
   if (userData[id].consum.explosion > 0) {
-    functions.consumGive(id, explosion, -1);
+    functions.consumGive(id, "explosion", -1);
     functions.sendMessage(message.channel, "https://tenor.com/view/explosion-gif-9488133")
     let count = 0
     let text = ""

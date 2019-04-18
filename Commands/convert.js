@@ -9,12 +9,12 @@ let id = message.author.id;
         return
     }
     for (var i in userData) {
-        functions.consumGive(i, box, userData[id].box);
-        functions.consumGive(i, explosion, userData[id].explosion);
-        functions.consumGive(i, nametag, userData[id].nametag);
-        functions.consumGive(i, sp, userData[id].sp);
-        functions.consumGive(i, phoenixfeather, userData[id].phoenixfeather);
-        functions.consumGive(i, reroll, userData[id].reroll);
+        functions.consumGive(i, "box", userData[id].box);
+        functions.consumGive(i, "explosion", userData[id].explosion);
+        functions.consumGive(i, "nametag", userData[id].nametag);
+        functions.consumGive(i, "sp", userData[id].sp);
+        functions.consumGive(i, "phoenixfeather", userData[id].phoenixfeather);
+        functions.consumGive(i, "reroll", userData[id].reroll);
 
         delete userData[i].box;
         delete userData[i].explosion;

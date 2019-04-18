@@ -42,5 +42,5 @@ module.exports = function (message) {
     }
     userData[id].skills[skillid] = skillid
     functions.replyMessage(message, "You earned the skill " + skillData[skillid].name + " (" + skillData[skillid].id + ")!");
-    functions.consumGive(id, sp, -1);
+    functions.consumGive(id, "sp", -1);
 }
