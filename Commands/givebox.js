@@ -33,11 +33,11 @@ module.exports=function(message) {
     return;
   }
   //console.log(amount);
-  if (userData[id].box >= amount && amount > 0) {
+  if (userData[id].consum.box >= amount && amount > 0) {
     functions.sendMessage(message.channel, 'Sent ' + amount + ' boxes to <@' + target + ">");
-    userData[target].box += amount;
-    userData[id].box -= amount;
-  } else if (userData[id].box < amount) {
+    consumGive(target, box, amount);;
+    consumGive(id, box, -1 * amount);
+  } else if (userData[id].consum.box < amount) {
     functions.sendMessage(message.channel, 'You can\'t give more boxes than you own');
   } else {
     functions.sendMessage(message.channel, 'Incorrect Argument');

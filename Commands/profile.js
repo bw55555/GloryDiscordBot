@@ -92,10 +92,6 @@ module.exports=function(message) {
           name: "Weapon <:weaponicon:542069411817717780>",
           value: weapon,
           inline: true
-        }, {
-          name: "Boxes <:roogift:520078909018996738>",
-          value: userData[target].box,
-          inline: true
         }
       ]
     }

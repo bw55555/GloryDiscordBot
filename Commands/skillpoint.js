@@ -1,14 +1,14 @@
 var functions = require("../Utils/functions.js")
 module.exports = function (message) {
     let id = message.author.id;
-    let ts = message.createdTimestamp;
-    let words = message.content.trim().split(/\s+/)
+    //let ts = message.createdTimestamp;
+    //let words = message.content.trim().split(/\s+/)
     personskills = userData[id].skills
     /*if (admins.indexOf(id) == -1) {//Soo nobody but admins can use it (for now)
         functions.replyMessage(message, "This feature is still being developed.");
         return
     }*/
-    if (userData[id].sp <= 0) {//Checks if user has skill points
+    if (userData[id].consum.sp <= 0) {//Checks if user has skill points
         functions.replyMessage(message, "You have no more skill points. Get them by Ascending.");
         return;
     }
@@ -34,7 +34,7 @@ module.exports = function (message) {
             functions.replyMessage(message, "An error has occured. Try it again.");
             return;
         }
-    }
+    } 
 
     if (skillid > skillData.length) {//Something went wrong
         functions.replyMessage(message, "An error has occured");
@@ -42,5 +42,5 @@ module.exports = function (message) {
     }
     userData[id].skills[skillid] = skillid
     functions.replyMessage(message, "You earned the skill " + skillData[skillid].name + " (" + skillData[skillid].id + ")!");
-    userData[id].sp -= 1;
+    consumGive(id, sp, -1);
 }

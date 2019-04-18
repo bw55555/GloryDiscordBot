@@ -8,6 +8,6 @@ module.exports=function(message) {
     target = functions.validate(message)
     if (target == false) { return; }
   }
-  textmessage = "<@" + target + "> has " + userData[target].box + " boxes"
+  textmessage = "<@" + target + "> has " + userData[target].consum.box + " boxes"
   functions.sendMessage(message.channel, textmessage);
 }

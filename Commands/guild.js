@@ -538,7 +538,7 @@ module.exports = function (message) {
         guildData[guild].store[item] += amount
         userData[id].money -= guildStore[item].price * amount
         if (item >= 0 && item <= 4) { guildData[guild].scrolls[item] += amount }
-        if (item == 5) { userData[id].box += amount }
+        if (item == 5) { consumGive(id, box, amount); }
         functions.replyMessage(message, "You have successfully bought " + amount + " " + guildStore[item].name + " for $" + guildStore[item].price * amount)
     }
     else if (command == "RESET") {

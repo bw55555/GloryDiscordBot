@@ -79,7 +79,7 @@ module.exports = function (message) {
       }
       userData[id].materials -= 100000*amount
       functions.replyMessage(message, "You successfully spent " + 100000*amount + " materials for an Explosion! Use !explosion to cast it!")
-      userData[id].explosion += amount;
+      functions.consumGive(id, explosion, amount);;
 
   }
 
@@ -90,7 +90,7 @@ module.exports = function (message) {
       }
       userData[id].materials -= 5000*amount
       functions.replyMessage(message, "You successfully spent " + 5000*amount + " materials for a Phoenix Feather! Use `!feather` to rez yourself!")
-      userData[id].phoenixfeather += amount;
+      userData[id].consum.phoenixfeather += amount;
   }
 
   else if (purchaseID == 202) {
@@ -100,7 +100,7 @@ module.exports = function (message) {
       }
       userData[id].materials -= 10000*amount
       functions.replyMessage(message, "You successfully spent " + 10000*amount + " materials for a weapon nametag! Use `!nametag` to rename something!")
-      userData[id].nametag += amount;
+      functions.consumGive(id, nametag, amount);
   }
 
   else if (purchaseID == 20) {
@@ -108,13 +108,13 @@ module.exports = function (message) {
       functions.replyMessage(message, "This feature is on hold!")
       return;
 
-      if (userData[id].money < 500000*amount) {
+      /*if (userData[id].money < 500000*amount) {
           functions.replyMessage(message, "You do not have enough materials to buy this!")
           return;
       }
       userData[id].money -= 500000*amount
       functions.replyMessage(message, "You successfully spent $" + 500000*amount + " for a skill reroll! Use `!reroll [id]` to transform a skill back into a skillpint!")
-      userData[id].reroll += amount;
+      userData[id].consum.reroll += amount;*/
 
   } else {
       functions.replyMessage(message, "Make sure you're selecting a real item!")

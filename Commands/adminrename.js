@@ -3,7 +3,7 @@ module.exports = function (message) {
     let id = message.author.id;
     //let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    if (userData[id].nametag == undefined || userData[id].nametag == 0) {
+    if (userData[id].consum.nametag == undefined || userData[id].consum.nametag == 0) {
         functions.replyMessage(message, "You have no Nametags!");
         return;
     }

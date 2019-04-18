@@ -10,7 +10,7 @@ module.exports = function (message) {
         return
     }
     */
-    if (userData[id].reroll <= 0) {//Checks if user has skill points
+    if (userData[id].consum.reroll <= 0) {//Checks if user has skill points
         functions.replyMessage(message, "You have no more rerolls. Get them by buying in the shop.");
         return;
     }
@@ -50,5 +50,5 @@ module.exports = function (message) {
     
     userData[id].skills[skillid] = skillid;
     functions.replyMessage(message, "You replaced the skill " + skillData[removalid].name + " (" + skillData[removalid].id + ") with the skill " + skillData[skillid].name + " (" + skillData[skillid].id + ")!");
-    userData[id].reroll -= 1;
+    functions.consumGive(id, reroll, -1);
 }

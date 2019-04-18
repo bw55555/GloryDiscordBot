@@ -3,7 +3,7 @@ module.exports=function(message) {
   let id = message.author.id;
   let ts = message.createdTimestamp;
   let words = message.content.trim().split(/\s+/)
-  if(id == "290980432382787585" && userData[id].explosion == 0){
+  if(id == "290980432382787585" && userData[id].consum.explosion == 0){
     functions.sendMessage(message.channel, "https://tenor.com/view/explosion-gif-9488133")
     let count = 0
     let text = ""
@@ -28,11 +28,11 @@ module.exports=function(message) {
   }
   if (userData[id].dead == true) { return functions.replyMessage(message, "You can't explode something while dead!") }
   if (userData[id].shield > ts) { return functions.replyMessage(message, "You can't explode something while shielded!") }
-  if (userData[id].explosion == 0) {
+  if (userData[id].consum.explosion == 0) {
     functions.replyMessage(message, "You have no explosions! Go buy one from the `!blacksmith`")
   }
-  if (userData[id].explosion > 0) {
-    userData[id].explosion -= 1;
+  if (userData[id].consum.explosion > 0) {
+    functions.consumGive(id, explosion, -1);
     functions.sendMessage(message.channel, "https://tenor.com/view/explosion-gif-9488133")
     let count = 0
     let text = ""

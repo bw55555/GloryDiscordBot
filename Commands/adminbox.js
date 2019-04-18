@@ -9,7 +9,7 @@ module.exports = function (message) {
     var amount = parseInt(words[2]);
     if (!isNaN(amount)) {
         functions.sendMessage(message.channel, 'Sent ' + amount + ' boxes to <@' + target + ">");
-        userData[target].box += amount;
+        consumGive(target, box, amount)
     } else {
         functions.sendMessage(message.channel, amount + ' is an incorrect argument');
     }

@@ -37,7 +37,7 @@ module.exports=function(message) {
         let x = 0;
         for (x in userData)
         {
-            userData[x].box += 2;
+            functions.consumGive(id, box, 2);
         }
     }  
           
