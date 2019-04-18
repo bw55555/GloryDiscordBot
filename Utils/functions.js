@@ -886,10 +886,9 @@ function summon(channel, minlevel, maxlevel, name, image) {
     mobData[message.channel.id].attacklist = {};
     replyMessage(message, name + " has been summoned. It is level " + summonlevel + "!");
 }
-function checkStuff(message) {
+function checkProps(message) {
     let id = message.author.id
     let ts = message.createdTimestamp;
-    let words = message.content.trim().split(/\s+/)
     if (!userData[id]) userData[id] = {} //creates profile if none exists
     if (userData[id].username != message.author.username) userData[id].username = message.author.username; //Creates object with name as username
     if (!userData[id].id) userData[id].id = id; //sets id
@@ -951,7 +950,12 @@ function checkStuff(message) {
     if (!userData[id].skillC) userData[id].skillC = "None";
 
     if (!userData[id].consum) userData[id].consum = {}
-
+    if (!userData[id].consum.explosion) userData[id].consum.explosion = 0;
+    if (!userData[id].consum.box) userData[id].consum.box = 0;
+    if (!userData[id].consum.sp) userData[id].consum.sp = 0;
+    if (!userData[id].consum.phoenixfeather) userData[id].consum.phoenixfeather = 0;
+    if (!userData[id].consum.nametag) userData[id].consum.nametag = 0;
+    if (!userData[id].consum.reroll) userData[id].consum.reroll = 0;
     /*
 	if (userData[id].attack > userData[id].level) userData[id].attack = userData[id].level;
 	if (userData[id].defense > userData[id].level) userData[id].defense = userData[id].level;
@@ -964,14 +968,21 @@ function checkStuff(message) {
         userData[id].start = true;
         //console.log(userData[id].start);
     }
-
-    if (admins.indexOf(message.author.id) == -1) {
+    if (admins.indexOf(id) == -1) {
         if (userData[id].attack > userData[id].level + calcExtraStat(id, "attack")) userData[id].attack = userData[id].level + userData[id].ascension * 10; //prevents overleveling
         if (userData[id].defense > userData[id].level + calcExtraStat(id, "defense")) userData[id].defense = userData[id].level + userData[id].ascension * 10;
         //extrahp = (userData[id].weapon != false && itemData[userData[id].weapon].modifiers.maxhp != undefined) ? itemData[userData[id].weapon].modifiers.maxhp : 0
         // if (userData[id].health > userData[id].level * 10 + extrahp) userData[id].health = userData[id].level * 10;
         if (userData[id].health > userData[id].level * 10 + +calcExtraStat(id, "health")) userData[id].health = userData[id].level * 10 + userData[id].ascension * 100;
     }
+}
+function checkStuff(message) {
+    let id = message.author.id
+    let ts = message.createdTimestamp;
+    let words = message.content.trim().split(/\s+/)
+    checkProps(message)
+
+    
 
     //userData[id].xp += Math.floor(20 * Math.random() + 1); //whenever a message is sent, their experience increases by a random number 1-25.
     userData[id].xp += 1 + Math.floor(Math.random() * userData[id].level);
@@ -1356,6 +1367,7 @@ module.exports.voteItem = function (message, dm) { return voteItem(message, dm) 
 module.exports.craftItem = function (message, minrarity, maxrarity, reply) { return craftItem(message, minrarity, maxrarity, reply) }
 module.exports.raidInfo = function (message, raid) { return raidInfo(message, raid) }
 module.exports.summon = function (channel, minlevel, maxlevel, name, image) { return summon(channel, minlevel, maxlevel, name, image) }
+module.exports.checkProps = function (message) { return checkProps(message) }
 module.exports.checkStuff = function (message) { return checkStuff(message) }
 module.exports.checkBurn = function (message) { return checkBurn(message) }
 module.exports.raidAttack = function (message, raid, resummon, isguild, isevent) { return raidAttack(message, raid, resummon, isguild, isevent) }
