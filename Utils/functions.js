@@ -2,11 +2,12 @@ function consumGive(target, item, amount) {
     if (!userData[target].consum[item]) {
         userData[target].consum[item] = 0;
     }
-    userData[target].consum[item] += amount;
-    if (userData[target].consum[item] < 0){
-        userData[target].consum[item] -= amount;
+    /*
+    if (userData[target].consum[item] < 0) {
         return false;
     }
+    */
+    userData[target].consum[item] += amount;
 }
 
 function clean(text) {
