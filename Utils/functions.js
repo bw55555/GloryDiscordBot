@@ -45,7 +45,7 @@ function deleteMessage(message) {
 }
 
 function dmUser(user, text) {
-    if (bot.users.get(user) == undefined) { return }
+    if (user == bot.id || bot.users.get(user) == undefined) { return }
     if (userData[user].dmmute != true) bot.users.get(user).send(text).catch(function (err) { console.error(err) })
 }
 
@@ -504,6 +504,7 @@ function calcDamage(message, attacker, defender, initiator) {
             attack = 0;
             if (userData[defender] != undefined && hasSkill(defender, 30, skillenable)) {
                 userData[defender].bolster = true
+                text += defendername + " was bolstered!"
             }
         }
     }
