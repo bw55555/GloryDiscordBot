@@ -24,7 +24,7 @@ module.exports = function (message) {
     }
     let getrarities = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     for (var i = 0; i < amount; i++) {
-      consumGive(id, box, -1);
+      functions.consumGive(id, box, -1);
       itemid = functions.craftItem(message, -1, -1, false);
       rarity = itemData[itemid].rarity
       getrarities[rarity] += 1
@@ -43,5 +43,5 @@ module.exports = function (message) {
   }
 
   functions.craftItem(message, -1, -1, true)
-  consumGive(id, box, -1);
+  functions.consumGive(id, box, -1);
 }

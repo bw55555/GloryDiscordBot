@@ -17,7 +17,7 @@ module.exports = function (message) {
     new functions.MessageAwait(message.channel, id, "Are you sure you want to Ascend? You will be set back to level 1 and leveling will become 1.5 times as hard!\nIf you are sure, type `confirm`", "confirm", function (response, extraArgs) {
         let id = extraArgs[1]
         let message = extraArgs[0]
-        consumGive(id, sp, 1)
+        functions.consumGive(id, sp, 1)
         userData[id].ascension += 1
         userData[id].level = 1
         userData[id].attack = userData[id].ascension * 10

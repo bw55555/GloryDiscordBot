@@ -15,12 +15,12 @@ module.exports = function (message) {
 
     if (attempt == 'EXAMPLE') {
         if (check(id, 1)) { return; }
-        consumGive(id, box, 1);
+        functions.consumGive(id, box, 1);
         return functions.replyMessage(message, "Well that was easy! You get a box!")
     }
     else if (attempt == 'EGGHUNT') {
         if (check(id, 2)) { return; }
-        consumGive(id, box, 3);;
+        functions.consumGive(id, box, 3);;
         return functions.replyMessage(message, "You're getting the hang of things! You get 3 boxes!")
     }
     else if (attempt == 'NIXOLIA') {

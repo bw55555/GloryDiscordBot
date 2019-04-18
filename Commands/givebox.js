@@ -35,8 +35,8 @@ module.exports=function(message) {
   //console.log(amount);
   if (userData[id].consum.box >= amount && amount > 0) {
     functions.sendMessage(message.channel, 'Sent ' + amount + ' boxes to <@' + target + ">");
-    consumGive(target, box, amount);;
-    consumGive(id, box, -1 * amount);
+    functions.consumGive(target, box, amount);;
+    functions.consumGive(id, box, -1 * amount);
   } else if (userData[id].consum.box < amount) {
     functions.sendMessage(message.channel, 'You can\'t give more boxes than you own');
   } else {
