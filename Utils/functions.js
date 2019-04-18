@@ -818,7 +818,7 @@ function craftItems(message, minrarity, maxrarity, amount) {
         let id = message.author.id;
         let getrarities = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         for (var i = 0; i < amount; i++) {
-            itemid = functions.craftItem(message, minrarity, maxrarity, false);
+            itemid = craftItem(message, minrarity, maxrarity, false);
             rarity = itemData[itemid].rarity
             getrarities[rarity] += 1
         }
@@ -829,7 +829,7 @@ function craftItems(message, minrarity, maxrarity, amount) {
         }
         return text
     } else {
-        functions.craftItem(message, minrarity, maxrarity, true)
+        craftItem(message, minrarity, maxrarity, true)
         return ""
     }
 }
