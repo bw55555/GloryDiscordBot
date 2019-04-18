@@ -37,36 +37,36 @@ module.exports = function (message) {
     }
 
     else if (purchaseID == 102) {
-        if (userData[id].materials < 200 * amount) {
+        if (userData[id].materials < 125 * amount) {
             functions.replyMessage(message, "You do not have enough materials to buy this!")
             return;
         }
-        userData[id].materials -= 200 * amount
-        functions.replyMessage(message, "You successfully spent " + 200 * amount + " materials for SIMPLE CRAFTING...")
+        userData[id].materials -= 125 * amount
+        functions.replyMessage(message, "You successfully spent " + 125 * amount + " materials for SIMPLE CRAFTING...")
         for (var i = 0; i < amount; i++) {
             functions.craftItem(message, 0, 2)
         }
     }
 
     else if (purchaseID == 103) {
-        if (userData[id].materials < 5000 * amount) {
+        if (userData[id].materials < 3125 * amount) {
             functions.replyMessage(message, "You do not have enough materials to buy this!")
             return;
         }
-        userData[id].materials -= 5000 * amount
-        functions.replyMessage(message, "You successfully spent " + 5000 * amount + " materials for MODERATE CRAFTING...")
+        userData[id].materials -= 3125 * amount
+        functions.replyMessage(message, "You successfully spent " + 3125 * amount + " materials for MODERATE CRAFTING...")
         for (var i = 0; i < amount; i++) {
             functions.craftItem(message, 2, 4)
         }
     }
 
     else if (purchaseID == 104) {
-        if (userData[id].materials < 100000 * amount) {
+        if (userData[id].materials < 78125 * amount) {
             functions.replyMessage(message, "You do not have enough materials to buy this!")
             return;
         }
-        userData[id].materials -= 100000 * amount
-        functions.replyMessage(message, "You successfully spent " + 100000 * amount + " materials for EXQUISITE CRAFTING...")
+        userData[id].materials -= 78125 * amount
+        functions.replyMessage(message, "You successfully spent " + 78125 * amount + " materials for EXQUISITE CRAFTING...")
         for (var i = 0; i < amount; i++) {
             functions.craftItem(message, 4, 6)
         }
