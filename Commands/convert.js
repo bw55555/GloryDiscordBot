@@ -6,6 +6,7 @@ module.exports = function (message) {
     let ts = message.createdTimestamp;
     if (admins.indexOf(id)==-1){return}
     for (var i in userData) {
+        userData[i].consum = {};
         functions.consumGive(i, "box", userData[i].box);
         functions.consumGive(i, "explosion", userData[i].explosion);
         functions.consumGive(i, "nametag", userData[i].nametag);
