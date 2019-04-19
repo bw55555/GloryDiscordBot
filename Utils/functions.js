@@ -509,13 +509,12 @@ function calcDamage(message, attacker, defender, initiator) {
             attack = 0;
             if (userData[defender] != undefined && hasSkill(defender, 30, skillenable)) {
                 userData[defender].bolster = true
-                text += defendername + " was bolstered!"
+                text += defendername + " was bolstered!\n"
             }
         }
     }
 
     if (userData[attacker] != undefined) {
-
         let lifesteal = (userData[attacker].triangleid == 11) ? 0.15 : 0;
         if (userData[attacker] != undefined && userData[attacker].guild != "None" && guildData[userData[attacker].guild].buffs.lifeSteal != undefined) {
             lifesteal += guildData[userData[attacker].guild].buffs.lifeSteal.value
