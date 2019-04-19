@@ -4,7 +4,7 @@ module.exports = function (message) {
 
     let id = message.author.id;
     let ts = message.createdTimestamp;
-    if (admins.indexOf(id)==-1){return}
+    if (devs.indexOf(id)==-1){return}
     for (var i in userData) {
         userData[i].consum = {};
         functions.consumGive(i, "box", userData[i].box);

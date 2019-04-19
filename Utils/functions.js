@@ -38,7 +38,7 @@ function replyMessage(message, text, override) {
 }
 function deleteMessage(message) {
     if (message.channel.guild != undefined && serverData[message.guild.id] != undefined && serverData[message.guild.id].disabledChannels.indexOf(message.channel.id) != -1) { return; }
-    if (message.channel.type == "dm" || message.channel.type == "group" || (message.channel.memberPermissions(bot.user) != null && !message.channel.memberPermissions(bot.user).has("MANAGE_MESSAGES"))) { return }
+    if (message.channel.type != "dm" && message.channel.type != "group" && (message.channel.memberPermissions(bot.user) != null && !message.channel.memberPermissions(bot.user).has("MANAGE_MESSAGES"))) { return }
     message.delete().catch(function (err) {
         console.error(err)
     })

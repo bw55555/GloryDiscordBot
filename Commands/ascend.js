@@ -5,7 +5,7 @@ module.exports = function (message) {
     let words = message.content.split(/\s+/)
     //if (admins.indexOf(id) == -1) { return }
     if (userData[id].level != 100) { return functions.replyMessage(message, "You must be level 100 to ascend!") }
-    if (userData[id].attack - calcExtraStat(id, "attack") != 100 && userData[id].defense - calcExtraStat(id, "defense") != 100 && userData[id].health - calcExtraStat(id, "health") != 1000) { return functions.replyMessage(message, "You must have lvl 100 stats to ascend!") }
+    if (userData[id].attack - functions.calcExtraStat(id, "attack") != 100 && userData[id].defense - functions.calcExtraStat(id, "defense") != 100 && userData[id].health - functions.calcExtraStat(id, "health") != 1000) { return functions.replyMessage(message, "You must have lvl 100 stats to ascend!") }
     /*    userData[id].sp += 1
         userData[id].ascension += 1
         userData[id].level = 1
