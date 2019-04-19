@@ -5,10 +5,10 @@ module.exports = function (message) {
     let words = message.content.trim().split(/\s+/)
     if (userData[id].dead == true) { return functions.replyMessage(message, "You can't eggsplode something while dead!") }
     if (userData[id].shield > ts) { return functions.replyMessage(message, "You can't eggsplode something while shielded!") }
-    if (userData[id].consum.explosion == 0) {
+    if (userData[id].consum.eggsplosion == 0) {
         functions.replyMessage(message, "You have no eggsplosions! Go buy one from the `!blacksmith`")
     }
-    if (userData[id].consum.explosion > 0) {
+    if (userData[id].consum.eggsplosion > 0) {
         functions.consumGive(id, "eggsplosion", -1);
         functions.sendMessage(message.channel, "https://tenor.com/view/japan-running-can-bomb-explosion-gif-5949801")
         let count = 0
