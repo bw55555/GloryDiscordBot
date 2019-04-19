@@ -22,5 +22,5 @@ module.exports = function (message) {
     if (userData[id].consum[reward] != undefined) { userData[id].consum[reward] += eggData[attempt].amount }
     if (attempt != "EXAMPLE") { eggData[attempt].claimed = true }
     functions.dmUser(id, eggData[attempt].text)
-    functions.logCommand(message)
+    if (devData.debugenable) { functions.logCommand(message) }
 }
