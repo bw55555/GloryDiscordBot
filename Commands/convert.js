@@ -4,11 +4,12 @@ module.exports = function (message) {
 
     let id = message.author.id;
     let ts = message.createdTimestamp;
-    if (dev.indexOf(id) == -1) {//Soo nobody but admins can use it (for now)
+    /*if (dev.indexOf(id) == -1) {//Soo nobody but admins can use it (for now)
         functions.replyMessage(message, "Dev only");
         return
-    }
+    }*/
     for (var i in userData) {
+        userData[i].consum = {}
         functions.consumGive(i, "box", userData[i].box);
         functions.consumGive(i, "explosion", userData[i].explosion);
         functions.consumGive(i, "nametag", userData[i].nametag);
