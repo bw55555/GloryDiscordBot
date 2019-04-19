@@ -501,7 +501,7 @@ function calcDamage(message, attacker, defender, initiator) {
         let defendername = defender.name
         if (userData[defender] != undefined) { defendername = "<@" + defender + ">" }
         let attackername = attacker.name
-        if (userData[attacker] != undefined) { defendername = "<@" + attacker + ">" }
+        if (userData[attacker] != undefined) { attackername = "<@" + attacker + ">" }
         if (piercechance < piercerate) {
             text += defendername + " has blocked the attack, but" + attackername + "pierced though anyway!\n"
         } else {
