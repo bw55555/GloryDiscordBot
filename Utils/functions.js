@@ -2,11 +2,11 @@ function consumGive(target, item, amount) {
     if (!userData[target].consum[item]) {
         userData[target].consum[item] = 0;
     }
-    /*
-    if (userData[target].consum[item] < 0) {
-        return false;
+
+    if (amount < 0 && userData[target].consum[item] + amount < 0) {
+        sendMessage(message.channel, "Negative consum value error")
+        return false
     }
-    */
     userData[target].consum[item] += amount;
 }
 
@@ -264,7 +264,7 @@ function generateRandomItem(owner, rarity) {
     }
     let attack = Math.floor(Math.random() * (total + 1))
     let defense = total - attack
-    
+
     generateItem(owner, itemid, attack, defense, rarity, undefined, undefined)
     return itemid
 }
@@ -1008,7 +1008,7 @@ function checkStuff(message) {
     let words = message.content.trim().split(/\s+/)
     checkProps(message)
 
-    
+
 
     //userData[id].xp += Math.floor(20 * Math.random() + 1); //whenever a message is sent, their experience increases by a random number 1-25.
     userData[id].xp += 1 + Math.floor(Math.random() * userData[id].level);
