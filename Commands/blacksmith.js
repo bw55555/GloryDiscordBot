@@ -29,19 +29,16 @@ module.exports=function(message) {
     itemCost += "10000\n"
 
     //event items
-    itemName += "ID 301 - Sweet n' Salty Egg\n"
-    itemDesc += "Will it be sweet or salty?\n"
-    itemCost += "10000\n"
-    itemName += "ID 302 - Mystery Egg\n"
-    itemDesc += "Pelt someone with an egg (ow)\n"
-    itemCost += "10000\n"
-    itemName += "ID 303 - Egg Fiesta\n"
-    itemDesc += "Pelt everyone nearby with eggs\n"
-    itemCost += "100000\n"
+    itemName += "ID 301 - Egg\n"
+    itemDesc += "Will it be a good or bad egg?\n"
+    itemCost += "3000\n"
+    itemName += "ID 302 - Eggsplosion\n"
+    itemDesc += "Pelt everyone nearby with an egg!\n"
+    itemCost += "30000\n"
 
     functions.sendMessage(message.channel, {
       "embed": {
-        "title": "The Blacksmith",
+        "title": "The Smith",
         "description": "Welcome to the blacksmith\nUse `!purchase [ID_of_Item]` to select the item you want to buy!\n",
         "color": 13498074,
 

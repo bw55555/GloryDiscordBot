@@ -115,16 +115,22 @@ module.exports = function (message) {
 
     }
     else if (purchaseID == 301) {
-        functions.replyMessage(message, "This feature is on hold!")
-        return;
+        if (userData[id].materials < 3000 * amount) {
+            functions.replyMessage(message, "You do not have enough materials to buy this!")
+            return;
+        }
+        userData[id].materials -= 3000 * amount
+        functions.replyMessage(message, "You successfully spent " + 3000 * amount + " materials for " + amount + " egg(s)! Use `!pelt` to throw it at someone!")
+        functions.consumGive(id, "egg", amount);
     } 
     else if (purchaseID == 302) {
-        functions.replyMessage(message, "This feature is on hold!")
-        return;
-    } 
-    else if (purchaseID == 303) {
-        functions.replyMessage(message, "This feature is on hold!")
-        return;
+        if (userData[id].materials < 30000 * amount) {
+            functions.replyMessage(message, "You do not have enough materials to buy this!")
+            return;
+        }
+        userData[id].materials -= 30000 * amount
+        functions.replyMessage(message, "You successfully spent " + 30000 * amount + " materials for " + amount + " eggsplosions! Use `!eggsplosion` to pelt EVERYONE with eggs!")
+        functions.consumGive(id, "eggsplosion", amount);
     } 
     else {
         functions.replyMessage(message, "Make sure you're selecting a real item!")

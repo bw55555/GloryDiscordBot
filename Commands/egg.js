@@ -6,6 +6,9 @@ module.exports = function (message) {
     functions.deleteMessage(message);
     if (words[1] == undefined) { return functions.dmUser(id, "All easter eggs are 7 characters long!") }
     let attempt = words[1].toUpperCase()
+    if (attempt.length == 0){
+        return functions.dmUser(id, "Find easter eggs before everyone else does to get prizes!")
+    }
     if (attempt.length != 7) {
         return functions.dmUser(id, "All easter eggs are 7 characters long!")
     }
