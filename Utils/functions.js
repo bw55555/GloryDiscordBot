@@ -211,7 +211,27 @@ function generateGuildTemplate(guild) {
     }
 }
 function generateItem(owner, itemid, attack, defense, rarity, name, modifiers) {
-    if (itemid == null || itemid == "") {
+    if (modifiers == undefined) { modifiers = {} }
+    if (name == undefined) {
+        let items = ["Stick", "Pebble", "Rock", "Sling"]
+        if (!isNaN(userData[owner].triangleid)) {
+            if (userData[owner].triangleid % 3 == 1) {
+                items = ["Bow", "Crossbow", "Longbow", "Recurve Bow", "Flatbow", "Rifle Crossbow", "Kunai", "Throwing Stars", "Shuriken", "Sniper", "Yumi", "Blow Darts", "Throwing Knife", "Rifle", "Pistol"]
+            }
+            else if (userData[owner].triangleid % 3 == 2) {
+                items = ["Diamond", "Amulet", "Staff", "Wand", "Gem", "Talisman", "Spellblade", "Orb", "Tome", "Book", "Focus", "Flames", "Asta", "Crystal", "Runes", "Runestaff", "Ragnell", "Aura", "Arcanics", "Skull", "Rite"]
+            }
+            else if (userData[owner].triangleid % 3 == 0 && userData[owner].triangleid != 0) {
+                items = ["Sword", "Axe", "Lance", "Spear", "Rapier", "Mace", "Scythe", "Hammer", "Longsword", "Claymore", "Dagger", "Knife", "Scimitar", "Broadsword", "Katana", "Falchion", "Cutlass", "Sabre", "Dao", "Khopesh", "Tachi"]
+            }
+            if (attack * 5 < defense) {
+                items = ["Shield", "Plate", "Robes", "Armor", "Mail"];
+            }
+        }
+        name = rarities[rarity] + " " + items[Math.floor(Math.random() * items.length)]
+
+    }
+    if (itemid == null || itemid == "" || itemid == undefined) {
         itemid = itemData.next;
     }
     if (owner != "event") { userData[owner].inventory[itemid] = itemid }
@@ -244,23 +264,8 @@ function generateRandomItem(owner, rarity) {
     }
     let attack = Math.floor(Math.random() * (total + 1))
     let defense = total - attack
-    let items = ["Stick", "Pebble", "Rock", "Sling"]
-    if (!isNaN(userData[owner].triangleid)) {
-        if (userData[owner].triangleid % 3 == 1) {
-            items = ["Bow", "Crossbow", "Longbow", "Recurve Bow", "Flatbow", "Rifle Crossbow", "Kunai", "Throwing Stars", "Shuriken", "Sniper", "Yumi", "Blow Darts", "Throwing Knife", "Rifle", "Pistol"]
-        }
-        else if (userData[owner].triangleid % 3 == 2) {
-            items = ["Diamond", "Amulet", "Staff", "Wand", "Gem", "Talisman", "Spellblade", "Orb", "Tome", "Book", "Focus", "Flames", "Asta", "Crystal", "Runes", "Runestaff", "Ragnell", "Aura", "Arcanics", "Skull", "Rite"]
-        }
-        else if (userData[owner].triangleid % 3 == 0 && userData[owner].triangleid != 0) {
-            items = ["Sword", "Axe", "Lance", "Spear", "Rapier", "Mace", "Scythe", "Hammer", "Longsword", "Claymore", "Dagger", "Knife", "Scimitar", "Broadsword", "Katana", "Falchion", "Cutlass", "Sabre", "Dao", "Khopesh", "Tachi"]
-        }
-        if (attack * 5 < defense) {
-            items = ["Shield", "Plate", "Robes", "Armor", "Mail"];
-        }
-    }
-    let name = rarities[rarity] + " " + items[Math.floor(Math.random() * items.length)]
-    generateItem(owner, itemid, attack, defense, rarity, name, {})
+    
+    generateItem(owner, itemid, attack, defense, rarity, undefined, undefined)
     return itemid
 }
 function calcExtraStat(id, stat) {
