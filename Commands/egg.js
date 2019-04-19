@@ -12,6 +12,8 @@ module.exports = function (message) {
     if (eggData[attempt] == undefined) { return functions.dmUser(id, "You tried this code... and nothing happened") }
     let reward = eggData[attempt].reward
     if (eggData[attempt].claimed == true) { return functions.dmUser(id, "This code has been claimed already!") }
+    if (eggData[attempt][id] == true) { return functions.dmUser(id, "You have already claimed this egg!") }
+    eggData[attempt][id] = true
     if (reward == "item") {
         let rewardItemData = eggData[attempt].amount
         functions.generateItem(id, itemData.next, rewardItemData.attack, rewardItemData.defense, rewardItemData.rarity, rewardItemData.name, rewardItemData.modifiers)
