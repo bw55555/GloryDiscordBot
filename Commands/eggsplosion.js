@@ -18,6 +18,7 @@ module.exports = function (message) {
                 count++;
                 let luck = Math.random();
                 let rmessage = ""
+                
                 if (luck > 0.9) {
                     userData[target].bolster = true;
                     rmessage += "It was a Strong Egg! <@" + target + "> became Bolstered"
@@ -46,11 +47,13 @@ module.exports = function (message) {
                     rmessage += "It was a Poisonous Egg! <@" + target + "> took **" + Math.floor(userData[target].health / 7) + "** damage!"
                 }
                 else if (luck > 0.3) {
+                    userData[target].currenthealth -= 1
                     rmessage += "It was just an Egg! <@" + target + "> took 1 damage!"
                 }
                 else {
                     bystander = talkedRecently[Math.floor(Math.random * talkedRecently.length)]
                     if (userData[bystander].dead == false) {
+                        userData[bystander].currenthealth = 0
                         userData[bystander].dead = true;
                     }
                     rmessage += "It was just an Egg! <@" + target + "> took 1 damage! An evil bunny hatched from the egg and attacked <@" + bystander + ">. They died in a flurry of claws."
