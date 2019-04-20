@@ -36,7 +36,8 @@ module.exports = function (message) {
                     rmessage += "It was a Sharp Egg! <@" + target + "> can now use it as a Rare 10/10 Egg weapon!"
                 }
                 else if (luck > 0.5) {
-                    userData[target].burn = 4;
+                    if (userData[target].burn == undefined) { userData[target].burn = 0 }
+                    userData[target].burn += 4;
                     rmessage += "It was a Flaming Egg! <@" + target + "> has been set on fire!"
                 }
                 else if (luck > 0.4) {
