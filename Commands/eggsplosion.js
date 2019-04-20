@@ -51,12 +51,11 @@ module.exports = function (message) {
                     rmessage += "It was just an Egg! <@" + target + "> took 1 damage!"
                 }
                 else {
-                    bystander = talkedRecently[Math.floor(Math.random * talkedRecently.length)]
-                    if (userData[bystander].dead == false) {
-                        userData[bystander].currenthealth = 0
-                        userData[bystander].dead = true;
+                    if (userData[target].dead == false) {
+                        userData[target].currenthealth = 0
+                        userData[target].dead = true;
                     }
-                    rmessage += "It was just an Egg! <@" + target + "> took 1 damage! An evil bunny hatched from the egg and attacked <@" + bystander + ">. They died in a flurry of claws."
+                    rmessage += "It was just an Egg! An evil bunny hatched from the egg and attacked <@" + target + ">. They died in a flurry of claws."
                 }
                 text += "<@" + id + "> pelted <@" + target + "> with an egg!\n" + rmessage
                 functions.dmUser(target, "https://tenor.com/view/japan-running-can-bomb-explosion-gif-5949801 \n<@" + id + "> pelted you with an egg!\n" + rmessage)
