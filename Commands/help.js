@@ -109,7 +109,7 @@ module.exports=function(message) {
         }
         else if (word2 == "EXPLOSION") {
             //explosion text
-            text = "```Kills every person who talked in any server in presence of Glory in last few seconds!!\nSyntax: " + prefix + "explosion```"
+            text = "```Kills every person who talked in any server in presence of Glory in last few seconds BOOM!! EXPLSHN!!!\nSyntax: " + prefix + "explosion```"
         }
         else if (word2 == "GIVEITEM") {
             //giveitem text
@@ -137,7 +137,11 @@ module.exports=function(message) {
         }
         else if (word2 == "EASTEREGG") {
             //easteregg text
-            text = "```There is no command called easteregg!\nHowever, there are a few eastereggs... It doesn't take an Oracle to find em.```"
+            text = "```There is no command called easteregg!\nHowever, there are a few eastereggs... It doesn't take ORACLES to find em.```"
+        }
+        else if (word2 == "EGG") {
+            //easteregg text
+            text = "```There are SECRETS hidden in the game and the support server. Use !egg (word) to claim them... See the support server for more details. ```"
         }
         else if (word2 == "BW5555") {
             //bw5555 text
@@ -173,7 +177,7 @@ module.exports=function(message) {
         }
         else if (word2 == "MARRY") {
             //marry text
-            text = "```Propose or accept a propose from another player!\nSyntax: " + prefix + "marry <target>```"
+            text = "```Propose to another player!\nSyntax: " + prefix + "marry <target>```"
         }
         else if (word2 == "CHILD") {
             //child text

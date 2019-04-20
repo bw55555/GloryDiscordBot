@@ -17,7 +17,7 @@ module.exports = function (message) {
         return;
     }
     if (target == id) {
-        functions.replyMessage(message, "You just smacked an egg into your own face! :/");
+        functions.replyMessage(message, "You just SMACKED an egg into your own face! :/");
     }
     functions.consumGive(id, "egg", -1);
     userData[target].currenthealth -= 1;
@@ -40,8 +40,9 @@ module.exports = function (message) {
         functions.generateItem(target, itemData.next, 10, 10, 4, "Egg")
         rmessage += "It was a Sharp Egg! <@" + target + "> can now use it as a Rare 10/10 Egg weapon!"
     }
-    else if (luck > 0.5){
-        userData[target].burn = 4;
+    else if (luck > 0.5) {
+        if (userData[target].burn == undefined) { userData[target].burn = 0}
+        userData[target].burn += 4;
         rmessage += "It was a Flaming Egg! <@" + target + "> has been set on fire!"
     }
     else if (luck > 0.4){
@@ -55,11 +56,11 @@ module.exports = function (message) {
         rmessage += "It was just an Egg! <@" + target + "> took 1 damage!"
     }
     else{
-        bystander = talkedRecently[Math.floor(Math.random * talkedRecently.length)]
-        if (userData[bystander].dead == false){
-            userData[bystander].dead = true;
+        if (userData[target].dead == false) {
+            userData[target].currenthealth = 0
+            userData[target].dead = true;
         }
-        rmessage += "It was just an Egg! <@" + target + "> took 1 damage! An evil bunny hatched from the egg and attacked <@" + bystander + ">. They died in a flurry of claws."
+        rmessage += "It was just an Egg! An evil bunny hatched from the egg and attacked <@" + target + ">. They died in a flurry of claws."
     }
     functions.sendMessage(message.channel, "https://tenor.com/view/miripaskal-purim2018-egg-gif-11229487" + "\n<@" + id + "> pelted <@" + target + "> with an egg!\n" + rmessage
     )

@@ -5,10 +5,10 @@ module.exports = function (message) {
     let words = message.content.trim().split(/\s+/)
     if (userData[id].dead == true) { return functions.replyMessage(message, "You can't eggsplode something while dead!") }
     if (userData[id].shield > ts) { return functions.replyMessage(message, "You can't eggsplode something while shielded!") }
-    if (userData[id].consum.explosion == 0) {
+    if (userData[id].consum.eggsplosion == 0) {
         functions.replyMessage(message, "You have no eggsplosions! Go buy one from the `!blacksmith`")
     }
-    if (userData[id].consum.explosion > 0) {
+    if (userData[id].consum.eggsplosion > 0) {
         functions.consumGive(id, "eggsplosion", -1);
         functions.sendMessage(message.channel, "https://tenor.com/view/japan-running-can-bomb-explosion-gif-5949801")
         let count = 0
@@ -18,6 +18,7 @@ module.exports = function (message) {
                 count++;
                 let luck = Math.random();
                 let rmessage = ""
+                
                 if (luck > 0.9) {
                     userData[target].bolster = true;
                     rmessage += "It was a Strong Egg! <@" + target + "> became Bolstered"
@@ -35,7 +36,8 @@ module.exports = function (message) {
                     rmessage += "It was a Sharp Egg! <@" + target + "> can now use it as a Rare 10/10 Egg weapon!"
                 }
                 else if (luck > 0.5) {
-                    userData[target].burn = 4;
+                    if (userData[target].burn == undefined) { userData[target].burn = 0 }
+                    userData[target].burn += 4;
                     rmessage += "It was a Flaming Egg! <@" + target + "> has been set on fire!"
                 }
                 else if (luck > 0.4) {
@@ -46,14 +48,15 @@ module.exports = function (message) {
                     rmessage += "It was a Poisonous Egg! <@" + target + "> took **" + Math.floor(userData[target].health / 7) + "** damage!"
                 }
                 else if (luck > 0.3) {
+                    userData[target].currenthealth -= 1
                     rmessage += "It was just an Egg! <@" + target + "> took 1 damage!"
                 }
                 else {
-                    bystander = talkedRecently[Math.floor(Math.random * talkedRecently.length)]
-                    if (userData[bystander].dead == false) {
-                        userData[bystander].dead = true;
+                    if (userData[target].dead == false) {
+                        userData[target].currenthealth = 0
+                        userData[target].dead = true;
                     }
-                    rmessage += "It was just an Egg! <@" + target + "> took 1 damage! An evil bunny hatched from the egg and attacked <@" + bystander + ">. They died in a flurry of claws."
+                    rmessage += "It was just an Egg! An evil bunny hatched from the egg and attacked <@" + target + ">. They died in a flurry of claws."
                 }
                 text += "<@" + id + "> pelted <@" + target + "> with an egg!\n" + rmessage
                 functions.dmUser(target, "https://tenor.com/view/japan-running-can-bomb-explosion-gif-5949801 \n<@" + id + "> pelted you with an egg!\n" + rmessage)

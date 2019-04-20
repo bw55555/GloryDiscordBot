@@ -51,6 +51,9 @@ let page1 = {
               "value": "Displays stats related to bot's popularity"
           }
         ]
+    },
+    "footer": {
+        "text": 'HELPEGG'
     }
 }
 //PAGE 1 ENDS
@@ -153,7 +156,7 @@ let page3 = {
               "value": "Swaps subclasses between life/blood weaver"
           },
           {
-              "name": "bolster [@player/id]",
+              "name": "BOLSTER [@player/id]",
               "value": "Boosts selected players damage, could be used by paladin only"
           },
           {

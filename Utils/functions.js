@@ -1,11 +1,10 @@
 function consumGive(target, item, amount) {
     if (!userData[target].consum[item]) {
-        userData[target].consum[item] = 0;
+        
     }
 
     if (amount < 0 && userData[target].consum[item] + amount < 0) {
-        sendMessage(message.channel, "Negative consum value error")
-        return false
+        userData[target].consum[item] = 0;
     }
     userData[target].consum[item] += amount;
 }
@@ -38,7 +37,7 @@ function replyMessage(message, text, override) {
 }
 function deleteMessage(message) {
     if (message.channel.guild != undefined && serverData[message.guild.id] != undefined && serverData[message.guild.id].disabledChannels.indexOf(message.channel.id) != -1) { return; }
-    if (message.channel.type == "dm" || message.channel.type == "group" || (message.channel.memberPermissions(bot.user) != null && !message.channel.memberPermissions(bot.user).has("MANAGE_MESSAGES"))) { return }
+    if (!message.deletable) { return }
     message.delete().catch(function (err) {
         console.error(err)
     })
@@ -977,6 +976,8 @@ function checkProps(message) {
 
     if (!userData[id].consum) userData[id].consum = {}
     if (!userData[id].consum.explosion) userData[id].consum.explosion = 0;
+    if (!userData[id].consum.egg) userData[id].consum.egg = 0;
+    if (!userData[id].consum.eggsplosion) userData[id].consum.eggsplosion = 0;
     if (!userData[id].consum.box) userData[id].consum.box = 0;
     if (!userData[id].consum.sp) userData[id].consum.sp = 0;
     if (!userData[id].consum.phoenixfeather) userData[id].consum.phoenixfeather = 0;
@@ -995,11 +996,11 @@ function checkProps(message) {
         //console.log(userData[id].start);
     }
     if (admins.indexOf(id) == -1) {
-        if (userData[id].attack > userData[id].level + calcExtraStat(id, "attack")) userData[id].attack = userData[id].level + userData[id].ascension * 10; //prevents overleveling
-        if (userData[id].defense > userData[id].level + calcExtraStat(id, "defense")) userData[id].defense = userData[id].level + userData[id].ascension * 10;
+        if (userData[id].attack > userData[id].level + calcExtraStat(id, "attack")) userData[id].attack = userData[id].level + calcExtraStat(id, "attack"); //prevents overleveling
+        if (userData[id].defense > userData[id].level + calcExtraStat(id, "defense")) userData[id].defense = userData[id].level + calcExtraStat(id, "defense")
         //extrahp = (userData[id].weapon != false && itemData[userData[id].weapon].modifiers.maxhp != undefined) ? itemData[userData[id].weapon].modifiers.maxhp : 0
         // if (userData[id].health > userData[id].level * 10 + extrahp) userData[id].health = userData[id].level * 10;
-        if (userData[id].health > userData[id].level * 10 + +calcExtraStat(id, "health")) userData[id].health = userData[id].level * 10 + userData[id].ascension * 100;
+        if (userData[id].health > userData[id].level * 10 + calcExtraStat(id, "health")) userData[id].health = userData[id].level * 10 + calcExtraStat(id, "health")
     }
 }
 function checkStuff(message) {
