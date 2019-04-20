@@ -448,6 +448,7 @@ module.exports = function (message) {
             if (isNaN(buff) || guildBuffStore[buff] == undefined) { return functions.replyMessage(message, "This buff does not exist!") }
             let buffname = guildBuffStore[buff].stat
             let bufflevel = guildData[guild].buffs[buffname] == undefined ? 0 : guildData[guild].buffs[buffname].level
+            if (bufflevel >= guildBuffStore[buff].bonus.length - 1) { return functions.replyMessage(message, "This buff is at the maximum level!") }
             if (guildBuffStore[buff].levels[bufflevel + 1] > guildData[guild].level) { return functions.replyMessage(message, "You cannot upgrade this buff since your guild is not at a high enough level!") }
             if (guildData[guild].crystals < guildBuffStore[buff].prices[bufflevel + 1]) { return functions.replyMessage(message, "Your guild does not have enough crystals!") }
             guildData[guild].crystals -= guildBuffStore[buff].prices[bufflevel + 1]
@@ -576,7 +577,7 @@ module.exports = function (message) {
         for (var buffno in guildBuffStore) {
             let buff = guildBuffStore[buffno].stat
             let bufflevel = guildData[guild].buffs[buff] == undefined ? 0 : guildData[guild].buffs[buff].level
-            if (bufflevel >= guildBuffStore[buffno][bonus].length-1) { return functions.replyMessage(message,"This buff is at the maximum level!")}
+            
             let numspaces = 15 - guildBuffStore[buffno].name.length - buffno.length
             let leveltext = (guildBuffStore[buffno].levels[bufflevel + 1] > guildData[guild].level) ? " (guild level " + guildBuffStore[buffno].levels[bufflevel + 1] + " required for next upgrade)" : "(Ready to upgrade to " + (100 * guildBuffStore[buffno].bonus[bufflevel + 1]) + "%)"
             text += "[" + buffno + "] " + guildBuffStore[buffno].name + " ".repeat(numspaces) + ": " + (100 * guildBuffStore[buffno].bonus[bufflevel]) + "% (level " + bufflevel + ")" + leveltext + "\n"
