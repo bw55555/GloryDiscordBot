@@ -188,10 +188,5 @@
         "name": "Dispel",
         "id": 37,
         "description": "Dispels the opponent's tempo, combo, spikes, and burn."
-    },
-    {
-        "name": "Douse",
-        "id": 38,
-        "description": "Protects you from burning if you get attacked."
     }
 ]
