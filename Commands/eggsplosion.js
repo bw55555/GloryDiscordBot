@@ -3,6 +3,7 @@ module.exports = function (message) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
+    let text = ""
     if (userData[id].dead == true) { return functions.replyMessage(message, "You can't eggsplode something while dead!") }
     if (userData[id].shield > ts) { return functions.replyMessage(message, "You can't eggsplode something while shielded!") }
     if (userData[id].consum.eggsplosion == 0) {
