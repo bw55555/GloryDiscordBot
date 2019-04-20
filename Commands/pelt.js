@@ -55,6 +55,10 @@ module.exports = function (message) {
     else if (luck > 0.3){
         rmessage += "It was just an Egg! <@" + target + "> took 1 damage!"
     }
+    else if (luck > 0.15){
+        functions.consumGive(target, "egg", 1)
+        rmessage += "It was just an Egg! <@" + target + "> caught it and looks awkwardly at you!"
+    }
     else{
         if (userData[target].dead == false) {
             userData[target].currenthealth = 0

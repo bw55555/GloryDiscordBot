@@ -17,7 +17,7 @@ module.exports = function (message) {
       if (talkedRecently.has(i) && i != id) {
         if (userData[id].dead == true) { continue }
         count++;
-        let blast = (Math.floor(Math.random() * 1500));
+        let blast = (Math.floor(Math.random() * 3000));
         //let blast = 0;
         let trueblast = Math.floor(blast - userData[i].defense);
         text += "<@" + i + "> was caught in the explosion and took " + trueblast + " damage!\n"

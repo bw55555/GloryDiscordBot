@@ -3,6 +3,7 @@ module.exports = function (message) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
+    let text = ""
     if (userData[id].dead == true) { return functions.replyMessage(message, "You can't eggsplode something while dead!") }
     if (userData[id].shield > ts) { return functions.replyMessage(message, "You can't eggsplode something while shielded!") }
     if (userData[id].consum.eggsplosion == 0) {
@@ -50,6 +51,10 @@ module.exports = function (message) {
                 else if (luck > 0.3) {
                     userData[target].currenthealth -= 1
                     rmessage += "It was just an Egg! <@" + target + "> took 1 damage!"
+                }
+                else if (luck > 0.15){
+                    functions.consumGive(target, "egg", 1)
+                    rmessage += "It was just an Egg! <@" + target + "> caught it and looks awkwardly at you!"
                 }
                 else {
                     if (userData[target].dead == false) {
