@@ -23,7 +23,7 @@ module.exports = function (message) {
         functions.generateItem(id, itemData.next, rewardItemData.attack, rewardItemData.defense, rewardItemData.rarity, rewardItemData.name, rewardItemData.modifiers)
     }
     if (userData[id][reward] != undefined) { userData[id][reward] += eggData[attempt].amount }
-    if (userData[id].consum[reward] != undefined) { userData[id].consum[reward] += eggData[attempt].amount }
+    if (userData[id].consum[reward] != undefined) { functions.consumGive(id, reward, eggData[attempt].amount) }
     if (attempt != "EXAMPLE") { eggData[attempt].claimed = true }
     
     functions.dmUser(id, eggData[attempt].text)
