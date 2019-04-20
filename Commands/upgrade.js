@@ -9,7 +9,8 @@ function upgradeStats(attributeToUpgrade, amount,id) {
     let text = ""
     let extrastat = functions.calcExtraStat(id, attributeToUpgrade)
     while (amount > 0) {
-        let basestat = userData[id][attributeToUpgrade]-extrastat
+        let basestat = userData[id][attributeToUpgrade] - extrastat
+        if (basestat < 1) { return functions.replyMessage("Too high extra stat...")}
         cost = Math.floor(100 / attrcosts[attributeToUpgrade] * (basestat + attrcosts[attributeToUpgrade]));
         if (userData[id].money >= cost && userData[id].level * attrcosts[attributeToUpgrade] > basestat) {
             userData[id].money -= cost;
