@@ -363,13 +363,9 @@ function calcDamage(message, attacker, defender, initiator) {
         } else {
 
         }
-        if (hasSkill(attacker, 37, skillenable)) {
-            userData[defender].speed = 0
-            text += "<@" + defender + ">'s tempo was dispelled!"
-        }
-        if (hasSkill(defender, 37, skillenable)) {
+        if (hasSkill(defender, 37) && userData[attacker].speed > 0) {
             userData[attacker].speed = 0
-            text += "<@" + attacker + ">'s tempo was dispelled!"
+            text += "<@" + attacker + ">'s tempo was dispelled!\n"
         }
     }
 
@@ -431,14 +427,20 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     if (spikedmod > 0) {
         let spiked = Math.floor(defense * spikedmod)
-        if (userData[attacker] != undefined && !hasSkill(attacker, 37)) {
-            userData[attacker].currenthealth -= spiked
-            text += "<@" + attacker + "> has been damaged for " + spiked + " health due to spikes!\n"
+        if (userData[attacker] != undefined) {
+            if (hasSkill(attacker, 37)) { text += "<@" + defender + ">'s spikes was dispelled!\n" }
+            else {
+                userData[attacker].currenthealth -= spiked
+                text += "<@" + attacker + "> has been damaged for " + spiked + " health due to spikes!\n"
+            }
             if (userData[defender] != undefined) {
-                if (hasSkill(defender, 31, skillenable) && !hasSkill(attacker, 37)) {
-                    if (userData[attacker].burn == undefined) { userData[attacker].burn = 0 }
-                    userData[attacker].burn += spikedmod * 5; //Burn status, if burning, have a chance to take 5% damage after talking.
-                    text += "<@" + attacker + "> is now burning!"
+                if (hasSkill(defender, 31, skillenable)) {
+                    if (hasSkill(attacker, 37)) { text += "<@" + defender + ">'s burn was dispelled!\n" }
+                    else {
+                        if (userData[attacker].burn == undefined) { userData[attacker].burn = 0 }
+                        userData[attacker].burn += spikedmod * 5; //Burn status, if burning, have a chance to take 5% damage after talking.
+                        text += "<@" + attacker + "> is now burning!"
+                    }
                 }
             }
         } else {
@@ -460,7 +462,10 @@ function calcDamage(message, attacker, defender, initiator) {
             burn += 5;
         }
     }
-    if (userData[defender] != undefined && hasSkill(defender, 37, skillenable)) { burn = 0 }
+    if (userData[defender] != undefined && hasSkill(defender, 37)) {
+        text += "<@"+attacker+">'s burn was dispelled!\n"
+        burn = 0
+    }
     if (burn > 0) {
         if (userData[defender] != undefined) {
             userData[defender].burn = burn;
