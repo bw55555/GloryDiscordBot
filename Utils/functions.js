@@ -1186,7 +1186,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
             }
             for (var k = 0; k < 2; k++) {
                 var i = Math.floor(Math.random() * keys.length)
-                consumGive(id, "reroll", 1);
+                consumGive(keys[id], "reroll", 1);
                 text += "<@" + keys[i] + "> was lucky and recieved a skill reroll!\n"
             }
         } else {
