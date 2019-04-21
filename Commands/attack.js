@@ -29,11 +29,11 @@ module.exports = function (message) {
     functions.replyMessage(message, "They are protected from attacks! Try again in " + functions.displayTime(userData[target].shield, ts));
     return;
   }
-  if (userData[id].level > userData[target].level + 25 && (userData[id].ascension == 0 || userData[target].ascension == 0)) {
+  if (userData[id].ascension * 10 + userData[id].level > userData[target].ascension * 10 + userData[target].level + 25) {
     functions.replyMessage(message, "You can't attack anyone that's less than 25 levels less than you!");
     return;
   }
-  if (userData[id].level < userData[target].level - 25 && (userData[id].ascension == 0 || userData[target].ascension == 0)) {
+  if (userData[id].ascension * 10 + userData[id].level < userData[target].ascension * 10 + userData[target].level - 25) {
     functions.replyMessage(message, "You can't attack anyone that's more than 25 levels higher than you!");
     return;
   }
