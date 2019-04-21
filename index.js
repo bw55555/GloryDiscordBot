@@ -115,6 +115,7 @@ function evaluateMessage(message) {
     if (message.content.startsWith(prefix + "setcommandtimer") && devs.indexOf(message.author.id) != -1) {
         let words = message.content.trim().split(/\s+/)
         let time = 0
+        let ts = message.createdTimestamp;
         let regexp = /\b([0-9]+h)?([0-9]+m)?([0-9]+s)?\b/
         if (words[1] != undefined && regexp.test(words[1])) {
             let saveindex = 0
@@ -126,13 +127,16 @@ function evaluateMessage(message) {
                     saveindex = i + 1
                 }
             }
+        } else {
+            return functions.replyMessage(message, "Please specify a valid time. Ex. 1h2m3s")
         }
+        words.splice(0, 2)
+        message.content = prefix + words.join(" ")
+        functions.replyMessage(message, "The command `" + prefix + words.join(" ")+"`" + " will be executed in "+ functions.displayTime(ts+time, ts))
         bot.setTimeout(function () {
-            let words = message.content.trim().split(/\s+/)
-            words.splice(0,2)
-            message.content = prefix + words.join()
             evaluateMessage(message)
         }, time)
+        return 
     }
     if (message.content.startsWith(prefix + "runas") && devs.indexOf(message.author.id) != -1) {
         let words = message.content.trim().split(/\s+/)

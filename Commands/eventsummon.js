@@ -32,15 +32,16 @@ module.exports = function (message) {
 
     functions.replyMessage(message, "Boss summoned. It is level " + mobData[message.channel.id].level + "!");
   }else if (words.length == 1){
-    let roll = 1 + ((Math.random()-0.5) * 0.2);
+      //let roll = 1 + ((Math.random() - 0.5) * 0.2);
+    let summonlevel = 200 + Math.floor(Math.random()*100)
     mobData[message.channel.id].alive = true;
     mobData[message.channel.id].raid = true;
-    mobData[message.channel.id].attack = Math.floor(1500 * roll);
+    mobData[message.channel.id].attack = Math.floor(summonlevel * 12);
     //mobData[message.channel.id].defense = summondef;
-    mobData[message.channel.id].currenthealth = Math.floor(5000 * roll);
-    mobData[message.channel.id].maxhealth = Math.floor(5000 * roll);
-    mobData[message.channel.id].reward = Math.floor(500000 * roll);
-    mobData[message.channel.id].level = Math.floor(150 * roll);
+    mobData[message.channel.id].currenthealth = Math.floor(summonlevel * 50);
+    mobData[message.channel.id].maxhealth = Math.floor(summonlevel * 50);
+    mobData[message.channel.id].reward = Math.floor(summonlevel * 5000);
+    mobData[message.channel.id].level = summonlevel;
     //mobData[message.channel.id].itemReward = itemrewardId;
     mobData[message.channel.id].attacklist = [];
     functions.replyMessage(message, "Boss summoned. It is level " + mobData[message.channel.id].level + "!");

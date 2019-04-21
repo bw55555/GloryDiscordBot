@@ -7,11 +7,12 @@ module.exports = function (message) {
   let totalmaterials = 0
   let totalmoney = 0
   let totalxp = 0
-  let smeltItems = functions.itemFilter(message)
+  let smeltItems = functions.itemFilter(message, {"fav":false})
   if (smeltItems == false) { return }
   let count = 0
   for (var i = 0; i < smeltItems.length; i++) {
-    let weaponid = smeltItems[i]
+      let weaponid = smeltItems[i]
+      if (itemData[smeltItems[i]].rarity == "Unique" || itemData[smeltItems[i]].rarity == 9 || userData[id].weapon == weaponid) { continue}
     let itemRewards = functions.smeltItem(id, weaponid)
     if (isNaN(itemRewards[0])||isNaN(itemRewards[1])||isNaN(itemRewards[2])){
       continue
