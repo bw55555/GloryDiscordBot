@@ -13,7 +13,9 @@ module.exports = function (message) {
         functions.consumGive(i, "sp", userData[i].sp);
         functions.consumGive(i, "phoenixfeather", userData[i].phoenixfeather);
         functions.consumGive(i, "reroll", userData[i].reroll);
-
+        userData[i].attack += userData[i].ascension * 10;
+        userData[i].defense += userData[i].ascension * 10;
+        userData[i].health += userData[i].ascension * 100
         delete userData[i].box;
         delete userData[i].explosion;
         delete userData[i].nametag;
