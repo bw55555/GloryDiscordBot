@@ -303,6 +303,7 @@ bot.on('ready', function () {
         fs.writeFileSync('Storage/serverData.json', JSON.stringify(serverData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
         fs.writeFileSync('Storage/devData.json', JSON.stringify(devData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
         fs.writeFileSync('Storage/questData.json', JSON.stringify(questData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
+        fs.writeFileSync('Storage/eggData.json', JSON.stringify(eggData, null, 4))
     }, 10000)
     let resettimer = 86400000 - (Date.now() % 86400000)
     bot.setTimeout(function () {

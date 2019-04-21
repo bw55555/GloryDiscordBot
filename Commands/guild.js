@@ -571,7 +571,6 @@ module.exports = function (message) {
         functions.replyMessage(message, "Guild store will reset in " + functions.displayTime(time, 0))
     }
     else if (command == "BUFFS") {
-        if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
         let text = "Your guild's buffs: ```\n"
         if (guild == "None") { return functions.replyMessage(message, "You don't have a guild!") }
         for (var buffno in guildBuffStore) {

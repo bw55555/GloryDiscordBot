@@ -17,15 +17,19 @@ module.exports = function (message) {
     if (eggData[attempt].claimed == true) { return functions.dmUser(id, "This code has been claimed already!") }
 
     if (eggData[attempt][id] == true) { return functions.dmUser(id, "You have already claimed this egg!") }
+    let extratext = ""
     eggData[attempt][id] = true
     if (reward == "item") {
+        let extratext = "You won an item!"
         let rewardItemData = eggData[attempt].amount
         functions.generateItem(id, itemData.next, rewardItemData.attack, rewardItemData.defense, rewardItemData.rarity, rewardItemData.name, rewardItemData.modifiers)
+    } else {
+        let extratext = "You won " + eggData[attempt].amount + " " +reward+"!"
     }
     if (userData[id][reward] != undefined) { userData[id][reward] += eggData[attempt].amount }
     if (userData[id].consum[reward] != undefined) { functions.consumGive(id, reward, eggData[attempt].amount) }
     if (attempt != "EXAMPLE") { eggData[attempt].claimed = true }
     
-    functions.dmUser(id, eggData[attempt].text)
+    functions.dmUser(id, eggData[attempt].text+"\n"+extratext)
     if (devData.debugenable) { functions.logCommand(message) }
 }

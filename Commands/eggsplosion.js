@@ -63,7 +63,7 @@ module.exports = function (message) {
                     }
                     rmessage += "It was just an Egg! An evil bunny hatched from the egg and attacked <@" + target + ">. They died in a flurry of claws."
                 }
-                text += "<@" + id + "> pelted <@" + target + "> with an egg!\n" + rmessage
+                text += "<@" + id + "> pelted <@" + target + "> with an egg!\n" + rmessage + "\n"
                 functions.dmUser(target, "https://tenor.com/view/japan-running-can-bomb-explosion-gif-5949801 \n<@" + id + "> pelted you with an egg!\n" + rmessage)
             }
             if (text.length > 1800) {
