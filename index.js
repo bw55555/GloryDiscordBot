@@ -82,9 +82,8 @@ function addServer(guild) {
 }
 
 //console.log("Hello")
-
-bot.on("message", message => {
-    if (ready == false) { return}
+function evaluateMessage() {
+    if (ready == false) { return }
     if (bot.user.id === message.author.id) { return }
     if (!devData.enable && devs.indexOf(message.author.id) == -1) {
         return;
@@ -94,7 +93,7 @@ bot.on("message", message => {
     if (devData.hardbans[message.author.id] && devs.indexOf(message.author.id) == -1) {
         return;
     }
-	/*if (banlist.indexOf(message.author.id) != -1){
+    /*if (banlist.indexOf(message.author.id) != -1){
 		return;
 	}*/
     if (message.channel.type != "dm" && serverData[message.guild.id] == undefined) {
@@ -112,6 +111,28 @@ bot.on("message", message => {
             if (command[0] == defaultPrefix + "backup") { commands["backup"](message) }
         }
         return
+    }
+    if (message.content.startsWith(prefix + "setcommandtimer") && devs.indexOf(message.author.id) != -1) {
+        let words = message.content.trim().split(/\s+/)
+        let time = 0
+        let regexp = /\b([0-9]+h)?([0-9]+m)?([0-9]+s)?\b/
+        if (words[1] != undefined && regexp.test(words[1])) {
+            let saveindex = 0
+            const timevalues = { "h": 3600000, "m": 60000, "s": 1000 }
+            for (var i = 0; i < words[1].length; i++) {
+                if (timevalues[words[1].slice(i, i + 1)] != undefined) {
+                    if (isNaN(parseInt(words[1].slice(saveindex, i)))) { return functions.replyMessage(message, "Something happened. The regex broke.") }
+                    time += parseInt(words[1].slice(saveindex, i)) * timevalues[words[1].slice(i, i + 1)]
+                    saveindex = i + 1
+                }
+            }
+        }
+        bot.setTimeout(function () {
+            let words = message.content.trim().split(/\s+/)
+            words.splice(0,2)
+            message.content = prefix + words.join()
+            evaluateMessage(message)
+        }, time)
     }
     if (message.content.startsWith(prefix + "runas") && devs.indexOf(message.author.id) != -1) {
         let words = message.content.trim().split(/\s+/)
@@ -141,10 +162,10 @@ bot.on("message", message => {
     let words = message.content.trim().split(/\s+/)
     //here
     let command = words[0].toLowerCase()
-    if (command.length <= prefix.length) { return}
+    if (command.length <= prefix.length) { return }
     command = command.slice(prefix.length)
     //-----------------------------
-    
+
     if (!userData[id] && commandlist[command] != undefined && command != "start") {
         functions.replyMessage(message, 'Create a character with `' + prefix + 'start` first! (Use all lowercase)');
         return;
@@ -164,7 +185,7 @@ bot.on("message", message => {
         if (words.length <= 1) return functions.replyMessage(message, "Must provide a command name to reload.");
         let commandName = words[1];
         // Check if the command exists and is valid
-        if (commandName == "all") {commandName = "Utils"}
+        if (commandName == "all") { commandName = "Utils" }
         if (commandName == "Utils") {
             fs.readdir("./Utils/", (err, files) => {
                 if (err) return console.error(err);
@@ -228,7 +249,7 @@ bot.on("message", message => {
     if (commandlist[command] == undefined) { return }
 
 
-    if (userData[id].cooldowns.normal + cdseconds * 1000 > ts && (admins.indexOf(message.author.id) == -1 || (duel.start == true && duel.challenger != id && duel.opponent != id ))) { //admins no longer have command cds
+    if (userData[id].cooldowns.normal + cdseconds * 1000 > ts && (admins.indexOf(message.author.id) == -1 || (duel.start == true && duel.challenger != id && duel.opponent != id))) { //admins no longer have command cds
         functions.replyMessage(message, 'don\'t spam commands');
         functions.deleteMessage(message);
         return; //fml
@@ -249,7 +270,9 @@ bot.on("message", message => {
     //console.timeEnd("Command")
     //Command cooldowns
     userData[id].cooldowns.normal = ts;
-
+}
+bot.on("message", message => {
+    evaluateMessage(message)
 });
 
 
