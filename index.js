@@ -4,7 +4,6 @@ global.ready = false
 global.bot = new Discord.Client();
 global.botOnline = true
 global.fs = require('fs')
-
 var functions = require(`./Utils/functions.js`)
 
 var commands = {}
@@ -60,6 +59,7 @@ global.guildData = JSON.parse(fs.readFileSync('Storage/guildData.json', 'utf8'))
 global.serverData = JSON.parse(fs.readFileSync('Storage/serverData.json', 'utf8'));
 global.quizData = JSON.parse(fs.readFileSync('Storage/quizData.json', 'utf8'));
 global.questData = JSON.parse(fs.readFileSync('Storage/questData.json', 'utf8'));
+global.partyData = {}//JSON.parse(fs.readFileSync('Storage/partyData.json', 'utf8'));
 global.eggData = JSON.parse(fs.readFileSync('Storage/eggData.json', 'utf8'));
 global.duel = {};
 
@@ -83,6 +83,7 @@ function addServer(guild) {
 
 //console.log("Hello")
 function evaluateMessage(message) {
+    
     if (ready == false) { return }
     if (bot.user.id === message.author.id) { return }
     if (!devData.enable && devs.indexOf(message.author.id) == -1) {
@@ -99,9 +100,20 @@ function evaluateMessage(message) {
     if (message.channel.type != "dm" && serverData[message.guild.id] == undefined) {
         addServer(message.guild)
     }
+    message.content = message.content.trim().split(/\s+/).join(" ")
     let prefix = (message.channel.type == "dm") ? defaultPrefix : serverData[message.guild.id].prefix;
     if (message.content.startsWith("<@536622022709608468>")) prefix = "<@536622022709608468>"
     if (message.content.startsWith("<@!536622022709608468>")) prefix = "<@!536622022709608468>"
+    if (message.content.startsWith("<@536622022709608468> ")) {
+        let words = message.content.trim().split(/\s+/)
+        words.splice(0, 1)
+        message.content = prefix + words.join(" ")
+    }
+    if (message.content.startsWith("<@!536622022709608468> ")) {
+        let words = message.content.trim().split(/\s+/)
+        words.splice(0, 1)
+        message.content = prefix + words.join(" ")
+    }
     if (message.author.bot == true) {
         if (message.author.id == "537622416604528654" && (message.channel.id == "538800067507650590" || message.channel.id == "553385894183174165")) {
             let command = message.content.trim().split(/\s+/)
@@ -155,9 +167,11 @@ function evaluateMessage(message) {
             return functions.replyMessage(message, "That is an invalid user.")
         }
         message.author = bot.users.get(words[0])
+        
         words.splice(0, 1)
-        message.content = prefix + words.join(" ")
+        message.content = words.join(" ")
     }
+    message.author.original = id
     functions.respond(message)
     if (!message.content.startsWith(prefix)) {
         return;
@@ -308,8 +322,9 @@ bot.on('ready', function () {
         fs.writeFileSync('Storage/serverData.json', JSON.stringify(serverData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
         fs.writeFileSync('Storage/devData.json', JSON.stringify(devData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
         fs.writeFileSync('Storage/questData.json', JSON.stringify(questData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
+        fs.writeFileSync('Storage/partyData.json', JSON.stringify(partyData, null, 4))
         fs.writeFileSync('Storage/eggData.json', JSON.stringify(eggData, null, 4))
-    }, 10000)
+    }, 30000)
     let resettimer = 86400000 - (Date.now() % 86400000)
     bot.setTimeout(function () {
         for (var resetGuild in guildData) {

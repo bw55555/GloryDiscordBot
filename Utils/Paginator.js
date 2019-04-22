@@ -27,7 +27,7 @@ class Paginator {
                 await this.message.react(this.last).catch(function (err) { console.error(err) });
                 await this.message.react(this.number).catch(function (err) { console.error(err) });
             }
-            this.collector = this.message.createReactionCollector((reaction, user) => reaction.me && user.id === dad.id && user.id !== this.message.author.id, { time: 100000 });
+            this.collector = this.message.createReactionCollector((reaction, user) => reaction.me && user.id === dad.original && user.id !== this.message.author.id, { time: 100000 });
             this.collector.on("collect", (reaction, collector) => {
                 if (!this.pause) {
                     if (this.message.channel.type == "dm" || this.message.channel.type || "group" || (this.message.channel.memberPermissions(bot.user) == null || this.message.channel.memberPermissions(bot.user).has("MANAGE_MESSAGES"))) {reaction.remove(dad)};
