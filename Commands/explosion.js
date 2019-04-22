@@ -27,6 +27,9 @@ module.exports = function (message) {
           userData[i].dead = true;
           userData[i].currenthealth = 0;
           let stolen = Math.floor(userData[i].money / 5)
+          userData[id].xp += userData[i].xp
+          userData[i].xp = 0
+            
           userData[i].money -= stolen;
           userData[id].money += stolen;
           text += '<@' + i + '> was Meme-Maged for $' + stolen + '!\n';

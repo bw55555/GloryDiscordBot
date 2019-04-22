@@ -51,9 +51,6 @@ let page1 = {
               "value": "Displays stats related to bot's popularity"
           }
         ]
-    },
-    "footer": {
-        "text": 'HELPEGG'
     }
 }
 //PAGE 1 ENDS

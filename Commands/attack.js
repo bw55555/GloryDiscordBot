@@ -89,6 +89,8 @@ module.exports = function (message) {
     userData[target].currenthealth = 0;
     userData[id].dead = true;
     userData[id].currenthealth = 0;
+    userData[id].xp = 0
+    userData[target].xp = 0
     userData[target].money -= stolen;
     userData[id].money -= counterstolen;
     functions.sendMessage(message.channel, '<@' + id + '> and <@' + target + '> was killed! Both lost 10% of their money.');

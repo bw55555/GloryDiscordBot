@@ -20,11 +20,11 @@ module.exports = function (message) {
     let extratext = ""
     eggData[attempt][id] = true
     if (reward == "item") {
-        let extratext = "You won an item!"
+        extratext = "You won an item!"
         let rewardItemData = eggData[attempt].amount
         functions.generateItem(id, itemData.next, rewardItemData.attack, rewardItemData.defense, rewardItemData.rarity, rewardItemData.name, rewardItemData.modifiers)
     } else {
-        let extratext = "You won " + eggData[attempt].amount + " " +reward+"!"
+        extratext = "You won " + eggData[attempt].amount + " " +reward+"!"
     }
     if (userData[id][reward] != undefined) { userData[id][reward] += eggData[attempt].amount }
     if (userData[id].consum[reward] != undefined) { functions.consumGive(id, reward, eggData[attempt].amount) }

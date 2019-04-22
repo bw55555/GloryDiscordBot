@@ -579,6 +579,7 @@ module.exports = function (message) {
             
             let numspaces = 15 - guildBuffStore[buffno].name.length - buffno.length
             let leveltext = (guildBuffStore[buffno].levels[bufflevel + 1] > guildData[guild].level) ? " (guild level " + guildBuffStore[buffno].levels[bufflevel + 1] + " required for next upgrade)" : "(Ready to upgrade to " + (100 * guildBuffStore[buffno].bonus[bufflevel + 1]) + "% for " + guildBuffStore[buffno].prices[bufflevel + 1] + " crystals)"
+            if (guildBuffStore[buffno].bonus.length <= bufflevel + 1) { leveltext = " (MAX LEVEL)"}
             text += "[" + buffno + "] " + guildBuffStore[buffno].name + " ".repeat(numspaces) + ": " + (100 * guildBuffStore[buffno].bonus[bufflevel]) + "% (level " + bufflevel + ")" + leveltext + "\n"
         }
         text += "Upgrade a buff with !guild upgrade buff [id]```"

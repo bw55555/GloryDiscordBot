@@ -1134,6 +1134,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
         counter = 0;
     }
     let damagereward = Math.floor(damage * raid.level * Math.random() * luckybuff);
+    if (!isevent) { damagereward *= 5}
     userData[id].currenthealth = userData[id].currenthealth - counter;
     raid.currenthealth = raid.currenthealth - damage;
     let counterstolen = Math.floor((userData[id].money) / 5);
@@ -1186,7 +1187,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
             }
             for (var k = 0; k < 2; k++) {
                 var i = Math.floor(Math.random() * keys.length)
-                consumGive(id, "reroll", 1);
+                consumGive(keys[i], "reroll", 1);
                 text += "<@" + keys[i] + "> was lucky and recieved a skill reroll!\n"
             }
         } else {
@@ -1210,12 +1211,12 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                     let where = [" in the boss's corpse", " in a treasure chest", " randomly", " because they felt like it", " rotting in a pile", " in a tunnel", " in a cave", " in the boss's stomach", " hit them on the head", " drop from the sky"];
                     if (Math.random() > 0.90) {
                         let boxesfound = Math.floor(1 + Math.random() * 5);
-                        consumGive(id, "box", boxesfound);
+                        consumGive(luckyperson, "box", boxesfound);
                         itemfound = boxesfound + " Box(es) " + where[Math.floor(Math.random() * where.length)];
                     }
                     else if (Math.random() > 0.9) {
                         let feathersfound = Math.floor(1 + Math.random() * 3);
-                        consumGive(id, "phoenixfeather", feathersfound);
+                        consumGive(luckyperson, "phoenixfeather", feathersfound);
                         itemfound = feathersfound + " Phoenix Feather(s) " + where[Math.floor(Math.random() * where.length)];
                     }
                     else if (Math.random() > 0.8) {
@@ -1227,7 +1228,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                         userData[luckyperson].money += materialsfound;
                         itemfound = materialsfound + " Money(s) " + where[Math.floor(Math.random() * where.length)];
                     } else if (Math.random() > 0.97) {
-                        consumGive(id, "reroll", 1);
+                        consumGive(luckyperson, "reroll", 1);
                         itemfound = 1 + " **SKILL REROLL** " + where[Math.floor(Math.random() * where.length)];
                     }
                 }

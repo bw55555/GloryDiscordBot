@@ -45,7 +45,7 @@ global.defaultPrefix = devData.defaultPrefix
 global.moment = require('moment'); //moment package, lets you view date and time nicely
 global.rarities = { "0": "Useless", "1": "Normal", "2": "Common", "3": "Uncommon", "4": "Rare", "5": "Super Rare", "6": "Epic", "7": "Legendary", "8": "Godly", "9": "GLORY", "Unique": "Unique" }
 global.raritystats = [5, 10, 15, 25, 40, 60, 100, 150, 200, 500]
-global.allowedmodifiers = ["critRate", "critDamage", "block", "lifeSteal", "pierce", "lucky", "spikes", "revenge", "rage", "sacrifice", "maxhp", "tempo", "flaming"]
+global.allowedmodifiers = ["critRate", "critDamage", "block", "lifeSteal", "pierce", "lucky", "spikes", "revenge", "rage", "sacrifice", "maxhp", "tempo", "burn"]
 global.cdseconds = 1.5;
 global.attackcd = 0.35;
 global.rezcd = 1;
@@ -132,6 +132,7 @@ function evaluateMessage(message) {
         }
         words.splice(0, 2)
         message.content = prefix + words.join(" ")
+        message.createdTimestamp+=time
         functions.replyMessage(message, "The command `" + prefix + words.join(" ")+"`" + " will be executed in "+ functions.displayTime(ts+time, ts))
         bot.setTimeout(function () {
             evaluateMessage(message)

@@ -7,10 +7,10 @@ module.exports=function(message) {
 	if (message.author.bot) return;
 	//Autoresponders
 	if (msg === 'DOSEI') {
-		functions.sendMessage(message.channel,'Dosei is the worst Dosei.');
+		functions.sendMessage(message.channel,'Dosei is the best Dosei.');
 	}
 	if (msg === 'NIX') {
-		functions.sendMessage(message.channel,"sup.");
+		functions.sendMessage(message.channel,"Nixolium Ignitius Xel at your service!");
 	}
 	if (id == "506181973887287327" && msg === 'SORRY') {
 		functions.sendMessage(message.channel,'Apology Defenestrated!');
