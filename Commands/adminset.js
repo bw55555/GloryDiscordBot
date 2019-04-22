@@ -10,13 +10,29 @@ module.exports=function(message) {
   }
   let target = functions.validate(message)
   if (target == false) { return; }
-  let amount = parseInt(words[3]);
+  let amount = words[3];
+  if (!isNaN(parseInt(amount))) { amount = parseInt(amount)}
   let attribute = words[2];
   //console.log(attribute)
-  //console.log(JSON.stringify(userData))
-  if (userData[target][attribute] == undefined || attribute == "cooldowns" || attribute == "inventory") {
+    //console.log(JSON.stringify(userData))
+  if (userData[target][attribute] == undefined) {
     functions.sendMessage(message.channel, attribute + " is not a defined attribute");
     return;
+  }
+  if (typeof userData[target][attribute] == "object") {
+      if (words.length > 4) {
+          let secondattribute = words[3]
+          let amount = parseInt(words[4]);
+          if (!isNaN(parseInt(amount))) { amount = parseInt(amount) }
+          if (userData[target][attribute][secondattribute] == undefined) {
+              functions.sendMessage(message.channel, attribute + ":" + secondattribute + " is not a defined attribute");
+              return
+          }
+          functions.sendMessage(message.channel, 'Set <@' + target + ">\'s " + attribute + ":" + secondattribute + " to " + amount);
+          userData[target][attribute][secondattribute] = amount;
+          functions.logCommand(message)
+      }
+      return functions.sendMessage(message.channel, attribute + " is an object. Try setting one of its properties.")
   }
   functions.sendMessage(message.channel, 'Set <@' + target + ">\'s " + attribute + " to " + amount);
   userData[target][attribute] = amount;
