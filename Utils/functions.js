@@ -1,6 +1,6 @@
 function consumGive(target, item, amount) {
     if (!userData[target].consum[item]) {
-        userData[target].consum[item]=0
+        userData[target].consum[item] = 0
     }
 
     if (amount < 0 && userData[target].consum[item] + amount < 0) {
@@ -463,7 +463,7 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
     if (userData[defender] != undefined && hasSkill(defender, 37)) {
-        text += "<@"+attacker+">'s burn was dispelled!\n"
+        text += "<@" + attacker + ">'s burn was dispelled!\n"
         burn = 0
     }
     if (burn > 0) {
@@ -1100,7 +1100,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
         replyMessage(message, "Corpses can\'t attack! Do !resurrect");
         return false;
     }
-    if (userData[id].level < raid.level - 15 && !isguild && !isevent) {
+    if (userData[id].level + userData[id].ascension * 10 < raid.level - 15 && !isguild && !isevent) {
         replyMessage(message, "You can't attack bosses with more than 15 levels more than you!");
         return false;
     }
@@ -1121,7 +1121,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
     //let yourdef = (Math.floor(calcStats(message, id, "defense") * Math.random()));
     let counter = calcDamage(message, raid, id, id);
     if (raid.name == "Cerberus") {
-        for (var i = 0; i < 2 * Math.random(); i++) {
+        for (var i = 0; i < 2 * Math.random() ; i++) {
             counter += calcDamage(message, raid, id, id);
         }
         sendMessage(message.channel, "Cerberus attacked " + i + " times!")
@@ -1133,7 +1133,8 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
     if (counter < 0) {
         counter = 0;
     }
-    let damagereward = Math.floor(damage * 5 * raid.level * Math.random() * luckybuff);
+    let damagereward = Math.floor(damage * raid.level * Math.random() * luckybuff);
+    if (!isevent) { damagereward *= 5 }
     userData[id].currenthealth = userData[id].currenthealth - counter;
     raid.currenthealth = raid.currenthealth - damage;
     let counterstolen = Math.floor((userData[id].money) / 5);
@@ -1186,7 +1187,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
             }
             for (var k = 0; k < 2; k++) {
                 var i = Math.floor(Math.random() * keys.length)
-                consumGive(keys[id], "reroll", 1);
+                consumGive(keys[i], "reroll", 1);
                 text += "<@" + keys[i] + "> was lucky and recieved a skill reroll!\n"
             }
         } else {
@@ -1210,12 +1211,12 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                     let where = [" in the boss's corpse", " in a treasure chest", " randomly", " because they felt like it", " rotting in a pile", " in a tunnel", " in a cave", " in the boss's stomach", " hit them on the head", " drop from the sky"];
                     if (Math.random() > 0.90) {
                         let boxesfound = Math.floor(1 + Math.random() * 5);
-                        consumGive(id, "box", boxesfound);;
+                        consumGive(luckyperson, "box", boxesfound);
                         itemfound = boxesfound + " Box(es) " + where[Math.floor(Math.random() * where.length)];
                     }
                     else if (Math.random() > 0.9) {
                         let feathersfound = Math.floor(1 + Math.random() * 3);
-                        consumGive(id, "phoenixfeather", feathersfound);;
+                        consumGive(luckyperson, "phoenixfeather", feathersfound);
                         itemfound = feathersfound + " Phoenix Feather(s) " + where[Math.floor(Math.random() * where.length)];
                     }
                     else if (Math.random() > 0.8) {
@@ -1226,21 +1227,21 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                         let materialsfound = Math.floor(10001 + Math.random() * 40000);
                         userData[luckyperson].money += materialsfound;
                         itemfound = materialsfound + " Money(s) " + where[Math.floor(Math.random() * where.length)];
-                    } else if (Math.random() > 0.97) {
-                        consumGive(id, "reroll", 1);
-                        itemfound = materialsfound + " **REROLL** " + where[Math.floor(Math.random() * where.length)];
+                    } else if (Math.random() > 0.98) {
+                        consumGive(luckyperson, "reroll", 1);
+                        itemfound = 1 + " **SKILL REROLL** " + where[Math.floor(Math.random() * where.length)];
                     }
                 }
                 if (raid.level >= 100) {
                     let where = [" in the boss's corpse", " in a treasure chest", " randomly", " because they felt like it", " rotting in a pile", " in a tunnel", " in a cave", " in the boss's stomach", " hit them on the head", " drop from the sky"];
                     if (Math.random() > 0.8) {
                         let boxesfound = Math.floor(1 + Math.random() * 5);
-                        consumGive(id, "box", boxesfound);
+                        consumGive(luckyperson, "box", boxesfound);
                         itemfound = boxesfound + " Box(es) " + where[Math.floor(Math.random() * where.length)];
                     }
                     else if (Math.random() > 0.7) {
                         let feathersfound = Math.floor(1 + Math.random() * 3);
-                        consumGive(id, "phoenixfeather", feathersfound);
+                        consumGive(luckyperson, "phoenixfeather", feathersfound);
                         itemfound = feathersfound + " Phoenix Feather(s) " + where[Math.floor(Math.random() * where.length)];
                     }
                     else if (Math.random() > 0.6) {
@@ -1251,9 +1252,9 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                         let materialsfound = Math.floor(10001 + Math.random() * 40000);
                         userData[luckyperson].money += materialsfound;
                         itemfound = materialsfound + " Money(s) " + where[Math.floor(Math.random() * where.length)];
-                    } else if (Math.random() > 0.98) {
+                    } else if (Math.random() > 0.96) {
                         let materialsfound = 1;
-                        consumGive(id, "reroll", materialsfound);
+                        consumGive(luckyperson, "reroll", materialsfound);
                         itemfound = materialsfound + " **SKILL REROLL** " + where[Math.floor(Math.random() * where.length)];
                     }
                 }
@@ -1327,15 +1328,16 @@ function smeltItem(id, weaponid) {
     return [xp, money, materials]
 }
 
-function itemFilter(message) {
+function itemFilter(message, defaults) {
+    if (defaults == undefined) { defaults = {} }
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     let userInv = userData[id].inventory
-    let minrarity = 0
-    let maxrarity = 9
-    let fav = "None"
-    let unique = false
+    let minrarity = (defaults.minrarity == undefined) ? 0 : defaults.minrarity
+    let maxrarity = (defaults.maxrarity == undefined) ? 9 : defaults.maxrarity
+    let fav = (defaults.fav == undefined) ? "None" : defaults.fav
+    let unique = (defaults.unique == undefined) ? false : defaults.unique
     if (words.indexOf("-min") != -1) {
         minrarity = parseInt(words[words.indexOf("-min") + 1])
         if (isNaN(minrarity)) {
@@ -1361,7 +1363,7 @@ function itemFilter(message) {
     }
     //console.log(userData[id].weapon)
     displayItems = []
-    if (userData[id].weapon != false && userData[id].weapon != "None") {
+    if (userData[id].weapon != false && userData[id].weapon != "None" && defaults.equip != false) {
         displayItems.push(userData[id].weapon)
     }
 
@@ -1407,7 +1409,7 @@ module.exports.raidAttack = function (message, raid, resummon, isguild, isevent)
 module.exports.smeltItem = function (id, weaponid) { return smeltItem(id, weaponid) }
 module.exports.duelCheckDeath = function (message, id, otherID, ts) { return duelCheckDeath(message, id, otherID, ts) }
 module.exports.hasSkill = function (id, skillid) { return hasSkill(id, skillid) }
-module.exports.itemFilter = function (message) { return itemFilter(message) }
+module.exports.itemFilter = function (message, defaults) { return itemFilter(message, defaults) }
 module.exports.consumGive = function (target, item, amount) { return consumGive(target, item, amount) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);

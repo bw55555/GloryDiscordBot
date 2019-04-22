@@ -11,8 +11,8 @@ module.exports = function (message) {
   if (smeltItems == false) { return }
   let count = 0
   for (var i = 0; i < smeltItems.length; i++) {
-      let weaponid = smeltItems[i]
-      if (itemData[smeltItems[i]].rarity == "Unique" || itemData[smeltItems[i]].rarity == 9 || userData[id].weapon == weaponid) { continue}
+    let weaponid = smeltItems[i]
+    if (itemData[smeltItems[i]].rarity == "Unique" || itemData[smeltItems[i]].rarity == 9 || userData[id].weapon == weaponid) { continue}
     let itemRewards = functions.smeltItem(id, weaponid)
     if (isNaN(itemRewards[0])||isNaN(itemRewards[1])||isNaN(itemRewards[2])){
       continue
