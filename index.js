@@ -151,6 +151,7 @@ function evaluateMessage(message) {
         }, time)
         return 
     }
+    let id = message.author.id;
     if (message.content.startsWith(prefix + "runas") && devs.indexOf(message.author.id) != -1) {
         let words = message.content.trim().split(/\s+/)
         if (words.length < 3) {
@@ -176,7 +177,7 @@ function evaluateMessage(message) {
     if (!message.content.startsWith(prefix)) {
         return;
     }
-    let id = message.author.id;
+    id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     //here
