@@ -77,7 +77,7 @@
     {
         "name": "Soulsteal",
         "id": 15,
-        "description": "After you kill something, restore full health."
+        "description": "After you kill something, steal an amount of health equal to the max health of the enemy you kill."
     },
     {
         "name": "Royalty",

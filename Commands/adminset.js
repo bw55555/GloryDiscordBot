@@ -31,6 +31,7 @@ module.exports=function(message) {
           functions.sendMessage(message.channel, 'Set <@' + target + ">\'s " + attribute + ":" + secondattribute + " to " + amount);
           userData[target][attribute][secondattribute] = amount;
           functions.logCommand(message)
+          return
       }
       return functions.sendMessage(message.channel, attribute + " is an object. Try setting one of its properties.")
   }
