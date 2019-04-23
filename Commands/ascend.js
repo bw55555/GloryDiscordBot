@@ -18,8 +18,11 @@ module.exports = function (message) {
         let id = extraArgs[1]
         let message = extraArgs[0]
         functions.consumGive(id, "sp", 1)
+	    if(userData[id].level != 100){
+            return;
+	    }
+	    userData[id].level = 1
         userData[id].ascension += 1
-        userData[id].level = 1
         userData[id].attack = userData[id].ascension * 10
         userData[id].defense = userData[id].ascension * 10
         userData[id].health = userData[id].ascension * 100

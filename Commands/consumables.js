@@ -32,7 +32,7 @@ module.exports = function (message) {
   for (var item in userData[id].consum) {
     if (userData[id].consum[item] > 0) {
       if (item == "egg") {
-        itemtext += "**" + item + ":** (`!pelt [target]`)" + userData[id].consum[item] + "\n";
+        itemtext += "**" + item + ":** (`!pelt`) " + userData[id].consum[item] + "\n";
       } 
       else {
         itemtext += "**" + item + ":** " + userData[id].consum[item] + "\n";
