@@ -1283,8 +1283,9 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
         text += "Rewards have been given to everyone who participated in the raid!\n"
 
         if (userData[id].currenthealth > 0 && hasSkill(id, 15)) { //soulsteal skill in raids.
-            userData[id].currenthealth = userData[id].health
-            text += "Soulsteal activated. <@" + id + "> has been restored to full health. ";
+            userData[id].currenthealth += raid.maxhealth
+            text += "Soulsteal activated. <@" + id + "> has stolen " + raid.maxhealth + " health.";
+            userData[id].currenthealth = Math.min(userData[id].currenthealth, userData[id].health)
         }
 
         //generateItem(id, itemid, weaponatk, weapondef, rarity, rarities[rarity] + " Sword", []) //I, as a Java student, am jealous of the lack of semicolons lmao

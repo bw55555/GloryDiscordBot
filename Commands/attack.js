@@ -134,8 +134,9 @@ module.exports = function (message) {
     }
 
     if (userData[id].currenthealth > 0 && functions.hasSkill(id, 15)) {
-      userData[id].currenthealth = userData[id].health
-      functions.sendMessage(message.channel, "Soulsteal activated. <@" + id + "> has been restored to full health.");
+      userData[id].currenthealth += userData[target].health
+      functions.sendMessage(message.channel, "Soulsteal activated. <@" + id + "> has stolen " + userData[target].health+" health");
+      userData[id].currenthealth = Math.min(userData[id].currenthealth, userData[id].health)
     }
 
   } else if (userData[id].currenthealth <= 0) {
@@ -163,8 +164,9 @@ module.exports = function (message) {
 
 
     if (userData[target].currenthealth > 0 && functions.hasSkill(target, 15)) {
-      userData[target].currenthealth = userData[target].health
-      functions.sendMessage(message.channel, "Soulsteal activated. <@" + target + "> has been restored to full health.");
+        userData[target].currenthealth += userData[id].health
+        functions.sendMessage(message.channel, "Soulsteal activated. <@" + target + "> has stolen " + userData[id].health+" health");
+        userData[target].currenthealth = Math.min(userData[target].currenthealth, userData[target].health)
     }
   }
   userData[id].cooldowns.attack = ts + attackcd * 60 * 1000
