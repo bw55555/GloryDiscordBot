@@ -1315,14 +1315,20 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
     userData[id].cooldowns.attack = ts + attackcd * 60 * 1000;
     userData[id].speed += 1;
 }
-function smeltItem(id, weaponid) {
+function smeltItem(id, weaponid, givereward) {
+    givereward = (givereward == false) ? false : true
     let rarity = itemData[weaponid].rarity
-    let materials = Math.pow(5, rarity)
-    let money = rarity * rarity * 1000
-    let xp = rarity * rarity * 1000
-    userData[id].materials += materials
-    userData[id].money += money
-    userData[id].xp += xp
+    let materials = 0
+    let money = 0
+    let xp = 0
+    if (givereward) {
+        materials = Math.pow(5, rarity)
+        money = rarity * rarity * 1000
+        xp = rarity * rarity * 1000
+        userData[id].materials += materials
+        userData[id].money += money
+        userData[id].xp += xp
+    }
     delete userData[id].inventory[weaponid];
     delete itemData[weaponid];
     return [xp, money, materials]
@@ -1406,7 +1412,7 @@ module.exports.checkProps = function (message) { return checkProps(message) }
 module.exports.checkStuff = function (message) { return checkStuff(message) }
 module.exports.checkBurn = function (message) { return checkBurn(message) }
 module.exports.raidAttack = function (message, raid, resummon, isguild, isevent) { return raidAttack(message, raid, resummon, isguild, isevent) }
-module.exports.smeltItem = function (id, weaponid) { return smeltItem(id, weaponid) }
+module.exports.smeltItem = function (id, weaponid, giveReward) { return smeltItem(id, weaponid, giveReward) }
 module.exports.duelCheckDeath = function (message, id, otherID, ts) { return duelCheckDeath(message, id, otherID, ts) }
 module.exports.hasSkill = function (id, skillid) { return hasSkill(id, skillid) }
 module.exports.itemFilter = function (message, defaults) { return itemFilter(message, defaults) }
