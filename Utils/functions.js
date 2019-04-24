@@ -342,7 +342,15 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     } else {
         attack = attacker.attack;
+        if (attacker.name == "Hell Lord") {
+            if (Math.random() > 0.75) {
+                attack = attack * 2
+                text += attacker.name +" just dealt critical damage!"
+            }
+        }
+        
     }
+    
     let defense = 0;
     if (userData[defender] != undefined) {
         defense = calcStats(message, defender, "defense", skillenable)
@@ -395,6 +403,9 @@ function calcDamage(message, attacker, defender, initiator) {
         if (attacker.name == "Godzilla") {
             piercerate += 1
         }
+        if (attacker.name == "Hell Lord") {
+            piercerate += 0.25
+        }
     }
     if (piercechance < piercerate) {
         if (userData[defender] == undefined) {
@@ -402,8 +413,9 @@ function calcDamage(message, attacker, defender, initiator) {
         } else {
             defense = 0
         }
-
-        text += "<@" + attacker + ">" + " has pierced their opponents defense!\n"
+        let attackername = attacker.name
+        if (userData[attacker] != undefined) { attackername = "<@" + attacker + ">" }
+        text += attackername + " has pierced their opponents defense!\n"
         if (userData[attacker] != undefined && hasSkill(attacker, 28, skillenable)) {
             attack *= 1.4
         }
@@ -1200,62 +1212,95 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
         if (!isguild) {
             let itemid = 0
             if (raid.itemReward == undefined) {
-                let rarity = Math.floor(Math.random() * Math.min(raid.level, 75) / 15)
+                let rarity = Math.floor(raid.level/75) + Math.floor(Math.random() * (Math.min(raid.level, 75) / 15 - Math.floor(raid.level/75)))
                 if (raid.level > 75 && Math.random() < (raid.level - 75) / 1000) {
                     rarity = 5
                 }
+                
                 if (isevent) {
                     rarity = Math.floor(5.5 + (2 * Math.random()))
                 }
                 if (raid.level > 75) {
                     let where = [" in the boss's corpse", " in a treasure chest", " randomly", " because they felt like it", " rotting in a pile", " in a tunnel", " in a cave", " in the boss's stomach", " hit them on the head", " drop from the sky"];
-                    if (Math.random() > 0.90) {
-                        let boxesfound = Math.floor(1 + Math.random() * 5);
-                        consumGive(luckyperson, "box", boxesfound);
-                        itemfound = boxesfound + " Box(es) " + where[Math.floor(Math.random() * where.length)];
-                    }
-                    else if (Math.random() > 0.9) {
-                        let feathersfound = Math.floor(1 + Math.random() * 3);
-                        consumGive(luckyperson, "phoenixfeather", feathersfound);
-                        itemfound = feathersfound + " Phoenix Feather(s) " + where[Math.floor(Math.random() * where.length)];
-                    }
-                    else if (Math.random() > 0.8) {
-                        let materialsfound = Math.floor(1001 + Math.random() * 4000);
-                        userData[luckyperson].materials += materialsfound;
-                        itemfound = materialsfound + " Material(s) " + where[Math.floor(Math.random() * where.length)];
-                    } else if (Math.random() > 0.6) {
-                        let materialsfound = Math.floor(10001 + Math.random() * 40000);
-                        userData[luckyperson].money += materialsfound;
-                        itemfound = materialsfound + " Money(s) " + where[Math.floor(Math.random() * where.length)];
-                    } else if (Math.random() > 0.98) {
+                    let roll = Math.random()
+                    if (roll > 0.995) {
                         consumGive(luckyperson, "reroll", 1);
                         itemfound = 1 + " **SKILL REROLL** " + where[Math.floor(Math.random() * where.length)];
                     }
-                }
-                if (raid.level >= 100) {
-                    let where = [" in the boss's corpse", " in a treasure chest", " randomly", " because they felt like it", " rotting in a pile", " in a tunnel", " in a cave", " in the boss's stomach", " hit them on the head", " drop from the sky"];
-                    if (Math.random() > 0.8) {
-                        let boxesfound = Math.floor(1 + Math.random() * 5);
-                        consumGive(luckyperson, "box", boxesfound);
-                        itemfound = boxesfound + " Box(es) " + where[Math.floor(Math.random() * where.length)];
-                    }
-                    else if (Math.random() > 0.7) {
+                    if (roll > 0.98) {
                         let feathersfound = Math.floor(1 + Math.random() * 3);
                         consumGive(luckyperson, "phoenixfeather", feathersfound);
                         itemfound = feathersfound + " Phoenix Feather(s) " + where[Math.floor(Math.random() * where.length)];
                     }
-                    else if (Math.random() > 0.6) {
+                    else if (roll > 0.96) {
+                        let boxesfound = Math.floor(1 + Math.random() * 5);
+                        consumGive(luckyperson, "box", boxesfound);
+                        itemfound = boxesfound + " Box(es) " + where[Math.floor(Math.random() * where.length)];
+                    }
+                    else if (roll > 0.9) {
                         let materialsfound = Math.floor(1001 + Math.random() * 4000);
                         userData[luckyperson].materials += materialsfound;
                         itemfound = materialsfound + " Material(s) " + where[Math.floor(Math.random() * where.length)];
-                    } else if (Math.random() > 0.5) {
+                    } else if (roll > 0.8) {
                         let materialsfound = Math.floor(10001 + Math.random() * 40000);
                         userData[luckyperson].money += materialsfound;
                         itemfound = materialsfound + " Money(s) " + where[Math.floor(Math.random() * where.length)];
-                    } else if (Math.random() > 0.96) {
+                    } 
+                }
+                else if (raid.level >= 100) {
+                    let where = [" in the boss's corpse", " in a treasure chest", " randomly", " because they felt like it", " rotting in a pile", " in a tunnel", " in a cave", " in the boss's stomach", " hit them on the head", " drop from the sky"];
+                    let roll = Math.random()
+                    if (roll > 0.99) {
                         let materialsfound = 1;
                         consumGive(luckyperson, "reroll", materialsfound);
                         itemfound = materialsfound + " **SKILL REROLL** " + where[Math.floor(Math.random() * where.length)];
+                    }
+                    if (roll > 0.97) {
+                        let feathersfound = Math.floor(1 + Math.random() * 3);
+                        consumGive(luckyperson, "phoenixfeather", feathersfound);
+                        itemfound = feathersfound + " Phoenix Feather(s) " + where[Math.floor(Math.random() * where.length)];
+                    }
+                    else if (roll > 0.9475) {
+                        let boxesfound = Math.floor(1 + Math.random() * 5);
+                        consumGive(luckyperson, "box", boxesfound);
+                        itemfound = boxesfound + " Box(es) " + where[Math.floor(Math.random() * where.length)];
+                    }
+                    else if (roll > 0.85) {
+                        let materialsfound = Math.floor(1001 + Math.random() * 4000);
+                        userData[luckyperson].materials += materialsfound;
+                        itemfound = materialsfound + " Material(s) " + where[Math.floor(Math.random() * where.length)];
+                    } else if (roll > 0.75) {
+                        let materialsfound = Math.floor(10001 + Math.random() * 40000);
+                        userData[luckyperson].money += materialsfound;
+                        itemfound = materialsfound + " Money(s) " + where[Math.floor(Math.random() * where.length)];
+                    }
+                }
+                else if (raid.level >= 150) {
+                    let where = [" in the boss's corpse", " in a treasure chest", " randomly", " because they felt like it", " rotting in a pile", " in a tunnel", " in a cave", " in the boss's stomach", " hit them on the head", " drop from the sky"];
+                    let roll = Math.random()
+                    if (roll > 0.985) {
+                        let materialsfound = 1;
+                        consumGive(luckyperson, "reroll", materialsfound);
+                        itemfound = materialsfound + " **SKILL REROLL** " + where[Math.floor(Math.random() * where.length)];
+                    }
+                    if (roll > 0.965) {
+                        let feathersfound = Math.floor(1 + Math.random() * 3);
+                        consumGive(luckyperson, "phoenixfeather", feathersfound);
+                        itemfound = feathersfound + " Phoenix Feather(s) " + where[Math.floor(Math.random() * where.length)];
+                    }
+                    else if (roll > 0.94) {
+                        let boxesfound = Math.floor(1 + Math.random() * 5);
+                        consumGive(luckyperson, "box", boxesfound);
+                        itemfound = boxesfound + " Box(es) " + where[Math.floor(Math.random() * where.length)];
+                    }
+                    else if (roll > 0.85) {
+                        let materialsfound = Math.floor(1001 + Math.random() * 4000);
+                        userData[luckyperson].materials += materialsfound;
+                        itemfound = materialsfound + " Material(s) " + where[Math.floor(Math.random() * where.length)];
+                    } else if (roll > 0.66666) {
+                        let materialsfound = Math.floor(10001 + Math.random() * 40000);
+                        userData[luckyperson].money += materialsfound;
+                        itemfound = materialsfound + " Money(s) " + where[Math.floor(Math.random() * where.length)];
                     }
                 }
                 //console.log(rarity)
@@ -1268,7 +1313,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
             //text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and a " + rarities[itemData[itemid].rarity] + " " + itemData[itemid].attack + "/" + itemData[itemid].defense + " weapon (ID: " + itemid + ").\n";
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and a " + itemData[itemid].attack + "/" + itemData[itemid].defense + " " + itemData[itemid].name + " (ID: " + itemid + ").\n";
         } else {
-            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\n"
+            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\nThe guild was also given "+ raid.reward + " xp and "+raid.crystalreward+" crystals.\n"
             guildData[userData[id].guild].xp += raid.reward
             guildData[userData[id].guild].crystals += raid.crystalreward
         }
