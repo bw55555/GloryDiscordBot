@@ -127,7 +127,7 @@
     {
         "name": "LastBreath",
         "id": 25,
-        "description": "While you have at least 50% health remaining and take fatal damage, prevent it and set your heal"
+        "description": "While you have at least 50% health remaining and take fatal damage, prevent it and set your health to 1."
     },
     {
         "name": "Chthonic",
