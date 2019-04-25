@@ -21,9 +21,10 @@ module.exports = function (message) {
   }
   earnings*=functions.calcLuckyBuff(id)
   earnings = Math.floor(earnings)
+  userData[id].xp += earnings;
   userData[id].money += earnings;
   userData[id].cooldowns.work = ts + workcdseconds * 1000
-  text += message.author.username + ' worked for $' + earnings + '! '
+  text += message.author.username + ' worked for ' + earnings + ' money and xp!'
 
   if (userData[id].marry != "None") {
     let spouse = userData[id].marry;
