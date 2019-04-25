@@ -23,7 +23,7 @@ module.exports=function(message) {
 	text = text + " The server has been unsuccessful in writing bad poetry.";
     }
     if(notindex == 5) {
-        text = text + "The server is currently at 24 followers.";
+        text = text + "The server is currently at 46 followers.";
     }
     }
     catch (err) {}

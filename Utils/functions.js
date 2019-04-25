@@ -345,7 +345,7 @@ function calcDamage(message, attacker, defender, initiator) {
         if (attacker.name == "Hell Lord") {
             if (Math.random() > 0.75) {
                 attack = attack * 2
-                text += attacker.name +" just dealt critical damage!"
+                text += attacker.name +" just dealt critical damage!\n"
             }
         }
         
@@ -519,7 +519,7 @@ function calcDamage(message, attacker, defender, initiator) {
         let attackername = attacker.name
         if (userData[attacker] != undefined) { attackername = "<@" + attacker + ">" }
         if (piercechance < piercerate) {
-            text += defendername + " has blocked the attack, but" + attackername + "pierced though anyway!\n"
+            text += defendername + " has blocked the attack, but " + attackername + " pierced though anyway!\n"
         } else {
             text += defendername + " has blocked the attack!\n"
             attack = 0;
@@ -820,18 +820,28 @@ function calcStats(message, id, stat, skillenable) {
 ///---------------
 function voteItem(message, dm) {
     dm = dm == true ? true : false
+    let ts = message.createdTimestamp
     let target = validate(message)
     if (target == false) { return }
-
-    let itemid = generateRandomItem(target)
-
+    let text = ""
+    if (userData[target].votestreak == undefined) { userData[target].votestreak = 0 }
+    if (userData[target].votestreaktime == undefined) { userData[target].votestreaktime = ts+24*60*60*1000 }
+    if (calcTime(userData[target].votestreaktime, ts) < 0) {
+        text = "You lost your streak... :("
+        userData[target].votestreak = 0
+    } else {
+        text = "You have a streak of " + (userData[target].votestreak+1)+"!"
+    }
+    userData[target].votestreak += 1
+    userData[target].votestreaktime = ts + 24 * 60 * 60 * 1000
+    let numboxes = Math.ceil((1 + userData[target].ascension) * Math.sqrt(userData[target].votestreak)/2)
+    
     if (userData[target].glory != undefined && userData[target].glory < 100) {
         userData[target].glory += Math.random() * 0.5;
     }
-
-    sendMessage(message.channel, "<@" + target + "> has been given an item with id " + itemid + " and of rarity " + itemData[itemid].rarity)
-    if (dm) dmUser(target, "Thank you for voting! You have been given an item with id " + itemid + " and of rarity " + itemData[itemid].rarity)
-    return itemid
+    consumGive(target, "box",numboxes)
+    sendMessage(message.channel, "<@" + target + "> has been given "+numboxes + " boxes!\n"+text)
+    if (dm) dmUser(target, "Thank you for voting! You have been given " + numboxes + " boxes!\n" + text)
 }
 function craftItems(message, minrarity, maxrarity, amount) {
     amount = (isNaN(parseInt(amount))) ? 1 : parseInt(amount)
@@ -1062,10 +1072,10 @@ function checkBurn(message) {
     let id = message.author.id
     //let ts = message.createdTimestamp;
     if (userData[id].burn != undefined && userData[id].dead == false && !isNaN(userData[id].burn)) {
-        let burndamage = Math.floor(userData[id].health * .03)
-        userData[id].burn -= Math.floor(Math.random() + 0.5)
+        let burndamage = Math.floor(userData[id].health * .05)
+        userData[id].burn -= 1
         userData[id].currenthealth -= burndamage
-        let burntext = "You took **" + burndamage + "** from burning."
+        let burntext = "You took **" + burndamage + "** from burning. (You will burn for "+userData[id].burn+" more commands)"
         if (userData[id].dead) {
             burntext += " You burned to death!"
             userData[id].dead = true
@@ -1423,7 +1433,7 @@ function itemFilter(message, defaults) {
         //console.log(item)
         //console.log(itemData[item])
         let itemID = item.toString();
-        if (!unique && itemData[item].rarity == "Unique") { continue }
+        if (!unique && itemData[itemID].rarity == "Unique") { continue }
         if (itemData[itemID] == undefined || item == userData[id].weapon || userData[id].inventory[item] != item || itemData[itemID].rarity < minrarity || itemData[itemID].rarity > maxrarity) continue
         if (fav == true && itemData[itemID].favorite == false) { continue }
         if (fav == false && itemData[itemID].favorite == true) { continue }

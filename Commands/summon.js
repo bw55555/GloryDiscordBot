@@ -67,7 +67,6 @@ module.exports=function(message) {
     if (!mobData[message.channel.id].url) mobData[message.channel.id].url = 'https://i.imgur.com/YCdZZmT.jpg';
   }
   else if (message.channel.type!="dm" && message.channel.name=="deity-raid") {
-    if (message.channel.id != 544708347190837251) { return functions.replyMessage(message, "This is for the support server only!") }
     if (serverData[message.guild.id].deity != undefined && (serverData[message.guild.id].deity == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a deity raid in this server!")}
     else { serverData[message.guild.id].deity = message.channel.id }
     if (!mobData[message.channel.id]) mobData[message.channel.id] = {} //creates profile if none exists
@@ -86,7 +85,7 @@ module.exports=function(message) {
   else if (message.channel.type != "dm" && message.channel.name == "hell-raid") {
       if (message.channel.id != 570356602843168769) { return functions.replyMessage(message, "This is for the support server only!") }
       if (admins.indexOf(id) == -1) { return functions.replyMessage(message, "Admin-only")}
-      if (serverData[message.guild.id].hell != undefined && (serverData[message.guild.id].hell == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a deity raid in this server!") }
+      if (serverData[message.guild.id].hell != undefined && (serverData[message.guild.id].hell == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a hell raid in this server!") }
       else { serverData[message.guild.id].deity = message.channel.id }
       if (!mobData[message.channel.id]) mobData[message.channel.id] = {} //creates profile if none exists
       if (!mobData[message.channel.id].name) mobData[message.channel.id].name = "Hell Lord";
@@ -102,7 +101,7 @@ module.exports=function(message) {
       if (!mobData[message.channel.id].url) mobData[message.channel.id].url = 'https://imgur.com/MbGhMkJ.jpg';
       if (!mobData[message.channel.id].ability) mobData[message.channel.id].ability = '25% chance to pierce, 25% chance to crit and deal 2x damage. ';
   }
-  else {return functions.replyMessage(message,"Please name the channel either #treant-raid, #kraken-raid, or #dragon-raid.")}
+  else {return functions.replyMessage(message,"Please name the channel either #treant-raid, #kraken-raid, #dragon-raid, or #deity-raid. Join the support server to access #hell-raid, a level 100-200 boss!")}
   let summonlevel = Math.floor((mobData[message.channel.id].minlevel) + (((mobData[message.channel.id].maxlevel) - (mobData[message.channel.id].minlevel)) * Math.random())) + 1
   mobData[message.channel.id].alive = true;
   mobData[message.channel.id].raid = true;
