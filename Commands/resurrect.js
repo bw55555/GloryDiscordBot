@@ -25,7 +25,7 @@ module.exports = function (message) {
     functions.replyMessage(message, "You have been resurrected! You find yourself a little weaker than before. You also have a 1-minute Rez Shield and can't be attacked.");
   }
   if (words.length == 2 && userData[id].triangleid == 5) {
-      if (functions.calcTime(userData[id].cooldowns.rez, ts) < 0) {
+      if (functions.calcTime(userData[id].cooldowns.rez, ts) > 0) {
       return functions.replyMessage(message, 'You can\'t rez right now. You can only rez once every minute.');
     }
     let target = functions.validate(message);

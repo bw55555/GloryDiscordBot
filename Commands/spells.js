@@ -2,7 +2,7 @@ var functions = require("../Utils/functions.js")
 module.exports = function (message) 
 {
     let id = message.author.id;
-    if (userData.id.spells == undefined) {return;}
+    if (userData[id].spells == undefined) {return;}
 
     let itemName = ""
     let itemNum = ""

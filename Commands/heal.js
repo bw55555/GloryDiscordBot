@@ -3,7 +3,7 @@ module.exports = function (message) {
   let id = message.author.id;
   let ts = message.createdTimestamp;
   let words = message.content.trim().split(/\s+/)
-  if (functions.calcTime(userData[id].cooldowns.heal, ts) < 0) {
+  if (functions.calcTime(userData[id].cooldowns.heal, ts) > 0) {
     functions.deleteMessage(message);
     return functions.replyMessage(message, "You can't heal right now. You can only heal once every minute.\nYour next heal will be ready in " + functions.displayTime(userData[id].cooldowns.heal, ts));
   }

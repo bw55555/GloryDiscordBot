@@ -14,7 +14,7 @@ module.exports = function (message) {
     }
 
     if (purchaseID >= 0 && purchaseID <= 5) {
-        if (functions.calcTime(userData[id].cooldowns.purchase, ts) < 0) { return functions.replyMessage(message, "Please wait " + functions.displayTime(userData[id].cooldowns.purchase, ts)) }
+        if (functions.calcTime(userData[id].cooldowns.purchase, ts) > 0) { return functions.replyMessage(message, "Please wait " + functions.displayTime(userData[id].cooldowns.purchase, ts)) }
         if (userData[id].money < shieldprices[purchaseID]) {
             functions.replyMessage(message, "You do not have enough money to buy this!")
             return;

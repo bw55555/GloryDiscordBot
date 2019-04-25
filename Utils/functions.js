@@ -1109,7 +1109,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
         replyMessage(message, "There is no raid right now!");
         return false;
     }
-    if (functions.calcTime(userData[id].cooldowns.attack, ts) < 0) {
+    if (functions.calcTime(userData[id].cooldowns.attack, ts) > 0) {
         deleteMessage(message);
         replyMessage(message, 'You can\'t attack right now.\n You can attack again in ' + displayTime(userData[id].cooldowns.attack, ts) + ".");
         return false;
