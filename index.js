@@ -386,6 +386,10 @@ bot.on("guildCreate", guild => {
               {
                   "name": "Halp plz? How do I play? ",
                   "value": "Check out `!tutorial`."
+              },
+              {
+                  "name": "Raid bosses too easy? ",
+                  "value": "There are higher leveled bosses in the support server. FInd the invite using `!info`."
               }
             ]
         }
