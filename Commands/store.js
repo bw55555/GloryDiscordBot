@@ -12,7 +12,7 @@ module.exports=function(message) {
   /*text += "10: One Mysterious Box ($25000)\n"
   text += "11: Ten Mysterious Boxes ($250000)\n"
   text += "12: Hundred Mysterious Boxes ($2500000)\n"*/
-  text += "20: Transform a skill back into a skill point ($500000)\n"
+  //text += "20: Transform a skill back into a skill point ($100000000)\n"
   text += "Buy something with !purchase [itemNumber]```"
   functions.sendMessage(message.channel, text)
 }

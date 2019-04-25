@@ -3,7 +3,7 @@ module.exports = function (message) {
   let id = message.author.id;
   let ts = message.createdTimestamp;
   let words = message.content.trim().split(/\s+/)
-  if (userData[id].cooldowns.smeltall > ts) { return functions.replyMessage(message, "Be patient! Wait " + functions.displayTime(userData[id].cooldowns.smeltall, ts)) }
+  if (functions.calcTime(userData[id].cooldowns.smeltall, ts) < 0) { return functions.replyMessage(message, "Be patient! Wait " + functions.displayTime(userData[id].cooldowns.smeltall, ts)) }
   let totalmaterials = 0
   let totalmoney = 0
   let totalxp = 0
