@@ -5,7 +5,7 @@ module.exports = function (message) {
   let words = message.content.trim().split(/\s+/)
   let text = ""
   
-  if (userData[id].cooldowns.work > ts) {
+  if (functions.calcTime(userData[id].cooldowns.work, ts) < 0) {
     functions.replyMessage(message, "More work will be available in " + functions.displayTime(userData[id].cooldowns.work, ts))
     functions.deleteMessage(message);
 	  return;

@@ -308,8 +308,8 @@ function displayTime(time1, time2) {
 
 function duelCheckDeath(message, id, otherID, ts) {
     if (userData[id].currenthealth <= 0) {
-        userData[id].cooldowns.heal = ts - 60000;
-        userData[otherID].cooldowns.heal = ts - 60000;
+        userData[id].cooldowns.heal = ts + 60000;
+        userData[otherID].cooldowns.heal = ts + 60000;
         duel = {};
         replyMessage(message, "" + userData[id].username + " has died. " + userData[otherID].username + " has won the duel!");
         return;
@@ -1087,7 +1087,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
         replyMessage(message, "There is no raid right now!");
         return false;
     }
-    if (userData[id].cooldowns.attack > ts) {
+    if (functions.calcTime(userData[id].cooldowns.attack, ts) < 0) {
         deleteMessage(message);
         replyMessage(message, 'You can\'t attack right now.\n You can attack again in ' + displayTime(userData[id].cooldowns.attack, ts) + ".");
         return false;

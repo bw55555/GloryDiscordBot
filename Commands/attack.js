@@ -3,7 +3,7 @@ module.exports = function (message) {
   let id = message.author.id;
   let ts = message.createdTimestamp;
   let words = message.content.split(/\s+/)
-  if (userData[id].cooldowns.attack > ts) {
+  if (functions.calcTime(userData[id].cooldowns.attack, ts) < 0) {
     functions.deleteMessage(message);
     functions.replyMessage(message, 'You can\'t attack right now. You can attack again in ' + functions.displayTime(userData[id].cooldowns.attack, ts));
     return;
