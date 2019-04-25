@@ -22,5 +22,4 @@ module.exports = function (message) {
   }
   functions.sendMessage(message.channel, "https://images-ext-2.discordapp.net/external/dojOhwEHXtz0SHhaypep01Eg3YvXrXAktzGjqybEDvw/https/media.discordapp.net/attachments/557601299663814666/570454010130333696/unknown.gif")
   functions.sendMessage(message.channel, message.author.username + " burnt " + userData[target].username + "!");
-  }
 }
