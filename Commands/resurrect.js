@@ -8,7 +8,7 @@ module.exports = function (message) {
       functions.replyMessage(message, "You're not dead. Why do you need to rez?");
       return;
     }
-    if (userData[id].health-10 >= functions.calcExtraStat(id, "health") && userData[id].health >= 10) { //debuffs stats if they are above a certain level
+    if (userData[id].health-10 >= functions.calcExtraStat(id, "health") && userData[id].health > 10) { //debuffs stats if they are above a certain level
       userData[id].health -= 10;
     }
     if (userData[id].attack - 1 >= functions.calcExtraStat(id, "attack") && userData[id].attack >= 1) {
