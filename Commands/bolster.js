@@ -6,7 +6,7 @@ module.exports = function (message) {
   if (userData[id].triangleid != 9 && !functions.hasSkill(id, 11)) {
     return functions.replyMessage(message, "You can't bolster!");
   }
-  if (functions.calcTime(userData[id].cooldowns.bolster, ts) < 0) {
+  if (functions.calcTime(userData[id].cooldowns.bolster, ts) > 0) {
     functions.deleteMessage(message);
     return functions.replyMessage(message, "You can't bolster right now. You can bolster again in " + functions.displayTime(userData[id].cooldowns.bolster, ts));
   }

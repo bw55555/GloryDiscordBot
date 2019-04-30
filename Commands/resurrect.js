@@ -8,7 +8,7 @@ module.exports = function (message) {
       functions.replyMessage(message, "You're not dead. Why do you need to rez?");
       return;
     }
-    if (userData[id].health-10 >= functions.calcExtraStat(id, "health") && userData[id].health >= 10) { //debuffs stats if they are above a certain level
+    if (userData[id].health-10 >= functions.calcExtraStat(id, "health") && userData[id].health > 10) { //debuffs stats if they are above a certain level
       userData[id].health -= 10;
     }
     if (userData[id].attack - 1 >= functions.calcExtraStat(id, "attack") && userData[id].attack >= 1) {
@@ -25,7 +25,7 @@ module.exports = function (message) {
     functions.replyMessage(message, "You have been resurrected! You find yourself a little weaker than before. You also have a 1-minute Rez Shield and can't be attacked.");
   }
   if (words.length == 2 && userData[id].triangleid == 5) {
-      if (functions.calcTime(userData[id].cooldowns.rez, ts) < 0) {
+      if (functions.calcTime(userData[id].cooldowns.rez, ts) > 0) {
       return functions.replyMessage(message, 'You can\'t rez right now. You can only rez once every minute.');
     }
     let target = functions.validate(message);

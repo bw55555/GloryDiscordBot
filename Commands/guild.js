@@ -134,7 +134,7 @@ module.exports = function (message) {
             return;
         }
         if (userData[target].guild != "None") {
-            functions.replyMessage(message, "The are already in the guild " + userData[target].guild + "!");
+            functions.replyMessage(message, "They are already in the guild " + userData[target].guild + "!");
             return;
         }
         //functions.sendMessage(message.channel, "<@" + target + ">, <@" + id + "> invites you to their guild! Type `!guild accept` to join");
