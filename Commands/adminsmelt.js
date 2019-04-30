@@ -32,7 +32,9 @@ module.exports = function (message) {
         return
     }*/
     let owner = itemData[weaponid].owner
-    if (userData[owner] == undefined) { return functions.replyMessage(message, "No one owns this item! Notify a dev. ")}
+    if (userData[owner] == undefined) { return functions.replyMessage(message, "No one owns this item! Notify a dev. ") }
+    if (userData[owner].weapon == weaponid) { userData[owner].weapon = false }
     let itemRewards = functions.smeltItem(owner, weaponid, false)
+userData[owner].weapon == "None";
     functions.sendMessage(message.channel, "You have adminsmelted item " + weaponid + "!")
 }
