@@ -167,8 +167,8 @@ module.exports = function (message) {
         return functions.replyMessage(message, "Bolstered next attack");
     }
     else if (words[1] == "r" || words[1] == "resign") {
-        userData[id].cooldowns.heal = ts - 60000;
-        userData[otherID].cooldowns.heal = ts - 60000;
+        functions.setCD(id, ts, 0, "heal")
+        functions.setCD(otherID, ts, 0, "heal")
         duel = {};
         return functions.replyMessage(message, "" + userData[id].username + " has resigned. " + userData[otherID].username + " won!");
     }

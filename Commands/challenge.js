@@ -48,8 +48,8 @@ module.exports = function (message) {
                 duel.cDef += itemData[userData[duel.challenger]].defense;
             }
 
-            userData[id].cooldowns.heal = Infinity;
-            userData[duel.challenger].cooldowns.heal = Infinity;
+            functions.setCD(duel.opponent, ts, Infinity, "heal")
+            functions.setCD(duel.challenger, ts, Infinity, "heal")
             return functions.sendMessage(message.channel, "The duel begins now!");
         }
     }

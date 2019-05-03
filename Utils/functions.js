@@ -291,6 +291,16 @@ function calcLuckyBuff(id) {
     }
     return luckybuff
 }
+function errorlog(text) {
+    if (!bot.guilds.has("536599503608872961")) {return}
+    if (!bot.guilds.get("536599503608872961").channels.has("538526944141246486")) {return}
+    sendMessage(bot.guilds.get("536599503608872961").channels.get("538526944141246486"),text)
+}
+function setCD(id, ts, cdsecs, cdname) {
+    if (userData[id].cooldowns[cdname] == undefined) { errorlog("Something went wrong with setCD. " + cdname + " not defined." + id + "|" + ts) }
+    if (userData[id].weapon != false && itemData[userData[id].weapon].modifiers.haste != undefined) { cdsecs -= parseInt(itemData[userData[id].weapon].modifiers.haste) }
+    userData[id].cooldowns[cdname] = ts+cdsecs*1000
+}
 function calcTime(time1, time2) {
     return Math.floor((time1 - time2) / 1000)
 }
@@ -308,8 +318,8 @@ function displayTime(time1, time2) {
 
 function duelCheckDeath(message, id, otherID, ts) {
     if (userData[id].currenthealth <= 0) {
-        userData[id].cooldowns.heal = ts + 60000;
-        userData[otherID].cooldowns.heal = ts + 60000;
+        setCD(id, ts, 0,"heal");
+        setCD(otherID, ts, 0,"heal");
         duel = {};
         replyMessage(message, "" + userData[id].username + " has died. " + userData[otherID].username + " has won the duel!");
         return;
@@ -825,10 +835,12 @@ function voteItem(message, dm) {
     if (target == false) { return }
     let text = ""
     if (userData[target].votestreak == undefined) { userData[target].votestreak = 0 }
-    if (userData[target].votestreaktime == undefined) { userData[target].votestreaktime = ts+24*60*60*1000 }
+    if (userData[target].votestreaktime == undefined) { userData[target].votestreaktime = ts + 24 * 60 * 60 * 1000 }
     if (calcTime(userData[target].votestreaktime, ts) < 0) {
         text = "You lost your streak... :("
         userData[target].votestreak = 0
+    } else if (calcTime(userData[target].votestreaktime, ts) > 12 * 60 * 60) {
+        return sendMessage(message.channel, "It hasn't been 12 hours yet... DBL broke down :(")
     } else {
         text = "You have a streak of " + (userData[target].votestreak+1)+"!"
     }
@@ -1368,7 +1380,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
         }
     }
     if (text != "") { sendMessage(message.channel, text) }
-    userData[id].cooldowns.attack = ts + attackcd * 60 * 1000;
+    setCD(id, ts, attackcd * 60, "attack");
     userData[id].speed += 1;
 }
 function smeltItem(id, weaponid, givereward) {
@@ -1455,6 +1467,8 @@ module.exports.generateItem = function (owner, itemid, attack, defense, rarity, 
 module.exports.generateRandomItem = function (owner, rarity) { return generateRandomItem(owner, rarity) }
 module.exports.calcExtraStat = function (id, stat) { return calcExtraStat(id, stat) }
 module.exports.calcLuckyBuff = function (id) { return calcLuckyBuff(id) }
+module.exports.errorlog = function (text) { return calcTime(text) }
+module.exports.setCD = function (id, ts, cdsecs, cdname) { return setCD(id, ts, cdsecs, cdname) }
 module.exports.calcTime = function (time1, time2) { return calcTime(time1, time2) }
 module.exports.displayTime = function (time1, time2) { return displayTime(time1, time2) }
 module.exports.calcDamage = function (message, attacker, defender, initiator) { return calcDamage(message, attacker, defender, initiator) }

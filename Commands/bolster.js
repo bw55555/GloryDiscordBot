@@ -44,5 +44,5 @@ module.exports = function (message) {
 
     
   }
-  userData[id].cooldowns.bolster = ts + bolstercd * 60 * 1000;
+  functions.setCD(id, ts, bolster * 60, "bolster")
 }

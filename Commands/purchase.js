@@ -21,7 +21,7 @@ module.exports = function (message) {
         }
         userData[id].money -= shieldprices[purchaseID]
         userData[id].shield = ts + shieldtimes[purchaseID] * 1000 * 60 * 60
-        userData[id].cooldowns.purchase = ts + shieldtimes[purchaseID] * 1000 * 60 * 60//+1000*60*60
+        functions.setCD(id, ts, shieldtimes[purchaseID] * 3600, "purchase");//+1000*60*60
         functions.replyMessage(message, "You successfully bought a " + shieldtimes[purchaseID] + " hour shield for $" + shieldprices[purchaseID] + "!")
     }
     else if (purchaseID == 101) {
