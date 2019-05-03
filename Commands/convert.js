@@ -1,7 +1,8 @@
 var functions = require("../Utils/functions.js")
 module.exports = function (message) {
+    return;
     functions.replyMessage(message, "Let's pray it works");
-
+    
     let id = message.author.id;
     let ts = message.createdTimestamp;
     if (devs.indexOf(id)==-1){return}
