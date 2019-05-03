@@ -825,7 +825,10 @@ function voteItem(message, dm) {
     if (target == false) { return }
     let text = ""
     if (userData[target].votestreak == undefined) { userData[target].votestreak = 0 }
-    if (userData[target].votestreaktime == undefined) { userData[target].votestreaktime = ts+24*60*60*1000 }
+    if (userData[target].votestreaktime == undefined) { userData[target].votestreaktime = ts + 24 * 60 * 60 * 1000 }
+    if (calcTime(userData[target].votestreaktime, ts) > 12 * 60 * 60) {
+        return sendMessage(message.channel,"It hasn't been 12 hours yet... DBL broke down :(")
+    }
     if (calcTime(userData[target].votestreaktime, ts) < 0) {
         text = "You lost your streak... :("
         userData[target].votestreak = 0

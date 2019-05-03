@@ -1,22 +1,11 @@
 var functions = require("../Utils/functions.js")
-function countMembers(guild) {
-    let members = guild.members
-    let count = 0
-    let keys = members.keys()
-    for (let value of keys) {
-        if (!members.get(value).user.bot) {
-            count++
-        } 
-    }
-    return count
-}
 module.exports=function(message) {
   let id = message.author.id;
   let ts = message.createdTimestamp;
   let words = message.content.trim().split(/\s+/)
 
   if (!mobData[message.channel.id]) {
-      if (message.channel.type == "dm" || message.channel.type == "group" || message.guild == undefined || message.guild == null || (countMembers(message.guild) < 50 && devs.indexOf(id) == -1)) { return functions.replyMessage(message, "You cannot summon a raid in a server with less than 50 members!") }
+      if (message.channel.type == "dm" || message.channel.type == "group" || message.guild == undefined || message.guild == null || (message.guild.members.filter(member => member.user.bot == false).size<50 && devs.indexOf(id) == -1)) { return functions.replyMessage(message, "You cannot summon a raid in a server with less than 50 members!") }
   }
   if (message.channel.type!="dm" && message.channel.name=="treant-raid") {
     if (serverData[message.guild.id].treant != undefined && (serverData[message.guild.id].treant==message.channel.id && admins.indexOf(id)==-1)) { return functions.replyMessage(message, "You already have a treant raid in this server!") }
