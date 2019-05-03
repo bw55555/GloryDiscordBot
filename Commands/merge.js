@@ -71,7 +71,7 @@ module.exports = function (message) {
         functions.replyMessage(message, "The first item cannot be upgraded any further!")
         return
     }
-    let extratime = (rarity < 2) ? 0 : Math.pow(2, rarity - 2) * 60 * 1000 * 15
+    let extratime = (rarity < 2) ? 0 : Math.pow(2, rarity - 2) * 60 * 15
     let wepatk = itemData[weaponid].attack
     let wepdef = itemData[weaponid].defense
     let y = (raritystats[rarity] - (wepatk + wepdef)) / (10 - itemData[weaponid].merge)
@@ -103,8 +103,8 @@ module.exports = function (message) {
     delete userData[id].inventory[weaponid2];
     itemData[weaponid2] = 0;
 
-    userData[id].cooldowns.merge = ts + extratime
+    functions.setCD(id, ts,extratime,"merge")
     if (functions.hasSkill(id, 35)) {
-        userData[id].cooldowns.merge = ts + extratime / 2
+        functions.setCD(id, ts, extratime/2, "merge")
     }
 }

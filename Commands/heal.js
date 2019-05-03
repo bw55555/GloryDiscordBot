@@ -48,9 +48,9 @@ module.exports = function (message) {
     }
     functions.replyMessage(message, "<@" + target + "> was healed for " + heal + " health!")
     if (userData[id].triangleid == "5") {
-      userData[id].cooldowns.heal = ts + healcd * 45 * 1000
+        functions.setCD(id, ts,healcd * 45,"heal")
     } else {
-      userData[id].cooldowns.heal = ts + healcd * 60 * 1000
+        functions.setCD(id, ts, healcd * 60, "heal")
     }
   } else {
     if (userData[id].health <= userData[id].currenthealth) {
@@ -76,11 +76,11 @@ module.exports = function (message) {
       functions.replyMessage(message, "You healed for " + heal + " Health!");
     }
     userData[id].speed = 0;
-    userData[id].cooldowns.heal = ts + healcd * 60 * 1000
+    functions.setCD(id, ts, healcd * 60, "heal")
     userData[id].speed = 0;
     if (functions.hasSkill(id, 34)) {
       userData[id].speed = 0;
-      userData[id].cooldowns.heal = ts + healcd * 30 * 1000
+      functions.setCD(id, ts, healcd * 30, "heal")
       userData[id].speed = 0;
     }
   }
