@@ -44,5 +44,5 @@ module.exports = function (message) {
 
     
   }
-  functions.setCD(id, ts, bolster * 60, "bolster")
+  functions.setCD(id, ts, bolstercd * 60, "bolster")
 }
