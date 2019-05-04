@@ -284,10 +284,10 @@ function calcLuckyBuff(id) {
         }
     }
     if (hasSkill(id, 16)) { //Royalty Skill
-        luckybuff *= 1.5
+        luckybuff += 0.5
     }
     if (userData[id].guild != "None" && guildData[userData[id].guild].buffs.lucky != undefined) {
-        luckybuff *= (1 + guildData[userData[id].guild].buffs.lucky.value)
+        luckybuff += guildData[userData[id].guild].buffs.lucky.value
     }
     return luckybuff
 }
