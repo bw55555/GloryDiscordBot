@@ -18,6 +18,7 @@ module.exports = function (message) {
         let id = extraArgs[1]
         let message = extraArgs[0]
         functions.consumGive(id, "sp", 1)
+        functions.consumGive(id, "reroll", 1)
 	    if(userData[id].level != 100){
             return;
 	    }

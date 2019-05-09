@@ -48,6 +48,18 @@ function dmUser(user, text) {
     if (userData[user].dmmute != true) bot.users.get(user).send(text).catch(function (err) { console.error(err) })
 }
 
+function writeData(folder) {
+    fs.writeFile(folder + '/userData.json', JSON.stringify(userData, null, 4), function (err) { if (err == null) { return; };console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"userData backed up!"))
+    fs.writeFile(folder + '/itemData.json', JSON.stringify(itemData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"itemData backed up!"))
+    fs.writeFile(folder + '/mobData.json', JSON.stringify(mobData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"mobData backed up!"))
+    fs.writeFile(folder + '/guildData.json', JSON.stringify(guildData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"guildData backed up!"))
+    fs.writeFile(folder + '/serverData.json', JSON.stringify(serverData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"guildData backed up!"))
+    fs.writeFile(folder + '/devData.json', JSON.stringify(devData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"guildData backed up!"))
+    fs.writeFile(folder + '/questData.json', JSON.stringify(questData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"guildData backed up!"))
+    //fs.writeFile(folder + '/partyData.json', JSON.stringify(partyData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })
+    fs.writeFile(folder + '/eggData.json', JSON.stringify(eggData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })
+}
+
 function logCommand(message, extratext) {
     if (message.author.bot) { return }
     if (extratext == undefined) { extratext = "" } else { extratext = "|" + extratext }
@@ -348,7 +360,7 @@ function calcDamage(message, attacker, defender, initiator) {
     if (userData[attacker] != undefined) {
         attack = 2 * calcStats(message, attacker, "attack", skillenable)
         if (userData[defender] != undefined && hasSkill(defender, 23, skillenable)) {
-            attack = calcStats(message, defender, "defense", skillenable)
+            attack = calcStats(message, attacker, "attack", skillenable,true)
         }
     } else {
         attack = attacker.attack;
@@ -365,7 +377,7 @@ function calcDamage(message, attacker, defender, initiator) {
     if (userData[defender] != undefined) {
         defense = calcStats(message, defender, "defense", skillenable)
         if (userData[attacker] != undefined && hasSkill(attacker, 23, skillenable)) {
-            defense = calcStats(message, defender, "attack", skillenable)
+            defense = calcStats(message, defender, "defense", skillenable,true)
         }
     }
     if (userData[attacker] != undefined && userData[defender] != undefined) {
@@ -652,11 +664,16 @@ function calcDamage(message, attacker, defender, initiator) {
     if (text != "") { sendMessage(message.channel, text) }
     return truedamage
 }
-function calcStats(message, id, stat, skillenable) {
+function calcStats(message, id, stat, skillenable,confused) {
     skillenable = (skillenable == false) ? false : true
+    confused = (confused == true) ? true : false
     let text = ""
     let attack = userData[id].attack
     let defense = userData[id].defense
+    if (confused) {
+        attack = userData[id].defense
+        defense = userData[id].attack
+    }
     let buff = userData[id].trianglemod;
     let dbuff = 1;
     let critrate = 0;
@@ -760,7 +777,12 @@ function calcStats(message, id, stat, skillenable) {
     if (stat == "attack") {
 
         if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) {
-            attack += itemData[userData[id].weapon].attack;
+            if (confused) {
+                attack += itemData[userData[id].weapon].defense;
+            } else {
+                attack += itemData[userData[id].weapon].attack;
+            }
+            
         }
         if (rage > 0) {
             let x = userData[id].currenthealth / userData[id].health
@@ -822,7 +844,12 @@ function calcStats(message, id, stat, skillenable) {
         //console.log(userData[id].weapon)
         //console.log("ItemData length:" + currentItemList)
         if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) {
-            defense += itemData[userData[id].weapon].defense
+            if (!confused) {
+                defense += itemData[userData[id].weapon].defense;
+            } else {
+                defense += itemData[userData[id].weapon].attack;
+            }
+
         }
         if (text != "") { sendMessage(message.channel, text) }
         return Math.floor(dbuff * defense)
@@ -832,15 +859,16 @@ function calcStats(message, id, stat, skillenable) {
 function voteItem(message, dm) {
     dm = dm == true ? true : false
     let ts = message.createdTimestamp
+    let words = message.content.trim().split(/\s+/)
     let target = validate(message)
     if (target == false) { return }
     let text = ""
     if (userData[target].votestreak == undefined) { userData[target].votestreak = 0 }
-    if (userData[target].votestreaktime == undefined) { userData[target].votestreaktime = ts + 24 * 60 * 60 * 1000 }
+    if (userData[target].votestreaktime == undefined) { userData[target].votestreaktime = ts }
     if (calcTime(userData[target].votestreaktime, ts) < 0) {
         text = "You lost your streak... :("
         userData[target].votestreak = 0
-    } else if (calcTime(userData[target].votestreaktime, ts) > 12 * 60 * 60) {
+    } else if (calcTime(userData[target].votestreaktime, ts) > 11 * 60 * 60 && words[2]!="override") {
         return sendMessage(message.channel, "It hasn't been 12 hours yet... DBL broke down :(")
     } else {
         text = "You have a streak of " + (userData[target].votestreak+1)+"!"
@@ -1054,6 +1082,7 @@ function checkStuff(message) {
     //userData[id].xp += Math.floor(20 * Math.random() + 1); //whenever a message is sent, their experience increases by a random number 1-25.
     userData[id].xp += 1 + Math.floor(Math.random() * userData[id].level);
     let leveluptext = ""
+    if (userData[id].level >= 100) { userData[id].xp = Math.floor((3 * Math.pow((userData[id].level + 1), 2) + 100) * Math.pow(1.5, userData[id].ascension)) - 1 }
     while (userData[id].xp >= Math.floor((3 * Math.pow((userData[id].level + 1), 2) + 100) * Math.pow(1.5, userData[id].ascension)) && userData[id].level < 100) { //increases levels when xp>100*level
         userData[id].xp -= Math.floor((3 * Math.pow((userData[id].level + 1), 2) + 100) * Math.pow(1.5, userData[id].ascension))
         userData[id].level += 1;
@@ -1460,6 +1489,7 @@ module.exports.replyMessage = function (message, text, override) { return replyM
 module.exports.deleteMessage = function (message) { return deleteMessage(message) }
 module.exports.dmUser = function (user, text) { return dmUser(user, text) }
 module.exports.logCommand = function (message, extratext) { return logCommand(message, extratext) }
+module.exports.writeData = function (folder) { return writeData(folder) }
 module.exports.validate = function (message, spot) { return validate(message, spot) }
 module.exports.gvalidate = function (message) { return gvalidate(message) }
 module.exports.generateWeaponTemplate = function (weaponid, current, total) { return generateWeaponTemplate(weaponid, current, total) }
@@ -1468,7 +1498,7 @@ module.exports.generateItem = function (owner, itemid, attack, defense, rarity, 
 module.exports.generateRandomItem = function (owner, rarity) { return generateRandomItem(owner, rarity) }
 module.exports.calcExtraStat = function (id, stat) { return calcExtraStat(id, stat) }
 module.exports.calcLuckyBuff = function (id) { return calcLuckyBuff(id) }
-module.exports.errorlog = function (text) { return calcTime(text) }
+module.exports.errorlog = function (text) { return errorlog(text) }
 module.exports.setCD = function (id, ts, cdsecs, cdname) { return setCD(id, ts, cdsecs, cdname) }
 module.exports.calcTime = function (time1, time2) { return calcTime(time1, time2) }
 module.exports.displayTime = function (time1, time2) { return displayTime(time1, time2) }

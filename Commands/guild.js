@@ -143,6 +143,7 @@ module.exports = function (message) {
                 let guild = extraArgs[0]
                 let id = extraArgs[1]
                 let message = extraArgs[2]
+                if (userData[id].guild != "None") { return;}
                 userData[id].guild = guild;
                 guildData[guild].members.push(id);
                 userData[id].guildpos = "Member";

@@ -118,6 +118,7 @@ function evaluateMessage(message) {
         if (message.author.id == "537622416604528654" && (message.channel.id == "538800067507650590" || message.channel.id == "553385894183174165")) {
             let command = message.content.trim().split(/\s+/)
             if (command[0] == defaultPrefix + "vi") {
+                message.content+= " override"
                 functions.voteItem(message, true)
             }
             if (command[0] == defaultPrefix + "backup") { commands["backup"](message) }
@@ -316,15 +317,7 @@ bot.on('ready', function () {
         }
     })
     bot.setInterval(function () {
-        fs.writeFileSync('Storage/userData.json', JSON.stringify(userData, null, 4))//.then(sendMessage(message.channel,"userData backed up!"))
-        fs.writeFileSync('Storage/itemData.json', JSON.stringify(itemData, null, 4))//.then(sendMessage(message.channel,"itemData backed up!"))
-        fs.writeFileSync('Storage/mobData.json', JSON.stringify(mobData, null, 4))//.then(sendMessage(message.channel,"mobData backed up!"))
-        fs.writeFileSync('Storage/guildData.json', JSON.stringify(guildData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
-        fs.writeFileSync('Storage/serverData.json', JSON.stringify(serverData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
-        fs.writeFileSync('Storage/devData.json', JSON.stringify(devData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
-        fs.writeFileSync('Storage/questData.json', JSON.stringify(questData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
-        fs.writeFileSync('Storage/partyData.json', JSON.stringify(partyData, null, 4))
-        fs.writeFileSync('Storage/eggData.json', JSON.stringify(eggData, null, 4))
+        functions.writeData("Storage")
     }, 30000)
     let resettimer = 86400000 - (Date.now() % 86400000)
     bot.setTimeout(function () {

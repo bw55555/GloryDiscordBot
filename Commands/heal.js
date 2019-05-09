@@ -52,6 +52,11 @@ module.exports = function (message) {
     } else {
         functions.setCD(id, ts, healcd * 60, "heal")
     }
+    if (functions.hasSkill(id, 34)) {
+        userData[id].speed = 0;
+        functions.setCD(id, ts, healcd * 30, "heal")
+        userData[target].speed = 0;
+    }
   } else {
     if (userData[id].health <= userData[id].currenthealth) {
       return functions.replyMessage(message, "You are already at full health!");
