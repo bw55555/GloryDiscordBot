@@ -652,7 +652,7 @@ function calcDamage(message, attacker, defender, initiator) {
     //Last Breath Check
     if (userData[defender] != undefined) {
         if (hasSkill(defender, 25, skillenable)) {
-            if (truedamage > userData[defender].currenthealth && userData[defender].currenthealth * 2 > userData[defender].health) {
+            if (truedamage > userData[defender].currenthealth && userData[defender].currenthealth >= userData[defender].health * .75) {
                 userData[defender].currenthealth = truedamage + 1
                 text += "<@" + defender + "> has activated Last Breath!"
             }
@@ -1102,12 +1102,14 @@ function checkStuff(message) {
         replyMessage(message, leveluptext)
     }
 
-
     if (userData[id].currenthealth <= 0) { //If health is 0, you are dead.
         userData[id].currenthealth = 0;
         userData[id].dead = true;
     }
 
+    if (userData[id].level == 100 && userData[id].xp > Math.floor((3 * Math.pow((userData[id].level + 1), 2) + 100) * Math.pow(1.5, userData[id].ascension))){
+        userData[id].xp = userData[id].xp > Math.floor((3 * Math.pow((userData[id].level + 1), 2) + 100) * Math.pow(1.5, userData[id].ascension))
+    }
 }
 
 function checkBurn(message) {
