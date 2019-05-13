@@ -26,8 +26,6 @@ module.exports = function (message) {
 
     userData[target].currenthealth = userData[target].health;
     userData[target].dead = false;
-
-    userData[target].shield = ts + 60000;
     functions.replyMessage(message, "<@" + target + "> has been admin resurrected! They feel wonderful!");
   }
   functions.logCommand(message)

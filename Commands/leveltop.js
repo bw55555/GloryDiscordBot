@@ -53,7 +53,7 @@ module.exports = function (message) {
             page.embed.fields[0].value += "\n"
         }
     }
-    if (page.embed.fields[0] != "") {
+    if (page.embed.fields[0].value != "") {
         page.embed.footer.text = (pages.length * numPerPage + 1) + "-" + (i + 1) + " out of " + globalUsers
         pages.push(page)
         page = {

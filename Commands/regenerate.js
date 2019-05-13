@@ -11,6 +11,7 @@ module.exports = function (message) {
             if (target == false) { return }
         }
         if (!userData[id].cooldowns.regenerate) userData[id].cooldowns.regenerate = ts;
+        if (userData[id].dead == true) return functions.replyMessage(message, "You can't regenerate while dead!")
         healthrestored = Math.floor((ts - userData[id].cooldowns.regenerate) / 2000)
         if (healthrestored > 1000) {
             healthrestored = 1000

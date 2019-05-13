@@ -346,21 +346,27 @@ function calcDamage(message, attacker, defender, initiator) {
     let skillenable = true;
     if (userData[defender] == undefined && defender.name == "Charybdis") { skillenable = false }
     if (userData[attacker] == undefined && attacker.name == "Charybdis") { skillenable = false }
+    let defendername = defender.name
+    if (userData[defender] != undefined) { defendername = "<@" + defender + ">" }
+    let attackername = attacker.name
+    if (userData[attacker] != undefined) { attackername = "<@" + attacker + ">" }
     let evadechance = Math.random()
     let evaderate = 0;
     if (defender.name == "Will-o'-the-wisp") {
         evaderate += 0.95
     }
+    if (userData[defender] != undefined && userData[defender].weapon != false && itemData[userData[defender].weapon].modifiers.evade != undefined) {
+        evaderate += itemData[userData[defender].weapon].modifiers.evade
+    }
     if (evadechance < evaderate) {
-        let defendername = defender.name
-        if (userData[defender] != undefined) { defendername = "<@" + defender + ">" }
-        replyMessage(message, defendername + " has evaded the attack!")
+        sendMessage(message.channel, attackername + ", "+defendername + " has evaded the attack!")
         return 0
     }
     if (userData[attacker] != undefined) {
-        attack = 2 * calcStats(message, attacker, "attack", skillenable)
         if (userData[defender] != undefined && hasSkill(defender, 23, skillenable)) {
-            attack = calcStats(message, attacker, "attack", skillenable,true)
+            attack = 2 * calcStats(message, attacker, "attack", skillenable, true)
+        } else {
+            attack = 2 * calcStats(message, attacker, "attack", skillenable)
         }
     } else {
         attack = attacker.attack;
@@ -372,26 +378,21 @@ function calcDamage(message, attacker, defender, initiator) {
         }
         
     }
-    
     let defense = 0;
     if (userData[defender] != undefined) {
-        defense = calcStats(message, defender, "defense", skillenable)
         if (userData[attacker] != undefined && hasSkill(attacker, 23, skillenable)) {
             defense = calcStats(message, defender, "defense", skillenable,true)
+        } else {
+            defense = calcStats(message, defender, "defense", skillenable)
         }
     }
     if (userData[attacker] != undefined && userData[defender] != undefined) {
-        if (userData[attacker].triangleid == 0 || userData[defender].triangleid == 0) {
-
-        } else if ((userData[attacker].triangleid - userData[defender].triangleid) % 3 == 2) {
-
+        if ((userData[attacker].triangleid - userData[defender].triangleid) % 3 == 2) {
             if (hasSkill(attacker, 13, skillenable)) {
                 attack *= 1.8
             } else {
                 attack *= 1.4
             }
-        } else {
-
         }
         if (hasSkill(defender, 37) && userData[attacker].speed > 0) {
             userData[attacker].speed = 0
@@ -435,8 +436,6 @@ function calcDamage(message, attacker, defender, initiator) {
         } else {
             defense = 0
         }
-        let attackername = attacker.name
-        if (userData[attacker] != undefined) { attackername = "<@" + attacker + ">" }
         text += attackername + " has pierced their opponents defense!\n"
         if (userData[attacker] != undefined && hasSkill(attacker, 28, skillenable)) {
             attack *= 1.4
@@ -537,10 +536,6 @@ function calcDamage(message, attacker, defender, initiator) {
     }
 
     if (blockrate > blockchance) {
-        let defendername = defender.name
-        if (userData[defender] != undefined) { defendername = "<@" + defender + ">" }
-        let attackername = attacker.name
-        if (userData[attacker] != undefined) { attackername = "<@" + attacker + ">" }
         if (piercechance < piercerate) {
             text += defendername + " has blocked the attack, but " + attackername + " pierced though anyway!\n"
         } else {
@@ -1077,12 +1072,10 @@ function checkStuff(message) {
     let words = message.content.trim().split(/\s+/)
     checkProps(message)
 
-
-
     //userData[id].xp += Math.floor(20 * Math.random() + 1); //whenever a message is sent, their experience increases by a random number 1-25.
     userData[id].xp += 1 + Math.floor(Math.random() * userData[id].level);
     let leveluptext = ""
-    if (userData[id].level >= 100) { userData[id].xp = Math.floor((3 * Math.pow((userData[id].level + 1), 2) + 100) * Math.pow(1.5, userData[id].ascension)) - 1 }
+    if (userData[id].level >= 100) { userData[id].xp = Math.min(Math.floor((3 * Math.pow((userData[id].level + 1), 2) + 100) * Math.pow(1.5, userData[id].ascension)) - 1,userData[id].xp) }
     while (userData[id].xp >= Math.floor((3 * Math.pow((userData[id].level + 1), 2) + 100) * Math.pow(1.5, userData[id].ascension)) && userData[id].level < 100) { //increases levels when xp>100*level
         userData[id].xp -= Math.floor((3 * Math.pow((userData[id].level + 1), 2) + 100) * Math.pow(1.5, userData[id].ascension))
         userData[id].level += 1;
@@ -1124,7 +1117,7 @@ function checkBurn(message) {
             delete userData[id].burn
             burntext += " The flames have ceased."
         }
-        if (userData[id].burn < 0 || userData[id].dead == true || isNaN(userData[id].burn)) {
+        if (userData[id].burn <= 0 || userData[id].dead == true || isNaN(userData[id].burn)) {
             delete userData[id].burn
             burntext += " The flames have ceased."
         }
@@ -1270,7 +1263,14 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                 }
                 
                 if (isevent) {
-                    rarity = Math.floor(5.5 + (2 * Math.random()))
+                    let roll = Math.random()
+                    if (roll > 0.9) {
+                        rarity = 7
+                    } else if (roll > 0.5) {
+                        rarity = 6
+                    } else {
+                        rarity = 5
+                    }
                 }
                 if (raid.level > 75) {
                     let where = [" in the boss's corpse", " in a treasure chest", " randomly", " because they felt like it", " rotting in a pile", " in a tunnel", " in a cave", " in the boss's stomach", " hit them on the head", " drop from the sky"];
@@ -1398,6 +1398,14 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
             raid.attacklist = {}
             text += "Boss automatically summoned. It is level " + summonlevel + "!\n";
 
+        }
+        if (isevent) {
+            bot.setTimeout(function () {
+                message.channel.overwritePermissions(message.guild.roles.get("536599503608872961"), {
+                    "READ_MESSAGES": false,
+                    "SEND_MESSAGES": false
+                }).catch(console.error);
+            }, 30000)
         }
     }
     if (userData[id].currenthealth <= 0) {

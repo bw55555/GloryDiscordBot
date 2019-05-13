@@ -4,7 +4,6 @@ module.exports = function (message) {
   let ts = message.createdTimestamp;
   let words = message.content.trim().split(/\s+/)
   if (admins.indexOf(id) == -1) { return }
-
   if (words.length > 1) {
     summonlevel = parseInt(words[1])
     if (isNaN(summonlevel)) { return functions.sendMessage(message.channel, "The boss level must be an integer!") }
@@ -29,8 +28,6 @@ module.exports = function (message) {
     mobData[message.channel.id].level = summonlevel;
     mobData[message.channel.id].itemReward = itemrewardId;
     mobData[message.channel.id].attacklist = [];
-
-    functions.replyMessage(message, "Boss summoned. It is level " + mobData[message.channel.id].level + "!");
   }else if (words.length == 1){
       //let roll = 1 + ((Math.random() - 0.5) * 0.2);
     let summonlevel = 200 + Math.floor(Math.random()*100)
@@ -44,6 +41,10 @@ module.exports = function (message) {
     mobData[message.channel.id].level = summonlevel;
     //mobData[message.channel.id].itemReward = itemrewardId;
     mobData[message.channel.id].attacklist = [];
-    functions.replyMessage(message, "Boss summoned. It is level " + mobData[message.channel.id].level + "!");
   }
+  message.channel.overwritePermissions(message.guild.roles.get("536599503608872961"), {
+      "READ_MESSAGES": true,
+      "SEND_MESSAGES": true
+  }).then(function () { functions.replyMessage(message, "Boss summoned. It is level " + mobData[message.channel.id].level + "!\n"+"<@&564565782852272140>"); }).catch(console.error);
+ 
 }

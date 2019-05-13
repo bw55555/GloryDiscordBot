@@ -20,10 +20,14 @@ module.exports = function (message) {
     let numPerPage = 10
     let page = {
         "embed": { //displays guild stats
-            "title": "Global Levels",
+            "title": "Global Wealth",
             "color": 0xF1C40F,
             "fields": [{
-                "name": "Highest Level Accounts",
+                "name": "Money in Economy",
+                "value": "$" + globalWealth,
+                "inline": true
+            }, {
+                "name": "Richest Accounts",
                 "value": ""
             }],
             "footer": {
@@ -37,7 +41,7 @@ module.exports = function (message) {
         let text = parseInt(user[0])
         //let leveltext = parseInt(user[0]) - 100 * asctext
         let username = userData[user[1]].username
-        page.embed.fields[0].value += "**" + (i + 1) + ". " + username + "** (ID: " + user[1] + ") with **$" + text + "**"
+        page.embed.fields[1].value += "**" + (i + 1) + ". " + username + "** (ID: " + user[1] + ") with **$" + text + "**"
         if (i % numPerPage == numPerPage - 1) { // separate pages
             page.embed.footer.text = (pages.length * numPerPage + 1) + "-" + (i + 1) + " out of " + globalUsers //add footer to display where you are
             pages.push(page)
@@ -46,9 +50,9 @@ module.exports = function (message) {
                     "title": "Global Wealth",
                     "color": 0xF1C40F,
                     "fields": [{
-                        name: "Money in Economy",
-                        value: globalWealth,
-                        inline: true
+                        "name": "Money in Economy",
+                        "value": "$" + globalWealth,
+                        "inline": true
                      },{
                         "name": "Richest Accounts",
                         "value": ""
@@ -59,10 +63,10 @@ module.exports = function (message) {
                 }
             }
         } else {
-            page.embed.fields[0].value += "\n"
+            page.embed.fields[1].value += "\n"
         }
     }
-    if (page.embed.fields[0] != "") {
+    if (page.embed.fields[1].value != "") {
         page.embed.footer.text = (pages.length * numPerPage + 1) + "-" + (i + 1) + " out of " + globalUsers
         pages.push(page)
         page = {

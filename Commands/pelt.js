@@ -59,7 +59,8 @@ module.exports = function (message) {
         functions.consumGive(target, "egg", 1)
         rmessage += "It was just an Egg! <@" + target + "> caught it and looks awkwardly at you!"
     }
-    else{
+    else {
+        if (target == bot.user.id) { target = id}
         if (userData[target].dead == false) {
             userData[target].currenthealth = 0
             userData[target].dead = true;

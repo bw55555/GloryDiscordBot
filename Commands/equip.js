@@ -23,7 +23,7 @@ module.exports=function(message) {
     functions.replyMessage(message, "You don't own this item!")
     return
   }
-  if (userData[id].level<itemData[weaponid].rarity*10 && itemData[weaponid].rarity != 9) {
+  if (userData[id].level+10*userData[id].ascension<itemData[weaponid].rarity*10 && itemData[weaponid].rarity != 9) {
     functions.replyMessage(message, "You must be at least level "+itemData[weaponid].rarity*10+" to equip this item!")
     return
   }
