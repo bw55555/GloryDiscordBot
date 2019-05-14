@@ -402,3 +402,7 @@ bot.on("debug", debug => {
     functions.sendMessage(bot.guilds.get("536599503608872961").channels.get("547538741699280914"), debug)
 })
 bot.login(TOKEN);
+
+process.on('unhandledRejection', error => {
+    console.error(`Uncaught Promise Error: \n${error.stack}`);
+});
