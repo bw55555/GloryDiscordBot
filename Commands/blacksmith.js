@@ -51,12 +51,12 @@ module.exports = function (message) {
   text += "Rez yourself instantly! Use `!feather` to activate.\n"
   text += "**ID 202 - Nametag - (10000 Materials)**\n"
   text += "Rename a weapon! Use `!nametag`\n"
-
+  /*
   text += "**ID 301 - Egg - (3000 Materials)**\n"
   text += "Will it be a good or bad egg? `!pelt [target]` to find out.\n"
   text += "**ID 302 - Eggsplosion - (30000 Materials)**\n"
   text += "Use `!eggsplosion` to pelt everyone nearby with eggs.\n"
-
+  */
 
   functions.sendMessage(message.channel, {
     "embed": {

@@ -60,7 +60,7 @@ global.serverData = JSON.parse(fs.readFileSync('Storage/serverData.json', 'utf8'
 //global.quizData = JSON.parse(fs.readFileSync('Storage/quizData.json', 'utf8'));
 global.questData = JSON.parse(fs.readFileSync('Storage/questData.json', 'utf8'));
 global.partyData = {}//JSON.parse(fs.readFileSync('Storage/partyData.json', 'utf8'));
-global.eggData = JSON.parse(fs.readFileSync('Storage/eggData.json', 'utf8'));
+//global.eggData = JSON.parse(fs.readFileSync('Storage/eggData.json', 'utf8'));
 global.duel = {};
 
 global.skillData = JSON.parse(fs.readFileSync('Assets/skillData.json', 'utf8'));

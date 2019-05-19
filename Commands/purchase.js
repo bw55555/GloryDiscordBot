@@ -114,6 +114,7 @@ module.exports = function (message) {
         userData[id].consum.reroll += amount;*/
 
     }
+        /*
     else if (purchaseID == 301) {
         if (userData[id].materials < 3000 * amount) {
             functions.replyMessage(message, "You do not have enough materials to buy this!")
@@ -132,6 +133,7 @@ module.exports = function (message) {
         functions.replyMessage(message, "You successfully spent " + 30000 * amount + " materials for " + amount + " eggsplosions! Use `!eggsplosion` to pelt EVERYONE with eggs!")
         functions.consumGive(id, "eggsplosion", amount);
     } 
+    */
     else {
         functions.replyMessage(message, "Make sure you're selecting a real item!")
     }

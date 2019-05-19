@@ -1,5 +1,6 @@
 var functions = require("../Utils/functions.js")
 module.exports = function (message) {
+    return;
     let id = message.author.id;
     //let ts = message.createdTimestamp;
     let words = message.content.split(/\s+/)
