@@ -13,10 +13,10 @@ module.exports=function(message) {
       this.backup(message)
   }
   message.reply('GLORY is shutting down...').then(function (session) {
-      return bot.destroy()
-  }).then(function (destruct) {
-      setTimeout(function () {
-          process.exit(2)
-      }, 2000)
+      return bot.destroy().then(function (destruct) {
+          setTimeout(function () {
+              process.exit(2)
+          }, 2000)
+      }).catch(function (err) { console.error(err) })
   }).catch(function (err) { console.error(err) })
 }

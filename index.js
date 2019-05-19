@@ -57,7 +57,7 @@ global.itemData = JSON.parse(fs.readFileSync('Storage/itemData.json', 'utf8'));
 global.mobData = JSON.parse(fs.readFileSync('Storage/mobData.json', 'utf8'));
 global.guildData = JSON.parse(fs.readFileSync('Storage/guildData.json', 'utf8'));
 global.serverData = JSON.parse(fs.readFileSync('Storage/serverData.json', 'utf8'));
-global.quizData = JSON.parse(fs.readFileSync('Storage/quizData.json', 'utf8'));
+//global.quizData = JSON.parse(fs.readFileSync('Storage/quizData.json', 'utf8'));
 global.questData = JSON.parse(fs.readFileSync('Storage/questData.json', 'utf8'));
 global.partyData = {}//JSON.parse(fs.readFileSync('Storage/partyData.json', 'utf8'));
 global.eggData = JSON.parse(fs.readFileSync('Storage/eggData.json', 'utf8'));
@@ -127,26 +127,13 @@ function evaluateMessage(message) {
     }
     if ((message.content.startsWith(prefix + "setcommandtimer") || message.content.startsWith(prefix + "sct")) && devs.indexOf(message.author.id) != -1) {
         let words = message.content.trim().split(/\s+/)
-        let time = 0
+        let time = functions.extractTime(words[1])
         let ts = message.createdTimestamp;
-        let regexp = /\b([0-9]+h)?([0-9]+m)?([0-9]+s)?\b/
-        if (words[1] != undefined && regexp.test(words[1])) {
-            let saveindex = 0
-            const timevalues = { "h": 3600000, "m": 60000, "s": 1000 }
-            for (var i = 0; i < words[1].length; i++) {
-                if (timevalues[words[1].slice(i, i + 1)] != undefined) {
-                    if (isNaN(parseInt(words[1].slice(saveindex, i)))) { return functions.replyMessage(message, "Something happened. The regex broke.") }
-                    time += parseInt(words[1].slice(saveindex, i)) * timevalues[words[1].slice(i, i + 1)]
-                    saveindex = i + 1
-                }
-            }
-        } else {
-            return functions.replyMessage(message, "Please specify a valid time. Ex. 1h2m3s")
-        }
+        if (time == false) { return }
         words.splice(0, 2)
         message.content = prefix + words.join(" ")
         message.createdTimestamp+=time
-        functions.replyMessage(message, "The command `" + prefix + words.join(" ")+"`" + " will be executed in "+ functions.displayTime(ts+time, ts))
+        functions.replyMessage(message, "The command `" + prefix + words.join(" ")+"`" + " will be executed in "+ functions.displayTime(time, 0))
         bot.setTimeout(function () {
             evaluateMessage(message)
         }, time)

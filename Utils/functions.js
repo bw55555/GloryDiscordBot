@@ -326,6 +326,25 @@ function displayTime(time1, time2) {
     if (seconds < 10) { seconds = "0" + seconds }
     return hours + ":" + minutes + ":" + seconds
 }
+function extractTime(timeword) {
+    let time = 0;
+    let regexp = /\b([0-9]+h)?([0-9]+m)?([0-9]+s)?\b/
+    if (timeword != undefined && regexp.test(timeword)) {
+        let saveindex = 0
+        const timevalues = { "h": 3600000, "m": 60000, "s": 1000 }
+        for (var i = 0; i < timeword.length; i++) {
+            if (timevalues[timeword.slice(i, i + 1)] != undefined) {
+                if (isNaN(parseInt(timeword.slice(saveindex, i)))) { functions.replyMessage(message, "Something happened. The regex broke.");return false }
+                time += parseInt(timeword.slice(saveindex, i)) * timevalues[timeword.slice(i, i + 1)]
+                saveindex = i + 1
+            }
+        }
+    } else {
+        functions.replyMessage(message, "Please specify a valid time. Ex. 1h2m3s")
+        return false;
+    }
+    return time;
+}
 ///---------------------
 
 function duelCheckDeath(message, id, otherID, ts) {
@@ -1134,7 +1153,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
     let ts = message.createdTimestamp;
     if (raid == undefined || (!isguild && !isevent && message.channel.id == "542171947895881748")) { return }
     if (!raid.attacklist) { raid.attacklist = {} }
-    if (!raid.attacklist[id]) { raid.attacklist[id] = 0 }
+
     if (userData[id].dead === true) {
         replyMessage(message, "Corpses can\'t attack! Do !resurrect");
         return false;
@@ -1165,6 +1184,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
         replyMessage(message, "You just attacked! You lost your shield :(");
         userData[id].shield = 1
     }
+    if (!raid.attacklist[id]) { raid.attacklist[id] = 0 }
     let luckybuff = calcLuckyBuff(id)
     let damage = calcDamage(message, id, -1, id);//ok...
     damage = Math.floor(1 + 2 * Math.floor(Math.sqrt(damage)));
@@ -1510,6 +1530,7 @@ module.exports.errorlog = function (text) { return errorlog(text) }
 module.exports.setCD = function (id, ts, cdsecs, cdname) { return setCD(id, ts, cdsecs, cdname) }
 module.exports.calcTime = function (time1, time2) { return calcTime(time1, time2) }
 module.exports.displayTime = function (time1, time2) { return displayTime(time1, time2) }
+module.exports.extractTime = function (timeword) { return extractTime(timeword) }
 module.exports.calcDamage = function (message, attacker, defender, initiator) { return calcDamage(message, attacker, defender, initiator) }
 module.exports.calcStats = function (message, id, stat, skillenable) { return calcStats(message, id, stat, skillenable) }
 module.exports.voteItem = function (message, dm) { return voteItem(message, dm) }

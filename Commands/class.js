@@ -19,7 +19,7 @@ module.exports=function(message) {
       "----------------------------------------------------------------\n" +
       "<:assassin:542178120141373440> Assassin - Archer subclass; Chance of critical damage while attacking\n" +
       "<:Merchant:541741539991486465> Merchant - Archer subclass; Earn more from `!work`!\n" +
-      "<:Healer:541737142376857601> Healer - Mage subclass; Gain the ability to rez others at the cost of your own life\n" +
+      "<:Healer:541737142376857601> Healer - Mage subclass; Gain the ability to rez others at the cost of your own life. Also reduces heal cooldowns by 25%\n" +
       "<:oracle:542183480558092308> Oracle - Mage subclass; Gain the ability to `!predict`\n" +
       "<:bloodlifeweaver:542188575333023754> Life/Bloodweaver - Mage subclass; `!swap` between Lifeweaver and Bloodweaver, gaining lifesteal or life sacrifice!\n" +
       "<:berserker:541748571662188549> Berserker - Warrior Subclass; Deals increased damage while damaged\n" +

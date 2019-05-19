@@ -8,7 +8,7 @@ module.exports=function(message) {
       if (message.channel.type == "dm" || message.channel.type == "group" || message.guild == undefined || message.guild == null || (message.guild.members.filter(member => member.user.bot == false).size<50 && devs.indexOf(id) == -1)) { return functions.replyMessage(message, "You cannot summon a raid in a server with less than 50 members!") }
   }
   if (message.channel.type!="dm" && message.channel.name=="treant-raid") {
-    if (serverData[message.guild.id].treant != undefined && (serverData[message.guild.id].treant==message.channel.id && admins.indexOf(id)==-1)) { return functions.replyMessage(message, "You already have a treant raid in this server!") }
+    if (serverData[message.guild.id].treant != undefined || (serverData[message.guild.id].treant==message.channel.id && admins.indexOf(id)==-1)) { return functions.replyMessage(message, "You already have a treant raid in this server!") }
     else {serverData[message.guild.id].treant=message.channel.id}
     if (!mobData[message.channel.id]) mobData[message.channel.id] = {} //creates profile if none exists
     if (!mobData[message.channel.id].name) mobData[message.channel.id].name = "Treant Boss";
@@ -24,7 +24,7 @@ module.exports=function(message) {
     if (!mobData[message.channel.id].url) mobData[message.channel.id].url = 'https://i.imgur.com/1fbm4us.jpg';
   }
   else if (message.channel.type!="dm" && message.channel.name=="kraken-raid") {
-    if (serverData[message.guild.id].kraken != undefined && (serverData[message.guild.id].kraken == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a kraken raid in this server!") }
+    if (serverData[message.guild.id].kraken != undefined || (serverData[message.guild.id].kraken == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a kraken raid in this server!") }
     else {serverData[message.guild.id].kraken=message.channel.id}
     if (!mobData[message.channel.id]) mobData[message.channel.id] = {} //creates profile if none exists
     if (!mobData[message.channel.id].name) mobData[message.channel.id].name = "Kraken Boss";
@@ -40,7 +40,7 @@ module.exports=function(message) {
     if (!mobData[message.channel.id].url) mobData[message.channel.id].url = 'https://i.imgur.com/mGKIsnX.jpg';
   }
   else if (message.channel.type!="dm" && message.channel.name=="dragon-raid") {
-    if (serverData[message.guild.id].dragon != undefined && (serverData[message.guild.id].dragon == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a dragon raid in this server!") }
+    if (serverData[message.guild.id].dragon != undefined || (serverData[message.guild.id].dragon == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a dragon raid in this server!") }
     else {serverData[message.guild.id].dragon=message.channel.id}
     if (!mobData[message.channel.id]) mobData[message.channel.id] = {} //creates profile if none exists
     if (!mobData[message.channel.id].name) mobData[message.channel.id].name = "Dragon Boss";
@@ -56,7 +56,7 @@ module.exports=function(message) {
     if (!mobData[message.channel.id].url) mobData[message.channel.id].url = 'https://i.imgur.com/YCdZZmT.jpg';
   }
   else if (message.channel.type!="dm" && message.channel.name=="deity-raid") {
-    if (serverData[message.guild.id].deity != undefined && (serverData[message.guild.id].deity == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a deity raid in this server!")}
+    if (serverData[message.guild.id].deity != undefined || (serverData[message.guild.id].deity == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a deity raid in this server!")}
     else { serverData[message.guild.id].deity = message.channel.id }
     if (!mobData[message.channel.id]) mobData[message.channel.id] = {} //creates profile if none exists
     if (!mobData[message.channel.id].name) mobData[message.channel.id].name = "Deity Boss";
@@ -74,7 +74,7 @@ module.exports=function(message) {
   else if (message.channel.type != "dm" && message.channel.name == "hell-raid") {
       if (message.channel.id != 570356602843168769) { return functions.replyMessage(message, "This is for the support server only!") }
       if (admins.indexOf(id) == -1) { return functions.replyMessage(message, "Admin-only")}
-      if (serverData[message.guild.id].hell != undefined && (serverData[message.guild.id].hell == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a hell raid in this server!") }
+      if (serverData[message.guild.id].hell != undefined || (serverData[message.guild.id].hell == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a hell raid in this server!") }
       else { serverData[message.guild.id].deity = message.channel.id }
       if (!mobData[message.channel.id]) mobData[message.channel.id] = {} //creates profile if none exists
       if (!mobData[message.channel.id].name) mobData[message.channel.id].name = "Hell Lord";

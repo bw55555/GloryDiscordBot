@@ -36,7 +36,7 @@ module.exports = function (message) {
     }
     let heal = Math.floor(userData[target].health * Math.random() + (userData[id].health / 5))
 
-    if (userData[target].currenthealth + heal > userData[target].health) {
+    if (userData[target].currenthealth + heal > userData[target].health || functions.hasSkill(id, 14)) {
       heal = userData[target].health - userData[target].currenthealth
     }
     userData[id].speed = 0;

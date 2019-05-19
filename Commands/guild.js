@@ -4,7 +4,7 @@ const guildStore = [
     { "name": "Common Scroll", "price": 50000, "levels": [0, 10, 20, 30, 40], "stocks": [1, 1, 1, 1, 1] },
     { "name": "Uncommon Scroll", "price": 250000, "levels": [10, 20, 30, 40], "stocks": [1, 1, 1, 1] },
     { "name": "Rare Scroll", "price": 1000000, "levels": [20, 30, 40], "stocks": [1, 1, 1] },
-    { "name": "Epic Scroll", "price": 5000000, "levels": [30, 40], "stocks": [1, 1] },
+    { "name": "Epic Scroll", "price": 2500000, "levels": [30, 40], "stocks": [1, 1] },
     { "name": "Legendary Scroll", "price": 5000000, "levels": [40], "stocks": [1] },
     { "name": "Box", "level": 1, "stock": 10, "price": 20000, "id": 5, "levels": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50], "stocks": [25, 75, 150, 250, 500, 1000, 2000, 3000, 4000, 5000, 10000] }
 ]
@@ -544,19 +544,8 @@ module.exports = function (message) {
         functions.replyMessage(message, "You have successfully bought " + amount + " " + guildStore[item].name + " for $" + guildStore[item].price * amount)
     }
     else if (command == "RESET") {
-        let time = 0
-        let regexp = /\b([0-9]+h)?([0-9]+m)?([0-9]+s)?\b/
-        if (words[3] != undefined && regexp.test(words[3])) {
-            let saveindex = 0
-            const timevalues = { "h": 3600000, "m": 60000, "s": 1000 }
-            for (var i = 0; i < words[3].length; i++) {
-                if (timevalues[words[3].slice(i, i + 1)] != undefined) {
-                    if (isNaN(parseInt(words[3].slice(saveindex, i)))) { return functions.replyMessage(message, "Something happened. The regex broke.") }
-                    time += parseInt(words[3].slice(saveindex, i)) * timevalues[words[3].slice(i, i + 1)]
-                    saveindex = i + 1
-                }
-            }
-        }
+        let time = functions.extractTime(words[3])
+        if (time == false) { return; }
         bot.setTimeout(function () {
             if (admins.indexOf(id) == -1) { return }
             if (words[2].toUpperCase() == "ALL") {
