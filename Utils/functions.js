@@ -57,7 +57,7 @@ function writeData(folder) {
     fs.writeFile(folder + '/devData.json', JSON.stringify(devData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"guildData backed up!"))
     fs.writeFile(folder + '/questData.json', JSON.stringify(questData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"guildData backed up!"))
     //fs.writeFile(folder + '/partyData.json', JSON.stringify(partyData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })
-    fs.writeFile(folder + '/eggData.json', JSON.stringify(eggData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })
+    //fs.writeFile(folder + '/eggData.json', JSON.stringify(eggData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })
 }
 
 function logCommand(message, extratext) {
@@ -69,7 +69,7 @@ function logCommand(message, extratext) {
 function validate(message, spot) {
     if (isNaN(parseInt(spot))) { spot = 1 }
     let words = message.content.trim().split(/\s+/)
-    if (words.length == 1) {
+    if (words.length <= spot) {
         sendMessage(message.channel, "Choose a target!")
         return false;
     }

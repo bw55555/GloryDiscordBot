@@ -12,6 +12,7 @@ module.exports = function (message) {
   }
   if (time > 0) { functions.replyMessage(message, "Boss will be summoned in "+functions.displayTime(time, 0))}
   bot.setTimeout(function () {
+      mobData[message.channel.id] = {};
       if (words.length > 1) {
           summonlevel = parseInt(words[1])
           if (isNaN(summonlevel)) { return functions.sendMessage(message.channel, "The boss level must be an integer!") }
