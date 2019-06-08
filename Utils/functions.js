@@ -334,13 +334,13 @@ function extractTime(timeword) {
         const timevalues = { "h": 3600000, "m": 60000, "s": 1000 }
         for (var i = 0; i < timeword.length; i++) {
             if (timevalues[timeword.slice(i, i + 1)] != undefined) {
-                if (isNaN(parseInt(timeword.slice(saveindex, i)))) { functions.replyMessage(message, "Something happened. The regex broke.");return false }
+                if (isNaN(parseInt(timeword.slice(saveindex, i)))) { replyMessage(message, "Something happened. The regex broke.");return false }
                 time += parseInt(timeword.slice(saveindex, i)) * timevalues[timeword.slice(i, i + 1)]
                 saveindex = i + 1
             }
         }
     } else {
-        functions.replyMessage(message, "Please specify a valid time. Ex. 1h2m3s")
+        replyMessage(message, "Please specify a valid time. Ex. 1h2m3s")
         return false;
     }
     return time;
@@ -1034,11 +1034,6 @@ function checkProps(message) {
     //if (!userData[id].reroll) userData[id].reroll = 0;
 
     if (!userData[id].glory) userData[id].glory = 0;
-
-    if (!userData[id].buffs) userData[id].buffs = {};
-    if (!userData[id].buffs.attack) userData[id].buffs.attack = 0;
-    if (!userData[id].buffs.defense) userData[id].buffs.defense = 0;
-    if (!userData[id].buffs.health) userData[id].buffs.health = 0;
 
     if (!userData[id].cooldowns) userData[id].cooldowns = {}
     if (!userData[id].cooldowns.normal) userData[id].cooldowns.normal = 1;

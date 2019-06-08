@@ -9,6 +9,11 @@ module.exports=function(message) {
   if (message.channel.type != "dm" && message.channel.type != "group") {prefix = serverData[message.guild.id].prefix}
   try {
       let code = message.content.slice(prefix.length + 5)
+      
+      let braceindex = code.lastIndexOf("}")
+      if (braceindex = code.length - 1) {
+          code+=";"
+      }
       let colonindex = code.lastIndexOf(";")
       let ret = code.slice(colonindex + 1)
       if (!ret.trim().startsWith("return ")) { ret = "return " + ret }
