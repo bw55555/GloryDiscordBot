@@ -11,8 +11,8 @@ module.exports=function(message) {
       let code = message.content.slice(prefix.length + 5)
       
       let braceindex = code.lastIndexOf("}")
-      if (braceindex = code.length - 1) {
-          code+=";"
+      if (braceindex == code.length - 1) {
+          code += ";"
       }
       let colonindex = code.lastIndexOf(";")
       let ret = code.slice(colonindex + 1)

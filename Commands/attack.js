@@ -30,11 +30,11 @@ module.exports = function (message) {
     return;
   }
   if (userData[id].ascension * 10 + userData[id].level > userData[target].ascension * 10 + userData[target].level + 100) {
-    functions.replyMessage(message, "You can't attack anyone that's less than 25 levels less than you!");
+    functions.replyMessage(message, "You can't attack anyone that's less than 100 levels less than you!");
     return;
   }
   if (userData[id].ascension * 10 + userData[id].level < userData[target].ascension * 10 + userData[target].level - 100) {
-    functions.replyMessage(message, "You can't attack anyone that's more than 25 levels higher than you!");
+    functions.replyMessage(message, "You can't attack anyone that's more than 100 levels higher than you!");
     return;
   }
   if (userData[id].shield > ts) {

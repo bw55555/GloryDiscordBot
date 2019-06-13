@@ -392,7 +392,7 @@ function calcDamage(message, attacker, defender, initiator) {
         if (attacker.name == "Hell Lord") {
             if (Math.random() > 0.75) {
                 attack = attack * 2
-                text += attacker.name +" just dealt critical damage!\n"
+                text += attackername +" just dealt critical damage!\n"
             }
         }
         
@@ -415,7 +415,7 @@ function calcDamage(message, attacker, defender, initiator) {
         }
         if (hasSkill(defender, 37) && userData[attacker].speed > 0) {
             userData[attacker].speed = 0
-            text += "<@" + attacker + ">'s tempo was dispelled!\n"
+            text += attackername+"'s tempo was dispelled!\n"
         }
     }
 
@@ -480,24 +480,24 @@ function calcDamage(message, attacker, defender, initiator) {
     if (spikedmod > 0) {
         let spiked = Math.floor(defense * spikedmod)
         if (userData[attacker] != undefined) {
-            if (hasSkill(attacker, 37)) { text += "<@" + defender + ">'s spikes was dispelled!\n" }
+            if (hasSkill(attacker, 37)) { text += defendername + "'s spikes was dispelled!\n" }
             else {
                 userData[attacker].currenthealth -= spiked
-                text += "<@" + attacker + "> has been damaged for " + spiked + " health due to spikes!\n"
+                text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
             }
             if (userData[defender] != undefined) {
                 if (hasSkill(defender, 31, skillenable)) {
-                    if (hasSkill(attacker, 37)) { text += "<@" + defender + ">'s burn was dispelled!\n" }
+                    if (hasSkill(attacker, 37)) { text += defendername + "'s burn was dispelled!\n" }
                     else {
                         if (userData[attacker].burn == undefined) { userData[attacker].burn = 0 }
                         userData[attacker].burn += spikedmod * 5; //Burn status, if burning, have a chance to take 5% damage after talking.
-                        text += "<@" + attacker + "> is now burning!"
+                        text += attackername + " is now burning!"
                     }
                 }
             }
         } else {
             attack += spiked;
-            text += "<@" + defender + "> has damaged the raid boss with spikes!\n"
+            text += defendername + " has damaged the raid boss with spikes!\n"
         }
     }
 
@@ -515,14 +515,14 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
     if (userData[defender] != undefined && hasSkill(defender, 37)) {
-        text += "<@" + attacker + ">'s burn was dispelled!\n"
+        text += attackername + "'s burn was dispelled!\n"
         burn = 0
     }
     if (burn > 0) {
         if (userData[defender] != undefined) {
             if (userData[defender].burn == undefined) { userData[defender].burn = 0}
             userData[defender].burn += burn;
-            text += "<@" + defender + "> is now burning!\n"
+            text += defendername + " is now burning!\n"
         } else {
             text += "Raid boss cannot be burned!\n"
         }
@@ -587,7 +587,7 @@ function calcDamage(message, attacker, defender, initiator) {
             let stealAmount = Math.abs(Math.floor((attack * 0.75 * roll + attack * 0.25 - defense) * lifesteal))
             if (stealAmount < 0) { stealAmount = 0 }
             userData[attacker].currenthealth += stealAmount
-            text += "<@" + attacker + "> lifestole **" + stealAmount + "** health!\n";
+            text += attackername + " lifestole **" + stealAmount + "** health!\n";
         }
     }
     if (userData[attacker] != undefined) {
@@ -598,7 +598,7 @@ function calcDamage(message, attacker, defender, initiator) {
                 leech = Math.floor(0.05 * userData[defender].currenthealth);
                 userData[attacker].currenthealth += leech
                 userData[defender].currenthealth -= leech
-                text += "<@" + attacker + "> leeched **" + leech + "** health!\n";
+                text += attackername + " leeched **" + leech + "** health!\n";
             }
             else {
                 //leech = Math.floor(0.05 * defender.currenthealth);
@@ -630,21 +630,21 @@ function calcDamage(message, attacker, defender, initiator) {
     if (userData[attacker] != undefined) {
         if (revengechance < revmod) {
             userData[attacker].currenthealth = 0;
-            text += "<@" + defender + "> has avenged the attack!\n"
+            text += defendername + " has avenged the attack!\n"
             //return false
         }
     } else {
         if (attacker.name == "Medusa" && revengechance < 0.15) {
             userData[defender].currenthealth = 0;
-            text += "<@" + defender + "> has been turned to stone! (And killed)\n"
+            text += defendername + " has been turned to stone! (And killed)\n"
         }
         else if (attacker.name == "Asmodeus" && revengechance < 0.1) {
             userData[defender].currenthealth = 0;
-            text += "<@" + defender + "> has been beheaded! (And killed)\n"
+            text += defendername + " has been beheaded! (And killed)\n"
         }
         else if (attacker.name == "Godzilla" && revengechance < 0.2) {
             userData[defender].currenthealth = 0;
-            text += "<@" + defender + "> has been squashed! (And killed)\n"
+            text += defendername + " has been squashed! (And killed)\n"
         }
     }
 
@@ -668,7 +668,7 @@ function calcDamage(message, attacker, defender, initiator) {
         if (hasSkill(defender, 25, skillenable)) {
             if (truedamage > userData[defender].currenthealth && userData[defender].currenthealth * 2 > userData[defender].health) {
                 userData[defender].currenthealth = truedamage + 1
-                text += "<@" + defender + "> has activated Last Breath!"
+                text += defendername + " has activated Last Breath!"
             }
         }
     }
@@ -775,7 +775,7 @@ function calcStats(message, id, stat, skillenable,confused) {
         critrate += 0.01
         critdmg += 2
     }
-    if (hasSkill(id, 28, skillenable)) {
+    if (hasSkill(id, 29, skillenable)) {
         rage += 0.3
     }
     if (hasSkill(id, 33, skillenable)) {
@@ -800,8 +800,8 @@ function calcStats(message, id, stat, skillenable,confused) {
         }
         if (rage > 0) {
             let x = userData[id].currenthealth / userData[id].health
-            if (hasSkill(id, 28, skillenable)) {
-                x = userData[id].currenthealth / userData[id].health / 2
+            if (hasSkill(id, 29, skillenable)) {
+                x = userData[id].currenthealth / (userData[id].health * 2)
             }
             buff *= 1 + (rage * -1 * Math.log(x));
         }
