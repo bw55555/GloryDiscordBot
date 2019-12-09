@@ -1518,6 +1518,7 @@ function itemFilter(message, defaults) {
     return displayItems
 }
 module.exports.clean = function (text) { return clean(text) }
+module.exports.getUser = function (id) { return getUser(id) }
 module.exports.sendMessage = function (channel, text, override) { return sendMessage(channel, text, override) }
 module.exports.replyMessage = function (message, text, override) { return replyMessage(message, text, override) }
 module.exports.deleteMessage = function (message) { return deleteMessage(message) }
