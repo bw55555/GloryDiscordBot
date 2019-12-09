@@ -11,7 +11,7 @@ module.exports=function(message) {
   let ts = message.createdTimestamp;
   let words = message.content.trim().split(/\s+/)
   if (devs.indexOf(id)==-1){return}
-  let target = validate(message)
+  let target = functions.validate(message)
   if (target == false) {return}
   devData.admins.push(target)
   admins.push(target)
