@@ -262,7 +262,7 @@ function evaluateMessage(message) {
     //do command stuff here
 
     if (commandlist[command] == undefined) { return }
-
+    if (userData[message.author.id] == undefined) { return functions.replyMessage(message,"Create a character with !start first! (Use all lowercase)")}
 
     if (userData[id].cooldowns.normal + cdseconds * 1000 > ts && (admins.indexOf(message.author.id) == -1 || (duel.start == true && duel.challenger != id && duel.opponent != id))) { //admins no longer have command cds
         functions.replyMessage(message, 'don\'t spam commands');

@@ -8,7 +8,14 @@ function consumGive(target, item, amount) {
     }
     userData[target].consum[item] += amount;
 }
-
+function getUser(id) {
+    client.db("current").collection("userData").find({ _id: id }).toArray().then( function (r) {
+        console.log(r);
+        functions.sendMessage(message.channel, JSON.stringify(r));
+    }).catch(function (err) {
+        console.error(err)
+    })
+}
 function clean(text) {
     if (typeof (text) === "string")
         return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));

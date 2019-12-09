@@ -8,7 +8,7 @@ module.exports = function (message) {
         return;
     }
     functions.checkProps(message)
-    client.db("testdb").collection("userData").insertOne(
+    client.db("current").collection("userData").insertOne(
         {
             _id: message.author.id,
             username: message.author.username,
