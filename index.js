@@ -1,5 +1,12 @@
 ﻿const Discord = require('discord.js');
 const asyncpkg = require("async")
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://GloryUser:GLORYmongodb@testthing-eaiqz.mongodb.net/test?retryWrites=true&w=majority";
+global.client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+});
 global.ready = false
 global.bot = new Discord.Client();
 global.botOnline = true
