@@ -8,7 +8,7 @@ function consumGive(target, item, amount) {
     }
     userData[target].consum[item] += amount;
 }
-function getUser(id) {
+function getUser(message,id) {
     client.db("current").collection("userData").find({ _id: id }).toArray().then( function (r) {
         console.log(r);
         functions.sendMessage(message.channel, JSON.stringify(r));
@@ -1024,10 +1024,8 @@ function checkProps(message) {
     if (!userData[id].ability) userData[id].ability = "Ability";
     if (!userData[id].inventory) userData[id].inventory = {};
     if (!userData[id].marry) userData[id].marry = "None";
-    if (!userData[id].marrytarget) userData[id].marrytarget = "None";
     if (!userData[id].guild) userData[id].guild = "None";
     if (!userData[id].guildpos) userData[id].guildpos = "None";
-    if (!userData[id].guildtarget) userData[id].guildtarget = "None";
     if (!userData[id].bolster) userData[id].bolster = false;
     if (!userData[id].shield) userData[id].shield = ts + 24 * 1000 * 60 * 60;
     if (!userData[id].materials) userData[id].materials = 0;
@@ -1518,7 +1516,7 @@ function itemFilter(message, defaults) {
     return displayItems
 }
 module.exports.clean = function (text) { return clean(text) }
-module.exports.getUser = function (id) { return getUser(id) }
+module.exports.getUser = function (message,id) { return getUser(message,id) }
 module.exports.sendMessage = function (channel, text, override) { return sendMessage(channel, text, override) }
 module.exports.replyMessage = function (message, text, override) { return replyMessage(message, text, override) }
 module.exports.deleteMessage = function (message) { return deleteMessage(message) }

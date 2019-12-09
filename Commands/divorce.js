@@ -8,8 +8,6 @@ module.exports=function(message) {
     return;
   }
   userData[id].marry = "None";
-  userData[id].marrytarget = "None";
   userData[divorcee].marry = "None";
-  userData[divorcee].marrytarget = "None";
   functions.sendMessage(message.channel, "<@" + divorcee + ">, <@" + id + "> has divorced you. Although you were probably going to do it if they weren't. 💔");
 }
