@@ -10,8 +10,7 @@ function consumGive(target, item, amount) {
 }
 function getUser(message,id) {
     client.db("current").collection("userData").find({ _id: id }).toArray().then( function (r) {
-        console.log(r);
-        functions.sendMessage(message.channel, JSON.stringify(r));
+        return r[0];
     }).catch(function (err) {
         console.error(err)
     })
