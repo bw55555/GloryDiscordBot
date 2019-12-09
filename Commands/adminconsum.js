@@ -14,7 +14,7 @@ module.exports = function (message) {
     var amount = parseInt(words[3]);
     if (isNaN(amount)){return functions.sendMessage(message.channel, "!adminconsum [target] [item] [amount]");}
     functions.consumGive(target, item, amount);
-	functions.sendMessage(message.channel, target + " given " + amount + " " + item);
+	functions.sendMessage(message.channel, "<@" + target + "> given " + amount + " " + item);
 
     functions.logCommand(message)
 }
