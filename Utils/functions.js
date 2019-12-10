@@ -8,11 +8,22 @@ function consumGive(target, item, amount) {
     }
     userData[target].consum[item] += amount;
 }
-function getUser(message,id) {
-    client.db("current").collection("userData").find({ _id: id }).toArray().then( function (r) {
+async function getUser(id) {
+    var ret = await client.db("current").collection("userData").find({ _id: id }).toArray().then(r => {
+        ret = r[0];
         return r[0];
+    }).catch(err => {
+        console.error(err)
+    })
+    console.log(ret)
+    return ret
+}
+function setProp(coll, query, newvalue) {
+    client.db("current").collection(coll).updateOne(query,newvalue).then(function (r) {
+        return true;
     }).catch(function (err) {
         console.error(err)
+        return false;
     })
 }
 function clean(text) {
@@ -1515,7 +1526,8 @@ function itemFilter(message, defaults) {
     return displayItems
 }
 module.exports.clean = function (text) { return clean(text) }
-module.exports.getUser = function (message,id) { return getUser(message,id) }
+module.exports.getUser = function (id) { return getUser(id) }
+module.exports.setProp = function (coll, query, newvalue) { return setProp(coll,query,newvalue) }
 module.exports.sendMessage = function (channel, text, override) { return sendMessage(channel, text, override) }
 module.exports.replyMessage = function (message, text, override) { return replyMessage(message, text, override) }
 module.exports.deleteMessage = function (message) { return deleteMessage(message) }

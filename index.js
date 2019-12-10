@@ -180,22 +180,6 @@ function evaluateMessage(message) {
     if (command.length <= prefix.length) { return }
     command = command.slice(prefix.length)
     //-----------------------------
-
-    if (!userData[id] && commandlist[command] != undefined && command != "start") {
-        functions.replyMessage(message, 'Create a character with `' + prefix + 'start` first! (Use all lowercase)');
-        return;
-    } else if (command == "start") {
-        commands.start(message)
-        functions.checkStuff(message)
-        return;
-    }
-    functions.checkStuff(message)
-    functions.checkBurn(message)
-    if (command != 'work' && userData[id].speed < 0) { //If health is 0, you are dead.
-        userData[id].speed = 0;
-    } //workspeedchekc
-
-
     if (command == 'reload' && devs.indexOf(message.author.id) != -1) {
         if (words.length <= 1) return functions.replyMessage(message, "Must provide a command name to reload.");
         let commandName = words[1];
@@ -259,10 +243,26 @@ function evaluateMessage(message) {
             functions.replyMessage(message, `The command ${commandName} has been reloaded!`);
         }
     }
+
+    if (userData[id]==undefined && commandlist[command] != undefined && command != "start" && command!="create") {
+        functions.replyMessage(message, 'Create a character with `' + prefix + 'start` first! (Use all lowercase)');
+        return;
+    } else if (command == "start" || command == "create") {
+        commands.start(message)
+        functions.checkStuff(message)
+        return;
+    } else if (commandlist[command] == undefined) {
+        return;
+    }
+    functions.checkStuff(message)
+    functions.checkBurn(message)
+    functions.checkStuff(message)
+    if (command != 'work' && userData[id].speed < 0) { //If health is 0, you are dead.
+        userData[id].speed = 0;
+    } //workspeedchekc
     //do command stuff here
 
     if (commandlist[command] == undefined) { return }
-    if (userData[message.author.id] == undefined) { return functions.replyMessage(message,"Create a character with !start first! (Use all lowercase)")}
 
     if (userData[id].cooldowns.normal + cdseconds * 1000 > ts && (admins.indexOf(message.author.id) == -1 || (duel.start == true && duel.challenger != id && duel.opponent != id))) { //admins no longer have command cds
         functions.replyMessage(message, 'don\'t spam commands');
