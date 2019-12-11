@@ -916,7 +916,7 @@ function voteItem(message, dm) {
     if (userData[target].glory != undefined && userData[target].glory < 100) {
         userData[target].glory += Math.random() * 0.5;
     }
-    consumGive(target, "box",numboxes)
+    userData[target].consum["box"]+=numboxes
     sendMessage(message.channel, "<@" + target + "> has been given "+numboxes + " boxes!\n"+text)
     if (dm) dmUser(target, "Thank you for voting! You have been given " + numboxes + " boxes!\n" + text)
 }
@@ -1279,7 +1279,7 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
             }
             for (var k = 0; k < 2; k++) {
                 var i = Math.floor(Math.random() * keys.length)
-                consumGive(keys[i], "reroll", 1);
+                userData[keys[i]].consum["reroll"]+= 1;
                 text += "<@" + keys[i] + "> was lucky and recieved a skill reroll!\n"
             }
         } else {
@@ -1313,17 +1313,17 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                     let location = where[Math.floor(Math.random() * where.length)];
                     let roll = Math.random()
                     if (roll > 0.995) {
-                        consumGive(luckyperson, "reroll", 1);
+                        userData[luckyperson].consum["reroll"] +=1;
                         itemfound = 1 + " **SKILL REROLL** " + location;
                     }
                     else if (roll > 0.98) {
                         let feathersfound = Math.floor(1 + Math.random() * 3);
-                        consumGive(luckyperson, "phoenixfeather", feathersfound);
+                        userData[luckyperson].consum["phoenixfeather"]+=feathersfound;
                         itemfound = feathersfound + " Phoenix Feather(s) " + location;
                     }
                     else if (roll > 0.96) {
                         let boxesfound = Math.floor(1 + Math.random() * 5);
-                        consumGive(luckyperson, "box", boxesfound);
+                        userData[luckyperson].consum["box"]+=boxesfound;
                         itemfound = boxesfound + " Box(es) " + location;
                     }
                     else if (roll > 0.9) {
@@ -1342,17 +1342,17 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                     let roll = Math.random()
                     if (roll > 0.99) {
                         let materialsfound = 1;
-                        consumGive(luckyperson, "reroll", materialsfound);
+                        userData[luckyperson].reroll += materialsfound;
                         itemfound = materialsfound + " **SKILL REROLL** " + location;
                     }
                     else if (roll > 0.97) {
                         let feathersfound = Math.floor(1 + Math.random() * 3);
-                        consumGive(luckyperson, "phoenixfeather", feathersfound);
+                        userData[luckyperson].consum.phoenixfeather += feathersfound;
                         itemfound = feathersfound + " Phoenix Feather(s) " + location;
                     }
                     else if (roll > 0.9475) {
                         let boxesfound = Math.floor(1 + Math.random() * 5);
-                        consumGive(luckyperson, "box", boxesfound);
+                        userData[luckyperson].consum.box += materialsfound;
                         itemfound = boxesfound + " Box(es) " + location;
                     }
                     else if (roll > 0.85) {
@@ -1371,17 +1371,17 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                     let roll = Math.random()
                     if (roll > 0.985) {
                         let materialsfound = 1;
-                        consumGive(luckyperson, "reroll", materialsfound);
+                        userData[luckyperson].consum.reroll += materialsfound;
                         itemfound = materialsfound + " **SKILL REROLL** " + location;
                     }
                     else if (roll > 0.965) {
                         let feathersfound = Math.floor(1 + Math.random() * 3);
-                        consumGive(luckyperson, "phoenixfeather", feathersfound);
+                        userData[luckyperson].consum.phoenixfeather += feathersfound;
                         itemfound = feathersfound + " Phoenix Feather(s) " + location;
                     }
                     else if (roll > 0.94) {
                         let boxesfound = Math.floor(1 + Math.random() * 5);
-                        consumGive(luckyperson, "box", boxesfound);
+                        userData[luckyperson].consum.box += boxesfound;
                         itemfound = boxesfound + " Box(es) " + location;
                     }
                     else if (roll > 0.85) {

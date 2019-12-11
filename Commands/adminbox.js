@@ -10,10 +10,11 @@ module.exports = function (message) {
         var amount = parseInt(words[2]);
         if (!isNaN(amount)) {
             functions.sendMessage(message.channel, 'Sent ' + amount + ' boxes to <@' + target.id + ">");
-            functions.consumGive(target, "box", amount)
+            target.consum.box += amount;
         } else {
             functions.sendMessage(message.channel, amount + ' is an incorrect argument');
         }
+        functions.setUser(target);
         functions.logCommand(message)
     })
 }
