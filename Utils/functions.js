@@ -17,7 +17,7 @@ async function getUser(uid) {
         return false
     })
 }
-async function setUser(uid, newuser) {
+async function setUser(newuser) {
     client.db("current").collection("userData").updateOne({ _id: newuser._id }, newuser).then(function (r) {
         return true;
     }).catch(function (err) {
