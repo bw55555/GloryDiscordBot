@@ -8,15 +8,14 @@ function consumGive(target, item, amount) {
     }
     userData[target].consum[item] += amount;
 }
-async function getUser(id) {
-    var ret = await client.db("current").collection("userData").find({ _id: id }).toArray().then(r => {
-        ret = r[0];
+async function getUser(uid) {
+    return client.db("current").collection("userData").find({ _id: uid }).toArray().then(r => {
+        if (r[0] == undefined) {return false }
         return r[0];
     }).catch(err => {
         console.error(err)
+        return false
     })
-    console.log(ret)
-    return ret
 }
 function setProp(coll, query, newvalue) {
     client.db("current").collection(coll).updateOne(query,newvalue).then(function (r) {

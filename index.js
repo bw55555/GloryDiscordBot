@@ -38,6 +38,7 @@ fs.readdir("./Commands/", (err, files) => {
 //const ability = require('./ability.js');
 let config = require('./config.json')
 global.talkedRecently = new Set();
+global.globalcdlist = new Set();
 const TOKEN = config.token;//woah woah woah woah whatcha
 
 global.devData = JSON.parse(fs.readFileSync('Storage/devData.json', 'utf8'));
@@ -243,48 +244,48 @@ function evaluateMessage(message) {
             functions.replyMessage(message, `The command ${commandName} has been reloaded!`);
         }
     }
-
-    if (userData[id]==undefined && commandlist[command] != undefined && command != "start" && command!="create") {
-        functions.replyMessage(message, 'Create a character with `' + prefix + 'start` first! (Use all lowercase)');
-        return;
-    } else if (command == "start" || command == "create") {
-        commands.start(message)
+    functions.getUser(message.author.id).then(user => {
+        if (user==false && commandlist[command] != undefined && command != "start" && command != "create") {
+            functions.replyMessage(message, 'Create a character with `' + prefix + 'start` first! (Use all lowercase)');
+            return;
+        } else if (command == "start" || command == "create") {
+            commands.start(message)
+            functions.checkStuff(message)
+            return;
+        } else if (commandlist[command] == undefined) {
+            return;
+        }
         functions.checkStuff(message)
-        return;
-    } else if (commandlist[command] == undefined) {
-        return;
-    }
-    functions.checkStuff(message)
-    functions.checkBurn(message)
-    functions.checkStuff(message)
-    if (command != 'work' && userData[id].speed < 0) { //If health is 0, you are dead.
-        userData[id].speed = 0;
-    } //workspeedchekc
-    //do command stuff here
-
-    if (commandlist[command] == undefined) { return }
-
-    if (userData[id].cooldowns.normal + cdseconds * 1000 > ts && (admins.indexOf(message.author.id) == -1 || (duel.start == true && duel.challenger != id && duel.opponent != id))) { //admins no longer have command cds
-        functions.replyMessage(message, 'don\'t spam commands');
-        functions.deleteMessage(message);
-        return; //fml
-    }
-    console.log(message.author.id + "|" + message.content + "|" + ts)
-    //sendMessage(bot.guilds.get("536599503608872961").channels.get("538710109241606154"), clean(message.author.id + "|" + message.content + "|" + ts))
-    //console.time("run")
-    commands[command](message)
-    //console.timeEnd("run")
-    functions.checkStuff(message)
-    if (!talkedRecently.has(message.author.id)) {
-        talkedRecently.add(message.author.id);
-        setTimeout(() => {
-            // Removes the user from the set after a minute
-            talkedRecently.delete(message.author.id);
-        }, 15000);
-    }
-    //console.timeEnd("Command")
-    //Command cooldowns
-    userData[id].cooldowns.normal = ts;
+        functions.checkBurn(message)
+        functions.checkStuff(message)
+        if (commandlist[command] == undefined) { return }
+        if (!globalcdlist.has(message.author.id)) {
+            globalcdlist.add(message.author.id);
+            setTimeout(() => {
+                // Removes the user from the set after a minute
+                globalcdlist.delete(message.author.id);
+            }, 1000);
+        } else if (admins.indexOf(message.author.id) == -1) {
+            functions.replyMessage(message, 'don\'t spam commands');
+            functions.deleteMessage(message);
+            return; //fml
+        }
+        console.log(message.author.id + "|" + message.content + "|" + ts)
+        //sendMessage(bot.guilds.get("536599503608872961").channels.get("538710109241606154"), clean(message.author.id + "|" + message.content + "|" + ts))
+        //console.time("run")
+        commands[command](message)
+        //console.timeEnd("run")
+        functions.checkStuff(message)
+        if (!talkedRecently.has(message.author.id)) {
+            talkedRecently.add(message.author.id);
+            setTimeout(() => {
+                // Removes the user from the set after a minute
+                talkedRecently.delete(message.author.id);
+            }, 15000);
+        }
+        //console.timeEnd("Command")
+        //Command cooldowns
+    });
 }
 bot.on("message", message => {
     evaluateMessage(message)
