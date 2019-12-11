@@ -4,33 +4,33 @@ module.exports = function (message) {
     let ts = message.createdTimestamp;
     let words = message.content.split(/\s+/)
     if (admins.indexOf(id) == -1) { return }
-    let target = functions.validate(message)
-    if (target == false) { return; }
-
-
-    let attribute = words[2];
-    if (attribute == undefined) { return functions.replyMessage(message,"Please specify an attribute to set!")}
-    if (userData[target][attribute] != undefined) {
-        if (typeof userData[target][attribute] == "object") {
-            if (words.length > 3) {
-                let secondattribute = words[3]
-                if (userData[target][attribute][secondattribute] == undefined) {
-                    functions.sendMessage(message.channel, "undefined");
+    Promise.all([functions.validate(message)]).then(ret => {
+        target = ret[0];
+        if (target == false) { return; }
+        let attribute = words[2];
+        if (attribute == undefined) { return functions.replyMessage(message, "Please specify an attribute to set!") }
+        if (target[attribute] != undefined) {
+            if (typeof target[attribute] == "object") {
+                if (words.length > 3) {
+                    let secondattribute = words[3]
+                    if (target[attribute][secondattribute] == undefined) {
+                        functions.sendMessage(message.channel, "undefined");
+                        return
+                    }
+                    functions.sendMessage(message.channel, attribute + ":" + secondattribute + "\n" + target[attribute][secondattribute]);
+                    functions.logCommand(message)
                     return
                 }
-                functions.sendMessage(message.channel, attribute + ":" + secondattribute + "\n" + userData[target][attribute][secondattribute]);
+                functions.sendMessage(message.channel, attribute + "\n" + JSON.stringify(target[attribute]));
                 functions.logCommand(message)
                 return
             }
-            functions.sendMessage(message.channel, attribute + "\n" + JSON.stringify(userData[target][attribute]));
+            functions.sendMessage(message.channel, attribute + "\n" + target[attribute]);
+        } else {
+            functions.sendMessage(message.channel, "undefined");
             functions.logCommand(message)
-            return
-        }
-        functions.sendMessage(message.channel, attribute + "\n" + userData[target][attribute]);
-    } else {
-        functions.sendMessage(message.channel, "undefined");
-        functions.logCommand(message)
-        return;
-    }
+            return;
+        } })
+    
     functions.logCommand(message)
 }

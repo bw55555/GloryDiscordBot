@@ -128,7 +128,7 @@ module.exports = function (message) {
             functions.replyMessage(message, "You must be the Leader or a Co-Leader to invite someone!");
             return;
         }
-        let target = functions.gvalidate(message);
+        let target = functions.validate(message,2);
         if (target == false) {
             functions.replyMessage(message, "You can't invite rocks!");
             return;
@@ -238,7 +238,7 @@ module.exports = function (message) {
             functions.replyMessage(message, "Only Leaders and Co-Leaders can give money from the guild bank!")
             return;
         }
-        let target = functions.gvalidate(message);
+        let target = functions.validate(message,2);
         if (target == false) {
             functions.replyMessage(message, "You can't pay a rock!");
             return;
@@ -286,7 +286,7 @@ module.exports = function (message) {
             functions.replyMessage(message, "Only Leaders can promote others!")
             return;
         }
-        let target = functions.gvalidate(message);
+        let target = functions.validate(message,2);
         if (target == false) {
             functions.replyMessage(message, "You can't promote a rock!");
             return;
@@ -306,7 +306,7 @@ module.exports = function (message) {
             functions.replyMessage(message, "Only Leaders can demote others!")
             return;
         }
-        let target = functions.gvalidate(message);
+        let target = functions.validate(message,2);
         if (target == false) {
             functions.replyMessage(message, "You can't demote a rock!");
             return;
@@ -328,7 +328,7 @@ module.exports = function (message) {
             functions.replyMessage(message, "Only Leaders and Co-Leaders can kick others!")
             return;
         }
-        let target = functions.gvalidate(message);
+        let target = functions.validate(message,2);
         if (target == false) {
             functions.replyMessage(message, "You can't kick a rock! (Well you can, but I wouldn't)");
             return;

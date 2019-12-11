@@ -17,6 +17,14 @@ async function getUser(uid) {
         return false
     })
 }
+async function setUser(uid, newuser) {
+    client.db("current").collection("userData").updateOne({ _id: newuser._id }, newuser).then(function (r) {
+        return true;
+    }).catch(function (err) {
+        console.error(err)
+        return false;
+    })
+}
 function setProp(coll, query, newvalue) {
     client.db("current").collection(coll).updateOne(query,newvalue).then(function (r) {
         return true;
@@ -82,7 +90,7 @@ function logCommand(message, extratext) {
     sendMessage(bot.guilds.get(debugGuildId).channels.get(debugChannelId), clean(message.author.id + "|" + message.content + "|" + message.createdTimestamp + extratext))
 }
 
-function validate(message, spot) {
+async function validate(message, spot) {
     if (isNaN(parseInt(spot))) { spot = 1 }
     let words = message.content.trim().split(/\s+/)
     if (words.length <= spot) {
@@ -108,16 +116,14 @@ function validate(message, spot) {
         target = temptarget.id
         targetname = temptarget
     }
-    if (userData[target] == undefined) {
-        //Send fail message here
-        sendMessage(message.channel, targetname + " is not a real person");
-        return false;
-    }
-
-    return target
-}
-function gvalidate(message) {
-    return validate(message, 2)
+    return functions.getUser(target).then(user => {
+        if (userData[target] == undefined) {
+            //Send fail message here
+            sendMessage(message.channel, targetname + " is not a real person");
+            return false;
+        }
+        return target
+    })
 }
 function hasSkill(id, skillid, enable) {
     enable = (enable == false) ? false : true
@@ -1526,7 +1532,8 @@ function itemFilter(message, defaults) {
 }
 module.exports.clean = function (text) { return clean(text) }
 module.exports.getUser = function (id) { return getUser(id) }
-module.exports.setProp = function (coll, query, newvalue) { return setProp(coll,query,newvalue) }
+module.exports.setProp = function (coll, query, newvalue) { return setProp(coll, query, newvalue) }
+module.exports.setUser = function (newuser) { return setUser(newuser) }
 module.exports.sendMessage = function (channel, text, override) { return sendMessage(channel, text, override) }
 module.exports.replyMessage = function (message, text, override) { return replyMessage(message, text, override) }
 module.exports.deleteMessage = function (message) { return deleteMessage(message) }
@@ -1534,7 +1541,6 @@ module.exports.dmUser = function (user, text) { return dmUser(user, text) }
 module.exports.logCommand = function (message, extratext) { return logCommand(message, extratext) }
 module.exports.writeData = function (folder) { return writeData(folder) }
 module.exports.validate = function (message, spot) { return validate(message, spot) }
-module.exports.gvalidate = function (message) { return gvalidate(message) }
 module.exports.generateWeaponTemplate = function (weaponid, current, total) { return generateWeaponTemplate(weaponid, current, total) }
 module.exports.generateGuildTemplate = function (guild) { return generateGuildTemplate(guild) }
 module.exports.generateItem = function (owner, itemid, attack, defense, rarity, name, modifiers) { return generateItem(owner, itemid, attack, defense, rarity, name, modifiers) }
