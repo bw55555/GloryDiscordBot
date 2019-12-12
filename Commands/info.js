@@ -1,5 +1,5 @@
 var functions=require("../Utils/functions.js")
-module.exports = function (message,user) {
+module.exports = async function (message,user) {
   functions.sendMessage(message.channel, {
     "embed": {
       "description": "Join the Glory Support server by clicking [here!](https://discord.gg/QsdmhgX) ",

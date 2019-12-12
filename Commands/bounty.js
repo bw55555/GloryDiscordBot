@@ -3,8 +3,7 @@ module.exports = function (message,user) {
   let id = message.author.id;
   let ts = message.createdTimestamp;
   let words = message.content.trim().split(/\s+/)
-  if (words.length == 1) {
-    functions.replyMessage(message, "Select a person to place a bounty on or do write `!bounty top`");
+module.exports = async function (message,user) {    functions.replyMessage(message, "Select a person to place a bounty on or do write `!bounty top`");
     return;
   }
   if (words[1].toUpperCase() == `TOP`) {

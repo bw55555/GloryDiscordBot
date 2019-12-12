@@ -273,9 +273,8 @@ function evaluateMessage(message) {
         console.log(message.author.id + "|" + message.content + "|" + ts)
         //sendMessage(bot.guilds.get("536599503608872961").channels.get("538710109241606154"), clean(message.author.id + "|" + message.content + "|" + ts))
         //console.time("run")
-        commands[command](message,user)
+        commands[command](message, user).then(user => { setUser(user)})
         //console.timeEnd("run")
-        functions.checkStuff(message)
         if (!talkedRecently.has(message.author.id)) {
             talkedRecently.add(message.author.id);
             setTimeout(() => {

@@ -1,27 +1,28 @@
 var functions = require("../Utils/functions.js")
-module.exports = function (message,user) {
+module.exports = async function (message,user) {
     let id = message.author.id;
     //let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    if (userData[id].consum.nametag == undefined || userData[id].consum.nametag == 0) {
+
+    if (user.consum.nametag == undefined || user.consum.nametag == 0) {
         functions.replyMessage(message, "You have no Nametags!");
-        return;
+        return user;
     }
     if (words.length <= 2) {
         functions.replyMessage(message, "!nametag [itemID] [Desired Weapon Name]");
-        return;
+        return user;
     }
     
     let weaponid = parseInt(words[1])
     if (isNaN(weaponid)) {
         functions.sendMessage(message.channel, "The Weapon ID must be an integer");
-        return;
+        return user;
     }
     if (itemData[weaponid] == 0) {
         functions.replyMessage(message, "This item does not exist!")
-        return
+        return user
     }
-    /*if (userData[id].inventory[weaponid+""] != weaponid) {
+    /*if (user.inventory[weaponid+""] != weaponid) {
         functions.replyMessage(message, "You do not own this item!")
         return
     }*/
@@ -32,4 +33,5 @@ module.exports = function (message,user) {
     }
     itemData[weaponid].name = name;
     functions.replyMessage(message, "Weapon ID " + weaponid + " is now called " + name);
+    return user;
 }

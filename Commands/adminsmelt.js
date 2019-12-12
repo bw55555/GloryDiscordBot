@@ -1,5 +1,5 @@
 var functions = require("../Utils/functions.js")
-module.exports = function (message,user) {
+module.exports = async function (message,user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
@@ -35,6 +35,6 @@ module.exports = function (message,user) {
     if (userData[owner] == undefined) { return functions.replyMessage(message, "No one owns this item! Notify a dev. ") }
     if (userData[owner].weapon == weaponid) { userData[owner].weapon = false }
     let itemRewards = functions.smeltItem(owner, weaponid, false)
-userData[owner].weapon == "None";
+    userData[owner].weapon == "None";
     functions.sendMessage(message.channel, "You have adminsmelted item " + weaponid + "!")
 }

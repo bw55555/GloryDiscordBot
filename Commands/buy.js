@@ -1,5 +1,5 @@
 var functions = require("../Utils/functions.js")
-module.exports = function (message,user) {
+module.exports = async function (message,user) {
 
     let id = message.author.id;
     if (userData[id].status == 0) { return; }
