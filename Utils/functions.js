@@ -18,7 +18,15 @@ async function getUser(uid) {
     })
 }
 async function setUser(newuser) {
-    client.db("current").collection("userData").updateOne({ _id: newuser._id }, newuser).then(function (r) {
+    return client.db("current").collection("userData").replaceOne({ _id: newuser._id }, newuser).then(function (r) {
+        return true;
+    }).catch(function (err) {
+        console.error(err)
+        return false;
+    })
+}
+async function deleteUser(uid) {
+    return client.db("current").collection("userData").deleteOne({ _id: uid }).then(function (r) {
         return true;
     }).catch(function (err) {
         console.error(err)
@@ -26,7 +34,7 @@ async function setUser(newuser) {
     })
 }
 function setProp(coll, query, newvalue) {
-    client.db("current").collection(coll).updateOne(query,newvalue).then(function (r) {
+    return client.db("current").collection(coll).updateOne(query,newvalue).then(function (r) {
         return true;
     }).catch(function (err) {
         console.error(err)
@@ -68,8 +76,8 @@ function deleteMessage(message) {
 }
 
 function dmUser(user, text) {
-    if (user == bot.id || bot.users.get(user) == undefined) { return }
-    if (userData[user].dmmute != true) bot.users.get(user).send(text).catch(function (err) { console.error(err) })
+    if (user._id == bot.id || bot.users.get(user._id) == undefined) { return }
+    if (user.dmmute != true) bot.users.get(user._id).send(text).catch(function (err) { console.error(err) })
 }
 
 function writeData(folder) {
@@ -117,7 +125,7 @@ async function validate(message, spot) {
         targetname = temptarget
     }
     return functions.getUser(target).then(user => {
-        if (userData[target] == undefined) {
+        if (user == undefined) {
             //Send fail message here
             sendMessage(message.channel, targetname + " is not a real person");
             return false;
@@ -125,14 +133,13 @@ async function validate(message, spot) {
         return target
     })
 }
-function hasSkill(id, skillid, enable) {
+function hasSkill(user, skillid, enable) {
     enable = (enable == false) ? false : true
-    if (userData[id].skillA == skillid || userData[id].skillB == skillid || userData[id].skillC == skillid) return enable
+    if (user.skillA == skillid || user.skillB == skillid || user.skillC == skillid) return enable
     else return false
 }
-function generateWeaponTemplate(weaponid, current, total) {
+function generateWeaponTemplate(owner, weaponid, current, total) {
     weaponid = weaponid.toString();
-    //let name = userData[itemData[weaponid].owner].username
     let mergetext = itemData[weaponid].merge //+ " (Merges until next rarity: " + (10-itemData[weaponid].merge) + ")";
     if (itemData[weaponid].rarity == 'Unique' || itemData[weaponid].rarity == 9) {
         mergetext = "This weapon can't be merged"
@@ -144,8 +151,8 @@ function generateWeaponTemplate(weaponid, current, total) {
     if (itemData[weaponid].owner == "event") {
         name = "event"
     } else {
-        if (userData[itemData[weaponid].owner] != undefined) {
-            name = userData[itemData[weaponid].owner].username
+        if (owner != undefined) {
+            name = owner.username
         } else {
             name = "Name Error"
         }
@@ -194,7 +201,6 @@ function generateWeaponTemplate(weaponid, current, total) {
     }
 }
 function generateGuildTemplate(guild) {
-    //let name = userData[itemData[weaponid].owner].username
     let xpleft = (Math.pow(guildData[guild].level + 1, 4) > guildData[guild].xp) ? (Math.pow(guildData[guild].level + 1, 4) - guildData[guild].xp) + " xp left to next level" : "Ready to upgrade!"
     xpleft = (guildData[guild].level == 100) ? "MAX level" : xpleft
     return {
@@ -247,14 +253,14 @@ function generateItem(owner, itemid, attack, defense, rarity, name, modifiers) {
     if (modifiers == undefined) { modifiers = {} }
     if (name == undefined) {
         let items = ["Stick", "Pebble", "Rock", "Sling"]
-        if (!isNaN(userData[owner].triangleid)) {
-            if (userData[owner].triangleid % 3 == 1) {
+        if (!isNaN(owner.triangleid)) {
+            if (owner.triangleid % 3 == 1) {
                 items = ["Bow", "Crossbow", "Longbow", "Recurve Bow", "Flatbow", "Rifle Crossbow", "Kunai", "Throwing Stars", "Shuriken", "Sniper", "Yumi", "Blow Darts", "Throwing Knife", "Rifle", "Pistol"]
             }
-            else if (userData[owner].triangleid % 3 == 2) {
+            else if (owner.triangleid % 3 == 2) {
                 items = ["Diamond", "Amulet", "Staff", "Wand", "Gem", "Talisman", "Spellblade", "Orb", "Tome", "Book", "Focus", "Flames", "Asta", "Crystal", "Runes", "Runestaff", "Ragnell", "Aura", "Arcanics", "Skull", "Rite"]
             }
-            else if (userData[owner].triangleid % 3 == 0 && userData[owner].triangleid != 0) {
+            else if (owner.triangleid % 3 == 0 && owner.triangleid != 0) {
                 items = ["Sword", "Axe", "Lance", "Spear", "Rapier", "Mace", "Scythe", "Hammer", "Longsword", "Claymore", "Dagger", "Knife", "Scimitar", "Broadsword", "Katana", "Falchion", "Cutlass", "Sabre", "Dao", "Khopesh", "Tachi"]
             }
             if (attack * 5 < defense) {
@@ -267,12 +273,11 @@ function generateItem(owner, itemid, attack, defense, rarity, name, modifiers) {
     if (itemid == null || itemid == "" || itemid == undefined) {
         itemid = itemData.next;
     }
-    if (owner != "event") { userData[owner].inventory[itemid] = itemid }
+    if (owner != "event") { owner.inventory[itemid] = itemid }
     let maxenhance = (rarity == "Unique") ? 1024 : Math.pow(2, rarity)
-    let item = { "owner": owner, "id": itemid, "attack": attack, "defense": defense, "rarity": rarity, "modifiers": modifiers, "name": name, "enhancementlevel": 0, "maxenhancement": maxenhance, "enhancementattempts": 0, "favorite": false, "merge": 0 }
+    let item = { "owner": owner._id, "id": itemid, "attack": attack, "defense": defense, "rarity": rarity, "modifiers": modifiers, "name": name, "enhancementlevel": 0, "maxenhancement": maxenhance, "enhancementattempts": 0, "favorite": false, "merge": 0 }
     itemData[itemid] = item;
     itemData.next++;
-    return owner;
 }
 
 function generateRandomItem(owner, rarity) {
@@ -300,29 +305,29 @@ function generateRandomItem(owner, rarity) {
     let defense = total - attack
 
     generateItem(owner, itemid, attack, defense, rarity, undefined, undefined)
-    return [owner,itemid]
+    return itemid
 }
-function calcExtraStat(id, stat) {
+function calcExtraStat(user, stat) {
     const statlevels = { "health": 100, "attack": 10, "defense": 10 }
-    let extrastat = userData[id].ascension * statlevels[stat]
+    let extrastat = user.ascension * statlevels[stat]
     if (stat == "health") {
-        if (userData[id].weapon != false && itemData[userData[id].weapon] != undefined && itemData[userData[id].weapon].modifiers.maxhp != undefined) extrastat += itemData[userData[id].weapon].modifiers.maxhp
+        if (user.weapon != false && itemData[user.weapon] != undefined && itemData[user.weapon].modifiers.maxhp != undefined) extrastat += itemData[user.weapon].modifiers.maxhp
     }
     return extrastat
 }
-function calcLuckyBuff(id) {
+function calcLuckyBuff(user) {
     let luckybuff = 1
-    if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) { //lucky enchant
-        //console.log(userData[id].weapon)
-        if (itemData[userData[id].weapon].modifiers.lucky != undefined) {
-            luckybuff = itemData[userData[id].weapon].modifiers.lucky
+    if (user.weapon != false && user.weapon != "None" && itemData[user.weapon] != undefined) { //lucky enchant
+        //console.log(user.weapon)
+        if (itemData[user.weapon].modifiers.lucky != undefined) {
+            luckybuff = itemData[user.weapon].modifiers.lucky
         }
     }
-    if (hasSkill(id, 16)) { //Royalty Skill
+    if (hasSkill(user._id, 16)) { //Royalty Skill
         luckybuff += 0.5
     }
-    if (userData[id].guild != "None" && guildData[userData[id].guild].buffs.lucky != undefined) {
-        luckybuff += guildData[userData[id].guild].buffs.lucky.value
+    if (user.guild != "None" && guildData[user.guild].buffs.lucky != undefined) {
+        luckybuff += guildData[user.guild].buffs.lucky.value
     }
     return luckybuff
 }
@@ -331,11 +336,10 @@ function errorlog(text) {
     if (!bot.guilds.get("536599503608872961").channels.has("538526944141246486")) {return}
     sendMessage(bot.guilds.get("536599503608872961").channels.get("538526944141246486"),text)
 }
-function setCD(id, ts, cdsecs, cdname) {
-    if (userData[id].cooldowns[cdname] == undefined) { errorlog("Something went wrong with setCD. " + cdname + " not defined." + id + "|" + ts) }
-    if (userData[id].weapon != false && itemData[userData[id].weapon].modifiers.haste != undefined) { cdsecs -= parseInt(itemData[userData[id].weapon].modifiers.haste) }
-    userData[id].cooldowns[cdname] = ts + cdsecs * 1000
-    return user
+function setCD(user, ts, cdsecs, cdname) {
+    if (user.cooldowns[cdname] == undefined) { errorlog("Something went wrong with setCD. " + cdname + " not defined." + user._id + "|" + ts) }
+    if (user.weapon != false && itemData[user.weapon].modifiers.haste != undefined) { cdsecs -= parseInt(itemData[user.weapon].modifiers.haste) }
+    user.cooldowns[cdname] = ts + cdsecs * 1000
 }
 function calcTime(time1, time2) {
     return Math.floor((time1 - time2) / 1000)
@@ -370,46 +374,35 @@ function extractTime(timeword) {
     return time;
 }
 ///---------------------
-
-function duelCheckDeath(message, id, otherID, ts) {
-    if (userData[id].currenthealth <= 0) {
-        setCD(id, ts, 0,"heal");
-        setCD(otherID, ts, 0,"heal");
-        duel = {};
-        replyMessage(message, "" + userData[id].username + " has died. " + userData[otherID].username + " has won the duel!");
-        return;
-    }
-}
-
 function calcDamage(message, attacker, defender, initiator) {
     let text = ""
     let roll = Math.random()
     let burn = 0;
     let attack = 0;
     let skillenable = true;
-    if (userData[defender] == undefined && defender.name == "Charybdis") { skillenable = false }
-    if (userData[attacker] == undefined && attacker.name == "Charybdis") { skillenable = false }
+    if (defender.name == "Charybdis") { skillenable = false }
+    if (attacker.name == "Charybdis") { skillenable = false }
     let defendername = defender.name
-    if (userData[defender] != undefined) { defendername = "<@" + defender + ">" }
+    if (defendername == undefined) { defendername = "<@" + defender + ">" }
     let attackername = attacker.name
-    if (userData[attacker] != undefined) { attackername = "<@" + attacker + ">" }
+    if (attackername == undefined) { attackername = "<@" + attacker + ">" }
     let evadechance = Math.random()
     let evaderate = 0;
     if (defender.name == "Will-o'-the-wisp") {
         evaderate += 0.95
     }
-    if (userData[defender] != undefined && userData[defender].weapon != false && itemData[userData[defender].weapon].modifiers.evade != undefined) {
-        evaderate += itemData[userData[defender].weapon].modifiers.evade
+    if (defender._id != undefined && defender.weapon != false && itemData[defender.weapon].modifiers.evade != undefined) {
+        evaderate += itemData[defender.weapon].modifiers.evade
     }
     if (evadechance < evaderate) {
         sendMessage(message.channel, attackername + ", "+defendername + " has evaded the attack!")
         return 0
     }
-    if (userData[attacker] != undefined) {
-        if (userData[defender] != undefined && hasSkill(defender, 23, skillenable)) {
-            attack = 2 * calcStats(message, attacker, "attack", skillenable, true)
+    if (attacker._id != undefined) {
+        if (defender._id != undefined && hasSkill(defender, 23, skillenable)) {
+            let attack = 2 * calcStats(message, attacker, "attack", skillenable, true);
         } else {
-            attack = 2 * calcStats(message, attacker, "attack", skillenable)
+            let attack = 2 * calcStats(message, attacker, "attack", skillenable);
         }
     } else {
         attack = attacker.attack;
@@ -422,36 +415,33 @@ function calcDamage(message, attacker, defender, initiator) {
         
     }
     let defense = 0;
-    if (userData[defender] != undefined) {
-        if (userData[attacker] != undefined && hasSkill(attacker, 23, skillenable)) {
-            defense = calcStats(message, defender, "defense", skillenable,true)
+    if (defender._id != undefined) {
+        if (attacker._id != undefined && hasSkill(attacker, 23, skillenable)) {
+            let defense = 2 * calcStats(message, defender, "defense", skillenable, true);
         } else {
-            defense = calcStats(message, defender, "defense", skillenable)
+            let defense = 2 * calcStats(message, defender, "defense", skillenable);
         }
     }
-    if (userData[attacker] != undefined && userData[defender] != undefined) {
-        if ((userData[attacker].triangleid - userData[defender].triangleid) % 3 == 2) {
+    if (attacker._id != undefined && defender._id != undefined) {
+        if ((attacker.triangleid - defender.triangleid) % 3 == 2) {
             if (hasSkill(attacker, 13, skillenable)) {
                 attack *= 1.8
             } else {
                 attack *= 1.4
             }
         }
-        if (hasSkill(defender, 37) && userData[attacker].speed > 0) {
-            userData[attacker].speed = 0
+        if (hasSkill(defender, 37) && attacker.speed > 0) {
+            attacker.speed = 0
             text += attackername+"'s tempo was dispelled!\n"
         }
     }
 
-    let weapon = (userData[attacker] != undefined && userData[attacker].weapon != false) ? itemData[userData[attacker].weapon] : false
-    let dweapon = (userData[defender] != undefined && userData[defender].weapon != false) ? itemData[userData[defender].weapon] : false
-    //let weaponid = userData[attacker].weapon
-
-
+    let weapon = (attacker._id != undefined && attacker.weapon != false) ? itemData[attacker.weapon] : false
+    let dweapon = (defender._id != undefined && defender.weapon != false) ? itemData[defender.weapon] : false
     //attacker only skills
     let piercechance = Math.random()
     let piercerate = 0
-    if (userData[attacker] != undefined) {
+    if (attacker._id != undefined) {
 
         if (weapon != false && weapon.modifiers.pierce != undefined) { piercerate += weapon.modifiers.pierce }
 
@@ -461,8 +451,8 @@ function calcDamage(message, attacker, defender, initiator) {
         if (hasSkill(attacker, 28, skillenable)) {
             piercerate += 0.05;
         }
-        if (userData[attacker] != undefined && userData[attacker].guild != "None" && guildData[userData[attacker].guild].buffs.pierce != undefined) {
-            piercerate += guildData[userData[attacker].guild].buffs.pierce.value
+        if (attacker._id != undefined && attacker.guild != "None" && guildData[attacker.guild].buffs.pierce != undefined) {
+            piercerate += guildData[attacker.guild].buffs.pierce.value
         }
 
     } else {
@@ -474,13 +464,13 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
     if (piercechance < piercerate) {
-        if (userData[defender] == undefined) {
+        if (defender._id == undefined) {
             attack *= 1.5
         } else {
             defense = 0
         }
         text += attackername + " has pierced their opponents defense!\n"
-        if (userData[attacker] != undefined && hasSkill(attacker, 28, skillenable)) {
+        if (attacker._id != undefined && hasSkill(attacker, 28, skillenable)) {
             attack *= 1.4
         }
     }
@@ -490,10 +480,10 @@ function calcDamage(message, attacker, defender, initiator) {
     if (dweapon != false && dweapon.modifiers.spikes != undefined) {
         spikedmod += dweapon.modifiers.spikes
     }
-    if (userData[defender] != undefined && userData[defender].guild != "None" && guildData[userData[defender].guild].buffs.spikes != undefined) {
-        spikedmod += guildData[userData[defender].guild].buffs.spikes.value
+    if (defender._id != undefined && defender.guild != "None" && guildData[defender.guild].buffs.spikes != undefined) {
+        spikedmod += guildData[defender.guild].buffs.spikes.value
     }
-    if (userData[defender] != undefined) {
+    if (defender._id != undefined) {
         if (hasSkill(defender, 7, skillenable)) {
             spikedmod += 0.5;
         }
@@ -503,18 +493,18 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     if (spikedmod > 0) {
         let spiked = Math.floor(defense * spikedmod)
-        if (userData[attacker] != undefined) {
+        if (attacker._id != undefined) {
             if (hasSkill(attacker, 37)) { text += defendername + "'s spikes was dispelled!\n" }
             else {
-                userData[attacker].currenthealth -= spiked
+                attacker.currenthealth -= spiked
                 text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
             }
-            if (userData[defender] != undefined) {
+            if (defender._id != undefined) {
                 if (hasSkill(defender, 31, skillenable)) {
                     if (hasSkill(attacker, 37)) { text += defendername + "'s burn was dispelled!\n" }
                     else {
-                        if (userData[attacker].burn == undefined) { userData[attacker].burn = 0 }
-                        userData[attacker].burn += spikedmod * 5; //Burn status, if burning, have a chance to take 5% damage after talking.
+                        if (attacker.burn == undefined) { attacker.burn = 0 }
+                        attacker.burn += spikedmod * 5; //Burn status, if burning, have a chance to take 5% damage after talking.
                         text += attackername + " is now burning!"
                     }
                 }
@@ -526,7 +516,7 @@ function calcDamage(message, attacker, defender, initiator) {
     }
 
     //burn check
-    if (userData[attacker] != undefined) {
+    if (attacker._id != undefined) {
         if (weapon != false && weapon.modifiers.burn != undefined) {
             burn += weapon.modifiers.burn
         }
@@ -538,14 +528,14 @@ function calcDamage(message, attacker, defender, initiator) {
             burn += 5;
         }
     }
-    if (userData[defender] != undefined && hasSkill(defender, 37)) {
+    if (defender._id != undefined && hasSkill(defender, 37)) {
         text += attackername + "'s burn was dispelled!\n"
         burn = 0
     }
     if (burn > 0) {
-        if (userData[defender] != undefined) {
-            if (userData[defender].burn == undefined) { userData[defender].burn = 0}
-            userData[defender].burn += burn;
+        if (defender._id != undefined) {
+            if (defender.burn == undefined) { defender.burn = 0}
+            defender.burn += burn;
             text += defendername + " is now burning!\n"
         } else {
             text += "Raid boss cannot be burned!\n"
@@ -555,10 +545,10 @@ function calcDamage(message, attacker, defender, initiator) {
 
     let blockrate = 0;
     let blockchance = Math.random()
-    if (userData[defender] != undefined && userData[defender].guild != "None" && guildData[userData[defender].guild].buffs.block != undefined) {
-        blockrate += guildData[userData[defender].guild].buffs.block.value
+    if (defender._id != undefined && defender.guild != "None" && guildData[defender.guild].buffs.block != undefined) {
+        blockrate += guildData[defender.guild].buffs.block.value
     }
-    if (userData[defender] != undefined && userData[defender].dead == false) {
+    if (defender._id != undefined && defender.dead == false) {
         if (dweapon != false && dweapon.modifiers.block != undefined) {
             blockrate += dweapon.modifiers.block
         }
@@ -569,7 +559,7 @@ function calcDamage(message, attacker, defender, initiator) {
             blockrate += 0.05;
         }
 
-    } else if (userData[defender] == undefined) {
+    } else if (defender._id == undefined) {
         if (defender.name == "Baba Yaga") {
             blockrate += 0.2
         }
@@ -584,17 +574,17 @@ function calcDamage(message, attacker, defender, initiator) {
         } else {
             text += defendername + " has blocked the attack!\n"
             attack = 0;
-            if (userData[defender] != undefined && hasSkill(defender, 30, skillenable)) {
-                userData[defender].bolster = true
+            if (defender._id != undefined && hasSkill(defender, 30, skillenable)) {
+                defender.bolster = true
                 text += defendername + " was bolstered!\n"
             }
         }
     }
 
-    if (userData[attacker] != undefined) {
-        let lifesteal = (userData[attacker].triangleid == 11) ? 0.15 : 0;
-        if (userData[attacker] != undefined && userData[attacker].guild != "None" && guildData[userData[attacker].guild].buffs.lifeSteal != undefined) {
-            lifesteal += guildData[userData[attacker].guild].buffs.lifeSteal.value
+    if (attacker._id != undefined) {
+        let lifesteal = (attacker.triangleid == 11) ? 0.15 : 0;
+        if (attacker._id != undefined && attacker.guild != "None" && guildData[attacker.guild].buffs.lifeSteal != undefined) {
+            lifesteal += guildData[attacker.guild].buffs.lifeSteal.value
         }
         if (weapon != false && weapon.modifiers.lifeSteal != undefined) {
             lifesteal += weapon.modifiers.lifeSteal
@@ -603,38 +593,32 @@ function calcDamage(message, attacker, defender, initiator) {
             lifesteal += 0.1;
         }
         if (hasSkill(attacker, 21, skillenable)) {
-            if (userData[attacker].currenthealth >= userData[attacker].health) {
+            if (attacker.currenthealth >= attacker.health) {
                 lifesteal += 0.5;
             }
         }
         if (lifesteal > 0) {
             let stealAmount = Math.abs(Math.floor((attack * 0.75 * roll + attack * 0.25 - defense) * lifesteal))
             if (stealAmount < 0) { stealAmount = 0 }
-            userData[attacker].currenthealth += stealAmount
+            attacker.currenthealth += stealAmount
             text += attackername + " lifestole **" + stealAmount + "** health!\n";
         }
     }
-    if (userData[attacker] != undefined) {
-
+    if (attacker._id != undefined) {
         if (hasSkill(attacker, 22, skillenable)) {
             let leech = 0
-            if (userData[defender] != undefined) {
-                leech = Math.floor(0.05 * userData[defender].currenthealth);
-                userData[attacker].currenthealth += leech
-                userData[defender].currenthealth -= leech
+            if (defender._id != undefined) {
+                leech = Math.floor(0.05 * defender.currenthealth);
+                attacker.currenthealth += leech
+                defender.currenthealth -= leech
                 text += attackername + " leeched **" + leech + "** health!\n";
-            }
-            else {
-                //leech = Math.floor(0.05 * defender.currenthealth);
-                //userData[attacker].currenthealth += leech;
-                //defender.currenthealth -= leech;
             }
         }
     }
     //defender only skills
     let revmod = 0;
     let revengechance = Math.random()
-    if (userData[defender] != undefined) {
+    if (defender._id != undefined) {
         if (attacker == initiator && dweapon != false && dweapon.modifiers.revenge != undefined) {
             revmod += dweapon.modifiers.revenge;
         }
@@ -646,39 +630,39 @@ function calcDamage(message, attacker, defender, initiator) {
             revmod += 0.005;
             revmod *= 2;
         }
-        if (userData[defender] != undefined && userData[defender].guild != "None" && guildData[userData[defender].guild].buffs.revenge != undefined) {
-            revmod += guildData[userData[defender].guild].buffs.revenge.value
+        if (defender._id != undefined && defender.guild != "None" && guildData[defender.guild].buffs.revenge != undefined) {
+            revmod += guildData[defender.guild].buffs.revenge.value
         }
     }
 
-    if (userData[attacker] != undefined) {
+    if (attacker._id != undefined) {
         if (revengechance < revmod) {
-            userData[attacker].currenthealth = 0;
+            attacker.currenthealth = 0;
             text += defendername + " has avenged the attack!\n"
             //return false
         }
     } else {
         if (attacker.name == "Medusa" && revengechance < 0.15) {
-            userData[defender].currenthealth = 0;
+            defender.currenthealth = 0;
             text += defendername + " has been turned to stone! (And killed)\n"
         }
         else if (attacker.name == "Asmodeus" && revengechance < 0.1) {
-            userData[defender].currenthealth = 0;
+            defender.currenthealth = 0;
             text += defendername + " has been beheaded! (And killed)\n"
         }
         else if (attacker.name == "Godzilla" && revengechance < 0.2) {
-            userData[defender].currenthealth = 0;
+            defender.currenthealth = 0;
             text += defendername + " has been squashed! (And killed)\n"
         }
     }
 
     //Percentage increases
-    if (defender != -1 && attacker == initiator) {
+    if (defender._id != undefined && attacker == initiator) {
         if (hasSkill(defender, 19, skillenable)) {
             defense *= 1.3;
         }
     }
-    if (userData[attacker] != undefined && attacker == initiator) {
+    if (attacker._id != undefined && attacker == initiator) {
         if (hasSkill(attacker, 18, skillenable)) {
             attack *= 1.3;
         }
@@ -688,166 +672,163 @@ function calcDamage(message, attacker, defender, initiator) {
     truedamage = Math.floor(attack * 0.75 * roll + attack * 0.25 - defense)
 
     //Last Breath Check
-    if (userData[defender] != undefined) {
+    if (defender._id != undefined) {
         if (hasSkill(defender, 25, skillenable)) {
-            if (truedamage > userData[defender].currenthealth && userData[defender].currenthealth * 2 > userData[defender].health) {
-                userData[defender].currenthealth = truedamage + 1
+            if (truedamage > defender.currenthealth && defender.currenthealth * 2 > defender.health) {
+                defender.currenthealth = truedamage + 1
                 text += defendername + " has activated Last Breath!"
             }
         }
     }
-
-
-
     if (text != "") { sendMessage(message.channel, text) }
-    return [attacker,defender,truedamage]
+    return truedamage
 }
-function calcStats(message, id, stat, skillenable,confused) {
+function calcStats(message, user, stat, skillenable,confused) {
     skillenable = (skillenable == false) ? false : true
     confused = (confused == true) ? true : false
     let text = ""
-    let attack = userData[id].attack
-    let defense = userData[id].defense
+    let attack = user.attack
+    let defense = user.defense
     if (confused) {
-        attack = userData[id].defense
-        defense = userData[id].attack
+        attack = user.defense
+        defense = user.attack
     }
-    let buff = userData[id].trianglemod;
+    let buff = user.trianglemod;
     let dbuff = 1;
     let critrate = 0;
-    critrate = (userData[id].triangleid == 4) ? 0.08 : 0;
-    let critdmg = (userData[id].triangleid == 4) ? 3 : 2;
-    let rage = (userData[id].triangleid == 6) ? 1 : 0;
-    let sacrifice = (userData[id].triangleid == 311) ? 0.15 : 0;
+    critrate = (user.triangleid == 4) ? 0.08 : 0;
+    let critdmg = (user.triangleid == 4) ? 3 : 2;
+    let rage = (use.triangleid == 6) ? 1 : 0;
+    let sacrifice = (user.triangleid == 311) ? 0.15 : 0;
     let tempo = 0;
     let antitempo = 0;
-    if (userData[id].guild != "None" && guildData[userData[id].guild].buffs.attack != undefined) {
-        buff += guildData[userData[id].guild].buffs.attack.value
+    if (user.guild != "None" && guildData[user.guild].buffs.attack != undefined) {
+        buff += guildData[user.guild].buffs.attack.value
     }
-    if (userData[id].guild != "None" && guildData[userData[id].guild].buffs.defense != undefined) {
-        dbuff += guildData[userData[id].guild].buffs.defense.value
+    if (user.guild != "None" && guildData[user.guild].buffs.defense != undefined) {
+        dbuff += guildData[user.guild].buffs.defense.value
     }
-    if (userData[id].guild != "None" && guildData[userData[id].guild].buffs.critDamage != undefined) {
-        critdmg += guildData[userData[id].guild].buffs.critDamage.value
+    if (user.guild != "None" && guildData[user.guild].buffs.critDamage != undefined) {
+        critdmg += guildData[user.guild].buffs.critDamage.value
     }
-    if (userData[id].guild != "None" && guildData[userData[id].guild].buffs.critRate != undefined) {
-        critrate += guildData[userData[id].guild].buffs.critRate.value
+    if (user.guild != "None" && guildData[user.guild].buffs.critRate != undefined) {
+        critrate += guildData[user.guild].buffs.critRate.value
     }
-    if (userData[id].guild != "None" && guildData[userData[id].guild].buffs.tempo != undefined) {
-        tempo += guildData[userData[id].guild].buffs.tempo.value
+    if (user.guild != "None" && guildData[user.guild].buffs.tempo != undefined) {
+        tempo += guildData[user.guild].buffs.tempo.value
     }
-    if (userData[id].guild != "None" && guildData[userData[id].guild].buffs.sacrifice != undefined) {
-        sacrifice += guildData[userData[id].guild].buffs.sacrifice.value
+    if (user.guild != "None" && guildData[user.guild].buffs.sacrifice != undefined) {
+        sacrifice += guildData[user.guild].buffs.sacrifice.value
     }
-    if (userData[id].guild != "None" && guildData[userData[id].guild].buffs.rage != undefined) {
-        rage += guildData[userData[id].guild].buffs.rage.value
+    if (user.guild != "None" && guildData[user.guild].buffs.rage != undefined) {
+        rage += guildData[user.guild].buffs.rage.value
     }
-    if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) {
-        //console.log(userData[id].weapon)
-        if (itemData[userData[id].weapon].modifiers == undefined) { itemData[userData[id].weapon].modifiers = {} }
-        if (itemData[userData[id].weapon].modifiers.critRate != undefined) {
-            critrate += itemData[userData[id].weapon].modifiers.critRate
+    if (user.weapon != false && user.weapon != "None" && itemData[user.weapon] != undefined) {
+        //console.log(user.weapon)
+        if (itemData[user.weapon].modifiers == undefined) { itemData[user.weapon].modifiers = {} }
+        if (itemData[user.weapon].modifiers.critRate != undefined) {
+            critrate += itemData[user.weapon].modifiers.critRate
         }
-        if (itemData[userData[id].weapon].modifiers.critDamage != undefined) {
-            critdmg += itemData[userData[id].weapon].modifiers.critDamage
+        if (itemData[user.weapon].modifiers.critDamage != undefined) {
+            critdmg += itemData[user.weapon].modifiers.critDamage
         }
 
-        if (itemData[userData[id].weapon].modifiers.rage != undefined) {
-            rage += itemData[userData[id].weapon].modifiers.rage
+        if (itemData[user.weapon].modifiers.rage != undefined) {
+            rage += itemData[user.weapon].modifiers.rage
         }
-        if (itemData[userData[id].weapon].modifiers.sacrifice != undefined) {
-            sacrifice += itemData[userData[id].weapon].modifiers.sacrifice
+        if (itemData[user.weapon].modifiers.sacrifice != undefined) {
+            sacrifice += itemData[user.weapon].modifiers.sacrifice
         }
-        if (itemData[userData[id].weapon].modifiers.tempo != undefined) {
-            tempo += itemData[userData[id].weapon].modifiers.tempo
+        if (itemData[user.weapon].modifiers.tempo != undefined) {
+            tempo += itemData[user.weapon].modifiers.tempo
         }
     }
-    //if (userData[id].skills == undefined) { userData[id].skills = {} }
-    if (hasSkill(id, 0, skillenable)) {
+    //if (user.skills == undefined) { user.skills = {} }
+    if (hasSkill(user, 0, skillenable)) {
         attack += 20;
     }
-    if (hasSkill(id, 1, skillenable)) {
+    if (hasSkill(user, 1, skillenable)) {
         defense += 20;
     }
-    if (hasSkill(id, 2, skillenable)) {
+    if (hasSkill(user, 2, skillenable)) {
         rage += .7;
     }
-    if (hasSkill(id, 4, skillenable)) {
+    if (hasSkill(user, 4, skillenable)) {
         sacrifice += 0.2;
     }
-    if (hasSkill(id, 5, skillenable)) {
+    if (hasSkill(user, 5, skillenable)) {
         tempo += 1;
     }
-    if (hasSkill(id, 9, skillenable)) {
+    if (hasSkill(user, 9, skillenable)) {
         critrate += 0.06;
     }
-    if (hasSkill(id, 12, skillenable)) {
-        if (userData[id].health == userData[id].currenthealth) {
+    if (hasSkill(user, 12, skillenable)) {
+        if (user.health == user.currenthealth) {
             buff *= 1.5;
             /*buff += 1;
             dbuff += 1;*/
         }
     }
-    if (hasSkill(id, 17, skillenable)) {
+    if (hasSkill(user, 17, skillenable)) {
         attack += 50;
         defense -= 50;
     }
-    if (hasSkill(id, 26, skillenable)) {
+    if (hasSkill(user, 26, skillenable)) {
         sacrifice += 0.05
     }
-    if (hasSkill(id, 27, skillenable)) {
+    if (hasSkill(user, 27, skillenable)) {
         critrate += 0.01
         critdmg += 2
     }
-    if (hasSkill(id, 29, skillenable)) {
+    if (hasSkill(user, 29, skillenable)) {
         rage += 0.3
     }
-    if (hasSkill(id, 33, skillenable)) {
+    if (hasSkill(user, 33, skillenable)) {
         antitempo += 1;
     }
 
-    if (userData[id].bolster == true) {
+    if (user.bolster == true) {
         buff *= 1.5;
         dbuff *= 1.5;
-        userData[id].bolster = false;
+        user.bolster = false;
     }
 
     if (stat == "attack") {
 
-        if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) {
+        if (user.weapon != false && user.weapon != "None" && itemData[user.weapon] != undefined) {
             if (confused) {
-                attack += itemData[userData[id].weapon].defense;
+                attack += itemData[user.weapon].defense;
             } else {
-                attack += itemData[userData[id].weapon].attack;
+                attack += itemData[user.weapon].attack;
             }
             
         }
         if (rage > 0) {
-            let x = userData[id].currenthealth / userData[id].health
-            if (hasSkill(id, 29, skillenable)) {
-                x = userData[id].currenthealth / (userData[id].health * 2)
+            let x = user.currenthealth / user.health
+            if (hasSkill(user, 29, skillenable)) {
+                x = user.currenthealth / (user.health * 2)
             }
             buff *= 1 + (rage * -1 * Math.log(x));
         }
         if (sacrifice > 0) {
             buff += sacrifice
-            if (hasSkill(id, 26, skillenable)) {
-                //userData[id].currenthealth += Math.floor(buff * attack * sacrifice)
-                text += "<@" + id + "> \"sacrificed\" **" + Math.floor(buff * attack * sacrifice) + "** Health, but mysteriously just didn't!\n";
+            if (hasSkill(user, 26, skillenable)) {
+                //user.currenthealth += Math.floor(buff * attack * sacrifice)
+                text += "<@" + user._id + "> \"sacrificed\" **" + Math.floor(buff * attack * sacrifice) + "** Health, but mysteriously just didn't!\n";
             } else {
-                userData[id].currenthealth -= Math.floor(buff * attack * sacrifice)
-                text += "<@" + id + "> sacrificed **" + Math.floor(buff * attack * sacrifice) + "** Health!\n";
+                user.currenthealth -= Math.floor(buff * attack * sacrifice)
+                text += "<@" + user._id + "> sacrificed **" + Math.floor(buff * attack * sacrifice) + "** Health!\n";
             }
         }
 
-        let urspeed = userData[id].speed
+        let urspeed = user.speed
         if (tempo > 0) {
 
             if (urspeed > 25) {
                 urspeed = 25
             }
             buff += ((urspeed * 0.05 * tempo));
-            text += "<@" + id + "> has **" + urspeed + "** tempo\n";
+            text += "<@" + user._id + "> has **" + urspeed + "** tempo\n";
         }
         if (antitempo > 0) {
 
@@ -855,20 +836,20 @@ function calcStats(message, id, stat, skillenable,confused) {
                 urspeed = 25
             }
             dbuff += ((urspeed * 0.05 * antitempo));
-            text += "<@" + id + "> has **" + urspeed + "** antitempo\n";
+            text += "<@" + user._id + "> has **" + urspeed + "** antitempo\n";
         }
 
-        if (hasSkill(id, 20, skillenable)) {
+        if (hasSkill(user._id, 20, skillenable)) {
             if (urspeed > 25) {
                 urspeed = 25
             }
             critrate += 0.008 * urspeed;
-            text += "<@" + id + "> has **" + (Math.floor(critrate * 1000) / 10) + "%** chance of hitting a critical\n"
+            text += "<@" + user._id + "> has **" + (Math.floor(critrate * 1000) / 10) + "%** chance of hitting a critical\n"
         }
 
         let critchance = Math.random();
         if (critchance < critrate) {
-            text += "<@" + id + "> just dealt critical damage!\n";
+            text += "<@" + user._id + "> just dealt critical damage!\n";
             buff *= critdmg;
         }
 
@@ -877,15 +858,15 @@ function calcStats(message, id, stat, skillenable,confused) {
 
     }
     if (stat == "defense") {
-        //console.log(userData[id].weapon)
+        //console.log(user.weapon)
 
-        //console.log(userData[id].weapon)
+        //console.log(user.weapon)
         //console.log("ItemData length:" + currentItemList)
-        if (userData[id].weapon != false && userData[id].weapon != "None" && itemData[userData[id].weapon] != undefined) {
+        if (user.weapon != false && user.weapon != "None" && itemData[user.weapon] != undefined) {
             if (!confused) {
-                defense += itemData[userData[id].weapon].defense;
+                defense += itemData[user.weapon].defense;
             } else {
-                defense += itemData[userData[id].weapon].attack;
+                defense += itemData[user.weapon].attack;
             }
 
         }
@@ -894,41 +875,42 @@ function calcStats(message, id, stat, skillenable,confused) {
     }
 }
 ///---------------
-function voteItem(message, dm) {
+async function voteItem(message, dm) {
     dm = dm == true ? true : false
     let ts = message.createdTimestamp
     let words = message.content.trim().split(/\s+/)
-    let target = validate(message)
-    if (target == false) { return }
-    let text = ""
-    if (userData[target].votestreak == undefined) { userData[target].votestreak = 0 }
-    if (userData[target].votestreaktime == undefined) { userData[target].votestreaktime = ts }
-    if (calcTime(userData[target].votestreaktime, ts) < 0) {
-        text = "You lost your streak... :("
-        userData[target].votestreak = 0
-    } else if (calcTime(userData[target].votestreaktime, ts) > 11 * 60 * 60 && words[2]!="override") {
-        return sendMessage(message.channel, "It hasn't been 12 hours yet... DBL broke down :(")
-    } else {
-        text = "You have a streak of " + (userData[target].votestreak+1)+"!"
-    }
-    userData[target].votestreak += 1
-    userData[target].votestreaktime = ts + 24 * 60 * 60 * 1000
-    let numboxes = Math.ceil((1 + userData[target].ascension) * Math.sqrt(userData[target].votestreak)/2)
-    
-    if (userData[target].glory != undefined && userData[target].glory < 100) {
-        userData[target].glory += Math.random() * 0.5;
-    }
-    userData[target].consum["box"]+=numboxes
-    sendMessage(message.channel, "<@" + target + "> has been given "+numboxes + " boxes!\n"+text)
-    if (dm) dmUser(target, "Thank you for voting! You have been given " + numboxes + " boxes!\n" + text)
+    return validate(message).then(target => {
+        if (target == false) { return }
+        let text = ""
+        if (target.votestreak == undefined) { target.votestreak = 0 }
+        if (target.votestreaktime == undefined) { target.votestreaktime = ts }
+        if (calcTime(target.votestreaktime, ts) < 0) {
+            text = "You lost your streak... :("
+            target.votestreak = 0
+        } else if (calcTime(target.votestreaktime, ts) > 11 * 60 * 60 && words[2] != "override") {
+            return sendMessage(message.channel, "It hasn't been 12 hours yet... DBL broke down :(")
+        } else {
+            text = "You have a streak of " + (target.votestreak + 1) + "!"
+        }
+        target.votestreak += 1
+        target.votestreaktime = ts + 24 * 60 * 60 * 1000
+        let numboxes = Math.ceil((1 + target.ascension) * Math.sqrt(target.votestreak) / 2)
+
+        if (target.glory != undefined && target.glory < 100) {
+            target.glory += Math.random() * 0.5;
+        }
+        target.consum["box"] += numboxes
+        sendMessage(message.channel, "<@" + target + "> has been given " + numboxes + " boxes!\n" + text)
+        if (dm) dmUser(target, "Thank you for voting! You have been given " + numboxes + " boxes!\n" + text)
+        setUser(target)
+    })
 }
-function craftItems(message, minrarity, maxrarity, amount) {
+function craftItems(message, owner, minrarity, maxrarity, amount) {
     amount = (isNaN(parseInt(amount))) ? 1 : parseInt(amount)
     if (amount > 1) {
-        let id = message.author.id;
         let getrarities = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         for (var i = 0; i < amount; i++) {
-            itemid = craftItem(message, minrarity, maxrarity, false);
+            let itemid = craftItem(message, owner, minrarity, maxrarity, false);      
             rarity = itemData[itemid].rarity
             getrarities[rarity] += 1
         }
@@ -939,7 +921,7 @@ function craftItems(message, minrarity, maxrarity, amount) {
         }
         return text
     } else {
-        craftItem(message, minrarity, maxrarity, true)
+        let itemid = craftItem(message, owner, minrarity, maxrarity, true);
         return ""
     }
 }
@@ -947,13 +929,17 @@ function craftItem(message,owner, minrarity, maxrarity, reply) {
     reply = (reply == false) ? false : true
     let itemid = 0
     if (minrarity == -1 || maxrarity == -1) {
-        itemid = generateRandomItem(target)
+        let arr = generateRandomItem(target)
+        owner = arr[0]
+        itemid = arr[1]
     } else {
         let rarity = Math.floor((maxrarity - minrarity + 1) * Math.random() + minrarity)
-        itemid = generateRandomItem(owner, rarity)
+        let arr = generateRandomItem(owner, rarity)
+        owner = arr[0]
+        itemid = arr[1]
     }
     if (reply) sendMessage(message.channel, "<@" + target + "> has recieved an item with id " + itemid + " and of rarity " + itemData[itemid].rarity)
-    return [owner,itemid]
+    return itemid
 }
 function raidInfo(message, raid) {
     let itemRewardText = ""
@@ -983,7 +969,7 @@ function raidInfo(message, raid) {
 
 function summon(channel, minlevel, maxlevel, name, image) {
     if (!mobData[message.channel.id]) {
-        if (bot.guilds.get(message.guild.id).members.size < 50 && devs.indexOf(id) == -1) { return replyMessage(message, "You cannot summon a raid in a server with less than 50 members!") }
+        if (bot.guilds.get(message.guild.id).members.size < 50) { return replyMessage(message, "You cannot summon a raid in a server with less than 50 members!") }
     }
     if (mobData[channel].raid == true) { return replyMessage(message, "You already have an ongoing raid in this server! Defeat it first!") }
     if (!mobData[message.channel.id]) mobData[message.channel.id] = {} //creates profile if none exists
@@ -1016,109 +1002,94 @@ function summon(channel, minlevel, maxlevel, name, image) {
     mobData[message.channel.id].attacklist = {};
     replyMessage(message, name + " has been summoned. It is level " + summonlevel + "!");
 }
-function checkProps(message) {
-    let id = message.author.id
+function checkProps(message,user) {
     let ts = message.createdTimestamp;
-    if (!userData[id]) userData[id] = {} //creates profile if none exists
-    if (userData[id].username != message.author.username) userData[id].username = message.author.username; //Creates object with name as username
-    if (!userData[id].id) userData[id].id = id; //sets id
-    if (!userData[id].money) userData[id].money = 0; //gives money object
-    if (!userData[id].lastDaily) userData[id].lastDaily = "Not Collected"; //check if daily collected
-    if (!userData[id].health) userData[id].health = 10; //Health
-    if (!userData[id].currenthealth) userData[id].currenthealth = 0; //Health
-    if (!userData[id].xp) userData[id].xp = 0; //XP
-    if (!userData[id].level) userData[id].level = 1; //XP
-    if (!userData[id].attack) userData[id].attack = 0; //character's attack
-    if (!userData[id].defense) userData[id].defense = 0; //character's defense
-    if (!userData[id].speed) userData[id].speed = 0; //character's speed
-    if (!userData[id].dead) userData[id].dead = false; //character's status (alive/dead)
-    if (!userData[id].start) userData[id].start = false; //character's speed
-    if (!userData[id].triangle) userData[id].triangle = "None"; //character's class
-    if (!userData[id].triangleid) userData[id].triangleid = "0"; //character's class
-    if (!userData[id].trianglemod) userData[id].trianglemod = 1.0; //character's class-based damage modifier.
-    if (!userData[id].weapon && userData[id].weapon != 0) userData[id].weapon = false;
-    if (!userData[id].ability) userData[id].ability = "Ability";
-    if (!userData[id].inventory) userData[id].inventory = {};
-    if (!userData[id].marry) userData[id].marry = "None";
-    if (!userData[id].guild) userData[id].guild = "None";
-    if (!userData[id].guildpos) userData[id].guildpos = "None";
-    if (!userData[id].bolster) userData[id].bolster = false;
-    if (!userData[id].shield) userData[id].shield = ts + 24 * 1000 * 60 * 60;
-    if (!userData[id].materials) userData[id].materials = 0;
-    //if (!userData[id].explosion) userData[id].explosion = 0;
-    //if (!userData[id].box) userData[id].box = 0;
-    if (!userData[id].ascension) userData[id].ascension = 0;
-    if (!userData[id].bounty) userData[id].bounty = 0;
-    //if (!userData[id].sp) userData[id].sp = 0;
-    //if (!userData[id].phoenixfeather) userData[id].phoenixfeather = 0;
-    //if (!userData[id].nametag) userData[id].nametag = 0;
-    //if (!userData[id].reroll) userData[id].reroll = 0;
+    if (user.username != message.author.username) user.username = message.author.username; //Creates object with name as username
+    if (!user.money) user.money = 0; //gives money object
+    if (!user.lastDaily) user.lastDaily = "Not Collected"; //check if daily collected
+    if (!user.health) user.health = 10; //Health
+    if (!user.currenthealth) user.currenthealth = 0; //Health
+    if (!user.xp) user.xp = 0; //XP
+    if (!user.level) user.level = 1; //XP
+    if (!user.attack) user.attack = 0; //character's attack
+    if (!user.defense) user.defense = 0; //character's defense
+    if (!user.speed) user.speed = 0; //character's speed
+    if (!user.dead) user.dead = false; //character's status (alive/dead)
+    if (!user.start) user.start = false; //character's speed
+    if (!user.triangle) user.triangle = "None"; //character's class
+    if (!user.triangleid) user.triangleid = "0"; //character's class
+    if (!user.trianglemod) user.trianglemod = 1.0; //character's class-based damage modifier.
+    if (!user.weapon && user.weapon != 0) user.weapon = false;
+    if (!user.ability) user.ability = "Ability";
+    if (!user.inventory) user.inventory = {};
+    if (!user.marry) user.marry = "None";
+    if (!user.guild) user.guild = "None";
+    if (!user.guildpos) user.guildpos = "None";
+    if (!user.bolster) user.bolster = false;
+    if (!user.shield) user.shield = ts + 24 * 1000 * 60 * 60;
+    if (!user.materials) user.materials = 0;
+    if (!user.ascension) user.ascension = 0;
+    if (!user.bounty) user.bounty = 0;
+    if (!user.glory) user.glory = 0;
+    if (!user.burn) user.burn = 0;
+    if (!user.cooldowns) user.cooldowns = {}
+    if (!user.cooldowns.normal) user.cooldowns.normal = 1;
+    if (!user.cooldowns.attack) user.cooldowns.attack = 1;
+    if (!user.cooldowns.heal) user.cooldowns.heal = 1;
+    if (!user.cooldowns.rez) user.cooldowns.rez = 1;
+    if (!user.cooldowns.work) user.cooldowns.work = 1;
+    if (!user.cooldowns.bolster) user.cooldowns.bolster = 1;
+    if (!user.cooldowns.smeltall) user.cooldowns.smeltall = 1;
+    if (!user.cooldowns.purchase) user.cooldowns.purchase = 1;
+    if (!user.cooldowns.merge) user.cooldowns.merge = 1;
 
-    if (!userData[id].glory) userData[id].glory = 0;
+    if (!user.skills) user.skills = {}
+    if (!user.skillA) user.skillA = "None";
+    if (!user.skillB) user.skillB = "None";
+    if (!user.skillC) user.skillC = "None";
 
-    if (!userData[id].cooldowns) userData[id].cooldowns = {}
-    if (!userData[id].cooldowns.normal) userData[id].cooldowns.normal = 1;
-    if (!userData[id].cooldowns.attack) userData[id].cooldowns.attack = 1;
-    if (!userData[id].cooldowns.heal) userData[id].cooldowns.heal = 1;
-    if (!userData[id].cooldowns.rez) userData[id].cooldowns.rez = 1;
-    if (!userData[id].cooldowns.work) userData[id].cooldowns.work = 1;
-    if (!userData[id].cooldowns.bolster) userData[id].cooldowns.bolster = 1;
-    if (!userData[id].cooldowns.smeltall) userData[id].cooldowns.smeltall = 1;
-    if (!userData[id].cooldowns.purchase) userData[id].cooldowns.purchase = 1;
-    if (!userData[id].cooldowns.merge) userData[id].cooldowns.merge = 1;
+    if (!user.consum) user.consum = {}
+    if (!user.consum.explosion) user.consum.explosion = 0;
+    if (!user.consum.egg) user.consum.egg = 0;
+    if (!user.consum.eggsplosion) user.consum.eggsplosion = 0;
+    if (!user.consum.box) user.consum.box = 0;
+    if (!user.consum.sp) user.consum.sp = 0;
+    if (!user.consum.phoenixfeather) user.consum.phoenixfeather = 0;
+    if (!user.consum.nametag) user.consum.nametag = 0;
+    if (!user.consum.reroll) user.consum.reroll = 0;
 
-    if (!userData[id].skills) userData[id].skills = {}
-    if (!userData[id].skillA) userData[id].skillA = "None";
-    if (!userData[id].skillB) userData[id].skillB = "None";
-    if (!userData[id].skillC) userData[id].skillC = "None";
+    if (user.currenthealth > user.health) user.currenthealth = user.health;
 
-    if (!userData[id].consum) userData[id].consum = {}
-    if (!userData[id].consum.explosion) userData[id].consum.explosion = 0;
-    if (!userData[id].consum.egg) userData[id].consum.egg = 0;
-    if (!userData[id].consum.eggsplosion) userData[id].consum.eggsplosion = 0;
-    if (!userData[id].consum.box) userData[id].consum.box = 0;
-    if (!userData[id].consum.sp) userData[id].consum.sp = 0;
-    if (!userData[id].consum.phoenixfeather) userData[id].consum.phoenixfeather = 0;
-    if (!userData[id].consum.nametag) userData[id].consum.nametag = 0;
-    if (!userData[id].consum.reroll) userData[id].consum.reroll = 0;
-    /*
-	if (userData[id].attack > userData[id].level) userData[id].attack = userData[id].level;
-	if (userData[id].defense > userData[id].level) userData[id].defense = userData[id].level;
-	if (userData[id].health > userData[id].level * 10) userData[id].health = userData[id].level * 10;
-	*/
-    if (userData[id].currenthealth > userData[id].health) userData[id].currenthealth = userData[id].health;
-
-    if (userData[id].start === false) { //when you start, your currenthealth will be to 10;
-        userData[id].currenthealth = 10;
-        userData[id].start = true;
-        //console.log(userData[id].start);
+    if (user.start === false) { //when you start, your currenthealth will be to 10;
+        user.currenthealth = 10;
+        user.start = true;
+        //console.log(user.start);
     }
-    if (admins.indexOf(id) == -1) {
-        if (userData[id].attack > userData[id].level + calcExtraStat(id, "attack")) userData[id].attack = userData[id].level + calcExtraStat(id, "attack"); //prevents overleveling
-        if (userData[id].defense > userData[id].level + calcExtraStat(id, "defense")) userData[id].defense = userData[id].level + calcExtraStat(id, "defense")
-        //extrahp = (userData[id].weapon != false && itemData[userData[id].weapon].modifiers.maxhp != undefined) ? itemData[userData[id].weapon].modifiers.maxhp : 0
-        // if (userData[id].health > userData[id].level * 10 + extrahp) userData[id].health = userData[id].level * 10;
-        if (userData[id].health > userData[id].level * 10 + calcExtraStat(id, "health")) userData[id].health = userData[id].level * 10 + calcExtraStat(id, "health")
+    if (admins.indexOf(user._id) == -1) {
+        if (user.attack > user.level + calcExtraStat(user._id, "attack")) user.attack = user.level + calcExtraStat(user._id, "attack"); //prevents overleveling
+        if (user.defense > user.level + calcExtraStat(user._id, "defense")) user.defense = user.level + calcExtraStat(user._id, "defense")
+        //extrahp = (user.weapon != false && itemData[user.weapon].modifiers.maxhp != undefined) ? itemData[user.weapon].modifiers.maxhp : 0
+        // if (user.health > user.level * 10 + extrahp) user.health = user.level * 10;
+        if (user.health > user.level * 10 + calcExtraStat(user._id, "health")) user.health = user.level * 10 + calcExtraStat(user._id, "health")
     }
+    return user
 }
-function checkStuff(message) {
-    let id = message.author.id
+function checkStuff(message,user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    checkProps(message)
-
-    //userData[id].xp += Math.floor(20 * Math.random() + 1); //whenever a message is sent, their experience increases by a random number 1-25.
-    userData[id].xp += 1 + Math.floor(Math.random() * userData[id].level);
+    checkProps(message,user)
+    //user.xp += Math.floor(20 * Math.random() + 1); //whenever a message is sent, their experience increases by a random number 1-25.
+    user.xp += 1 + Math.floor(Math.random() * user.level);
     let leveluptext = ""
-    if (userData[id].level >= 100) { userData[id].xp = Math.min(Math.floor((3 * Math.pow((userData[id].level + 1), 2) + 100) * Math.pow(1.5, userData[id].ascension)) - 1,userData[id].xp) }
-    while (userData[id].xp >= Math.floor((3 * Math.pow((userData[id].level + 1), 2) + 100) * Math.pow(1.5, userData[id].ascension)) && userData[id].level < 100) { //increases levels when xp>100*level
-        userData[id].xp -= Math.floor((3 * Math.pow((userData[id].level + 1), 2) + 100) * Math.pow(1.5, userData[id].ascension))
-        userData[id].level += 1;
-        leveluptext += "You leveled up to level " + userData[id].level + "!\n"
-        if (userData[id].level === 5 && userData[id].triangle == "None") {
+    if (user.level >= 100) { user.xp = Math.min(Math.floor((3 * Math.pow((user.level + 1), 2)) * Math.pow(1.5, user.ascension)) - 1,user.xp) }
+    while (user.xp >= Math.floor((3 * Math.pow((user.level + 1), 2)) * Math.pow(1.5, user.ascension)) && user.level < 100) { //increases levels when xp>100*level
+        user.xp -= Math.floor((3 * Math.pow((user.level + 1), 2)) * Math.pow(1.5, user.ascension))
+        user.level += 1;
+        leveluptext += "You leveled up to level " + user.level + "!\n"
+        if (user.level === 5 && user.triangle == "None") {
             replyMessage(message, "You are level 5! Use !class to get information on how to choose a **class**!");
         }
-        if (userData[id].level === 15 && (userData[id].triangle == "None" || userData[id].triangleid < 4)) {
+        if (user.level === 15 && (user.triangle == "None" || user.triangleid < 4)) {
             replyMessage(message, "You are level 15! Use !class to get information on how to choose a **subclass**!");
         }
         if (leveluptext.length > 1900) {
@@ -1131,95 +1102,87 @@ function checkStuff(message) {
     }
 
 
-    if (userData[id].currenthealth <= 0) { //If health is 0, you are dead.
-        userData[id].currenthealth = 0;
-        userData[id].dead = true;
+    if (user.currenthealth <= 0) { //If health is 0, you are dead.
+        user.currenthealth = 0;
+        user.dead = true;
     }
-
+    return user;
 }
 
-function checkBurn(message) {
-    let id = message.author.id
+function checkBurn(message,user) {
     //let ts = message.createdTimestamp;
-    if (userData[id].burn != undefined && userData[id].dead == false && !isNaN(userData[id].burn)) {
-        let burndamage = Math.floor(userData[id].health * .05)
-        userData[id].burn -= 1
-        userData[id].currenthealth -= burndamage
-        let burntext = "You took **" + burndamage + "** from burning. (You will burn for "+userData[id].burn+" more commands)"
-        if (userData[id].dead) {
+    if (user.burn != undefined && user.dead == false && !isNaN(user.burn) && user.burn > 0) {
+        let burndamage = Math.floor(user.health * .05)
+        user.burn -= 1
+        user.currenthealth -= burndamage
+        let burntext = "You took **" + burndamage + "** from burning. (You will burn for "+user.burn+" more commands)"
+        if (user.dead) {
             burntext += " You burned to death!"
-            userData[id].dead = true
-            delete userData[id].burn
+            user.dead = true
+            user.burn = 0
             burntext += " The flames have ceased."
         }
-        if (userData[id].burn <= 0 || userData[id].dead == true || isNaN(userData[id].burn)) {
-            delete userData[id].burn
+        if (user.burn <= 0 || user.dead == true || isNaN(user.burn)) {
+            user.burn = 0
             burntext += " The flames have ceased."
         }
         replyMessage(message, burntext)
-    } else if (isNaN(userData[id].burn)) {
-        delete userData[id].burn
+    } else if (isNaN(user.burn)) {
+        user.burn = 0
     }
+    return user
 }
 
-function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
+function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid attack
     isguild = (isguild == true) ? true : false
     isevent = (isevent == true) ? true : false
-    let id = message.author.id;
     let ts = message.createdTimestamp;
     if (raid == undefined || (!isguild && !isevent && message.channel.id == "542171947895881748")) { return }
     if (!raid.attacklist) { raid.attacklist = {} }
 
-    if (userData[id].dead === true) {
+    if (user.dead === true) {
         replyMessage(message, "Corpses can\'t attack! Do !resurrect");
-        return false;
+        return user;
     }
     if (mobData.raid === false && !isguild && !isevent) {
         deleteMessage(message);
         replyMessage(message, "There is no raid right now!");
-        return false;
+        return user;
     }
-    if (calcTime(userData[id].cooldowns.attack, ts) > 0) {
+    if (calcTime(user.cooldowns.attack, ts) > 0) {
         deleteMessage(message);
-        replyMessage(message, 'You can\'t attack right now.\n You can attack again in ' + displayTime(userData[id].cooldowns.attack, ts) + ".");
-        return false;
+        replyMessage(message, 'You can\'t attack right now.\n You can attack again in ' + displayTime(user.cooldowns.attack, ts) + ".");
+        return user;
     }
     if (raid.alive === false) {
         replyMessage(message, "There is no raid going on right now!");
-        return false;
+        return user;
     }
-    if (userData[id].dead == true) {
+    if (user.dead == true) {
         replyMessage(message, "Corpses can\'t attack! Do !resurrect");
-        return false;
+        return user;
     }
-    if (userData[id].level + userData[id].ascension * 10 < raid.level - 15 && !isguild && !isevent) {
+    if (user.level + user.ascension * 10 < raid.level - 15 && !isguild && !isevent) {
         replyMessage(message, "You can't attack bosses with more than 15 levels more than you!");
-        return false;
+        return user;
     }
-    if (userData[id].shield > ts) {
+    if (user.shield > ts) {
         replyMessage(message, "You just attacked! You lost your shield :(");
-        userData[id].shield = 1
+        user.shield = 1
     }
-    if (!raid.attacklist[id]) { raid.attacklist[id] = 0 }
-    let luckybuff = calcLuckyBuff(id)
-    let damage = calcDamage(message, id, -1, id);//ok...
-    damage = Math.floor(1 + 2 * Math.floor(Math.sqrt(damage)));
-    /*let youratk = Math.floor(calcStats(message, id, "attack"));
-    youratk=Math.floor(youratk*Math.random()*0.75+youratk*0.25)
-    let theirdef = 0; //(Math.floor(mobData[message.channel.id].defense * Math.random()));
-    let damage = Math.floor(1 + 2 * Math.floor(Math.sqrt(youratk)));*/
-
-
-    //let theiratk = Math.floor((raid.attack) * Math.random());
-    //let yourdef = (Math.floor(calcStats(message, id, "defense") * Math.random()));
-    let counter = calcDamage(message, raid, id, id);
+    if (!raid.attacklist[user._id]) { raid.attacklist[user._id] = 0 }
+    let luckybuff = calcLuckyBuff(user._id)
+    let arr = calcDamage(message, user, raid, user);//ok...
+    user = arr[0];
+    raid = arr[1];
+    let damage = arr[2]
+    arr = calcDamage(message, raid, user, user);//ok...
+    user = arr[1];
+    raid = arr[0];
+    let counter = arr[2];
     if (raid.name == "Cerberus") {
-        for (var i = 0; i < 2 * Math.random() ; i++) {
-            counter += calcDamage(message, raid, id, id);
-        }
-        sendMessage(message.channel, "Cerberus attacked " + i + " times!")
+        counter*=3;
     }
-
     if (damage < 0) {
         damage = 0;
     }
@@ -1228,15 +1191,15 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
     }
     let damagereward = Math.floor(damage * raid.level * Math.random() * luckybuff);
     if (!isevent) { damagereward *= 5 }
-    userData[id].currenthealth = userData[id].currenthealth - counter;
+    user.currenthealth = user.currenthealth - counter;
     raid.currenthealth = raid.currenthealth - damage;
-    let counterstolen = Math.floor((userData[id].money) / 5);
-    if (!raid.attacklist[id]) { raid.attacklist[id] = 0 }
-    raid.attacklist[id] += damagereward
-    //userData[id].money += damagereward;
-    userData[id].xp += damagereward;
-    if (userData[id].currenthealth > userData[id].health) {
-        userData[id].currenthealth = userData[id].health
+    let counterstolen = Math.floor((user.money) / 5);
+    if (!raid.attacklist[user._id]) { raid.attacklist[user._id] = 0 }
+    raid.attacklist[user._id] += damagereward
+    //user.money += damagereward;
+    user.xp += damagereward;
+    if (user.currenthealth > user.health) {
+        user.currenthealth = user.health
     }
 
     sendMessage(message.channel, {
@@ -1248,14 +1211,14 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
             fields: [
                 /*{
                     name: "Attack Results",
-                    value: '<@' + id + "> attacks a Lv." + raid.level + " " + raid.name + "!",
+                    value: '<@' + user._id + "> attacks a Lv." + raid.level + " " + raid.name + "!",
                 },*/
                 {
                     name: "Attack Results",
-                    value: '<@' + id + "> attacks a Lv." + raid.level + " " + raid.name + "!\n" + raid.name + " took **" + damage + "** damage! It has " + raid.currenthealth + " Health remaining! You earned " + damagereward + " xp!",
+                    value: '<@' + user._id + "> attacks a Lv." + raid.level + " " + raid.name + "!\n" + raid.name + " took **" + damage + "** damage! It has " + raid.currenthealth + " Health remaining! You earned " + damagereward + " xp!",
                 }, {
                     name: "Counter Results",
-                    value: "<@" + id + "> took **" + counter + "** counterdamage! You have " + userData[id].currenthealth + " Health remaining!",
+                    value: "<@" + user._id + "> took **" + counter + "** counterdamage! You have " + user.currenthealth + " Health remaining!",
                 }
             ]
         }
@@ -1265,30 +1228,63 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
         raid.alive = false;
         //raid.raid = false;
         let keys = Object.keys(raid.attacklist);
-        luckyperson = keys[Math.floor(keys.length * Math.random())]
+        let tasks = [];
+        let luckyperson = keys[Math.floor(Math.random()*keys.length)]
         if (isevent) {
+            
             let listtotal = 0;
             for (var i = 0; i < keys.length; i++) {
-                let user = keys[i];
-                userData[user].money += raid.attacklist[user];
-                listtotal += raid.attacklist[user];
+                listtotal += raid.attacklist[keys[i]];
             }
             for (var i = 0; i < keys.length; i++) {
-                if (userData[keys[i]].ascension > 0) {
-                    userData[keys[i]].glory += (raid.level / 25) * (raid.attacklist[keys[i]] / listtotal);
-                }
+                tasks.push({
+                    updateOne:
+                    {
+                        "filter": { _id: keys[i] },
+                        "update": {
+                            $add: {
+                                "money": raid.attacklist[keys[i]],
+                                "glory": (raid.level / 25) * (raid.attacklist[keys[i]] / listtotal)
+                            }
+                        }
+                    }
+                })
             }
             for (var k = 0; k < 2; k++) {
                 var i = Math.floor(Math.random() * keys.length)
-                userData[keys[i]].consum["reroll"]+= 1;
-                text += "<@" + keys[i] + "> was lucky and recieved a skill reroll!\n"
+                if (keys[i] == user._id) {
+                    user.consum.reroll += 1;
+                } else {
+                    tasks.push({
+                        updateOne:
+                        {
+                            "filter": { _id: keys[i] },
+                            "update": {
+                                $add: {
+                                    "consum.reroll": 1
+                                }
+                            }
+                        }
+                    })
+                }
+                text += "<@" + keys[i] + "> was lucky and recieved a skill reroll!\n";
             }
         } else {
             for (var i = 0; i < keys.length; i++) {
-                let user = keys[i];
-                userData[user].money += raid.attacklist[user];
+                tasks.push({
+                    updateOne:
+                    {
+                        "filter": { _id: keys[i] },
+                        "update": {
+                            $add: {
+                                "money": raid.attacklist[keys[i]],
+                            }
+                        }
+                    }
+                })
             }
         }
+        client.db("current").collection("userData").bulkWrite(tasks)
         let itemfound = "none";
         if (!isguild) {
             let itemid = 0
@@ -1308,110 +1304,23 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
                         rarity = 5
                     }
                 }
-                
-                if (raid.level > 75) {
-                    let where = [" in the boss's corpse", " in a treasure chest", " randomly", " because they felt like it", " rotting in a pile", " in a tunnel", " in a cave", " in the boss's stomach", " hit them on the head", " drop from the sky"];
-                    let location = where[Math.floor(Math.random() * where.length)];
-                    let roll = Math.random()
-                    if (roll > 0.995) {
-                        userData[luckyperson].consum["reroll"] +=1;
-                        itemfound = 1 + " **SKILL REROLL** " + location;
-                    }
-                    else if (roll > 0.98) {
-                        let feathersfound = Math.floor(1 + Math.random() * 3);
-                        userData[luckyperson].consum["phoenixfeather"]+=feathersfound;
-                        itemfound = feathersfound + " Phoenix Feather(s) " + location;
-                    }
-                    else if (roll > 0.96) {
-                        let boxesfound = Math.floor(1 + Math.random() * 5);
-                        userData[luckyperson].consum["box"]+=boxesfound;
-                        itemfound = boxesfound + " Box(es) " + location;
-                    }
-                    else if (roll > 0.9) {
-                        let materialsfound = Math.floor(1001 + Math.random() * 4000);
-                        userData[luckyperson].materials += materialsfound;
-                        itemfound = materialsfound + " Material(s) " + location;
-                    } else if (roll > 0.8) {
-                        let materialsfound = Math.floor(10001 + Math.random() * 40000);
-                        userData[luckyperson].money += materialsfound;
-                        itemfound = materialsfound + " Money(s) " + location;
-                    } 
-                }
-                else if (raid.level >= 100) {
-                    let where = [" in the boss's corpse", " in a treasure chest", " randomly", " because they felt like it", " rotting in a pile", " in a tunnel", " in a cave", " in the boss's stomach", " hit them on the head", " drop from the sky"];
-                    let location = where[Math.floor(Math.random() * where.length)];
-                    let roll = Math.random()
-                    if (roll > 0.99) {
-                        let materialsfound = 1;
-                        userData[luckyperson].reroll += materialsfound;
-                        itemfound = materialsfound + " **SKILL REROLL** " + location;
-                    }
-                    else if (roll > 0.97) {
-                        let feathersfound = Math.floor(1 + Math.random() * 3);
-                        userData[luckyperson].consum.phoenixfeather += feathersfound;
-                        itemfound = feathersfound + " Phoenix Feather(s) " + location;
-                    }
-                    else if (roll > 0.9475) {
-                        let boxesfound = Math.floor(1 + Math.random() * 5);
-                        userData[luckyperson].consum.box += materialsfound;
-                        itemfound = boxesfound + " Box(es) " + location;
-                    }
-                    else if (roll > 0.85) {
-                        let materialsfound = Math.floor(1001 + Math.random() * 4000);
-                        userData[luckyperson].materials += materialsfound;
-                        itemfound = materialsfound + " Material(s) " + location;
-                    } else if (roll > 0.75) {
-                        let materialsfound = Math.floor(10001 + Math.random() * 40000);
-                        userData[luckyperson].money += materialsfound;
-                        itemfound = materialsfound + " Money(s) " + location;
-                    }
-                }
-                else if (raid.level >= 150) {
-                    let where = [" in the boss's corpse", " in a treasure chest", " randomly", " because they felt like it", " rotting in a pile", " in a tunnel", " in a cave", " in the boss's stomach", " hit them on the head", " drop from the sky"];
-                    let location = where[Math.floor(Math.random() * where.length)];
-                    let roll = Math.random()
-                    if (roll > 0.985) {
-                        let materialsfound = 1;
-                        userData[luckyperson].consum.reroll += materialsfound;
-                        itemfound = materialsfound + " **SKILL REROLL** " + location;
-                    }
-                    else if (roll > 0.965) {
-                        let feathersfound = Math.floor(1 + Math.random() * 3);
-                        userData[luckyperson].consum.phoenixfeather += feathersfound;
-                        itemfound = feathersfound + " Phoenix Feather(s) " + location;
-                    }
-                    else if (roll > 0.94) {
-                        let boxesfound = Math.floor(1 + Math.random() * 5);
-                        userData[luckyperson].consum.box += boxesfound;
-                        itemfound = boxesfound + " Box(es) " + location;
-                    }
-                    else if (roll > 0.85) {
-                        let materialsfound = Math.floor(1001 + Math.random() * 4000);
-                        userData[luckyperson].materials += materialsfound;
-                        itemfound = materialsfound + " Material(s) " + location;
-                    } else if (roll > 0.66666) {
-                        let materialsfound = Math.floor(10001 + Math.random() * 40000);
-                        userData[luckyperson].money += materialsfound;
-                        itemfound = materialsfound + " Money(s) " + location;
-                    }
-                }
                 //console.log(rarity)
-                itemid = generateRandomItem(id, rarity)
+                itemid = generateRandomItem(user, rarity)
             } else {
                 itemid = raid.itemReward
-                userData[id].inventory[itemid] = itemid
-                itemData[raid.itemReward].owner = id
+                user.inventory[itemid] = itemid
+                itemData[raid.itemReward].owner = user._id
             }
             //text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and a " + rarities[itemData[itemid].rarity] + " " + itemData[itemid].attack + "/" + itemData[itemid].defense + " weapon (ID: " + itemid + ").\n";
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and a " + itemData[itemid].attack + "/" + itemData[itemid].defense + " " + itemData[itemid].name + " (ID: " + itemid + ").\n";
         } else {
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\nThe guild was also given "+ raid.reward + " xp and "+raid.crystalreward+" crystals.\n"
-            guildData[userData[id].guild].xp += raid.reward
-            guildData[userData[id].guild].crystals += raid.crystalreward
+            guildData[user.guild].xp += raid.reward
+            guildData[user.guild].crystals += raid.crystalreward
         }
 
-        userData[id].money += Math.floor(luckybuff * raid.reward);
-        userData[id].xp += Math.floor(luckybuff * raid.reward);
+        user.money += Math.floor(luckybuff * raid.reward);
+        user.xp += Math.floor(luckybuff * raid.reward);
 
         if (itemfound != "none") {
             text += "<@" + luckyperson + "> also found " + itemfound + "! "
@@ -1419,10 +1328,10 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
 
         text += "Rewards have been given to everyone who participated in the raid!\n"
 
-        if (userData[id].currenthealth > 0 && hasSkill(id, 15)) { //soulsteal skill in raids.
-            userData[id].currenthealth += raid.maxhealth
-            text += "Soulsteal activated. <@" + id + "> has stolen " + raid.maxhealth + " health.";
-            userData[id].currenthealth = Math.min(userData[id].currenthealth, userData[id].health)
+        if (user.currenthealth > 0 && hasSkill(user._id, 15)) { //soulsteal skill in raids.
+            user.currenthealth += raid.maxhealth
+            text += "Soulsteal activated. <@" + user._id + "> has stolen " + raid.maxhealth + " health.";
+            user.currenthealth = Math.min(user.currenthealth, user.health)
         }
 
         //generateItem(id, itemid, weaponatk, weapondef, rarity, rarities[rarity] + " Sword", []) //I, as a Java student, am jealous of the lack of semicolons lmao
@@ -1448,20 +1357,21 @@ function raidAttack(message, raid, resummon, isguild, isevent) { //raid attack
             }, 30000)
         }
     }
-    if (userData[id].currenthealth <= 0) {
-        userData[id].dead = true;
-        userData[id].currenthealth = 0;
-        userData[id].money -= counterstolen;
-        text += '<@' + id + '> was killed in the raid! He/she lost $' + counterstolen;
-        if (userData[id].glory != undefined) {
-            userData[id].glory *= 0.999
+    if (user.currenthealth <= 0) {
+        user.dead = true;
+        user.currenthealth = 0;
+        user.money -= counterstolen;
+        text += '<@' + user._id + '> was killed in the raid! He/she lost $' + counterstolen;
+        if (user.glory != undefined) {
+            user.glory *= 0.999
         }
     }
     if (text != "") { sendMessage(message.channel, text) }
-    setCD(id, ts, attackcd * 60, "attack");
-    userData[id].speed += 1;
+    setCD(user._id, ts, attackcd * 60, "attack");
+    user.speed += 1;
+    return user;
 }
-function smeltItem(id, weaponid, givereward) {
+function smeltItem(user, weaponid, givereward) {
     givereward = (givereward == false) ? false : true
     let rarity = itemData[weaponid].rarity
     let materials = 0
@@ -1471,21 +1381,20 @@ function smeltItem(id, weaponid, givereward) {
         materials = Math.pow(5, rarity)
         money = rarity * rarity * 1000
         xp = rarity * rarity * 1000
-        userData[id].materials += materials
-        userData[id].money += money
-        userData[id].xp += xp
+        user.materials += materials
+        user.money += money
+        user.xp += xp
     }
-    delete userData[id].inventory[weaponid];
+    delete user.inventory[weaponid];
     delete itemData[weaponid];
     return [xp, money, materials]
 }
 
-function itemFilter(message, defaults) {
+function itemFilter(message, user, defaults) {
     if (defaults == undefined) { defaults = {} }
-    let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    let userInv = userData[id].inventory
+    let userInv = user.inventory
     let minrarity = (defaults.minrarity == undefined) ? 0 : defaults.minrarity
     let maxrarity = (defaults.maxrarity == undefined) ? 9 : defaults.maxrarity
     let fav = (defaults.fav == undefined) ? "None" : defaults.fav
@@ -1513,10 +1422,9 @@ function itemFilter(message, defaults) {
     if (words.indexOf("-unique") != -1) {
         unique = true
     }
-    //console.log(userData[id].weapon)
     displayItems = []
-    if (userData[id].weapon != false && userData[id].weapon != "None" && defaults.equip != false) {
-        displayItems.push(userData[id].weapon)
+    if (user.weapon != false && user.weapon != "None" && defaults.equip != false) {
+        displayItems.push(user.weapon)
     }
 
     for (var item in userInv) {
@@ -1524,7 +1432,7 @@ function itemFilter(message, defaults) {
         //console.log(itemData[item])
         let itemID = item.toString();
         if (!unique && itemData[itemID].rarity == "Unique") { continue }
-        if (itemData[itemID] == undefined || item == userData[id].weapon || userData[id].inventory[item] != item || itemData[itemID].rarity < minrarity || itemData[itemID].rarity > maxrarity) continue
+        if (itemData[itemID] == undefined || item == user.weapon || user.inventory[item] != item || itemData[itemID].rarity < minrarity || itemData[itemID].rarity > maxrarity) continue
         if (fav == true && itemData[itemID].favorite == false) { continue }
         if (fav == false && itemData[itemID].favorite == true) { continue }
         displayItems.push(item)
@@ -1535,6 +1443,7 @@ module.exports.clean = function (text) { return clean(text) }
 module.exports.getUser = function (id) { return getUser(id) }
 module.exports.setProp = function (coll, query, newvalue) { return setProp(coll, query, newvalue) }
 module.exports.setUser = function (newuser) { return setUser(newuser) }
+module.exports.deleteUser = function (uid) { return deleteUser(uid) }
 module.exports.sendMessage = function (channel, text, override) { return sendMessage(channel, text, override) }
 module.exports.replyMessage = function (message, text, override) { return replyMessage(message, text, override) }
 module.exports.deleteMessage = function (message) { return deleteMessage(message) }
@@ -1542,32 +1451,31 @@ module.exports.dmUser = function (user, text) { return dmUser(user, text) }
 module.exports.logCommand = function (message, extratext) { return logCommand(message, extratext) }
 module.exports.writeData = function (folder) { return writeData(folder) }
 module.exports.validate = function (message, spot) { return validate(message, spot) }
-module.exports.generateWeaponTemplate = function (weaponid, current, total) { return generateWeaponTemplate(weaponid, current, total) }
+module.exports.generateWeaponTemplate = function (owner, weaponid, current, total) { return generateWeaponTemplate(owner, weaponid, current, total) }
 module.exports.generateGuildTemplate = function (guild) { return generateGuildTemplate(guild) }
 module.exports.generateItem = function (owner, itemid, attack, defense, rarity, name, modifiers) { return generateItem(owner, itemid, attack, defense, rarity, name, modifiers) }
 module.exports.generateRandomItem = function (owner, rarity) { return generateRandomItem(owner, rarity) }
-module.exports.calcExtraStat = function (id, stat) { return calcExtraStat(id, stat) }
-module.exports.calcLuckyBuff = function (id) { return calcLuckyBuff(id) }
+module.exports.calcExtraStat = function (user, stat) { return calcExtraStat(user, stat) }
+module.exports.calcLuckyBuff = function (user) { return calcLuckyBuff(user) }
 module.exports.errorlog = function (text) { return errorlog(text) }
-module.exports.setCD = function (id, ts, cdsecs, cdname) { return setCD(id, ts, cdsecs, cdname) }
+module.exports.setCD = function (user, ts, cdsecs, cdname) { return setCD(user, ts, cdsecs, cdname) }
 module.exports.calcTime = function (time1, time2) { return calcTime(time1, time2) }
 module.exports.displayTime = function (time1, time2) { return displayTime(time1, time2) }
 module.exports.extractTime = function (timeword) { return extractTime(timeword) }
 module.exports.calcDamage = function (message, attacker, defender, initiator) { return calcDamage(message, attacker, defender, initiator) }
-module.exports.calcStats = function (message, id, stat, skillenable) { return calcStats(message, id, stat, skillenable) }
+module.exports.calcStats = function (message, user, stat, skillenable, confused) { return calcStats(message, user, stat, skillenable, confused) }
 module.exports.voteItem = function (message, dm) { return voteItem(message, dm) }
-module.exports.craftItems = function (message, minrarity, maxrarity, amount) { return craftItems(message, minrarity, maxrarity, amount) }
-module.exports.craftItem = function (message, minrarity, maxrarity, reply) { return craftItem(message, minrarity, maxrarity, reply) }
+module.exports.craftItems = function (message, owner, minrarity, maxrarity, amount) { return craftItems(message, owner, minrarity, maxrarity, amount) }
+module.exports.craftItem = function (message, owner, minrarity, maxrarity, reply) { return craftItem(message, owner, minrarity, maxrarity, reply) }
 module.exports.raidInfo = function (message, raid) { return raidInfo(message, raid) }
 module.exports.summon = function (channel, minlevel, maxlevel, name, image) { return summon(channel, minlevel, maxlevel, name, image) }
-module.exports.checkProps = function (message) { return checkProps(message) }
-module.exports.checkStuff = function (message) { return checkStuff(message) }
-module.exports.checkBurn = function (message) { return checkBurn(message) }
-module.exports.raidAttack = function (message, raid, resummon, isguild, isevent) { return raidAttack(message, raid, resummon, isguild, isevent) }
-module.exports.smeltItem = function (id, weaponid, giveReward) { return smeltItem(id, weaponid, giveReward) }
-module.exports.duelCheckDeath = function (message, id, otherID, ts) { return duelCheckDeath(message, id, otherID, ts) }
-module.exports.hasSkill = function (id, skillid) { return hasSkill(id, skillid) }
-module.exports.itemFilter = function (message, defaults) { return itemFilter(message, defaults) }
+module.exports.checkProps = function (message,user) { return checkProps(message,user) }
+module.exports.checkStuff = function (message,user) { return checkStuff(message,user) }
+module.exports.checkBurn = function (message,user) { return checkBurn(message,user) }
+module.exports.raidAttack = function (message, user, raid, resummon, isguild, isevent) { return raidAttack(message, user, raid, resummon, isguild, isevent) }
+module.exports.smeltItem = function (user, weaponid, giveReward) { return smeltItem(user, weaponid, giveReward) }
+module.exports.hasSkill = function (user, skillid, enable) { return hasSkill(user, skillid, enable) }
+module.exports.itemFilter = function (message, user, defaults) { return itemFilter(message, user, defaults) }
 module.exports.consumGive = function (target, item, amount) { return consumGive(target, item, amount) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
