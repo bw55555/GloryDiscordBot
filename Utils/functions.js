@@ -272,6 +272,7 @@ function generateItem(owner, itemid, attack, defense, rarity, name, modifiers) {
     let item = { "owner": owner, "id": itemid, "attack": attack, "defense": defense, "rarity": rarity, "modifiers": modifiers, "name": name, "enhancementlevel": 0, "maxenhancement": maxenhance, "enhancementattempts": 0, "favorite": false, "merge": 0 }
     itemData[itemid] = item;
     itemData.next++;
+    return owner;
 }
 
 function generateRandomItem(owner, rarity) {
@@ -299,7 +300,7 @@ function generateRandomItem(owner, rarity) {
     let defense = total - attack
 
     generateItem(owner, itemid, attack, defense, rarity, undefined, undefined)
-    return itemid
+    return [owner,itemid]
 }
 function calcExtraStat(id, stat) {
     const statlevels = { "health": 100, "attack": 10, "defense": 10 }
@@ -333,7 +334,8 @@ function errorlog(text) {
 function setCD(id, ts, cdsecs, cdname) {
     if (userData[id].cooldowns[cdname] == undefined) { errorlog("Something went wrong with setCD. " + cdname + " not defined." + id + "|" + ts) }
     if (userData[id].weapon != false && itemData[userData[id].weapon].modifiers.haste != undefined) { cdsecs -= parseInt(itemData[userData[id].weapon].modifiers.haste) }
-    userData[id].cooldowns[cdname] = ts+cdsecs*1000
+    userData[id].cooldowns[cdname] = ts + cdsecs * 1000
+    return user
 }
 function calcTime(time1, time2) {
     return Math.floor((time1 - time2) / 1000)
@@ -698,7 +700,7 @@ function calcDamage(message, attacker, defender, initiator) {
 
 
     if (text != "") { sendMessage(message.channel, text) }
-    return truedamage
+    return [attacker,defender,truedamage]
 }
 function calcStats(message, id, stat, skillenable,confused) {
     skillenable = (skillenable == false) ? false : true
@@ -941,18 +943,17 @@ function craftItems(message, minrarity, maxrarity, amount) {
         return ""
     }
 }
-function craftItem(message, minrarity, maxrarity, reply) {
+function craftItem(message,owner, minrarity, maxrarity, reply) {
     reply = (reply == false) ? false : true
-    let target = message.author.id
     let itemid = 0
     if (minrarity == -1 || maxrarity == -1) {
         itemid = generateRandomItem(target)
     } else {
         let rarity = Math.floor((maxrarity - minrarity + 1) * Math.random() + minrarity)
-        itemid = generateRandomItem(target, rarity)
+        itemid = generateRandomItem(owner, rarity)
     }
     if (reply) sendMessage(message.channel, "<@" + target + "> has recieved an item with id " + itemid + " and of rarity " + itemData[itemid].rarity)
-    return itemid
+    return [owner,itemid]
 }
 function raidInfo(message, raid) {
     let itemRewardText = ""

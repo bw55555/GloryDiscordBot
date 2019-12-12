@@ -6,7 +6,7 @@ function isFloat(arg) {
   }
   return true
 }
-module.exports=function(message) {
+module.exports = function (message,user) {
   let id = message.author.id;
   let ts = message.createdTimestamp;
   let words = message.content.trim().split(/\s+/)

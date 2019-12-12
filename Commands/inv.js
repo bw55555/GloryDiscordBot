@@ -1,6 +1,6 @@
 /*var functions = require("../Utils/functions.js")
 var display = require("../Utils/display.js")
-module.exports = function (message) {
+module.exports = function (message,user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.split(/\s+/)
@@ -9,7 +9,7 @@ module.exports = function (message) {
 }*/
 
 var functions = require("../Utils/functions.js")
-module.exports = function (message) {
+module.exports = function (message,user) {
     let id = message.author.id;
     //let ts = message.createdTimestamp;
     //let words = message.content.trim().split(/\s+/)

@@ -1,5 +1,5 @@
 var functions = require("../Utils/functions.js")
-module.exports = function (message) {
+module.exports = function (message,user) {
     return;
     functions.replyMessage(message, "Let's pray it works");
     

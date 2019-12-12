@@ -1,6 +1,5 @@
 var functions = require("../Utils/functions.js")
-module.exports = function (message) 
-{
+module.exports = function (message,user) {
     let id = message.author.id;
     if (userData[id].spells == undefined) {return;}
 
