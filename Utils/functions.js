@@ -115,13 +115,14 @@ async function validate(message, spot) {
         target = temptarget.id
         targetname = temptarget
     }
-    return functions.getUser(target).then(user => {
+    if (target == message.author.id) { return sendMessage(message.channel, "Please do not select yourself")}
+    return getUser(target).then(user => {
         if (user == undefined) {
             //Send fail message here
             sendMessage(message.channel, targetname + " is not a real person");
             return false;
         }
-        return target
+        return user
     })
 }
 function hasSkill(user, skillid, enable) {
