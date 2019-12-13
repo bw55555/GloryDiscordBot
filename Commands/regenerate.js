@@ -4,7 +4,9 @@ module.exports = async function (message,user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     if (functions.hasSkill(user, 24)) {
-        return Promise.all([functions.validate(message)]).then(ret => {
+        let spot = 1
+        if (words.length == 1) { spot = 0 }
+        return Promise.all([functions.validate(message, spot)]).then(ret => {
             let target = ret[0];
             if (words.length == 1) { target = user }
             if (target == false) { return }
