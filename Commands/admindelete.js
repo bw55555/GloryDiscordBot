@@ -2,7 +2,7 @@ var functions = require("../Utils/functions.js")
 module.exports = async function (message,user) {
     let id = message.author.id;
     if (devs.indexOf(id) == -1) { return user; }
-    return Promise.all([functions.validate(message)]).then(ret => {
+    return Promise.all([functions.validate(message,user)]).then(ret => {
         let target = ret[0];
         if (target == false) { return user; }
         return functions.MessageAwait(message.channel, id, "Are you sure you want to delete <@" + target._id + ">'s character? This is an irreversible action.\nIf you are sure, type `confirm`", "confirm", function (response, extraArgs) {

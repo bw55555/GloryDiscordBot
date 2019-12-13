@@ -16,7 +16,7 @@ module.exports = async function (message,user) {
         return user;
     }
     if (words.length == 2) {
-        return Promise.all([functions.validate(message)]).then(ret => {
+        return Promise.all([functions.validate(message,user)]).then(ret => {
             target = ret[0]
             if (target == false) {
                 return user;

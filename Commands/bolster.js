@@ -23,7 +23,7 @@ module.exports = async function (message,user) {
         functions.replyMessage(message, "You have bolstered yourself!");
         functions.setCD(user, ts, bolstercd * 60, "bolster")
     } else if (words.length == 2) {
-        return Promise.all([functions.validate(message)]).then(ret => {
+        return Promise.all([functions.validate(message,user)]).then(ret => {
             let target = ret[0];
             if (target == false) {
                 return;

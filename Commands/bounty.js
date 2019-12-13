@@ -103,7 +103,7 @@ module.exports = function (message,user) {
     return;
     }
     //console.log(words);
-    let target = functions.validate(message)
+    let target = functions.validate(message,user)
     if (target == false) { return; }
     //console.log(target);
     //console.log(target);

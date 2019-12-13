@@ -28,7 +28,7 @@ module.exports = async function (message, user) {
         if (functions.calcTime(user.cooldowns.rez, ts) > 0) {
             return functions.replyMessage(message, 'You can\'t rez right now. You can only rez once every minute.');
         }
-        return Promise.all([functions.validate(message)]).then(ret => {
+        return Promise.all([functions.validate(message,user)]).then(ret => {
             let target = ret[0];
             if (target == false) {
                 return;

@@ -88,7 +88,7 @@ function logCommand(message, extratext) {
     sendMessage(bot.guilds.get(debugGuildId).channels.get(debugChannelId), clean(message.author.id + "|" + message.content + "|" + message.createdTimestamp + extratext))
 }
 
-async function validate(message, spot) {
+async function validate(message, user, spot) {
     if (isNaN(parseInt(spot))) { spot = 1 }
     if (spot == 0) { return false; }
     let words = message.content.trim().split(/\s+/)
@@ -115,7 +115,7 @@ async function validate(message, spot) {
         target = temptarget.id
         targetname = temptarget
     }
-    if (target == message.author.id) { return sendMessage(message.channel, "Please do not select yourself")}
+    if (target == message.author.id) { return user}
     return getUser(target).then(user => {
         if (user == undefined) {
             //Send fail message here
@@ -871,7 +871,7 @@ async function voteItem(message, dm) {
     dm = dm == true ? true : false
     let ts = message.createdTimestamp
     let words = message.content.trim().split(/\s+/)
-    return validate(message).then(target => {
+    return validate(message,user).then(target => {
         if (target == false) { return }
         let text = ""
         if (target.votestreak == undefined) { target.votestreak = 0 }
@@ -1426,7 +1426,7 @@ module.exports.deleteMessage = function (message) { return deleteMessage(message
 module.exports.dmUser = function (user, text) { return dmUser(user, text) }
 module.exports.logCommand = function (message, extratext) { return logCommand(message, extratext) }
 module.exports.writeData = function (folder) { return writeData(folder) }
-module.exports.validate = function (message, spot) { return validate(message, spot) }
+module.exports.validate = function (message, user, spot) { return validate(message, user, spot) }
 module.exports.generateWeaponTemplate = function (owner, weaponid, current, total) { return generateWeaponTemplate(owner, weaponid, current, total) }
 module.exports.generateGuildTemplate = function (guild) { return generateGuildTemplate(guild) }
 module.exports.generateItem = function (owner, itemid, attack, defense, rarity, name, modifiers) { return generateItem(owner, itemid, attack, defense, rarity, name, modifiers) }

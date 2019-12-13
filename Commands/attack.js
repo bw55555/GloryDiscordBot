@@ -13,7 +13,7 @@ module.exports = async function (message,user) {
         functions.replyMessage(message, "Corpses can\'t attack! Do !resurrect");
         return;
     }
-    return Promise.all([functions.validate(message)]).then(ret => {
+    return Promise.all([functions.validate(message,user)]).then(ret => {
         let target = ret[0];
         if (target == false) {
             return;

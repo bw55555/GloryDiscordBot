@@ -78,7 +78,7 @@ module.exports = async function (message,user) {
             functions.replyMessage(message, "You must be the leader to invite someone!");
             return;
         }
-        let target = functions.validate(message,2);
+        let target = functions.validate(message,user,2);
         if (target == false) {
             functions.replyMessage(message, "You can't invite rocks!");
             return;
@@ -144,7 +144,7 @@ module.exports = async function (message,user) {
             functions.replyMessage(message, "Only the leader can kick others!")
             return;
         }
-        let target = functions.validate(message,2);
+        let target = functions.validate(message,user,2);
         if (target == false) {
             functions.replyMessage(message, "You can't kick a rock! (Well you can, but I wouldn't)");
             return;

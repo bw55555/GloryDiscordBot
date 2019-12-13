@@ -8,7 +8,7 @@ module.exports = async function (message, user) {
         functions.sendMessage(message.channel, "Syntax: !adminset user attribute value");
         return user;
     }
-    return Promise.all([functions.validate(message)]).then(ret => {
+    return Promise.all([functions.validate(message,user)]).then(ret => {
         let target = ret[0];
         if (target == false) { return user; }
         let amount = words[3];

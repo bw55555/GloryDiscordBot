@@ -6,7 +6,7 @@ module.exports = async function (message,user) {
     if (admins.indexOf(id) == -1) { return user}
     if (words.length != 4) { functions.sendMessage(message.channel, "!adminconsum [target] [item] [amount]");return user;}
 
-    return Promise.all([functions.validate(message)]).then(ret => {
+    return Promise.all([functions.validate(message,user)]).then(ret => {
         let target = ret[0];
         if(target == false) { return user; }
         var item = words[2]

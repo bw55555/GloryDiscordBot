@@ -20,7 +20,7 @@ module.exports = async function (message,user) {
         functions.sendMessage(message.channel, "Please specify a user.")
         return user
     }
-    return Promise.all([functions.validate(message)]).then(ret => {
+    return Promise.all([functions.validate(message,user)]).then(ret => {
         let target = ret[0]
         if (words[1] == "event") { target = "event"}
         if (target == false) { return user }

@@ -8,7 +8,7 @@ module.exports = async function (message,user) {
         functions.replyMessage(message, "You're dead. Do !resurrect");
         return;
     }
-    return Promise.all([functions.validate(message)]).then(ret => {
+    return Promise.all([functions.validate(message,user)]).then(ret => {
         let target = ret[0];
         if (target == false) {
             return;

@@ -12,7 +12,7 @@ module.exports = async function (message, user) {
         return;
     }
     if (words.length > 1) {
-        return Promise.all([functions.validate(message)]).then(ret => {
+        return Promise.all([functions.validate(message,user)]).then(ret => {
             let target = ret[0];
             if (target == false) { return }
             let maxheal = user.health

@@ -128,7 +128,7 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You must be the Leader or a Co-Leader to invite someone!");
             return;
         }
-        return Promise.all([functions.validate(message, 2)]).then(ret => {
+        return Promise.all([functions.validate(message,user, 2)]).then(ret => {
             let target = ret[0];
             if (target == false) {
                 functions.replyMessage(message, "You can't invite rocks!");
@@ -241,7 +241,7 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "Only Leaders and Co-Leaders can give money from the guild bank!")
             return;
         }
-        return Promise.all([functions.validate(message, 2)]).then(ret => {
+        return Promise.all([functions.validate(message,user, 2)]).then(ret => {
             let target = ret[0];
             if (target == false) {
                 functions.replyMessage(message, "You can't pay a rock!");
@@ -292,7 +292,7 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "Only Leaders can promote others!")
             return;
         }
-        return Promise.all([functions.validate(message, 2)]).then(ret => {
+        return Promise.all([functions.validate(message,user, 2)]).then(ret => {
             let target = ret[0];
             if (target == false) {
                 functions.replyMessage(message, "You can't promote a rock!");
@@ -315,7 +315,7 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "Only Leaders can demote others!")
             return;
         }
-        return Promise.all([functions.validate(message, 2)]).then(ret => {
+        return Promise.all([functions.validate(message,user, 2)]).then(ret => {
             let target = ret[0];
             if (target == false) {
                 functions.replyMessage(message, "You can't demote a rock!");
@@ -340,7 +340,7 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "Only Leaders and Co-Leaders can kick others!")
             return;
         }
-        return Promise.all([functions.validate(message, 2)]).then(ret => {
+        return Promise.all([functions.validate(message,user, 2)]).then(ret => {
             let target = ret[0];
             if (target == false) {
                 functions.replyMessage(message, "You can't kick a rock! (Well you can, but I wouldn't)");
