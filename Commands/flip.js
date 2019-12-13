@@ -22,18 +22,18 @@ module.exports = async function (message,user) {
     return;
   }
   amount = parseInt(words[2]);
-  if (amount <= userData[id].money && amount > 0) {
+  if (amount <= user.money && amount > 0) {
     if (Math.random() > .6) {
       let coin = (tipside == "HEADS") ? "heads" : "tails" //if call heads then set coin to heads, else set coin to tails
       //console.log(tipside + ":" + coin)
       functions.sendMessage(message.channel, 'It was ' + coin + '! You won $' + amount + '!');
-      userData[id].money += amount;
+      user.money += amount;
     } else {
       let coin = (tipside == "HEADS") ? "tails" : "heads" //if call heads then set coin to tails, else set coin to heads
       functions.sendMessage(message.channel, 'It was ' + coin + '! You lost $' + amount + '!');
-      userData[id].money -= amount;
+      user.money -= amount;
     }
-  } else if (amount > userData[id].money || amount <= 0) {
+  } else if (amount > user.money || amount <= 0) {
     functions.sendMessage(message.channel, 'You can\'t flip more than you own! (or a negative amount)');
   }
 }

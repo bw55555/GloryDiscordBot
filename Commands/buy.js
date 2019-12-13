@@ -2,7 +2,7 @@ var functions = require("../Utils/functions.js")
 module.exports = async function (message,user) {
 
     let id = message.author.id;
-    if (userData[id].status == 0) { return; }
+    if (user.status == 0) { return; }
     //let ts = message.createdTimestamp;
     let words = message.content.split(/\s+/)
     if (words.length != 2) {
@@ -16,28 +16,30 @@ module.exports = async function (message,user) {
     }
     let weaponid = words[1]
     if (itemData[weaponid] == undefined) {
-        if (userData[id].inventory[weaponid] == weaponid) {
-            delete userData[id].inventory[weaponid]
+        if (user.inventory[weaponid] == weaponid) {
+            delete user.inventory[weaponid]
         }
         functions.replyMessage(message, "This weapon does not exist.");
         return
-    } else if (userData[id].weapon == weaponid) {
+    } else if (user.weapon == weaponid) {
         functions.replyMessage(message, "You already have this weapon equipped. (Somehow?!?)")
         return
     } else if (itemData[weaponid].price == undefined) {
         functions.replyMessage(message, "This item is not for sale.")
         return
-    } else if (userData[id].money < itemData[weaponid].price) {
+    } else if (user.money < itemData[weaponid].price) {
         functions.replyMessage(message, "You don't have enough money to buy this item.")
         return
     }
-
-    userData[id].money -= parseInt(itemData[weaponid].price)
-    userData[itemData[weaponid].owner].money += parseInt(itemData[weaponid].price) //transfer of money
-    let previousOwner = itemData[weaponid].owner
-    itemData[weaponid].owner = id //weapon ownerid transfer
-    userData[id].inventory[weaponid] = weaponid //weapon added to inventory
-    functions.sendMessage(message.channel, "You bought " + weaponid + " for $" + itemData[weaponid].price)
-    functions.dmUser(previousOwner, "<@" + id + "> bought " + itemData[weaponid].name + " (" + weaponid + ") for $" + itemData[weaponid].price)
-    delete itemData[weaponid].price
+    user.money -= parseInt(itemData[weaponid].price)
+    return Promise.all([functions.getUser(itemData[weaponid].owner)]).then(ret => {
+        let previousOwner = ret[0];
+        previousOwner.money += parseInt(itemData[weaponid].price) //transfer of money
+        itemData[weaponid].owner = user._id //weapon ownerid transfer
+        user.inventory[weaponid] = weaponid //weapon added to inventory
+        functions.setUser(previousOwner)
+        functions.sendMessage(message.channel, "You bought " + weaponid + " for $" + itemData[weaponid].price)
+        functions.dmUser(previousOwner._id, "<@" + user._id + "> bought " + itemData[weaponid].name + " (" + weaponid + ") for $" + itemData[weaponid].price)
+        delete itemData[weaponid].price
+    })
 }

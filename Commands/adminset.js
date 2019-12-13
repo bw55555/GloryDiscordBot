@@ -9,7 +9,7 @@ module.exports = async function (message, user) {
         return user;
     }
     return Promise.all([functions.validate(message)]).then(ret => {
-        target = ret[0];
+        let target = ret[0];
         if (target == false) { return user; }
         let amount = words[3];
         if (!isNaN(parseInt(amount))) { amount = parseInt(amount) }

@@ -3,6 +3,7 @@ module.exports = async function (message,user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
+    return functions.replyMessage(message,'Please come back later')
     functions.sendMessage(message.channel, {
       embed: { //displays guild stats
         title: "Bot Stats",

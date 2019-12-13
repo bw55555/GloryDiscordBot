@@ -31,17 +31,17 @@ module.exports = async function (message,user) {
         functions.replyMessage(message, 'Choose an integer to bet!');
         return;
     }
-    if (amount > userData[id].money){
+    if (amount > user.money){
         functions.replyMessage(message, 'You can\'t roll more than you own! (or a negative amount)');
         return 
     }
     if (amount > 0) {
         if (face == roll) {
             functions.replyMessage(message, 'It was ' + roll + '! You won $' + (amount*5) + '!');
-            userData[id].money += amount*5;
+            user.money += amount*5;
         } else {
             functions.replyMessage(message, 'It was ' + roll + '! You lost $' + amount + '!');
-            userData[id].money -= amount;
+            user.money -= amount;
         }
     } else {
         functions.replyMessage(message, "You can't bet a negative amount!");

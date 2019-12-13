@@ -4,37 +4,29 @@ module.exports = async function (message,user) {
     let ts = message.createdTimestamp;
     let words = message.content.split(/\s+/)
     //if (admins.indexOf(id) == -1) { return }
-    if (userData[id].level != 100) { return functions.replyMessage(message, "You must be level 100 to ascend!") }
-    if (userData[id].attack - functions.calcExtraStat(id, "attack") < 100 || userData[id].defense - functions.calcExtraStat(id, "defense") < 100 && userData[id].health - functions.calcExtraStat(id, "health") < 1000) { return functions.replyMessage(message, "You must have lvl 100 stats to ascend!") }
-    /*    userData[id].sp += 1
-        userData[id].ascension += 1
-        userData[id].level = 1
-        userData[id].attack = 1
-        userData[id].defense = 1
-        userData[id].health = 10
-        userData[id].xp = 0
-        userData[id].weapon=false */
-    new functions.MessageAwait(message.channel, id, "Are you sure you want to Ascend? You will be set back to level 1 and leveling will become 1.5 times as hard!\nIf you are sure, type `confirm`", "confirm", function (response, extraArgs) {
-        let id = extraArgs[1]
+    if (user.level != 100) { return functions.replyMessage(message, "You must be level 100 to ascend!") }
+    if (user.attack - functions.calcExtraStat(user, "attack") < 100 || user.defense - functions.calcExtraStat(user, "defense") < 100 && user.health - functions.calcExtraStat(user, "health") < 1000) { return functions.replyMessage(message, "You must have lvl 100 stats to ascend!") }
+    await new functions.MessageAwait(message.channel, id, "Are you sure you want to Ascend? You will be set back to level 1 and leveling will become 1.5 times as hard!\nIf you are sure, type `confirm`", "confirm", function (response, extraArgs) {
+        let user = extraArgs[1]
         let message = extraArgs[0]
-        functions.consumGive(id, "sp", 1)
-        functions.consumGive(id, "reroll", 1)
-	    if(userData[id].level != 100){
-            return;
+        user.consum.sp += 1;
+        user.consum.reroll += 1;
+	    if(user.level != 100){
+            return functions.replyMessage(message, "You are not level 100 yet!");
 	    }
-	    userData[id].level = 1
-        userData[id].ascension += 1
-        userData[id].attack = userData[id].ascension * 10
-        userData[id].defense = userData[id].ascension * 10
-        userData[id].health = userData[id].ascension * 100
-        userData[id].xp = 0
-        userData[id].weapon = false
-        if (!userData[id].glory) {
-            userData[id].glory = 10;
+	    user.level = 1
+        user.ascension += 1
+        user.attack = user.ascension * 10
+        user.defense = user.ascension * 10
+        user.health = user.ascension * 100
+        user.xp = 0
+        user.weapon = false
+        if (!user.glory) {
+            user.glory = 10;
         } else {
-            userData[id].glory += 10;
+            user.glory += 10;
         }
-        functions.replyMessage(message, "You have ascended! You now have " + userData[id].consum.sp + " skill points!\n(Note that your weapon has been dequipped. Favorite it before smelting everything!)")
-    }, [message, id]);
+        functions.replyMessage(message, "You have ascended! You now have " + user.consum.sp + " skill points!\n(Note that your weapon has been dequipped. Favorite it before smelting everything!)")
+    }, [message, user]);
     //functions.replyMessage(message,"Are you sure you want to Ascend? You will be set back to level 1 and leveling will become twice as hard!\nIf you are sure, type `!ascendconfirm`")
 }

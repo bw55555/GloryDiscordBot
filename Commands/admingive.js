@@ -5,7 +5,7 @@ module.exports = async function (message,user) {
     let words = message.content.split(/\s+/)
     if (admins.indexOf(id) == -1) { return user }
     return Promise.all([functions.validate(message)]).then(ret => {
-        target = ret[0];
+        let target = ret[0];
         if (target == false) { return user; }
         var amount = parseInt(words[2]);
         if (!isNaN(amount)) {

@@ -619,7 +619,7 @@ function calcDamage(message, attacker, defender, initiator) {
     let revmod = 0;
     let revengechance = Math.random()
     if (defender._id != undefined) {
-        if (attacker == initiator && dweapon != false && dweapon.modifiers.revenge != undefined) {
+        if (attacker._id == initiator._id && dweapon != false && dweapon.modifiers.revenge != undefined) {
             revmod += dweapon.modifiers.revenge;
         }
 
@@ -657,12 +657,12 @@ function calcDamage(message, attacker, defender, initiator) {
     }
 
     //Percentage increases
-    if (defender._id != undefined && attacker == initiator) {
+    if (defender._id != undefined && attacker._id == initiator._id) {
         if (hasSkill(defender, 19, skillenable)) {
             defense *= 1.3;
         }
     }
-    if (attacker._id != undefined && attacker == initiator) {
+    if (attacker._id != undefined && attacker._id == initiator._id) {
         if (hasSkill(attacker, 18, skillenable)) {
             attack *= 1.3;
         }

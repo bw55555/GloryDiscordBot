@@ -31,10 +31,14 @@ module.exports = async function (message,user) {
         functions.replyMessage(message, "You cannot smelt a GLORY weapon!")
         return
     }*/
-    let owner = itemData[weaponid].owner
-    if (userData[owner] == undefined) { return functions.replyMessage(message, "No one owns this item! Notify a dev. ") }
-    if (userData[owner].weapon == weaponid) { userData[owner].weapon = false }
-    let itemRewards = functions.smeltItem(owner, weaponid, false)
-    userData[owner].weapon == "None";
-    functions.sendMessage(message.channel, "You have adminsmelted item " + weaponid + "!")
+    return Promise.all[functions.getUser(itemData[weaponid].owner)].then(ret => {
+        owner = ret[0]
+        if (owner == undefined) { return functions.replyMessage(message, "No one owns this item! Notify a dev. ") }
+        if (owner.weapon == weaponid) { owner.weapon = false }
+        let itemRewards = functions.smeltItem(owner, weaponid, false)
+        functions.setUser(owner)
+        functions.sendMessage(message.channel, "You have adminsmelted item " + weaponid + "!")
+        return;
+    })
+    
 }
