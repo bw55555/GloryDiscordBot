@@ -7,7 +7,7 @@ module.exports = async function (message, user) {
     if (user.lastDaily != moment().format('L')) {//Checks if last daily object is L
         user.lastDaily = moment().format('L') //Sets daily as L
         let boxNumber = user.ascension + 1
-        functions.consumGive(id, "box", boxNumber); //gives you one box
+        user.consum.box += boxNumber; //gives you one box
         functions.sendMessage(message.channel, "You received " + boxNumber + " mysterious box(es)... what could it contain?");
         user.glory += 0.05
     } else {

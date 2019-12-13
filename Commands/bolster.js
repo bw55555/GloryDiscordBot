@@ -3,7 +3,7 @@ module.exports = async function (message,user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    if (user.triangleid != 9 && !functions.hasSkill(id, 11)) {
+    if (user.triangleid != 9 && !functions.hasSkill(user, 11)) {
         return functions.replyMessage(message, "You can't bolster!");
     }
     if (functions.calcTime(user.cooldowns.bolster, ts) > 0) {
@@ -21,7 +21,7 @@ module.exports = async function (message,user) {
         }
         user.bolster = true;
         functions.replyMessage(message, "You have bolstered yourself!");
-        functions.setCD(id, ts, bolstercd * 60, "bolster")
+        functions.setCD(user, ts, bolstercd * 60, "bolster")
     } else if (words.length == 2) {
         return Promise.all([functions.validate(message)]).then(ret => {
             let target = ret[0];
@@ -43,7 +43,7 @@ module.exports = async function (message,user) {
             } else {
                 functions.replyMessage(message, "<@" + target._id + "> has been bolstered!");
             }
-            functions.setCD(id, ts, bolstercd * 60, "bolster")
+            functions.setCD(user, ts, bolstercd * 60, "bolster")
             functions.setUser(target)
         })
     

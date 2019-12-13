@@ -14,15 +14,7 @@ module.exports = async function (message,user) {
     //let ts = message.createdTimestamp;
     //let words = message.content.trim().split(/\s+/)
     let weaponCount = 0
-    let wepsra = []
-
-    for (var weaponid in userData[id].inventory) {
-        if (weaponid != undefined) {
-            wepsra.push(weaponid)
-            weaponCount += 1;
-        }
-    }
-    wepsra.sort() //what sorts the array. Search up array.sort() on w3schools.
+    let wepsra = functions.itemFilter(message, user)
     let numPerPage = 5
     let pages = []
     if (wepsra.length == 0) {
@@ -65,7 +57,7 @@ module.exports = async function (message,user) {
                             "color": 0xffffff,
                             "fields": [
                                 {
-                                    "name": userData[id].username + "'s Inventory",
+                                    "name": user.username + "'s Inventory",
                                     "value": totalText,
                                     "inline": true
                                 }

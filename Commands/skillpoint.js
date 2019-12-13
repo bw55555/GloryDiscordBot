@@ -3,12 +3,12 @@ module.exports = async function (message,user) {
     let id = message.author.id;
     //let ts = message.createdTimestamp;
     //let words = message.content.trim().split(/\s+/)
-    personskills = userData[id].skills
+    personskills = user.skills
     /*if (admins.indexOf(id) == -1) {//Soo nobody but admins can use it (for now)
         functions.replyMessage(message, "This feature is still being developed.");
         return
     }*/
-    if (userData[id].consum.sp <= 0) {//Checks if user has skill points
+    if (user.consum.sp <= 0) {//Checks if user has skill points
         functions.replyMessage(message, "You have no more skill points. Get them by Ascending.");
         return;
     }
@@ -17,7 +17,7 @@ module.exports = async function (message,user) {
         return;
     }
     let skillid = Math.floor(skillData.length * Math.random());
-    //while (userData[id].inventory[skillid] != skillid) {
+    //while (user.inventory[skillid] != skillid) {
     //    skillrecieved = Math.floor(skillData.length * Math.random);
     //}
 
@@ -40,7 +40,7 @@ module.exports = async function (message,user) {
         functions.replyMessage(message, "An error has occured");
         return;
     }
-    userData[id].skills[skillid] = skillid
+    user.skills[skillid] = skillid
     functions.replyMessage(message, "You earned the skill " + skillData[skillid].name + " (" + skillData[skillid].id + ")!");
-    functions.consumGive(id, "sp", -1);
+    fuser.consum.sp -= 1;
 }

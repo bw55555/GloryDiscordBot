@@ -13,11 +13,11 @@ module.exports = async function (message,user) {
     functions.replyMessage(message, "This item does not exist!")
     return
   }
-  if (userData[id].inventory[weaponid] != weaponid) {
+  if (user.inventory[weaponid] != weaponid) {
     functions.replyMessage(message, "You do not own this item!")
     return
   }
-  if (weaponid == userData[id].weapon) {
+  if (weaponid == user.weapon) {
     functions.replyMessage(message, "You cannot smelt your equipped weapon!")
     return
   }
@@ -31,6 +31,6 @@ module.exports = async function (message,user) {
     return
   }
   
-  let itemRewards=functions.smeltItem(id,weaponid)
+  let itemRewards=functions.smeltItem(user,weaponid)
   functions.sendMessage(message.channel, "You have smelted item " + weaponid + " for " + itemRewards[2] + " materials, $" + itemRewards[1] + " ,and " + itemRewards[0] + " xp.")
 }

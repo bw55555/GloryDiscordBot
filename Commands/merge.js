@@ -11,7 +11,7 @@ module.exports = async function (message,user) {
         functions.replyMessage(message, "Choose another ID to merge the first item with!")
         return
     }
-    if (functions.calcTime(userData[id].cooldowns.merge, ts) > 0) { return functions.replyMessage(message, "You cannot merge now. Try again in " + functions.displayTime(userData[id].cooldowns.merge, ts)) }
+    if (functions.calcTime(user.cooldowns.merge, ts) > 0) { return functions.replyMessage(message, "You cannot merge now. Try again in " + functions.displayTime(user.cooldowns.merge, ts)) }
     let weaponid = words[1]
     let weaponid2 = words[2]
     if (weaponid == weaponid2) {
@@ -33,15 +33,15 @@ module.exports = async function (message,user) {
         functions.replyMessage(message, "This item does not exist!")
         return
     }
-    if (userData[id].inventory[weaponid] != weaponid) {
+    if (user.inventory[weaponid] != weaponid) {
         functions.replyMessage(message, "You do not own the first item!")
         return
     }
-    if (userData[id].inventory[weaponid2] != weaponid2) {
+    if (user.inventory[weaponid2] != weaponid2) {
         functions.replyMessage(message, "You do not own the second item!")
         return
     }
-    if (weaponid2 == userData[id].weapon) {
+    if (weaponid2 == user.weapon) {
         functions.replyMessage(message, "You cannot merge away your equipped weapon!")
         return
     }
@@ -100,11 +100,11 @@ module.exports = async function (message,user) {
         itemData[weaponid].rarity += 1;
         functions.sendMessage(message.channel, "It is now a " + itemData[weaponid].rarity + " rarity weapon!")
     }
-    delete userData[id].inventory[weaponid2];
+    delete user.inventory[weaponid2];
     itemData[weaponid2] = 0;
 
-    functions.setCD(id, ts,extratime,"merge")
-    if (functions.hasSkill(id, 35)) {
-        functions.setCD(id, ts, extratime/2, "merge")
+    functions.setCD(user, ts,extratime,"merge")
+    if (functions.hasSkill(user, 35)) {
+        functions.setCD(user, ts, extratime/2, "merge")
     }
 }

@@ -3,10 +3,6 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-
-
-    //functions.replyMessage(message, "This feature is not yet complete!");
-    //return;
     if (user.dead == true) {
         functions.replyMessage(message, "You can't give items while you are a corpse!");
         return;

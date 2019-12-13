@@ -6,15 +6,17 @@ function isFloat(arg) {
   }
   return true
 }
-module.exports = async function (message,user) {
-  let id = message.author.id;
-  let ts = message.createdTimestamp;
-  let words = message.content.trim().split(/\s+/)
-  if (devs.indexOf(id)==-1){return}
-  let target = functions.validate(message)
-  if (target == false) {return}
-  devData.admins.push(target)
-  admins.push(target)
-  functions.sendMessage(message.channel, "<@" + target + "> was set as admin")
-  functions.logCommand(message)
+module.exports = async function (message, user) {
+    let id = message.author.id;
+    let ts = message.createdTimestamp;
+    let words = message.content.trim().split(/\s+/)
+    if (devs.indexOf(id) == -1) { return }
+    return Promise.all([functions.validate(message)]).then(ret => {
+        let target = ret[0];
+        if (target == false) { return }
+        devData.admins.push(target._id)
+        admins.push(target._id)
+        functions.sendMessage(message.channel, "<@" + target._id + "> was set as admin")
+        functions.logCommand(message)
+    }
 }

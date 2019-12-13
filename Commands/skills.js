@@ -9,8 +9,8 @@ module.exports = async function (message,user) {
 // if (admins.indexOf(id) == -1) { return}
 /*
 Basic Idea is this. Each person stores an ID for all the skills they have in 
-  userData[id].skills
-userData[id].skillA = "None";
+  user.skills
+user.skillA = "None";
 This stores the ID equipped for skill A
 SkillData stores the name, id and description of the skill.
 */
@@ -23,17 +23,17 @@ SkillData stores the name, id and description of the skill.
   skilltextB = "None"
   skilltextC = "None"
 
-  if (userData[id].skillA != 'None') {
-    skillnameA = skillData[userData[id].skillA].name;
-    skilltextA = skillData[userData[id].skillA].description;
+  if (user.skillA != 'None') {
+    skillnameA = skillData[user.skillA].name;
+    skilltextA = skillData[user.skillA].description;
   }
-  if (userData[id].skillB != 'None') {
-    skillnameB = skillData[userData[id].skillB].name;
-    skilltextB = skillData[userData[id].skillB].description;
+  if (user.skillB != 'None') {
+    skillnameB = skillData[user.skillB].name;
+    skilltextB = skillData[user.skillB].description;
   }
-  if (userData[id].skillC != 'None') {
-    skillnameC = skillData[userData[id].skillC].name;
-    skilltextC = skillData[userData[id].skillC].description;
+  if (user.skillC != 'None') {
+    skillnameC = skillData[user.skillC].name;
+    skilltextC = skillData[user.skillC].description;
   }
 
   functions.sendMessage(message.channel, {

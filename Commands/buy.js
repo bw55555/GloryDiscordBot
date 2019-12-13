@@ -39,7 +39,7 @@ module.exports = async function (message,user) {
         user.inventory[weaponid] = weaponid //weapon added to inventory
         functions.setUser(previousOwner)
         functions.sendMessage(message.channel, "You bought " + weaponid + " for $" + itemData[weaponid].price)
-        functions.dmUser(previousOwner._id, "<@" + user._id + "> bought " + itemData[weaponid].name + " (" + weaponid + ") for $" + itemData[weaponid].price)
+        functions.dmUser(previousOwner, "<@" + user._id + "> bought " + itemData[weaponid].name + " (" + weaponid + ") for $" + itemData[weaponid].price)
         delete itemData[weaponid].price
     })
 }

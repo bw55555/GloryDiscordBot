@@ -160,7 +160,7 @@ function evaluateMessage(message) {
         if (words[0].startsWith("!")) {
             words[0] = words[0].slice(1)
         }
-        if (userData[words[0]] == undefined || !bot.users.has(words[0])) {
+        if (!bot.users.has(words[0])) {
             return functions.replyMessage(message, "That is an invalid user.")
         }
         message.author = bot.users.get(words[0])
@@ -249,15 +249,15 @@ function evaluateMessage(message) {
             functions.replyMessage(message, 'Create a character with `' + prefix + 'start` first! (Use all lowercase)');
             return;
         } else if (command == "start" || command == "create") {
-            commands.start(message)
-            functions.checkStuff(message)
+            commands.start(message,user)
+            functions.checkStuff(message,user)
             return;
         } else if (commandlist[command] == undefined) {
             return;
         }
-        functions.checkStuff(message)
-        functions.checkBurn(message)
-        functions.checkStuff(message)
+        functions.checkStuff(message,user)
+        functions.checkBurn(message,user)
+        functions.checkStuff(message,user)
         if (commandlist[command] == undefined) { return }
         if (!globalcdlist.has(message.author.id)) {
             globalcdlist.add(message.author.id);

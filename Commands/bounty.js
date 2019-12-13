@@ -98,7 +98,7 @@ module.exports = function (message,user) {
     return;
     }
 
-    if (userData[id].dead === true) {
+    if (user.dead === true) {
     functions.replyMessage(message, "Corpses can't place bounties!");
     return;
     }
@@ -126,11 +126,11 @@ module.exports = function (message,user) {
         return;
     }
     //console.log(amount);
-    if (userData[id].money >= amount && amount > 0) {
+    if (user.money >= amount && amount > 0) {
         functions.sendMessage(message.channel, 'Placed a $' + amount + ' on <@' + target + ">'s head.");
         userData[target].bounty += amount;
-        userData[id].money -= amount;
-    } else if (userData[id].money < amount) {
+        user.money -= amount;
+    } else if (user.money < amount) {
         functions.sendMessage(message.channel, "You can't offer more than you own.");
     } else {
         functions.sendMessage(message.channel, 'Incorrect Argument');

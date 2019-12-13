@@ -3,11 +3,10 @@ module.exports = async function (message,user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.split(/\s+/)
-    if (userData[id] != undefined){
+    if (user != undefined){
         functions.replyMessage(message, "You already have an account!")
         return;
     }
-    functions.checkProps(message)
     client.db("current").collection("userData").insertOne(
         {
             _id: message.author.id,

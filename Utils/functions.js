@@ -1,13 +1,3 @@
-function consumGive(target, item, amount) {
-    if (!userData[target].consum[item]) {
-        userData[target].consum[item] = 0
-    }
-
-    if (amount < 0 && userData[target].consum[item] + amount < 0) {
-        userData[target].consum[item] = 0;
-    }
-    userData[target].consum[item] += amount;
-}
 async function getUser(uid) {
     return client.db("current").collection("userData").find({ _id: uid }).toArray().then(r => {
         if (r[0] == undefined) {return false }
@@ -323,7 +313,7 @@ function calcLuckyBuff(user) {
             luckybuff = itemData[user.weapon].modifiers.lucky
         }
     }
-    if (hasSkill(user._id, 16)) { //Royalty Skill
+    if (hasSkill(user, 16)) { //Royalty Skill
         luckybuff += 0.5
     }
     if (user.guild != "None" && guildData[user.guild].buffs.lucky != undefined) {
@@ -839,7 +829,7 @@ function calcStats(message, user, stat, skillenable,confused) {
             text += "<@" + user._id + "> has **" + urspeed + "** antitempo\n";
         }
 
-        if (hasSkill(user._id, 20, skillenable)) {
+        if (hasSkill(user, 20, skillenable)) {
             if (urspeed > 25) {
                 urspeed = 25
             }
@@ -929,16 +919,12 @@ function craftItem(message,owner, minrarity, maxrarity, reply) {
     reply = (reply == false) ? false : true
     let itemid = 0
     if (minrarity == -1 || maxrarity == -1) {
-        let arr = generateRandomItem(target)
-        owner = arr[0]
-        itemid = arr[1]
+        itemid = generateRandomItem(target)
     } else {
         let rarity = Math.floor((maxrarity - minrarity + 1) * Math.random() + minrarity)
-        let arr = generateRandomItem(owner, rarity)
-        owner = arr[0]
-        itemid = arr[1]
+        itemid = generateRandomItem(owner, rarity)
     }
-    if (reply) sendMessage(message.channel, "<@" + target + "> has recieved an item with id " + itemid + " and of rarity " + itemData[itemid].rarity)
+    if (reply) sendMessage(message.channel, "<@" + owner._id + "> has recieved an item with id " + itemid + " and of rarity " + itemData[itemid].rarity)
     return itemid
 }
 function raidInfo(message, raid) {
@@ -1066,11 +1052,11 @@ function checkProps(message,user) {
         //console.log(user.start);
     }
     if (admins.indexOf(user._id) == -1) {
-        if (user.attack > user.level + calcExtraStat(user._id, "attack")) user.attack = user.level + calcExtraStat(user._id, "attack"); //prevents overleveling
-        if (user.defense > user.level + calcExtraStat(user._id, "defense")) user.defense = user.level + calcExtraStat(user._id, "defense")
+        if (user.attack > user.level + calcExtraStat(user, "attack")) user.attack = user.level + calcExtraStat(user, "attack"); //prevents overleveling
+        if (user.defense > user.level + calcExtraStat(user, "defense")) user.defense = user.level + calcExtraStat(user, "defense")
         //extrahp = (user.weapon != false && itemData[user.weapon].modifiers.maxhp != undefined) ? itemData[user.weapon].modifiers.maxhp : 0
         // if (user.health > user.level * 10 + extrahp) user.health = user.level * 10;
-        if (user.health > user.level * 10 + calcExtraStat(user._id, "health")) user.health = user.level * 10 + calcExtraStat(user._id, "health")
+        if (user.health > user.level * 10 + calcExtraStat(user, "health")) user.health = user.level * 10 + calcExtraStat(user, "health")
     }
     return user
 }
@@ -1171,15 +1157,9 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
         user.shield = 1
     }
     if (!raid.attacklist[user._id]) { raid.attacklist[user._id] = 0 }
-    let luckybuff = calcLuckyBuff(user._id)
-    let arr = calcDamage(message, user, raid, user);//ok...
-    user = arr[0];
-    raid = arr[1];
-    let damage = arr[2]
-    arr = calcDamage(message, raid, user, user);//ok...
-    user = arr[1];
-    raid = arr[0];
-    let counter = arr[2];
+    let luckybuff = calcLuckyBuff(user)
+    let damage = calcDamage(message, user, raid, user);//ok...
+    let counter = calcDamage(message, raid, user, user);//ok...
     if (raid.name == "Cerberus") {
         counter*=3;
     }
@@ -1285,7 +1265,6 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
             }
         }
         client.db("current").collection("userData").bulkWrite(tasks)
-        let itemfound = "none";
         if (!isguild) {
             let itemid = 0
             if (raid.itemReward == undefined) {
@@ -1321,14 +1300,9 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
 
         user.money += Math.floor(luckybuff * raid.reward);
         user.xp += Math.floor(luckybuff * raid.reward);
-
-        if (itemfound != "none") {
-            text += "<@" + luckyperson + "> also found " + itemfound + "! "
-        }
-
         text += "Rewards have been given to everyone who participated in the raid!\n"
 
-        if (user.currenthealth > 0 && hasSkill(user._id, 15)) { //soulsteal skill in raids.
+        if (user.currenthealth > 0 && hasSkill(user, 15)) { //soulsteal skill in raids.
             user.currenthealth += raid.maxhealth
             text += "Soulsteal activated. <@" + user._id + "> has stolen " + raid.maxhealth + " health.";
             user.currenthealth = Math.min(user.currenthealth, user.health)
@@ -1367,7 +1341,7 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
         }
     }
     if (text != "") { sendMessage(message.channel, text) }
-    setCD(user._id, ts, attackcd * 60, "attack");
+    setCD(user, ts, attackcd * 60, "attack");
     user.speed += 1;
     return user;
 }
@@ -1476,7 +1450,6 @@ module.exports.raidAttack = function (message, user, raid, resummon, isguild, is
 module.exports.smeltItem = function (user, weaponid, giveReward) { return smeltItem(user, weaponid, giveReward) }
 module.exports.hasSkill = function (user, skillid, enable) { return hasSkill(user, skillid, enable) }
 module.exports.itemFilter = function (message, user, defaults) { return itemFilter(message, user, defaults) }
-module.exports.consumGive = function (target, item, amount) { return consumGive(target, item, amount) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {

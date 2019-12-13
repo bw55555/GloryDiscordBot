@@ -22,14 +22,3 @@ module.exports = async function (message,user) {
 
   }
 }
-
-/*
-  let x = 0;
-  for (x in userData)
-  {
-      userData[x].spellcraft = 0;
-      userData[x].casting = 0;
-      userData[x].spells = [0,0,0,0,0];
-      userData[x].spellLevel = [0,0,0,0,0];
-  }
- */

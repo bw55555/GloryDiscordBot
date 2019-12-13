@@ -15,7 +15,6 @@ module.exports = async function (message, user) {
         if (!isNaN(parseInt(amount))) { amount = parseInt(amount) }
         let attribute = words[2];
         //console.log(attribute)
-        //console.log(JSON.stringify(userData))
         if (target[attribute] == undefined) {
             functions.sendMessage(message.channel, attribute + " is not a defined attribute");
             return user;

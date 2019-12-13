@@ -6,7 +6,7 @@ module.exports = async function (message,user) {
     //if (admins.indexOf(id) == -1) { return }
     if (user.level != 100) { return functions.replyMessage(message, "You must be level 100 to ascend!") }
     if (user.attack - functions.calcExtraStat(user, "attack") < 100 || user.defense - functions.calcExtraStat(user, "defense") < 100 && user.health - functions.calcExtraStat(user, "health") < 1000) { return functions.replyMessage(message, "You must have lvl 100 stats to ascend!") }
-    await new functions.MessageAwait(message.channel, id, "Are you sure you want to Ascend? You will be set back to level 1 and leveling will become 1.5 times as hard!\nIf you are sure, type `confirm`", "confirm", function (response, extraArgs) {
+    return functions.MessageAwait(message.channel, id, "Are you sure you want to Ascend? You will be set back to level 1 and leveling will become 1.5 times as hard!\nIf you are sure, type `confirm`", "confirm", function (response, extraArgs) {
         let user = extraArgs[1]
         let message = extraArgs[0]
         user.consum.sp += 1;

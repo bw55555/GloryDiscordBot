@@ -34,11 +34,6 @@ module.exports = async function (message,user) {
         questData.questInfo.current++;
         questData.questInfo.questList[notindex].completed = 0;
         functions.sendMessage(message.channel, "Congratulations on your help completing a server-wide quest! Everyone earned 2 boxes for their efforts. Check !serverquest again to see the next challenge!");
-        let x = 0;
-        for (x in userData)
-        {
-            functions.consumGive(id, "box", 2);
-        }
     }  
           
 }

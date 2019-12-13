@@ -43,8 +43,8 @@ module.exports = async function (message,user) {
             user.shield = 1
         }
         functions.dmUser(target, "You have been attacked by " + user.username + "! Their id is " + id)
-        let damage = functions.calcDamage(message, id, target, id);//ok...
-        let counter = functions.calcDamage(message, target, id, id);
+        let damage = functions.calcDamage(message, user, target, user);//ok...
+        let counter = functions.calcDamage(message, target, user, user);
 
         if (damage < 0) {
             damage = 0;
@@ -94,14 +94,14 @@ module.exports = async function (message,user) {
             target.xp = 0
             target.money -= stolen;
             user.money -= counterstolen;
-            functions.sendMessage(message.channel, '<@' + id + '> and <@' + target + '> was killed! Both lost 10% of their money.');
+            functions.sendMessage(message.channel, '<@' + user._id + '> and <@' + target._id + '> was killed! Both lost 10% of their money.');
             if (user.bounty > 0) {
-                functions.sendMessage(message.channel, '<@' + target + "> collected your bounty of $" + user.bounty);
+                functions.sendMessage(message.channel, '<@' + target._id + "> collected your bounty of $" + user.bounty);
                 target.money += user.bounty;
                 user.bounty = 0;
             }
             if (target.bounty > 0) {
-                functions.sendMessage(message.channel, 'You collected <@' + target + ">'s bounty of $" + target.bounty);
+                functions.sendMessage(message.channel, 'You collected <@' + target._id + ">'s bounty of $" + target.bounty);
                 user.money += target.bounty;
                 target.bounty = 0;
             }
@@ -115,9 +115,9 @@ module.exports = async function (message,user) {
             target.currenthealth = 0;
             target.money -= stolen;
             user.money += stolen;
-            functions.sendMessage(message.channel, '<@' + target + '> was killed! You stole $' + stolen + ' from their body.');
+            functions.sendMessage(message.channel, '<@' + target._id + '> was killed! You stole $' + stolen + ' from their body.');
             if (target.bounty > 0) {
-                functions.sendMessage(message.channel, 'You collected <@' + target + ">'s bounty of $" + target.bounty);
+                functions.sendMessage(message.channel, 'You collected <@' + target._id + ">'s bounty of $" + target.bounty);
                 user.money += target.bounty;
                 target.bounty = 0;
             }
@@ -134,7 +134,7 @@ module.exports = async function (message,user) {
                 user.glory += glorywon
             }
 
-            if (user.currenthealth > 0 && functions.hasSkill(id, 15)) {
+            if (user.currenthealth > 0 && functions.hasSkill(user, 15)) {
                 user.currenthealth += target.health
                 functions.sendMessage(message.channel, "Soulsteal activated. <@" + id + "> has stolen " + target.health + " health");
                 user.currenthealth = Math.min(user.currenthealth, user.health)
@@ -145,9 +145,9 @@ module.exports = async function (message,user) {
             user.currenthealth = 0;
             user.money -= counterstolen;
             target.money += counterstolen;
-            functions.sendMessage(message.channel, '<@' + id + '> (you) were killed! <@' + target + '> stole $' + counterstolen + ' from your body.');
+            functions.sendMessage(message.channel, '<@' + id + '> (you) were killed! <@' + target._id + '> stole $' + counterstolen + ' from your body.');
             if (user.bounty > 0) {
-                functions.sendMessage(message.channel, '<@' + target + "> collected your bounty of $" + user.bounty);
+                functions.sendMessage(message.channel, '<@' + target._id + "> collected your bounty of $" + user.bounty);
                 target.money += user.bounty;
                 user.bounty = 0;
             }

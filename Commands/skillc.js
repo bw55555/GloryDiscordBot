@@ -7,10 +7,10 @@ module.exports = async function (message,user) {
     if (words.length == 1) {
         skillnameC = "No Skill C"
         skilltextC = "Use `!skillC [skill id]` to equip a skill"
-        if (userData[id].skillC != "None") {
-            skillnameC = skillData[userData[id].skillC].name;
-            skilltextC = skillData[userData[id].skillC].description;
-            //skilltextC += "\n**Type**: " + skillData[userData[id].skillC].type;
+        if (user.skillC != "None") {
+            skillnameC = skillData[user.skillC].name;
+            skilltextC = skillData[user.skillC].description;
+            //skilltextC += "\n**Type**: " + skillData[user.skillC].type;
         }
         functions.sendMessage(message.channel, {
             embed: {
@@ -33,22 +33,22 @@ module.exports = async function (message,user) {
     if (words.length == 2) {
         var skillid = words[1]
         if (skillid.toUpperCase() == `NONE`) {
-            userData[id].skillC = "None"
+            user.skillC = "None"
             functions.replyMessage(message, "You have removed SkillC!");
         } else {
             if (isNaN(skillid)) { //checks if skill is a number
                 functions.replyMessage(message, "The Skill ID must be an integer");
                 return;
             }
-            if (userData[id].skills[skillid] != skillid) { //checks if you own skill
+            if (user.skills[skillid] != skillid) { //checks if you own skill
                 functions.replyMessage(message, "You don't own this skill!")
                 return;
             }
-            if (functions.hasSkill(id, skillid)) {
+            if (functions.hasSkill(user, skillid)) {
                 functions.replyMessage(message, "You already have this skill equipped!")
                 return;
             }
-            userData[id].skillC = skillid;
+            user.skillC = skillid;
             functions.replyMessage(message, "You equipped the skill " + skillData[skillid].name + " (" + skillData[skillid].id + ")!");
         }
     } else {

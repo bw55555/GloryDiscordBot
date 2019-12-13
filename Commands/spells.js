@@ -1,20 +1,20 @@
 var functions = require("../Utils/functions.js")
 module.exports = async function (message,user) {
     let id = message.author.id;
-    if (userData[id].spells == undefined) {return;}
+    if (user.spells == undefined) {return;}
 
     let itemName = ""
     let itemNum = ""
     itemName += "ID 1000 - Healing Spells\n"
-    itemNum += userData[id].spells[0] + "\n"
+    itemNum += user.spells[0] + "\n"
     itemName += "ID 1001 - Damage Spells\n"
-    itemNum += userData[id].spells[1] + "\n"
+    itemNum += user.spells[1] + "\n"
     itemName += "ID 1002 - Fortune Spells\n"
-    itemNum += userData[id].spells[2] + "\n"
+    itemNum += user.spells[2] + "\n"
     itemName += "ID 1003 - Karma Spells\n"
-    itemNum += userData[id].spells[3] + "\n"
+    itemNum += user.spells[3] + "\n"
     itemName += "ID 1004 - Meme Spells\n"
-    itemNum += userData[id].spells[4] + "\n"
+    itemNum += user.spells[4] + "\n"
     
 
     functions.sendMessage(message.channel, {

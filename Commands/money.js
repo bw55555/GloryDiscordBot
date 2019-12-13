@@ -17,12 +17,12 @@ module.exports = async function (message,user) {
       },
       {
         name: "Account Balance",
-        value: userData[id].money,
+        value: user.money,
         inline: true
       },
 {
         name: "Material Balance",
-        value: userData[id].materials,
+        value: user.materials,
         inline: true
       }
 ]

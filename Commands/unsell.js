@@ -2,7 +2,6 @@ var functions = require("../Utils/functions.js")
 module.exports = async function (message,user) {
     //INCOMPLETE
     let id = message.author.id;
-    if (userData[id].status == 0) { return; }
     //let ts = message.createdTimestamp;
     let words = message.content.split(/\s+/)
     if (words.length != 2) {
@@ -16,12 +15,12 @@ module.exports = async function (message,user) {
     }
     let weaponid = words[1]
     if (itemData[weaponid] == undefined) {
-        if (userData[id].inventory[weaponid] == weaponid) {
-            delete userData[id].inventory[weaponid]
+        if (user.inventory[weaponid] == weaponid) {
+            delete user.inventory[weaponid]
         }
         functions.replyMessage(message, "This weapon does not exist.");
         return
-    } else if (userData[id].weapon == weaponid) {
+    } else if (user.weapon == weaponid) {
         functions.replyMessage(message, "You already have this weapon equipped. (Somehow?!?)")
         return
     } else if (itemData[weaponid].price == undefined) {
@@ -32,7 +31,7 @@ module.exports = async function (message,user) {
         return
     }
 
-    userData[id].inventory[weaponid] = weaponid //weapon added to inventory
+    user.inventory[weaponid] = weaponid //weapon added to inventory
     functions.sendMessage(message.channel, "You removed " + itemData[weaponid].name + " (" + weaponid + ") from the market.")
     delete itemData[weaponid].price
 }
