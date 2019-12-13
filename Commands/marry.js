@@ -31,5 +31,5 @@ module.exports = async function (message,user) {
                 "They didn't want to marry 😭"
             );
         }
-    }
+    })
 }

@@ -3,7 +3,7 @@ module.exports = async function (message,user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.split(/\s+/)
-    if (user != undefined){
+    if (user != false && user != undefined){
         functions.replyMessage(message, "You already have an account!")
         return;
     }

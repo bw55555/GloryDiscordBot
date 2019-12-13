@@ -18,5 +18,5 @@ module.exports = async function (message, user) {
         admins.push(target._id)
         functions.sendMessage(message.channel, "<@" + target._id + "> was set as admin")
         functions.logCommand(message)
-    }
+    })
 }
