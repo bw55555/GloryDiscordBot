@@ -37,7 +37,7 @@ module.exports = async function (message, user) {
             functions.sendMessage(message.channel, attribute + " is an object. Try setting one of its properties.")
             return user;
         }
-        functions.sendMessage(message.channel, 'Set <@' + target + ">\'s " + attribute + " to " + amount);
+        functions.sendMessage(message.channel, 'Set <@' + target._id + ">\'s " + attribute + " to " + amount);
         target[attribute] = amount;
         functions.setUser(target)
         functions.logCommand(message)
