@@ -379,7 +379,6 @@ function calcDamage(message, attacker, defender, initiator) {
     let text = ""
     let roll = Math.random()
     let burn = 0;
-    let attack = 0;
     let skillenable = true;
     if (defender.name == "Charybdis") { skillenable = false }
     if (attacker.name == "Charybdis") { skillenable = false }
@@ -399,11 +398,12 @@ function calcDamage(message, attacker, defender, initiator) {
         sendMessage(message.channel, attackername + ", "+defendername + " has evaded the attack!")
         return 0
     }
+    let attack = 0;
     if (attacker._id != undefined) {
         if (defender._id != undefined && hasSkill(defender, 23, skillenable)) {
-            let attack = 2 * calcStats(message, attacker, "attack", skillenable, true);
+            attack = 2 * calcStats(message, attacker, "attack", skillenable, true);
         } else {
-            let attack = 2 * calcStats(message, attacker, "attack", skillenable);
+            attack = 2 * calcStats(message, attacker, "attack", skillenable);
         }
     } else {
         attack = attacker.attack;
@@ -418,9 +418,9 @@ function calcDamage(message, attacker, defender, initiator) {
     let defense = 0;
     if (defender._id != undefined) {
         if (attacker._id != undefined && hasSkill(attacker, 23, skillenable)) {
-            let defense = 2 * calcStats(message, defender, "defense", skillenable, true);
+            defense = 2 * calcStats(message, defender, "defense", skillenable, true);
         } else {
-            let defense = 2 * calcStats(message, defender, "defense", skillenable);
+            defense = 2 * calcStats(message, defender, "defense", skillenable);
         }
     }
     if (attacker._id != undefined && defender._id != undefined) {
@@ -1228,12 +1228,13 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
                 listtotal += raid.attacklist[keys[i]];
             }
             for (var i = 0; i < keys.length; i++) {
+                if (user._id == keys[i]) { user.money += raid.attacklist[keys[i]]; user.glory += (raid.level / 25) * (raid.attacklist[keys[i]] / listtotal);continue}
                 tasks.push({
                     updateOne:
                     {
                         "filter": { _id: keys[i] },
                         "update": {
-                            $add: {
+                            $inc: {
                                 "money": raid.attacklist[keys[i]],
                                 "glory": (raid.level / 25) * (raid.attacklist[keys[i]] / listtotal)
                             }
@@ -1251,7 +1252,7 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
                         {
                             "filter": { _id: keys[i] },
                             "update": {
-                                $add: {
+                                $inc: {
                                     "consum.reroll": 1
                                 }
                             }
@@ -1262,12 +1263,13 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
             }
         } else {
             for (var i = 0; i < keys.length; i++) {
+                if (user._id == keys[i]) { user.money += raid.attacklist[keys[i]]; continue }
                 tasks.push({
                     updateOne:
                     {
                         "filter": { _id: keys[i] },
                         "update": {
-                            $add: {
+                            $inc: {
                                 "money": raid.attacklist[keys[i]],
                             }
                         }
