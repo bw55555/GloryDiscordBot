@@ -43,7 +43,7 @@ module.exports = async function (message,user) {
             let user = extraArgs[1];
             let message = extraArgs[0];
             let special = 10 * Math.floor((-4 * ((Math.random() - 0.5) ** 2) + 1) * (Math.sqrt(user.level) * 50 + 1));
-            functions.setProp("userData", { _id: user._id }, { $add: { "money": special } })
+            functions.setProp("userData", { _id: user._id }, { $inc: { "money": special } })
             functions.replyMessage(message, "You earned $" + special + "!")
         }, [message, user]);
     }
