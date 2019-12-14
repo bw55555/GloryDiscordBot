@@ -3,7 +3,6 @@ module.exports = async function (message,user) {
     let id = message.author.id;
     //let ts = message.createdTimestamp;
     //let words = message.content.trim().split(/\s+/)
-    let globalUsers = 0
     functions.findUsers({}, { "glory": 1, "username":1 }).then(arr => {
         arr.sort(function (a, b) { return parseFloat(b.glory) - parseFloat(a.glory) }) //what sorts the array. Search up array.sort() on w3schools.
         let numPerPage = 10
@@ -28,10 +27,10 @@ module.exports = async function (message,user) {
                 pages.push(page)
                 page = {
                     "embed": { //displays guild stats
-                        "title": "Global Levels",
+                        "title": "Global Glory",
                         "color": 0xF1C40F,
                         "fields": [{
-                            "name": "Highest Level Accounts",
+                            "name": "Highest Glory Accounts",
                             "value": ""
                         }],
                         "footer": {
@@ -48,10 +47,10 @@ module.exports = async function (message,user) {
             pages.push(page)
             page = {
                 "embed": { //displays guild stats
-                    "title": "Global Levels",
+                    "title": "Global Glory",
                     "color": 0xF1C40F,
                     "fields": [{
-                        "name": "Highest Level Accounts",
+                        "name": "Highest Glory Accounts",
                         "value": ""
                     }],
                     "footer": {

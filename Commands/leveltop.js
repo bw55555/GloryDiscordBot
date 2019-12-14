@@ -3,7 +3,6 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     //let ts = message.createdTimestamp;
     //let words = message.content.trim().split(/\s+/)
-    let globalUsers = 0
     functions.findUsers({}, { "ascension": 1, "level": 1, "username": 1 }).then(arr => {
         arr.sort(function (a, b) { return 100 * (parseInt(b.ascension) - parseInt(a.ascension)) + parseInt(b.level) - parseInt(a.level) }) //what sorts the array. Search up array.sort() on w3schools.
         let numPerPage = 10
