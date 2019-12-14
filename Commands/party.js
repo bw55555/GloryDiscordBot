@@ -95,7 +95,7 @@ module.exports = async function (message,user) {
             functions.replyMessage(message, "You can't have more than 4 people in a party!");
             return;
         }
-        new functions.MessageAwait(message.channel, target, "<@" + target + ">, <@" + id + "> has invited you to their party! Type `accept` to join!", "accept",
+        functions.MessageAwait(message.channel, target, "<@" + target + ">, <@" + id + "> has invited you to their party! Type `accept` to join!", "accept",
             function (response, extraArgs) {
                 let party = extraArgs[0]
                 let id = extraArgs[1]

@@ -141,16 +141,14 @@ module.exports = async function (message, user) {
                 return;
             }
             //functions.sendMessage(message.channel, "<@" + target + ">, <@" + id + "> invites you to their guild! Type `!guild accept` to join");
-            return functions.MessageAwait(message.channel, target, "<@" + target._id + ">, <@" + id + "> has invited you to their guild! Type `accept` to join!", "accept",
+            functions.MessageAwait(message.channel, target, "<@" + target._id + ">, <@" + id + "> has invited you to their guild! Type `accept` to join!", "accept",
                 function (response, extraArgs) {
                     let guild = extraArgs[0]
                     let target = extraArgs[1]
                     let message = extraArgs[2]
-                    if (user.guild != "None") { return; }
-                    user.guild = guild;
+                    if (target.guild != "None") { return; }
                     guildData[guild].members.push(target._id);
-                    user.guildpos = "Member";
-                    functions.setUser(target)
+                    functions.setProp("userData", { _id: target._id }, { $set: {"guild": guild, "guildpos": "Member"}})
                     functions.sendMessage(message.channel, "<@" + target._id + "> has joined " + guild + "!");
                 },
                 [guild, target, message],
@@ -437,7 +435,7 @@ module.exports = async function (message, user) {
             let matscost = ((guildData[guild].level % 5) == 4) ? (((guildData[guild].level % 10) == 9) ? guildData[guild].materialmax / 100 : guildData[guild].materialmax / 500) : Math.floor(guildData[guild].materialmax / 1000)
             if (guildData[guild].bank < cost) { return functions.replyMessage(message, "Your guild does not have enough money! You need $" + cost) }
             if (guildData[guild].materials < matscost) { return functions.replyMessage(message, "Your guild does not have enough materials! You need " + matscost + " materials") }
-            return functions.MessageAwait(message.channel, id, "It costs $" + cost + " and " + matscost + " materials to level up your guild to level " + (guildData[guild].level + 1) + ". Are you sure you want to do this? If so, type confirm.", "confirm",
+            functions.MessageAwait(message.channel, id, "It costs $" + cost + " and " + matscost + " materials to level up your guild to level " + (guildData[guild].level + 1) + ". Are you sure you want to do this? If so, type confirm.", "confirm",
                 function (response, guild) {
                     guildData[guild].xp -= Math.pow(guildData[guild].level + 1, 4)
                     guildData[guild].bank -= cost
