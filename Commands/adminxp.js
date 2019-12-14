@@ -9,7 +9,7 @@ module.exports = async function (message,user) {
         if (target == false) { return; }
         var amount = parseInt(words[2]);
         if (amount > 0) {
-            functions.sendMessage(message.channel, 'Sent ' + amount + ' xp to <@' + target + ">");
+            functions.sendMessage(message.channel, 'Sent ' + amount + ' xp to <@' + target._id + ">");
             target.xp += amount;
         } else {
             functions.sendMessage(message.channel, 'Incorrect Argument');

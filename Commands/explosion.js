@@ -13,7 +13,7 @@ module.exports = async function (message, user) {
         user.consum.explosion-=1;
         functions.sendMessage(message.channel, "https://tenor.com/view/explosion-gif-9488133")
         let count = 0
-        let text = ""z
+        let text = ""
         for (var i in userData) {
             if (talkedRecently.has(i) && i != id) {
                 if (user.dead == true) { continue }
