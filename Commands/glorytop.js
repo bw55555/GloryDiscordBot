@@ -4,37 +4,47 @@ module.exports = async function (message,user) {
     //let ts = message.createdTimestamp;
     //let words = message.content.trim().split(/\s+/)
     let globalUsers = 0
-    let xparrtosort = []
-    for (var userid in userData) {//loops through user data to check. //w/o if statement, it checks everyone
-        if (userData[userid].glory != undefined && userData[userid].ascension > 0) {
-            xparrtosort.push(userData[userid].glory + " " + userid) // push level + 100*ascensions for sorting purposes. Add the " " and the id for identification.
-            globalUsers += 1
+    functions.findUsers({}, { "glory": 1, "username":1 }).then(arr => {
+        arr.sort(function (a, b) { return parseFloat(b.glory) - parseFloat(a.glory) }) //what sorts the array. Search up array.sort() on w3schools.
+        let numPerPage = 10
+        let page = {
+            "embed": { //displays guild stats
+                "title": "Global Glory",
+                "color": 0xF1C40F,
+                "fields": [{
+                    "name": "Highest Glory Accounts",
+                    "value": ""
+                }],
+                "footer": {
+                    "text": ""
+                },
+            }
         }
-    }
-    xparrtosort.sort(function (a, b) { return parseInt(b.split(" ")[0]) - parseInt(a.split(" ")[0]) }) //what sorts the array. Search up array.sort() on w3schools.
-    let numPerPage = 10
-    let page = {
-        "embed": { //displays guild stats
-            "title": "Global Levels",
-            "color": 0xF1C40F,
-            "fields": [{
-                "name": "Highest Level Accounts",
-                "value": ""
-            }],
-            "footer": {
-                "text": ""
-            },
+        let pages = []
+        for (var i = 0; i < arr.length; i++) {
+            page.embed.fields[0].value += "**" + (i + 1) + ". " + arr[i].username + "** (ID: " + arr[i]._id + ") with **" + parseInt(arr[i].glory) + "** Glory"
+            if (i % numPerPage == numPerPage - 1) { // separate pages
+                page.embed.footer.text = (pages.length * numPerPage + 1) + "-" + (i + 1) + " out of " + arr.length //add footer to display where you are
+                pages.push(page)
+                page = {
+                    "embed": { //displays guild stats
+                        "title": "Global Levels",
+                        "color": 0xF1C40F,
+                        "fields": [{
+                            "name": "Highest Level Accounts",
+                            "value": ""
+                        }],
+                        "footer": {
+                            "text": ""
+                        },
+                    }
+                }
+            } else {
+                page.embed.fields[0].value += "\n"
+            }
         }
-    }
-    let pages = []
-    for (var i = 0; i < globalUsers; i++) {
-        let user = xparrtosort[i].split(" ")
-        let text = parseInt(user[0])
-        //let leveltext = parseInt(user[0]) - 100 * asctext
-        let username = userData[user[1]].username
-        page.embed.fields[0].value += "**" + (i + 1) + ". " + username + "** (ID: " + user[1] + ") with **" + text + "** Glory"
-        if (i % numPerPage == numPerPage - 1) { // separate pages
-            page.embed.footer.text = (pages.length * numPerPage + 1) + "-" + (i + 1) + " out of " + globalUsers //add footer to display where you are
+        if (page.embed.fields[0] != "") {
+            page.embed.footer.text = (pages.length * numPerPage + 1) + "-" + (i + 1) + " out of " + arr.length
             pages.push(page)
             page = {
                 "embed": { //displays guild stats
@@ -49,26 +59,7 @@ module.exports = async function (message,user) {
                     },
                 }
             }
-        } else {
-            page.embed.fields[0].value += "\n"
         }
-    }
-    if (page.embed.fields[0] != "") {
-        page.embed.footer.text = (pages.length * numPerPage + 1) + "-" + (i + 1) + " out of " + globalUsers
-        pages.push(page)
-        page = {
-            "embed": { //displays guild stats
-                "title": "Global Levels",
-                "color": 0xF1C40F,
-                "fields": [{
-                    "name": "Highest Level Accounts",
-                    "value": ""
-                }],
-                "footer": {
-                    "text": ""
-                },
-            }
-        }
-    }
-    new functions.Paginator(message.channel, message.author, pages)
+        new functions.Paginator(message.channel, message.author, pages)
+    })
 }

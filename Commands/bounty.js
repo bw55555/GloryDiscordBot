@@ -103,36 +103,39 @@ module.exports = function (message,user) {
     return;
     }
     //console.log(words);
-    let target = functions.validate(message,user)
-    if (target == false) { return; }
-    //console.log(target);
-    //console.log(target);
-    //console.log('targetname: '+targetname);
-    //console.log(check);
-    if (words.length < 3) {
-        functions.sendMessage(message.channel, userData[target].bounty);
-        return;
-    }
-    if (target == id) {
-        functions.sendMessage(message.channel, "Lol, I guess you can bounty yourself");
-    }
-    if (userData[target].dead === true) {
-        functions.replyMessage(message, "You can't place a bounty on corpses!");
-        return;
-    }
-    var amount = parseInt(words[2]);
-    if (isNaN(amount)) {
-        functions.sendMessage(message.channel, "Please specify an integer amount.");
-        return;
-    }
-    //console.log(amount);
-    if (user.money >= amount && amount > 0) {
-        functions.sendMessage(message.channel, 'Placed a $' + amount + ' on <@' + target + ">'s head.");
-        userData[target].bounty += amount;
-        user.money -= amount;
-    } else if (user.money < amount) {
-        functions.sendMessage(message.channel, "You can't offer more than you own.");
-    } else {
-        functions.sendMessage(message.channel, 'Incorrect Argument');
-    }
+    let spot = 1
+    if (words.length == 1) { spot = 0 }
+    return Promise.all([functions.validate(message, user, spot)]).then(ret => {
+        let target = ret[0];
+        if (words.length == 1) { target = user }
+        if (target == false) { return; }
+        //console.log(target);
+        //console.log(target);
+        //console.log('targetname: '+targetname);
+        //console.log(check);
+        if (words.length < 3) {
+            functions.sendMessage(message.channel, target.bounty);
+            return;
+        }
+        if (target.dead == true) {
+            functions.replyMessage(message, "You can't place a bounty on corpses!");
+            return;
+        }
+        var amount = parseInt(words[2]);
+        if (isNaN(amount)) {
+            functions.sendMessage(message.channel, "Please specify an integer amount.");
+            return;
+        }
+        //console.log(amount);
+        if (user.money >= amount && amount > 0) {
+            functions.sendMessage(message.channel, 'Placed a $' + amount + ' on <@' + target._id + ">'s head.");
+            target.bounty += amount;
+            user.money -= amount;
+        } else if (user.money < amount) {
+            functions.sendMessage(message.channel, "You can't offer more than you own.");
+        } else {
+            functions.sendMessage(message.channel, 'Incorrect Argument');
+        }
+        functions.setUser(target);
+    })
 }

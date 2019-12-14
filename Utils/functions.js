@@ -7,6 +7,15 @@ async function getUser(uid) {
         return false
     })
 }
+async function findUsers(query,projection) {
+    return client.db("current").collection("userData").find(query,projection).toArray().then(r => {
+        if (r == []) { return false }
+        return r;
+    }).catch(err => {
+        console.error(err)
+        return false
+    })
+}
 async function setUser(newuser) {
     return client.db("current").collection("userData").replaceOne({ _id: newuser._id }, newuser).then(function (r) {
         return true;
@@ -690,7 +699,7 @@ function calcStats(message, user, stat, skillenable,confused) {
     let critrate = 0;
     critrate = (user.triangleid == 4) ? 0.08 : 0;
     let critdmg = (user.triangleid == 4) ? 3 : 2;
-    let rage = (use.triangleid == 6) ? 1 : 0;
+    let rage = (user.triangleid == 6) ? 1 : 0;
     let sacrifice = (user.triangleid == 311) ? 0.15 : 0;
     let tempo = 0;
     let antitempo = 0;
@@ -1417,6 +1426,7 @@ function itemFilter(message, user, defaults) {
 }
 module.exports.clean = function (text) { return clean(text) }
 module.exports.getUser = function (id) { return getUser(id) }
+module.exports.findUsers = function (query,projection) { return findUsers(query,projection) }
 module.exports.setProp = function (coll, query, newvalue) { return setProp(coll, query, newvalue) }
 module.exports.setUser = function (newuser) { return setUser(newuser) }
 module.exports.deleteUser = function (uid) { return deleteUser(uid) }

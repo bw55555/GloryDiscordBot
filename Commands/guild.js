@@ -58,12 +58,14 @@ module.exports = async function (message, user) {
     }
     else if (command == "MEMBERS" || command == "MEMBER") {
         let messages = "**Guild Members** \n```\n"
-        let guildmembers = guildData[guild].members
-        for (i = 0; i < guildData[guild].members.length; i++) {
-            messages += (userData[guildmembers[i]].username + " (" + userData[guildmembers[i]].guildpos + ")\n");
-        }
-        messages += "```"
-        functions.sendMessage(message.channel, messages);
+        return functions.findUsers({ _id: { $in: guildData[guild].members } }, { username: 1, guildpos: 1 }).then(guildmembers => {
+            for (i = 0; i < guildmembers.length; i++) {
+                messages += (guildmembers[i].username + " (" + guildmembers[i].guildpos + ")\n");
+            }
+            messages += "```"
+            functions.sendMessage(message.channel, messages);
+        })
+        
     }
     else if (command == "CREATE") {//guild creation
         if (guild == "None") {
@@ -182,10 +184,9 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "Only the leader can disband the guild!");
             return;
         }
-        for (var i = 0; i < guildData[guild].members.length; i++) {
-            userData[guildData[guild].members[i]].guild = "None";
-            userData[guildData[guild].members[i]].guildpos = "None";
-        }
+        client.db("current").collection("userData").updateMany({ "guild": guild }, { $set: { "guild": "None", "guildpos": "None" } })
+        user.guild = "None"
+        user.guildpos = "None"
         user.money += guildData[guild].bank
         user.materials += guildData[guild].materials
         delete guildData[guild];
@@ -590,21 +591,6 @@ module.exports = async function (message, user) {
 
     else if (command == "QUEST") {
         if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
-    }
-    else if (command == "DELETE") {
-        if (admins.indexOf(id) == -1) { return }
-        words.splice(0, 2)
-        let guildName = words.join(" ")
-        if (guildName == undefined || guildData[guildName] == undefined) { return functions.replyMessage(message, "Please specify a valid guild.") }
-        for (var i = 0; i < guildData[guildName].members.length; i++) {
-            userData[guildData[guildName].members[i]].guild = "None";
-            userData[guildData[guildName].members[i]].guildpos = "None";
-        }
-        userData[guildData[guildName].leader].money += guildData[guildName].bank
-        userData[guildData[guildName].leader].materials += guildData[guildName].materials
-        delete guildData[guildName];
-
-        functions.replyMessage(message, guildName + " was disbanded! Everyone in it is now guildless :(");
     }
     else if (command == "RESETRAID") {
         if (admins.indexOf(id) == -1) { return }

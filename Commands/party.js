@@ -4,7 +4,7 @@ module.exports = async function (message,user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.split(/\s+/)
-    if (admins.indexOf(id)==-1) {functions.replyMessage(message, "Still under development. Sorry...");}
+    if (devs.indexOf(id)==-1) {functions.replyMessage(message, "Still under development. Sorry...");}
     let command = (words.length == 1) ? "" : words[1].toUpperCase()
     let party = userData[id].party;
 
