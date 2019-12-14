@@ -1277,7 +1277,7 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
                 })
             }
         }
-        if (tasks != []) { client.db("current").collection("userData").bulkWrite(tasks) }
+        if (tasks != undefined && tasks != [] && tasks[0] != undefined) { client.db("current").collection("userData").bulkWrite(tasks) }
         if (!isguild) {
             let itemid = 0
             if (raid.itemReward == undefined) {
