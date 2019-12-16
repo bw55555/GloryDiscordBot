@@ -930,7 +930,7 @@ function craftItem(message,owner, minrarity, maxrarity, reply) {
     reply = (reply == false) ? false : true
     let itemid = 0
     if (minrarity == -1 || maxrarity == -1) {
-        itemid = generateRandomItem(target)
+        itemid = generateRandomItem(owner)
     } else {
         let rarity = Math.floor((maxrarity - minrarity + 1) * Math.random() + minrarity)
         itemid = generateRandomItem(owner, rarity)
