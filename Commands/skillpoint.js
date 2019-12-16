@@ -42,5 +42,5 @@ module.exports = async function (message,user) {
     }
     user.skills[skillid] = skillid
     functions.replyMessage(message, "You earned the skill " + skillData[skillid].name + " (" + skillData[skillid].id + ")!");
-    fuser.consum.sp -= 1;
+    user.consum.sp -= 1;
 }
