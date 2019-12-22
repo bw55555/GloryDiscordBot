@@ -13,7 +13,7 @@ module.exports = async function (message, user) {
     for (var i = 0; i < smeltItems.length; i++) {
         let weaponid = smeltItems[i]
         if (itemData[smeltItems[i]].rarity == "Unique" || itemData[smeltItems[i]].rarity == 9 || user.weapon == weaponid) { continue }
-        let itemRewards = functions.smeltItem(user, user, weaponid)
+        let itemRewards = functions.smeltItem(user, weaponid)
         if (isNaN(itemRewards[0]) || isNaN(itemRewards[1]) || isNaN(itemRewards[2])) {
             continue
         }

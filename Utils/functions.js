@@ -383,9 +383,9 @@ function calcDamage(message, attacker, defender, initiator) {
     if (defender.name == "Charybdis") { skillenable = false }
     if (attacker.name == "Charybdis") { skillenable = false }
     let defendername = defender.name
-    if (defendername == undefined) { defendername = "<@" + defender + ">" }
+    if (defendername == undefined) { defendername = "<@" + defender._id + ">" }
     let attackername = attacker.name
-    if (attackername == undefined) { attackername = "<@" + attacker + ">" }
+    if (attackername == undefined) { attackername = "<@" + attacker._id + ">" }
     let evadechance = Math.random()
     let evaderate = 0;
     if (defender.name == "Will-o'-the-wisp") {
@@ -901,7 +901,7 @@ async function voteItem(message, dm) {
             target.glory += Math.random() * 0.5;
         }
         target.consum["box"] += numboxes
-        sendMessage(message.channel, "<@" + target + "> has been given " + numboxes + " boxes!\n" + text)
+        sendMessage(message.channel, "<@" + target._id + "> has been given " + numboxes + " boxes!\n" + text)
         if (dm) dmUser(target, "Thank you for voting! You have been given " + numboxes + " boxes!\n" + text)
         setUser(target)
     })
