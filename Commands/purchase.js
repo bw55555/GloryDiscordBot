@@ -54,7 +54,7 @@ module.exports = async function (message, user) {
         }
         user.materials -= 3125 * amount
         let text = "You successfully spent " + 3125 * amount + " materials for MODERATE CRAFTING and got:\n"
-        text += functions.craftItems(message, user, -1, -1, amount)
+        text += functions.craftItems(message, user, 2, 4, amount)
         if (amount != 1) { functions.replyMessage(message, text) }
     }
 
