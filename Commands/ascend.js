@@ -13,7 +13,7 @@ module.exports = async function (message,user) {
             return functions.replyMessage(message, "You are not level 100 yet!");
         }
         let asc = user.ascension+1
-        functions.setProp("userData", { _id: user._id }, { $set: { "level": 1, "attack": asc * 10, "defense": asc * 10, "health": asc * 100, "xp": 0, "weapon":false }, $inc: {"glory": 10, "consum.sp":1, "consum.reroll":1} })
+        functions.setProp("userData", { _id: user._id }, { $set: { "level": 1, "attack": asc * 10, "defense": asc * 10, "health": asc * 100, "xp": 0, "weapon":false }, $inc: {"glory": 10, "consum.sp":1, "consum.reroll":1, "ascension":1} })
         functions.replyMessage(message, "You have ascended! You now have " + user.consum.sp + " skill points!\n(Note that your weapon has been dequipped. Favorite it before smelting everything!)")
     }, [message, user]);
     //functions.replyMessage(message,"Are you sure you want to Ascend? You will be set back to level 1 and leveling will become twice as hard!\nIf you are sure, type `!ascendconfirm`")
