@@ -1380,7 +1380,6 @@ function itemFilter(message, user, defaults) {
     if (defaults == undefined) { defaults = {} }
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    let userInv = user.inventory
     let minrarity = (defaults.minrarity == undefined) ? 0 : defaults.minrarity
     let maxrarity = (defaults.maxrarity == undefined) ? 9 : defaults.maxrarity
     let fav = (defaults.fav == undefined) ? "None" : defaults.fav
@@ -1408,19 +1407,18 @@ function itemFilter(message, user, defaults) {
     if (words.indexOf("-unique") != -1) {
         unique = true
     }
-    displayItems = []
+    let displayItems = []
     if (user.weapon != false && user.weapon != "None" && defaults.equip != false) {
         displayItems.push(user.weapon)
     }
     
-    for (var item in userInv) {
+    for (var item in user.inventory) {
         console.log(item)
         //console.log(itemData[item])
-        let itemID = item.toString();
-        if (!unique && itemData[itemID].rarity == "Unique") { continue }
-        if (itemData[itemID] == undefined || item == user.weapon || user.inventory[item] != item || itemData[itemID].rarity < minrarity || itemData[itemID].rarity > maxrarity) continue
-        if (fav == true && itemData[itemID].favorite == false) { continue }
-        if (fav == false && itemData[itemID].favorite == true) { continue }
+        if (!unique && itemData[item].rarity == "Unique") { continue }
+        if (itemData[item] == undefined || item == user.weapon || user.inventory[item] != item || itemData[item].rarity < minrarity || itemData[item].rarity > maxrarity) continue
+        if (fav == true && itemData[item].favorite == false) { continue }
+        if (fav == false && itemData[item].favorite == true) { continue }
         displayItems.push(item)
     }
     return displayItems
