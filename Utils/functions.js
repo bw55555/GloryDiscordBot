@@ -1413,7 +1413,6 @@ function itemFilter(message, user, defaults) {
     }
     
     for (var item in user.inventory) {
-        console.log(item)
         //console.log(itemData[item])
         if (itemData[item] == undefined || (!unique && itemData[item].rarity == "Unique")) { continue }
         if (item == user.weapon || user.inventory[item] != item || itemData[item].rarity < minrarity || itemData[item].rarity > maxrarity) continue
