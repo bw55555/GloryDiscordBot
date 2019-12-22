@@ -1030,7 +1030,6 @@ function checkProps(message,user) {
     if (!user.glory) user.glory = 0;
     if (!user.burn) user.burn = 0;
     if (!user.cooldowns) user.cooldowns = {}
-    if (!user.cooldowns.normal) user.cooldowns.normal = 1;
     if (!user.cooldowns.attack) user.cooldowns.attack = 1;
     if (!user.cooldowns.heal) user.cooldowns.heal = 1;
     if (!user.cooldowns.rez) user.cooldowns.rez = 1;
@@ -1413,9 +1412,9 @@ function itemFilter(message, user, defaults) {
     if (user.weapon != false && user.weapon != "None" && defaults.equip != false) {
         displayItems.push(user.weapon)
     }
-
+    
     for (var item in userInv) {
-        //console.log(item)
+        console.log(item)
         //console.log(itemData[item])
         let itemID = item.toString();
         if (!unique && itemData[itemID].rarity == "Unique") { continue }
