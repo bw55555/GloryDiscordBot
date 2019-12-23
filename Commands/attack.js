@@ -18,6 +18,7 @@ module.exports = async function (message,user) {
         if (target == false) {
             return;
         }
+        console.log(target._id)
         if (target.dead == true) {
             functions.replyMessage(message, "Don't attack corpses!");
             return;
@@ -76,10 +77,10 @@ module.exports = async function (message,user) {
                 fields: [
                     {
                         name: "Attack Results",
-                        value: "<@" + target + "> took " + damage + " damage! They have " + target.currenthealth + " Health remaining!",
+                        value: "<@" + target._id + "> took " + damage + " damage! They have " + target.currenthealth + " Health remaining!",
                     }, {
                         name: "Counter Results",
-                        value: "<@" + id + "> took " + counter + " counterdamage! You have " + user.currenthealth + " Health remaining!",
+                        value: "<@" + user._id + "> took " + counter + " counterdamage! You have " + user.currenthealth + " Health remaining!",
                     }
                 ]
             }
@@ -136,7 +137,7 @@ module.exports = async function (message,user) {
 
             if (user.currenthealth > 0 && functions.hasSkill(user, 15)) {
                 user.currenthealth += target.health
-                functions.sendMessage(message.channel, "Soulsteal activated. <@" + id + "> has stolen " + target.health + " health");
+                functions.sendMessage(message.channel, "Soulsteal activated. <@" + user._id + "> has stolen " + target.health + " health");
                 user.currenthealth = Math.min(user.currenthealth, user.health)
             }
 
@@ -145,7 +146,7 @@ module.exports = async function (message,user) {
             user.currenthealth = 0;
             user.money -= counterstolen;
             target.money += counterstolen;
-            functions.sendMessage(message.channel, '<@' + id + '> (you) were killed! <@' + target._id + '> stole $' + counterstolen + ' from your body.');
+            functions.sendMessage(message.channel, '<@' + user._id + '> (you) were killed! <@' + target._id + '> stole $' + counterstolen + ' from your body.');
             if (user.bounty > 0) {
                 functions.sendMessage(message.channel, '<@' + target._id + "> collected your bounty of $" + user.bounty);
                 target.money += user.bounty;
@@ -166,7 +167,7 @@ module.exports = async function (message,user) {
 
             if (target.currenthealth > 0 && functions.hasSkill(target, 15)) {
                 target.currenthealth += user.health
-                functions.sendMessage(message.channel, "Soulsteal activated. <@" + target + "> has stolen " + user.health + " health");
+                functions.sendMessage(message.channel, "Soulsteal activated. <@" + target._id + "> has stolen " + user.health + " health");
                 target.currenthealth = Math.min(target.currenthealth, target.health)
             }
         }
