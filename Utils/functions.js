@@ -126,7 +126,7 @@ async function validate(message, user, spot) {
     }
     if (target == message.author.id) { return user}
     return getUser(target).then(ret => {
-        if (ret == undefined) {
+        if (ret == false) {
             //Send fail message here
             sendMessage(message.channel, targetname + " is not a real person");
             return false;
