@@ -141,7 +141,7 @@ module.exports = async function (message, user) {
                 return;
             }
             //functions.sendMessage(message.channel, "<@" + target + ">, <@" + id + "> invites you to their guild! Type `!guild accept` to join");
-            functions.MessageAwait(message.channel, target, "<@" + target._id + ">, <@" + id + "> has invited you to their guild! Type `accept` to join!", "accept",
+            functions.MessageAwait(message.channel, target._id, "<@" + target._id + ">, <@" + id + "> has invited you to their guild! Type `accept` to join!", "accept",
                 function (response, extraArgs) {
                     let guild = extraArgs[0]
                     let target = extraArgs[1]
