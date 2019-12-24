@@ -401,9 +401,9 @@ function calcDamage(message, attacker, defender, initiator) {
     let attack = 0;
     if (attacker._id != undefined) {
         if (defender._id != undefined && hasSkill(defender, 23, skillenable)) {
-            attack = 2 * calcStats(message, attacker, "attack", skillenable, true);
+            attack = calcStats(message, attacker, "attack", skillenable, true);
         } else {
-            attack = 2 * calcStats(message, attacker, "attack", skillenable);
+            attack = calcStats(message, attacker, "attack", skillenable);
         }
     } else {
         attack = attacker.attack;
@@ -418,9 +418,9 @@ function calcDamage(message, attacker, defender, initiator) {
     let defense = 0;
     if (defender._id != undefined) {
         if (attacker._id != undefined && hasSkill(attacker, 23, skillenable)) {
-            defense = 2 * calcStats(message, defender, "defense", skillenable, true);
+            defense = calcStats(message, defender, "defense", skillenable, true);
         } else {
-            defense = 2 * calcStats(message, defender, "defense", skillenable);
+            defense = calcStats(message, defender, "defense", skillenable);
         }
     }
     if (attacker._id != undefined && defender._id != undefined) {
@@ -669,7 +669,7 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
     //console.log("Counter")
-
+    console.log(attack)
     truedamage = Math.floor(attack * 0.75 * roll + attack * 0.25 - defense)
 
     //Last Breath Check
