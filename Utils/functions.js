@@ -98,9 +98,10 @@ function logCommand(message, extratext) {
 }
 
 async function validate(message, user, spot) {
-    if (message.content.trim().split(/\s+/).length == 1) { return user; }
+    if (isNaN(parseInt(spot))) { spot = 1}
     if (spot == 0) { return false; }
     let words = message.content.trim().split(/\s+/)
+    if (words.length == 1) { return user; }
     if (words.length <= spot) {
         sendMessage(message.channel, "Choose a target!")
         return false;
