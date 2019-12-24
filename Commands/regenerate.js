@@ -4,11 +4,8 @@ module.exports = async function (message,user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     if (functions.hasSkill(user, 24)) {
-        let spot = 1
-        if (words.length == 1) { spot = 0 }
-        return Promise.all([functions.validate(message,user, spot)]).then(ret => {
+        return Promise.all([functions.validate(message,user)]).then(ret => {
             let target = ret[0];
-            if (words.length == 1) { target = user }
             if (target == false) { return }
             if (!user.cooldowns.regenerate) user.cooldowns.regenerate = ts;
             if (user.dead == true) return functions.replyMessage(message, "You can't regenerate while dead!")

@@ -98,7 +98,7 @@ function logCommand(message, extratext) {
 }
 
 async function validate(message, user, spot) {
-    if (isNaN(parseInt(spot))) { spot = 1 }
+    if (message.content.trim().split(/\s+/).length = 1) { return user; }
     if (spot == 0) { return false; }
     let words = message.content.trim().split(/\s+/)
     if (words.length <= spot) {
@@ -669,7 +669,6 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
     //console.log("Counter")
-    console.log(attack)
     truedamage = Math.floor(attack * 0.75 * roll + attack * 0.25 - defense)
 
     //Last Breath Check

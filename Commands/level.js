@@ -3,14 +3,9 @@ module.exports = async function (message,user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    let spot = 1
-    if (words.length == 1) { spot = 0 }
     return Promise.all([functions.validate(message,user, spot)]).then(ret => {
         let target = ret[0];
         if (target == false) { return; }
-        if (words.length == 1) {
-            target = user
-        }
         let leveltext = target.level;
         let xpleft = (Math.floor((3 * Math.pow((target.level + 1), 2) + 100) * Math.pow(1.5, target.ascension)) - target.xp)
         if (xpleft < 0) {

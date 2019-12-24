@@ -72,11 +72,8 @@ module.exports = function (message, user) {
         return;
     }
     //console.log(words);
-    let spot = 1
-    if (words.length == 1) { spot = 0 }
-    return Promise.all([functions.validate(message, user, spot)]).then(ret => {
+    return Promise.all([functions.validate(message, user)]).then(ret => {
         let target = ret[0];
-        if (words.length == 1) { target = user }
         if (target == false) { return; }
         //console.log(target);
         //console.log(target);
