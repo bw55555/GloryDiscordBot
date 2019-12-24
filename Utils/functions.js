@@ -98,7 +98,7 @@ function logCommand(message, extratext) {
 }
 
 async function validate(message, user, spot) {
-    if (message.content.trim().split(/\s+/).length = 1) { return user; }
+    if (message.content.trim().split(/\s+/).length == 1) { return user; }
     if (spot == 0) { return false; }
     let words = message.content.trim().split(/\s+/)
     if (words.length <= spot) {
