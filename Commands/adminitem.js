@@ -96,7 +96,7 @@ module.exports = async function (message,user) {
         }
 
         functions.generateItem(target, itemid, attack, defense, rarity, name, modifiers)
-        functions.sendMessage(message.channel, "Gave item with id " + itemid + ", attack " + attack + ", defense " + defense + ", rarity " + rarity + ", name " + name + " to <@" + target + ">")
+        functions.sendMessage(message.channel, "Gave item with id " + itemid + ", attack " + attack + ", defense " + defense + ", rarity " + rarity + ", name " + name + " to <@" + target._id + ">")
         functions.logCommand(message)
         functions.setUser(target)
         return user

@@ -28,7 +28,7 @@ module.exports = async function (message, user) {
                     functions.sendMessage(message.channel, attribute + ":" + secondattribute + " is not a defined attribute");
                     return user
                 }
-                functions.sendMessage(message.channel, 'Set <@' + target + ">\'s " + attribute + ":" + secondattribute + " to " + amount);
+                functions.sendMessage(message.channel, 'Set <@' + target._id + ">\'s " + attribute + ":" + secondattribute + " to " + amount);
                 target[attribute][secondattribute] = amount;
                 functions.logCommand(message)
                 functions.setUser(target)

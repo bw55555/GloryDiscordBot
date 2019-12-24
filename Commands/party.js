@@ -95,7 +95,7 @@ module.exports = async function (message,user) {
             functions.replyMessage(message, "You can't have more than 4 people in a party!");
             return;
         }
-        functions.MessageAwait(message.channel, target._id, "<@" + target + ">, <@" + id + "> has invited you to their party! Type `accept` to join!", "accept",
+        functions.MessageAwait(message.channel, target._id, "<@" + target._id + ">, <@" + id + "> has invited you to their party! Type `accept` to join!", "accept",
             function (response, extraArgs) {
                 let party = extraArgs[0]
                 let id = extraArgs[1]
@@ -103,7 +103,7 @@ module.exports = async function (message,user) {
                 if (userData[id].party != "None") { return;}
                 userData[id].party = party;
                 partyData[party].members.push(id);
-                functions.sendMessage(message.channel, "<@" + target + "> has joined " + party + "!");
+                functions.sendMessage(message.channel, "<@" + target._id + "> has joined " + party + "!");
             },
             [party, target, message],
             "They didn't want to join your party..."
@@ -164,7 +164,7 @@ module.exports = async function (message,user) {
             partyData[partyName].members.splice(place, 1);
         }
         userData[target].party = "None";
-        functions.sendMessage(message.channel, "<@" + target + "> was kicked from the party!");
+        functions.sendMessage(message.channel, "<@" + target._id + "> was kicked from the party!");
     }
     else if (command == "DELETE") {
         if (admins.indexOf(id) == -1) { return }

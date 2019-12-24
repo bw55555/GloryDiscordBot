@@ -140,7 +140,7 @@ module.exports = async function (message, user) {
                 functions.replyMessage(message, "They are already in the guild " + target.guild + "!");
                 return;
             }
-            //functions.sendMessage(message.channel, "<@" + target + ">, <@" + id + "> invites you to their guild! Type `!guild accept` to join");
+            //functions.sendMessage(message.channel, "<@" + target._id + ">, <@" + id + "> invites you to their guild! Type `!guild accept` to join");
             functions.MessageAwait(message.channel, target._id, "<@" + target._id + ">, <@" + id + "> has invited you to their guild! Type `accept` to join!", "accept",
                 function (response, extraArgs) {
                     let guild = extraArgs[0]
@@ -154,7 +154,7 @@ module.exports = async function (message, user) {
                 [guild, target, message],
                 "They didn't want to join your guild..."
             );
-            //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + " (id " + id + ") invited "+target.username + " (id " + target + ") to your guild.") }
+            //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + " (id " + id + ") invited "+target.username + " (id " + target._id + ") to your guild.") }
         })
     }
     else if (command == "LEAVE") {
@@ -283,7 +283,7 @@ module.exports = async function (message, user) {
                 functions.replyMessage(message, "You have paid <@" + target._id + "> " + amount + " materials!");
             }
             functions.setUser(target)
-            // if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + "(id " + id + ") has paid " + amount + " " + type + " to "+target.username + "(id " + target + ")") }
+            // if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + "(id " + id + ") has paid " + amount + " " + type + " to "+target.username + "(id " + target._id + ")") }
         })
     }
     else if (command == "PROMOTE") {
@@ -302,7 +302,7 @@ module.exports = async function (message, user) {
             }
             if (target.guildpos == "Member") {
                 target.guildpos = "Co-Leader"
-                functions.replyMessage(message, "You have promoted <@" + target + "> to Co-Leader!");
+                functions.replyMessage(message, "You have promoted <@" + target._id + "> to Co-Leader!");
             } else {
                 functions.replyMessage(message, "They can't be promoted any further!");
             }
@@ -359,7 +359,7 @@ module.exports = async function (message, user) {
                 target.guildpos = "None";
                 functions.sendMessage(message.channel, "<@" + target._id + "> was kicked from the guild!");
                 functions.setUser(target)
-                //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + "(id " + id + ") has kicked "+target.username + "(id " + target + ") from your guild.") }
+                //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + "(id " + id + ") has kicked "+target.username + "(id " + target._id + ") from your guild.") }
             }
         })
     }
