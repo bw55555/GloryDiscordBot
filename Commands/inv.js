@@ -70,6 +70,26 @@ module.exports = async function (message,user) {
                     totalText = ""
                 }
             }
+            if (totalText != "") {
+                page = {
+                    "embed": {
+                        //"title": "Global Wealth",
+                        "color": 0xffffff,
+                        "fields": [
+                            {
+                                "name": user.username + "'s Inventory",
+                                "value": totalText,
+                                "inline": true
+                            }
+                        ],
+                        "footer": {
+                            "text": "Page " + (pages.length + 1) + " of " + (1 + Math.floor(wepsra.length / 5))
+                        },
+                    }
+                }
+                pages.push(page)
+                totalText = ""
+            }
         }
     }
     new functions.Paginator(message.channel, message.author, pages)
