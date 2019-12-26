@@ -13,7 +13,6 @@ module.exports = async function (message,user) {
     let id = message.author.id;
     //let ts = message.createdTimestamp;
     //let words = message.content.trim().split(/\s+/)
-    let weaponCount = 0
     let wepsra = functions.itemFilter(message, user)
     let numPerPage = 5
     let pages = []
@@ -37,8 +36,8 @@ module.exports = async function (message,user) {
     } else {
         let infoText = ""
         let totalText = ""
-        for (var i = 0; i <= weaponCount; i += 1) {
-            if (i % numPerPage != numPerPage - 1 && i != weaponCount) {
+        for (var i = 0; i < wepsra.length; i += 1) {
+            if ((i % numPerPage) != (numPerPage - 1)) {
                 if (wepsra[i] != undefined) {
                     infoText = displayWeaponText(wepsra[i])
                     infoText += "\n"
@@ -63,7 +62,7 @@ module.exports = async function (message,user) {
                                 }
                             ],
                             "footer": {
-                                "text": "Page " + (pages.length + 1) + " of " + (1 + Math.floor(weaponCount / 5))
+                                "text": "Page " + (pages.length + 1) + " of " + (1 + Math.floor(wepsra.length / 5))
                             },
                         }
                     }
