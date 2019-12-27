@@ -52,7 +52,7 @@ module.exports = async function (message,user) {
                             "title": user.username + "'s Inventory",
                             "fields": fields,
                             "footer": {
-                                "text": "Page " + (pages.length + 1) + " of " + (1 + Math.floor(wepsra.length / numPerPage))
+                                "text": "Page " + (pages.length + 1) + " of " + (Math.ceil(wepsra.length / numPerPage))
                             },
                         }
                     }
@@ -69,7 +69,7 @@ module.exports = async function (message,user) {
                     "title": user.username + "'s Inventory",
                     "fields": fields,
                     "footer": {
-                        "text": "Page " + (pages.length + 1) + " of " + (1 + Math.floor(wepsra.length / numPerPage))
+                        "text": "Page " + (pages.length + 1) + " of " + (Math.ceil(wepsra.length / numPerPage))
                     },
                 }
             }
