@@ -34,74 +34,56 @@ module.exports = async function (message,user) {
             }
         }
     } else {
-        let infoText = ""
-        let totalText = ""
-        for (var i = 0; i < wepsra.length; i += 1) {
+        let fields = [];
+        for (var i = 0; i < wepsra.length; i++) {
             if ((i % numPerPage) != (numPerPage - 1)) {
                 if (wepsra[i] != undefined) {
-                    infoText = displayWeaponText(wepsra[i])
-                    infoText += "\n"
-                    totalText += infoText
+                    fields.push({
+                        name: itemData[id].name+"("+id+")",
+                        value: "Rarity: " + rarities[itemData[id].rarity] + "\nAtk +" + itemData[id].attack + " / Def +" + itemData[id].defense,
+                        inline: true,
+                    })
                 }
             } else {
                 if (wepsra[i] != undefined) {
-                    infoText = displayWeaponText(wepsra[i])
-                    infoText += "\n"
-                    totalText += infoText
+                    fields.push({
+                        name: itemData[id].name + "(" + id + ")",
+                        value: "Rarity: " + rarities[itemData[id].rarity] + "\nAtk +" + itemData[id].attack + " / Def +" + itemData[id].defense,
+                        inline: true,
+                    })
                 }
-                if (totalText != "") {
+                if (fields.length > 0) {
                     page = {
                         "embed": {
                             //"title": "Global Wealth",
                             "color": 0xffffff,
-                            "fields": [
-                                {
-                                    "name": user.username + "'s Inventory",
-                                    "value": totalText,
-                                    "inline": true
-                                }
-                            ],
+                            "title": user.username + "'s Inventory",
+                            "fields": fields,
                             "footer": {
-                                "text": "Page " + (pages.length + 1) + " of " + (1 + Math.floor(wepsra.length / 5))
+                                "text": "Page " + (pages.length + 1) + " of " + (1 + Math.floor(wepsra.length / numPerPage))
                             },
                         }
                     }
                     pages.push(page)
-                    totalText = ""
+                    fields = []
                 }
             }
-            if (totalText != "") {
+            if (fields.length>0) {
                 page = {
                     "embed": {
                         //"title": "Global Wealth",
                         "color": 0xffffff,
-                        "fields": [
-                            {
-                                "name": user.username + "'s Inventory",
-                                "value": totalText,
-                                "inline": true
-                            }
-                        ],
+                        "title": user.username + "'s Inventory",
+                        "fields": fields,
                         "footer": {
-                            "text": "Page " + (pages.length + 1) + " of " + (1 + Math.floor(wepsra.length / 5))
+                            "text": "Page " + (pages.length + 1) + " of " + (1 + Math.floor(wepsra.length / numPerPage))
                         },
                     }
                 }
                 pages.push(page)
-                totalText = ""
+                fields = []
             }
         }
     }
     new functions.Paginator(message.channel, message.author, pages)
-}
-
-function displayWeaponText(id) {
-    let infoText = ""
-    infoText += "**" + itemData[id].name + "** (" + itemData[id].id + ")\n"
-    infoText += "Rarity: " + itemData[id].rarity + "\n"
-    infoText += "Atk +" + itemData[id].attack + " / Def +" + itemData[id].defense + "\n"
-    if (itemData[id].modifiers != undefined && itemData[id].modifiers.length > 0) {
-        infoText += "*Modifiers:* " + itemData[id].modifiers + "\n"
-    }
-    return infoText
 }
