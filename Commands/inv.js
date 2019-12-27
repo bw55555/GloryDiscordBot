@@ -38,7 +38,7 @@ module.exports = async function (message,user) {
         for (var i = 0; i < wepsra.length; i++) {
             if (wepsra[i] != undefined) {
                 fields.push({
-                    name: itemData[wepsra[i]].name + "(" + wepsra[i] + ")",
+                    name: itemData[wepsra[i]].name + " (" + wepsra[i] + ")",
                     value: "Rarity: " + rarities[itemData[wepsra[i]].rarity] + "\nAtk +" + itemData[wepsra[i]].attack + " / Def +" + itemData[wepsra[i]].defense,
                     inline: false,
                 })
