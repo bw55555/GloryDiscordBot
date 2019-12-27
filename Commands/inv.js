@@ -19,7 +19,7 @@ module.exports = async function (message,user) {
     if (wepsra.length == 0) {
         page = {
             "embed": {
-                //"title": "Global Wealth",
+                "title": user.username + "'s Inventory",
                 "color": 0xffffff,
                 "fields": [
                     {
@@ -36,22 +36,14 @@ module.exports = async function (message,user) {
     } else {
         let fields = [];
         for (var i = 0; i < wepsra.length; i++) {
-            if ((i % numPerPage) != (numPerPage - 1)) {
-                if (wepsra[i] != undefined) {
-                    fields.push({
-                        name: itemData[wepsra[i]].name + "(" + wepsra[i]+")",
-                        value: "Rarity: " + rarities[itemData[wepsra[i]].rarity] + "\nAtk +" + itemData[wepsra[i]].attack + " / Def +" + itemData[wepsra[i]].defense,
-                        inline: true,
-                    })
-                }
-            } else {
-                if (wepsra[i] != undefined) {
-                    fields.push({
-                        name: itemData[wepsra[i]].name + "(" + wepsra[i] + ")",
-                        value: "Rarity: " + rarities[itemData[wepsra[i]].rarity] + "\nAtk +" + itemData[wepsra[i]].attack + " / Def +" + itemData[wepsra[i]].defense,
-                        inline: true,
-                    })
-                }
+            if (wepsra[i] != undefined) {
+                fields.push({
+                    name: itemData[wepsra[i]].name + "(" + wepsra[i] + ")",
+                    value: "Rarity: " + rarities[itemData[wepsra[i]].rarity] + "\nAtk +" + itemData[wepsra[i]].attack + " / Def +" + itemData[wepsra[i]].defense,
+                    inline: true,
+                })
+            }
+            if ((i % numPerPage) == (numPerPage - 1)) {
                 if (fields.length > 0) {
                     page = {
                         "embed": {
@@ -68,21 +60,21 @@ module.exports = async function (message,user) {
                     fields = []
                 }
             }
-            if (fields.length>0) {
-                page = {
-                    "embed": {
-                        //"title": "Global Wealth",
-                        "color": 0xffffff,
-                        "title": user.username + "'s Inventory",
-                        "fields": fields,
-                        "footer": {
-                            "text": "Page " + (pages.length + 1) + " of " + (1 + Math.floor(wepsra.length / numPerPage))
-                        },
-                    }
+        }
+        if (fields.length > 0) {
+            page = {
+                "embed": {
+                    //"title": "Global Wealth",
+                    "color": 0xffffff,
+                    "title": user.username + "'s Inventory",
+                    "fields": fields,
+                    "footer": {
+                        "text": "Page " + (pages.length + 1) + " of " + (1 + Math.floor(wepsra.length / numPerPage))
+                    },
                 }
-                pages.push(page)
-                fields = []
             }
+            pages.push(page)
+            fields = []
         }
     }
     new functions.Paginator(message.channel, message.author, pages)
