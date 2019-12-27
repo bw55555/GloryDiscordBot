@@ -40,7 +40,7 @@ module.exports = async function (message,user) {
                 fields.push({
                     name: itemData[wepsra[i]].name + "(" + wepsra[i] + ")",
                     value: "Rarity: " + rarities[itemData[wepsra[i]].rarity] + "\nAtk +" + itemData[wepsra[i]].attack + " / Def +" + itemData[wepsra[i]].defense,
-                    inline: true,
+                    inline: false,
                 })
             }
             if ((i % numPerPage) == (numPerPage - 1)) {
