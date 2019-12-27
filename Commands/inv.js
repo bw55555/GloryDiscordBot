@@ -39,16 +39,16 @@ module.exports = async function (message,user) {
             if ((i % numPerPage) != (numPerPage - 1)) {
                 if (wepsra[i] != undefined) {
                     fields.push({
-                        name: itemData[id].name+"("+id+")",
-                        value: "Rarity: " + rarities[itemData[id].rarity] + "\nAtk +" + itemData[id].attack + " / Def +" + itemData[id].defense,
+                        name: itemData[wepsra[i]].name + "(" + wepsra[i]+")",
+                        value: "Rarity: " + rarities[itemData[wepsra[i]].rarity] + "\nAtk +" + itemData[wepsra[i]].attack + " / Def +" + itemData[wepsra[i]].defense,
                         inline: true,
                     })
                 }
             } else {
                 if (wepsra[i] != undefined) {
                     fields.push({
-                        name: itemData[id].name + "(" + id + ")",
-                        value: "Rarity: " + rarities[itemData[id].rarity] + "\nAtk +" + itemData[id].attack + " / Def +" + itemData[id].defense,
+                        name: itemData[wepsra[i]].name + "(" + wepsra[i] + ")",
+                        value: "Rarity: " + rarities[itemData[wepsra[i]].rarity] + "\nAtk +" + itemData[wepsra[i]].attack + " / Def +" + itemData[wepsra[i]].defense,
                         inline: true,
                     })
                 }
