@@ -18,7 +18,7 @@ function upgradeStats(attributeToUpgrade, amount,user) {
         if (user.money >= cost && user.level * attrcosts[attributeToUpgrade] > basestat) {
             user.money -= cost;
             user[attributeToUpgrade] += attrcosts[attributeToUpgrade];
-        } else if (user.level <= Math.floor(basestat / attrcosts[attributeToUpgrade])) {
+        } else if (user.level+user.ascension*10 <= Math.floor(basestat / attrcosts[attributeToUpgrade])) {
             levelstop = true;
             //functions.replyMessage(message, 'You must be level ' + (Math.floor(user[attributeToUpgrade] / attrcosts[attributeToUpgrade]) + 1) + ' to level up your ' + attributeToUpgrade + ' to ' + (user[attributeToUpgrade] + attrcosts[attributeToUpgrade]) + '. You are level ' + user.level + '!');
             break;
