@@ -60,8 +60,8 @@ global.healcd = .8;
 global.workcdseconds = 10;
 global.smeltallcd = 1;
 global.bolstercd = 2; //every 2 minute, you can do !bolster on another player or yourself. That adds 100 to their currenthealth regardless of max health.
-global.userData = JSON.parse(fs.readFileSync('Storage/userData.json', 'utf8'));
-global.itemData = JSON.parse(fs.readFileSync('Storage/itemData.json', 'utf8'));
+global.userData = "userData"//JSON.parse(fs.readFileSync('Storage/userData.json', 'utf8'));
+global.itemData = "itemData"//JSON.parse(fs.readFileSync('Storage/itemData.json', 'utf8'));
 global.mobData = JSON.parse(fs.readFileSync('Storage/mobData.json', 'utf8'));
 global.guildData = JSON.parse(fs.readFileSync('Storage/guildData.json', 'utf8'));
 global.serverData = JSON.parse(fs.readFileSync('Storage/serverData.json', 'utf8'));
@@ -70,10 +70,7 @@ global.questData = JSON.parse(fs.readFileSync('Storage/questData.json', 'utf8'))
 global.partyData = {}//JSON.parse(fs.readFileSync('Storage/partyData.json', 'utf8'));
 //global.eggData = JSON.parse(fs.readFileSync('Storage/eggData.json', 'utf8'));
 global.duel = {};
-
 global.skillData = JSON.parse(fs.readFileSync('Assets/skillData.json', 'utf8'));
-
-global.nextItem = devData.nextItem
 if (devData.dblenable) {
     const http = require('http');
     const DBL = require('dblapi.js');
