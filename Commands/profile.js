@@ -6,12 +6,12 @@ module.exports = async function (message, user) {
     return Promise.all([functions.validate(message,user)]).then(ret => {
         let target = ret[0];
         if (target == false) { return; }
-        let weapon = (target.weapon == false) ? "None" : itemData[target.weapon].name + " (" + target.weapon + ")"
+        let weapon = (target.weapon == false) ? "None" : target.weapon.name + " (" + target.weapon._id + ")"
         let weaponatk = 0
         let weapondef = 0
-        if (target.weapon != false && target.weapon != "None" && target.weapon != undefined && target.weapon < itemData.next) {
-            weaponatk = itemData[target.weapon].attack
-            weapondef = itemData[target.weapon].defense
+        if (target.weapon != false && target.weapon) {
+            weaponatk = target.weapon.attack
+            weapondef = target.weapon.defense
         }
         let guildtext = "None";
         if (target.guild != "None") {

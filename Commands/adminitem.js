@@ -1,16 +1,9 @@
 var functions=require("../Utils/functions.js")
-function isFloat(arg) {
-  for (var i=0;i<arg.length;i++) {
-    if (arg.slice(i,i+1)==".") {continue}
-    if (isNaN(parseInt(arg.slice(i,i+1)))) {return false}
-  }
-  return true
-}
 module.exports = async function (message,user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    if (admins.indexOf(id)==-1){return user}
+    if (admins.indexOf(id)==-1) {return user}
     let itemid = 0
     let attack = 0
     let defense = 0
@@ -25,22 +18,6 @@ module.exports = async function (message,user) {
         if (words[1] == "event") { target = "event"}
         if (target == false) { return user }
         let place = 2
-        if (words[2] == "-id") {
-            if (words.length == 3) {
-                functions.sendMessage(message.channel, "Please specify an id.")
-                return user
-            }
-            itemid = parseInt(words[3])
-            if (isNaN(itemid) || itemid <= 0 || itemid >= itemData.next) {
-                functions.sendMessage(message.channel, "You can only generate existing items!")
-                return user
-            }
-            if (itemData[itemid] != undefined && itemData[itemid].owner != undefined && itemData[itemid].owner != target._id) {
-                functions.sendMessage(message.channel, "Someone owns this item!")
-                return user
-            }
-            place = 4
-        } else { itemid = itemData.next }
         if (words.length < place + 2) {
             functions.sendMessage(message.channel, "Please specify an attack and a defense stat.")
             return user
@@ -94,9 +71,8 @@ module.exports = async function (message,user) {
                 modifiers[modifier] = modifierstat
             }
         }
-
-        functions.generateItem(target, itemid, attack, defense, rarity, name, modifiers)
-        functions.sendMessage(message.channel, "Gave item with id " + itemid + ", attack " + attack + ", defense " + defense + ", rarity " + rarity + ", name " + name + " to <@" + target._id + ">")
+        let item = functions.generateItem(target, null, attack, defense, rarity, name, modifiers)
+        functions.sendMessage(message.channel, "Gave item with id " + item._id + ", attack " + attack + ", defense " + defense + ", rarity " + rarity + ", name " + name + " to <@" + target._id + ">")
         functions.logCommand(message)
         functions.setUser(target)
         return user

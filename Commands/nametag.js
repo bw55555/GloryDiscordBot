@@ -7,7 +7,7 @@ module.exports = async function (message,user) {
         functions.replyMessage(message, "You have no Nametags!");
         return;
     }
-    if (words.length <= 2) {
+    if (words.length <= 3) {
         functions.replyMessage(message, "!nametag [itemID] [Desired Weapon Name]");
         return;
     }
@@ -17,20 +17,16 @@ module.exports = async function (message,user) {
         functions.sendMessage(message.channel, "The Weapon ID must be an integer");
         return;
     }
-    if (itemData[weaponid] == 0) {
-        functions.replyMessage(message, "This item does not exist!")
-        return
-    }
     if (user.inventory[weaponid] != weaponid) {
         functions.replyMessage(message, "You do not own this item!")
         return
     }
     let name = message.content.slice(message.content.indexOf(words[2]));
     if (name.length > 35) {
-        functions.replyMessage(message, "That weapon name is too long!");
+        functions.replyMessage(message, "That weapon name is too long! (35 characters max)");
         return;
     }
-    itemData[weaponid].name = name;
     functions.replyMessage(message, "Weapon ID " + weaponid + " is now called " + name);
-    user.consum.nametag-=1;
+    functions.setProp("itemData", { "_id": weaponid }, { $set: { "name": name } })
+    user.consum.nametag -= 1;
 }

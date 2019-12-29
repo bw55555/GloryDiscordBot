@@ -19,7 +19,14 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You can't give yourself items");
             return;
         }
-
+        if (user.dead == true) {
+            functions.replyMessage(message, "Unfortunately, you are dead.");
+            return;
+        }
+        if (target.dead == true) {
+            functions.replyMessage(message, "You can't give items to a corpse!");
+            return;
+        }
         if (words.length < 3) {
             functions.replyMessage(message, "Please specify an item ID.");
             return;
@@ -29,44 +36,33 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "Please specify an integer item ID.");
             return;
         }
-
+        
         if (user.inventory[weaponid] != weaponid) {
             functions.replyMessage(message, "You do not own this item!")
             return
         }
-        if (itemData.next <= weaponid) {
-            functions.replyMessage(message, "This item does not exist!")
-            return
-        }
-        if (itemData[weaponid] == 0) {
-            functions.replyMessage(message, "This item does not exist!")
-            return
-        }
-        if (weaponid == user.weapon) {
+        if (weaponid == user.weapon._id) {
             functions.replyMessage(message, "You cannot give away your equipped weapon!")
             return
         }
-        rarity = itemData[weaponid].rarity
+        return Promise.all([functions.getItem(weaponid)]).then(ret => {
+            let item = ret[0]
+            rarity = item.rarity
 
-        if (rarity == "Unique" && admins.indexOf(id) == -1) {
-            functions.replyMessage(message, "You cannot trade an Unique weapon!")
-            return
-        }
-        if (rarity == "GLORY" && admins.indexOf(id) == -1) {
-            functions.replyMessage(message, "You cannot trade a GLORY weapon!")
-            return
-        }
-
-
-        if (target.dead == true) {
-            functions.replyMessage(message, "You can't give items to a corpse!");
-            return;
-        }
-
-        delete user.inventory[weaponid]
-        target.inventory[weaponid] = weaponid
-        itemData[weaponid].owner = target._id
-        functions.sendMessage(message.channel, "<@" + target._id + "> recieved " + weaponid + " from <@" + id + ">");
-        functions.setUser(target)
+            if (rarity == "Unique" && admins.indexOf(user._id) == -1) {
+                functions.replyMessage(message, "You cannot trade an Unique weapon!")
+                return
+            }
+            if (rarity == "GLORY" && admins.indexOf(user._id) == -1) {
+                functions.replyMessage(message, "You cannot trade a GLORY weapon!")
+                return
+            }
+            delete user.inventory[weaponid]
+            target.inventory[weaponid] = weaponid
+            item.owner = target._id
+            functions.sendMessage(message.channel, "<@" + target._id + "> recieved " + item._id + " from <@" + user._id + ">");
+            functions.setUser(target)
+            functions.setItem(item)
+        })
     })
 }

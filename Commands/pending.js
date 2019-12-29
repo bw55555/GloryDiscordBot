@@ -43,7 +43,7 @@ module.exports = async function (message,user) {
     if (words.indexOf("-all") != -1) {
         all = true
     }
-
+    //functions.itemFilter(message, user, { "price": {$exists:true}})
     for (var weaponid in itemData) {
         if (weaponid != undefined && itemData[weaponid].price != undefined && itemData[weaponid].price <= maxCost && itemData[weaponid].attack + itemData[weaponid].defense >= minStat) {
             if(itemData[weaponid].owner == id){
@@ -65,7 +65,7 @@ module.exports = async function (message,user) {
                 "color": 0x458B00,
                 "fields": [
                     {
-                        "name": "<@" + id + ">'s Pending List",
+                        "name": user.username+"'s Pending List",
                         "value": "There are no weapons that fit your criteria.",
                     }
                 ],

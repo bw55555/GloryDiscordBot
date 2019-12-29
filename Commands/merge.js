@@ -17,94 +17,74 @@ module.exports = async function (message,user) {
     if (weaponid == weaponid2) {
         functions.replyMessage(message, "You cannot merge an item with itself.")
     }
-
-    if (itemData[weaponid] == undefined) {
-        functions.replyMessage(message, "The first item does not exist!")
-        return
-    }
-    if (itemData[weaponid2] == undefined) {
-        functions.replyMessage(message, "The second item does not exist!")
-        return
-    }
-    if (itemData[weaponid] == 0) {
-        functions.replyMessage(message, "This item does not exist!")
-    }
-    if (itemData[weaponid2] == 0) {
-        functions.replyMessage(message, "This item does not exist!")
-        return
-    }
-    if (user.inventory[weaponid] != weaponid) {
-        functions.replyMessage(message, "You do not own the first item!")
-        return
-    }
-    if (user.inventory[weaponid2] != weaponid2) {
-        functions.replyMessage(message, "You do not own the second item!")
-        return
-    }
-    if (weaponid2 == user.weapon) {
-        functions.replyMessage(message, "You cannot merge away your equipped weapon!")
-        return
-    }
-    let rarity = itemData[weaponid].rarity
-    if (rarity == "Unique") {
-        functions.replyMessage(message, "You cannot merge an unique weapon!")
-        return
-    }
-    if (rarity == 9) {
-        functions.replyMessage(message, "You cannot merge a GLORY weapon!")
-        return
-    }
-    let rarity2 = itemData[weaponid2].rarity
-    if (rarity2 == "Unique") {
-        functions.replyMessage(message, "You cannot merge an unique weapon!")
-        return
-    }
-    if (rarity2 == 9) {
-        functions.replyMessage(message, "You cannot merge a GLORY weapon!")
-        return
-    }
-    if (rarity != rarity2) {
-        functions.replyMessage(message, "You must merge weapons of the same rarity!")
-        return
-    }
-    if (itemData[weaponid].merge >= 10) {
-        functions.replyMessage(message, "The first item cannot be upgraded any further!")
-        return
-    }
-    let extratime = (rarity < 2) ? 0 : Math.pow(2, rarity - 2) * 60 * 15
-    let wepatk = itemData[weaponid].attack
-    let wepdef = itemData[weaponid].defense
-    let y = (raritystats[rarity] - (wepatk + wepdef)) / (10 - itemData[weaponid].merge)
-    let chance = Math.random()
-    if (y > 0 && y <= 1) { y = 1 }
-    if (raritystats[rarity] - (wepatk + wepdef) < 1 && rarity != 8) {
-        itemData[weaponid].merge = 9
-        y = 1
-    } else if (raritystats[rarity] - (wepatk + wepdef) < 1 && rarity == 8) {
-        return functions.replyMessage(message, "This weapon cannot be upgraded anymore!")
-    }
-    for (let x = 0; x < y; x++) {
-        chance = Math.random()
-        if (chance > 0.5) {
-            itemData[weaponid].attack += 1;
-        } else {
-            itemData[weaponid].defense += 1;
+    return Promise.all([functions.getItem(weaponid), functions.getItem(weaponid2)]).then(ret => {
+        let wep1 = ret[0]
+        let wep2 = ret[1]
+        if (wep1 == false) {
+            functions.replyMessage(message, "The first item does not exist!")
+            return
         }
-    }
-    itemData[weaponid].merge += 1;
-
-    functions.replyMessage(message, itemData[weaponid].name + " (" + weaponid + ")'s stats has increased by " + (itemData[weaponid].attack - wepatk) + " Attack and " + (itemData[weaponid].defense - wepdef) + " Defense!")
-
-    if (itemData[weaponid].merge >= 10 && itemData[weaponid].rarity != 8) {
-        itemData[weaponid].merge = 0
-        itemData[weaponid].rarity += 1;
-        functions.sendMessage(message.channel, "It is now a " + itemData[weaponid].rarity + " rarity weapon!")
-    }
-    delete user.inventory[weaponid2];
-    itemData[weaponid2] = 0;
-
-    functions.setCD(user, ts,extratime,"merge")
-    if (functions.hasSkill(user, 35)) {
-        functions.setCD(user, ts, extratime/2, "merge")
-    }
+        if (wep2 == false) {
+            functions.replyMessage(message, "The second item does not exist!")
+            return
+        }
+        if (user.inventory[wep1._id] != wep1._id) {
+            functions.replyMessage(message, "You do not own the first item!")
+            return
+        }
+        if (user.inventory[wep2._id] != wep2._id) {
+            functions.replyMessage(message, "You do not own the second item!")
+            return
+        }
+        if (wep1._id == user.weapon._id || wep2._id == user.weapon._id) {
+            functions.replyMessage(message, "You cannot merge your equipped weapon!")
+            return
+        }
+        let rarity = wep1.rarity
+        let rarity2 = wep2.rarity
+        if (rarity == "Unique" || rarity2 == "Unique") {
+            functions.replyMessage(message, "You cannot merge an unique weapon!")
+            return
+        }
+        if (rarity == 9 || rarity2 == 9) {
+            functions.replyMessage(message, "You cannot merge a GLORY weapon!")
+            return
+        }
+        if (rarity != rarity2) {
+            functions.replyMessage(message, "You must merge weapons of the same rarity!")
+            return
+        }
+        if (wep1.merge >= 10) {
+            functions.replyMessage(message, "The first item cannot be upgraded any further!")
+            return
+        }
+        if (raritystats[rarity] - (wepatk + wepdef))
+        let extratime = (rarity < 2) ? 0 : Math.pow(2, rarity - 2) * 60 * 15
+        let wepatk = wep1.attack
+        let wepdef = wep2.defense
+        let y = (raritystats[rarity] - (wepatk + wepdef)) / (10 - wep1.merge)
+        wep1.merge += 1;
+        if (wep1.merge >= 10 && wep1.rarity != 8) { y+=1 }
+        for (let x = 0; x < y; x++) {
+            let chance = Math.random()
+            if (chance > 0.5) {
+                wep1.attack += 1;
+            } else {
+                wep1.defense += 1;
+            }
+        }
+        functions.replyMessage(message, wep1.name + " (" + wep1._id + ")'s stats has increased by " + (wep1.attack - wepatk) + " Attack and " + (wep1.defense - wepdef) + " Defense!")
+        if (wep1.merge >= 10 && wep1.rarity != 8) {
+            wep1.merge = 0
+            wep1.rarity += 1;
+            functions.sendMessage(message.channel, "It is now a " + wep1.rarity + " rarity weapon!")
+        }
+        delete user.inventory[weaponid2];
+        functions.deleteItem(wep2._id)
+        functions.setItem(wep1)
+        functions.setCD(user, ts, extratime, "merge")
+        if (functions.hasSkill(user, 35)) {
+            functions.setCD(user, ts, extratime / 2, "merge")
+        }
+    })
 }

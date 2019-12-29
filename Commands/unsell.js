@@ -14,24 +14,24 @@ module.exports = async function (message,user) {
         return;
     }
     let weaponid = words[1]
-    if (itemData[weaponid] == undefined) {
-        if (user.inventory[weaponid] == weaponid) {
-            delete user.inventory[weaponid]
+    return Promise.all([functions.getItem(weaponid)]).then(ret => {
+        let item = ret[0]
+        if (item == false) {
+            functions.replyMessage(message, "This weapon does not exist.");
+            return
+        } else if (user.weapon._id == item._id) {
+            functions.replyMessage(message, "You already have this weapon equipped. (Somehow?!?)")
+            return
+        } else if (item.price == undefined) {
+            functions.replyMessage(message, "This item is not for sale.")
+            return
+        } else if (item.owner != user._id) {
+            functions.replyMessage(message, "You are not selling this item.")
+            return
         }
-        functions.replyMessage(message, "This weapon does not exist.");
-        return
-    } else if (user.weapon == weaponid) {
-        functions.replyMessage(message, "You already have this weapon equipped. (Somehow?!?)")
-        return
-    } else if (itemData[weaponid].price == undefined) {
-        functions.replyMessage(message, "This item is not for sale.")
-        return
-    } else if (itemData[weaponid].owner != id) {
-        functions.replyMessage(message, "You are not selling this item.")
-        return
-    }
-
-    user.inventory[weaponid] = weaponid //weapon added to inventory
-    functions.sendMessage(message.channel, "You removed " + itemData[weaponid].name + " (" + weaponid + ") from the market.")
-    delete itemData[weaponid].price
+        user.inventory[item._id] = item._id //weapon added to inventory
+        functions.sendMessage(message.channel, "You removed " + item.name + " (" + item._id + ") from the market.")
+        delete item.price
+        functions.setItem(item)
+    })
 }

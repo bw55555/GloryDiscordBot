@@ -72,6 +72,8 @@ global.partyData = {}//JSON.parse(fs.readFileSync('Storage/partyData.json', 'utf
 global.duel = {};
 
 global.skillData = JSON.parse(fs.readFileSync('Assets/skillData.json', 'utf8'));
+
+global.nextItem = devData.nextItem
 if (devData.dblenable) {
     const http = require('http');
     const DBL = require('dblapi.js');

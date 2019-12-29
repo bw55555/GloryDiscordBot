@@ -9,9 +9,12 @@ module.exports = async function (message, user) {
     }
 
     let weaponid = words[1]
-    if (itemData[weaponid] == 0 || itemData[weaponid] == undefined || itemData[weaponid] == null || weaponid == "next") {
-        functions.replyMessage(message, "This item does not exist!")
-        return
-    }
-    functions.sendMessage(message.channel, functions.generateWeaponTemplate(user, weaponid, 1, 1))
+    Promise.all([functions.getItem(weaponid)]).then(ret => {
+        let item = ret[0]
+        if (item == false) {
+            functions.replyMessage(message, "This item does not exist!")
+            return
+        }
+        functions.sendMessage(message.channel, functions.generateWeaponTemplate(user, item, 1, 1))
+    })
 }
