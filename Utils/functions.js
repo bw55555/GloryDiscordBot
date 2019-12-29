@@ -1330,8 +1330,8 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
                 }
             }
             //console.log(rarity)
-            let itemid = generateRandomItem(user, rarity)
-            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and a item (ID: " + itemid + ").\n";
+            let item = generateRandomItem(user, rarity)
+            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and an item (ID: " + item._id + ").\n";
         } else {
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\nThe guild was also given "+ raid.reward + " xp and "+raid.crystalreward+" crystals.\n"
             guildData[user.guild].xp += raid.reward
