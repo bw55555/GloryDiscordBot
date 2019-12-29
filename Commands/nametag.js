@@ -8,15 +8,12 @@ module.exports = async function (message,user) {
         return;
     }
     if (words.length <= 3) {
-        functions.replyMessage(message, "!nametag [itemID] [Desired Weapon Name]");
+        functions.replyMessage(message, "!nametag [weaponID] [Desired Weapon Name]");
         return;
     }
     
     let weaponid = parseInt(words[1])
-    if (isNaN(weaponid)) {
-        functions.sendMessage(message.channel, "The Weapon ID must be an integer");
-        return;
-    }
+    if (isNaN(weaponid)) { return functions.replyMessage(message, "The weapon id must be an integer"); return; }
     if (user.inventory[weaponid] != weaponid) {
         functions.replyMessage(message, "You do not own this item!")
         return

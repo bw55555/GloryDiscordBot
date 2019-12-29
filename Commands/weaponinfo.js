@@ -8,7 +8,8 @@ module.exports = async function (message, user) {
         return
     }
 
-    let weaponid = words[1]
+    let weaponid = parseInt(words[1])
+    if (isNaN(weaponid)) { return functions.replyMessage(message, "The weapon id must be an integer"); return;}
     Promise.all([functions.getItem(weaponid)]).then(ret => {
         let item = ret[0]
         if (item == false) {

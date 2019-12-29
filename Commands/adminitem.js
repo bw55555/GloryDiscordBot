@@ -4,7 +4,6 @@ module.exports = async function (message,user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     if (admins.indexOf(id)==-1) {return user}
-    let itemid = 0
     let attack = 0
     let defense = 0
     let rarity = 0

@@ -1399,7 +1399,7 @@ function smeltItem(user, item, givereward) {
         user.money += money
         user.xp += xp
     }
-    delete user.inventory[weaponid];
+    delete user.inventory[item._id];
     deleteItem(item._id)
     return [xp, money, materials]
 }

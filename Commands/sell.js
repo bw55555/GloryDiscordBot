@@ -8,16 +8,13 @@ module.exports = async function (message, user) {
         return
     }
 
-    if (isNaN(words[1])) {
-        functions.replyMessage(message, "Choose a real weapon id.")
-        return;
-    }
+    let weaponid = parseInt(words[1])
+    if (isNaN(weaponid)) { return functions.replyMessage(message, "The weapon id must be an integer"); return; }
     let price = parseInt(words[2])
     if (isNaN(price) || price >= 1000000000 || price < 0) {
         functions.replyMessage(message, "Choose a integer selling price between 0 and 1 billion.")
         return;
     }
-    let weaponid = words[1]
     if (user.inventory[weaponid] != weaponid) {
         functions.sendMessage(message.channel, "You don't own this weapon.")
         return

@@ -4,7 +4,8 @@ module.exports = async function (message, user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     if (words.length == 1) { return functions.replyMessage(message, "Choose an item!") }
-    let weaponid = words[1]
+    let weaponid = parseInt(words[1])
+    if (isNaN(weaponid)) { return functions.replyMessage(message, "The weapon id must be an integer"); return; }
     if (user.inventory[weaponid] != weaponid) { return functions.replyMessage(message, "You don't own this item!") }
     return Promise.all([functions.getItem(weaponid)]).then(ret => {
         let item = ret[0]

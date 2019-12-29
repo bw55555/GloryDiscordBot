@@ -7,14 +7,15 @@ module.exports = async function (message, user) {
         functions.replyMessage(message, "Choose an id!")
         return
     }
-    let weaponid = words[1].toLowerCase()
-    if (weaponid == "none") {
+    if (words[1].toLowerCase() == "none") {
         if (user.weapon == false) { return functions.replyMessage(message, "You have not equipped a weapon. ")}
         if (user.weapon.modifiers.maxhp != undefined) { user.health -= user.weapon.modifiers.maxhp }
         functions.setProp("itemData", { "_id": user.weapon._id }, { $set: { "equip": false } })
         user.weapon = false
         return functions.replyMessage(message, "You have successfully unequipped your weapon!")
     }
+    let weaponid = parseInt(words[1])
+    if (isNaN(weaponid)) { return functions.replyMessage(message, "The weapon id must be an integer"); return; }
     return Promise.all([functions.getItem(weaponid)]).then(ret => {
         let item = ret[0]
         if (item == false) { return functions.replyMessage(message, "This weapon does not exist!"); }

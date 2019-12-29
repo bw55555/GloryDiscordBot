@@ -13,8 +13,9 @@ module.exports = async function (message,user) {
         functions.replyMessage(message, "Choose a real weapon id.")
         return;
     }
-    let itemid = words[1]
-    return Promise.all([functions.getItem(itemid)]).then(ret => {
+    let weaponid = parseInt(words[1])
+    if (isNaN(weaponid)) { return functions.replyMessage(message, "The weapon id must be an integer"); return; }
+    return Promise.all([functions.getItem(weaponid)]).then(ret => {
         let item = ret[0]
         if (item.price == undefined) {
             functions.replyMessage(message, "This item is not for sale.")
@@ -30,8 +31,8 @@ module.exports = async function (message,user) {
             item.owner = user._id //weapon ownerid transfer
             user.inventory[item._id] = item._id //weapon added to inventory
             functions.setUser(previousOwner)
-            functions.sendMessage(message.channel, "You bought " + weaponid + " for $" + item.price)
-            functions.dmUser(previousOwner, "<@" + user._id + "> bought " + item.name + " (" + weaponid + ") for $" + item.price)
+            functions.sendMessage(message.channel, "You bought " + item._id + " for $" + item.price)
+            functions.dmUser(previousOwner, "<@" + user._id + "> bought " + item.name + " (" + item._id + ") for $" + item.price)
             delete item.price
             functions.setItem(item)
         })

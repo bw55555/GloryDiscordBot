@@ -8,8 +8,9 @@ module.exports = async function (message,user) {
         functions.replyMessage(message, "Choose an id!")
         return
     }
-    let itemid = words[1]
-    return Promise.all([functions.getItem(itemid)]).then(ret => {
+    let weaponid = parseInt(words[1])
+    if (isNaN(weaponid)) { return functions.replyMessage(message, "The weapon id must be an integer"); return; }
+    return Promise.all([functions.getItem(weaponid)]).then(ret => {
         let item = ret[0];
         if (item == false) {
             functions.replyMessage(message, "This item does not exist!")
