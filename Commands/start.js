@@ -7,7 +7,7 @@ module.exports = async function (message,user) {
         functions.replyMessage(message, "You already have an account!")
         return;
     }
-    client.db("current").collection("userData").insertOne(
+    functions.setUser(
         {
             _id: message.author.id,
             username: message.author.username,
