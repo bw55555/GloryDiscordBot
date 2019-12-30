@@ -72,7 +72,7 @@ module.exports = async function (message, user) {
         if (!mobData[message.channel.id].url) mobData[message.channel.id].url = 'https://i.imgur.com/o842h20.jpg';
     }
     else if (message.channel.type != "dm" && message.channel.name == "hell-raid") {
-        if (message.channel.id != 570356602843168769 && devs.indexOf(id) != -1) { return functions.replyMessage(message, "This is for the support server only!") }
+        if (message.channel.id != 570356602843168769 && devs.indexOf(id) == -1) { return functions.replyMessage(message, "This is for the support server only!") }
         if (serverData[message.guild.id].hell != undefined || (serverData[message.guild.id].hell == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a hell raid in this server!") }
         else { serverData[message.guild.id].deity = message.channel.id }
         if (!mobData[message.channel.id]) mobData[message.channel.id] = {} //creates profile if none exists
