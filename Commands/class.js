@@ -32,23 +32,22 @@ module.exports = async function (message, user) {
     }
     let classpick = text[1];
     //console.log(classpick);
-    user.level -= 1;
-    user.xp = 0;
+    let oldid = user.triangleid
     if (classpick === 'ARCHER') {
         user.triangle = '<:archer:542178096246423594> Archer';
-        user.triangleid = "1";
+        user.triangleid = 1;
         user.trianglemod = 1.2; //People with classes automatically deal increased damage.
         functions.replyMessage(message, 'You are now an Archer!');
     }
     else if (classpick === 'MAGE') {
         user.triangle = '<:mage:542093501660266497> Mage';
-        user.triangleid = "2";
+        user.triangleid = 2;
         user.trianglemod = 1.2;
         functions.replyMessage(message, 'You are now a Mage!');
     }
     else if (classpick === 'WARRIOR') {
         user.triangle = '<:warrior:542061062405750795> Warrior';
-        user.triangleid = "3";
+        user.triangleid = 3;
         user.trianglemod = 1.2;
         functions.replyMessage(message, 'You are now a Warrior!');
     } else if (classpick === 'ASSASSIN') {
@@ -57,7 +56,7 @@ module.exports = async function (message, user) {
             return;
         }
         user.triangle = '<:assassin:542178120141373440> Assassin';
-        user.triangleid = "4";
+        user.triangleid = 4;
         user.trianglemod = 1.4;
         functions.replyMessage(message, 'You are now an Assassin!');
     } else if (classpick === 'MERCHANT') {
@@ -66,7 +65,7 @@ module.exports = async function (message, user) {
             return;
         }
         user.triangle = '<:Merchant:541741539991486465> Merchant';
-        user.triangleid = "7";
+        user.triangleid = 7;
         user.trianglemod = 1.4;
         functions.replyMessage(message, 'You are now a Merchant!');
     } else if (classpick === 'HEALER') {
@@ -75,7 +74,7 @@ module.exports = async function (message, user) {
             return;
         }
         user.triangle = '<:Healer:541737142376857601> Healer';
-        user.triangleid = "5";
+        user.triangleid = 5;
         user.trianglemod = 1.4;
         functions.replyMessage(message, 'You are now a Healer!');
     } else if (classpick === 'ORACLE') {
@@ -84,7 +83,7 @@ module.exports = async function (message, user) {
             return;
         }
         user.triangle = '<:oracle:542183480558092308> Oracle';
-        user.triangleid = "8";
+        user.triangleid = 8;
         user.trianglemod = 1.4;
         functions.replyMessage(message, 'You are now an Oracle!');
     } else if (classpick === 'LIFEWEAVER' || classpick === 'BLOODWEAVER' || classpick === 'WEAVER') {
@@ -93,7 +92,7 @@ module.exports = async function (message, user) {
             return;
         }
         user.triangle = '<:bloodlifeweaver:542188575333023754> Life/Bloodweaver';
-        user.triangleid = "11";
+        user.triangleid = 11;
         user.trianglemod = 1.4;
         functions.replyMessage(message, 'You are now an Lifeweaver!');
     } else if (classpick === 'BERSERKER') {
@@ -102,7 +101,7 @@ module.exports = async function (message, user) {
             return;
         }
         user.triangle = '<:berserker:541748571662188549> Berserker';
-        user.triangleid = "6";
+        user.triangleid = 6;
         user.trianglemod = 1.4;
         functions.replyMessage(message, 'You are now a Berserker!');
     } else if (classpick === 'PALADIN') {
@@ -111,10 +110,17 @@ module.exports = async function (message, user) {
             return;
         }
         user.triangle = '<:paladin:542093280930824202> Paladin';
-        user.triangleid = "9";
+        user.triangleid = 9;
         user.trianglemod = 1.4;
         functions.replyMessage(message, 'You are now a Paladin!');
     } else {
         functions.replyMessage(message, 'That is not an available class!');
+        return
+    }
+    if (oldid != 0) {
+        if (!(user.triangleid > 3 && oldid < 3)) {
+            user.level -= 1;
+            user.xp = 0;
+        }
     }
 }

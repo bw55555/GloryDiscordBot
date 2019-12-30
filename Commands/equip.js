@@ -27,7 +27,7 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You don't own this item!")
             return
         }
-        if (user.level + 10 * user.ascension <= item.rarity * 10) {
+        if (user.level + 10 * user.ascension < item.rarity * 10) {
             functions.replyMessage(message, "You must be at least level " + (item.rarity * 10-10*user.ascension) + " to equip this item!")
             return
         }
