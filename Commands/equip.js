@@ -32,9 +32,12 @@ module.exports = async function (message, user) {
             return
         }
         if (user.weapon != false) {
-            //if (user.weapon.modifiers.maxhp!=undefined) {user.health-=user.weapon.modifiers.maxhp}
+            if (user.weapon.modifiers.maxhp != undefined) { user.health -= user.weapon.modifiers.maxhp }
+            functions.setProp("itemData", { "_id": user.weapon._id }, { $set: { "equip": false } })
+            user.weapon = false
         }
         user.weapon = item
+        if (user.weapon.modifiers.maxhp != undefined) { user.health += user.weapon.modifiers.maxhp }
         functions.setProp("itemData", { "_id": item._id }, { $set: {"equip":true}})
         functions.sendMessage(message.channel, "You successfully equipped the weapon with id " + item._id)
     })
