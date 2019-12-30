@@ -1,5 +1,6 @@
 var functions = require("../Utils/functions.js")
-function upgradeStats(attributeToUpgrade, amount,user) {
+function upgradeStats(attributeToUpgrade, amount, user) {
+    let cost = 0;
     let totalcost = 0
     //console.log(user[attributeToUpgrade])
     let attrcosts = { "attack": 1, "defense": 1, "health": 10 }
@@ -13,7 +14,7 @@ function upgradeStats(attributeToUpgrade, amount,user) {
             user[attributeToUpgrade] = functions.calcExtraStat(user, attributeToUpgrade)
             basestat = 0
         }
-        let cost = Math.floor(100 / attrcosts[attributeToUpgrade] * (basestat + attrcosts[attributeToUpgrade]));
+        cost = Math.floor(100 / attrcosts[attributeToUpgrade] * (basestat + attrcosts[attributeToUpgrade]));
         if (user.level <= Math.floor(basestat / attrcosts[attributeToUpgrade])) {
             levelstop = true;
             break
