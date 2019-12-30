@@ -118,7 +118,7 @@ module.exports = async function (message, user) {
         return
     }
     if (oldid != 0) {
-        if (!(user.triangleid > 3 && oldid < 3)) {
+        if (!(user.triangleid > 3 && oldid <= 3)) {
             user.level -= 1;
             user.xp = 0;
         }
