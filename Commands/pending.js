@@ -13,7 +13,6 @@ module.exports = async function (message,user) {
                     {
                         "name": "The Market",
                         "value": "- Shop in the market with `market {filters} {-maxcost [price]}`.\n"
-                            + "(By default, you will only view items you can equip. To view everything, add `-all` to the end of your argument.\n"
                             + "- Put up items for sale to other players with `sell [weaponid] [price]`.\n"
                             + "- Buy items from the market with `buy [weaponid]`\n"
                             + "- View items you've put in the market with `pending`\n"
@@ -28,12 +27,7 @@ module.exports = async function (message,user) {
         functions.sendMessage(message.channel, page)
         return
     }
-    let minStat = 0;
     let maxCost = 1000000000;
-    let all = false;
-    if (words.indexOf("-all") != -1) {
-        all = true
-    }
     functions.itemFilter(message, user, { "maxCost": maxCost }).then(wepsra => {
         if (wepsra == false) { return}
         let numPerPage = 5
