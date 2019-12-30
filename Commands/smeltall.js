@@ -8,7 +8,7 @@ module.exports = async function (message, user) {
     let totalmoney = 0
     let totalxp = 0
     functions.setCD(user, ts, smeltallcd * 60, "smeltall")
-    functions.itemFilter(message, user, { "fav": false }).then(smeltItems => {
+    return functions.itemFilter(message, user, { "fav": false }).then(smeltItems => {
         if (smeltItems == false) { return }
         let count = 0
         for (var i = 0; i < smeltItems.length; i++) {
