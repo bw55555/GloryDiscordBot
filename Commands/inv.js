@@ -13,7 +13,7 @@ module.exports = async function (message,user) {
     let id = message.author.id;
     //let ts = message.createdTimestamp;
     //let words = message.content.trim().split(/\s+/)
-    functions.itemFilter(message, user).then(wepsra => {
+    functions.itemFilter(message, user, {"equip": true}).then(wepsra => {
         let numPerPage = 5
         let pages = []
         if (wepsra.length == 0) {

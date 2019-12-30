@@ -1446,7 +1446,7 @@ async function itemFilter(message, user, defaults) {
     
     let filterJson = { "owner": user._id, "rarity": { $in: possibleRarities } }
     if (fav != "None") { filterJson.favorite = fav }
-    if (user.weapon != false && defaults.equip == false) {
+    if (user.weapon != false && defaults.equip != true) {
         filterJson.equip = false
     }
     if (defaults.price != undefined) {
