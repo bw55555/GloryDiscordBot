@@ -4,7 +4,7 @@ module.exports = async function (message, user) {
     //let ts = message.createdTimestamp;
     //let words = message.content.trim().split(/\s+/)
     functions.findUsers({}, { "money": 1, "username": 1 }).then(arr => {
-        arr.sort(function (a, b) { return parseFloat(b.glory) - parseFloat(a.glory) }) //what sorts the array. Search up array.sort() on w3schools.
+        arr.sort(function (a, b) { return parseFloat(b.money) - parseFloat(a.money) }) //what sorts the array. Search up array.sort() on w3schools.
         let numPerPage = 10
         let page = {
             "embed": { //displays guild stats

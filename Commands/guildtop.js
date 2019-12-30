@@ -5,6 +5,7 @@ module.exports = async function (message,user) {
     //let words = message.content.trim().split(/\s+/)
     let globalGuilds = 0
     let xparrtosort = []
+    //functions.findObjects("guildData", {})
     for (var guild in guildData) {//loops through user data to check. //w/o if statement, it checks everyone
         if (guild == "Incompetence" || guild == "Oranitz Kingdom") { continue}
         xparrtosort.push(guildData[guild].level + "-_-|-_-" + guild) // push level + 100*ascensions for sorting purposes. Add the " " and the id for identification.
