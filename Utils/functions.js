@@ -1416,6 +1416,7 @@ async function itemFilter(message, user, defaults, filterJson) {
     let minrarity = (defaults.minrarity == undefined) ? 0 : defaults.minrarity
     let maxrarity = (defaults.maxrarity == undefined) ? 9 : defaults.maxrarity
     let fav = (defaults.fav == undefined) ? "None" : defaults.fav
+    let maxCost = (defaults.maxCost == undefined) ? undefined : defaults.maxCost
     if (words.indexOf("-min") != -1) {
         minrarity = parseInt(words[words.indexOf("-min") + 1])
         if (isNaN(minrarity)) {
@@ -1423,10 +1424,18 @@ async function itemFilter(message, user, defaults, filterJson) {
             return false
         }
     }
+
     if (words.indexOf("-max") != -1) {
         maxrarity = parseInt(words[words.indexOf("-max") + 1])
         if (isNaN(maxrarity)) {
             replyMessage(message, "Please enter an integer for the maximum rarity.")
+            return false
+        }
+    }
+    if (words.indexOf("-maxcost") != -1) {
+        maxCost = parseInt(words[words.indexOf("-maxcost") + 1])
+        if (isNaN(maxCost)) {
+            replyMessage(message, "Please enter an integer for the maximum cost.")
             return false
         }
     }
@@ -1443,6 +1452,7 @@ async function itemFilter(message, user, defaults, filterJson) {
     if (words.indexOf("-unique") != -1) {
         possibleRarities.push("Unique")
     }
+    
     let displayItems = []
 
     if (filterJson.owner == undefined && defaults.owner != false) { filterJson.owner = user._id }
@@ -1451,8 +1461,8 @@ async function itemFilter(message, user, defaults, filterJson) {
     if (user.weapon != false && (filterJson.equip == undefined && defaults.equip != true)) {
         filterJson.equip = false
     }
-    if (filterJson.price == undefined && defaults.price != undefined) {
-        filterJson.price = defaults.price
+    if (filterJson.price == undefined && maxCost != undefined) {
+        filterJson.price = { $exists: true, $lte: maxCost }
     }
     return findItems(filterJson)
 }

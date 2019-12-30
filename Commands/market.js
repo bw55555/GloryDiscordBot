@@ -27,15 +27,7 @@ module.exports = async function (message,user) {
         functions.sendMessage(message.channel, page)
         return
     }
-    let minStat = 0;
-    if (!isNaN(words[1])) {
-        minStat = words[1]
-    }
     let maxCost = 1000000000;
-    if (!isNaN(words[2])) {
-        maxCost = words[2]
-    }
-
     let weaponCount = 0
     let wepsra = []
     let all = false;

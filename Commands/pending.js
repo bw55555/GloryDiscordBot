@@ -30,15 +30,12 @@ module.exports = async function (message,user) {
     }
     let minStat = 0;
     let maxCost = 1000000000;
-    if (words.indexOf("-maxcost") != -1) {
-        maxCost = parseInt(words[words.indexOf("-maxcost") + 1])
-        if (isNaN(maxCost)) { return functions.replyMessage(message,"Please enter an integer amount for the max cost.")}
-    }
     let all = false;
     if (words.indexOf("-all") != -1) {
         all = true
     }
-    functions.itemFilter(message, user, { "price": { $exists: true, $lte: maxCost } }).then(wepsra => {
+    functions.itemFilter(message, user, { "maxCost": maxCost }).then(wepsra => {
+        if (wepsra == false) { return}
         let numPerPage = 5
         let pages = []
         if (wepsra.length == 0) {
