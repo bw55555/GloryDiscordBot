@@ -23,7 +23,12 @@ module.exports = async function (message, user) {
         functions.replyMessage(message, "You already have this weapon equipped.")
         return
     }
-    functions.setProp("itemData", { "_id": weaponid }, { $set: { "price": price } })
-    functions.sendMessage(message.channel, "You put an item (ID:" + item._id + ") on the market for " + price)
-    delete user.inventory[weaponid]
+    return Promise.all([functions.getItem(weaponid)]).then(ret => {
+        let item = ret[0]
+        if (item.rarity == 9) { return functions.replyMessage(message, "You cannot sell a GLORY weapon!") }
+        if (item.rarity == "Unique") { return functions.replyMessage(message, "You cannot sell a unique weapon!") }
+        functions.setProp("itemData", { "_id": weaponid }, { $set: { "price": price } })
+        functions.sendMessage(message.channel, "You put an item (ID:" + item._id + ") on the market for " + price)
+        delete user.inventory[weaponid]
+    })
 }

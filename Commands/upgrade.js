@@ -1,7 +1,6 @@
 var functions = require("../Utils/functions.js")
 function upgradeStats(attributeToUpgrade, amount,user) {
     let totalcost = 0
-    let cost = 0
     //console.log(user[attributeToUpgrade])
     let attrcosts = { "attack": 1, "defense": 1, "health": 10 }
     let levelstop = false;
@@ -14,21 +13,21 @@ function upgradeStats(attributeToUpgrade, amount,user) {
             user[attributeToUpgrade] = functions.calcExtraStat(user, attributeToUpgrade)
             basestat = 0
         }
-        cost = Math.floor(100 / attrcosts[attributeToUpgrade] * (basestat + attrcosts[attributeToUpgrade]));
-        if (user.money >= cost && user.level * attrcosts[attributeToUpgrade] > basestat) {
-            user.money -= cost;
-            user[attributeToUpgrade] += attrcosts[attributeToUpgrade];
-        } else if (user.level+user.ascension*10 <= Math.floor(basestat / attrcosts[attributeToUpgrade])) {
+        let cost = Math.floor(100 / attrcosts[attributeToUpgrade] * (basestat + attrcosts[attributeToUpgrade]));
+        if (user.level <= Math.floor(basestat / attrcosts[attributeToUpgrade])) {
             levelstop = true;
+            break
             //functions.replyMessage(message, 'You must be level ' + (Math.floor(user[attributeToUpgrade] / attrcosts[attributeToUpgrade]) + 1) + ' to level up your ' + attributeToUpgrade + ' to ' + (user[attributeToUpgrade] + attrcosts[attributeToUpgrade]) + '. You are level ' + user.level + '!');
-            break;
         } else if (user.money < cost) {
             moneystop = true;
+            break
             //functions.replyMessage(message, 'You need $' + cost + ' to level up your ' + attributeToUpgrade + ' to ' + (user[attributeToUpgrade] + attrcosts[attributeToUpgrade]) + '. You have $' + user.money);
-            break;
+        } else {
+            user.money -= cost;
+            user[attributeToUpgrade] += attrcosts[attributeToUpgrade];
+            totalcost += cost
+            amount -= 1;
         }
-        totalcost += cost
-        amount -= 1;
     }
     let basestat = user[attributeToUpgrade] - extrastat
     if (totalcost > 1) {

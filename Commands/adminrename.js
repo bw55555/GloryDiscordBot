@@ -13,7 +13,7 @@ module.exports = async function (message,user) {
     }
     let weaponid = parseInt(words[1])
     if (isNaN(weaponid)) { return functions.replyMessage(message, "The weapon id must be an integer"); return; }
-    Promise.all[functions.getUser(weaponid)].then(ret => {
+    return Promise.all[functions.getUser(weaponid)].then(ret => {
         let item = ret[0]
         if (item == false) {
             functions.replyMessage(message, "This item does not exist!")
