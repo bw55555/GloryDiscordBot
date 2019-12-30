@@ -40,7 +40,7 @@ module.exports = async function (message,user) {
                 if (wepsra[i] != undefined) {
                     fields.push({
                         name: wepsra[i].name + " (" + wepsra[i]._id + ")",
-                        value: "Rarity: " + rarities[wepsra[i].rarity] + "\nAtk: " + wepsra[i].attack + " / Def: " + wepsra[i].defense+"\nPrice: " + wepsra[i].price,
+                        value: "Rarity: " + rarities[wepsra[i].rarity] + "\nAtk: " + wepsra[i].attack + " / Def: " + wepsra[i].defense + "\nPrice: $" + wepsra[i].price + "\nModifiers: \n" + functions.getModifierText(wepsra[i].modifiers),
                         inline: false,
                     })
                 }

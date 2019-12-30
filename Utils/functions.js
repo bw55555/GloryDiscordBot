@@ -201,10 +201,6 @@ function generateWeaponTemplate(owner, weapon, current, total) {
             name = "Name Error"
         }
     }
-    let modifiertext = ""
-    for (var key in weapon.modifiers) {
-        modifiertext += key+": "+weapon.modifiers[key]+"\n"
-    }
     return {
         embed: {
             title: "Weapon info for " + name + "\'s weapon",
@@ -231,7 +227,7 @@ function generateWeaponTemplate(owner, weapon, current, total) {
                 inline: false,
             }, {
                 name: "Modifiers:",
-                value: modifiertext,
+                value: getModifierText(weapon.modifiers),
                 inline: false,
             }, {
                 name: "Merges:",
@@ -1466,6 +1462,14 @@ async function itemFilter(message, user, defaults, filterJson) {
     }
     return findItems(filterJson)
 }
+function getModifierText(modifierlist) {
+    let modifiertext = ""
+    for (var key in modifierlist) {
+        modifiertext += key + ": " + modifierlist[key] + "\n"
+    }
+    if (modifiertext == "") { modifiertext = "None" }
+    return modifiertext
+}
 module.exports.clean = function (text) { return clean(text) }
 module.exports.getUser = function (uid) { return getUser(uid) }
 module.exports.findUsers = function (query,projection) { return findUsers(query,projection) }
@@ -1509,6 +1513,7 @@ module.exports.raidAttack = function (message, user, raid, resummon, isguild, is
 module.exports.smeltItem = function (user, item, giveReward) { return smeltItem(user, item, giveReward) }
 module.exports.hasSkill = function (user, skillid, enable) { return hasSkill(user, skillid, enable) }
 module.exports.itemFilter = function (message, user, defaults) { return itemFilter(message, user, defaults) }
+module.exports.getModifierText = function (modifierlist) { return getModifierText(modifierlist) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
