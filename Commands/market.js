@@ -39,10 +39,10 @@ module.exports = async function (message,user) {
     let weaponCount = 0
     let wepsra = []
     let all = false;
+    let toFilter = {}
     if (words.indexOf("-all") != -1) {
         all = true
     }
-
     for (var weaponid in itemData) {
         if (weaponid != undefined && itemData[weaponid].price != undefined && itemData[weaponid].price <= maxCost && itemData[weaponid].attack + itemData[weaponid].defense >= minStat) {
             wepsra.push(weaponid)

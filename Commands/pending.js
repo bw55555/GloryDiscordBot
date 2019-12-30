@@ -12,7 +12,7 @@ module.exports = async function (message,user) {
                 "fields": [
                     {
                         "name": "The Market",
-                        "value": "- Shop in the market with `market [optional minStat] [optional maxCost]`.\n"
+                        "value": "- Shop in the market with `market {filters} {-maxcost [price]}`.\n"
                             + "(By default, you will only view items you can equip. To view everything, add `-all` to the end of your argument.\n"
                             + "- Put up items for sale to other players with `sell [weaponid] [price]`.\n"
                             + "- Buy items from the market with `buy [weaponid]`\n"
@@ -29,92 +29,65 @@ module.exports = async function (message,user) {
         return
     }
     let minStat = 0;
-    if (!isNaN(words[1])) {
-        minStat = words[1]
-    }
     let maxCost = 1000000000;
-    if (!isNaN(words[2])) {
-        maxCost = words[2]
+    if (words.indexOf("-maxcost") != -1) {
+        maxCost = parseInt(words[words.indexOf("-maxcost") + 1])
+        if (isNaN(maxCost)) { return functions.replyMessage(message,"Please enter an integer amount for the max cost.")}
     }
-
-    let weaponCount = 0
-    let wepsra = []
     let all = false;
     if (words.indexOf("-all") != -1) {
         all = true
     }
-    //functions.itemFilter(message, user, { "price": {$exists:true}})
-    for (var weaponid in itemData) {
-        if (weaponid != undefined && itemData[weaponid].price != undefined && itemData[weaponid].price <= maxCost && itemData[weaponid].attack + itemData[weaponid].defense >= minStat) {
-            if(itemData[weaponid].owner == id){
-                wepsra.push(weaponid)
-                weaponCount += 1;
-            }
-        }
-        if (weaponCount >= 100) {
-            break
-        }
-    }
-    wepsra.sort() //what sorts the array. Search up array.sort() on w3schools.
-    let numPerPage = 5
-    let pages = []
-    if (wepsra.length == 0 || weaponCount == 0) {
-        page = {
-            "embed": {
-                //"title": "Global Wealth",
-                "color": 0x458B00,
-                "fields": [
-                    {
-                        "name": user.username+"'s Pending List",
-                        "value": "There are no weapons that fit your criteria.",
-                    }
-                ],
-                "footer": {
-                    "text": "Page 1 of 1"
-                }
-            }
-        }
-        functions.sendMessage(message.channel, page)
-        return
-    } else {
-        let infoText = ""
-        let totalText = ""
-        for (var i = 0; i <= weaponCount; i += 1) {
-            if (i % numPerPage != numPerPage - 1 && i != weaponCount) {
+    functions.itemFilter(message, user, { "price": { $exists: true, $lte: maxCost } }).then(wepsra => {
+        let numPerPage = 5
+        let pages = []
+        if (wepsra.length == 0) {
+            return functions.sendMessage(message.channel, "There's nothing in your inventory that matches the selected filters... ")
+        } else {
+            let fields = [];
+            for (var i = 0; i < wepsra.length; i++) {
                 if (wepsra[i] != undefined) {
-                    infoText = displayWeaponText(wepsra[i])
-                    infoText += "\n"
-                    totalText += infoText
+                    fields.push({
+                        name: wepsra[i].name + " (" + wepsra[i]._id + ")",
+                        value: "Rarity: " + rarities[wepsra[i].rarity] + "\nAtk: " + wepsra[i].attack + " / Def: " + wepsra[i].defense+"\nPrice: " + wepsra[i].price,
+                        inline: false,
+                    })
                 }
-            } else {
-                if (wepsra[i] != undefined) {
-                    infoText = displayWeaponText(wepsra[i])
-                    infoText += "\n"
-                    totalText += infoText
-                }
-                if (totalText != "") {
-                    page = {
-                        "embed": {
-                            "color": 0x458B00,
-                            "fields": [
-                                {
-                                    "name": "Your Pending List",
-                                    "value": totalText,
-                                    "inline": true
-                                }
-                            ],
-                            "footer": {
-                                "text": "Page " + (pages.length + 1) + " of " + (1 + Math.floor(weaponCount / 5))
-                            },
+                if ((i % numPerPage) == (numPerPage - 1)) {
+                    if (fields.length > 0) {
+                        page = {
+                            "embed": {
+                                "color": 0xffffff,
+                                "title": user.username + "'s Pending List",
+                                "fields": fields,
+                                "footer": {
+                                    "text": "Page " + (pages.length + 1) + " of " + (Math.ceil(wepsra.length / numPerPage))
+                                },
+                            }
                         }
+                        pages.push(page)
+                        fields = []
                     }
-                    pages.push(page)
-                    totalText = ""
                 }
             }
+            if (fields.length > 0) {
+                page = {
+                    "embed": {
+                        //"title": "Global Wealth",
+                        "color": 0xffffff,
+                        "title": user.username + "'s Pending List",
+                        "fields": fields,
+                        "footer": {
+                            "text": "Page " + (pages.length + 1) + " of " + (Math.ceil(wepsra.length / numPerPage))
+                        },
+                    }
+                }
+                pages.push(page)
+                fields = []
+            }
         }
-    }
-    new functions.Paginator(message.channel, message.author, pages)
+        new functions.Paginator(message.channel, message.author, pages)
+    })
 }
 
 function displayWeaponText(id) {

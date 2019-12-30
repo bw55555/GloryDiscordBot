@@ -1408,7 +1408,8 @@ function smeltItem(user, item, givereward) {
     return [xp, money, materials]
 }
 
-async function itemFilter(message, user, defaults) {
+async function itemFilter(message, user, defaults, filterJson) {
+    if (filterJson == undefined) { filterJson = {} }
     if (defaults == undefined) { defaults = {} }
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
@@ -1430,7 +1431,7 @@ async function itemFilter(message, user, defaults) {
         }
     }
     let possibleRarities = [];
-    for (var i = Math.max(0,minrarity); i <= Math.min(maxrarity,9); i++) {
+    for (var i = Math.max(0, minrarity); i <= Math.min(maxrarity, 9); i++) {
         possibleRarities.push(i)
     }
     if (words.indexOf("-fav") != -1) {
@@ -1443,13 +1444,14 @@ async function itemFilter(message, user, defaults) {
         possibleRarities.push("Unique")
     }
     let displayItems = []
-    
-    let filterJson = { "owner": user._id, "rarity": { $in: possibleRarities } }
-    if (fav != "None") { filterJson.favorite = fav }
-    if (user.weapon != false && defaults.equip != true) {
+
+    if (filterJson.owner == undefined && defaults.owner != false) { filterJson.owner = user._id }
+    if (filterJson.rarity == undefined && defaults.rarity != false) { filterJson.rarity = { $in: possibleRarities } }
+    if (filterJson.favorite == undefined && fav != "None") { filterJson.favorite = fav }
+    if (user.weapon != false && (filterJson.equip == undefined && defaults.equip != true)) {
         filterJson.equip = false
     }
-    if (defaults.price != undefined) {
+    if (filterJson.price == undefined && defaults.price != undefined) {
         filterJson.price = defaults.price
     }
     return findItems(filterJson)

@@ -17,29 +17,14 @@ module.exports = async function (message,user) {
         let numPerPage = 5
         let pages = []
         if (wepsra.length == 0) {
-            page = {
-                "embed": {
-                    "title": user.username + "'s Inventory",
-                    "color": 0xffffff,
-                    "fields": [
-                        {
-                            "name": "Empty Inventory",
-                            "value": "Why don't you go get some weapons?",
-                            "inline": true
-                        }
-                    ],
-                    "footer": {
-                        "text": "Page 1 of 1"
-                    }
-                }
-            }
+            return functions.sendMessage(message.channel, "There's nothing in your inventory that matches the selected filters... ")
         } else {
             let fields = [];
             for (var i = 0; i < wepsra.length; i++) {
                 if (wepsra[i] != undefined) {
                     fields.push({
                         name: wepsra[i].name + " (" + wepsra[i]._id + ")",
-                        value: "Rarity: " + rarities[wepsra[i].rarity] + "\nAtk +" + wepsra[i].attack + " / Def +" + wepsra[i].defense,
+                        value: "Rarity: " + rarities[wepsra[i].rarity] + "\nAtk: " + wepsra[i].attack + " / Def: " + wepsra[i].defense,
                         inline: false,
                     })
                 }
