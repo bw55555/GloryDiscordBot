@@ -201,6 +201,10 @@ function generateWeaponTemplate(owner, weapon, current, total) {
             name = "Name Error"
         }
     }
+    let modifiertext = ""
+    for (var key in weapon.modifiers) {
+        modifiertext += key+": "+weapon.modifiers[key]+"\n"
+    }
     return {
         embed: {
             title: "Weapon info for " + name + "\'s weapon",
@@ -227,7 +231,7 @@ function generateWeaponTemplate(owner, weapon, current, total) {
                 inline: false,
             }, {
                 name: "Modifiers:",
-                value: JSON.stringify(weapon.modifiers),
+                value: modifiertext,
                 inline: false,
             }, {
                 name: "Merges:",
