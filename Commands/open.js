@@ -3,9 +3,6 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    if (user.consum.box == undefined) {
-        return;
-    }
     let amount = 1
     if (words[1] == undefined) {
         amount = 1

@@ -962,7 +962,7 @@ function craftItems(message, owner, minrarity, maxrarity, amount) {
         }
         return text
     } else {
-        let itemid = craftItem(message, owner, minrarity, maxrarity, true);
+        let item = craftItem(message, owner, minrarity, maxrarity, true);
         return ""
     }
 }
@@ -975,7 +975,7 @@ function craftItem(message,owner, minrarity, maxrarity, reply) {
         let rarity = Math.floor((maxrarity - minrarity + 1) * Math.random() + minrarity)
         item = generateRandomItem(owner, rarity)
     }
-    if (reply) sendMessage(message.channel, "<@" + owner._id + "> has recieved an item with id " + itemid + " and of rarity " + item.rarity)
+    if (reply) sendMessage(message.channel, "<@" + owner._id + "> has recieved an item with id " + item._id + " and of rarity " + item.rarity)
     return item
 }
 function raidInfo(message, raid) {
