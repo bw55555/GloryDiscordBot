@@ -850,7 +850,7 @@ function calcStats(message, user, stat, skillenable,confused) {
                 x = user.currenthealth / (user.health * 2)
             }
             x = Math.sqrt(x)
-            buff += 1 + (rage * -1 * (Math.log(x) + 0.15));
+            buff += (rage * -1 * (Math.log(x) + 0.15));
             
         }
         if (sacrifice > 0) {
