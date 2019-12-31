@@ -1215,7 +1215,7 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
     if (counter < 0) {
         counter = 0;
     }
-    let damagereward = Math.floor(damage * raid.level * Math.random() * luckybuff);
+    let damagereward = Math.floor(damage * Math.sqrt(raid.level) * Math.random() * luckybuff);
     if (!isevent) { damagereward *= 5 }
     user.currenthealth = user.currenthealth - counter;
     raid.currenthealth = raid.currenthealth - damage;
