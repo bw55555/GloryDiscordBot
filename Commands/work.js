@@ -14,7 +14,7 @@ module.exports = async function (message,user) {
         functions.deleteMessage(message);
         return;
     }
-    let earnings = Math.floor((-4 * ((Math.random() - 0.5) ** 2) + 1) * (Math.sqrt(user.level) * 50 + 1));
+    let earnings = Math.floor((-4 * ((Math.random() - 0.5) ** 2) + 1) * ((10*user.ascension + user.level) * 10 + 1));
     if (user.triangleid == 7) {
         earnings = Math.floor(earnings * 2);
     }
