@@ -327,6 +327,7 @@ module.exports = async function (message, user) {
                     functions.replyMessage(message, "You can't kick a rock! (Well you can, but I wouldn't)");
                     return;
                 }
+                if (target._id == user._id) { return functions.replyMessage(message,"You can't kick yourself!")}
                 if (target.guild != guild._id) {
                     functions.replyMessage(message, "You can't kick someone who's not in your guild!");
                     return;
