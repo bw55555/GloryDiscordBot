@@ -313,14 +313,10 @@ bot.on('ready', function () {
     }, 30000)
     let resettimer = 86400000 - (Date.now() % 86400000)
     bot.setTimeout(function () {
-        for (var resetGuild in guildData) {
-            guildData[resetGuild].store = {}
-        }
+        functions.setProp("guildData", {}, { $set: { "store": {} } })
         functions.sendMessage(bot.channels.get(devData.debugChannelId), "The guild store has been reset for all guilds!")
         bot.setInterval(function () {
-            for (var resetGuild in guildData) {
-                guildData[resetGuild].store = {}
-            }
+            functions.setProp("guildData", {}, { $set: { "store": {} } })
             functions.sendMessage(bot.channels.get(devData.debugChannelId), "The guild store has been reset for all guilds!")
         }, 86400000)
     }, resettimer)

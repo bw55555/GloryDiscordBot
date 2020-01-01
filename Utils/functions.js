@@ -66,7 +66,16 @@ async function deleteItem(iid) {
         return false;
     })
 }
-async function findObjects(coll,query, projection) {
+async function getObject(coll,oid) {
+    return client.db("current").collection(coll).find({ _id: oid }).toArray().then(r => {
+        if (r[0] == undefined) { return false }
+        return r[0];
+    }).catch(err => {
+        console.error(err)
+        return false
+    })
+}
+async function findObjects(coll, query, projection) {
     return client.db("current").collection(coll).find(query, projection).toArray().then(r => {
         if (r == []) { return false }
         return r;
@@ -75,8 +84,24 @@ async function findObjects(coll,query, projection) {
         return false
     })
 }
-function setProp(coll, query, newvalue) {
-    return client.db("current").collection(coll).updateOne(query,newvalue).then(function (r) {
+async function setObject(coll,newobj) {
+    return client.db("current").collection(coll).replaceOne({ _id: newobj._id }, newobj, { upsert: true }).then(function (r) {
+        return true;
+    }).catch(function (err) {
+        console.error(err)
+        return false;
+    })
+}
+async function deleteObject(coll,oid) {
+    return client.db("current").collection(coll).deleteOne({ _id: oid }).then(function (r) {
+        return true;
+    }).catch(function (err) {
+        console.error(err)
+        return false;
+    })
+}
+async function setProp(coll, query, newvalue) {
+    return client.db("current").collection(coll).updateMany(query,newvalue).then(function (r) {
         return true;
     }).catch(function (err) {
         console.error(err)
@@ -245,48 +270,48 @@ function generateWeaponTemplate(owner, weapon, current, total) {
     }
 }
 function generateGuildTemplate(guild) {
-    let xpleft = (Math.pow(guildData[guild].level + 1, 4) > guildData[guild].xp) ? (Math.pow(guildData[guild].level + 1, 4) - guildData[guild].xp) + " xp left to next level" : "Ready to upgrade!"
-    xpleft = (guildData[guild].level == 100) ? "MAX level" : xpleft
+    let xpleft = (Math.pow(guild.level + 1, 4) > guild.xp) ? (Math.pow(guild.level + 1, 4) - guild.xp) + " xp left to next level" : "Ready to upgrade!"
+    xpleft = (guild.level == 100) ? "MAX level" : xpleft
     return {
         embed: {
             color: 0xF1C40F,
             thumbnail: {
-                "url": guildData[guild].icon
+                "url": guild.icon
             },
             fields: [
                 {
                     name: "<:dragonbanner:542171281609457675> Guild Name <:dragonbanner:542171281609457675>",
-                    value: guildData[guild].name,
+                    value: guild.name,
                     inline: true
                 },
                 {
                     name: "<:guildlevel:542188803339845652> Guild Level <:guildlevel:542188803339845652>",
-                    value: guildData[guild].level + " (" + guildData[guild].xp + " xp) (" + xpleft + ")",
+                    value: guild.level + " (" + guild.xp + " xp) (" + xpleft + ")",
                     inline: true
                 },
                 {
                     name: "<:PandaAdmireWizard:537831495243399168> Guild Leader <:PandaAdmireWizard:537831495243399168>",
-                    value: "<@" + guildData[guild].leader + ">",
+                    value: "<@" + guild.leader + ">",
                     inline: true
                 },
                 {
                     name: "<:mallowhug:541663981895417866> Guild Members <:mallowhug:541663981895417866>",
-                    value: guildData[guild].members.length,
+                    value: guild.members.length,
                     inline: true
                 },
                 {
                     name: "<:guildbank:542186612964982805> Guild Bank <:guildbank:542186612964982805>",
-                    value: guildData[guild].bank + " / " + guildData[guild].bankmax,
+                    value: guild.bank + " / " + guild.bankmax,
                     inline: true
                 },
                 {
                     name: "<:materialsgem:542178396474572805> Guild Materials <:materialsgem:542178396474572805>",
-                    value: guildData[guild].materials + " / " + guildData[guild].materialmax,
+                    value: guild.materials + " / " + guild.materialmax,
                     inline: true
                 },
                 {
                     name: "<:guildcrystal:567335577645613057> Guild Crystals <:guildcrystal:567335577645613057>",
-                    value: guildData[guild].crystals,
+                    value: guild.crystals,
                     inline: true
                 }
             ]
@@ -369,8 +394,8 @@ function calcLuckyBuff(user) {
     if (hasSkill(user, 16)) { //Royalty Skill
         luckybuff += 0.5
     }
-    if (user.guild != "None" && guildData[user.guild].buffs.lucky != undefined) {
-        luckybuff += guildData[user.guild].buffs.lucky.value
+    if (user.guild != "None" && user.guildbuffs.lucky != undefined) {
+        luckybuff += user.guildbuffs.lucky.value
     }
     return luckybuff
 }
@@ -494,8 +519,8 @@ function calcDamage(message, attacker, defender, initiator) {
         if (hasSkill(attacker, 28, skillenable)) {
             piercerate += 0.05;
         }
-        if (attacker._id != undefined && attacker.guild != "None" && guildData[attacker.guild].buffs.pierce != undefined) {
-            piercerate += guildData[attacker.guild].buffs.pierce.value
+        if (attacker._id != undefined && attacker.guild != "None" && attacker.guildbuffs.pierce != undefined) {
+            piercerate += attacker.guildbuffs.pierce.value
         }
 
     } else {
@@ -523,8 +548,8 @@ function calcDamage(message, attacker, defender, initiator) {
     if (dweapon != false && dweapon.modifiers.spikes != undefined) {
         spikedmod += dweapon.modifiers.spikes
     }
-    if (defender._id != undefined && defender.guild != "None" && guildData[defender.guild].buffs.spikes != undefined) {
-        spikedmod += guildData[defender.guild].buffs.spikes.value
+    if (defender._id != undefined && defender.guild != "None" && defender.guildbuffs.spikes != undefined) {
+        spikedmod += defender.guildbuffs.spikes.value
     }
     if (defender._id != undefined) {
         if (hasSkill(defender, 7, skillenable)) {
@@ -588,8 +613,8 @@ function calcDamage(message, attacker, defender, initiator) {
 
     let blockrate = 0;
     let blockchance = Math.random()
-    if (defender._id != undefined && defender.guild != "None" && guildData[defender.guild].buffs.block != undefined) {
-        blockrate += guildData[defender.guild].buffs.block.value
+    if (defender._id != undefined && defender.guild != "None" && defender.guildbuffs.block != undefined) {
+        blockrate += defender.guildbuffs.block.value
     }
     if (defender._id != undefined && defender.dead == false) {
         if (dweapon != false && dweapon.modifiers.block != undefined) {
@@ -626,8 +651,8 @@ function calcDamage(message, attacker, defender, initiator) {
 
     if (attacker._id != undefined) {
         let lifesteal = (attacker.triangleid == 11) ? 0.15 : 0;
-        if (attacker._id != undefined && attacker.guild != "None" && guildData[attacker.guild].buffs.lifeSteal != undefined) {
-            lifesteal += guildData[attacker.guild].buffs.lifeSteal.value
+        if (attacker._id != undefined && attacker.guild != "None" && attacker.guildbuffs.lifeSteal != undefined) {
+            lifesteal += attacker.guildbuffs.lifeSteal.value
         }
         if (weapon != false && weapon.modifiers.lifeSteal != undefined) {
             lifesteal += weapon.modifiers.lifeSteal
@@ -673,8 +698,8 @@ function calcDamage(message, attacker, defender, initiator) {
             revmod += 0.005;
             revmod *= 2;
         }
-        if (defender._id != undefined && defender.guild != "None" && guildData[defender.guild].buffs.revenge != undefined) {
-            revmod += guildData[defender.guild].buffs.revenge.value
+        if (defender._id != undefined && defender.guild != "None" && defender.guildbuffs.revenge != undefined) {
+            revmod += defender.guildbuffs.revenge.value
         }
     }
 
@@ -744,26 +769,26 @@ function calcStats(message, user, stat, skillenable,confused) {
     let sacrifice = (user.triangleid == 311) ? 0.15 : 0;
     let tempo = 0;
     let antitempo = 0;
-    if (user.guild != "None" && guildData[user.guild].buffs.attack != undefined) {
-        buff += guildData[user.guild].buffs.attack.value
+    if (user.guild != "None" && user.guildbuffs.attack != undefined) {
+        buff += user.guildbuffs.attack.value
     }
-    if (user.guild != "None" && guildData[user.guild].buffs.defense != undefined) {
-        dbuff += guildData[user.guild].buffs.defense.value
+    if (user.guild != "None" && user.guildbuffs.defense != undefined) {
+        dbuff += user.guildbuffs.defense.value
     }
-    if (user.guild != "None" && guildData[user.guild].buffs.critDamage != undefined) {
-        critdmg += guildData[user.guild].buffs.critDamage.value
+    if (user.guild != "None" && user.guildbuffs.critDamage != undefined) {
+        critdmg += user.guildbuffs.critDamage.value
     }
-    if (user.guild != "None" && guildData[user.guild].buffs.critRate != undefined) {
-        critrate += guildData[user.guild].buffs.critRate.value
+    if (user.guild != "None" && user.guildbuffs.critRate != undefined) {
+        critrate += user.guildbuffs.critRate.value
     }
-    if (user.guild != "None" && guildData[user.guild].buffs.tempo != undefined) {
-        tempo += guildData[user.guild].buffs.tempo.value
+    if (user.guild != "None" && user.guildbuffs.tempo != undefined) {
+        tempo += user.guildbuffs.tempo.value
     }
-    if (user.guild != "None" && guildData[user.guild].buffs.sacrifice != undefined) {
-        sacrifice += guildData[user.guild].buffs.sacrifice.value
+    if (user.guild != "None" && user.guildbuffs.sacrifice != undefined) {
+        sacrifice += user.guildbuffs.sacrifice.value
     }
-    if (user.guild != "None" && guildData[user.guild].buffs.rage != undefined) {
-        rage += guildData[user.guild].buffs.rage.value
+    if (user.guild != "None" && user.guildbuffs.rage != undefined) {
+        rage += user.guildbuffs.rage.value
     }
     if (user.weapon != false && user.weapon != undefined) {
         if (user.weapon.modifiers == undefined) { user.weapon.modifiers = {} }
@@ -1336,8 +1361,7 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and an item (ID: " + item._id + ") with rarity "+item.rarity+".\n";
         } else {
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\nThe guild was also given "+ raid.reward + " xp and "+raid.crystalreward+" crystals.\n"
-            guildData[user.guild].xp += raid.reward
-            guildData[user.guild].crystals += raid.crystalreward
+            setProp("guildData", { "_id": user.guild }, { $inc: {"xp":raid.reward, "crystals":raid.crystalreward}})
         }
 
         user.money += Math.floor(luckybuff * raid.reward);
@@ -1481,7 +1505,10 @@ module.exports.getItem = function (iid) { return getItem(iid) }
 module.exports.findItems = function (query, projection) { return findItems(query, projection) }
 module.exports.setItem = function (newitem) { return setItem(newitem) }
 module.exports.deleteItem = function (iid) { return deleteItem(iid) }
+module.exports.getObject = function (coll, oid) { return getObject(coll, oid) }
 module.exports.findObjects = function (coll, query, projection) { return findObjects(coll, query, projection) }
+module.exports.setObject = function (coll,newobj) { return setObject(coll,newobj) }
+module.exports.deleteObject = function (coll,oid) { return deleteObject(coll,oid) }
 module.exports.setProp = function (coll, query, newvalue) { return setProp(coll, query, newvalue) }
 module.exports.sendMessage = function (channel, text, override) { return sendMessage(channel, text, override) }
 module.exports.replyMessage = function (message, text, override) { return replyMessage(message, text, override) }

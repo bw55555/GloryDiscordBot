@@ -31,6 +31,7 @@ module.exports = async function (message,user) {
             marry: "None",
             guild: "None",
             guildpos: "None",
+            guildbuffs: {},
             bolster: false,
             shield: ts + 24 * 1000 * 60 * 60,
             materials: 0,

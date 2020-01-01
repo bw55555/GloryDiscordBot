@@ -29,5 +29,5 @@ module.exports = async function (message,user) {
     skill = { "name": name, "id": skillid, "description": description }
     skillData[skillid] = skill;
     functions.replyMessage(message, "You created the skill " + name + " (" + skillid + ")!\nIt's effect is: `" + description + "`");
-    fs.writeFileSync('Assets/skillData.json', JSON.stringify(skillData, null, 4))//.then(sendMessage(message.channel,"guildData backed up!"))
+    fs.writeFileSync('Assets/skillData.json', JSON.stringify(skillData, null, 4))
 }

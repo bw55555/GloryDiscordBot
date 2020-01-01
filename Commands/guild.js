@@ -29,46 +29,23 @@ module.exports = async function (message, user) {
     let words = message.content.trim().split(/\s+/)
     let command = (words.length == 1) ? "" : words[1].toUpperCase()
     let leveluptext = ""
-    let guild = user.guild;
-    if ((guild == "None" || guild == undefined || guildData[guild] == undefined) && (words.length > 1 && command != "CREATE" && command != "INFO")) { return functions.replyMessage(message, "You don't have a guild! Ask a guild leader to invite you or create one with !guild create") }
-    while (user.guild != "None" && guildData[guild].level * 200000 + 800000 > guildData[guild].bankmax) {
-        guildData[guild].bankmax += 200000
-        guildData[guild].materialmax += 200000
-        leveluptext += guild + " had their guild bank max increased to " + guildData[guild].bankmax + "\n" + guild + " had their guild materials max increased to " + guildData[guild].materialmax + "\n"
-        if (leveluptext.length > 1900) {
-            functions.replyMessage(message, leveluptext)
-            leveluptext = ""
-        }
+    let guildName = user.guild;
+    if (guildName == "None" && words.length == 1) {
+        functions.replyMessage(message, "You don't have a guild!");
+        return;
     }
-    if (leveluptext != "") { functions.replyMessage(message, leveluptext) }
-
-    if (words.length == 1) {
-        if (guild == "None") {
-            functions.replyMessage(message, "You don't have a guild!");
-            return;
-        }
-        functions.sendMessage(message.channel, functions.generateGuildTemplate(guild))
-    }
+    else if (guildName == "None" && command != "CREATE" && command != "INFO") { return functions.replyMessage(message, "You don't have a guild! Ask a guild leader to invite you or create one with !guild create") }
     else if (command == "INFO") {
-
         if (words.length <= 2) { return functions.replyMessage(message, "Please specify a guild to view!") }
-        guild = message.content.slice(message.content.indexOf(words[2]));
-        if (guildData[guild] == undefined) { return functions.replyMessage(message, "That guild does not exist!") }
-        functions.sendMessage(message.channel, functions.generateGuildTemplate(guild));
-    }
-    else if (command == "MEMBERS" || command == "MEMBER") {
-        let messages = "**Guild Members** \n```\n"
-        return functions.findUsers({ _id: { $in: guildData[guild].members } }, { username: 1, guildpos: 1 }).then(guildmembers => {
-            for (i = 0; i < guildmembers.length; i++) {
-                messages += (guildmembers[i].username + " (" + guildmembers[i].guildpos + ")\n");
-            }
-            messages += "```"
-            functions.sendMessage(message.channel, messages);
+        let guildName = words[2];
+        return Promise.all([functions.getObject("guildData", guildName)]).then(ret => {
+            let guild = ret[0]
+            if (guild == false) { return functions.replyMessage(message, "That guild does not exist!") }
+            functions.sendMessage(message.channel, functions.generateGuildTemplate(guild));
         })
-        
     }
     else if (command == "CREATE") {//guild creation
-        if (guild == "None") {
+        if (guildName == "None") {
             if (user.ascension < 3) { return functions.replyMessage(message, "You need to be at least ascension 3 to create a guild!") }
             if (user.money < 1000000) { return functions.replyMessage(message, "You need at least $1000000 to create a guild!") }
             if (user.materials < 10000) { return functions.replyMessage(message, "You need at least 10000 materials to create a guild!") }
@@ -76,527 +53,545 @@ module.exports = async function (message, user) {
                 functions.replyMessage(message, "Choose a name for your guild!");
                 return;
             }
-            /*
-            let temp1 = message.content.slice(message.content.indexOf(words[2]));
-            let temp2 = temp1.slice(temp1.indexOf("\"") + 1);
-            if (message.content.indexOf("\"") == -1 || temp2.indexOf("\"") == -1) {
-              functions.sendMessage(message.channel, "Name must be surrounded by quotation marks.")
-              return;
-            }
-            let guildName = temp2.slice(0, temp2.indexOf("\""));
-            */
-            words.splice(0, 2)
-            let guildName = words.join(" ")
+            let guildName = words[2]
             if (guildName == "" || guildName == "None") {
                 functions.sendMessage(message.channel, "The name cannot be blank!")
                 return;
             }
-            if (!guildData[guildName]) { //<:reaperroo:523812134128451586>
-                guildData[guildName] = {};
-                guildData[guildName].name = guildName;
-                guildData[guildName].bank = 0;
-                guildData[guildName].bankmax = 1000000;
-                guildData[guildName].materials = 0;
-                guildData[guildName].materialmax = 1000000;
-                guildData[guildName].level = 1;
-                guildData[guildName].icon = "https://i.imgur.com/r39nI8f.jpg";
-                guildData[guildName].leader = id;
-                guildData[guildName].members = []; //fml I can't figure out how to do this
-                guildData[guildName].members.push(id);
-                guildData[guildName].xp = 0; //For when you add new features to guilds
-                guildData[guildName].scrolls = [0, 0, 0, 0, 0];
-                guildData[guildName].raid = false;
-                guildData[guildName].adminlog = false;
-                guildData[guildName].store = {};
-                guildData[guildName].buffs = {};
-                guildData[guildName].quests = {};
-                guildData[guildName].crystals = 0;
+            return Promise.all([functions.getObject("guildData", guildName)]).then(ret => {
+                let guild = ret[0]
+                if (guild != false) { return functions.replyMessage(message, "That guild name is already taken!"); }
+                guild = {};
+                guild._id = guildName;
+                guild.bank = 0;
+                guild.bankmax = 1000000;
+                guild.materials = 0;
+                guild.materialmax = 1000000;
+                guild.level = 1;
+                guild.icon = "https://i.imgur.com/r39nI8f.jpg";
+                guild.leader = id;
+                guild.members = [];
+                guild.members.push(id);
+                guild.xp = 0;
+                guild.scrolls = [0, 0, 0, 0, 0];
+                guild.raid = false;
+                guild.adminlog = false;
+                guild.store = {};
+                guild.buffs = {};
+                guild.quests = {};
+                guild.crystals = 0;
                 user.guild = guildName;
                 user.guildpos = "Leader";
                 user.money -= 1000000
                 user.materials -= 10000
                 functions.replyMessage(message, "You have created the guild " + guildName + "!");
-            } else {
-                functions.replyMessage(message, "That guild name is already taken!");
-                return;
-            }
+                functions.sendMessage(message.channel, functions.generateGuildTemplate(guild));
+                functions.setObject("guildData",guild)
+            })
         } else {
             functions.replyMessage(message, "You are already in a guild!");
             return;
         }
     }
-    else if (command == "INVITE") {
-        if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") {
-            functions.replyMessage(message, "You must be the Leader or a Co-Leader to invite someone!");
-            return;
-        }
-        return Promise.all([functions.validate(message,user, 2)]).then(ret => {
-            let target = ret[0];
-            if (target == false) {
-                functions.replyMessage(message, "You can't invite rocks!");
-                return;
+    //user must have a guild here
+    return Promise.all([functions.getObject("guildData", guildName)]).then(ret => {
+        let guild = ret[0]
+        while (guild.level * 200000 + 800000 > guild.bankmax) {
+            guild.bankmax += 200000
+            guild.materialmax += 200000
+            leveluptext += guild._id + " had their guild bank max increased to " + guild.bankmax + "\n" + guild._id + " had their guild materials max increased to " + guild.materialmax + "\n"
+            if (leveluptext.length > 1900) {
+                functions.replyMessage(message, leveluptext)
+                leveluptext = ""
             }
-            if (target.guild != "None") {
-                functions.replyMessage(message, "They are already in the guild " + target.guild + "!");
-                return;
-            }
-            //functions.sendMessage(message.channel, "<@" + target._id + ">, <@" + id + "> invites you to their guild! Type `!guild accept` to join");
-            functions.MessageAwait(message.channel, target._id, "<@" + target._id + ">, <@" + id + "> has invited you to their guild! Type `accept` to join!", "accept",
-                function (response, extraArgs) {
-                    let guild = extraArgs[0]
-                    let target = extraArgs[1]
-                    let message = extraArgs[2]
-                    if (target.guild != "None") { return; }
-                    guildData[guild].members.push(target._id);
-                    functions.setProp("userData", { _id: target._id }, { $set: {"guild": guild, "guildpos": "Member"}})
-                    functions.sendMessage(message.channel, "<@" + target._id + "> has joined " + guild + "!");
-                },
-                [guild, target, message],
-                "They didn't want to join your guild..."
-            );
-            //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + " (id " + id + ") invited "+target.username + " (id " + target._id + ") to your guild.") }
-        })
-    }
-    else if (command == "LEAVE") {
-        if (user.guildpos == "Leader") {
-            functions.replyMessage(message, "Guild leaders can't leave their guild! Disband it or appoint someone else!");
-            return;
         }
-        if (guild == "None") {
-            functions.replyMessage(message, "You can't leave a guild if you're not in one!");
+        if (leveluptext != "") { functions.replyMessage(message, leveluptext) }
+        if (words.length == 1) {
+            functions.sendMessage(message.channel, functions.generateGuildTemplate(guild))
         }
-        var place = guildData[guild].members.indexOf(user._id);
-        if (place > -1) {
-            guildData[guild].members.splice(place, 1);
-        }
-        user.guild = "None";
-        user.guildpos = "None";
-        functions.replyMessage(message, "You left your guild!");
-        //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + "(id " + id + ") left your guild.") }
-    }
-    else if (command == "DISBAND") {
-        if (guild == "None") {
-            functions.replyMessage(message, "You can't leave a guild if you're not in one!");
-        }
-        if (user.guildpos != "Leader") {
-            functions.replyMessage(message, "Only the leader can disband the guild!");
-            return;
-        }
-        client.db("current").collection("userData").updateMany({ "guild": guild }, { $set: { "guild": "None", "guildpos": "None" } })
-        user.guild = "None"
-        user.guildpos = "None"
-        user.money += guildData[guild].bank
-        user.materials += guildData[guild].materials
-        delete guildData[guild];
+        else if (command == "MEMBERS" || command == "MEMBER") {
+            let messages = "**Guild Members** \n```\n"
+            return functions.findUsers({ _id: { $in: guild.members } }, { username: 1, guildpos: 1 }).then(guildmembers => {
+                for (i = 0; i < guildmembers.length; i++) {
+                    messages += (guildmembers[i].username + " (" + guildmembers[i].guildpos + ")\n");
+                }
+                messages += "```"
+                functions.sendMessage(message.channel, messages);
+            })
 
-        functions.replyMessage(message, "You disbanded your guild! Everyone in it is now guildless :(");
-    }
-    else if (command == "DEPOSIT" || command == "INVEST" || command == "DEP") {//It's enough already with youknowwhoafter me xD lmao
-        if (guild == "None") {
-            return functions.replyMessage(message, "You're not in a guild!")
         }
-        let type = ""
-        let amount = 0
-        if (words.length == 3) {
-            type = "money"
-            amount = parseInt(words[2])
-            if (words[2] == "all") { amount = user.money }
-            if (isNaN(amount) == true) { return functions.replyMessage(message, "Please specify an integer amount to deposit!") }
-        } else {
-            if (words.length < 3) {
-                return functions.replyMessage(message, "Please specify something to deposit!(materials or money)!")
-            }
-            type = words[2]
-            if (words[2] != "money" && words[2] != "materials") { return functions.replyMessage(message, "Please specify something to deposit!(materials or money)!") }
-            if (words.length < 4) { return functions.replyMessage(message, "Please specify an amount to deposit!") }
-            amount = parseInt(words[3])
-            if (words[3] == "all") { amount = user[type] }
-            if (isNaN(amount) == true) { return functions.replyMessage(message, "Please specify an integer amount to deposit!") }
-        }
-        if (amount < 0) { return functions.replyMessage(message, "Don't steal from the bank!") }
-        if (amount == 0) { return functions.replyMessage(message, "Why would you ever want to deposit nothing?") }
-        if (amount > user[type]) { return functions.replyMessage(message, "You can't deposit more than you own!") }
-        if (type == "money" && (guildData[guild].bank + amount) > guildData[guild].bankmax) {
-            functions.replyMessage(message, "The bank would be full!")
-            return;
-        }
-        if (type == "materials" && (guildData[guild].materials + amount) > guildData[guild].materialsmax) {
-            functions.replyMessage(message, "The bank would be full!")
-            return;
-        }
-        if (type == "money") { guildData[guild].bank += amount }
-        if (type == "materials") { guildData[guild].materials += amount }
-        user[type] -= amount
-        if (type == "money") { functions.replyMessage(message, "You deposited $" + amount + " into " + guild + "'s guild bank!"); }
-        if (type == "materials") { functions.replyMessage(message, "You deposited " + amount + " materials into " + guild + "'s guild bank!"); }
-        //  if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + "(id " + id + ") deposited " + amount + " " + type + " into " + guild + "'s guild bank!") }
-    }
-    else if (command == "PAY" || command == "GIVE") { //I personally hate when if statements aren't written out, but it doesn't make a difference
-        if (guild == "None") {
-            functions.replyMessage(message, "You're not in a guild!");
-            return;
-        }
-        if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") {//Honestly, there should be a better name for a "coleader"
-            functions.replyMessage(message, "Only Leaders and Co-Leaders can give money from the guild bank!")
-            return;
-        }
-        return Promise.all([functions.validate(message,user, 2)]).then(ret => {
-            let target = ret[0];
-            if (target == false) {
-                functions.replyMessage(message, "You can't pay a rock!");
+        else if (command == "INVITE") {
+            if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") {
+                functions.replyMessage(message, "You must be the Leader or a Co-Leader to invite someone!");
                 return;
             }
+            return Promise.all([functions.validate(message, user, 2)]).then(ret => {
+                let target = ret[0];
+                if (target == false) {
+                    functions.replyMessage(message, "You can't invite rocks!");
+                    return;
+                }
+                if (target.guild != "None") {
+                    functions.replyMessage(message, "They are already in the guild " + target.guild + "!");
+                    return;
+                }
+                //functions.sendMessage(message.channel, "<@" + target._id + ">, <@" + id + "> invites you to their guild! Type `!guild accept` to join");
+                functions.MessageAwait(message.channel, target._id, "<@" + target._id + ">, <@" + user._id + "> has invited you to their guild! Type `accept` to join!", "accept",
+                    function (response, extraArgs) {
+                        let guild = extraArgs[0]
+                        let target = extraArgs[1]
+                        let message = extraArgs[2]
+                        if (target.guild != "None") { return; }
+                        guild.members.push(target._id);
+                        functions.setProp("guildData", { "_id": guild._id }, { $push: {"members":target._id}})
+                        functions.setProp("userData", { "_id": target._id }, { $set: { "guild": guild, "guildpos": "Member" } })
+                        functions.sendMessage(message.channel, "<@" + target._id + "> has joined " + guild._id + "!");
+                    },
+                    [guild, target, message],
+                    "They didn't want to join your guild..."
+                );
+                //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + " (id " + id + ") invited "+target.username + " (id " + target._id + ") to your guild.") }
+            })
+        }
+        else if (command == "LEAVE") {
+            if (user.guildpos == "Leader") {
+                functions.replyMessage(message, "Guild leaders can't leave their guild! Disband it or appoint someone else!");
+                return;
+            }
+            functions.setProp("guildData", { "_id": guild._id }, { $pull: {"members": user._id}})
+            user.guild = "None";
+            user.guildpos = "None";
+            user.guildbuffs = {}
+            functions.replyMessage(message, "You left your guild!");
+        }
+        else if (command == "DISBAND") {
+            if (user.guildpos != "Leader") {
+                functions.replyMessage(message, "Only the leader can disband the guild!");
+                return;
+            }
+            client.db("current").collection("userData").updateMany({ "guild": guild._id }, { $set: { "guild": "None", "guildpos": "None", "guildbuffs": {} } })
+            user.guild = "None"
+            user.guildpos = "None"
+            user.guildbuffs = {}
+            user.money += guild.bank
+            user.materials += guild.materials
+            functions.deleteObject("guildData",guild._id);
+
+            functions.replyMessage(message, "You disbanded your guild! Everyone in it is now guildless :(");
+        }
+        else if (command == "DEPOSIT" || command == "INVEST" || command == "DEP") {//It's enough already with youknowwhoafter me xD lmao
             let type = ""
             let amount = 0
-            if (words.length == 4) {
+            if (words.length == 3) {
                 type = "money"
-                amount = parseInt(words[3]);
-                if (words[3] == "all") { amount = guildData[guild].bank }
-                if (isNaN(amount) == true) { return functions.replyMessage(message, "Please specify an integer amount to pay!") }
+                amount = parseInt(words[2])
+                if (words[2] == "all") { amount = user.money }
+                if (isNaN(amount) == true) { return functions.replyMessage(message, "Please specify an integer amount to deposit!") }
             } else {
-                type = words[3]
-                if (type != "money" && type != "materials") { return functions.replyMessage(message, "Please specify something to pay!(materials or money)!") }
-                amount = parseInt(words[4]);
-                if (words[4] == "all" && type == "money") { amount = guildData[guild].bank }
-                if (words[4] == "all" && type == "materials") { amount = guildData[guild].materials }
-                if (isNaN(amount) == true) { return functions.replyMessage(message, "Please specify an integer amount to pay!") }
-            }
-            if (amount <= 0) {
-                functions.replyMessage(message, "Don't try to scam the system!")
-                return;
-            }
-            if (type == "money" && amount > guildData[guild].bank) {
-                functions.replyMessage(message, "Your guild doesn't have enough money in it! It only has $" + guildData[guild].bank + "!");
-                return;
-            }
-            if (type == "materials" && amount > guildData[guild].materials) {
-                functions.replyMessage(message, "Your guild doesn't have enough materials in it! It only has " + guildData[guild].materials + "materials!");
-                return;
-            }
-            target[type] += amount;
-            if (type == "money") {
-                guildData[guild].bank -= amount;
-                functions.replyMessage(message, "You have paid <@" + target._id + "> $" + amount + " !");
-            }
-            if (type == "materials") {
-                guildData[guild].materials -= amount;
-                functions.replyMessage(message, "You have paid <@" + target._id + "> " + amount + " materials!");
-            }
-            functions.setUser(target)
-            // if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + "(id " + id + ") has paid " + amount + " " + type + " to "+target.username + "(id " + target._id + ")") }
-        })
-    }
-    else if (command == "PROMOTE") {
-        if (user.guildpos != "Leader") {//Honestly, there should be a better name for a "coleader"
-            functions.replyMessage(message, "Only Leaders can promote others!")
-            return;
-        }
-        return Promise.all([functions.validate(message,user, 2)]).then(ret => {
-            let target = ret[0];
-            if (target == false) {
-                functions.replyMessage(message, "You can't promote a rock!");
-                return;
-            }
-            if (target.guild != guild) {
-                functions.replyMessage(message, "You can't promote someone who's not in your guild!");
-            }
-            if (target.guildpos == "Member") {
-                target.guildpos = "Co-Leader"
-                functions.replyMessage(message, "You have promoted <@" + target._id + "> to Co-Leader!");
-            } else {
-                functions.replyMessage(message, "They can't be promoted any further!");
-            }
-            functions.setUser(target)
-        })
-    }
-    else if (command == "DEMOTE") {
-        if (user.guildpos != "Leader") {//Honestly, there should be a better name for a "coleader"
-            functions.replyMessage(message, "Only Leaders can demote others!")
-            return;
-        }
-        return Promise.all([functions.validate(message,user, 2)]).then(ret => {
-            let target = ret[0];
-            if (target == false) {
-                functions.replyMessage(message, "You can't demote a rock!");
-                return;
-            }
-            if (target.guild != guild) {
-                functions.replyMessage(message, "You can't demote someone who's not in your guild!");
-                return;
-            }
-            if (target.guildpos == "Co-Leader") {
-                target.guildpos = "Member"
-                functions.replyMessage(message, "You have demoted <@" + target._id + "> to Member!");
-            } else {
-                functions.replyMessage(message, "They can't be demoted any further!");
-                return;
-            }
-            functions.setUser(target)
-        })
-    }
-    else if (command == "KICK") {
-        if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") {//Honestly, there should be a better name for a "coleader"
-            functions.replyMessage(message, "Only Leaders and Co-Leaders can kick others!")
-            return;
-        }
-        return Promise.all([functions.validate(message,user, 2)]).then(ret => {
-            let target = ret[0];
-            if (target == false) {
-                functions.replyMessage(message, "You can't kick a rock! (Well you can, but I wouldn't)");
-                return;
-            }
-            if (target.guild != guild) {
-                functions.replyMessage(message, "You can't kick someone who's not in your guild!");
-                return;
-            }
-            if (user.guildpos == "Leader" || (user.guildpos == "Co-Leader" && target.guildpos == "Member")) {
-                let guildName = target.guild;
-                var place = guildData[guildName].members.indexOf(target._id);
-                if (place > -1) {
-                    guildData[guildName].members.splice(place, 1);
+                if (words.length < 3) {
+                    return functions.replyMessage(message, "Please specify something to deposit!(materials or money)!")
                 }
-                target.guild = "None";
-                target.guildpos = "None";
-                functions.sendMessage(message.channel, "<@" + target._id + "> was kicked from the guild!");
+                type = words[2]
+                if (words[2] != "money" && words[2] != "materials") { return functions.replyMessage(message, "Please specify something to deposit!(materials or money)!") }
+                if (words.length < 4) { return functions.replyMessage(message, "Please specify an amount to deposit!") }
+                amount = parseInt(words[3])
+                if (words[3] == "all") { amount = user[type] }
+                if (isNaN(amount) == true) { return functions.replyMessage(message, "Please specify an integer amount to deposit!") }
+            }
+            if (amount < 0) { return functions.replyMessage(message, "Don't steal from the bank!") }
+            if (amount == 0) { return functions.replyMessage(message, "Why would you ever want to deposit nothing?") }
+            if (amount > user[type]) { return functions.replyMessage(message, "You can't deposit more than you own!") }
+            if (type == "money" && (guild.bank + amount) > guild.bankmax) {
+                functions.replyMessage(message, "The bank would be full!")
+                return;
+            }
+            if (type == "materials" && (guild.materials + amount) > guild.materialsmax) {
+                functions.replyMessage(message, "The bank would be full!")
+                return;
+            }
+            if (type == "money") { guild.bank += amount }
+            if (type == "materials") { guild.materials += amount }
+            user[type] -= amount
+            if (type == "money") { functions.replyMessage(message, "You deposited $" + amount + " into " + guild._id + "'s guild bank!"); }
+            if (type == "materials") { functions.replyMessage(message, "You deposited " + amount + " materials into " + guild._id + "'s guild bank!"); }
+            //  if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + "(id " + id + ") deposited " + amount + " " + type + " into " + guild + "'s guild bank!") }
+        }
+        else if (command == "PAY" || command == "GIVE") { //I personally hate when if statements aren't written out, but it doesn't make a difference
+            if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") {//Honestly, there should be a better name for a "coleader"
+                functions.replyMessage(message, "Only Leaders and Co-Leaders can give money from the guild bank!")
+                return;
+            }
+            return Promise.all([functions.validate(message, user, 2)]).then(ret => {
+                let target = ret[0];
+                if (target == false) {
+                    functions.replyMessage(message, "You can't pay a rock!");
+                    return;
+                }
+                let type = ""
+                let amount = 0
+                if (words.length == 4) {
+                    type = "money"
+                    amount = parseInt(words[3]);
+                    if (words[3] == "all") { amount = guild.bank }
+                    if (isNaN(amount) == true) { return functions.replyMessage(message, "Please specify an integer amount to pay!") }
+                } else {
+                    type = words[3]
+                    if (type != "money" && type != "materials") { return functions.replyMessage(message, "Please specify something to pay!(materials or money)!") }
+                    amount = parseInt(words[4]);
+                    if (words[4] == "all" && type == "money") { amount = guild.bank }
+                    if (words[4] == "all" && type == "materials") { amount = guild.materials }
+                    if (isNaN(amount) == true) { return functions.replyMessage(message, "Please specify an integer amount to pay!") }
+                }
+                if (amount <= 0) {
+                    functions.replyMessage(message, "Don't try to scam the system!")
+                    return;
+                }
+                if (type == "money" && amount > guild.bank) {
+                    functions.replyMessage(message, "Your guild doesn't have enough money in it! It only has $" + guild.bank + "!");
+                    return;
+                }
+                if (type == "materials" && amount > guild.materials) {
+                    functions.replyMessage(message, "Your guild doesn't have enough materials in it! It only has " + guild.materials + "materials!");
+                    return;
+                }
+                target[type] += amount;
+                if (type == "money") {
+                    guild.bank -= amount;
+                    functions.replyMessage(message, "You have paid <@" + target._id + "> $" + amount + " !");
+                }
+                if (type == "materials") {
+                    guild.materials -= amount;
+                    functions.replyMessage(message, "You have paid <@" + target._id + "> " + amount + " materials!");
+                }
+                functions.setObject("guildData", guild)
                 functions.setUser(target)
-                //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + "(id " + id + ") has kicked "+target.username + "(id " + target._id + ") from your guild.") }
+                // if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + "(id " + id + ") has paid " + amount + " " + type + " to "+target.username + "(id " + target._id + ")") }
+            })
+        }
+        else if (command == "PROMOTE") {
+            if (user.guildpos != "Leader") {//Honestly, there should be a better name for a "coleader"
+                functions.replyMessage(message, "Only Leaders can promote others!")
+                return;
             }
-        })
-    }
-    else if (command == "SUMMON") {
-        if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") {//Honestly, there should be a better name for a "coleader"
-            functions.replyMessage(message, "Only Leaders and Co-Leaders can summon bosses!")
-            return;
+            return Promise.all([functions.validate(message, user, 2)]).then(ret => {
+                let target = ret[0];
+                if (target == false) {
+                    functions.replyMessage(message, "You can't promote a rock!");
+                    return;
+                }
+                if (target.guild != guild._id) {
+                    functions.replyMessage(message, "You can't promote someone who's not in your guild!");
+                }
+                if (target.guildpos == "Member") {
+                    target.guildpos = "Co-Leader"
+                    functions.replyMessage(message, "You have promoted <@" + target._id + "> to Co-Leader!");
+                } else {
+                    functions.replyMessage(message, "They can't be promoted any further!");
+                }
+                functions.setUser(target)
+            })
         }
-        //if (devs.indexOf(id)==-1) {return functions.replyMessage(message, "This feature is under development...")}
-        if (isNaN(guildData[guild].raid)) { return functions.replyMessage(message, "You already have a raid going on!") }
-        if (guildData[guild].raid > ts) {
-            functions.replyMessage(message, "You can next summon a raid boss in " + functions.displayTime(guildData[guild].raid, ts))
-            return;
+        else if (command == "DEMOTE") {
+            if (user.guildpos != "Leader") {//Honestly, there should be a better name for a "coleader"
+                functions.replyMessage(message, "Only Leaders can demote others!")
+                return;
+            }
+            return Promise.all([functions.validate(message, user, 2)]).then(ret => {
+                let target = ret[0];
+                if (target == false) {
+                    functions.replyMessage(message, "You can't demote a rock!");
+                    return;
+                }
+                if (target.guild != guild._id) {
+                    functions.replyMessage(message, "You can't demote someone who's not in your guild!");
+                    return;
+                }
+                if (target.guildpos == "Co-Leader") {
+                    target.guildpos = "Member"
+                    functions.replyMessage(message, "You have demoted <@" + target._id + "> to Member!");
+                } else {
+                    functions.replyMessage(message, "They can't be demoted any further!");
+                    return;
+                }
+                functions.setUser(target)
+            })
         }
-        if (words[2] == undefined) { return functions.replyMessage(message, "Please specify a boss rarity!!!") }
-        let summonrarity = words[2].toLowerCase()
-        let raritytoscroll = { "0": "common", "1": "uncommon", "2": "rare", "3": "epic", "4": "legendary" }
-        if (raritytoscroll[summonrarity] != undefined) { summonrarity = raritytoscroll[summonrarity] }
-        let scrollrarities = { "common": 0, "uncommon": 1, "rare": 2, "epic": 3, "legendary": 4 }
-        if (summonrarity == undefined || summonrarity == "" || scrollrarities[summonrarity] == undefined) { return functions.replyMessage(message, "That rarity does not exist! See " + serverData[message.guild.id].prefix + "guild scrolls for a list of available rarities.") }
-        if (guildData[guild].scrolls[scrollrarities[summonrarity]] < 1) { return functions.replyMessage(message, "Your guild does not have enough scrolls!") }
-        guildData[guild].scrolls[scrollrarities[summonrarity]] -= 1
-        let raritylevels = [0, 25, 75, 100, 125, 150]
-        let summonlevel = Math.floor(Math.random() * (raritylevels[scrollrarities[summonrarity] + 1] - raritylevels[scrollrarities[summonrarity]]) + 1 + raritylevels[scrollrarities[summonrarity]])
-        let rarityraids = guildRaidData[summonrarity]
-        let raid = rarityraids[Math.floor(rarityraids.length * Math.random())]
-        guildData[guild].raid = {}
-        guildData[guild].raid.url = raid.url
-        guildData[guild].raid.name = raid.name;
-        guildData[guild].raid.attack = raid.attack * summonlevel;
-        guildData[guild].raid.id = 1;
-        guildData[guild].raid.currenthealth = summonlevel * raid.health;
-        guildData[guild].raid.maxhealth = summonlevel * raid.health;
-        guildData[guild].raid.reward = summonlevel * raid.reward * 50;
-        guildData[guild].raid.crystalreward = Math.floor(summonlevel * raid.crystalreward / 2);
-        guildData[guild].raid.alive = true;
-        guildData[guild].raid.attacklist = {};
-        guildData[guild].raid.level = summonlevel;
-        if (raid.ability != undefined) { guildData[guild].raid.ability = raid.ability; }
-        functions.replyMessage(message, "You have successfully summoned a " + raid.name + " at level " + summonlevel + "!")
-        functions.raidInfo(message, guildData[guild].raid)
-    }
-    else if (command == "RAIDINFO" || command == "RI") {
-        if (guild == "None") { return functions.replyMessage(message, "You do not have a guild!") }
-        //if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
-        if (guildData[guild].raid.alive != true) { return functions.replyMessage(message, "You don't have a raid going on!") }
-        functions.raidInfo(message, guildData[guild].raid)
-    }
-    else if (command == "RAIDATTACK" || command == "RATK") {
-        if (guild == "None") { return functions.replyMessage(message, "You do not have a guild!") }
-        //if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
-        if (guildData[guild].raid.alive != true) { return functions.replyMessage(message, "You don't have a raid going on!") }
-        functions.raidAttack(message, user, guildData[guild].raid, false, true, false)
-        if (guildData[guild].raid.alive == false) { guildData[guild].raid = ts + 1000 * 60 * guildData[guild].raid.level }
-    }
-    else if (command == "SCROLLS") {
-        if (guild == "None") { return functions.replyMessage(message, "You do not have a guild!") }
-        let text = "Your guild has: \n"
-        text += "<:Common:546173232764682241> Common Scrolls: " + guildData[guild].scrolls[0] + "\n"
-        text += "<:Uncommon:546173232542384168> Uncommon Scrolls: " + guildData[guild].scrolls[1] + "\n"
-        text += "<:Rare:546173232802299904> Rare Scrolls: " + guildData[guild].scrolls[2] + "\n"
-        text += "<:Epic:546173232773070848> Epic Scrolls: " + guildData[guild].scrolls[3] + "\n"
-        text += "<:Legendary:546170457548783627> Legendary Scrolls: " + guildData[guild].scrolls[4]
-        functions.replyMessage(message, text)
-    }
-    else if (command == "UPGRADE") {
-        if (guild == "None") { return functions.replyMessage(message, "You do not have a guild!") }
-        if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") { return functions.replyMessage(message, "You must be a Leader or a Co-Leader to upgrade the guild!") }
-        if (words.length == 2 || words[2].toLowerCase == "base") {
-            if (guildData[guild].level >= 100) { return functions.replyMessage(message, "Your guild is already at maximum level!") }
-            if (Math.pow(guildData[guild].level + 1, 4) > guildData[guild].xp) { return functions.replyMessage(message, "Your guild does not have enough xp!") }
-            let cost = ((guildData[guild].level % 5) == 4) ? (((guildData[guild].level % 10) == 9) ? guildData[guild].bankmax : guildData[guild].bankmax / 5) : Math.floor(guildData[guild].bankmax / 10)
-            let matscost = ((guildData[guild].level % 5) == 4) ? (((guildData[guild].level % 10) == 9) ? guildData[guild].materialmax / 100 : guildData[guild].materialmax / 500) : Math.floor(guildData[guild].materialmax / 1000)
-            if (guildData[guild].bank < cost) { return functions.replyMessage(message, "Your guild does not have enough money! You need $" + cost) }
-            if (guildData[guild].materials < matscost) { return functions.replyMessage(message, "Your guild does not have enough materials! You need " + matscost + " materials") }
-            functions.MessageAwait(message.channel, id, "It costs $" + cost + " and " + matscost + " materials to level up your guild to level " + (guildData[guild].level + 1) + ". Are you sure you want to do this? If so, type confirm.", "confirm",
-                function (response, guild) {
-                    guildData[guild].xp -= Math.pow(guildData[guild].level + 1, 4)
-                    guildData[guild].bank -= cost
-                    guildData[guild].materials -= matscost
-                    guildData[guild].level += 1
-                    let leveluptext = ""
-                    leveluptext += "You have successfully upgraded your guild to level " + guildData[guild].level + "! It cost $" + cost + " and " + matscost + " materials.\n"
+        else if (command == "KICK") {
+            if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") {//Honestly, there should be a better name for a "coleader"
+                functions.replyMessage(message, "Only Leaders and Co-Leaders can kick others!")
+                return;
+            }
+            return Promise.all([functions.validate(message, user, 2)]).then(ret => {
+                let target = ret[0];
+                if (target == false) {
+                    functions.replyMessage(message, "You can't kick a rock! (Well you can, but I wouldn't)");
+                    return;
+                }
+                if (target.guild != guild._id) {
+                    functions.replyMessage(message, "You can't kick someone who's not in your guild!");
+                    return;
+                }
+                if (user.guildpos == "Leader" || (user.guildpos == "Co-Leader" && target.guildpos == "Member")) {
+                    functions.setProp("guildData", { "_id": guild._id }, { $pull: {"members": target._id}})
+                    target.guild = "None";
+                    target.guildpos = "None";
+                    target.guildbuffs = {};
+                    functions.sendMessage(message.channel, "<@" + target._id + "> was kicked from the guild!");
+                    functions.setUser(target)
+                    //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + "(id " + id + ") has kicked "+target.username + "(id " + target._id + ") from your guild.") }
+                }
+            })
+        }
+        else if (command == "SUMMON") {
+            if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") {//Honestly, there should be a better name for a "coleader"
+                functions.replyMessage(message, "Only Leaders and Co-Leaders can summon bosses!")
+                return;
+            }
+            //if (devs.indexOf(id)==-1) {return functions.replyMessage(message, "This feature is under development...")}
+            if (isNaN(guild.raid)) { return functions.replyMessage(message, "You already have a raid going on!") }
+            if (guild.raid > ts) {
+                functions.replyMessage(message, "You can next summon a raid boss in " + functions.displayTime(guild.raid, ts))
+                return;
+            }
+            if (words[2] == undefined) { return functions.replyMessage(message, "Please specify a boss rarity!!!") }
+            let summonrarity = words[2].toLowerCase()
+            let raritytoscroll = { "0": "common", "1": "uncommon", "2": "rare", "3": "epic", "4": "legendary" }
+            if (raritytoscroll[summonrarity] != undefined) { summonrarity = raritytoscroll[summonrarity] }
+            let scrollrarities = { "common": 0, "uncommon": 1, "rare": 2, "epic": 3, "legendary": 4 }
+            if (summonrarity == undefined || summonrarity == "" || scrollrarities[summonrarity] == undefined) { return functions.replyMessage(message, "That rarity does not exist! See " + serverData[message.guild.id].prefix + "guild scrolls for a list of available rarities.") }
+            if (guild.scrolls[scrollrarities[summonrarity]] < 1) { return functions.replyMessage(message, "Your guild does not have enough scrolls!") }
+            guild.scrolls[scrollrarities[summonrarity]] -= 1
+            let raritylevels = [0, 25, 75, 100, 125, 150]
+            let summonlevel = Math.floor(Math.random() * (raritylevels[scrollrarities[summonrarity] + 1] - raritylevels[scrollrarities[summonrarity]]) + 1 + raritylevels[scrollrarities[summonrarity]])
+            let rarityraids = guildRaidData[summonrarity]
+            let raid = rarityraids[Math.floor(rarityraids.length * Math.random())]
+            guild.raid = {}
+            guild.raid.url = raid.url
+            guild.raid.name = raid.name;
+            guild.raid.attack = raid.attack * summonlevel;
+            guild.raid.id = 1;
+            guild.raid.currenthealth = summonlevel * raid.health;
+            guild.raid.maxhealth = summonlevel * raid.health;
+            guild.raid.reward = summonlevel * raid.reward * 50;
+            guild.raid.crystalreward = Math.floor(summonlevel * raid.crystalreward / 2);
+            guild.raid.alive = true;
+            guild.raid.attacklist = {};
+            guild.raid.level = summonlevel;
+            if (raid.ability != undefined) { guild.raid.ability = raid.ability; }
+            functions.replyMessage(message, "You have successfully summoned a " + raid.name + " at level " + summonlevel + "!")
+            functions.raidInfo(message, guild.raid)
+        }
+        else if (command == "RAIDINFO" || command == "RI") {
+            //if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
+            if (guild.raid.alive != true) { return functions.replyMessage(message, "You don't have a raid going on!") }
+            functions.raidInfo(message, guild.raid)
+        }
+        else if (command == "RAIDATTACK" || command == "RATK") {
+            //if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
+            if (guild.raid.alive != true) { return functions.replyMessage(message, "You don't have a raid going on!") }
+            functions.raidAttack(message, user, guild.raid, false, true, false)
+            if (guild.raid.alive == false) { guild.raid = ts + 1000 * 60 * guild.raid.level }
+        }
+        else if (command == "SCROLLS") {
+            let text = "Your guild has: \n"
+            text += "<:Common:546173232764682241> Common Scrolls: " + guild.scrolls[0] + "\n"
+            text += "<:Uncommon:546173232542384168> Uncommon Scrolls: " + guild.scrolls[1] + "\n"
+            text += "<:Rare:546173232802299904> Rare Scrolls: " + guild.scrolls[2] + "\n"
+            text += "<:Epic:546173232773070848> Epic Scrolls: " + guild.scrolls[3] + "\n"
+            text += "<:Legendary:546170457548783627> Legendary Scrolls: " + guild.scrolls[4]
+            functions.replyMessage(message, text)
+        }
+        else if (command == "UPGRADE") {
+            if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") { return functions.replyMessage(message, "You must be a Leader or a Co-Leader to upgrade the guild!") }
+            if (words.length == 2 || words[2].toLowerCase == "base") {
+                if (guild.level >= 100) { return functions.replyMessage(message, "Your guild is already at maximum level!") }
+                if (Math.pow(guild.level + 1, 4) > guild.xp) { return functions.replyMessage(message, "Your guild does not have enough xp!") }
+                let cost = ((guild.level % 5) == 4) ? (((guild.level % 10) == 9) ? guild.bankmax : guild.bankmax / 5) : Math.floor(guild.bankmax / 10)
+                let matscost = ((guild.level % 5) == 4) ? (((guild.level % 10) == 9) ? guild.materialmax / 100 : guild.materialmax / 500) : Math.floor(guild.materialmax / 1000)
+                if (guild.bank < cost) { return functions.replyMessage(message, "Your guild does not have enough money! You need $" + cost) }
+                if (guild.materials < matscost) { return functions.replyMessage(message, "Your guild does not have enough materials! You need " + matscost + " materials") }
+                functions.setObject("guildData", guild)
+                functions.MessageAwait(message.channel, id, "It costs $" + cost + " and " + matscost + " materials to level up your guild to level " + (guild.level + 1) + ". Are you sure you want to do this? If so, type confirm.", "confirm",
+                    function (response, guild) {
+                        return Promise.all([functions.getObject("guildData", guild._id)]).then(ret => {
+                            let guild = ret[0]
+                            if (guild.level >= 100) { return functions.replyMessage(message, "Your guild is already at maximum level!") }
+                            if (Math.pow(guild.level + 1, 4) > guild.xp) { return functions.replyMessage(message, "Your guild does not have enough xp!") }
+                            let cost = ((guild.level % 5) == 4) ? (((guild.level % 10) == 9) ? guild.bankmax : guild.bankmax / 5) : Math.floor(guild.bankmax / 10)
+                            let matscost = ((guild.level % 5) == 4) ? (((guild.level % 10) == 9) ? guild.materialmax / 100 : guild.materialmax / 500) : Math.floor(guild.materialmax / 1000)
+                            if (guild.bank < cost) { return functions.replyMessage(message, "Your guild does not have enough money! You need $" + cost) }
+                            if (guild.materials < matscost) { return functions.replyMessage(message, "Your guild does not have enough materials! You need " + matscost + " materials") }
+                            guild.xp -= Math.pow(guild.level + 1, 4)
+                            guild.bank -= cost
+                            guild.materials -= matscost
+                            guild.level += 1
+                            let leveluptext = ""
+                            leveluptext += "You have successfully upgraded your guild to level " + guild.level + "! It cost $" + cost + " and " + matscost + " materials.\n"
 
-                    while (guild != "None" && guildData[guild].level * 200000 + 800000 > guildData[guild].bankmax) {
-                        guildData[guild].bankmax += 200000
-                        guildData[guild].materialmax += 200000
-                        leveluptext += guild + " had their guild bank max increased to " + guildData[guild].bankmax + "\n" + guild + " had their guild materials max increased to " + guildData[guild].materialmax
-                        if (leveluptext.length > 1900) {
-                            functions.replyMessage(message, leveluptext)
-                            leveluptext = ""
-                        }
+                            while (guild.level * 200000 + 800000 > guild.bankmax) {
+                                guild.bankmax += 200000
+                                guild.materialmax += 200000
+                                leveluptext += guild._id + " had their guild bank max increased to " + guild.bankmax + "\n" + guild._id + " had their guild materials max increased to " + guild.materialmax
+                                if (leveluptext.length > 1900) {
+                                    functions.replyMessage(message, leveluptext)
+                                    leveluptext = ""
+                                }
+                            }
+                            if (leveluptext != "") { functions.replyMessage(message, leveluptext) }
+                            functions.setObject("guildData", guild)
+                        })
+                    }, guild)
+                return
+            }
+            else if (words[2].toLowerCase() == "buff") {
+                let buff = parseInt(words[3])
+                if (isNaN(buff) || guildBuffStore[buff] == undefined) { return functions.replyMessage(message, "This buff does not exist!") }
+                let buffname = guildBuffStore[buff].stat
+                let bufflevel = guild.buffs[buffname] == undefined ? 0 : guild.buffs[buffname].level
+                if (bufflevel >= guildBuffStore[buff].bonus.length - 1) { return functions.replyMessage(message, "This buff is at the maximum level!") }
+                if (guildBuffStore[buff].levels[bufflevel + 1] > guild.level) { return functions.replyMessage(message, "You cannot upgrade this buff since your guild is not at a high enough level!") }
+                if (guild.crystals < guildBuffStore[buff].prices[bufflevel + 1]) { return functions.replyMessage(message, "Your guild does not have enough crystals!") }
+                guild.crystals -= guildBuffStore[buff].prices[bufflevel + 1]
+                if (guild.buffs[buffname] == undefined) { guild.buffs[buffname] = { "level": 0, "value": guildBuffStore[buff].bonus[0] } }
+                guild.buffs[buffname].level = bufflevel + 1
+                guild.buffs[buffname].value = guildBuffStore[buff].bonus[bufflevel + 1]
+                let setJsonObj = {}
+                setJsonObj["guildbuffs." + buffname + ".level"] = bufflevel + 1
+                setJsonObj["guildbuffs." + buffname + ".value"] = guildBuffStore[buff].bonus[bufflevel + 1]
+                user.guildbuffs[buffname].level = bufflevel + 1
+                user.guildbuffs[buffname].value = guildBuffStore[buff].bonus[bufflevel + 1]
+                functions.setProp("userData", { "guild": guild._id }, { $set: setJsonObj}) 
+                functions.replyMessage(message, "You have successfully upgraded " + buffname + " to level " + (bufflevel + 1))
+            }
+        }
+        else if (command == "STORE") {
+            let text = "Your guild's store: ```\n"
+            let level = guild.level
+            let pages = []
+            for (var i = 0; i < guildStore.length; i++) {
+                let alreadybought = (guild.store[i + ""] == undefined) ? 0 : guild.store[i + ""]
+                //if (i==1) functions.replyMessage(message,alreadybought)
+                text += "[" + i + "] " + guildStore[i].name
+                let canbuy = 0
+                for (var j = 0; j < guildStore[i].levels.length; j++) {
+                    if (level < guildStore[i].levels[j]) {
+                        break
                     }
-                    if (leveluptext != "") { functions.replyMessage(message, leveluptext) }
-                }, guild)
-        }
-        else if (words[2].toLowerCase() == "buff") {
-            let buff = parseInt(words[3])
-            if (isNaN(buff) || guildBuffStore[buff] == undefined) { return functions.replyMessage(message, "This buff does not exist!") }
-            let buffname = guildBuffStore[buff].stat
-            let bufflevel = guildData[guild].buffs[buffname] == undefined ? 0 : guildData[guild].buffs[buffname].level
-            if (bufflevel >= guildBuffStore[buff].bonus.length - 1) { return functions.replyMessage(message, "This buff is at the maximum level!") }
-            if (guildBuffStore[buff].levels[bufflevel + 1] > guildData[guild].level) { return functions.replyMessage(message, "You cannot upgrade this buff since your guild is not at a high enough level!") }
-            if (guildData[guild].crystals < guildBuffStore[buff].prices[bufflevel + 1]) { return functions.replyMessage(message, "Your guild does not have enough crystals!") }
-            guildData[guild].crystals -= guildBuffStore[buff].prices[bufflevel + 1]
-            if (guildData[guild].buffs[buffname] == undefined) { guildData[guild].buffs[buffname] = { "level": 0, "stat": guildBuffStore[buff].bonus[0] } }
-            guildData[guild].buffs[buffname].level = bufflevel + 1
-            guildData[guild].buffs[buffname].value = guildBuffStore[buff].bonus[bufflevel + 1]
-            functions.replyMessage(message, "You have successfully upgraded " + buffname + " to level " + (bufflevel + 1))
-        }
-    }
-    else if (command == "STORE") {
-        let text = "Your guild's store: ```\n"
-        if (guild == "None") { return functions.replyMessage(message, "You don't have a guild!") }
-        let level = guildData[guild].level
-        let pages = []
-        for (var i = 0; i < guildStore.length; i++) {
-            let alreadybought = (guildData[guild].store[i + ""] == undefined) ? 0 : guildData[guild].store[i + ""]
-            //if (i==1) functions.replyMessage(message,alreadybought)
-            text += "[" + i + "] " + guildStore[i].name
-            let canbuy = 0
-            for (var j = 0; j < guildStore[i].levels.length; j++) {
+                    canbuy += guildStore[i].stocks[j]
+                };
+                text += " ($" + guildStore[i].price + ")"
+                text += " (" + (canbuy - alreadybought) + " left)"
                 if (level < guildStore[i].levels[j]) {
+                    text += " (Level " + guildStore[i].levels[j] + " to unlock " + guildStore[i].stocks[j] + " more)"
+                } else {
+                    text += " (MAX amount)"
+                }
+                text += "\n"
+            }
+            text += "Buy an item with !guild purchase {id} [amount]```"
+            functions.replyMessage(message, text)
+            /*
+            pages.push(text)
+            text = "Your guild's store: ```\n"
+            for (var i = 0; i < guildBuffStore.length; i++) {
+                let buff = guildBuffStore[i]
+                let currbufflevel = (guild.buffs[i + ""] == undefined) ? 0 : guild.buffs[buff.stat]
+                //if (i==1) functions.replyMessage(message,alreadybought)
+                text += "[" + i + "] " + guildStore[i].name
+                let canbuy = 0
+                for (var j = 0; j < guildStore[i].levels.length; j++) {
+                    if (level < guildStore[i].levels[j]) {
+                        break
+                    }
+                    canbuy += guildStore[i].stocks[j]
+                };
+                text += " ($" + guildStore[i].price + ")"
+                text += " (" + (canbuy - alreadybought) + " left)"
+                if (level < guildStore[i].levels[j]) {
+                    text += " (Level " + guildStore[i].levels[j] + " to unlock " + guildStore[i].stocks[j] + " more)"
+                } else {
+                    text += " (MAX amount)"
+                }
+                text += "\n"
+            }
+            */
+            //functions.Paginator(message.channel,message.author,pages)
+
+        }
+        else if (command == "PURCHASE" || command == "BUY" || command == "B") {
+            //if (admins.indexOf(id) == -1) { return }
+            let level = guild.level
+            let item = parseInt(words[2])
+            if (isNaN(item) || item < 0 || guildStore[item] == undefined) return functions.replyMessage(message, "This item does not exist!")
+            let amount = parseInt(words[3])
+            if (isNaN(amount) || amount < 0) amount = 1
+
+            let canbuy = 0
+            for (var j = 0; j < guildStore[item].levels.length; j++) {
+                if (level < guildStore[item].levels[j]) {
                     break
                 }
-                canbuy += guildStore[i].stocks[j]
+                canbuy += guildStore[item].stocks[j]
             };
-            text += " ($" + guildStore[i].price + ")"
-            text += " (" + (canbuy - alreadybought) + " left)"
-            if (level < guildStore[i].levels[j]) {
-                text += " (Level " + guildStore[i].levels[j] + " to unlock " + guildStore[i].stocks[j] + " more)"
-            } else {
-                text += " (MAX amount)"
-            }
-            text += "\n"
+
+            if (guild.store[item] == undefined) { guild.store[item] = 0 }
+            let alreadybought = guild.store[item]
+            if (alreadybought + amount > canbuy) { return functions.replyMessage(message, "You don't have enough of this item in the store left!") }
+            if (user.money < guildStore[item].price * amount) { return functions.replyMessage(message, "You don't have enough money to buy this item!") }
+            guild.store[item] += amount
+            user.money -= guildStore[item].price * amount
+            if (item >= 0 && item <= 4) { guild.scrolls[item] += amount }
+            if (item == 5) { user.consum.box += amount }
+            functions.replyMessage(message, "You have successfully bought " + amount + " " + guildStore[item].name + " for $" + guildStore[item].price * amount)
         }
-        text += "Buy an item with !guild purchase {id} [amount]```"
-        functions.replyMessage(message, text)
-        /*
-        pages.push(text)
-        text = "Your guild's store: ```\n"
-        for (var i = 0; i < guildBuffStore.length; i++) {
-            let buff = guildBuffStore[i]
-            let currbufflevel = (guildData[guild].buffs[i + ""] == undefined) ? 0 : guildData[guild].buffs[buff.stat]
-            //if (i==1) functions.replyMessage(message,alreadybought)
-            text += "[" + i + "] " + guildStore[i].name
-            let canbuy = 0
-            for (var j = 0; j < guildStore[i].levels.length; j++) {
-                if (level < guildStore[i].levels[j]) {
-                    break
+        else if (command == "RESET") {
+            let time = functions.extractTime(words[3])
+            if (time == false) { return; }
+            bot.setTimeout(function () {
+                if (admins.indexOf(id) == -1) { return }
+                let guildName = words[2]
+                if (guildName == undefined) { return functions.replyMessage(message, "Please enter a guild name!") }
+                if (words[2].toUpperCase() == "ALL") {
+                    functions.setProp("guildData", {}, { $set: { "store": {} } })
+                    return functions.replyMessage(message, "The guild store has been reset for all guilds!")
                 }
-                canbuy += guildStore[i].stocks[j]
-            };
-            text += " ($" + guildStore[i].price + ")"
-            text += " (" + (canbuy - alreadybought) + " left)"
-            if (level < guildStore[i].levels[j]) {
-                text += " (Level " + guildStore[i].levels[j] + " to unlock " + guildStore[i].stocks[j] + " more)"
-            } else {
-                text += " (MAX amount)"
-            }
-            text += "\n"
+                return Promise.all([functions.getObject("guildData", guildName)]).then(ret => {
+                    let guild = ret[0]
+                    if (guild == false) { return functions.replyMessage(message, "Please specify a valid guild! (or all for all guilds)") }
+                    guild.store = {}
+                    functions.setObject("guildData", guild)
+                    functions.replyMessage(message, words[2] + "'s guild store has been reset!")
+                })
+            }, time)
+            return functions.replyMessage(message, "Guild store will reset in " + functions.displayTime(time, 0))
         }
-        */
-        //functions.Paginator(message.channel,message.author,pages)
+        else if (command == "BUFFS") {
+            let text = "Your guild's buffs: ```\n"
+            for (var buffno in guildBuffStore) {
+                let buff = guildBuffStore[buffno].stat
+                let bufflevel = guild.buffs[buff] == undefined ? 0 : guild.buffs[buff].level
 
-    }
-    else if (command == "PURCHASE" || command == "BUY" || command == "B") {
-        //if (admins.indexOf(id) == -1) { return }
-        if (guild == "None") { return functions.replyMessage(message, "You don't have a guild!") }
-        let level = guildData[guild].level
-        let item = parseInt(words[2])
-        if (isNaN(item) || item < 0 || guildStore[item] == undefined) return functions.replyMessage(message, "This item does not exist!")
-        let amount = parseInt(words[3])
-        if (isNaN(amount) || amount < 0) amount = 1
-
-        let canbuy = 0
-        for (var j = 0; j < guildStore[item].levels.length; j++) {
-            if (level < guildStore[item].levels[j]) {
-                break
+                let numspaces = 15 - guildBuffStore[buffno].name.length - buffno.length
+                let leveltext = (guildBuffStore[buffno].levels[bufflevel + 1] > guild.level) ? " (guild level " + guildBuffStore[buffno].levels[bufflevel + 1] + " required for next upgrade)" : "(Ready to upgrade to " + (100 * guildBuffStore[buffno].bonus[bufflevel + 1]) + "% for " + guildBuffStore[buffno].prices[bufflevel + 1] + " crystals)"
+                if (guildBuffStore[buffno].bonus.length <= bufflevel + 1) { leveltext = " (MAX LEVEL)" }
+                text += "[" + buffno + "] " + guildBuffStore[buffno].name + " ".repeat(numspaces) + ": " + (100 * guildBuffStore[buffno].bonus[bufflevel]) + "% (level " + bufflevel + ")" + leveltext + "\n"
             }
-            canbuy += guildStore[item].stocks[j]
-        };
+            text += "Upgrade a buff with !guild upgrade buff [id]```"
+            if (text == "Your guild's buffs: ```\nUpgrade a buff with !guild upgrade buff [buff]```") { text = "Your guild has no buffs! Purchase one with !guild upgrade buff [buff]" }
+            functions.replyMessage(message, text)
+        }
 
-        if (guildData[guild].store[item] == undefined) { guildData[guild].store[item] = 0 }
-        let alreadybought = guildData[guild].store[item]
-        if (alreadybought + amount > canbuy) { return functions.replyMessage(message, "You don't have enough of this item in the store left!") }
-        if (user.money < guildStore[item].price * amount) { return functions.replyMessage(message, "You don't have enough money to buy this item!") }
-        guildData[guild].store[item] += amount
-        user.money -= guildStore[item].price * amount
-        if (item >= 0 && item <= 4) { guildData[guild].scrolls[item] += amount }
-        if (item == 5) { user.consum.box += amount }
-        functions.replyMessage(message, "You have successfully bought " + amount + " " + guildStore[item].name + " for $" + guildStore[item].price * amount)
-    }
-    else if (command == "RESET") {
-        let time = functions.extractTime(words[3])
-        if (time == false) { return; }
-        bot.setTimeout(function () {
+        else if (command == "QUEST") {
+            if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
+        }
+        else if (command == "RESETRAID") {
             if (admins.indexOf(id) == -1) { return }
-            if (words[2].toUpperCase() == "ALL") {
-                for (var resetGuild in guildData) {
-                    guildData[resetGuild].store = {}
-                }
-                return functions.replyMessage(message, "The guild store has been reset for all guilds!")
-            }
-            if (words[2] == undefined || guildData[words[2]] == undefined) { return functions.replyMessage(message, "Please specify a valid guild! (or all for all guilds)") }
-            guildData[words[2]].store = {}
-            functions.replyMessage(message, words[2] + "'s guild store has been reset!")
-        }, time)
-        functions.replyMessage(message, "Guild store will reset in " + functions.displayTime(time, 0))
-    }
-    else if (command == "BUFFS") {
-        let text = "Your guild's buffs: ```\n"
-        if (guild == "None") { return functions.replyMessage(message, "You don't have a guild!") }
-        for (var buffno in guildBuffStore) {
-            let buff = guildBuffStore[buffno].stat
-            let bufflevel = guildData[guild].buffs[buff] == undefined ? 0 : guildData[guild].buffs[buff].level
-
-            let numspaces = 15 - guildBuffStore[buffno].name.length - buffno.length
-            let leveltext = (guildBuffStore[buffno].levels[bufflevel + 1] > guildData[guild].level) ? " (guild level " + guildBuffStore[buffno].levels[bufflevel + 1] + " required for next upgrade)" : "(Ready to upgrade to " + (100 * guildBuffStore[buffno].bonus[bufflevel + 1]) + "% for " + guildBuffStore[buffno].prices[bufflevel + 1] + " crystals)"
-            if (guildBuffStore[buffno].bonus.length <= bufflevel + 1) { leveltext = " (MAX LEVEL)" }
-            text += "[" + buffno + "] " + guildBuffStore[buffno].name + " ".repeat(numspaces) + ": " + (100 * guildBuffStore[buffno].bonus[bufflevel]) + "% (level " + bufflevel + ")" + leveltext + "\n"
+            guild.raid = 1
+            functions.replyMessage(message, guild._id + " had their raid reset!");
         }
-        text += "Upgrade a buff with !guild upgrade buff [id]```"
-        if (text == "Your guild's buffs: ```\nUpgrade a buff with !guild upgrade buff [buff]```") { text = "Your guild has no buffs! Purchase one with !guild upgrade buff [buff]" }
-        functions.replyMessage(message, text)
-    }
-
-    else if (command == "QUEST") {
-        if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
-    }
-    else if (command == "RESETRAID") {
-        if (admins.indexOf(id) == -1) { return }
-        guildData[guild].raid = 1
-        functions.replyMessage(message, guild + " had their raid reset!");
-    }
-    else {
-        if (guild == "None") { return functions.replyMessage(message, "You don't have a guild!") }
-        functions.sendMessage(message.channel, functions.generateGuildTemplate(guild))
-    }
+        else {
+            functions.sendMessage(message.channel, functions.generateGuildTemplate(guild))
+        }
+        functions.setObject("guildData", guild)
+    })
 }
