@@ -281,7 +281,7 @@ function generateGuildTemplate(guild) {
             fields: [
                 {
                     name: "<:dragonbanner:542171281609457675> Guild Name <:dragonbanner:542171281609457675>",
-                    value: guild.name,
+                    value: guild._id,
                     inline: true
                 },
                 {
