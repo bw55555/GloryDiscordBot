@@ -144,7 +144,7 @@ module.exports = async function (message, user) {
                         if (target.guild != "None") { return; }
                         guild.members.push(target._id);
                         functions.setProp("guildData", { "_id": guild._id }, { $push: {"members":target._id}})
-                        functions.setProp("userData", { "_id": target._id }, { $set: { "guild": guild, "guildpos": "Member" } })
+                        functions.setProp("userData", { "_id": target._id }, { $set: { "guild": guild._id, "guildpos": "Member" } })
                         functions.sendMessage(message.channel, "<@" + target._id + "> has joined " + guild._id + "!");
                     },
                     [guild, target, message],
