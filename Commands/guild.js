@@ -459,6 +459,7 @@ module.exports = async function (message, user) {
                 let setJsonObj = {}
                 setJsonObj["guildbuffs." + buffname + ".level"] = bufflevel + 1
                 setJsonObj["guildbuffs." + buffname + ".value"] = guildBuffStore[buff].bonus[bufflevel + 1]
+                user.guildbuffs[buffname] = {}
                 user.guildbuffs[buffname].level = bufflevel + 1
                 user.guildbuffs[buffname].value = guildBuffStore[buff].bonus[bufflevel + 1]
                 functions.setProp("userData", { "guild": guild._id }, { $set: setJsonObj}) 
