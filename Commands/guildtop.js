@@ -46,7 +46,7 @@ module.exports = async function (message,user) {
             }
         }
         if (page.embed.fields[0] != "") {
-            page.embed.footer.text = (pages.length * numPerPage + 1) + "-" + (i + 1) + " out of " + guildArr.length
+            page.embed.footer.text = (pages.length * numPerPage + 1) + "-" + (guildArr.length) + " out of " + guildArr.length
             pages.push(page)
         }
         new functions.Paginator(message.channel, message.author, pages)

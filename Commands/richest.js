@@ -43,21 +43,8 @@ module.exports = async function (message, user) {
             }
         }
         if (page.embed.fields[0] != "") {
-            page.embed.footer.text = (pages.length * numPerPage + 1) + "-" + (i + 1) + " out of " + arr.length
+            page.embed.footer.text = (pages.length * numPerPage + 1) + "-" + (arr.length) + " out of " + arr.length
             pages.push(page)
-            page = {
-                "embed": { //displays guild stats
-                    "title": "Global Economy",
-                    "color": 0xF1C40F,
-                    "fields": [{
-                        "name": "Richest Accounts",
-                        "value": ""
-                    }],
-                    "footer": {
-                        "text": ""
-                    },
-                }
-            }
         }
         new functions.Paginator(message.channel, message.author, pages)
     })
