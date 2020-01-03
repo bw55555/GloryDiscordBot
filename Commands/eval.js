@@ -20,6 +20,12 @@ module.exports = async function (message,user) {
       code = code.slice(0,colonindex+1)+ret
       //let evaled = eval(code);
       let evaled = eval('(message) => {' + code + '}')(message);
+      if (typeof evaled.then == "function") {
+          evaled.then(ret => {
+              if (typeof evaled !== "string") evaled = require("util").inspect(evaled);
+              message.channel.send(functions.clean(evaled), { code: "xl" });
+          })
+      }
       if (typeof evaled !== "string") evaled = require("util").inspect(evaled);
       message.channel.send(functions.clean(evaled), { code: "xl" });
   } catch (err) {
