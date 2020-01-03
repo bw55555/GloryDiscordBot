@@ -138,14 +138,15 @@ module.exports = async function (message, user) {
                 //functions.sendMessage(message.channel, "<@" + target._id + ">, <@" + id + "> invites you to their guild! Type `!guild accept` to join");
                 functions.MessageAwait(message.channel, target._id, "<@" + target._id + ">, <@" + user._id + "> has invited you to their guild! Type `accept` to join!", "accept",
                     function (response, extraArgs) {
-                        let guild = extraArgs[0]
-                        let target = extraArgs[1]
-                        let message = extraArgs[2]
-                        if (target.guild != "None") { return; }
-                        guild.members.push(target._id);
-                        functions.setProp("guildData", { "_id": guild._id }, { $push: {"members":target._id}})
-                        functions.setProp("userData", { "_id": target._id }, { $set: { "guild": guild._id, "guildpos": "Member" } })
-                        functions.sendMessage(message.channel, "<@" + target._id + "> has joined " + guild._id + "!");
+                        return Promise.all([functions.getUser(target._id)]).then(ret => {
+                            let guild = extraArgs[0]
+                            let target = ret[0]
+                            let message = extraArgs[2]
+                            if (target.guild != "None") { return; }
+                            functions.setProp("guildData", { "_id": guild._id }, { $push: { "members": target._id } })
+                            functions.setProp("userData", { "_id": target._id }, { $set: { "guild": guild._id, "guildpos": "Member" } })
+                            functions.sendMessage(message.channel, "<@" + target._id + "> has joined " + guild._id + "!");
+                        })
                     },
                     [guild, target, message],
                     "They didn't want to join your guild..."
