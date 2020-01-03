@@ -22,8 +22,8 @@ module.exports = async function (message,user) {
       let evaled = eval('(message) => {' + code + '}')(message);
       if (typeof evaled.then == "function") {
           evaled.then(ret => {
-              if (typeof evaled !== "string") evaled = require("util").inspect(evaled);
-              message.channel.send(functions.clean(evaled), { code: "xl" });
+              if (typeof ret !== "string") ret = require("util").inspect(ret);
+              message.channel.send(functions.clean(ret), { code: "xl" });
           })
       }
       if (typeof evaled !== "string") evaled = require("util").inspect(evaled);
