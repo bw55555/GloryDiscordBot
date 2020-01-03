@@ -8,7 +8,7 @@ async function getUser(uid) {
     })
 }
 async function findUsers(query,projection) {
-    return client.db("current").collection("userData").find(query,projection).toArray().then(r => {
+    return client.db("current").collection("userData").find(query, { "projection": projection }).toArray().then(r => {
         if (r == []) { return false }
         return r;
     }).catch(err => {
@@ -42,7 +42,7 @@ async function getItem(iid) {
     })
 }
 async function findItems(query, projection) {
-    return client.db("current").collection("itemData").find(query, projection).toArray().then(r => {
+    return client.db("current").collection("itemData").find(query, { "projection": projection }).toArray().then(r => {
         if (r == []) { return false }
         return r;
     }).catch(err => {
@@ -76,7 +76,7 @@ async function getObject(coll,oid) {
     })
 }
 async function findObjects(coll, query, projection) {
-    return client.db("current").collection(coll).find(query, projection).toArray().then(r => {
+    return client.db("current").collection(coll).find(query, { "projection": projection }).toArray().then(r => {
         if (r == []) { return false }
         return r;
     }).catch(err => {
