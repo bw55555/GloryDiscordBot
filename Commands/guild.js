@@ -179,6 +179,7 @@ module.exports = async function (message, user) {
             functions.deleteObject("guildData",guild._id);
 
             functions.replyMessage(message, "You disbanded your guild! Everyone in it is now guildless :(");
+            return 
         }
         else if (command == "DEPOSIT" || command == "INVEST" || command == "DEP") {//It's enough already with youknowwhoafter me xD lmao
             let type = ""
