@@ -142,7 +142,7 @@ module.exports = async function (message, user) {
                             let guild = ret[2]
                             let user = ret[1]
                             let target = ret[0]
-                            let message = extraArgs[2]
+                            let message = extraArgs[3]
                             if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") {
                                 functions.replyMessage(message, "You must be the Leader or a Co-Leader to invite someone!");
                                 return;
