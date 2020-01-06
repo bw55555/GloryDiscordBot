@@ -6,7 +6,7 @@ global.client = new MongoClient(uri, { useNewUrlParser: true });
 global.fs = require('fs')
 var functions = require(`./Utils/functions.js`)
 client.connect(err => {
-    Promise.all(functions.findObjects("serverData", {}), functions.getObject("devData", "devData")).then(someDataReturn => {
+    Promise.all([functions.findObjects("serverData", {}), functions.getObject("devData", "devData")]).then(someDataReturn => {
         global.serverData = {};
         let serverArr = someDataReturn[0]
         for (server in serverArr) {
