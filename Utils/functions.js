@@ -1013,7 +1013,7 @@ function raidInfo(message, raid) {
     sendMessage(message.channel, {
         embed: {
             thumbnail: {
-                umobDal: raid.url
+                "url": raid.url
             },
             color: 0xF1C40F,
             fields: [
