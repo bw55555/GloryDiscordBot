@@ -9,7 +9,7 @@ client.connect(err => {
     Promise.all([functions.findObjects("serverData", {}), functions.getObject("devData", "devData")]).then(someDataReturn => {
         global.serverData = {};
         let serverArr = someDataReturn[0];
-        for (server in serverArr) {
+        for (var server of serverArr) {
             serverData[server._id] = server;
         }
         global.devData = someDataReturn[1];
