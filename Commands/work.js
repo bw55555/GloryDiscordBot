@@ -40,11 +40,13 @@ module.exports = async function (message,user) {
         let c = Math.floor(Math.random() * 100)
         let d = a + b + c
         functions.MessageAwait(message.channel, id, "Answer the following question to recieve a bonus! What is " + a + " + " + b + " + " + c + "?", d, function (response, extraArgs) {
-            let user = extraArgs[1];
-            let message = extraArgs[0];
-            let special = 10 * Math.floor((-4 * ((Math.random() - 0.5) ** 2) + 1) * (Math.sqrt(user.level) * 50 + 1));
-            functions.setProp("userData", { _id: user._id }, { $inc: { "money": special } })
-            functions.replyMessage(message, "You earned $" + special + "!")
+            Promise.all([functions.getUser(extraArgs[1]._id)]).then(ret => {
+                let user = ret[0];
+                let message = extraArgs[0];
+                let special = 10 * Math.floor((-4 * ((Math.random() - 0.5) ** 2) + 1) * (Math.sqrt(user.level) * 50 + 1));
+                functions.setProp("userData", { _id: user._id }, { $inc: { "money": special } })
+                functions.replyMessage(message, "You earned $" + special + "!")
+            })
         }, [message, user]);
     }
     user.speed = 0;

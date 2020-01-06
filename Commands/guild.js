@@ -138,17 +138,29 @@ module.exports = async function (message, user) {
                 //functions.sendMessage(message.channel, "<@" + target._id + ">, <@" + id + "> invites you to their guild! Type `!guild accept` to join");
                 functions.MessageAwait(message.channel, target._id, "<@" + target._id + ">, <@" + user._id + "> has invited you to their guild! Type `accept` to join!", "accept",
                     function (response, extraArgs) {
-                        return Promise.all([functions.getUser(target._id)]).then(ret => {
-                            let guild = extraArgs[0]
+                        return Promise.all([functions.getUser(extraArgs[1]._id), functions.getUser(extraArgs[2]._id), functions.getObject("guildData", extraArgs[0]._id)]).then(ret => {
+                            let guild = ret[2]
+                            let user = ret[1]
                             let target = ret[0]
                             let message = extraArgs[2]
-                            if (target.guild != "None") { return; }
+                            if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") {
+                                functions.replyMessage(message, "You must be the Leader or a Co-Leader to invite someone!");
+                                return;
+                            }
+                            if (target == false) {
+                                functions.replyMessage(message, "You can't invite rocks!");
+                                return;
+                            }
+                            if (target.guild != "None") {
+                                functions.replyMessage(message, "They are already in the guild " + target.guild + "!");
+                                return;
+                            }
                             functions.setProp("guildData", { "_id": guild._id }, { $push: { "members": target._id } })
                             functions.setProp("userData", { "_id": target._id }, { $set: { "guild": guild._id, "guildpos": "Member" } })
                             functions.sendMessage(message.channel, "<@" + target._id + "> has joined " + guild._id + "!");
                         })
                     },
-                    [guild, target, message],
+                    [guild, target, user, message],
                     "They didn't want to join your guild..."
                 );
                 //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + " (id " + id + ") invited "+target.username + " (id " + target._id + ") to your guild.") }
