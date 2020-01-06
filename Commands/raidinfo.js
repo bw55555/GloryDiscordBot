@@ -7,5 +7,8 @@ module.exports = async function (message, user) {
         functions.sendMessage(message.channel, "There is no raid going on in this channel!");
         return;
     }
-    functions.raidInfo(message, mobData[message.channel.id])
+    return Promise.all([functions.getObject("mobData", message.channel.id)]).then(ret => {
+        let raid = ret[0]
+        functions.raidInfo(message, raid)
+    }
 }
