@@ -17,7 +17,7 @@ module.exports = async function (message, user) {
             return
         }
     }
-    if (amount > 10000) { return functions.replyMessage(message, "You cannot open more than 1000 boxes at once.")}
+    if (amount > 1000) { return functions.replyMessage(message, "You cannot open more than 1000 boxes at once.")}
     if (user.consum.box < amount) {
         functions.replyMessage(message, "You don't have enough boxes (You have " + user.consum.box + "), silly! Get them by voting or buy them in the shop!")
         return;
