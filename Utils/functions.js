@@ -307,7 +307,7 @@ function generateGuildTemplate(guild) {
         }
     }
 }
-function generateItem(owner, itemid, attack, defense, rarity, name, modifiers) {
+function generateItem(owner, itemid, attack, defense, rarity, name, modifiers, isBulk) {
     if (modifiers == undefined) { modifiers = {} }
     if (name == undefined) {
         let items = ["Stick", "Pebble", "Rock", "Sling"]
@@ -333,14 +333,16 @@ function generateItem(owner, itemid, attack, defense, rarity, name, modifiers) {
     }
     if (owner != "event") { owner.inventory[itemid] = itemid }
     let maxenhance = (rarity == "Unique") ? 1024 : Math.pow(2, rarity)
-    let item = { "owner": owner._id, "_id": itemid, "equip":false, "attack": attack, "defense": defense, "rarity": rarity, "modifiers": modifiers, "name": name, "enhancementlevel": 0, "maxenhancement": maxenhance, "enhancementattempts": 0, "favorite": false, "merge": 0 }
-    setItem(item)
     devData.nextItem++;
-    functions.setObject("devData", devData)
+    if (isBulk != true) {
+        let item = { "owner": owner._id, "_id": itemid, "equip": false, "attack": attack, "defense": defense, "rarity": rarity, "modifiers": modifiers, "name": name, "enhancementlevel": 0, "maxenhancement": maxenhance, "enhancementattempts": 0, "favorite": false, "merge": 0 }
+        setItem(item)
+        setObject("devData", devData)
+    } 
     return item;
 }
 
-function generateRandomItem(owner, rarity) {
+function generateRandomItem(owner, rarity, isBulk) {
     //console.log(owner)
     //console.log(rarity)
     rarity = parseInt(rarity)
@@ -363,7 +365,7 @@ function generateRandomItem(owner, rarity) {
     let attack = Math.floor(Math.random() * (total + 1))
     let defense = total - attack
 
-    let item = generateItem(owner, null, attack, defense, rarity, undefined, undefined)
+    let item = generateItem(owner, null, attack, defense, rarity, undefined, undefined, isBulk)
     return item
 }
 function calcExtraStat(user, stat) {
@@ -980,7 +982,7 @@ function craftItems(message, owner, minrarity, maxrarity, amount) {
         return ""
     }
 }
-function craftItem(message,owner, minrarity, maxrarity, reply) {
+function craftItem(message,owner, minrarity, maxrarity, reply, isBulk) {
     reply = (reply == false) ? false : true
     let item;
     if (minrarity == -1 || maxrarity == -1) {
@@ -1508,8 +1510,8 @@ module.exports.logCommand = function (message, extratext) { return logCommand(me
 module.exports.validate = function (message, user, spot) { return validate(message, user, spot) }
 module.exports.generateWeaponTemplate = function (owner, weapon, current, total) { return generateWeaponTemplate(owner, weapon, current, total) }
 module.exports.generateGuildTemplate = function (guild) { return generateGuildTemplate(guild) }
-module.exports.generateItem = function (owner, itemid, attack, defense, rarity, name, modifiers) { return generateItem(owner, itemid, attack, defense, rarity, name, modifiers) }
-module.exports.generateRandomItem = function (owner, rarity) { return generateRandomItem(owner, rarity) }
+module.exports.generateItem = function (owner, itemid, attack, defense, rarity, name, modifiers, isBulk) { return generateItem(owner, itemid, attack, defense, rarity, name, modifiers, isBulk) }
+module.exports.generateRandomItem = function (owner, rarity, isBulk) { return generateRandomItem(owner, rarity, isBulk) }
 module.exports.calcExtraStat = function (user, stat) { return calcExtraStat(user, stat) }
 module.exports.calcLuckyBuff = function (user) { return calcLuckyBuff(user) }
 module.exports.errorlog = function (text) { return errorlog(text) }
@@ -1521,7 +1523,7 @@ module.exports.calcDamage = function (message, attacker, defender, initiator) { 
 module.exports.calcStats = function (message, user, stat, skillenable, confused) { return calcStats(message, user, stat, skillenable, confused) }
 module.exports.voteItem = function (message, dm) { return voteItem(message, dm) }
 module.exports.craftItems = function (message, owner, minrarity, maxrarity, amount) { return craftItems(message, owner, minrarity, maxrarity, amount) }
-module.exports.craftItem = function (message, owner, minrarity, maxrarity, reply) { return craftItem(message, owner, minrarity, maxrarity, reply) }
+module.exports.craftItem = function (message, owner, minrarity, maxrarity, reply, isBulk) { return craftItem(message, owner, minrarity, maxrarity, reply, isBulk) }
 module.exports.raidInfo = function (message, raid) { return raidInfo(message, raid) }
 module.exports.summon = function (raid, minlevel, maxlevel, name, image, ability) { return summon(raid, minlevel, maxlevel, name, image, ability) }
 module.exports.checkProps = function (message,user) { return checkProps(message,user) }
