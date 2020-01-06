@@ -3,6 +3,7 @@ const asyncpkg = require("async")
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://GloryUser:GLORYmongodb@testthing-eaiqz.mongodb.net/test?retryWrites=true&w=majority";
 global.client = new MongoClient(uri, { useNewUrlParser: true });
+global.fs = require('fs')
 var functions = require(`./Utils/functions.js`)
 client.connect(err => {
     const collection = client.db("test").collection("devices");
@@ -21,10 +22,7 @@ client.connect(err => {
     global.ready = false
     global.bot = new Discord.Client();
     global.botOnline = true
-    global.fs = require('fs')
     global.waitList = {}
-
-
     var commands = {}
     var commandlist = {}
     fs.readdir("./Commands/", (err, files) => {
