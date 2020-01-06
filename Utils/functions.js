@@ -1013,7 +1013,7 @@ function raidInfo(message, raid) {
     sendMessage(message.channel, {
         embed: {
             thumbnail: {
-                url: raid.url
+                umobDal: raid.url
             },
             color: 0xF1C40F,
             fields: [
@@ -1203,7 +1203,7 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
         replyMessage(message, "Corpses can\'t attack! Do !resurrect");
         return user;
     }
-    if (mobData.raid === false && !isguild && !isevent) {
+    if (!isguild && !isevent) {
         deleteMessage(message);
         replyMessage(message, "There is no raid right now!");
         return user;
