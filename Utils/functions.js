@@ -458,7 +458,7 @@ function calcDamage(message, attacker, defender, initiator) {
     if (defender.name == "Will-o'-the-wisp") {
         evaderate += 0.95
     }
-    if (defender._id != undefined && defender.weapon != false && defender.weapon.modifiers.evade != undefined) {
+    if (defender.isRaid != true && defender.weapon != false && defender.weapon.modifiers.evade != undefined) {
         evaderate += defender.weapon.modifiers.evade
     }
     if (evadechance < evaderate) {
@@ -466,8 +466,8 @@ function calcDamage(message, attacker, defender, initiator) {
         return 0
     }
     let attack = 0;
-    if (attacker._id != undefined) {
-        if (defender._id != undefined && hasSkill(defender, 23, skillenable)) {
+    if (attacker.isRaid != true) {
+        if (defender.isRaid != true && hasSkill(defender, 23, skillenable)) {
             attack = calcStats(message, attacker, "attack", skillenable, true);
         } else {
             attack = calcStats(message, attacker, "attack", skillenable);
@@ -483,14 +483,14 @@ function calcDamage(message, attacker, defender, initiator) {
         
     }
     let defense = 0;
-    if (defender._id != undefined) {
-        if (attacker._id != undefined && hasSkill(attacker, 23, skillenable)) {
+    if (defender.isRaid != true) {
+        if (attacker.isRaid != true && hasSkill(attacker, 23, skillenable)) {
             defense = calcStats(message, defender, "defense", skillenable, true);
         } else {
             defense = calcStats(message, defender, "defense", skillenable);
         }
     }
-    if (attacker._id != undefined && defender._id != undefined) {
+    if (attacker.isRaid != true && defender.isRaid != true) {
         if ((attacker.triangleid - defender.triangleid) % 3 == 2) {
             if (hasSkill(attacker, 13, skillenable)) {
                 attack *= 1.8
@@ -504,12 +504,12 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
 
-    let weapon = (attacker._id != undefined && attacker.weapon != false) ? attacker.weapon : false
-    let dweapon = (defender._id != undefined && defender.weapon != false) ? defender.weapon : false
+    let weapon = (attacker.isRaid != true && attacker.weapon != false) ? attacker.weapon : false
+    let dweapon = (defender.isRaid != true && defender.weapon != false) ? defender.weapon : false
     //attacker only skills
     let piercechance = Math.random()
     let piercerate = 0
-    if (attacker._id != undefined) {
+    if (attacker.isRaid != true) {
 
         if (weapon != false && weapon.modifiers.pierce != undefined) { piercerate += weapon.modifiers.pierce }
 
@@ -519,7 +519,7 @@ function calcDamage(message, attacker, defender, initiator) {
         if (hasSkill(attacker, 28, skillenable)) {
             piercerate += 0.05;
         }
-        if (attacker._id != undefined && attacker.guild != "None" && attacker.guildbuffs.pierce != undefined) {
+        if (attacker.isRaid != true && attacker.guild != "None" && attacker.guildbuffs.pierce != undefined) {
             piercerate += attacker.guildbuffs.pierce.value
         }
 
@@ -538,7 +538,7 @@ function calcDamage(message, attacker, defender, initiator) {
             defense = 0
         }
         text += attackername + " has pierced their opponents defense!\n"
-        if (attacker._id != undefined && hasSkill(attacker, 28, skillenable)) {
+        if (attacker.isRaid != true && hasSkill(attacker, 28, skillenable)) {
             attack *= 1.4
         }
     }
@@ -548,10 +548,10 @@ function calcDamage(message, attacker, defender, initiator) {
     if (dweapon != false && dweapon.modifiers.spikes != undefined) {
         spikedmod += dweapon.modifiers.spikes
     }
-    if (defender._id != undefined && defender.guild != "None" && defender.guildbuffs.spikes != undefined) {
+    if (defender.isRaid != true && defender.guild != "None" && defender.guildbuffs.spikes != undefined) {
         spikedmod += defender.guildbuffs.spikes.value
     }
-    if (defender._id != undefined) {
+    if (defender.isRaid != true) {
         if (hasSkill(defender, 7, skillenable)) {
             spikedmod += 0.5;
         }
@@ -561,13 +561,13 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     if (spikedmod > 0) {
         let spiked = Math.floor(defense * spikedmod)
-        if (attacker._id != undefined) {
+        if (attacker.isRaid != true) {
             if (hasSkill(attacker, 37)) { text += defendername + "'s spikes was dispelled!\n" }
             else {
                 attacker.currenthealth -= spiked
                 text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
             }
-            if (defender._id != undefined) {
+            if (defender.isRaid != true) {
                 if (hasSkill(defender, 31, skillenable)) {
                     if (hasSkill(attacker, 37)) { text += defendername + "'s burn was dispelled!\n" }
                     else {
@@ -584,7 +584,7 @@ function calcDamage(message, attacker, defender, initiator) {
     }
 
     //burn check
-    if (attacker._id != undefined) {
+    if (attacker.isRaid != true) {
         if (weapon != false && weapon.modifiers.burn != undefined) {
             burn += weapon.modifiers.burn
         }
@@ -596,12 +596,12 @@ function calcDamage(message, attacker, defender, initiator) {
             burn += 5;
         }
     }
-    if (defender._id != undefined && hasSkill(defender, 37)) {
+    if (defender.isRaid != true && hasSkill(defender, 37)) {
         text += attackername + "'s burn was dispelled!\n"
         burn = 0
     }
     if (burn > 0) {
-        if (defender._id != undefined) {
+        if (defender.isRaid != true) {
             if (defender.burn == undefined) { defender.burn = 0}
             defender.burn += burn;
             text += defendername + " is now burning!\n"
@@ -613,10 +613,10 @@ function calcDamage(message, attacker, defender, initiator) {
 
     let blockrate = 0;
     let blockchance = Math.random()
-    if (defender._id != undefined && defender.guild != "None" && defender.guildbuffs.block != undefined) {
+    if (defender.isRaid != true && defender.guild != "None" && defender.guildbuffs.block != undefined) {
         blockrate += defender.guildbuffs.block.value
     }
-    if (defender._id != undefined && defender.dead == false) {
+    if (defender.isRaid != true && defender.dead == false) {
         if (dweapon != false && dweapon.modifiers.block != undefined) {
             blockrate += dweapon.modifiers.block
         }
@@ -642,16 +642,16 @@ function calcDamage(message, attacker, defender, initiator) {
         } else {
             text += defendername + " has blocked the attack!\n"
             attack = 0;
-            if (defender._id != undefined && hasSkill(defender, 30, skillenable)) {
+            if (defender.isRaid != true && hasSkill(defender, 30, skillenable)) {
                 defender.bolster = true
                 text += defendername + " was bolstered!\n"
             }
         }
     }
 
-    if (attacker._id != undefined) {
+    if (attacker.isRaid != true) {
         let lifesteal = (attacker.triangleid == 11) ? 0.15 : 0;
-        if (attacker._id != undefined && attacker.guild != "None" && attacker.guildbuffs.lifeSteal != undefined) {
+        if (attacker.isRaid != true && attacker.guild != "None" && attacker.guildbuffs.lifeSteal != undefined) {
             lifesteal += attacker.guildbuffs.lifeSteal.value
         }
         if (weapon != false && weapon.modifiers.lifeSteal != undefined) {
@@ -672,10 +672,10 @@ function calcDamage(message, attacker, defender, initiator) {
             text += attackername + " lifestole **" + stealAmount + "** health!\n";
         }
     }
-    if (attacker._id != undefined) {
+    if (attacker.isRaid != true) {
         if (hasSkill(attacker, 22, skillenable)) {
             let leech = 0
-            if (defender._id != undefined) {
+            if (defender.isRaid != true) {
                 leech = Math.floor(0.05 * defender.currenthealth);
                 attacker.currenthealth += leech
                 defender.currenthealth -= leech
@@ -686,7 +686,7 @@ function calcDamage(message, attacker, defender, initiator) {
     //defender only skills
     let revmod = 0;
     let revengechance = Math.random()
-    if (defender._id != undefined) {
+    if (defender.isRaid != true) {
         if (attacker._id == initiator._id && dweapon != false && dweapon.modifiers.revenge != undefined) {
             revmod += dweapon.modifiers.revenge;
         }
@@ -698,12 +698,12 @@ function calcDamage(message, attacker, defender, initiator) {
             revmod += 0.005;
             revmod *= 2;
         }
-        if (defender._id != undefined && defender.guild != "None" && defender.guildbuffs.revenge != undefined) {
+        if (defender.isRaid != true && defender.guild != "None" && defender.guildbuffs.revenge != undefined) {
             revmod += defender.guildbuffs.revenge.value
         }
     }
 
-    if (attacker._id != undefined) {
+    if (attacker.isRaid != true) {
         if (revengechance < revmod) {
             attacker.currenthealth = 0;
             text += defendername + " has avenged the attack!\n"
@@ -725,12 +725,12 @@ function calcDamage(message, attacker, defender, initiator) {
     }
 
     //Percentage increases
-    if (defender._id != undefined && attacker._id == initiator._id) {
+    if (defender.isRaid != true && attacker._id == initiator._id) {
         if (hasSkill(defender, 19, skillenable)) {
             defense *= 1.3;
         }
     }
-    if (attacker._id != undefined && attacker._id == initiator._id) {
+    if (attacker.isRaid != true && attacker._id == initiator._id) {
         if (hasSkill(attacker, 18, skillenable)) {
             attack *= 1.3;
         }
@@ -739,7 +739,7 @@ function calcDamage(message, attacker, defender, initiator) {
     truedamage = Math.floor(attack * 0.75 * roll + attack * 0.25 - defense)
 
     //Last Breath Check
-    if (defender._id != undefined) {
+    if (defender.isRaid != true) {
         if (hasSkill(defender, 25, skillenable)) {
             if (truedamage > defender.currenthealth && defender.currenthealth * 2 > defender.health) {
                 defender.currenthealth = truedamage + 1
@@ -1028,6 +1028,7 @@ function raidInfo(message, raid) {
 
 
 function summon(raid, minlevel, maxlevel, name, image, ability) {
+    raid.isRaid = true
     raid.attack = 0;
     raid.currenthealth = 0;
     raid.reward = 0;
