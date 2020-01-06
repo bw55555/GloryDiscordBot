@@ -563,7 +563,7 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You have successfully bought " + amount + " " + guildStore[item].name + " for $" + guildStore[item].price * amount)
         }
         else if (command == "RESET") {
-            let time = functions.extractTime(words[3])
+            let time = functions.extractTime(message,words[3])
             if (time == false) { return; }
             bot.setTimeout(function () {
                 if (admins.indexOf(id) == -1) { return }

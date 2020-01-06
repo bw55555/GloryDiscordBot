@@ -137,7 +137,7 @@ client.connect(err => {
             }
             if ((message.content.startsWith(prefix + "setcommandtimer") || message.content.startsWith(prefix + "sct")) && devs.indexOf(message.author.id) != -1) {
                 let words = message.content.trim().split(/\s+/)
-                let time = functions.extractTime(words[1])
+                let time = functions.extractTime(message,words[1])
                 let ts = message.createdTimestamp;
                 if (time == false) { return }
                 words.splice(0, 2)

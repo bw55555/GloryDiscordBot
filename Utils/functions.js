@@ -412,9 +412,10 @@ function displayTime(time1, time2) {
     if (seconds < 10) { seconds = "0" + seconds }
     return hours + ":" + minutes + ":" + seconds
 }
-function extractTime(timeword) {
+function extractTime(message,timeword) {
     let time = 0;
     let regexp = /\b([0-9]+h)?([0-9]+m)?([0-9]+s)?\b/
+    if (timeword == undefined) { return time}
     if (timeword != undefined && regexp.test(timeword)) {
         let saveindex = 0
         const timevalues = { "h": 3600000, "m": 60000, "s": 1000 }
@@ -1515,7 +1516,7 @@ module.exports.errorlog = function (text) { return errorlog(text) }
 module.exports.setCD = function (user, ts, cdsecs, cdname) { return setCD(user, ts, cdsecs, cdname) }
 module.exports.calcTime = function (time1, time2) { return calcTime(time1, time2) }
 module.exports.displayTime = function (time1, time2) { return displayTime(time1, time2) }
-module.exports.extractTime = function (timeword) { return extractTime(timeword) }
+module.exports.extractTime = function (message,timeword) { return extractTime(message,timeword) }
 module.exports.calcDamage = function (message, attacker, defender, initiator) { return calcDamage(message, attacker, defender, initiator) }
 module.exports.calcStats = function (message, user, stat, skillenable, confused) { return calcStats(message, user, stat, skillenable, confused) }
 module.exports.voteItem = function (message, dm) { return voteItem(message, dm) }

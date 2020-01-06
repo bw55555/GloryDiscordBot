@@ -6,7 +6,7 @@ module.exports = async function (message, user) {
     if (admins.indexOf(id) == -1) { return }
     let time = 0;
     if (words[1] == "-time") {
-        time = functions.extractTime(words[2])
+        time = functions.extractTime(message,words[2])
         if (time == false) { return }
         words.splice(1, 2)
     }
