@@ -8,11 +8,10 @@ var functions = require(`./Utils/functions.js`)
 client.connect(err => {
     Promise.all([functions.findObjects("serverData", {}), functions.getObject("devData", "devData")]).then(someDataReturn => {
         global.serverData = {};
-        let serverArr = someDataReturn[0]
+        let serverArr = someDataReturn[0];
         for (server in serverArr) {
             serverData[server._id] = server;
         }
-        serverLoad = true;
         global.devData = someDataReturn[1];
         // perform actions on the collection object
         global.ready = false
@@ -46,11 +45,6 @@ client.connect(err => {
         global.talkedRecently = new Set();
         global.globalcdlist = new Set();
         const TOKEN = config.token;//woah woah woah woah whatcha
-
-        global.devData = {};
-        global.serverData = {};
-        global.devLoad = false;
-        global.serverLoad = false;
 
         global.admins = devData.admins
         global.devs = devData.devs
