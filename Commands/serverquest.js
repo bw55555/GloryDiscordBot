@@ -1,6 +1,6 @@
 var functions=require("../Utils/functions.js")
 
-module.exports = async function (message,user) {
+module.exports = async function (message, user) {
 
     //questData.questInfo.questList[2].completed = 5;
     let notindex = questData.questInfo.current;

@@ -1,5 +1,5 @@
 var functions = require("../Utils/functions.js")
-module.exports = async function (message,user) {
+module.exports = async function (message, user) {
     let id = message.author.id;
     if (devs.indexOf(id) == -1) { return user; }
     return Promise.all([functions.validate(message,user)]).then(ret => {
