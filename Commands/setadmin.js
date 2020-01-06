@@ -14,9 +14,10 @@ module.exports = async function (message, user) {
     return Promise.all([functions.validate(message,user)]).then(ret => {
         let target = ret[0];
         if (target == false) { return }
-        devData.admins.push(target._id)
+        if (devData.admins.indexOf(target._id) != -1) {return functions.replyMessage(message,"<@"+target._id+"> is already an admin!")}
         admins.push(target._id)
         functions.sendMessage(message.channel, "<@" + target._id + "> was set as admin")
         functions.logCommand(message)
+        functions.setObject("devData", devData)
     })
 }

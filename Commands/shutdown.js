@@ -5,12 +5,8 @@ module.exports = async function (message, user) {
     let words = message.content.trim().split(/\s+/)
     if (admins.indexOf(id) == -1) { return }
     //functions.logCommand(message)
-    if (words.indexOf("-nowrite") == -1) {
-        functions.replyMessage(message, "Writing data to file...")
-        functions.writeData("Storage")
-    }
     if (words.indexOf("-nobackup") == -1) {
-        this.backup(message)
+        //this.backup(message)
     }
     message.reply('GLORY is shutting down...').then(function (session) {
         return bot.destroy().then(function (destruct) {

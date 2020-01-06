@@ -147,17 +147,6 @@ function dmUser(user, text) {
     if (user.dmmute != true) bot.users.get(user._id).send(text).catch(function (err) { console.error(err) })
 }
 
-function writeData(folder) {
-    //fs.writeFile(folder + '/userData.json', JSON.stringify(userData, null, 4), function (err) { if (err == null) { return; };console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"userData backed up!"))
-    //fs.writeFile(folder + '/itemData.json', JSON.stringify(itemData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"itemData backed up!"))
-    //fs.writeFile(folder + '/mobData.json', JSON.stringify(mobData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"mobData backed up!"))
-    //fs.writeFile(folder + '/guildData.json', JSON.stringify(guildData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"guildData backed up!"))
-    fs.writeFile(folder + '/serverData.json', JSON.stringify(serverData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"guildData backed up!"))
-    fs.writeFile(folder + '/devData.json', JSON.stringify(devData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"guildData backed up!"))
-    fs.writeFile(folder + '/questData.json', JSON.stringify(questData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"guildData backed up!"))
-    //fs.writeFile(folder + '/partyData.json', JSON.stringify(partyData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })
-    //fs.writeFile(folder + '/eggData.json', JSON.stringify(eggData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })
-}
 
 function logCommand(message, extratext) {
     if (message.author.bot) { return }
@@ -347,6 +336,7 @@ function generateItem(owner, itemid, attack, defense, rarity, name, modifiers) {
     let item = { "owner": owner._id, "_id": itemid, "equip":false, "attack": attack, "defense": defense, "rarity": rarity, "modifiers": modifiers, "name": name, "enhancementlevel": 0, "maxenhancement": maxenhance, "enhancementattempts": 0, "favorite": false, "merge": 0 }
     setItem(item)
     devData.nextItem++;
+    functions.setObject("devData", devData)
     return item;
 }
 
@@ -1514,7 +1504,6 @@ module.exports.replyMessage = function (message, text, override) { return replyM
 module.exports.deleteMessage = function (message) { return deleteMessage(message) }
 module.exports.dmUser = function (user, text) { return dmUser(user, text) }
 module.exports.logCommand = function (message, extratext) { return logCommand(message, extratext) }
-module.exports.writeData = function (folder) { return writeData(folder) }
 module.exports.validate = function (message, user, spot) { return validate(message, user, spot) }
 module.exports.generateWeaponTemplate = function (owner, weapon, current, total) { return generateWeaponTemplate(owner, weapon, current, total) }
 module.exports.generateGuildTemplate = function (guild) { return generateGuildTemplate(guild) }

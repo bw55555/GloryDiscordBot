@@ -10,6 +10,6 @@ module.exports = async function (message, user) {
         global.devData.hardbans[target._id] = true
         functions.replyMessage(message, "<@" + target._id + "> has been hardbanned... Bye")
         functions.logCommand(message)
-        fs.writeFileSync('Storage/devData.json', JSON.stringify(devData, null, 4))
+        functions.setObject("devData", devData)
     })
 }

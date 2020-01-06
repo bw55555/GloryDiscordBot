@@ -106,10 +106,6 @@ module.exports = async function (message, user) {
                 user.money += target.bounty;
                 target.bounty = 0;
             }
-
-            if (questData.questInfo.current == 2 && target == "290980432382787585") {
-                questData.questInfo.questList[2].completed++;
-            }
         }
         else if (target.currenthealth <= 0) {
             target.dead = true;
