@@ -34,6 +34,7 @@ async function MessageAwait(channel, userid, initialTextToSend, compareFunc, onS
                 if (onFail == undefined || onFail == null) { onFail = "`Error`" }
                 if (typeof onFail == "string") { sendMessage(channel, onFail) }
                 else { onFail(argsForFail) }
+                delete waitList[userid]
                 return
             }
             onSuccess(collected.first(), argsForSuccess)
