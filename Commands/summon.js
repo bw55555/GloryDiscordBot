@@ -36,6 +36,7 @@ module.exports = async function (message, user) {
             functions.summon(raid, 100, 200, "Hell Lord", 'https://imgur.com/MbGhMkJ.jpg', '25% chance to pierce, 25% chance to crit and deal 2x damage. ')
         }
         else { return functions.replyMessage(message, "Please name the channel either #treant-raid, #kraken-raid, #dragon-raid, or #deity-raid. Join the support server to access #hell-raid, a level 100-200 boss!") }
+        functions.replyMessage(message, "A boss has been summoned!");
         functions.setObject("mobData", raid)
     })
 }

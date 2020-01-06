@@ -1060,7 +1060,7 @@ function summon(raid, minlevel, maxlevel, name, image, ability) {
     raid.reward = summonlevel * 500;
     raid.level = summonlevel;
     raid.attacklist = {};
-    replyMessage(message, name + " has been summoned. It is level " + summonlevel + "!");
+    
 }
 function checkProps(message,user) {
     let ts = message.createdTimestamp;
