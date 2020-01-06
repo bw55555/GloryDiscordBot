@@ -1197,14 +1197,12 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
     isguild = (isguild == true) ? true : false
     isevent = (isevent == true) ? true : false
     let ts = message.createdTimestamp;
-    if (raid == false || (!isguild && !isevent && message.channel.id == "542171947895881748")) { return }
     if (!raid.attacklist) { raid.attacklist = {} }
-
     if (user.dead === true) {
         replyMessage(message, "Corpses can\'t attack! Do !resurrect");
         return user;
     }
-    if (!isguild && !isevent) {
+    if (raid == false) {
         deleteMessage(message);
         replyMessage(message, "There is no raid right now!");
         return user;
