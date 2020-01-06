@@ -1196,7 +1196,7 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
     isguild = (isguild == true) ? true : false
     isevent = (isevent == true) ? true : false
     let ts = message.createdTimestamp;
-    if (raid == undefined || (!isguild && !isevent && message.channel.id == "542171947895881748")) { return }
+    if (raid == false || (!isguild && !isevent && message.channel.id == "542171947895881748")) { return }
     if (!raid.attacklist) { raid.attacklist = {} }
 
     if (user.dead === true) {
