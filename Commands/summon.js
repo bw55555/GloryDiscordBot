@@ -88,6 +88,7 @@ module.exports = async function (message, user) {
         if (!mobData[message.channel.id].maxlevel) mobData[message.channel.id].maxlevel = 200;
         if (!mobData[message.channel.id].url) mobData[message.channel.id].url = 'https://imgur.com/MbGhMkJ.jpg';
         if (!mobData[message.channel.id].ability) mobData[message.channel.id].ability = '25% chance to pierce, 25% chance to crit and deal 2x damage. ';
+        //summon()
     }
     else { return functions.replyMessage(message, "Please name the channel either #treant-raid, #kraken-raid, #dragon-raid, or #deity-raid. Join the support server to access #hell-raid, a level 100-200 boss!") }
     let summonlevel = Math.floor((mobData[message.channel.id].minlevel) + (((mobData[message.channel.id].maxlevel) - (mobData[message.channel.id].minlevel)) * Math.random())) + 1

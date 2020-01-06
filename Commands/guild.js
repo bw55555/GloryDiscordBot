@@ -219,7 +219,7 @@ module.exports = async function (message, user) {
                 functions.replyMessage(message, "The bank would be full!")
                 return;
             }
-            if (type == "materials" && (guild.materials + amount) > guild.materialsmax) {
+            if (type == "materials" && (guild.materials + amount) > guild.materialmax) {
                 functions.replyMessage(message, "The bank would be full!")
                 return;
             }

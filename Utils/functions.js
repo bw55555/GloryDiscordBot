@@ -150,8 +150,8 @@ function dmUser(user, text) {
 function writeData(folder) {
     //fs.writeFile(folder + '/userData.json', JSON.stringify(userData, null, 4), function (err) { if (err == null) { return; };console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"userData backed up!"))
     //fs.writeFile(folder + '/itemData.json', JSON.stringify(itemData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"itemData backed up!"))
-    fs.writeFile(folder + '/mobData.json', JSON.stringify(mobData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"mobData backed up!"))
-    fs.writeFile(folder + '/guildData.json', JSON.stringify(guildData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"guildData backed up!"))
+    //fs.writeFile(folder + '/mobData.json', JSON.stringify(mobData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"mobData backed up!"))
+    //fs.writeFile(folder + '/guildData.json', JSON.stringify(guildData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"guildData backed up!"))
     fs.writeFile(folder + '/serverData.json', JSON.stringify(serverData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"guildData backed up!"))
     fs.writeFile(folder + '/devData.json', JSON.stringify(devData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"guildData backed up!"))
     fs.writeFile(folder + '/questData.json', JSON.stringify(questData, null, 4), function (err) { if (err == null) { return; }; console.log("Filewrite Error"); console.log(err); errorlog("Filewrite error, see console.") })//.then(sendMessage(message.channel,"guildData backed up!"))
@@ -1027,39 +1027,39 @@ function raidInfo(message, raid) {
 }
 
 
-function summon(channel, minlevel, maxlevel, name, image) {
-    if (!mobData[message.channel.id]) {
-        if (bot.guilds.get(message.guild.id).members.size < 50) { return replyMessage(message, "You cannot summon a raid in a server with less than 50 members!") }
+function summon(raid, minlevel, maxlevel, name, image, ability) {
+    raid.attack = 0;
+    raid.currenthealth = 0;
+    raid.reward = 0;
+    raid.alive = false;
+    raid.level = 0;
+    if (name != undefined) {
+        raid.name = name;
     }
-    if (mobData[channel].raid == true) { return replyMessage(message, "You already have an ongoing raid in this server! Defeat it first!") }
-    if (!mobData[message.channel.id]) mobData[message.channel.id] = {} //creates profile if none exists
-    if (!mobData[message.channel.id].name) mobData[message.channel.id].name = name;
-    if (!mobData[message.channel.id].attack) mobData[message.channel.id].attack = 0;
-    if (!mobData[message.channel.id].id) mobData[message.channel.id].id = 1;
-    if (!mobData[message.channel.id].currenthealth) mobData[message.channel.id].currenthealth = 0;
-    if (!mobData[message.channel.id].reward) mobData[message.channel.id].reward = 0;
-    if (!mobData[message.channel.id].alive) mobData[message.channel.id].alive = false;
-    if (!mobData[message.channel.id].raid) mobData[message.channel.id].raid = false;
-    if (!mobData[message.channel.id].level) mobData[message.channel.id].level = 0;
-    if (!mobData[message.channel.id].minlevel) mobData[message.channel.id].minlevel = minlevel;
-    if (!mobData[message.channel.id].maxlevel) mobData[message.channel.id].maxlevel = maxlevel;
-    if (!mobData[message.channel.id].url) {
-        mobData[message.channel.id].url = image;
+    if (minlevel != undefined) {
+        raid.minlevel = minlevel;
+    }
+    if (maxlevel != undefined) {
+        raid.maxlevel = maxlevel;
+    }
+    if (image != undefined) {
+        raid.url = image;
         if (image == -1) {
-            mobData[message.channel.id].url = 'https://i.imgur.com/NsBoS0u.jpg';
+            raid.url = 'https://i.imgur.com/NsBoS0u.jpg';
         }
     }
+    if (ability != undefined) {
+        raid.ability = ability;
+    }
+    let summonlevel = Math.floor((raid.minlevel) + (((raid.maxlevel) - (raid.minlevel)) * Math.random())) + 1
 
-    let summonlevel = Math.floor((mobData[message.channel.id].minlevel) + (((mobData[message.channel.id].maxlevel) - (mobData[message.channel.id].minlevel)) * Math.random())) + 1
-
-    mobData[message.channel.id].alive = true;
-    mobData[message.channel.id].raid = true;
-    mobData[message.channel.id].attack = summonlevel * 10;
-    mobData[message.channel.id].currenthealth = summonlevel * 5;
-    mobData[message.channel.id].maxhealth = summonlevel * 5;
-    mobData[message.channel.id].reward = summonlevel * 500;
-    mobData[message.channel.id].level = summonlevel;
-    mobData[message.channel.id].attacklist = {};
+    raid.alive = true;
+    raid.attack = summonlevel * 10;
+    raid.currenthealth = summonlevel * 5;
+    raid.maxhealth = summonlevel * 5;
+    raid.reward = summonlevel * 500;
+    raid.level = summonlevel;
+    raid.attacklist = {};
     replyMessage(message, name + " has been summoned. It is level " + summonlevel + "!");
 }
 function checkProps(message,user) {
