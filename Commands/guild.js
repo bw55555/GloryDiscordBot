@@ -563,10 +563,10 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You have successfully bought " + amount + " " + guildStore[item].name + " for $" + guildStore[item].price * amount)
         }
         else if (command == "RESET") {
+            if (admins.indexOf(id) == -1) { return }
             let time = functions.extractTime(message,words[3])
-            if (time == false) { return; }
+            if (time === false) { return; }
             bot.setTimeout(function () {
-                if (admins.indexOf(id) == -1) { return }
                 let guildName = words[2]
                 if (guildName == undefined) { return functions.replyMessage(message, "Please enter a guild name!") }
                 if (words[2].toUpperCase() == "ALL") {

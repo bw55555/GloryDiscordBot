@@ -139,7 +139,7 @@ client.connect(err => {
                 let words = message.content.trim().split(/\s+/)
                 let time = functions.extractTime(message,words[1])
                 let ts = message.createdTimestamp;
-                if (time == false) { return }
+                if (time === false) { return }
                 words.splice(0, 2)
                 message.content = prefix + words.join(" ")
                 message.createdTimestamp += time

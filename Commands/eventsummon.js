@@ -7,7 +7,7 @@ module.exports = async function (message, user) {
     let time = 0;
     if (words[1] == "-time") {
         time = functions.extractTime(message,words[2])
-        if (time == false) { return }
+        if (time === false) { return }
         words.splice(1, 2)
     }
     if (time > 0) { functions.replyMessage(message, "Boss will be summoned in " + functions.displayTime(time, 0)) }
