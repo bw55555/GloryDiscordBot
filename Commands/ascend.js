@@ -17,6 +17,6 @@ module.exports = async function (message,user) {
             functions.setProp("userData", { _id: user._id }, { $set: { "level": 1, "attack": (user.ascension + 1) * 10, "defense": (user.ascension + 1) * 10, "health": (user.ascension + 1) * 100, "xp": 0, "weapon": false, "currenthealth": (user.ascension + 1) * 100 }, $inc: { "glory": 10, "consum.sp": 1, "consum.reroll": 1, "ascension": 1 } })
             functions.replyMessage(message, "You have ascended! You now have " + (user.consum.sp + 1) + " skill points!\n(Note that your weapon has been dequipped. Favorite it before smelting everything!)")
         })
-    }, [message]);
+    }, [message], "Please enter `confirm` to ascend. (no caps)");
     //functions.replyMessage(message,"Are you sure you want to Ascend? You will be set back to level 1 and leveling will become twice as hard!\nIf you are sure, type `!ascendconfirm`")
 }

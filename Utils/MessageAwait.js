@@ -20,6 +20,7 @@ async function MessageAwait(channel, userid, initialTextToSend, compareFunc, onS
         }
     }
     if (onSuccess == undefined || onSuccess == null) { onSuccess = function (response) { return response } }
+    waitList.userid = 1
     if (channel.type == "dm" || channel.type == "group" || channel.memberPermissions(bot.user) == null || channel.memberPermissions(bot.user).has("SEND_MESSAGES")) {
         return channel.send(initialTextToSend).then(() => {
             return channel.awaitMessages(response => response.author.id == userid && response.channel.id == channel.id, {
@@ -35,6 +36,7 @@ async function MessageAwait(channel, userid, initialTextToSend, compareFunc, onS
                 return
             }
             onSuccess(collected.first(), argsForSuccess)
+            delete waitList.userid
             //collected.reply("It worked")
             //console.log(collected.first)
         }).catch((err) => {
@@ -44,6 +46,7 @@ async function MessageAwait(channel, userid, initialTextToSend, compareFunc, onS
             if (onFail == undefined || onFail == null) { onFail = "`Timeout`" }
             if (typeof onFail == "string") { sendMessage(channel, onFail) }
             else { onFail(argsForFail) }
+            delete waitList.userid
         });
     }
 }

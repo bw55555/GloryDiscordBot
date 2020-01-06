@@ -11,6 +11,7 @@ global.ready = false
 global.bot = new Discord.Client();
 global.botOnline = true
 global.fs = require('fs')
+global.waitList = {}
 var functions = require(`./Utils/functions.js`)
 
 var commands = {}
