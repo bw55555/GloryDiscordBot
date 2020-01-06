@@ -10,5 +10,5 @@ module.exports = async function (message, user) {
     return Promise.all([functions.getObject("mobData", message.channel.id)]).then(ret => {
         let raid = ret[0]
         functions.raidInfo(message, raid)
-    }
+    })
 }
