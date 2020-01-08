@@ -16,7 +16,6 @@ module.exports = async function (message, user) {
     if (isNaN(weaponid)) { return functions.replyMessage(message, "The first weapon id must be an integer"); return; }
     let weaponid2 = parseInt(words[2])
     if (isNaN(weaponid2)) { return functions.replyMessage(message, "The second weapon id must be an integer"); return; }
-    if (is)
     if (weaponid == weaponid2) {
         functions.replyMessage(message, "You cannot merge an item with itself.")
     }
