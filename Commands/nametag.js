@@ -7,7 +7,7 @@ module.exports = async function (message, user) {
         functions.replyMessage(message, "You have no Nametags!");
         return;
     }
-    if (words.length <= 3) {
+    if (words.length < 3) {
         functions.replyMessage(message, "!nametag [weaponID] [Desired Weapon Name]");
         return;
     }
