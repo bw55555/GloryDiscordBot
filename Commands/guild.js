@@ -357,7 +357,7 @@ module.exports = async function (message, user) {
                 }
             })
         }
-        else if (command == "SUMMON") {
+        else if (command == "SUMMON" || command == "S") {
             if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") {//Honestly, there should be a better name for a "coleader"
                 functions.replyMessage(message, "Only Leaders and Co-Leaders can summon bosses!")
                 return;
@@ -606,6 +606,46 @@ module.exports = async function (message, user) {
             if (admins.indexOf(id) == -1) { return }
             guild.raid = 1
             functions.replyMessage(message, guild._id + " had their raid reset!");
+        }
+        else if (command == "ADMINSET" || command == "ASET") {
+            if (admins.indexOf(id) == -1) { return }
+            let newGuildName = words[2];
+            if (newGuildName == undefined) { return functions.replyMessage(message,"Please specify a valid guild name. ")}
+            return Promise.all([functions.getObject("guildData", newGuildName)]).then(ret => {
+                let setGuild = ret[0]
+                if (setGuild == false) { return functions.replyMessage(message, "Please specify a valid guild name. ") }
+                let amount = words[4];
+                if (!isNaN(parseInt(amount))) { amount = parseInt(amount) }
+                let attribute = words[3];
+                //console.log(attribute)
+                if (setGuild[attribute] == undefined) {
+                    functions.sendMessage(message.channel, attribute + " is not a defined attribute");
+                    return;
+                }
+                if (typeof setGuild[attribute] == "object") {
+                    if (words.length > 5) {
+                        let secondattribute = words[4]
+                        let amount = parseInt(words[5]);
+                        if (!isNaN(parseInt(amount))) { amount = parseInt(amount) }
+                        if (setGuild[attribute][secondattribute] == undefined) {
+                            functions.sendMessage(message.channel, attribute + ":" + secondattribute + " is not a defined attribute");
+                            return
+                        }
+                        functions.sendMessage(message.channel, 'Set ' + setGuild._id+"\'s " + attribute + ":" + secondattribute + " to " + amount);
+                        setGuild[attribute][secondattribute] = amount;
+                        functions.logCommand(message)
+                        functions.setObject("guildData", setGuild)
+                        return
+                    }
+                    functions.sendMessage(message.channel, attribute + " is an object. Try setting one of its properties.")
+                    return;
+                }
+                functions.sendMessage(message.channel, 'Set <@' + setGuild._id + ">\'s " + attribute + " to " + amount);
+                setGuild[attribute] = amount;
+                functions.setObject("guildData", setGuild)
+                functions.logCommand(message)
+                return
+            })
         }
         else {
             functions.sendMessage(message.channel, functions.generateGuildTemplate(guild))
