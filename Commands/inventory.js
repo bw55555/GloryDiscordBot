@@ -5,6 +5,7 @@ module.exports = async function (message, user) {
     let words = message.content.trim().split(/\s+/)
     pages = []
     page = ""
+    if (Object.keys(user.inventory).length == 0) { return functions.sendMessage(message.channel, "There's nothing in your inventory that matches the selected filters... ")}
     if (words.indexOf("-detailed") == -1) {
         functions.itemFilter(message, user, { "equip": true }, { _id: { $in: Object.keys(user.inventory) } }).then(wepsra => {
             if (wepsra == false) { return }
