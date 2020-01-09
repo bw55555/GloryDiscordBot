@@ -10,11 +10,13 @@ module.exports = async function (message, user) {
     functions.setCD(user, ts, smeltallcd * 60, "smeltall")
     return functions.itemFilter(message, user, { "fav": false }).then(smeltItems => {
         if (smeltItems == false) { return }
+        let delarr = []
         let count = 0
         for (var i = 0; i < smeltItems.length; i++) {
             let weapon = smeltItems[i]
             if (weapon.rarity == "Unique" || weapon.rarity == 9 || user.weapon._id == weapon._id) { continue }
-            let itemRewards = functions.smeltItem(user, weapon)
+            delarr.push(weapon._id)
+            let itemRewards = functions.smeltItem(user, weapon, true)
             if (isNaN(itemRewards[0]) || isNaN(itemRewards[1]) || isNaN(itemRewards[2])) {
                 continue
             }
@@ -23,6 +25,7 @@ module.exports = async function (message, user) {
             totalmaterials += itemRewards[2]
             count += 1
         }
+        functions.deleteItems("itemData", { "_id": {$in: delarr}})
         if (count == 0) { return functions.replyMessage(message, "You do not have any items to smelt!") }
         functions.sendMessage(message.channel, "You have smelted " + count + " items for " + totalmaterials + " materials, $" + totalmoney + ", and " + totalxp + " xp.")
     })

@@ -1420,7 +1420,7 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
     user.speed += 1;
     return user;
 }
-function smeltItem(user, item, givereward) {
+function smeltItem(user, item, givereward, isBulk) {
     givereward = (givereward == false) ? false : true
     let rarity = item.rarity
     let materials = 0
@@ -1435,7 +1435,7 @@ function smeltItem(user, item, givereward) {
         user.xp += xp
     }
     delete user.inventory[item._id];
-    deleteItem(item._id)
+    if (isBulk != true) { deleteItem(item._id) }
     return [xp, money, materials]
 }
 
@@ -1547,7 +1547,7 @@ module.exports.checkProps = function (message,user) { return checkProps(message,
 module.exports.checkStuff = function (message,user) { return checkStuff(message,user) }
 module.exports.checkBurn = function (message,user) { return checkBurn(message,user) }
 module.exports.raidAttack = function (message, user, raid, resummon, isguild, isevent) { return raidAttack(message, user, raid, resummon, isguild, isevent) }
-module.exports.smeltItem = function (user, item, giveReward) { return smeltItem(user, item, giveReward) }
+module.exports.smeltItem = function (user, item, giveReward, isBulk) { return smeltItem(user, item, giveReward, isBulk) }
 module.exports.hasSkill = function (user, skillid, enable) { return hasSkill(user, skillid, enable) }
 module.exports.itemFilter = function (message, user, defaults) { return itemFilter(message, user, defaults) }
 module.exports.getModifierText = function (modifierlist) { return getModifierText(modifierlist) }
