@@ -108,6 +108,14 @@ async function setProp(coll, query, newvalue) {
         return false;
     })
 }
+async function bulkWrite(coll, tasks) {
+    return client.db("current").collection(coll).bulkWrite(tasks).then(function (r) {
+        return true;
+    }).catch(function (err) {
+        console.error(err)
+        return false;
+    })
+}
 function clean(text) {
     if (typeof (text) === "string")
         return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
@@ -336,10 +344,9 @@ function generateItem(owner, itemid, attack, defense, rarity, name, modifiers, i
     devData.nextItem++;
     let item = { "owner": owner._id, "_id": itemid, "equip": false, "attack": attack, "defense": defense, "rarity": rarity, "modifiers": modifiers, "name": name, "enhancementlevel": 0, "maxenhancement": maxenhance, "enhancementattempts": 0, "favorite": false, "merge": 0 }
     if (isBulk != true) {
-        
         setItem(item)
         setObject("devData", devData)
-    } 
+    }
     return item;
 }
 
@@ -967,11 +974,20 @@ function craftItems(message, owner, minrarity, maxrarity, amount) {
     amount = (isNaN(parseInt(amount))) ? 1 : parseInt(amount)
     if (amount > 1) {
         let getrarities = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        let tasks = [];
         for (var i = 0; i < amount; i++) {
-            let item = craftItem(message, owner, minrarity, maxrarity, false);      
+            let item = craftItem(message, owner, minrarity, maxrarity, false, true);
+            tasks.push({
+                insertOne:
+                {
+                    "document": item
+                }
+            })
             rarity = item.rarity
             getrarities[rarity] += 1
         }
+        functions.setObject("devData", devData);
+        functions.bulkWrite("itemData", tasks);
         let text = ""
         for (var i = 0; i < 9; i++) {
             if (getrarities[i] == 0) { continue }
@@ -987,10 +1003,10 @@ function craftItem(message,owner, minrarity, maxrarity, reply, isBulk) {
     reply = (reply == false) ? false : true
     let item;
     if (minrarity == -1 || maxrarity == -1) {
-        item = generateRandomItem(owner)
+        item = generateRandomItem(owner,undefined,isBulk)
     } else {
         let rarity = Math.floor((maxrarity - minrarity + 1) * Math.random() + minrarity)
-        item = generateRandomItem(owner, rarity)
+        item = generateRandomItem(owner, rarity, isBulk)
     }
     if (reply) sendMessage(message.channel, "<@" + owner._id + "> has recieved an item with id " + item._id + " and of rarity " + item.rarity)
     return item
@@ -1332,7 +1348,7 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
                 })
             }
         }
-        if (tasks != undefined && tasks != [] && tasks[0] != undefined) { client.db("current").collection("userData").bulkWrite(tasks) }
+        if (tasks != undefined && tasks != [] && tasks[0] != undefined) { functions.bulkWrite("userData", tasks) }
         if (!isguild) {
             let rarity = Math.floor(raid.level / 75) + Math.floor(Math.random() * (Math.min(raid.level, 75) / 15 - Math.floor(raid.level / 75)))
             if (raid.level > 75 && Math.random() < (raid.level - 75) / 1000) {
