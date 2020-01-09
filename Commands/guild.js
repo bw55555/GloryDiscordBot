@@ -99,13 +99,7 @@ module.exports = async function (message, user) {
         while (guild.level * 200000 + 800000 > guild.bankmax) {
             guild.bankmax += 200000
             guild.materialmax += 200000
-            leveluptext += guild._id + " had their guild bank max increased to " + guild.bankmax + "\n" + guild._id + " had their guild materials max increased to " + guild.materialmax + "\n"
-            if (leveluptext.length > 1900) {
-                functions.replyMessage(message, leveluptext)
-                leveluptext = ""
-            }
         }
-        if (leveluptext != "") { functions.replyMessage(message, leveluptext) }
         if (words.length == 1) {
             functions.sendMessage(message.channel, functions.generateGuildTemplate(guild))
         }
