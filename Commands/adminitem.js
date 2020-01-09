@@ -52,7 +52,7 @@ module.exports = async function (message, user) {
             }
         }
         let modifiers = {}
-        if (devs.indexOf(id) != -1 && message.content.indexOf("-mod") != -1 && message.content.slice(message.content.indexOf("-mod")).split(" ")[0] == "-mod") {
+        if (admins.indexOf(id) != -1 && message.content.indexOf("-mod") != -1 && message.content.slice(message.content.indexOf("-mod")).split(" ")[0] == "-mod") {
             let wordsmodifiers = message.content.slice(message.content.indexOf("-mod") + 5).split(" ")
             if (wordsmodifiers.length % 2 == 1) {
                 functions.sendMessage(message.channel, "Every modifier must have a corresponding number!")
