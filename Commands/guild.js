@@ -640,7 +640,7 @@ module.exports = async function (message, user) {
                     functions.sendMessage(message.channel, attribute + " is an object. Try setting one of its properties.")
                     return;
                 }
-                functions.sendMessage(message.channel, 'Set <@' + setGuild._id + ">\'s " + attribute + " to " + amount);
+                functions.sendMessage(message.channel, 'Set ' + setGuild._id + "\'s " + attribute + " to " + amount);
                 setGuild[attribute] = amount;
                 functions.setObject("guildData", setGuild)
                 functions.logCommand(message)
