@@ -25,7 +25,7 @@ module.exports = async function (message, user) {
             totalmaterials += itemRewards[2]
             count += 1
         }
-        functions.deleteItems("itemData", { "_id": {$in: delarr}})
+        functions.deleteObjects("itemData", { "_id": {$in: delarr}})
         if (count == 0) { return functions.replyMessage(message, "You do not have any items to smelt!") }
         functions.sendMessage(message.channel, "You have smelted " + count + " items for " + totalmaterials + " materials, $" + totalmoney + ", and " + totalxp + " xp.")
     })

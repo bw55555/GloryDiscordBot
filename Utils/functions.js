@@ -116,6 +116,14 @@ async function bulkWrite(coll, tasks) {
         return false;
     })
 }
+async function deleteObjects(coll, filter) {
+    return client.db("current").collection(coll).deleteMany(filter).then(function (r) {
+        return true;
+    }).catch(function (err) {
+        console.error(err)
+        return false;
+    })
+}
 function clean(text) {
     if (typeof (text) === "string")
         return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
@@ -986,8 +994,8 @@ function craftItems(message, owner, minrarity, maxrarity, amount) {
             rarity = item.rarity
             getrarities[rarity] += 1
         }
-        functions.setObject("devData", devData);
-        functions.bulkWrite("itemData", tasks);
+        setObject("devData", devData);
+        bulkWrite("itemData", tasks);
         let text = ""
         for (var i = 0; i < 9; i++) {
             if (getrarities[i] == 0) { continue }
@@ -1348,7 +1356,7 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
                 })
             }
         }
-        if (tasks != undefined && tasks != [] && tasks[0] != undefined) { functions.bulkWrite("userData", tasks) }
+        if (tasks != undefined && tasks != [] && tasks[0] != undefined) { bulkWrite("userData", tasks) }
         if (!isguild) {
             let rarity = Math.floor(raid.level / 75) + Math.floor(Math.random() * (Math.min(raid.level, 75) / 15 - Math.floor(raid.level / 75)))
             if (raid.level > 75 && Math.random() < (raid.level - 75) / 1000) {
@@ -1519,6 +1527,8 @@ module.exports.findObjects = function (coll, query, projection) { return findObj
 module.exports.setObject = function (coll,newobj) { return setObject(coll,newobj) }
 module.exports.deleteObject = function (coll,oid) { return deleteObject(coll,oid) }
 module.exports.setProp = function (coll, query, newvalue) { return setProp(coll, query, newvalue) }
+module.exports.bulkWrite = function (coll, tasks) { return bulkWrite(coll, tasks) }
+module.exports.deleteObjects = function (coll, filter) { return deleteObjects(coll, filter) }
 module.exports.sendMessage = function (channel, text, override) { return sendMessage(channel, text, override) }
 module.exports.replyMessage = function (message, text, override) { return replyMessage(message, text, override) }
 module.exports.deleteMessage = function (message) { return deleteMessage(message) }
