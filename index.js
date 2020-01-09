@@ -1,4 +1,4 @@
-﻿const Discord = require('discord.js');
+﻿global.Discord = require('discord.js');
 const asyncpkg = require("async")
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://GloryUser:GLORYmongodb@testthing-eaiqz.mongodb.net/test?retryWrites=true&w=majority";
