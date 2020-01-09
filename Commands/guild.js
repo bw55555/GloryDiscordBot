@@ -609,6 +609,7 @@ module.exports = async function (message, user) {
         }
         else if (command == "ADMINSET" || command == "ASET") {
             if (admins.indexOf(id) == -1) { return }
+            if (words.length == 2) { return functions.replyMessage(message, "!g aset [guildName] [attribute] [amount]")}
             let newGuildName = words[2];
             if (newGuildName == undefined) { return functions.replyMessage(message,"Please specify a valid guild name. ")}
             return Promise.all([functions.getObject("guildData", newGuildName)]).then(ret => {
