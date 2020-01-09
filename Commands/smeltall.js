@@ -16,7 +16,7 @@ module.exports = async function (message, user) {
             let weapon = smeltItems[i]
             if (weapon.rarity == "Unique" || weapon.rarity == 9 || user.weapon._id == weapon._id) { continue }
             delarr.push(weapon._id)
-            let itemRewards = functions.smeltItem(user, weapon, true)
+            let itemRewards = functions.smeltItem(user, weapon, true, true)
             if (isNaN(itemRewards[0]) || isNaN(itemRewards[1]) || isNaN(itemRewards[2])) {
                 continue
             }
