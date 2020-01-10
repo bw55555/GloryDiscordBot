@@ -18,6 +18,7 @@ module.exports = async function (message, user) {
         functions.replyMessage(message, "You do not own this item!")
         return
     }
+    if (user.weapon._id == weaponid) {functions.replyMessage(message, "You have already equipped this item!")}
     let name = message.content.slice(message.content.indexOf(words[2]));
     if (name.length > 35) {
         functions.replyMessage(message, "That weapon name is too long! (35 characters max)");

@@ -24,6 +24,8 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "That weapon name is too long!");
             return;
         }
+        item.name = name
+        if (item.equip == true) { functions.setProp("userData", { "_id": item.owner }, {"weapon": item})}
         functions.setProp("itemData", { _id: item._id }, { $set: {"name":name}})
         functions.replyMessage(message, "Weapon ID " + weaponid + " is now called " + name);
         return;
