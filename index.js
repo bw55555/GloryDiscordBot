@@ -252,7 +252,6 @@ client.connect(err => {
                     return;
                 } else if (command == "start" || command == "create") {
                     commands.start(message, user)
-                    functions.checkStuff(message, user)
                     return;
                 } else if (commandlist[command] == undefined) {
                     return;
