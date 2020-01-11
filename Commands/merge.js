@@ -79,7 +79,7 @@ module.exports = async function (message, user) {
         if ((raritystats[rarity] - (wep1.attack + wep1.defense) == 0 || wep1.merge >= 10) && wep1.rarity != 8) {
             wep1.merge = 0
             wep1.rarity += 1;
-            functions.sendMessage(message.channel, "It is now a " + wep1.rarity + " rarity weapon!")
+            functions.sendMessage(message.channel, "It is now a " + rarities[wep1.rarity] + " weapon!")
         }
         delete user.inventory[weaponid2];
         functions.deleteItem(wep2._id)
