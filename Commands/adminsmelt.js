@@ -16,19 +16,10 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "This item does not exist!")
             return
         }
-        let rarity = item.rarity
-        if (rarity == "Unique") {
-            functions.replyMessage(message, "You cannot smelt a unique weapon!")
-            return
-        }
-        if (rarity == 9) {
-            functions.replyMessage(message, "You cannot smelt a GLORY weapon!")
-            return
-        }
         return Promise.all[functions.getUser(item.owner)].then(ret => {
             owner = ret[0]
-            if (owner == undefined) { return functions.replyMessage(message, "No one owns this item! Notify a dev. ") }
-            if (owner.weapon._id == item._id) { owner.weapon = false }
+            if (owner == false) { return functions.replyMessage(message, "No one owns this item! Notify a dev. ") }
+            if (owner.weapon._id == item._id) { owner.weapon = false; if (owner.weapon.modifiers.maxhp != undefined) { owner.health -= owner.weapon.modifiers.maxhp } }
             let itemRewards = functions.smeltItem(owner, item, false)
             functions.setUser(owner)
             functions.sendMessage(message.channel, "You have adminsmelted item " + item._id + "!")

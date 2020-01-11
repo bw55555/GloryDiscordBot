@@ -56,13 +56,14 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You must merge weapons of the same rarity!")
             return
         }
+        
+        let extratime = (rarity < 2) ? 0 : Math.pow(2, rarity - 2) * 60 * 15
+        let wepatk = wep1.attack
+        let wepdef = wep2.defense
         if (wep1.merge >= 10 || (raritystats[rarity] - (wepatk + wepdef) == 0 && rarity != 8)) {
             functions.replyMessage(message, "The first item cannot be upgraded any further!")
             return
         } 
-        let extratime = (rarity < 2) ? 0 : Math.pow(2, rarity - 2) * 60 * 15
-        let wepatk = wep1.attack
-        let wepdef = wep2.defense
         let y = (raritystats[rarity] - (wepatk + wepdef)) / (10 - wep1.merge)
         wep1.merge += 1;
         if ((raritystats[rarity] - (wepatk + wepdef) == 0 || wep1.merge >= 10) && wep1.rarity != 8) { y+=1 }

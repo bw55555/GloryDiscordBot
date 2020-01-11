@@ -16,6 +16,7 @@ module.exports = async function (message, user) {
             item.favorite = true;
             functions.replyMessage(message, "You have successfully favorited the weapon with id " + weaponid)
         }
+        if (item.equip == true) { user.weapon = item}
         functions.setItem(item)
     })
 }
