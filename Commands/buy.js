@@ -27,13 +27,11 @@ module.exports = async function (message, user) {
         user.money -= parseInt(item.price)
         return Promise.all([functions.getUser(item.owner)]).then(ret => {
             let previousOwner = ret[0];
-            previousOwner.money += parseInt(item.price) //transfer of money
+            if (previousOwner != false) { previousOwner.money += parseInt(item.price); functions.setUser(previousOwner); functions.dmUser(previousOwner, "<@" + user._id + "> bought " + item.name + " (" + item._id + ") for $" + item.price)}
             item.owner = user._id //weapon ownerid transfer
             user.inventory[item._id] = item._id //weapon added to inventory
-            functions.setUser(previousOwner)
             functions.sendMessage(message.channel, "You bought " + item._id + " for $" + item.price)
-            functions.dmUser(previousOwner, "<@" + user._id + "> bought " + item.name + " (" + item._id + ") for $" + item.price)
-            delete item.price
+            delete item.price;
             functions.setItem(item)
         })
     })
