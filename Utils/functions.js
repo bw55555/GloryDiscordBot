@@ -1074,8 +1074,8 @@ function summon(raid, minlevel, maxlevel, name, image, ability) {
 
     raid.alive = true;
     raid.attack = summonlevel * 10;
-    raid.currenthealth = summonlevel * 5 * (Math.floor(summonlevel/10)+1);
-    raid.maxhealth = summonlevel * 5 * (Math.floor(summonlevel / 10) + 1);
+    raid.currenthealth = summonlevel * 10 * (Math.floor(summonlevel/10)+1);
+    raid.maxhealth = summonlevel * 10 * (Math.floor(summonlevel / 10) + 1);
     raid.reward = summonlevel * 500;
     raid.level = summonlevel;
     raid.attacklist = {};
