@@ -1397,8 +1397,8 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
             raid.alive = true;
             raid.raid = true;
             raid.attack = summonlevel * 10;
-            raid.currenthealth = summonlevel * 5;
-            raid.maxhealth = summonlevel * 5;
+            raid.currenthealth = summonlevel * 25;
+            raid.maxhealth = summonlevel * 25;
             raid.reward = summonlevel * 500;
             raid.level = summonlevel;
             raid.attacklist = {}
