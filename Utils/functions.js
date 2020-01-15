@@ -1074,8 +1074,8 @@ function summon(raid, minlevel, maxlevel, name, image, ability) {
 
     raid.alive = true;
     raid.attack = summonlevel * 10;
-    raid.currenthealth = summonlevel * 5;
-    raid.maxhealth = summonlevel * 5;
+    raid.currenthealth = summonlevel * 25;
+    raid.maxhealth = summonlevel * 25;
     raid.reward = summonlevel * 500;
     raid.level = summonlevel;
     raid.attacklist = {};
@@ -1393,17 +1393,7 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
 
         //generateItem(id, itemid, weaponatk, weapondef, rarity, rarities[rarity] + " Sword", []) //I, as a Java student, am jealous of the lack of semicolons lmao
         if (message.channel.id != 542171947895881748 && !isguild && !isevent) {
-            let summonlevel = Math.floor(raid.minlevel + ((raid.maxlevel - raid.minlevel) * Math.random())) + 1//what the...
-            raid.alive = true;
-            raid.raid = true;
-            raid.attack = summonlevel * 10;
-            raid.currenthealth = summonlevel * 25;
-            raid.maxhealth = summonlevel * 25;
-            raid.reward = summonlevel * 500;
-            raid.level = summonlevel;
-            raid.attacklist = {}
-            text += "Boss automatically summoned. It is level " + summonlevel + "!\n";
-
+            summon(raid)
         }
         if (isevent) {
             bot.setTimeout(function () {
