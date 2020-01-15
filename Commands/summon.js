@@ -39,7 +39,7 @@ module.exports = async function (message, user) {
             functions.setObject("mobData", raid)
             return;
         }
-        if (admins.indexOf(id) != -1) { return functions.replyMessage(message, "You already have a raid in this channel!"); }
+        if (admins.indexOf(id) == -1) { return functions.replyMessage(message, "You already have a raid in this channel!"); }
         if (words.length == 1) { functions.summon(raid) }
         else {
             let level = parseInt(words[1])
