@@ -12,7 +12,7 @@ module.exports = async function (message, user) {
             let message = extraArgs[0]
             functions.deleteUser(target._id);
             if (target.guild != "None") { return functions.replyMessage(message, "You cannot delete your character if you are in a guild!") }
-            client.db("current").collection("itemData").deleteMany({ "owner": target._id });
+            functions.deleteMany("itemData",{ "owner": target._id });
             if (target.marry != "None") { functions.setProp("userData", { "_id": target.marry }, { $set: { "marry": "None" } }) }
             functions.replyMessage(message, '<@' + target._id + '>s character has been deleted. :(')
         }, [message, target]);

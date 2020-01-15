@@ -1010,7 +1010,7 @@ function craftItems(message, owner, minrarity, maxrarity, amount) {
 function craftItem(message,owner, minrarity, maxrarity, reply, isBulk) {
     reply = (reply == false) ? false : true
     let item;
-    if (minrarity == -1 || maxrarity == -1) {
+    if (minrarity == -1 || maxrarity == -1 || minrarity == undefined || maxrarity == undefined) {
         item = generateRandomItem(owner,undefined,isBulk)
     } else {
         let rarity = Math.floor((maxrarity - minrarity + 1) * Math.random() + minrarity)
@@ -1150,7 +1150,6 @@ function checkProps(message,user) {
         // if (user.health > user.level * 10 + extrahp) user.health = user.level * 10;
         if (user.health > user.level * 10 + calcExtraStat(user, "health")) user.health = user.level * 10 + calcExtraStat(user, "health")
     }
-    return user
 }
 function checkStuff(message,user) {
     let ts = message.createdTimestamp;
@@ -1184,7 +1183,6 @@ function checkStuff(message,user) {
         user.currenthealth = 0;
         user.dead = true;
     }
-    return user;
 }
 
 function checkBurn(message,user) {
@@ -1212,6 +1210,7 @@ function checkBurn(message,user) {
 }
 
 function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid attack
+    resummon = (resummon == false) ? false : true
     isguild = (isguild == true) ? true : false
     isevent = (isevent == true) ? true : false
     let ts = message.createdTimestamp;
@@ -1416,7 +1415,6 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
     if (text != "") { sendMessage(message.channel, text) }
     setCD(user, ts, attackcd * 60, "attack");
     user.speed += 1;
-    return user;
 }
 function smeltItem(user, item, givereward, isBulk) {
     givereward = (givereward == false) ? false : true
@@ -1525,6 +1523,7 @@ module.exports.deleteMessage = function (message) { return deleteMessage(message
 module.exports.dmUser = function (user, text) { return dmUser(user, text) }
 module.exports.logCommand = function (message, extratext) { return logCommand(message, extratext) }
 module.exports.validate = function (message, user, spot) { return validate(message, user, spot) }
+module.exports.hasSkill = function (user, skillid, enable) { return hasSkill(user, skillid, enable) }
 module.exports.generateWeaponTemplate = function (owner, weapon, current, total) { return generateWeaponTemplate(owner, weapon, current, total) }
 module.exports.generateGuildTemplate = function (guild) { return generateGuildTemplate(guild) }
 module.exports.generateItem = function (owner, itemid, attack, defense, rarity, name, modifiers, isBulk) { return generateItem(owner, itemid, attack, defense, rarity, name, modifiers, isBulk) }
@@ -1548,7 +1547,6 @@ module.exports.checkStuff = function (message,user) { return checkStuff(message,
 module.exports.checkBurn = function (message,user) { return checkBurn(message,user) }
 module.exports.raidAttack = function (message, user, raid, resummon, isguild, isevent) { return raidAttack(message, user, raid, resummon, isguild, isevent) }
 module.exports.smeltItem = function (user, item, giveReward, isBulk) { return smeltItem(user, item, giveReward, isBulk) }
-module.exports.hasSkill = function (user, skillid, enable) { return hasSkill(user, skillid, enable) }
 module.exports.itemFilter = function (message, user, defaults) { return itemFilter(message, user, defaults) }
 module.exports.getModifierText = function (modifierlist) { return getModifierText(modifierlist) }
 fs.readdir("./Utils/", (err, files) => {
