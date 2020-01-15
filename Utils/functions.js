@@ -1393,6 +1393,7 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
         //generateItem(id, itemid, weaponatk, weapondef, rarity, rarities[rarity] + " Sword", []) //I, as a Java student, am jealous of the lack of semicolons lmao
         if (message.channel.id != 542171947895881748 && !isguild && !isevent) {
             summon(raid)
+            text += "Boss automatically summoned. It is level "+raid.level+"!"
         }
         if (isevent) {
             bot.setTimeout(function () {
