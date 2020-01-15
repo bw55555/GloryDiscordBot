@@ -1,18 +1,18 @@
 import { Message, Channel } from "discord.js"
 export function clean(text: string): string
-export function getUser(uid: string | number): Promise<JSON | boolean>
-export function findUsers(query: JSON): Promise<Array<JSON> | boolean>
-export function findUsers(query: JSON, projection: JSON): Promise<Array<JSON> | boolean>
+export function getUser(uid: string | number): Promise<JSON | false>
+export function findUsers(query: JSON): Promise<Array<JSON> | false>
+export function findUsers(query: JSON, projection: JSON): Promise<Array<JSON> | false>
 export function setUser(newuser: JSON): Promise<boolean>
 export function deleteUser(uid: string | number): Promise<boolean>
-export function getItem(iid: string | number): Promise<JSON | boolean>
-export function findItems(query: JSON): Promise<Array<JSON> | boolean>
-export function findItems(query: JSON, projection: JSON): Promise<Array<JSON>|boolean>
+export function getItem(iid: string | number): Promise<JSON | false>
+export function findItems(query: JSON): Promise<Array<JSON> | false>
+export function findItems(query: JSON, projection: JSON): Promise<Array<JSON>|false>
 export function setItem(newitem: JSON): Promise<boolean>
 export function deleteItem(iid: string | number): Promise<boolean>
-export function getObject(coll: string, oid: string | number): Promise<boolean | JSON>
-export function findObjects(coll: string, query: JSON): Promise<boolean | Array<JSON>>
-export function findObjects(coll: string, query: JSON, projection: JSON): Promise<boolean | Array<JSON>>
+export function getObject(coll: string, oid: string | number): Promise<false | JSON>
+export function findObjects(coll: string, query: JSON): Promise<false | Array<JSON>>
+export function findObjects(coll: string, query: JSON, projection: JSON): Promise<false | Array<JSON>>
 export function setObject(coll: string, newobj:JSON): Promise<boolean>
 export function deleteObject(coll:string, oid:JSON): Promise<boolean>
 export function setProp(coll:string, query:JSON, newvalue:JSON): Promise<boolean>
@@ -46,16 +46,16 @@ export function calcTime(time1: number, time2: number): number
 export function displayTime(time1: number, time2: number): string
 export function extractTime(message: Message, timeword: string): number
 export function calcDamage(message: Message, attacker: JSON, defender: JSON, initiator: JSON): number
-export function calcStats(message: Message, user: JSON, stat: string): number
-export function calcStats(message: Message, user: JSON, stat: string, skillenable: boolean): number
-export function calcStats(message: Message, user: JSON, stat: string, skillenable: boolean, confused: boolean): number
+export function calcStats(message: Message, user: JSON, stat: "attack" | "defense"): number
+export function calcStats(message: Message, user: JSON, stat: "attack" | "defense", skillenable: boolean): number
+export function calcStats(message: Message, user: JSON, stat: "attack" | "defense", skillenable: boolean, confused: boolean): number
 export function voteItem(message: Message): void
 export function voteItem(message: Message, dm: boolean):void
 export function craftItems(message: Message, owner: JSON, minrarity: number, maxrarity: number, amount: number): string
-export function craftItem(message: Message, owner: JSON): string
-export function craftItem(message: Message, owner: JSON, minrarity: number, maxrarity: number): string
-export function craftItem(message: Message, owner: JSON, minrarity: number, maxrarity: number, reply: boolean): string
-export function craftItem(message: Message, owner: JSON, minrarity: number, maxrarity: number, reply: boolean, isBulk: boolean): string
+export function craftItem(message: Message, owner: JSON): JSON
+export function craftItem(message: Message, owner: JSON, minrarity: number, maxrarity: number): JSON
+export function craftItem(message: Message, owner: JSON, minrarity: number, maxrarity: number, reply: boolean): JSON
+export function craftItem(message: Message, owner: JSON, minrarity: number, maxrarity: number, reply: boolean, isBulk: boolean): JSON
 export function raidInfo(message: Message, raid: JSON): void
 export function summon(raid: JSON): void
 export function summon(raid: JSON, level: number): void
