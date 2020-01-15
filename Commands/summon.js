@@ -43,7 +43,7 @@ module.exports = async function (message, user) {
         if (words.length == 1) { functions.summon(raid) }
         else {
             let level = parseInt(words[1])
-            if (isNaN(level)) { return functions.replyMessage(message, "Please specify a level.") }
+            if (isNaN(level) || level <= 0) { return functions.replyMessage(message, "Please specify a level.") }
             functions.summon(raid, level)
         }
         functions.setObject("mobData", raid)
