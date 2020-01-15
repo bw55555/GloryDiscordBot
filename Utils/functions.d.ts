@@ -58,8 +58,9 @@ export function craftItem(message: Message, owner: JSON, minrarity: number, maxr
 export function craftItem(message: Message, owner: JSON, minrarity: number, maxrarity: number, reply: boolean, isBulk: boolean): string
 export function raidInfo(message: Message, raid: JSON): void
 export function summon(raid: JSON): void
-export function summon(raid: JSON, minlevel: number, maxlevel: number, name: string, image: string): void
-export function summon(raid: JSON, minlevel: number, maxlevel: number, name: string, image: string, ability: string): void
+export function summon(raid: JSON, level: number): void
+export function summon(raid: JSON, level: undefined, minlevel: number, maxlevel: number, name: string, image: string): void
+export function summon(raid: JSON, level: undefined, minlevel: number, maxlevel: number, name: string, image: string, ability: string): void
 export function checkProps(message: Message, user: JSON): void
 export function checkStuff(message: Message, user: JSON): void
 export function checkBurn(message: Message, user: JSON): void

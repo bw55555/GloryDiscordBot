@@ -1045,7 +1045,7 @@ function raidInfo(message, raid) {
 }
 
 
-function summon(raid, minlevel, maxlevel, name, image, ability) {
+function summon(raid, level, minlevel, maxlevel, name, image, ability) {
     raid.isRaid = true
     raid.attack = 0;
     raid.currenthealth = 0;
@@ -1070,8 +1070,9 @@ function summon(raid, minlevel, maxlevel, name, image, ability) {
     if (ability != undefined) {
         raid.ability = ability;
     }
+    
     let summonlevel = Math.floor((raid.minlevel) + (((raid.maxlevel) - (raid.minlevel)) * Math.random())) + 1
-
+    if (level != undefined) { summonlevel = level }
     raid.alive = true;
     raid.attack = summonlevel * 10;
     raid.currenthealth = summonlevel * 10 * (Math.floor(summonlevel/10)+1);
@@ -1542,7 +1543,7 @@ module.exports.voteItem = function (message, dm) { return voteItem(message, dm) 
 module.exports.craftItems = function (message, owner, minrarity, maxrarity, amount) { return craftItems(message, owner, minrarity, maxrarity, amount) }
 module.exports.craftItem = function (message, owner, minrarity, maxrarity, reply, isBulk) { return craftItem(message, owner, minrarity, maxrarity, reply, isBulk) }
 module.exports.raidInfo = function (message, raid) { return raidInfo(message, raid) }
-module.exports.summon = function (raid, minlevel, maxlevel, name, image, ability) { return summon(raid, minlevel, maxlevel, name, image, ability) }
+module.exports.summon = function (raid, level, minlevel, maxlevel, name, image, ability) { return summon(raid, level, minlevel, maxlevel, name, image, ability) }
 module.exports.checkProps = function (message,user) { return checkProps(message,user) }
 module.exports.checkStuff = function (message,user) { return checkStuff(message,user) }
 module.exports.checkBurn = function (message,user) { return checkBurn(message,user) }
