@@ -312,9 +312,14 @@ client.connect(err => {
                 }
             })
             let resettimer = 86400000 - (Date.now() % 86400000)
-            function timeReset() {
+            async function timeReset() {
                 functions.setProp("guildData", {}, { $set: { "store": {} } })
                 functions.sendMessage(bot.channels.get(devData.debugChannelId), "The guild store has been reset for all guilds!")
+                await Promise.all([functions.getObject("mobData", "world")]).then(ret => {
+                    let raid = ret[0];
+                    functions.summon(raid)
+                    functions.setObject("mobData", raid);
+                })
             }
             bot.setTimeout(function () {
                 bot.setInterval(function () {
