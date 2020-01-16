@@ -400,7 +400,7 @@ module.exports = async function (message, user) {
         else if (command == "RAIDATTACK" || command == "RATK") {
             //if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
             if (guild.raid.alive != true) { return functions.replyMessage(message, "You don't have a raid going on!") }
-            functions.raidAttack(message, user, guild.raid, false, true, false)
+            functions.raidAttack(message, user, guild.raid, "guild")
             if (guild.raid.alive == false) { guild.raid = ts + 1000 * 60 * guild.raid.level }
         }
         else if (command == "SCROLLS") {

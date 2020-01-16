@@ -1218,10 +1218,7 @@ function checkBurn(message,user) {
     return user
 }
 
-function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid attack
-    resummon = (resummon == false) ? false : true
-    isguild = (isguild == true) ? true : false
-    isevent = (isevent == true) ? true : false
+function raidAttack(message, user, raid, type) { //raid attack
     let ts = message.createdTimestamp;
     if (!raid.attacklist) { raid.attacklist = {} }
     if (user.dead === true) {
@@ -1246,7 +1243,7 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
         replyMessage(message, "Corpses can\'t attack! Do !resurrect");
         return user;
     }
-    if (user.level + user.ascension * 10 < raid.level - 15 && !isguild && !isevent) {
+    if (user.level + user.ascension * 10 < raid.level - 15 && type == "raid") {
         replyMessage(message, "You can't attack bosses with more than 15 levels more than you!");
         return user;
     }
@@ -1268,7 +1265,7 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
         counter = 0;
     }
     let damagereward = Math.floor(damage * Math.sqrt(raid.level) * Math.random() * luckybuff);
-    if (!isevent) { damagereward *= 5 }
+    if (type != "event") { damagereward *= 5 }
     user.currenthealth = user.currenthealth - counter;
     raid.currenthealth = raid.currenthealth - damage;
     let counterstolen = Math.floor((user.money) / 5);
@@ -1308,7 +1305,7 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
         let keys = Object.keys(raid.attacklist);
         let tasks = [];
         let luckyperson = keys[Math.floor(Math.random()*keys.length)]
-        if (isevent) {
+        if (type == "event" || type == "world") {
             
             let listtotal = 0;
             for (var i = 0; i < keys.length; i++) {
@@ -1365,13 +1362,13 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
             }
         }
         if (tasks != undefined && tasks != [] && tasks[0] != undefined) { bulkWrite("userData", tasks) }
-        if (!isguild) {
+        if (type != "guild") {
             let rarity = Math.floor(raid.level / 75) + Math.floor(Math.random() * (Math.min(raid.level, 75) / 15 - Math.floor(raid.level / 75)))
             if (raid.level > 75 && Math.random() < (raid.level - 75) / 1000) {
                 rarity = 5
             }
 
-            if (isevent) {
+            if (type == "event" || type == "world") {
                 let roll = Math.random()
                 if (roll > 0.9) {
                     rarity = 7
@@ -1400,17 +1397,20 @@ function raidAttack(message, user, raid, resummon, isguild, isevent) { //raid at
         }
 
         //generateItem(id, itemid, weaponatk, weapondef, rarity, rarities[rarity] + " Sword", []) //I, as a Java student, am jealous of the lack of semicolons lmao
-        if (message.channel.id != 542171947895881748 && !isguild && !isevent) {
+        if (type == "raid") {
             summon(raid)
             text += "Boss automatically summoned. It is level "+raid.level+"!"
         }
-        if (isevent) {
+        if (type == "event") {
             bot.setTimeout(function () {
                 message.channel.overwritePermissions(message.guild.roles.get("536599503608872961"), {
                     "READ_MESSAGES": false,
                     "SEND_MESSAGES": false
                 }).catch(console.error);
             }, 30000)
+        }
+        if (type == "raid") {
+            raid.alive = false; 
         }
     }
     if (user.currenthealth <= 0) {
@@ -1555,7 +1555,7 @@ module.exports.summon = function (raid, level, minlevel, maxlevel, name, image, 
 module.exports.checkProps = function (message,user) { return checkProps(message,user) }
 module.exports.checkStuff = function (message,user) { return checkStuff(message,user) }
 module.exports.checkBurn = function (message,user) { return checkBurn(message,user) }
-module.exports.raidAttack = function (message, user, raid, resummon, isguild, isevent) { return raidAttack(message, user, raid, resummon, isguild, isevent) }
+module.exports.raidAttack = function (message, user, raid, type) { return raidAttack(message, user, raid, type) }
 module.exports.smeltItem = function (user, item, giveReward, isBulk) { return smeltItem(user, item, giveReward, isBulk) }
 module.exports.itemFilter = function (message, user, defaults) { return itemFilter(message, user, defaults) }
 module.exports.getModifierText = function (modifierlist) { return getModifierText(modifierlist) }
