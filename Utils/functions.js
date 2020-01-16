@@ -1047,11 +1047,7 @@ function raidInfo(message, raid) {
 
 function summon(raid, level, minlevel, maxlevel, name, image, ability) {
     raid.isRaid = true
-    raid.attack = 0;
-    raid.currenthealth = 0;
-    raid.reward = 0;
     raid.alive = true;
-    raid.level = 0;
     if (name != undefined) {
         raid.name = name;
     }
@@ -1081,7 +1077,6 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability) {
         raid.attacklist = {};
     } else {
         if (level != undefined) { summonlevel = level }
-        raid.alive = true;
         raid.attack = summonlevel * 10;
         raid.currenthealth = summonlevel * 5 * (Math.floor(2 * summonlevel / 25) + 1);
         raid.maxhealth = summonlevel * 5 * (Math.floor(2 * summonlevel / 25) + 1);
