@@ -1046,7 +1046,7 @@ function raidInfo(message, raid) {
 
 
 function summon(raid, level, minlevel, maxlevel, name, image, ability) {
-    raid.isRaid = true
+    raid.isRaid = true;
     raid.alive = true;
     if (name != undefined) {
         raid.name = name;
@@ -1214,33 +1214,34 @@ function checkBurn(message,user) {
 }
 
 function raidAttack(message, user, raid, type) { //raid attack
+    if (type == undefined) { type = "raid"}
     let ts = message.createdTimestamp;
     if (!raid.attacklist) { raid.attacklist = {} }
     if (user.dead === true) {
         replyMessage(message, "Corpses can\'t attack! Do !resurrect");
-        return user;
+        return;
     }
     if (raid == false) {
         deleteMessage(message);
         replyMessage(message, "There is no raid right now!");
-        return user;
+        return;
     }
     if (calcTime(user.cooldowns.attack, ts) > 0) {
         deleteMessage(message);
         replyMessage(message, 'You can\'t attack right now.\n You can attack again in ' + displayTime(user.cooldowns.attack, ts) + ".");
-        return user;
+        return;
     }
-    if (raid.alive === false) {
+    if (raid.alive == false) {
         replyMessage(message, "There is no raid going on right now!");
-        return user;
+        return;
     }
     if (user.dead == true) {
         replyMessage(message, "Corpses can\'t attack! Do !resurrect");
-        return user;
+        return;
     }
     if (user.level + user.ascension * 10 < raid.level - 15 && type == "raid") {
         replyMessage(message, "You can't attack bosses with more than 15 levels more than you!");
-        return user;
+        return;
     }
     if (user.shield > ts) {
         replyMessage(message, "You just attacked! You lost your shield :(");
@@ -1296,12 +1297,10 @@ function raidAttack(message, user, raid, type) { //raid attack
     let text = ""
     if (raid.currenthealth <= 0) {
         raid.alive = false;
-        //raid.raid = false;
         let keys = Object.keys(raid.attacklist);
         let tasks = [];
         let luckyperson = keys[Math.floor(Math.random()*keys.length)]
         if (type == "event" || type == "world") {
-            
             let listtotal = 0;
             for (var i = 0; i < keys.length; i++) {
                 listtotal += raid.attacklist[keys[i]];
@@ -1390,8 +1389,6 @@ function raidAttack(message, user, raid, type) { //raid attack
             text += "Soulsteal activated. <@" + user._id + "> has stolen " + raid.maxhealth + " health.";
             user.currenthealth = Math.min(user.currenthealth, user.health)
         }
-
-        //generateItem(id, itemid, weaponatk, weapondef, rarity, rarities[rarity] + " Sword", []) //I, as a Java student, am jealous of the lack of semicolons lmao
         if (type == "raid") {
             summon(raid)
             text += "Boss automatically summoned. It is level "+raid.level+"!"
@@ -1403,9 +1400,6 @@ function raidAttack(message, user, raid, type) { //raid attack
                     "SEND_MESSAGES": false
                 }).catch(console.error);
             }, 30000)
-        }
-        if (type == "raid") {
-            raid.alive = false; 
         }
     }
     if (user.currenthealth <= 0) {
