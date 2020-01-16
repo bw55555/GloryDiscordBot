@@ -312,13 +312,15 @@ client.connect(err => {
                 }
             })
             let resettimer = 86400000 - (Date.now() % 86400000)
-            bot.setTimeout(function () {
+            function timeReset() {
                 functions.setProp("guildData", {}, { $set: { "store": {} } })
                 functions.sendMessage(bot.channels.get(devData.debugChannelId), "The guild store has been reset for all guilds!")
+            }
+            bot.setTimeout(function () {
                 bot.setInterval(function () {
-                    functions.setProp("guildData", {}, { $set: { "store": {} } })
-                    functions.sendMessage(bot.channels.get(devData.debugChannelId), "The guild store has been reset for all guilds!")
+                    timeReset()
                 }, 86400000)
+                timeReset()
             }, resettimer)
             //console.timeEnd("actual ping")
         })

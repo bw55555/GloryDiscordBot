@@ -1050,7 +1050,7 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability) {
     raid.attack = 0;
     raid.currenthealth = 0;
     raid.reward = 0;
-    raid.alive = false;
+    raid.alive = true;
     raid.level = 0;
     if (name != undefined) {
         raid.name = name;
@@ -1070,17 +1070,25 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability) {
     if (ability != undefined) {
         raid.ability = ability;
     }
-    
     let summonlevel = Math.floor((raid.minlevel) + (((raid.maxlevel) - (raid.minlevel)) * Math.random())) + 1
-    if (level != undefined) { summonlevel = level }
-    raid.alive = true;
-    raid.attack = summonlevel * 10;
-    raid.currenthealth = summonlevel * 5 * (Math.floor(2*summonlevel/25)+1);
-    raid.maxhealth = summonlevel * 5 * (Math.floor(2*summonlevel / 25)+1);
-    raid.reward = summonlevel * 500;
-    raid.level = summonlevel;
-    raid.attacklist = {};
-    
+    if (raid._id == "world") { 
+        //world boss
+        raid.attack = Math.floor(summonlevel * 15);
+        raid.currenthealth = summonlevel * 20 * (Math.floor(2 * summonlevel / 25) + 1);
+        raid.maxhealth = summonlevel * 20 * (Math.floor(2 * summonlevel / 25) + 1);
+        raid.reward = Math.floor(summonlevel * 5000);
+        raid.level = summonlevel;
+        raid.attacklist = {};
+    } else {
+        if (level != undefined) { summonlevel = level }
+        raid.alive = true;
+        raid.attack = summonlevel * 10;
+        raid.currenthealth = summonlevel * 5 * (Math.floor(2 * summonlevel / 25) + 1);
+        raid.maxhealth = summonlevel * 5 * (Math.floor(2 * summonlevel / 25) + 1);
+        raid.reward = summonlevel * 500;
+        raid.level = summonlevel;
+        raid.attacklist = {};
+    }
 }
 function checkProps(message,user) {
     let ts = message.createdTimestamp;
