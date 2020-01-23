@@ -16,11 +16,11 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "This item does not exist!")
             return
         }
-        return Promise.all[functions.getUser(item.owner)].then(ret => {
+        return Promise.all([functions.getUser(item.owner)]).then(ret => {
             owner = ret[0]
             if (owner == false) { return functions.replyMessage(message, "No one owns this item! Notify a dev. ") }
-            if (owner.weapon._id == item._id) { owner.weapon = false; if (owner.weapon.modifiers.maxhp != undefined) { owner.health -= owner.weapon.modifiers.maxhp } }
-            let itemRewards = functions.smeltItem(owner, item, false)
+            if (owner.weapon._id == item._id) { if (owner.weapon.modifiers.maxhp != undefined) { owner.health -= owner.weapon.modifiers.maxhp }; owner.weapon = false;  }
+            functions.smeltItem(owner, item, false)
             functions.setUser(owner)
             functions.sendMessage(message.channel, "You have adminsmelted item " + item._id + "!")
             return;

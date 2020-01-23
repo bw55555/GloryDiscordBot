@@ -1239,10 +1239,12 @@ function raidAttack(message, user, raid, type) { //raid attack
         replyMessage(message, "Corpses can\'t attack! Do !resurrect");
         return;
     }
+    /*
     if (user.level + user.ascension * 10 < raid.level - 15 && type == "raid") {
         replyMessage(message, "You can't attack bosses with more than 15 levels more than you!");
         return;
     }
+    */
     if (user.shield > ts) {
         replyMessage(message, "You just attacked! You lost your shield :(");
         user.shield = 1
