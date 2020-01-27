@@ -1,4 +1,4 @@
-var moment=require("moment")
+var moment=require(packagelocation + "moment")
 var functions=require("../Utils/functions.js")
 module.exports = async function (message, user) {
     let id = message.author.id;
