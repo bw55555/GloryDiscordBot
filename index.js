@@ -2,7 +2,7 @@ packagelocation = '/data/modules/node_modules/'
 global.Discord = require(packagelocation + 'discord.js');
 const asyncpkg = require(packagelocation +  "async")
 const MongoClient = require(packagelocation + 'mongodb').MongoClient;
-const uri = "mongodb+srv://GloryUser:GLORYmongodb@testthing-eaiqz.mongodb.net/test?retryWrites=true&w=majority";
+const uri = "mongodb://localhost/glory?retryWrites=true&w=majority";
 global.client = new MongoClient(uri, { useNewUrlParser: true });
 global.fs = require('fs')
 var functions = require(`./Utils/functions.js`)
