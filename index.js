@@ -1,9 +1,10 @@
-﻿global.Discord = require('discord.js');
-const asyncpkg = require("async")
-const MongoClient = require('mongodb').MongoClient;
+packagelocation = '/data/modules/node_modules/'
+global.Discord = require(packagelocation + 'discord.js');
+const asyncpkg = require(packagelocation +  "async")
+const MongoClient = require(packagelocation + 'mongodb').MongoClient;
 const uri = "mongodb+srv://GloryUser:GLORYmongodb@testthing-eaiqz.mongodb.net/test?retryWrites=true&w=majority";
 global.client = new MongoClient(uri, { useNewUrlParser: true });
-global.fs = require('fs')
+global.fs = require(packagelocation + 'fs')
 var functions = require(`./Utils/functions.js`)
 client.connect(err => {
     Promise.all([functions.findObjects("serverData", {}), functions.getObject("devData", "devData")]).then(someDataReturn => {
@@ -39,8 +40,6 @@ client.connect(err => {
             //console.log(commandlist)
         });
 
-        //const respond = require('./Utils/respond.js');
-        //const ability = require('./ability.js');
         let config = require('./config.json')
         global.talkedRecently = new Set();
         global.globalcdlist = new Set();
@@ -52,7 +51,7 @@ client.connect(err => {
         global.debugChannelId = devData.debugChannelId
         global.defaultPrefix = devData.defaultPrefix
 
-        global.moment = require('moment'); //moment package, lets you view date and time nicely
+        global.moment = require(packagelocation + 'moment'); //moment package, lets you view date and time nicely
         global.rarities = { "0": "Useless", "1": "Normal", "2": "Common", "3": "Uncommon", "4": "Rare", "5": "Super Rare", "6": "Epic", "7": "Legendary", "8": "Godly", "9": "GLORY", "Unique": "Unique" }
         global.raritystats = [5, 10, 15, 25, 40, 60, 100, 150, 200, 500]
         global.allowedmodifiers = ["critRate", "critDamage", "block", "lifeSteal", "pierce", "lucky", "spikes", "revenge", "rage", "sacrifice", "maxhp", "tempo", "burn", "haste", "evade"]
@@ -75,8 +74,8 @@ client.connect(err => {
         global.duel = {};
         global.skillData = JSON.parse(fs.readFileSync('Assets/skillData.json', 'utf8'));
         if (devData.dblenable) {
-            const http = require('http');
-            const DBL = require('dblapi.js');
+            const http = require(packagelocation + 'http');
+            const DBL = require(packagelocation +  'dblapi.js');
             const server = http.createServer(function (req, res) {
                 res.write("Recieved a post request");
                 res.end();
