@@ -4,7 +4,7 @@ const asyncpkg = require(packagelocation +  "async")
 const MongoClient = require(packagelocation + 'mongodb').MongoClient;
 const uri = "mongodb+srv://GloryUser:GLORYmongodb@testthing-eaiqz.mongodb.net/test?retryWrites=true&w=majority";
 global.client = new MongoClient(uri, { useNewUrlParser: true });
-global.fs = require(packagelocation + 'fs')
+global.fs = require('fs')
 var functions = require(`./Utils/functions.js`)
 client.connect(err => {
     Promise.all([functions.findObjects("serverData", {}), functions.getObject("devData", "devData")]).then(someDataReturn => {
