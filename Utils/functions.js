@@ -1503,7 +1503,7 @@ function getModifierText(modifierlist) {
     return modifiertext
 }
 function checkxp(user) {
-    return 100 + Math.floor((3 * Math.pow((10 * (user.ascension+1) + user.level + 1), 2)) * Math.pow(1.5, user.ascension))
+    return 100 + Math.floor((3 * Math.pow((10 * (user.ascension) + user.level + 1), 2)) * Math.pow(1.5, user.ascension))
 }
 module.exports.clean = function (text) { return clean(text) }
 module.exports.getUser = function (uid) { return getUser(uid) }
