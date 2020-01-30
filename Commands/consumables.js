@@ -5,9 +5,7 @@ module.exports = async function (message, user) {
     //let words = message.content.trim().split(/\s+/)
     let itemtext = ""
     for (var item in user.consum) {
-        if (user.consum[item] > 0) {
-            itemtext += "**" + item + ":** " + user.consum[item] + "\n";
-        }
+        itemtext += "**" + item + ":** " + user.consum[item] + "\n";
     }
 
     if (itemtext == "") {
