@@ -22,7 +22,7 @@ module.exports = async function (message, user) {
             marrytext = "<@" + target.marry + ">"
         }
         let leveltext = target.level;
-        let xpleft = (Math.floor((3 * Math.pow((10 * target.ascension + target.level + 1), 2)) * Math.pow(1.5, target.ascension)) - target.xp)
+        let xpleft = (functions.checkxp(target) - target.xp)
         if (xpleft < 1) {
             xpleft = 1;
         }

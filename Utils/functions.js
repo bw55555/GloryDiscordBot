@@ -1162,9 +1162,9 @@ function checkStuff(message,user) {
     //user.xp += Math.floor(20 * Math.random() + 1); //whenever a message is sent, their experience increases by a random number 1-25.
     user.xp += 1 + Math.floor(Math.random() * user.level);
     let leveluptext = ""
-    if (user.level >= 100) { user.xp = Math.min(Math.floor((3 * Math.pow((10 * user.ascension + user.level + 1), 2)) * Math.pow(1.5, user.ascension)) - 1, user.xp) }
-    while (user.xp >= Math.floor((3 * Math.pow((10 * user.ascension + user.level + 1), 2)) * Math.pow(1.5, user.ascension)) && user.level < 100) { //increases levels when xp>100*level
-        user.xp -= Math.floor((3 * Math.pow((10 * user.ascension + user.level + 1), 2)) * Math.pow(1.5, user.ascension))
+    if (user.level >= 100) { user.xp = Math.min(checkxp(target) - 1, user.xp) }
+    while (user.xp >= checkxp(target) && user.level < 100) { //increases levels when xp>100*level
+        user.xp -= checkxp(target)
         user.level += 1;
         leveluptext += "You leveled up to level " + user.level + "!\n"
         if (user.level === 5 && user.triangle == "None") {
@@ -1502,6 +1502,9 @@ function getModifierText(modifierlist) {
     if (modifiertext == "") { modifiertext = "None" }
     return modifiertext
 }
+function checkxp(user) {
+    return 100 + Math.floor((3 * Math.pow((10 * (user.ascension+1) + user.level + 1), 2)) * Math.pow(1.5, user.ascension))
+}
 module.exports.clean = function (text) { return clean(text) }
 module.exports.getUser = function (uid) { return getUser(uid) }
 module.exports.findUsers = function (query,projection) { return findUsers(query,projection) }
@@ -1550,6 +1553,7 @@ module.exports.raidAttack = function (message, user, raid, type) { return raidAt
 module.exports.smeltItem = function (user, item, giveReward, isBulk) { return smeltItem(user, item, giveReward, isBulk) }
 module.exports.itemFilter = function (message, user, defaults) { return itemFilter(message, user, defaults) }
 module.exports.getModifierText = function (modifierlist) { return getModifierText(modifierlist) }
+module.exports.checkxp = function (user) { return checkxp(user) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
