@@ -1,4 +1,4 @@
-var functions = require("../Utils/functions.js")
+
 module.exports = async function (message, user) {
     let id = message.author.id;
     if (user.guild != "None") { return functions.replyMessage(message, "You cannot delete your character if you are in a guild!") }

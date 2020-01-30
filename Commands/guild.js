@@ -1,5 +1,5 @@
 ﻿const guildRaidData = require("../Assets/guildRaidData.json")
-var functions = require("../Utils/functions.js")
+
 const guildStore = [
     { "name": "Common Scroll", "price": 50000, "levels": [0, 10, 20, 30, 40], "stocks": [1, 1, 1, 1, 1] },
     { "name": "Uncommon Scroll", "price": 250000, "levels": [10, 20, 30, 40], "stocks": [1, 1, 1, 1] },

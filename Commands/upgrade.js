@@ -1,4 +1,4 @@
-var functions = require("../Utils/functions.js")
+
 function upgradeStats(attributeToUpgrade, amount, user) {
     let cost = 0;
     let totalcost = 0

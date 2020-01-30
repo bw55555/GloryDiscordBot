@@ -1,4 +1,4 @@
-var functions=require("../Utils/functions.js")
+
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
@@ -11,7 +11,6 @@ module.exports = async function (message, user) {
         _id: message.author.id,
         username: message.author.username,
         money: 0,
-        lastDaily: 0,
         health: 10,
         currenthealth: 0,
         xp: 0,
@@ -38,7 +37,7 @@ module.exports = async function (message, user) {
         bounty: 0,
         glory: 0,
         burn: 0,
-        cooldowns: { normal: 1, attack: 1, heal: 1, rez: 1, work: 1, bolster: 1, smeltall: 1, purchase: 1, merge: 1 },
+        cooldowns: { normal: 1, attack: 1, heal: 1, rez: 1, work: 1, bolster: 1, smeltall: 1, purchase: 1, merge: 1, daily: 1 },
         skills: {},
         skillA: "None",
         skillB: "None",

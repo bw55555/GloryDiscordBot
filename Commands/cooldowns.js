@@ -1,17 +1,14 @@
-var functions=require("../Utils/functions.js")
+
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     //return functions.replyMessage(message,"This will be here later...")
     let text = ""
-    if (user.lastDaily == moment().format('L')) {
-        text += '**Next Daily:** ' + moment().endOf('day').fromNow() + "\n"
-    }
     let cooldowns = Object.keys(user.cooldowns)
     for (var i = 0; i < cooldowns.length; i++) {
-        if (functions.calcTime(user.cooldowns[cooldowns[i]], ts) < 0) { continue }
-        text += "**" + cooldowns[i] + "**: " + functions.displayTime(user.cooldowns[cooldowns[i]], ts) + "\n"
+        //if (functions.calcTime(user.cooldowns[cooldowns[i]], ts) < 0) { continue }
+        text += "**" + cooldowns[i] + "**: " + functions.displayTime(user.cooldowns[cooldowns[i]], Math.min(ts, user.cooldowns[cooldowns[i]]) ) + "\n"
     }
     //text+="```"
     if (text == "") {

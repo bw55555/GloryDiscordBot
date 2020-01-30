@@ -1,4 +1,4 @@
-var functions = require("../Utils/functions.js")
+
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;

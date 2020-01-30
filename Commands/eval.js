@@ -1,4 +1,4 @@
-var functions=require("../Utils/functions.js")
+
 module.exports = async function (message, user) {
   let id = message.author.id;
   let ts = message.createdTimestamp;
@@ -22,11 +22,11 @@ module.exports = async function (message, user) {
       let evaled = eval('(message) => {' + code + '}')(message);
       if (evaled != undefined && typeof evaled.then == "function") {
           evaled.then(ret => {
-              if (typeof ret !== "string") ret = require("util").inspect(ret);
+              if (typeof ret !== "string") ret = util.inspect(ret);
               message.channel.send(functions.clean(ret), { code: "xl" });
           })
       }
-      if (typeof evaled !== "string") evaled = require("util").inspect(evaled);
+      if (typeof evaled !== "string") evaled = util.inspect(evaled);
       message.channel.send(functions.clean(evaled), { code: "xl" });
   } catch (err) {
     message.channel.send(`\`ERROR\` \`\`\`xl\n`+functions.clean(err)+`\n\`\`\``);

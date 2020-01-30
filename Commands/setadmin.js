@@ -1,4 +1,4 @@
-var functions=require("../Utils/functions.js")
+
 function isFloat(arg) {
   for (var i=0;i<arg.length;i++) {
     if (arg.slice(i,i+1)==".") {continue}

@@ -1,4 +1,4 @@
-var functions=require("../Utils/functions.js")
+
 module.exports = async function (message, user) {
   functions.sendMessage(message.channel, {
     "embed": {

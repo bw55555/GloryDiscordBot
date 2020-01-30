@@ -1089,7 +1089,6 @@ function checkProps(message,user) {
     let ts = message.createdTimestamp;
     if (user.username != message.author.username) user.username = message.author.username; //Creates object with name as username
     if (!user.money) user.money = 0; //gives money object
-    if (!user.lastDaily) user.lastDaily = "Not Collected"; //check if daily collected
     if (!user.health) user.health = 10; //Health
     if (!user.currenthealth) user.currenthealth = 0; //Health
     if (!user.xp) user.xp = 0; //XP
@@ -1124,6 +1123,7 @@ function checkProps(message,user) {
     if (!user.cooldowns.smeltall) user.cooldowns.smeltall = 1;
     if (!user.cooldowns.purchase) user.cooldowns.purchase = 1;
     if (!user.cooldowns.merge) user.cooldowns.merge = 1;
+    if (!user.cooldowns.daily) user.cooldowns.daily = 1;
 
     if (!user.skills) user.skills = {}
     if (!user.skillA) user.skillA = "None";
