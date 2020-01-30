@@ -1162,9 +1162,9 @@ function checkStuff(message,user) {
     //user.xp += Math.floor(20 * Math.random() + 1); //whenever a message is sent, their experience increases by a random number 1-25.
     user.xp += 1 + Math.floor(Math.random() * user.level);
     let leveluptext = ""
-    if (user.level >= 100) { user.xp = Math.min(checkxp(target) - 1, user.xp) }
-    while (user.xp >= checkxp(target) && user.level < 100) { //increases levels when xp>100*level
-        user.xp -= checkxp(target)
+    if (user.level >= 100) { user.xp = Math.min(checkxp(user) - 1, user.xp) }
+    while (user.xp >= checkxp(user) && user.level < 100) { //increases levels when xp>100*level
+        user.xp -= checkxp(user)
         user.level += 1;
         leveluptext += "You leveled up to level " + user.level + "!\n"
         if (user.level === 5 && user.triangle == "None") {
