@@ -128,7 +128,7 @@ client.connect(err => {
                     let command = message.content.trim().split(/\s+/)
                     if (command[0] == defaultPrefix + "vi") {
                         message.content += " override"
-                        functions.voteItem(message, true)
+                        functions.voteItem(message, {}, true)
                     }
                     if (command[0] == defaultPrefix + "backup") { commands["backup"](message) }
                 }

@@ -7,7 +7,7 @@ module.exports = async function (message, user) {
     for (var i = 1; i < words.length; i++) {
         let newmessage = message
         newmessage.content = "!vi " + words[i];
-        functions.voteItem(newmessage, true)
+        functions.voteItem(newmessage, user, true)
         functions.logCommand(newmessage)
     }
     return functions.replyMessage(message,"Votes have been processed")

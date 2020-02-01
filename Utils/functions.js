@@ -948,7 +948,7 @@ function calcStats(message, user, stat, skillenable,confused) {
     }
 }
 ///---------------
-async function voteItem(message, dm) {
+async function voteItem(message, user, dm) {
     dm = dm == true ? true : false
     let ts = message.createdTimestamp
     let words = message.content.trim().split(/\s+/)
@@ -1541,7 +1541,7 @@ module.exports.displayTime = function (time1, time2) { return displayTime(time1,
 module.exports.extractTime = function (message,timeword) { return extractTime(message,timeword) }
 module.exports.calcDamage = function (message, attacker, defender, initiator) { return calcDamage(message, attacker, defender, initiator) }
 module.exports.calcStats = function (message, user, stat, skillenable, confused) { return calcStats(message, user, stat, skillenable, confused) }
-module.exports.voteItem = function (message, dm) { return voteItem(message, dm) }
+module.exports.voteItem = function (message, user, dm) { return voteItem(message, user, dm) }
 module.exports.craftItems = function (message, owner, minrarity, maxrarity, amount) { return craftItems(message, owner, minrarity, maxrarity, amount) }
 module.exports.craftItem = function (message, owner, minrarity, maxrarity, reply, isBulk) { return craftItem(message, owner, minrarity, maxrarity, reply, isBulk) }
 module.exports.raidInfo = function (message, raid) { return raidInfo(message, raid) }

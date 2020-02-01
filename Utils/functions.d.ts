@@ -49,8 +49,8 @@ export function calcDamage(message: Message, attacker: JSON, defender: JSON, ini
 export function calcStats(message: Message, user: JSON, stat: "attack" | "defense"): number
 export function calcStats(message: Message, user: JSON, stat: "attack" | "defense", skillenable: boolean): number
 export function calcStats(message: Message, user: JSON, stat: "attack" | "defense", skillenable: boolean, confused: boolean): number
-export function voteItem(message: Message): void
-export function voteItem(message: Message, dm: boolean):void
+export function voteItem(message: Message, user: JSON): void
+export function voteItem(message: Message, user: JSON, dm: boolean):void
 export function craftItems(message: Message, owner: JSON, minrarity: number, maxrarity: number, amount: number): string
 export function craftItem(message: Message, owner: JSON): JSON
 export function craftItem(message: Message, owner: JSON, minrarity: number, maxrarity: number): JSON
