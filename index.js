@@ -393,7 +393,7 @@ client.connect(err => {
             if (devData.debugenable == false) { return }
             if (debug.indexOf(config.token) != -1) { return }
             if (ready == false) { console.log(debug); return }
-            functions.sendMessage(bot.guilds.get(debugGuildId).channels.get(debugChannelId), debug)
+            functions.sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.heartbeatChannelId), debug)
             //functions.sendMessage(bot.guilds.get("536599503608872961").channels.get("547538741699280914"), debug)
         })
         bot.login(TOKEN);
