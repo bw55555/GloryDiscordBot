@@ -1440,7 +1440,7 @@ async function itemFilter(message, user, defaults, filterJson) {
     if (filterJson == undefined) { filterJson = {} }
     if (defaults == undefined) { defaults = {} }
     let ts = message.createdTimestamp;
-    let words = message.content.trim().split(/\s+/)
+    let words = message.content.toLowerCase().trim().split(/\s+/)
     let minrarity = (defaults.minrarity == undefined) ? 0 : defaults.minrarity
     let maxrarity = (defaults.maxrarity == undefined) ? 9 : defaults.maxrarity
     let fav = (defaults.fav == undefined) ? "None" : defaults.fav
