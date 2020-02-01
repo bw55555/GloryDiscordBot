@@ -28,11 +28,11 @@ module.exports = async function (message, user) {
     }
     let maxCost = 1000000000;
     functions.itemFilter(message, user, { "maxCost": maxCost }).then(wepsra => {
-        if (wepsra == false) { return }
+        if (wepsra == false) { return functions.sendMessage(message.channel, "There's nothing in the market that matches the selected filters... ") }
         let numPerPage = 5
         let pages = []
         if (wepsra.length == 0) {
-            return functions.sendMessage(message.channel, "There's nothing in your inventory that matches the selected filters... ")
+            return functions.sendMessage(message.channel, "There's nothing in the market that matches the selected filters... ")
         } else {
             let fields = [];
             for (var i = 0; i < wepsra.length; i++) {
