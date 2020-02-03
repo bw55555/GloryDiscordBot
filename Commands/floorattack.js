@@ -1,7 +1,7 @@
-
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
+    let floor = user.floorlevel;
 
     if (devs.indexOf(id) == -1) {return}
     functions.sendMessage(message.channel, {
@@ -20,5 +20,4 @@ module.exports = async function (message, user) {
                 }]
         }
     });
-
 }

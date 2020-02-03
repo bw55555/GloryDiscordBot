@@ -66,6 +66,15 @@ async function deleteItem(iid) {
         return false;
     })
 }
+async function getFloorMob(floor) {
+    return client.db("current").collection("floorData").find({ floorlevel: floor }).toArray().then(r => {
+            if (r[0] == undefined) { return false }
+    return r[0];
+}).catch(err => {
+        console.error(err)
+    return false
+})
+}
 async function getObject(coll,oid) {
     return client.db("current").collection(coll).find({ _id: oid }).toArray().then(r => {
         if (r[0] == undefined) { return false }
@@ -1511,6 +1520,7 @@ module.exports.findUsers = function (query,projection) { return findUsers(query,
 module.exports.setUser = function (newuser) { return setUser(newuser) }
 module.exports.deleteUser = function (uid) { return deleteUser(uid) }
 module.exports.getItem = function (iid) { return getItem(iid) }
+module.exports.getFloorMob = function (floor) { return getFloorMob(floor) }
 module.exports.findItems = function (query, projection) { return findItems(query, projection) }
 module.exports.setItem = function (newitem) { return setItem(newitem) }
 module.exports.deleteItem = function (iid) { return deleteItem(iid) }

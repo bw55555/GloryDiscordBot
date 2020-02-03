@@ -6,6 +6,7 @@ export function findUsers(query: JSON, projection: JSON): Promise<Array<JSON> | 
 export function setUser(newuser: JSON): Promise<boolean>
 export function deleteUser(uid: string | number): Promise<boolean>
 export function getItem(iid: string | number): Promise<JSON | false>
+export function getFloorMob(iid: string | number): Promise<JSON | false>
 export function findItems(query: JSON): Promise<Array<JSON> | false>
 export function findItems(query: JSON, projection: JSON): Promise<Array<JSON>|false>
 export function setItem(newitem: JSON): Promise<boolean>
