@@ -1222,7 +1222,7 @@ function checkBurn(message,user) {
     return user
 }
 
-function raidAttack(message, user, raid, type) { //raid attack
+function raidAttack(message, user, raid, type, guild) { //raid attack
     if (type == undefined) { type = "raid"}
     let ts = message.createdTimestamp;
     if (!raid.attacklist) { raid.attacklist = {} }
@@ -1388,13 +1388,12 @@ function raidAttack(message, user, raid, type) { //raid attack
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and an item (ID: " + item._id + ") with rarity "+item.rarity+".\n";
         } else {
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\nThe guild was also given "+ raid.reward + " xp and "+raid.crystalreward+" crystals.\n"
-            setProp("guildData", { "_id": user.guild }, { $inc: {"xp":raid.reward, "crystals":raid.crystalreward}})
+            guild.xp += raid.reward
+            guild.crystals += raid.crystalreward
         }
-
         user.money += Math.floor(luckybuff * raid.reward);
         user.xp += Math.floor(luckybuff * raid.reward);
         text += "Rewards have been given to everyone who participated in the raid!\n"
-
         if (user.currenthealth > 0 && hasSkill(user, 15)) { //soulsteal skill in raids.
             user.currenthealth += raid.maxhealth
             text += "Soulsteal activated. <@" + user._id + "> has stolen " + raid.maxhealth + " health.";
@@ -1559,7 +1558,7 @@ module.exports.summon = function (raid, level, minlevel, maxlevel, name, image, 
 module.exports.checkProps = function (message,user) { return checkProps(message,user) }
 module.exports.checkStuff = function (message,user) { return checkStuff(message,user) }
 module.exports.checkBurn = function (message,user) { return checkBurn(message,user) }
-module.exports.raidAttack = function (message, user, raid, type) { return raidAttack(message, user, raid, type) }
+module.exports.raidAttack = function (message, user, raid, type, guild) { return raidAttack(message, user, raid, type, guild) }
 module.exports.smeltItem = function (user, item, giveReward, isBulk) { return smeltItem(user, item, giveReward, isBulk) }
 module.exports.itemFilter = function (message, user, defaults) { return itemFilter(message, user, defaults) }
 module.exports.getModifierText = function (modifierlist) { return getModifierText(modifierlist) }

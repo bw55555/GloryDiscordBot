@@ -66,7 +66,8 @@ export function checkProps(message: Message, user: JSON): void
 export function checkStuff(message: Message, user: JSON): void
 export function checkBurn(message: Message, user: JSON): void
 export function raidAttack(message: Message, user: JSON, raid: JSON): void
-export function raidAttack(message: Message, user: JSON, raid: JSON, type: "guild" | "raid" | "world" | "event"): void
+export function raidAttack(message: Message, user: JSON, raid: JSON, type: "raid" | "world" | "event"): void
+export function raidAttack(message: Message, user: JSON, raid: JSON, type: "guild", guild: JSON): void
 export function smeltItem(user: JSON, item: JSON): Array<number>
 export function smeltItem(user: JSON, item: JSON, giveReward: boolean): Array<number>
 export function smeltItem(user: JSON, item: JSON, giveReward: boolean, isBulk: boolean): Array<number>

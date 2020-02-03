@@ -364,7 +364,7 @@ module.exports = async function (message, user) {
             }
             if (words[2] == undefined) { return functions.replyMessage(message, "Please specify a boss rarity!!!") }
             let summonrarity = words[2].toLowerCase()
-            let raritytoscroll = { "0": "common", "1": "uncommon", "2": "rare", "3": "epic", "4": "legendary" }
+            let raritytoscroll = { "0": "common", "1": "uncommon", "2": "rare", "3": "epic", "4": "legendary", "c": "common", "u": "uncommon", "r": "rare", "e": "epic", "l": "legendary" }
             if (raritytoscroll[summonrarity] != undefined) { summonrarity = raritytoscroll[summonrarity] }
             let scrollrarities = { "common": 0, "uncommon": 1, "rare": 2, "epic": 3, "legendary": 4 }
             if (summonrarity == undefined || summonrarity == "" || scrollrarities[summonrarity] == undefined) { return functions.replyMessage(message, "That rarity does not exist! See " + serverData[message.guild.id].prefix + "guild scrolls for a list of available rarities.") }
@@ -380,7 +380,6 @@ module.exports = async function (message, user) {
             guild.raid.url = raid.url
             guild.raid.name = raid.name;
             guild.raid.attack = raid.attack * summonlevel * 2;
-            guild.raid.id = 1;
             guild.raid.currenthealth = summonlevel * raid.health * 10;
             guild.raid.maxhealth = summonlevel * raid.health * 10;
             guild.raid.reward = summonlevel * raid.reward * 50;
@@ -400,7 +399,7 @@ module.exports = async function (message, user) {
         else if (command == "RAIDATTACK" || command == "RATK") {
             //if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
             if (guild.raid.alive != true) { return functions.replyMessage(message, "You don't have a raid going on!") }
-            functions.raidAttack(message, user, guild.raid, "guild")
+            functions.raidAttack(message, user, guild.raid, "guild", guild)
             if (guild.raid.alive == false) { guild.raid = ts + 1000 * 60 * guild.raid.level }
         }
         else if (command == "SCROLLS") {
