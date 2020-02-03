@@ -76,7 +76,7 @@ module.exports = async function (message, user) {
             }
         }
         functions.replyMessage(message, wep1.name + " (" + wep1._id + ")'s stats has increased by " + (wep1.attack - wepatk) + " Attack and " + (wep1.defense - wepdef) + " Defense!")
-        if ((raritystats[rarity] - (wep1.attack + wep1.defense) == 0 || wep1.merge >= 10) && wep1.rarity != 8) {
+        if ((raritystats[rarity] - (wep1.attack + wep1.defense) < 0 || wep1.merge >= 10) && wep1.rarity != 8) {
             wep1.merge = 0
             wep1.rarity += 1;
             functions.sendMessage(message.channel, "It is now a " + rarities[wep1.rarity] + " weapon!")
