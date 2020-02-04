@@ -1225,6 +1225,8 @@ function checkBurn(message,user) {
 function checkAttack(message, user, raid, type, guild) {
     let ts = message.createdTimestamp;
 
+    replyMessage(message, user);
+
     if (user.dead === true) {
         replyMessage(message, "Corpses can\'t attack! Do !resurrect");
         return;
