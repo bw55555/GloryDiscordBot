@@ -1225,9 +1225,15 @@ function checkBurn(message,user) {
 function checkAttack(message, user) {
     let ts = message.createdTimestamp;
 
+    if (user.dead === true) {
+        replyMessage(message, "Corpses can\'t attack! Do !resurrect");
+        return;
+    }
 
-    console.log(arguments)
-    console.log(user.username)
+    if (user.dead === false) {
+        replyMessage(message, "Happy Soks");
+        return;
+    }
 }
 
 function raidAttack(message, user, raid, type, guild) { //raid attack
