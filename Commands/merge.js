@@ -64,17 +64,12 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "The first item cannot be upgraded any further!")
             return
         } 
-        let y = (raritystats[rarity] - (wepatk + wepdef)) / (10 - wep1.merge)
+        let y = Math.ceil((raritystats[rarity] - (wepatk + wepdef)) / (10 - wep1.merge))
         wep1.merge += 1;
-        if ((raritystats[rarity] - (wepatk + wepdef) == 0 || wep1.merge >= 10) && wep1.rarity != 8) { y+=1 }
-        for (let x = 0; x < y; x++) {
-            let chance = Math.random()
-            if (chance > 0.5) {
-                wep1.attack += 1;
-            } else {
-                wep1.defense += 1;
-            }
-        }
+        if ((raritystats[rarity] - (wepatk + wepdef) == 0 || wep1.merge >= 10) && wep1.rarity != 8) { y += 1; }
+        let amt = Math.floor(Math.random() * (y + 1));
+        wep1.attack += amt;
+        wep1.defense += y - amt;
         functions.replyMessage(message, wep1.name + " (" + wep1._id + ")'s stats has increased by " + (wep1.attack - wepatk) + " Attack and " + (wep1.defense - wepdef) + " Defense!")
         if ((raritystats[rarity] - (wep1.attack + wep1.defense) < 0 || wep1.merge >= 10) && wep1.rarity != 8) {
             wep1.merge = 0
