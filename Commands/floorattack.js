@@ -3,6 +3,8 @@ module.exports = async function (message, user) {
     let ts = message.createdTimestamp;
     let floor = user.floorlevel;
 
+    functions.checkAttack();
+
     return Promise.all([functions.getFloorMob(floor)]).then(ret => {
 
     let mobinfo = ret[0]

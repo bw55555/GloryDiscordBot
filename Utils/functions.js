@@ -1222,8 +1222,7 @@ function checkBurn(message,user) {
     return user
 }
 
-
-function raidAttack(message, user, raid, type, guild) {
+function checkAttack(message, user, raid, type, guild) {
     let ts = message.createdTimestamp;
 
     if (user.dead === true) {
@@ -1254,8 +1253,8 @@ function raidAttack(message, user, raid, type, guild) {
         user.shield = 1
     }
 
+    replyMessage(message, "Yeah! You can attack...");
 }
-
 
 function raidAttack(message, user, raid, type, guild) { //raid attack
     if (type == undefined) { type = "raid"}
