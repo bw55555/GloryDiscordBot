@@ -474,6 +474,7 @@ function calcDamage2(message,vAttack) {
     defense = 10;
 
     truedamage = Math.floor(attack * 0.75 * roll + attack * 0.25 - defense)
+
     return truedamage
 
 }
@@ -1250,11 +1251,12 @@ function checkAttack(message, user, guild) {
     }
 
     aAttack = user.attack
+    vAttack = 25
 
     let damage = calcDamage2(message, aAttack);
-
+    let damage2 = calcDamage2(message, vAttack);
     replyMessage(message, damage);
-
+    replyMessage(message, damage2);
 }
 
 function raidAttack(message, user, raid, type, guild) { //raid attack
