@@ -1,8 +1,10 @@
-module.exports = async function (message, user) {
+module.exports = async function (message, user, guild) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let floor = user.floorlevel;
 
+    console.log(user)
+    console.log(guild)
     functions.checkAttack(user);
 
     return Promise.all([functions.getFloorMob(floor)]).then(ret => {

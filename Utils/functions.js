@@ -1225,7 +1225,7 @@ function checkBurn(message,user) {
 function checkAttack(message, user) {
     let ts = message.createdTimestamp;
 
-    console.log(user)
+
 
 }
 
