@@ -1225,8 +1225,9 @@ function checkBurn(message,user) {
 function checkAttack(message, user) {
     let ts = message.createdTimestamp;
 
-    console.log(arguments)
 
+    console.log(arguments)
+    console.log(user.username)
 }
 
 function raidAttack(message, user, raid, type, guild) { //raid attack
