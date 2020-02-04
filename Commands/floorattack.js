@@ -3,8 +3,6 @@ module.exports = async function (message, user, guild) {
     let ts = message.createdTimestamp;
     let floor = user.floorlevel;
 
-    console.log(user)
-
     functions.checkAttack(user);
 
     return Promise.all([functions.getFloorMob(floor)]).then(ret => {
