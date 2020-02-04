@@ -8,6 +8,7 @@ global.fs = require('fs')
 global.util = require("util");
 const http = require('http');
 const DBL = require('dblapi.js');
+global.dbcollection = "current"
 global.functions = require(`./Utils/functions.js`)
 client.connect(err => {
     Promise.all([functions.findObjects("serverData", {}), functions.getObject("devData", "devData")]).then(someDataReturn => {

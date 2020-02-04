@@ -1,5 +1,5 @@
 async function getUser(uid) {
-    return client.db("current").collection("userData").find({ _id: uid }).toArray().then(r => {
+    return client.db(global.dbcollection).collection("userData").find({ _id: uid }).toArray().then(r => {
         if (r[0] == undefined) {return false }
         return r[0];
     }).catch(err => {
@@ -8,7 +8,7 @@ async function getUser(uid) {
     })
 }
 async function findUsers(query,projection) {
-    return client.db("current").collection("userData").find(query, { "projection": projection }).toArray().then(r => {
+    return client.db(global.dbcollection).collection("userData").find(query, { "projection": projection }).toArray().then(r => {
         if (r == []) { return false }
         return r;
     }).catch(err => {
@@ -17,7 +17,7 @@ async function findUsers(query,projection) {
     })
 }
 async function setUser(newuser) {
-    return client.db("current").collection("userData").replaceOne({ _id: newuser._id }, newuser, { upsert: true }).then(function (r) {
+    return client.db(global.dbcollection).collection("userData").replaceOne({ _id: newuser._id }, newuser, { upsert: true }).then(function (r) {
         return true;
     }).catch(function (err) {
         console.error(err)
@@ -25,7 +25,7 @@ async function setUser(newuser) {
     })
 }
 async function deleteUser(uid) {
-    return client.db("current").collection("userData").deleteOne({ _id: uid }).then(function (r) {
+    return client.db(global.dbcollection).collection("userData").deleteOne({ _id: uid }).then(function (r) {
         return true;
     }).catch(function (err) {
         console.error(err)
@@ -33,7 +33,7 @@ async function deleteUser(uid) {
     })
 }
 async function getItem(iid) {
-    return client.db("current").collection("itemData").find({ _id: iid }).toArray().then(r => {
+    return client.db(global.dbcollection).collection("itemData").find({ _id: iid }).toArray().then(r => {
         if (r[0] == undefined) { return false }
         return r[0];
     }).catch(err => {
@@ -42,7 +42,7 @@ async function getItem(iid) {
     })
 }
 async function findItems(query, projection) {
-    return client.db("current").collection("itemData").find(query, { "projection": projection }).toArray().then(r => {
+    return client.db(global.dbcollection).collection("itemData").find(query, { "projection": projection }).toArray().then(r => {
         if (r == []) { return false }
         return r;
     }).catch(err => {
@@ -51,7 +51,7 @@ async function findItems(query, projection) {
     })
 }
 async function setItem(newitem) {
-    return client.db("current").collection("itemData").replaceOne({ _id: newitem._id }, newitem, {upsert:true}).then(function (r) {
+    return client.db(global.dbcollection).collection("itemData").replaceOne({ _id: newitem._id }, newitem, {upsert:true}).then(function (r) {
         return true;
     }).catch(function (err) {
         console.error(err)
@@ -59,7 +59,7 @@ async function setItem(newitem) {
     })
 }
 async function deleteItem(iid) {
-    return client.db("current").collection("itemData").deleteOne({ _id: iid }).then(function (r) {
+    return client.db(global.dbcollection).collection("itemData").deleteOne({ _id: iid }).then(function (r) {
         return true;
     }).catch(function (err) {
         console.error(err)
@@ -67,7 +67,7 @@ async function deleteItem(iid) {
     })
 }
 async function getFloorMob(floor) {
-    return client.db("current").collection("floorData").find({ floorlevel: floor }).toArray().then(r => {
+    return client.db(global.dbcollection).collection("floorData").find({ floorlevel: floor }).toArray().then(r => {
             if (r[0] == undefined) { return false }
     return r[0];
 }).catch(err => {
@@ -76,7 +76,7 @@ async function getFloorMob(floor) {
 })
 }
 async function getObject(coll,oid) {
-    return client.db("current").collection(coll).find({ _id: oid }).toArray().then(r => {
+    return client.db(global.dbcollection).collection(coll).find({ _id: oid }).toArray().then(r => {
         if (r[0] == undefined) { return false }
         return r[0];
     }).catch(err => {
@@ -85,7 +85,7 @@ async function getObject(coll,oid) {
     })
 }
 async function findObjects(coll, query, projection) {
-    return client.db("current").collection(coll).find(query, { "projection": projection }).toArray().then(r => {
+    return client.db(global.dbcollection).collection(coll).find(query, { "projection": projection }).toArray().then(r => {
         if (r == []) { return false }
         return r;
     }).catch(err => {
@@ -94,7 +94,7 @@ async function findObjects(coll, query, projection) {
     })
 }
 async function setObject(coll,newobj) {
-    return client.db("current").collection(coll).replaceOne({ _id: newobj._id }, newobj, { upsert: true }).then(function (r) {
+    return client.db(global.dbcollection).collection(coll).replaceOne({ _id: newobj._id }, newobj, { upsert: true }).then(function (r) {
         return true;
     }).catch(function (err) {
         console.error(err)
@@ -102,7 +102,7 @@ async function setObject(coll,newobj) {
     })
 }
 async function deleteObject(coll,oid) {
-    return client.db("current").collection(coll).deleteOne({ _id: oid }).then(function (r) {
+    return client.db(global.dbcollection).collection(coll).deleteOne({ _id: oid }).then(function (r) {
         return true;
     }).catch(function (err) {
         console.error(err)
@@ -110,7 +110,7 @@ async function deleteObject(coll,oid) {
     })
 }
 async function setProp(coll, query, newvalue) {
-    return client.db("current").collection(coll).updateMany(query,newvalue).then(function (r) {
+    return client.db(global.dbcollection).collection(coll).updateMany(query,newvalue).then(function (r) {
         return true;
     }).catch(function (err) {
         console.error(err)
@@ -118,7 +118,7 @@ async function setProp(coll, query, newvalue) {
     })
 }
 async function bulkWrite(coll, tasks) {
-    return client.db("current").collection(coll).bulkWrite(tasks).then(function (r) {
+    return client.db(global.dbcollection).collection(coll).bulkWrite(tasks).then(function (r) {
         return true;
     }).catch(function (err) {
         console.error(err)
@@ -126,7 +126,7 @@ async function bulkWrite(coll, tasks) {
     })
 }
 async function deleteObjects(coll, filter) {
-    return client.db("current").collection(coll).deleteMany(filter).then(function (r) {
+    return client.db(global.dbcollection).collection(coll).deleteMany(filter).then(function (r) {
         return true;
     }).catch(function (err) {
         console.error(err)
