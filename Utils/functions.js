@@ -1248,7 +1248,7 @@ function checkAttack(message, user, guild) {
         return;
     }
 
-    let damage = calcDamage2(message, user, raid, user);
+    let damage = calcDamage2(message, user);
 
     replyMessage(message, damage);
 
