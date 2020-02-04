@@ -1222,6 +1222,41 @@ function checkBurn(message,user) {
     return user
 }
 
+
+function raidAttack(message, user, raid, type, guild) {
+    let ts = message.createdTimestamp;
+
+    if (user.dead === true) {
+        replyMessage(message, "Corpses can\'t attack! Do !resurrect");
+        return;
+    }
+    if (raid == false) {
+        deleteMessage(message);
+        replyMessage(message, "There is no raid right now!");
+        return;
+    }
+
+    if (calcTime(user.cooldowns.attack, ts) > 0) {
+        deleteMessage(message);
+        replyMessage(message, 'You can\'t attack right now.\n You can attack again in ' + displayTime(user.cooldowns.attack, ts) + ".");
+        return;
+    }
+    if (raid.alive == false) {
+        replyMessage(message, "There is no raid going on right now!");
+        return;
+    }
+    if (user.dead == true) {
+        replyMessage(message, "Corpses can\'t attack! Do !resurrect");
+        return;
+    }
+    if (user.shield > ts) {
+        replyMessage(message, "You just attacked! You lost your shield :(");
+        user.shield = 1
+    }
+
+}
+
+
 function raidAttack(message, user, raid, type, guild) { //raid attack
     if (type == undefined) { type = "raid"}
     let ts = message.createdTimestamp;
@@ -1248,16 +1283,11 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
         replyMessage(message, "Corpses can\'t attack! Do !resurrect");
         return;
     }
-    /*
-    if (user.level + user.ascension * 10 < raid.level - 15 && type == "raid") {
-        replyMessage(message, "You can't attack bosses with more than 15 levels more than you!");
-        return;
-    }
-    */
     if (user.shield > ts) {
         replyMessage(message, "You just attacked! You lost your shield :(");
         user.shield = 1
     }
+
     if (!raid.attacklist[user._id]) { raid.attacklist[user._id] = 0 }
     let luckybuff = calcLuckyBuff(user)
     let damage = calcDamage(message, user, raid, user);//ok...
