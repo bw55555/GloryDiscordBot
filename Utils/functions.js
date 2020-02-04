@@ -1249,8 +1249,9 @@ function checkAttack(message, user, guild) {
         return;
     }
 
-    vAttack = user.attack
-    let damage = calcDamage2(message, vAttack);
+    aAttack = user.attack
+
+    let damage = calcDamage2(message, aAttack);
 
     replyMessage(message, damage);
 
