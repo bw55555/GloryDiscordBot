@@ -1227,35 +1227,6 @@ function checkAttack(message, user, raid, type, guild) {
 
     replyMessage(message, user);
 
-    if (user.dead === true) {
-        replyMessage(message, "Corpses can\'t attack! Do !resurrect");
-        return;
-    }
-    if (raid == false) {
-        deleteMessage(message);
-        replyMessage(message, "There is no raid right now!");
-        return;
-    }
-
-    if (calcTime(user.cooldowns.attack, ts) > 0) {
-        deleteMessage(message);
-        replyMessage(message, 'You can\'t attack right now.\n You can attack again in ' + displayTime(user.cooldowns.attack, ts) + ".");
-        return;
-    }
-    if (raid.alive == false) {
-        replyMessage(message, "There is no raid going on right now!");
-        return;
-    }
-    if (user.dead == true) {
-        replyMessage(message, "Corpses can\'t attack! Do !resurrect");
-        return;
-    }
-    if (user.shield > ts) {
-        replyMessage(message, "You just attacked! You lost your shield :(");
-        user.shield = 1
-    }
-
-    replyMessage(message, "Yeah! You can attack...");
 }
 
 function raidAttack(message, user, raid, type, guild) { //raid attack
