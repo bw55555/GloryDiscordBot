@@ -1226,7 +1226,8 @@ function checkAttack(message, user) {
     let ts = message.createdTimestamp;
 
     console.log("Test 123")
-    console.log(user.floorlevel)
+    console.log(arguments
+    )
 
 }
 
