@@ -462,14 +462,15 @@ function extractTime(message,timeword) {
 ///---------------------
 
 
-function calcDamage2(message,user) {
+function calcDamage2(message,vAttack) {
 
-    let burn = 0;
-    let evadechance = Math.random()
-    let evaderate = 0;
-    let skillenable = false;
-    attack = 10;
-    let roll = 10;
+    evadechance = Math.random()
+    evaderate = 0;
+
+    skillenable = false;
+
+    roll = 10;
+    attack = vAttack;
     defense = 10;
 
     truedamage = Math.floor(attack * 0.75 * roll + attack * 0.25 - defense)
@@ -1248,7 +1249,8 @@ function checkAttack(message, user, guild) {
         return;
     }
 
-    let damage = calcDamage2(message, user);
+    vAttack = user.attack
+    let damage = calcDamage2(message, vAttack);
 
     replyMessage(message, damage);
 
