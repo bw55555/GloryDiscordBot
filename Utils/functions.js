@@ -1222,7 +1222,7 @@ function checkBurn(message,user) {
     return user
 }
 
-function checkAttack(message, user, raid, type, guild) {
+function checkAttack(message, user) {
     let ts = message.createdTimestamp;
 
     replyMessage(message, user);
