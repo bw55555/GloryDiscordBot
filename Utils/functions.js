@@ -468,9 +468,9 @@ function calcDamage2(message,user) {
     let evadechance = Math.random()
     let evaderate = 0;
     let skillenable = false;
-    let attack = 10;
+    attack = 10;
     let roll = 10;
-    let defence = 10;
+    defense = 10;
 
     truedamage = Math.floor(attack * 0.75 * roll + attack * 0.25 - defense)
     return truedamage
