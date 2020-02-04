@@ -67,7 +67,7 @@ async function deleteItem(iid) {
     })
 }
 async function getFloorMob(floor) {
-    return client.db(global.dbcollection).collection("floorData").find({ floorlevel: floor }).toArray().then(r => {
+    return client.db(global.dbcollection).collection("floorData").find({ bossId: floor }).toArray().then(r => {
             if (r[0] == undefined) { return false }
     return r[0];
 }).catch(err => {
