@@ -1222,7 +1222,7 @@ function checkBurn(message,user) {
     return user
 }
 
-function checkAttack(message, user) {
+function checkAttack(message, user, guild) {
     let ts = message.createdTimestamp;
 
     if (user.dead === true) {
@@ -1567,7 +1567,7 @@ module.exports.summon = function (raid, level, minlevel, maxlevel, name, image, 
 module.exports.checkProps = function (message,user) { return checkProps(message,user) }
 module.exports.checkStuff = function (message,user) { return checkStuff(message,user) }
 module.exports.checkBurn = function (message,user) { return checkBurn(message,user) }
-module.exports.checkAttack = function (message, user) { return checkAttack(message, user) }
+module.exports.checkAttack = function (message, user, guild) { return checkAttack(message, user, guild) }
 module.exports.raidAttack = function (message, user, raid, type, guild) { return raidAttack(message, user, raid, type, guild) }
 module.exports.smeltItem = function (user, item, giveReward, isBulk) { return smeltItem(user, item, giveReward, isBulk) }
 module.exports.itemFilter = function (message, user, defaults) { return itemFilter(message, user, defaults) }
