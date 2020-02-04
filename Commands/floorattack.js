@@ -4,7 +4,7 @@ module.exports = async function (message, user, guild) {
     let floor = user.floorlevel;
 
     console.log(user)
-    console.log(guild)
+
     functions.checkAttack(user);
 
     return Promise.all([functions.getFloorMob(floor)]).then(ret => {
