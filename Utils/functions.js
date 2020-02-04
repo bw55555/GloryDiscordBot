@@ -460,6 +460,23 @@ function extractTime(message,timeword) {
     return time;
 }
 ///---------------------
+
+
+function calcDamage2(message,user) {
+
+    let burn = 0;
+    let evadechance = Math.random()
+    let evaderate = 0;
+    let skillenable = false;
+    let attack = 10;
+    let roll = 10;
+    let defence = 10;
+
+    truedamage = Math.floor(attack * 0.75 * roll + attack * 0.25 - defense)
+    return truedamage
+
+}
+
 function calcDamage(message, attacker, defender, initiator) {
     let text = ""
     let roll = Math.random()
@@ -768,6 +785,7 @@ function calcDamage(message, attacker, defender, initiator) {
     if (text != "") { sendMessage(message.channel, text) }
     return truedamage
 }
+
 function calcStats(message, user, stat, skillenable,confused) {
     skillenable = (skillenable == false) ? false : true
     confused = (confused == true) ? true : false
@@ -1230,10 +1248,10 @@ function checkAttack(message, user, guild) {
         return;
     }
 
-    if (user.dead === false) {
-        replyMessage(message, "Happy Soks");
-        return;
-    }
+    let damage = calcDamage2(message, user, raid, user);
+
+    replyMessage(message, damage);
+
 }
 
 function raidAttack(message, user, raid, type, guild) { //raid attack
@@ -1558,6 +1576,7 @@ module.exports.calcTime = function (time1, time2) { return calcTime(time1, time2
 module.exports.displayTime = function (time1, time2) { return displayTime(time1, time2) }
 module.exports.extractTime = function (message,timeword) { return extractTime(message,timeword) }
 module.exports.calcDamage = function (message, attacker, defender, initiator) { return calcDamage(message, attacker, defender, initiator) }
+module.exports.calcDamage2 = function (message, attacker, defender, initiator) { return calcDamage(message, attacker, defender, initiator) }
 module.exports.calcStats = function (message, user, stat, skillenable, confused) { return calcStats(message, user, stat, skillenable, confused) }
 module.exports.voteItem = function (message, user, dm) { return voteItem(message, user, dm) }
 module.exports.craftItems = function (message, owner, minrarity, maxrarity, amount) { return craftItems(message, owner, minrarity, maxrarity, amount) }
