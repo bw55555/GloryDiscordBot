@@ -59,7 +59,7 @@ module.exports = async function (message, user) {
         
         let extratime = (rarity < 2) ? 0 : Math.pow(2, rarity - 2) * 60 * 15
         let wepatk = wep1.attack
-        let wepdef = wep2.defense
+        let wepdef = wep1.defense
         if (wep1.merge >= 10 || (raritystats[rarity] - (wepatk + wepdef) == 0 && rarity == 8)) {
             functions.replyMessage(message, "The first item cannot be upgraded any further!")
             return
