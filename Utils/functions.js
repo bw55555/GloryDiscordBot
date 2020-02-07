@@ -166,19 +166,15 @@ function deleteMessage(message) {
         console.error(err)
     })
 }
-
 function dmUser(user, text) {
     if (user._id == bot.id || bot.users.get(user._id) == undefined) { return }
     if (user.dmmute != true) bot.users.get(user._id).send(text).catch(function (err) { console.error(err) })
 }
-
-
 function logCommand(message, extratext) {
     if (message.author.bot) { return }
     if (extratext == undefined) { extratext = "" } else { extratext = "|" + extratext }
     sendMessage(bot.guilds.get(debugGuildId).channels.get(debugChannelId), clean(message.author.id + "|" + message.content + "|" + message.createdTimestamp + extratext))
 }
-
 async function validate(message, user, spot) {
     if (isNaN(parseInt(spot))) { spot = 1}
     if (spot == 0) { return false; }
@@ -366,7 +362,6 @@ function generateItem(owner, itemid, attack, defense, rarity, name, modifiers, i
     }
     return item;
 }
-
 function generateRandomItem(owner, rarity, isBulk) {
     //console.log(owner)
     //console.log(rarity)
@@ -459,37 +454,43 @@ function extractTime(message,timeword) {
     }
     return time;
 }
-///---------------------
-
-
-function calcDamage2(message,vAttack) {
+function calcDamage2(message,cAttack,cDefense) {
 
     evadechance = Math.random()
     evaderate = 0;
 
     skillenable = false;
 
-    roll = 10;
-    attack = vAttack;
-    defense = 10;
+    roll = Math.random();
+
+    attack = cAttack;
+    defense = cDefense;
+
+    test2 = calcStats(message, user, 'floorattack', none, none)
+
 
     truedamage = Math.floor(attack * 0.75 * roll + attack * 0.25 - defense)
 
-    return truedamage
+    return test2
 
 }
-
 function calcDamage(message, attacker, defender, initiator) {
     let text = ""
     let roll = Math.random()
     let burn = 0;
     let skillenable = true;
+
     if (defender.name == "Charybdis") { skillenable = false }
     if (attacker.name == "Charybdis") { skillenable = false }
+
     let defendername = defender.name
+
     if (defendername == undefined) { defendername = "<@" + defender._id + ">" }
+
     let attackername = attacker.name
+
     if (attackername == undefined) { attackername = "<@" + attacker._id + ">" }
+
     let evadechance = Math.random()
     let evaderate = 0;
     if (defender.name == "Will-o'-the-wisp") {
@@ -787,7 +788,6 @@ function calcDamage(message, attacker, defender, initiator) {
     if (text != "") { sendMessage(message.channel, text) }
     return truedamage
 }
-
 function calcStats(message, user, stat, skillenable,confused) {
     skillenable = (skillenable == false) ? false : true
     confused = (confused == true) ? true : false
@@ -807,6 +807,7 @@ function calcStats(message, user, stat, skillenable,confused) {
     let sacrifice = (user.triangleid == 311) ? 0.15 : 0;
     let tempo = 0;
     let antitempo = 0;
+
     if (user.guild != "None" && user.guildbuffs.attack != undefined) {
         buff += user.guildbuffs.attack.value
     }
@@ -963,6 +964,7 @@ function calcStats(message, user, stat, skillenable,confused) {
         return Math.floor(buff * attack)
 
     }
+
     if (stat == "defense") {
         if (user.weapon != false && user.weapon != undefined) {
             if (!confused) {
@@ -976,7 +978,13 @@ function calcStats(message, user, stat, skillenable,confused) {
         return Math.floor(dbuff * defense)
     }
 }
-///---------------
+
+function calcFloorMobDef(message, mob) {
+
+    mobDef = 10;
+    return MobDef
+}
+
 async function voteItem(message, user, dm) {
     dm = dm == true ? true : false
     let ts = message.createdTimestamp
@@ -1072,8 +1080,6 @@ function raidInfo(message, raid) {
         }
     });
 }
-
-
 function summon(raid, level, minlevel, maxlevel, name, image, ability) {
     raid.isRaid = true;
     raid.alive = true;
@@ -1217,7 +1223,6 @@ function checkStuff(message,user) {
         user.dead = true;
     }
 }
-
 function checkBurn(message,user) {
     //let ts = message.createdTimestamp;
     if (user.burn != undefined && user.dead == false && !isNaN(user.burn) && user.burn > 0) {
@@ -1241,8 +1246,8 @@ function checkBurn(message,user) {
     }
     return user
 }
+function floorAttack(message, user, guild) {
 
-function checkAttack(message, user, guild) {
     let ts = message.createdTimestamp;
 
     if (user.dead === true) {
@@ -1250,15 +1255,25 @@ function checkAttack(message, user, guild) {
         return;
     }
 
+    // Aanvaller
     aAttack = user.attack
+
+    // Defencer
+    vBuff = 1
+
     vAttack = 25
 
     let damage = calcDamage2(message, aAttack);
     let damage2 = calcDamage2(message, vAttack);
-    replyMessage(message, damage);
-    replyMessage(message, damage2);
-}
 
+//    replyMessage(message, damage);
+//    replyMessage(message, damage2);
+
+      let debug1 = calcFloorMobDef(message, vAttack);
+      replayMessage(message, debug1)
+
+
+}
 function raidAttack(message, user, raid, type, guild) { //raid attack
     if (type == undefined) { type = "raid"}
     let ts = message.createdTimestamp;
@@ -1291,6 +1306,7 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
     }
 
     if (!raid.attacklist[user._id]) { raid.attacklist[user._id] = 0 }
+
     let luckybuff = calcLuckyBuff(user)
     let damage = calcDamage(message, user, raid, user);//ok...
     let counter = calcDamage(message, raid, user, user);//ok...
@@ -1303,10 +1319,13 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
     if (counter < 0) {
         counter = 0;
     }
+
     let damagereward = Math.floor(damage * Math.sqrt(raid.level) * Math.random() * luckybuff);
     if (type != "event") { damagereward *= 5 }
+
     user.currenthealth = user.currenthealth - counter;
     raid.currenthealth = raid.currenthealth - damage;
+
     let counterstolen = Math.floor((user.money) / 5);
     if (!raid.attacklist[user._id]) { raid.attacklist[user._id] = 0 }
     raid.attacklist[user._id] += damagereward
@@ -1475,7 +1494,6 @@ function smeltItem(user, item, givereward, isBulk) {
     if (isBulk != true) { deleteItem(item._id) }
     return [xp, money, materials]
 }
-
 async function itemFilter(message, user, defaults, filterJson) {
     if (filterJson == undefined) { filterJson = {} }
     if (defaults == undefined) { defaults = {} }
@@ -1545,6 +1563,7 @@ function getModifierText(modifierlist) {
 function checkxp(user) {
     return 100 + Math.floor((3 * Math.pow((10 * (user.ascension) + user.level + 1), 2)) * Math.pow(1.5, user.ascension))
 }
+
 module.exports.clean = function (text) { return clean(text) }
 module.exports.getUser = function (uid) { return getUser(uid) }
 module.exports.findUsers = function (query,projection) { return findUsers(query,projection) }
