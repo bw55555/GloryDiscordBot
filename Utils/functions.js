@@ -981,8 +981,7 @@ function calcStats(message, user, stat, skillenable,confused) {
 
 function calcFloorMobDef(message, mob) {
 
-    let mobDef = 10;
-    return mobDef
+    return mob
 }
 
 async function voteItem(message, user, dm) {
@@ -1268,6 +1267,9 @@ function floorAttack(message, user, guild, floorMobInfo) {
     // let damage2 = calcDamage2(message, vAttack);
     //    replyMessage(message, damage);
     //    replyMessage(message, damage2);
+
+
+      let vAttack = 20;
 
       let debug1 = calcFloorMobDef(message, vAttack);
       replyMessage(message, debug1)
