@@ -981,7 +981,7 @@ function calcStats(message, user, stat, skillenable,confused) {
 
 function calcFloorMobDef(message, mob) {
 
-    mobDef = 10;
+    let mobDef = 10;
     return MobDef
 }
 
