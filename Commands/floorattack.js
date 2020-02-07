@@ -3,13 +3,11 @@ module.exports = async function (message, user, guild) {
     let ts = message.createdTimestamp;
     let floor = user.floorlevel;
 
+    functions.floorAttack(message, user, guild);
+
     return Promise.all([functions.getFloorMob(floor)]).then(ret => {
 
-            let mobinfo = ret[0]
-
-        })
-
-    functions.floorAttack(message, user, guild, mobinfo);
+    let mobinfo = ret[0]
 
     functions.sendMessage(message.channel, {
         embed: {
@@ -29,4 +27,6 @@ module.exports = async function (message, user, guild) {
             ]
         }
     });
+})
+    if (devs.indexOf(id) == -1) {return}
 }
