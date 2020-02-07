@@ -1246,7 +1246,8 @@ function checkBurn(message,user) {
     }
     return user
 }
-function floorAttack(message, user, guild) {
+
+function floorAttack(message, user, guild, floorMobInfo) {
 
     let ts = message.createdTimestamp;
 
@@ -1564,6 +1565,9 @@ function checkxp(user) {
     return 100 + Math.floor((3 * Math.pow((10 * (user.ascension) + user.level + 1), 2)) * Math.pow(1.5, user.ascension))
 }
 
+function floorAttack(message, user, guild)
+
+module.exports.floorAttack = function (message, user, guild, floorMobInfo) { return floorAttack(message, user, guild, floorMobInfo) }
 module.exports.clean = function (text) { return clean(text) }
 module.exports.getUser = function (uid) { return getUser(uid) }
 module.exports.findUsers = function (query,projection) { return findUsers(query,projection) }
