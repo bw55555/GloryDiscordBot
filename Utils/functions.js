@@ -982,7 +982,7 @@ function calcStats(message, user, stat, skillenable,confused) {
 function calcFloorMobDef(message, mob) {
 
     let mobDef = 10;
-    return MobDef
+    return mobDef
 }
 
 async function voteItem(message, user, dm) {
