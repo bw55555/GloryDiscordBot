@@ -7,8 +7,7 @@ module.exports = async function (message, user, guild) {
 
     let mobinfo = ret[0]
 
-    replyMessage(message, floorMobInfo)
-    functions.floorAttack(message, user, guild, mobinfo);
+     functions.floorAttack(message, user, guild, mobinfo);
 
 })
     if (devs.indexOf(id) == -1) {return}
