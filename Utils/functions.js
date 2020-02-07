@@ -1270,7 +1270,7 @@ function floorAttack(message, user, guild, floorMobInfo) {
     //    replyMessage(message, damage2);
 
       let debug1 = calcFloorMobDef(message, vAttack);
-      replayMessage(message, debug1)
+      replyMessage(message, debug1)
 
 
 }
