@@ -1272,7 +1272,7 @@ function floorAttack(message, user, guild, floorMobInfo) {
       let vAttack = 20;
 
       let debug1 = calcFloorMobDef(message, vAttack);
-      replyMessage(message, floorMobInfo)
+      replyMessage(message, floorMobInfo.attack)
 
 
 }
