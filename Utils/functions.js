@@ -1251,24 +1251,23 @@ function floorAttack(message, user, guild, floorMobInfo) {
 
     let ts = message.createdTimestamp;
 
-    if (user.dead === true) {
-        replyMessage(message, "Corpses can\'t attack! Do !resurrect");
-        return;
-    }
-
-    // Aanvaller
-    aAttack = user.attack
-
-    // Defencer
-    vBuff = 1
-
-    vAttack = 25
-
-    let damage = calcDamage2(message, aAttack);
-    let damage2 = calcDamage2(message, vAttack);
-
-//    replyMessage(message, damage);
-//    replyMessage(message, damage2);
+    // if (user.dead === true) {
+    //     replyMessage(message, "Corpses can\'t attack! Do !resurrect");
+    //     return;
+    // }
+    //
+    // // Aanvaller
+    // aAttack = user.attack
+    //
+    // // Defencer
+    // vBuff = 1
+    //
+    // vAttack = 25
+    //
+    // let damage = calcDamage2(message, aAttack);
+    // let damage2 = calcDamage2(message, vAttack);
+    //    replyMessage(message, damage);
+    //    replyMessage(message, damage2);
 
       let debug1 = calcFloorMobDef(message, vAttack);
       replayMessage(message, debug1)
