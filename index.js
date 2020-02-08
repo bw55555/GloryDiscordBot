@@ -317,14 +317,15 @@ client.connect(err => {
                 await Promise.all([functions.getObject("mobData", "world")]).then(ret => {
                     let raid = ret[0];
                     functions.summon(raid)
+                    functions.sendMessage(bot.channels.get(devData.debugChannelId), "World boss summoned. It is level " + raid.level + "!")
                     functions.setObject("mobData", raid);
                 })
             }
             bot.setTimeout(function () {
+                timeReset()
                 bot.setInterval(function () {
                     timeReset()
                 }, 86400000)
-                timeReset()
             }, resettimer)
             //console.timeEnd("actual ping")
         })
