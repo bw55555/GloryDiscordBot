@@ -22,6 +22,7 @@ module.exports = async function (message, user) {
 
             const obj = JSON.parse(chunk);
             console.log(obj.voted)
+            let text = ""
 
             if (obj.voted == 1) {
                 functions.replyMessage(message, 'Voted')
