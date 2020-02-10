@@ -1,6 +1,7 @@
 module.exports = async function (message, user) {
 
     let id = message.author.id;
+    let ts = message.createdTimestamp
 
     const https = require('https');
 
@@ -24,7 +25,8 @@ module.exports = async function (message, user) {
 
             if (obj.voted == 1) {
                 functions.replyMessage(message, 'Voted')
-                functions.replyMessage(message, user.votestreaktime)
+                functions.replyMessage(message, functions.calcTime(target.v
+                otestreaktime, ts))
             }
             if (obj.voted == 0) {
                 functions.replyMessage(message, 'Not Voted')
