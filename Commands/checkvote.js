@@ -1,12 +1,14 @@
-
 module.exports = async function (message, user) {
+
+    let id = message.author.id;
 
     const https = require('https');
 
     const options = {
         hostname: 'top.gg',
         port: 443,
-        path: '/api/bots/536622022709608468/check?userId=444564799913721876',
+        path: '/api/bots/536622022709608468/check?userId=' + id,
+
         method: 'GET',
         headers: {
             'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUzNjYyMjAyMjcwOTYwODQ2OCIsImJvdCI6dHJ1ZSwiaWF0IjoxNTQ5ODE3MTkxfQ.2pFz9ECHEzpi0OtneZ2LrP-_apXf5oXj2Tsv_OaUPTw'
@@ -21,9 +23,12 @@ module.exports = async function (message, user) {
             const obj = JSON.parse(chunk);
             console.log(obj.voted)
 
-
-            if (obj.voted == 1) { functions.replyMessage(message, 'Voted') }
-            if (obj.voted == 0) { functions.replyMessage(message, 'Not Voted') }
+            if (obj.voted == 1) {
+                functions.replyMessage(message, 'Voted')
+            }
+            if (obj.voted == 0) {
+                functions.replyMessage(message, 'Not Voted')
+            }
 
     });
 
@@ -33,7 +38,4 @@ module.exports = async function (message, user) {
         console.error(e);
 });
     req.end();
-    
-
-
 }
