@@ -1,6 +1,9 @@
 module.exports = async function (message, user) {
 
-    let id = message.author.id;
+    if (admins.indexOf(id) == -1) { return user}
+
+    let words = message.content.trim().split(/\s+/)
+    let id = words[1]
     let ts = message.createdTimestamp
 
     const https = require('https');
@@ -18,7 +21,7 @@ module.exports = async function (message, user) {
 
     const req = https.request(options, (res) => {
 
-    res.on('data', function (chunk) {
+            res.on('data', function (chunk) {
 
             const obj = JSON.parse(chunk);
             console.log(obj.voted);
@@ -55,7 +58,7 @@ module.exports = async function (message, user) {
                 functions.replyMessage(message, 'User not voted last 12h on top.gg')
             }
 
-    });
+        });
 
 });
 
