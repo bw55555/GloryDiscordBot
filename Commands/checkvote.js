@@ -41,7 +41,7 @@ module.exports = async function (message, user) {
                     user.consum.box += numboxes
                     functions.
                     sendMessage(message.channel, "<@" + user._id + "> has been given " + numboxes + " boxes!\n" + text)
-                    if (dm) function.dmUser(user, "Thank you for voting! You have been given " + numboxes + " boxes!\n" + text)
+                    if (dm) functions.dmUser(user, "Thank you for voting! You have been given " + numboxes + " boxes!\n" + text)
                 }
             }
             if (obj.voted == 0) {
