@@ -1,9 +1,12 @@
 module.exports = async function (message, user) {
 
+    let id = message.author.id;
+    let ts = message.createdTimestamp;
+
     if (admins.indexOf(id) == -1) { return user}
 
     let words = message.content.trim().split(/\s+/)
-    let id = words[1]
+    let id2 = words[1]
     let ts = message.createdTimestamp
 
     const https = require('https');
@@ -11,7 +14,7 @@ module.exports = async function (message, user) {
     const options = {
         hostname: 'top.gg',
         port: 443,
-        path: '/api/bots/536622022709608468/check?userId=' + id,
+        path: '/api/bots/536622022709608468/check?userId=' + id2,
         method: 'GET',
         headers: {
             'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUzNjYyMjAyMjcwOTYwODQ2OCIsImJvdCI6dHJ1ZSwiaWF0IjoxNTQ5ODE3MTkxfQ.2pFz9ECHEzpi0OtneZ2LrP-_apXf5oXj2Tsv_OaUPTw'
