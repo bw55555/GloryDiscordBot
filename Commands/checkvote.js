@@ -2,12 +2,6 @@ module.exports = async function (message, user) {
 
 const https = require('https')
 
-const data = JSON.stringify({
-    todo: 'Buy the milk'
-})
-
-// https://top.gg/
-
 const options = {
     hostname: 'top.gg',
     port: 443,
@@ -19,11 +13,8 @@ const options = {
 }
 
 const req = https.request(options, (res) => {
-        console.log(`statusCode: ${res.statusCode}`)
+        console.log(res)
 
-res.on('data', (d) => {
-    console.log(data)
-})
 })
 
 req.on('error', (error) => {
