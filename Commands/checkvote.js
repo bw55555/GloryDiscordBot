@@ -20,6 +20,10 @@ module.exports = async function (message, user) {
             const obj = JSON.parse(chunk);
             console.log(obj.voted)
 
+
+            if (obj.voted == 1) { replyMessage(message, 'Voted') }
+            if (obj.voted == 0) { replyMessage(message, 'Not Voted') }
+
     });
 
 });
