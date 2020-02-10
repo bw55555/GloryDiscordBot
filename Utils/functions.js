@@ -234,11 +234,7 @@ function generateWeaponTemplate(owner, weapon, current, total) {
     if (weapon.owner == "event") {
         name = "event"
     } else {
-        if (owner != undefined) {
-            name = owner.username
-        } else {
-            name = "Name Error"
-        }
+        name = bot.users.get(weapon.owner).username
     }
     return {
         embed: {
