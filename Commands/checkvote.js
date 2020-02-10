@@ -27,7 +27,7 @@ module.exports = async function (message, user) {
                 functions.replyMessage(message, 'Voted')
                 functions.replyMessage(message, functions.calcTime(user.votestreaktime, ts))
 
-                if (calcTime(user.votestreaktime, ts) < 0) {
+                if (functions.calcTime(user.votestreaktime, ts) < 0) {
 
                     user.votestreak += 1
                     user.votestreaktime = ts + 24 * 60 * 60 * 1000
@@ -37,6 +37,7 @@ module.exports = async function (message, user) {
                         user.glory += Math.random() * 0.5;
                     }
                     user.consum.box += numboxes
+                    functions.
                     sendMessage(message.channel, "<@" + user._id + "> has been given " + numboxes + " boxes!\n" + text)
                     if (dm) dmUser(user, "Thank you for voting! You have been given " + numboxes + " boxes!\n" + text)
                 }
