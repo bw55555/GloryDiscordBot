@@ -22,7 +22,7 @@ const req = https.request(options, (res) => {
         console.log(`statusCode: ${res.statusCode}`)
 
 res.on('data', (d) => {
-    process.stdout.write(d)
+    console.log(data)
 })
 })
 
