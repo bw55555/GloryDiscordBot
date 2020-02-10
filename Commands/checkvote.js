@@ -27,7 +27,6 @@ module.exports = async function (message, user) {
 
             if (obj.voted == 1) {
                 functions.replyMessage(message, 'Voted')
-                functions.replyMessage(message, functions.calcTime(user.votestreaktime, ts))
 
                 if (functions.calcTime(user.votestreaktime, ts) < 0) {
 
@@ -44,9 +43,15 @@ module.exports = async function (message, user) {
                     user.votestreaktime = ts + 24 * 60 * 60 * 1000
                     functions.setUser(user)
                 }
+
+                if (functions.calcTime(user.votestreaktime, ts) < 0) {
+
+                    functions.replyMessage(message, 'Rewarded already been given')
+                }
             }
+
             if (obj.voted == 0) {
-                functions.replyMessage(message, 'Not Voted')
+                functions.replyMessage(message, 'Not voted last 12h')
             }
 
     });
