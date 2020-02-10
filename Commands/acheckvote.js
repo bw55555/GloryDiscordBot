@@ -7,7 +7,7 @@ module.exports = async function (message, user) {
 
     let words = message.content.trim().split(/\s+/)
     let id2 = words[1]
-    let ts = message.createdTimestamp
+
 
     const https = require('https');
 
