@@ -18,7 +18,6 @@ module.exports = async function (message, user) {
     res.on('data', function (chunk) {
         console.log('BODY: ' + chunk);
     });
-    
 
 });
 
