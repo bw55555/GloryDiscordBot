@@ -21,8 +21,9 @@ module.exports = async function (message, user) {
     res.on('data', function (chunk) {
 
             const obj = JSON.parse(chunk);
-            console.log(obj.voted)
-            let text = ""
+            console.log(obj.voted);
+            let text = "";
+            dm = true;
 
             if (obj.voted == 1) {
                 functions.replyMessage(message, 'Voted')
@@ -40,7 +41,7 @@ module.exports = async function (message, user) {
                     user.consum.box += numboxes
                     functions.
                     sendMessage(message.channel, "<@" + user._id + "> has been given " + numboxes + " boxes!\n" + text)
-                    if (function.dm) dmUser(user, "Thank you for voting! You have been given " + numboxes + " boxes!\n" + text)
+                    if (dm) function.dmUser(user, "Thank you for voting! You have been given " + numboxes + " boxes!\n" + text)
                 }
             }
             if (obj.voted == 0) {
