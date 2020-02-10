@@ -8,7 +8,6 @@ module.exports = async function (message, user) {
         hostname: 'top.gg',
         port: 443,
         path: '/api/bots/536622022709608468/check?userId=' + id,
-
         method: 'GET',
         headers: {
             'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUzNjYyMjAyMjcwOTYwODQ2OCIsImJvdCI6dHJ1ZSwiaWF0IjoxNTQ5ODE3MTkxfQ.2pFz9ECHEzpi0OtneZ2LrP-_apXf5oXj2Tsv_OaUPTw'
@@ -25,6 +24,7 @@ module.exports = async function (message, user) {
 
             if (obj.voted == 1) {
                 functions.replyMessage(message, 'Voted')
+                functions.replyMessage(message, user.votestreaktime)
             }
             if (obj.voted == 0) {
                 functions.replyMessage(message, 'Not Voted')
