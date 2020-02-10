@@ -1,3 +1,4 @@
+
 module.exports = async function (message, user) {
 
     const https = require('https');
@@ -21,8 +22,8 @@ module.exports = async function (message, user) {
             console.log(obj.voted)
 
 
-            if (obj.voted == 1) { replyMessage(message, 'Voted') }
-            if (obj.voted == 0) { replyMessage(message, 'Not Voted') }
+            if (obj.voted == 1) { functions.replyMessage(message, 'Voted') }
+            if (obj.voted == 0) { functions.replyMessage(message, 'Not Voted') }
 
     });
 
