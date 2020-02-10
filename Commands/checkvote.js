@@ -14,8 +14,6 @@ module.exports = async function (message, user) {
     };
 
     const req = https.request(options, (res) => {
-    console.log('statusCode:', res.statusCode);
-    console.log('headers:', res.headers);
 
     res.on('data', function (chunk) {
         console.log('BODY: ' + chunk);
