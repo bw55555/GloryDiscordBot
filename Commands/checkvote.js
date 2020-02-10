@@ -16,7 +16,10 @@ module.exports = async function (message, user) {
     const req = https.request(options, (res) => {
 
     res.on('data', function (chunk) {
-        console.log('BODY: ' + chunk);
+
+            const obj = JSON.parse(chunk);
+            console.log(obj.voted)
+
     });
 
 });
