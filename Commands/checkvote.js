@@ -44,7 +44,8 @@ module.exports = async function (message, user) {
                     functions.setUser(user)
                 }
 
-                if (functions.calcTime(user.votestreaktime, ts) < 0) {
+                if (functions.calcTime(user.votestreaktime, ts) >
+                    0) {
 
                     functions.replyMessage(message, 'Rewarded already been given')
                 }
