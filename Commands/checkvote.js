@@ -25,7 +25,7 @@ module.exports = async function (message, user) {
 
             if (obj.voted == 1) {
                 functions.replyMessage(message, 'Voted')
-                functions.replyMessage(message, functions.calcTime(target.votestreaktime, ts))
+                functions.replyMessage(message, functions.calcTime(user.votestreaktime, ts))
             }
             if (obj.voted == 0) {
                 functions.replyMessage(message, 'Not Voted')
