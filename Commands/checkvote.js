@@ -3,7 +3,7 @@ module.exports = async function (message, user) {
     const https = require('https');
 
     const options = {
-        hostname: 'top.gg',
+        hostname: 'top.gg/api/',
         port: 443,
       //  path: '/api/bots/536622022709608468/check/?userId=444564799913721876',
         method: 'GET',
