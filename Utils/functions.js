@@ -981,6 +981,7 @@ function calcStats(message, user, stat, skillenable,confused) {
 
 function calcFloorMobDef(message, mob) {
 
+
     return mob
 }
 
