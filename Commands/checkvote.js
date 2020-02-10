@@ -9,7 +9,7 @@ const data = JSON.stringify({
 // https://top.gg/
 
 const options = {
-    hostname: 'https://top.gg/',
+    hostname: 'top.gg',
     port: 443,
     path: '/api/bots/536622022709608468/check/?userId=444564799913721876',
     method: 'GET',
