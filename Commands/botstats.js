@@ -18,7 +18,7 @@ module.exports = async function (message, user) {
                     inline: true
                 }, {
                     name: "Total Servers",
-                    value: bot.guilds.size,
+                    value: Object.keys(serverData).length,
                     inline: true
                 }]
             }
