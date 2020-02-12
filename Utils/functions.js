@@ -1309,6 +1309,7 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
         let tasks = [];
         let luckyperson = keys[Math.floor(Math.random()*keys.length)]
         if (type == "event" || type == "world") {
+            sendMessage(bot.channels.get(devData.debugChannelId), "A level "+raid.level+" "+raid.name+" was killed by " + user.username + " (ID: "+user._id+")!")
             let listtotal = 0;
             for (var i = 0; i < keys.length; i++) {
                 listtotal += raid.attacklist[keys[i]];
@@ -1347,6 +1348,7 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
                 }
                 text += "<@" + keys[i] + "> was lucky and recieved a skill reroll!\n";
             }
+            
         } else {
             for (var i = 0; i < keys.length; i++) {
                 if (user._id == keys[i]) { user.money += raid.attacklist[keys[i]]; continue }

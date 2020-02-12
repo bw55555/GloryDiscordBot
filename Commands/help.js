@@ -219,7 +219,6 @@ module.exports = async function (message, user) {
 	    else {
 		    text = word2 + " is not an existing command"
 	    }
-	    console.log(text);
 	    functions.sendMessage(message.channel, text);
     }
 }

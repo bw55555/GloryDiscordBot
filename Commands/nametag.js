@@ -26,5 +26,6 @@ module.exports = async function (message, user) {
     }
     functions.replyMessage(message, "Weapon ID " + weaponid + " is now called " + name);
     functions.setProp("itemData", { "_id": weaponid }, { $set: { "name": name } })
+    if (user.weapon.id == weaponid) { user.weapon.name = name}
     user.consum.nametag -= 1;
 }
