@@ -95,8 +95,8 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You do not have enough materials to buy this!")
             return;
         }
-        user.materials -= 10000 * amount
-        functions.replyMessage(message, "You successfully spent " + 10000 * amount + " materials for a weapon nametag! Use `!nametag` to rename something!")
+        user.materials -= 1000 * amount
+        functions.replyMessage(message, "You successfully spent " + 1000 * amount + " materials for a weapon nametag! Use `!nametag` to rename something!")
         user.consum.nametag += amount;
     }
 

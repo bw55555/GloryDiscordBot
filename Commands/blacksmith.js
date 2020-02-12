@@ -49,7 +49,7 @@ module.exports = async function (message, user) {
   text += "Blow up everyone nearby! Use `!explosion` to activate.\n"
   text += "**ID 201 - Phoenix Feather - (5000 Materials)**\n"
   text += "Rez yourself instantly! Use `!feather` to activate.\n"
-  text += "**ID 202 - Nametag - (10000 Materials)**\n"
+  text += "**ID 202 - Nametag - (1000 Materials)**\n"
   text += "Rename a weapon! Use `!nametag`\n"
   /*
   text += "**ID 301 - Egg - (3000 Materials)**\n"
