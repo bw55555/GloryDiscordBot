@@ -91,7 +91,7 @@ module.exports = async function (message, user) {
     }
 
     else if (purchaseID == 202) {
-        if (user.materials < 10000 * amount) {
+        if (user.materials < 1000 * amount) {
             functions.replyMessage(message, "You do not have enough materials to buy this!")
             return;
         }
