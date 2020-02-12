@@ -1072,7 +1072,7 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability) {
         raid.ability = ability;
     }
     let summonlevel = Math.floor((raid.minlevel) + (((raid.maxlevel) - (raid.minlevel)) * Math.random())) + 1
-    if (raid.level != undefined && !isNaN(level)) { summonlevel = level}
+    if (level != undefined && !isNaN(level)) { summonlevel = level}
     if (raid._id == "world") { 
         //world boss
         raid.attack = Math.floor(summonlevel * 15);
