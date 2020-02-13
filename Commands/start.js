@@ -44,6 +44,9 @@ module.exports = async function (message, user) {
         skillC: "None",
         consum: { explosion: 0, box: 0, sp: 0, phoenixfeather: 0, nametag: 0, reroll: 0 }
     }
+
+    user.money += 1000;
+
     functions.setUser(user)
     functions.replyMessage(message, "Welcome to Glory!\nTo get started type `!help` to see all the commands available, or use `!tutorial` to see the official glory tutorial!\n Go obtain your Glory!")
 }
