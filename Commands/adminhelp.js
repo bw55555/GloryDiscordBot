@@ -3,8 +3,9 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
+    if (admins.indexOf(id) == -1) { return}
     if (words.length == 1) {
-        let helptext = require("../Utils/helptext.js")
+        let helptext = require("../Utils/ahelptext.js")
         //console.log(helptext)
         new functions.Paginator(message.channel, message.author, helptext)
     }
@@ -17,6 +18,8 @@ module.exports = async function (message, user) {
             text += "```Gives a person boxes!\nSyntax: " + prefix + word2 + " <target> <amount> ```"
         } else if (word2 == "ac" || word2 == "acheck" || word2 == "admincheck") {
             text = "```Check someone's account property!\nSyntax: " + prefix + word2 + " <target> <property> [property2]```"
+        } else if (word2 == "aconsum" || word2 == "adminconsum") {
+            text = "```Check someone's account property!\nSyntax: " + prefix + word2 + " <target> <consumname> [amount]```"
         } else if (word2 == "acheckvote") {
             text = "```Check if someone voted in the last 12 hours!\nSyntax: " + prefix + word2 + " <target>```"
         } else if (word2 == "adelete" || word2 == "admindelete") {
