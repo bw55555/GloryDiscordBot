@@ -2,7 +2,7 @@
 let page1 = {
     "content": "Glory Support Server Admin commands for admin or higher use only!",
     "embed": {
-        "title": "\b Page 1 \b Page 1 of 1",
+        "title": "\b Page 1 \b Page 1 of 2",
         "color": 16312092,
         "footer": {
 
@@ -56,7 +56,7 @@ let page1 = {
 let page2 = {
     "content": "Glory Support Server Admin commands for admin or higher use only!",
     "embed": {
-        "title": "\b Page 1 \b Page 1 of 1",
+        "title": "\b Page 1 \b Page 2 of 2",
         "color": 16312092,
         "footer": {
 
