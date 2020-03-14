@@ -23,10 +23,6 @@ module.exports = async function (message, user) {
   }
   amount = parseInt(words[2]);
   if (amount <= user.money && amount > 0) {
-    if (amount > 10000000){
-      functions.sendMessage(message.channel, 'You are not allowed to gamble too much money');
-      return;
-    }
     if (Math.random() > .6) {
       let coin = (tipside == "HEADS") ? "heads" : "tails" //if call heads then set coin to heads, else set coin to tails
       //console.log(tipside + ":" + coin)
