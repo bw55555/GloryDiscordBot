@@ -19,6 +19,7 @@ module.exports = async function (message, user) {
       if (!ret.trim().startsWith("return ")) { ret = "return " + ret }
       code = code.slice(0,colonindex+1)+ret
       //let evaled = eval(code);
+      functions.replyMessage(message, "Evaluating code: ```javascript "+code+```)
       let evaled = eval('(message) => {' + code + '}')(message);
       if (evaled != undefined && typeof evaled.then == "function") {
           evaled.then(ret => {
