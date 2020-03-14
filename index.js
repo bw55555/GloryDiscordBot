@@ -17,6 +17,7 @@ client.connect(err => {
             serverData[server._id] = server;
         }
         global.devData = someDataReturn[1];
+        console.log(devData);
         // perform actions on the collection object
         global.ready = false
         global.bot = new Discord.Client();
@@ -26,7 +27,7 @@ client.connect(err => {
         var commandlist = {}
         fs.readdir("./Commands/", (err, files) => {
             if (err) return console.error(err);
-            console.log("Ran")
+            console.log("Reading Files")
             files.forEach(file => {
                 //console.log(file)
                 // If the file is not a JS file, ignore it (thanks, Apple)
@@ -40,9 +41,10 @@ client.connect(err => {
                 delete require.cache[require.resolve(`./Commands/${file}`)];
 
             });
+            console.log("Done Reading Files")
             //console.log(commandlist)
         });
-
+        
         let config = require('./config.json')
         global.talkedRecently = new Set();
         global.globalcdlist = new Set();
@@ -93,7 +95,7 @@ client.connect(err => {
 
         //console.log("Hello")
         function evaluateMessage(message) {
-            if (ready == false) { return }
+            if (ready == false) { console.log("Not Ready");return }
             if (bot.user.id === message.author.id) { return }
             if (!devData.enable && devs.indexOf(message.author.id) == -1) {
                 return;
