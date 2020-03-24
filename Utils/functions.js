@@ -1517,10 +1517,12 @@ function checkxp(user) {
     return 100 + Math.floor((3 * Math.pow((10 * (user.ascension) + user.level + 1), 2)) * Math.pow(1.5, user.ascension))
 }
 
-function makeQuest(user, condition, name, total, reward) {
+function makeQuest(user, name, total, reward, condition, extra) {
+    if (extra == undefined) { extra = {} }
+    extra.category = condition
     user.quests.push({
         "name": name,
-        "condition": condition,
+        "condition": extra,
         "current": 0,
         "total": total,
         "reward": reward
@@ -1591,6 +1593,8 @@ module.exports.smeltItem = function (user, item, giveReward, isBulk) { return sm
 module.exports.itemFilter = function (message, user, defaults) { return itemFilter(message, user, defaults) }
 module.exports.getModifierText = function (modifierlist) { return getModifierText(modifierlist) }
 module.exports.checkxp = function (user) { return checkxp(user) }
+module.exports.makeQuest = function (user, name, total, reward, condition, extra) { return makeQuest(user, name, total, reward, condition, extra) }
+module.exports.completeQuest = function (user, condition, amount) { return completeQuest(user, condition, amount) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
