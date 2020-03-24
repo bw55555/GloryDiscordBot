@@ -1146,7 +1146,11 @@ function checkProps(message,user) {
     if (!user.consum.nametag) user.consum.nametag = 0;
     if (!user.consum.reroll) user.consum.reroll = 0;
 
+    if (!user.quests) user.quests = [];
+
     if (user.currenthealth > user.health) user.currenthealth = user.health;
+
+
 
     if (user.start === false) { //when you start, your currenthealth will be to 10;
         user.currenthealth = 10;
@@ -1511,6 +1515,31 @@ function getModifierText(modifierlist) {
 }
 function checkxp(user) {
     return 100 + Math.floor((3 * Math.pow((10 * (user.ascension) + user.level + 1), 2)) * Math.pow(1.5, user.ascension))
+}
+
+function makeQuest(user, condition, name, total, reward) {
+    user.quests.push({
+        "name": name,
+        "condition": condition,
+        "current": 0,
+        "total": total,
+        "reward": reward
+    })
+}
+
+function completeQuest(user, condition, amount) {
+    for (var i = 0; i < user.quests.length; i++) {
+        let canClaim = true;
+        for (var key in user.quests[i].condition) {
+            let op = user.quests[i].condition[key].operator;
+            let value = user.quests[i].condition[key].value;
+            if ((op == "=" && condition[key] == value) || (op == ">" && condition[key] > value) || (op == "<" && condition[key] < value) || (op == "<=" && condition[key] <= value) || (op == ">=" && condition[key] >= value)) { continue }
+            canClaim = false;
+            break;
+        }
+        if (canClaim) { user.quests[i].current += amount;}
+        
+    }
 }
 module.exports.clean = function (text) { return clean(text) }
 module.exports.getUser = function (uid) { return getUser(uid) }
