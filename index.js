@@ -1,4 +1,5 @@
 packagelocation = '../../modules/'
+global.config = require('./config.json')
 global.Discord = require('discord.js');
 const asyncpkg = require("async")
 const MongoClient = require('mongodb').MongoClient;
@@ -9,7 +10,6 @@ global.fs = require('fs')
 global.util = require("util");
 const http = require('http');
 const DBL = require('dblapi.js');
-global.config = require('./config.json')
 global.functions = require(`./Utils/functions.js`)
 global.bot = new Discord.Client();
 global.ready = false
