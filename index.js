@@ -4,6 +4,7 @@ const asyncpkg = require("async")
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb://localhost/glory?retryWrites=true&w=majority";
 global.client = new MongoClient(uri, { useNewUrlParser: true });
+global.db = config.db
 global.fs = require('fs')
 global.util = require("util");
 const http = require('http');

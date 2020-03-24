@@ -3,7 +3,7 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    return Promise.all([client.db("current").collection("userData").count({}), client.db("current").collection("guildData").count({})]).then(ret => {
+    return Promise.all([client.db(db).collection("userData").count({}), client.db(db).collection("guildData").count({})]).then(ret => {
         functions.sendMessage(message.channel, {
             embed: { //displays guild stats
                 title: "Bot Stats",

@@ -179,7 +179,7 @@ module.exports = async function (message, user) {
                 functions.replyMessage(message, "Only the leader can disband the guild!");
                 return;
             }
-            client.db("current").collection("userData").updateMany({ "guild": guild._id }, { $set: { "guild": "None", "guildpos": "None", "guildbuffs": {} } })
+            client.db(db).collection("userData").updateMany({ "guild": guild._id }, { $set: { "guild": "None", "guildpos": "None", "guildbuffs": {} } })
             user.guild = "None"
             user.guildpos = "None"
             user.guildbuffs = {}
