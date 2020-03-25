@@ -1517,11 +1517,12 @@ function checkxp(user) {
     return 100 + Math.floor((3 * Math.pow((10 * (user.ascension) + user.level + 1), 2)) * Math.pow(1.5, user.ascension))
 }
 
-function makeQuest(user, name, total, reward, condition, extra) {
+function makeQuest(user, name, description, total, reward, condition, extra) {
     if (extra == undefined) { extra = {} }
-    extra.category = condition
+    extra.category = { "value": condition, "operator": "=" }
     user.quests.push({
         "name": name,
+        "description": description,
         "condition": extra,
         "current": 0,
         "total": total,
@@ -1529,13 +1530,14 @@ function makeQuest(user, name, total, reward, condition, extra) {
     })
 }
 
-function completeQuest(user, condition, amount) {
+function completeQuest(user, condition, extra, amount) {
+    extra.category = {"value": condition, "operator": "="}
     for (var i = 0; i < user.quests.length; i++) {
         let canClaim = true;
         for (var key in user.quests[i].condition) {
             let op = user.quests[i].condition[key].operator;
             let value = user.quests[i].condition[key].value;
-            if ((op == "=" && condition[key] == value) || (op == ">" && condition[key] > value) || (op == "<" && condition[key] < value) || (op == "<=" && condition[key] <= value) || (op == ">=" && condition[key] >= value)) { continue }
+            if ((op == "=" && extra[key] == value) || (op == ">" && extra[key] > value) || (op == "<" && extra[key] < value) || (op == "<=" && extra[key] <= value) || (op == ">=" && extra[key] >= value)) { continue }
             canClaim = false;
             break;
         }
@@ -1593,7 +1595,7 @@ module.exports.smeltItem = function (user, item, giveReward, isBulk) { return sm
 module.exports.itemFilter = function (message, user, defaults) { return itemFilter(message, user, defaults) }
 module.exports.getModifierText = function (modifierlist) { return getModifierText(modifierlist) }
 module.exports.checkxp = function (user) { return checkxp(user) }
-module.exports.makeQuest = function (user, name, total, reward, condition, extra) { return makeQuest(user, name, total, reward, condition, extra) }
+module.exports.makeQuest = function (user, name, description, total, reward, condition, extra) { return makeQuest(user, name, description, total, reward, condition, extra) }
 module.exports.completeQuest = function (user, condition, amount) { return completeQuest(user, condition, amount) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
