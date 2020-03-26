@@ -55,8 +55,7 @@ module.exports = async function (message, user) {
             }
             let tempVar = words;
             tempVar.splice(0, 2);
-            tempVar.join("");
-            let guildName = tempVar;
+            let guildName = tempVar.join("");
             if (guildName == "" || guildName == "None") {
                 functions.sendMessage(message.channel, "The name cannot be blank!")
                 return;
