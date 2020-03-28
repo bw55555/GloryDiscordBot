@@ -108,9 +108,9 @@ function evaluateMessage(message) {
     }
     message.content = message.content.trim().split(/\s+/).join(" ")
     let prefix = (message.channel.type == "dm") ? defaultPrefix : serverData[message.guild.id].prefix;
-    if (message.content.startsWith("<@536622022709608468>")) prefix = "<@536622022709608468>"
-    if (message.content.startsWith("<@!536622022709608468>")) prefix = "<@!536622022709608468>"
-    if (message.content.startsWith("<@536622022709608468> ")) {
+    if (message.content.startsWith("<@" + bot.user.id + ">")) prefix = "<@" + bot.user.id +">"
+    if (message.content.startsWith("<@!" + bot.user.id + ">")) prefix = "<@!" + bot.user.id +">"
+    if (message.content.startsWith("<@" + bot.user.id +"> ")) {
         let words = message.content.trim().split(/\s+/)
         words.splice(0, 1)
         message.content = prefix + words.join(" ")

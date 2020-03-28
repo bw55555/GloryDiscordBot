@@ -1531,7 +1531,7 @@ function makeQuest(user, name, description, total, reward, condition, extra) {
 }
 
 function completeQuest(user, condition, extra, amount) {
-    extra.category = {"value": condition, "operator": "="}
+    extra.category = condition;
     for (var i = 0; i < user.quests.length; i++) {
         let canClaim = true;
         for (var key in user.quests[i].condition) {
@@ -1596,7 +1596,7 @@ module.exports.itemFilter = function (message, user, defaults) { return itemFilt
 module.exports.getModifierText = function (modifierlist) { return getModifierText(modifierlist) }
 module.exports.checkxp = function (user) { return checkxp(user) }
 module.exports.makeQuest = function (user, name, description, total, reward, condition, extra) { return makeQuest(user, name, description, total, reward, condition, extra) }
-module.exports.completeQuest = function (user, condition, amount) { return completeQuest(user, condition, amount) }
+module.exports.completeQuest = function (user, condition, extra, amount) { return completeQuest(user, condition, extra, amount) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {

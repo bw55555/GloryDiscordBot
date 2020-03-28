@@ -8,6 +8,7 @@ module.exports = async function (message, user) {
         let boxNumber = user.ascension + 1
         user.consum.box += boxNumber; //gives you one box
         functions.sendMessage(message.channel, "You received " + boxNumber + " mysterious box(es)... what could it contain?");
+        functions.completeQuest(user, "daily", {}, 1)
         user.glory += 0.05
     } else {
         functions.sendMessage(message.channel, 'Your next daily will be ready ' + functions.displayTime(user.cooldowns.daily, ts) + '.'); //already gotten, scammer
