@@ -1517,15 +1517,21 @@ function checkxp(user) {
     return 100 + Math.floor((3 * Math.pow((10 * (user.ascension) + user.level + 1), 2)) * Math.pow(1.5, user.ascension))
 }
 
-function makeQuest(user, name, description, total, reward, condition, extra) {
+function addQuestCondition(condition, description, extra, total) {
+    let ret = {}
+    ret.description = description;
     if (extra == undefined) { extra = {} }
     extra.category = { "value": condition, "operator": "=" }
+    ret.condition = extra
+    ret.total = total
+    ret.current = 0;
+    return ret
+}
+
+function makeQuest(user, name, conditions, reward) {
     user.quests.push({
         "name": name,
-        "description": description,
-        "condition": extra,
-        "current": 0,
-        "total": total,
+        "conditions": conditions,
         "reward": reward
     })
 }
@@ -1534,15 +1540,16 @@ function completeQuest(user, condition, extra, amount) {
     extra.category = condition;
     for (var i = 0; i < user.quests.length; i++) {
         let canClaim = true;
-        for (var key in user.quests[i].condition) {
-            let op = user.quests[i].condition[key].operator;
-            let value = user.quests[i].condition[key].value;
-            if ((op == "=" && extra[key] == value) || (op == ">" && extra[key] > value) || (op == "<" && extra[key] < value) || (op == "<=" && extra[key] <= value) || (op == ">=" && extra[key] >= value)) { continue }
-            canClaim = false;
-            break;
+        for (var j = 0; j < user.quests[i].conditions.length; j++) {
+            for (var key in user.quests[i].conditions[j]) {
+                let op = user.quests[i].conditions[j][key].operator;
+                let value = user.quests[i].conditions[j][key].value;
+                if ((op == "=" && extra[key] == value) || (op == ">" && extra[key] > value) || (op == "<" && extra[key] < value) || (op == "<=" && extra[key] <= value) || (op == ">=" && extra[key] >= value)) { continue }
+                canClaim = false;
+                break;
+            }
+            if (canClaim) { user.quests[i].conditions[j].current += amount; }
         }
-        if (canClaim) { user.quests[i].current += amount;}
-        
     }
 }
 module.exports.clean = function (text) { return clean(text) }
