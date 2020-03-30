@@ -12,7 +12,7 @@ module.exports = async function (message, user) {
         if (user.quests[claimid].conditions[j].current < user.quests[claimid].conditions[j].total) { return functions.replyMessage(message, "You have not completed this quest yet!") }
     }
     for (var key in user.quests[claimid].rewards) {
-        user[key] += rewards[key];
+        user[key] += user.quests[claimid].rewards[key];
     }
     functions.replyMessage(message, "You have completed the quest `" + user.quests[claimid].name + "`!")
     user.quests.splice(claimid, 1);
