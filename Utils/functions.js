@@ -1541,9 +1541,9 @@ function completeQuest(user, condition, extra, amount) {
     for (var i = 0; i < user.quests.length; i++) {
         let canClaim = true;
         for (var j = 0; j < user.quests[i].conditions.length; j++) {
-            for (var key in user.quests[i].conditions[j]) {
-                let op = user.quests[i].conditions[j][key].operator;
-                let value = user.quests[i].conditions[j][key].value;
+            for (var key in user.quests[i].conditions[j].condition) {
+                let op = user.quests[i].conditions[j].condition[key].operator;
+                let value = user.quests[i].conditions[j].condition[key].value;
                 if ((op == "=" && extra[key] == value) || (op == ">" && extra[key] > value) || (op == "<" && extra[key] < value) || (op == "<=" && extra[key] <= value) || (op == ">=" && extra[key] >= value)) { continue }
                 canClaim = false;
                 break;
