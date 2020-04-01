@@ -49,5 +49,5 @@ module.exports = async function (message, user) {
     user.money += 1000;
 
     functions.setUser(user)
-    functions.replyMessage(message, "Welcome to Glory!\nTo get started type `!help` to see all the commands available, or use `!tutorial` to see the official glory tutorial!\n Go obtain your Glory!")
+    functions.replyMessage(message, "Welcome to Glory!\nTo get started type `" + prefix + "help` to see all the commands available, or use `" + prefix + "tutorial` to see the official glory tutorial!\n Go obtain your Glory!")
 }
