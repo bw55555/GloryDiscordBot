@@ -27,7 +27,14 @@ module.exports = async function (message, user) {
         user.money -= parseInt(item.price)
         return Promise.all([functions.getUser(item.owner)]).then(ret => {
             let previousOwner = ret[0];
-            if (previousOwner != false) { previousOwner.money += parseInt(item.price); functions.setUser(previousOwner); functions.dmUser(previousOwner, "<@" + user._id + "> bought " + item.name + " (" + item._id + ") for $" + item.price)}
+            if (previousOwner != false && previousOwner._id != user._id) { 
+                previousOwner.money += parseInt(item.price); 
+                functions.setUser(previousOwner); 
+                functions.dmUser(previousOwner, "<@" + user._id + "> bought " + item.name + " (" + item._id + ") for $" + item.price)
+            }
+            if (previousOwner != false && previousOwner._id == user._id) {
+                user.money += parseInt(item.price);
+            }
             item.owner = user._id //weapon ownerid transfer
             user.inventory[item._id] = item._id //weapon added to inventory
             functions.sendMessage(message.channel, "You bought " + item._id + " for $" + item.price)
