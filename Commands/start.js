@@ -2,6 +2,7 @@
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
+    let prefix = serverData[message.guild.id].prefix;
     let words = message.content.split(/\s+/)
     if (user != false && user != undefined){
         functions.replyMessage(message, "You already have an account!")
