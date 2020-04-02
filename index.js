@@ -32,7 +32,8 @@ global.guildData = "guildData"//JSON.parse(fs.readFileSync('Storage/guildData.js
 global.questData = "questData"//JSON.parse(fs.readFileSync('Storage/questData.json', 'utf8'));
 global.partyData = "partyData"
 const TOKEN = config.token;//woah woah woah woah whatcha
-client.connect(() => {
+client.connect((err) => {
+    console.log(err);
     Promise.all([functions.findObjects("serverData", {}), functions.getObject("devData", "devData")]).then(someDataReturn => {
         global.serverData = {};
         let serverArr = someDataReturn[0];
