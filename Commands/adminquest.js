@@ -16,6 +16,7 @@ module.exports = async function (message, user) {
         collector.on('collect', m => {
             if (m.content == "exit") {
                 collector.stop("User Terminated")
+                return
             }
             if (curr == "name") {
                 curr = "condition"
@@ -51,6 +52,7 @@ module.exports = async function (message, user) {
                 reward = m.content;
                 functions.getUser(target._id).then(t => { functions.makeQuest(t, name, conditions, reward); functions.setUser(t) })
             } 
+            console.log(collector)
             collector.resetTimer({"time": 60000, "idle": 60000})
         });
         collector.on('end', (collected,reason) => {
