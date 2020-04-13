@@ -124,11 +124,11 @@ function evaluateMessage(message) {
     if (message.author.bot == true) {
         if (message.author.id == "537622416604528654" && (message.channel.id == "538800067507650590" || message.channel.id == "553385894183174165")) {
             let command = message.content.trim().split(/\s+/)
-            if (command[0] == defaultPrefix + "vi") {
+            if (command[0] == "!vi") {
                 message.content += " override"
                 functions.voteItem(message, {}, true)
             }
-            if (command[0] == defaultPrefix + "backup") { commands["backup"](message) }
+            if (command[0] == "!backup") { commands["backup"](message) }
         }
         return
     }

@@ -6,7 +6,7 @@ module.exports = async function (message, user) {
     return Promise.all([functions.getObject("mobData", message.channel.id)]).then(ret => {
         let raid = ret[0]
         if (raid == false) {
-            if (message.channel.type == "dm" || message.channel.type == "group" || message.guild == undefined || message.guild == null || (message.guild.members.filter(member => member.user.bot == false).size < 50 && devs.indexOf(id) == -1)) { return functions.replyMessage(message, "You cannot summon a raid in a server with less than 50 members!") }
+            if (message.channel.type == "dm" || message.channel.type == "group" || message.guild == undefined || message.guild == null || (message.guild.members.filter(member => member.user.bot == false).size < 10 && devs.indexOf(id) == -1)) { return functions.replyMessage(message, "You cannot summon a raid in a server with less than 50 members!") }
             raid = { "_id": message.channel.id }
             let level = undefined;
             if (words.length > 1) {
