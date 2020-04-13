@@ -1540,8 +1540,8 @@ function makeQuest(user, name, conditions, reward) {
 function completeQuest(user, condition, extra, amount) {
     extra.category = condition;
     for (var i = 0; i < user.quests.length; i++) {
-        let canClaim = true;
         for (var j = 0; j < user.quests[i].conditions.length; j++) {
+            let canClaim = true;
             for (var key in user.quests[i].conditions[j].condition) {
                 let op = user.quests[i].conditions[j].condition[key].operator;
                 let value = user.quests[i].conditions[j].condition[key].value;
