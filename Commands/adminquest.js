@@ -29,11 +29,11 @@ module.exports = async function (message, user) {
             } else if (curr == "description") {
                 curr = "total"
                 functions.sendMessage(message.channel, "Please enter the number of times the condition needs to be completed. (ex. 1)");
-                condition = m.content;
+                description = m.content;
             } else if (curr == "total") {
                 curr = "extra"
                 functions.sendMessage(message.channel, "Please enter special conditions in JSON format. (ex. {\"votestreak\": 7}) ");
-                condition = JSON.parse(m.content);
+                total = JSON.parse(m.content);
             } else if (curr == "extra") {
                 curr = "next"
                 functions.sendMessage(message.channel, "Do you want to add another condition? (yes or no)");
