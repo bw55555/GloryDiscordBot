@@ -51,12 +51,14 @@ module.exports = async function (message, user) {
             } else if (curr == "reward") {
                 reward = m.content;
                 functions.getUser(target._id).then(t => { functions.makeQuest(t, name, conditions, reward); functions.setUser(t) })
+                collector.stop("complete")
             } 
             //console.log(collector)
             //collector.resetTimer({"time": 60000, "idle": 60000})
         });
-        collector.on('end', (collected,reason) => {
-            functions.sendMessage(message.channel,"Failed to make a quest. Please try again. \nReason: "+reason)
+        collector.on('end', (collected, reason) => {
+            if (reason == "complete") { functions.sendMessage(message.channel, "The quest was given.") }
+            else { functions.sendMessage(message.channel, "Failed to make a quest. Please try again. \nReason: " + reason) }
         });
         functions.setUser(target)
         return
