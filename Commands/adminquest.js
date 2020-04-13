@@ -10,7 +10,7 @@ module.exports = async function (message, user) {
         const filter = m => m.author.id == message.author.id
         const collector = message.channel.createMessageCollector(filter, { idle: 60000, time:60000 });
         var curr = "name"
-        var name, conditions, reward;
+        var name, conditions = [], reward;
         var condition, description, total, extra;
         functions.sendMessage(message.channel, "Please enter a name for the quest.");
         collector.on('collect', m => {
