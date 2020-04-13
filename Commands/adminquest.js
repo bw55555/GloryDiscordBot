@@ -45,7 +45,7 @@ module.exports = async function (message, user) {
                     conditions.push(functions.addQuestCondition(condition, description, total, extra));
                 }
                 else {
-                    curr == "reward"
+                    curr = "reward"
                     functions.sendMessage(message.channel, "Please enter a reward in JSON format. (ex. {\"money\":100})")
                 }
             } else if (curr == "reward") {
