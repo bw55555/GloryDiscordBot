@@ -39,10 +39,10 @@ module.exports = async function (message, user) {
                 functions.sendMessage(message.channel, "Do you want to add another condition? (yes or no)");
                 extra = JSON.parse(m.content);
             } else if (curr == "next") {
+                conditions.push(functions.addQuestCondition(condition, description, total, extra));
                 if (m.content.toLowerCase() == "yes") {
                     curr = "condition"
                     functions.sendMessage(message.channel, "Please enter a condition. (ex. vote)");
-                    conditions.push(functions.addQuestCondition(condition, description, total, extra));
                 }
                 else {
                     curr = "reward"
