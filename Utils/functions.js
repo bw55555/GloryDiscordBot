@@ -978,7 +978,7 @@ async function voteItem(message, user, dm) {
             target.glory += Math.random() * 0.5;
         }
         target.consum.box += numboxes
-        functions.completeQuest(target, "vote", {"votestreak":target.votestreak}, 1)
+        completeQuest(target, "vote", {"votestreak":target.votestreak}, 1)
         sendMessage(message.channel, "<@" + target._id + "> has been given " + numboxes + " boxes!\n" + text)
         if (dm) dmUser(target, "Thank you for voting! You have been given " + numboxes + " boxes!\n" + text)
         setUser(target)

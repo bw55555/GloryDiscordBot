@@ -8,7 +8,7 @@ module.exports = async function (message, user) {
         if (target == false) { return; }
         words.splice(0, 2);
         const filter = m => m.author.id == message.author.id
-        const collector = message.channel.createMessageCollector(filter, { time: 60000 });
+        const collector = message.channel.createMessageCollector(filter, { idle: 60000 });
         var curr = "name"
         var name, conditions, reward;
         var condition, description, total, extra;
@@ -39,7 +39,7 @@ module.exports = async function (message, user) {
                 functions.sendMessage(message.channel, "Do you want to add another condition? (yes or no)");
                 extra = m.content;
             } else if (curr == "next") {
-                if (m.content == "yes") {
+                if (m.content.toLowerCase() == "yes") {
                     curr = "condition"
                     functions.sendMessage(message.channel, "Please enter a condition. (ex. vote)");
                     conditions.push(functions.addQuestCondition(condition, description, total, extra));
