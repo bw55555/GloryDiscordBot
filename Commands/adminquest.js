@@ -33,11 +33,11 @@ module.exports = async function (message, user) {
             } else if (curr == "total") {
                 curr = "extra"
                 functions.sendMessage(message.channel, "Please enter special conditions in JSON format. (ex. {\"votestreak\": 7}) ");
-                total = JSON.parse(m.content);
+                total = m.content;
             } else if (curr == "extra") {
                 curr = "next"
                 functions.sendMessage(message.channel, "Do you want to add another condition? (yes or no)");
-                extra = m.content;
+                extra = JSON.parse(m.content);
             } else if (curr == "next") {
                 if (m.content.toLowerCase() == "yes") {
                     curr = "condition"
@@ -49,7 +49,7 @@ module.exports = async function (message, user) {
                     functions.sendMessage(message.channel, "Please enter a reward in JSON format. (ex. {\"money\":100})")
                 }
             } else if (curr == "reward") {
-                reward = m.content;
+                reward = JSON.parse(m.content);
                 functions.getUser(target._id).then(t => { functions.makeQuest(t, name, conditions, reward); functions.setUser(t) })
                 collector.stop("complete")
             } 
