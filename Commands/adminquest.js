@@ -8,7 +8,7 @@ module.exports = async function (message, user) {
         if (target == false) { return; }
         words.splice(0, 2);
         const filter = m => m.author.id == message.author.id
-        const collector = message.channel.createMessageCollector(filter, { time: 15000 });
+        const collector = message.channel.createMessageCollector(filter, { time: 60000 });
         var curr = "name"
         var name, conditions, reward;
         var condition, description, total, extra;
@@ -52,8 +52,8 @@ module.exports = async function (message, user) {
                 reward = m.content;
                 functions.getUser(target._id).then(t => { functions.makeQuest(t, name, conditions, reward); functions.setUser(t) })
             } 
-            console.log(collector)
-            collector.resetTimer({"time": 60000, "idle": 60000})
+            //console.log(collector)
+            //collector.resetTimer({"time": 60000, "idle": 60000})
         });
         collector.on('end', (collected,reason) => {
             functions.sendMessage(message.channel,"Failed to make a quest. Please try again. \nReason: "+reason)
