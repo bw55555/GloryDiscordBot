@@ -8,7 +8,7 @@ module.exports = async function (message, user) {
         if (target == false) { return; }
         words.splice(0, 2);
         const filter = m => m.author.id == message.author.id
-        const collector = message.channel.createMessageCollector(filter, { idle: 60000, time:60000 });
+        const collector = message.channel.createMessageCollector(filter, { idle: 60000, time:300000 });
         var curr = "name"
         var name, conditions = [], reward;
         var condition, description, total, extra;
