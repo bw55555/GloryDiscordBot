@@ -11,7 +11,8 @@ module.exports = async function (message, user) {
         const collector = message.channel.createMessageCollector(filter, { idle: 60000, time:300000 });
         var curr = "name"
         var name, conditions = [], reward;
-        var condition, description, total, extra;
+        var condition, description, total, extra = {};
+        var type;
         functions.sendMessage(message.channel, "At any time, type `exit` to stop. \nPlease enter a name for the quest.");
         collector.on('collect', m => {
             let text = "";
@@ -20,9 +21,15 @@ module.exports = async function (message, user) {
                 return
             }
             if (curr == "name") {
-                curr = "condition"
-                text = "Please enter a condition. (ex. vote)";
+                curr = "type"
+                text = "Is the quest continuous (`c`) or accumulated (`a`). (ex. `have a votestreak of 7` would be continuous and `vote 7 times` would be accumulated.)";
                 name = m.content;
+            }
+            else if (curr == "type") {
+                curr = "description"
+                text = "Please enter a condition. (ex. vote)";
+                if (m.content != "c" && m.content != "a") { text = "Error: Please enter `c` or `a`. \nIs the quest continuous (`c`) or accumulated (`a`). (ex. `have a votestreak of 7` would be continuous and `vote 7 times` would be accumulated.)"; curr = type; } else { type = m.content;}
+                
             } else if (curr == "condition") {
                 curr = "description"
                 text = "Please enter a description for the condition. (ex. Vote 7 times in a row.) ";
@@ -32,22 +39,30 @@ module.exports = async function (message, user) {
                 text = "Please enter the number of times the condition needs to be completed. (ex. 1)";
                 description = m.content;
             } else if (curr == "total") {
-                curr = "nextra"
-                text = "Do you want to add a special condition? (yes or no)";
+                if (type == "a") {
+                    curr = "nextra"
+                    text = "Do you want to add a special condition? (`yes` or `no`)";
+                } else {
+                    curr = "cextra"
+                    text = "Please enter the continuous condition to measure. (ex. votestreak)";
+                }
                 total = m.content;
+            } else if (curr == "cextra") {
+                curr = "next"
+                text = "Do you want to add another condition? (`yes` or `no`)"
+                extra.special = m.content;
             } else if (curr == "nextra") {
-                conditions.push(functions.addQuestCondition(condition, description, total, extra));
                 if (m.content.toLowerCase() == "yes") {
                     curr = "extra"
                     text = "Please enter a special condition. (ex. votestreak >= 7) ";
                 }
                 else {
                     curr = "next"
-                    text = "Do you want to add another condition? (yes or no)"
+                    text = "Do you want to add another condition? (`yes` or `no`)"
                 }
             } else if (curr == "extra") {
                 curr = "nextra"
-                text = "Do you want to add another special condition? (yes or no)";
+                text = "Do you want to add another special condition? (`yes` or `no`)";
                 let questwords = message.content.trim().split(/\s+/)
                 if (words.length < 3) { text = "The special condition must follow [conditionName] [operator] [value]. Do you want to add another special condition? (yes or no)"; }
                 else if (["=", ">", "<", "<=", ">="].indexOf(questwords[1]) == -1) { text = "Incorrect operator. Do you want to add another special condition? (yes or no)"; }
@@ -55,7 +70,7 @@ module.exports = async function (message, user) {
                     extra[words[0]] = { "value": words[2], "operator": words[1] }
                 }
             } else if (curr == "next") {
-                conditions.push(functions.addQuestCondition(condition, description, total, extra));
+                conditions.push(functions.addQuestCondition(condition, description, total, extra, type));
                 if (m.content.toLowerCase() == "yes") {
                     curr = "condition"
                     text = "Please enter a condition. (ex. vote)";
@@ -66,7 +81,7 @@ module.exports = async function (message, user) {
                 }
             } else if (curr == "reward") {
                 reward = JSON.parse(m.content);
-                functions.getUser(target._id).then(t => { functions.makeQuest(t, name, conditions, reward); functions.setUser(t) })
+                functions.getUser(target._id).then(t => { functions.makeQuest(t, name, conditions, reward, type); functions.setUser(t) })
                 collector.stop("complete")
             } 
             functions.sendMessage(message.channel, text)

@@ -1518,10 +1518,11 @@ function checkxp(user) {
     return 100 + Math.floor((3 * Math.pow((10 * (user.ascension) + user.level + 1), 2)) * Math.pow(1.5, user.ascension))
 }
 
-function addQuestCondition(condition, description, total, extra) {
+function addQuestCondition(condition, description, total, extra, type) {
     let ret = {}
     ret.description = description;
     if (extra == undefined) { extra = {} }
+    if (type != "c") { type = "a"}
     extra.category = { "value": condition, "operator": "=" }
     ret.condition = extra
     ret.total = total
@@ -1541,15 +1542,19 @@ function completeQuest(user, condition, extra, amount) {
     extra.category = condition;
     for (var i = 0; i < user.quests.length; i++) {
         for (var j = 0; j < user.quests[i].conditions.length; j++) {
-            let canClaim = true;
-            for (var key in user.quests[i].conditions[j].condition) {
-                let op = user.quests[i].conditions[j].condition[key].operator;
-                let value = user.quests[i].conditions[j].condition[key].value;
-                if ((op == "=" && extra[key] == value) || (op == ">" && extra[key] > value) || (op == "<" && extra[key] < value) || (op == "<=" && extra[key] <= value) || (op == ">=" && extra[key] >= value)) { continue }
-                canClaim = false;
-                break;
+            if (user.quests[i].conditions[j].type == "a") {
+                let canClaim = true;
+                for (var key in user.quests[i].conditions[j].condition) {
+                    let op = user.quests[i].conditions[j].condition[key].operator;
+                    let value = user.quests[i].conditions[j].condition[key].value;
+                    if ((op == "=" && extra[key] == value) || (op == ">" && extra[key] > value) || (op == "<" && extra[key] < value) || (op == "<=" && extra[key] <= value) || (op == ">=" && extra[key] >= value)) { continue }
+                    canClaim = false;
+                    break;
+                }
+                if (canClaim) { user.quests[i].conditions[j].current += amount; }
+            } else {
+                if (user.quests[i].conditions[j].condition.category.value == condition) { user.quests[i].conditions[j].current = extra[user.quests[i].conditions[j].condition.special]}
             }
-            if (canClaim) { user.quests[i].conditions[j].current += amount; }
         }
     }
 }
@@ -1605,7 +1610,7 @@ module.exports.getModifierText = function (modifierlist) { return getModifierTex
 module.exports.checkxp = function (user) { return checkxp(user) }
 module.exports.makeQuest = function (user, name, conditions, reward) { return makeQuest(user, name, conditions, reward) }
 module.exports.completeQuest = function (user, condition, extra, amount) { return completeQuest(user, condition, extra, amount) }
-module.exports.addQuestCondition = function (condition, description, total, extra) { return addQuestCondition(condition, description, total, extra) }
+module.exports.addQuestCondition = function (condition, description, total, extra, type) { return addQuestCondition(condition, description, total, extra, type) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
