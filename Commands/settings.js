@@ -47,7 +47,6 @@ module.exports = async function (message, user) {
             functions.deleteObject("mobData", serverData[svid].deity);
             delete serverData[svid].deity;
         }
-        functions.setObject("mobData", ret)
         functions.setObject("serverData", serverData[message.guild.id])
         functions.replyMessage(message, "All raids have been reset! You may now resummon them with !summon.")
         return 
