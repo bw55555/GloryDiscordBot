@@ -30,15 +30,26 @@ module.exports = async function (message, user) {
         functions.replyMessage(message, "Glory has been reenabled in this channel!", true)
     }
     if (word2 == "resetraids") {
-        return Promise.all([functions.getObject("mobData", message.channel.id)]).then(ret => {
-            let svid = message.guild.id;
-            if (serverData[svid].treant != undefined) { delete ret[serverData[svid].treant]; delete serverData[svid].treant }
-            if (serverData[svid].kraken != undefined) { delete ret[serverData[svid].kraken]; delete serverData[svid].kraken }
-            if (serverData[svid].dragon != undefined) { delete ret[serverData[svid].dragon]; delete serverData[svid].dragon }
-            if (serverData[svid].deity != undefined) { delete ret[serverData[svid].deity]; delete serverData[svid].deity }
-            functions.setObject("mobData", ret)
-            functions.setObject("serverData", serverData[message.guild.id])
-            functions.replyMessage(message, "All raids have been reset! You may now resummon them with !summon.")
-        })
+        let svid = message.guild.id;
+        if (serverData[svid].treant != undefined) {
+            functions.deleteObject("mobData", serverData[svid].treant);
+            delete serverData[svid].treant; 
+        }
+        if (serverData[svid].kraken != undefined) {
+            functions.deleteObject("mobData", serverData[svid].kraken);
+            delete serverData[svid].kraken;
+        }
+        if (serverData[svid].dragon != undefined) {
+            functions.deleteObject("mobData", serverData[svid].dragon);
+            delete serverData[svid].dragon;
+        }
+        if (serverData[svid].deity != undefined) {
+            functions.deleteObject("mobData", serverData[svid].deity);
+            delete serverData[svid].deity;
+        }
+        functions.setObject("mobData", ret)
+        functions.setObject("serverData", serverData[message.guild.id])
+        functions.replyMessage(message, "All raids have been reset! You may now resummon them with !summon.")
+        return 
     }
 }
