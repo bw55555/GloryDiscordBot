@@ -20,8 +20,8 @@ async function MessageAwait(channel, userid, initialTextToSend, compareFunc, onS
         }
     }
     if (onSuccess == undefined || onSuccess == null) { onSuccess = function (response) { return response } }
-    if (waitList[userid] == 1) { return sendMessage(channel, "<@"+userid+"> already has a message awaiting confirmation.")}
-    waitList[userid] = 1
+    if (waitList[userid] +30000 > Date.now()) { return sendMessage(channel, "<@"+userid+"> already has a message awaiting confirmation.")}
+    waitList[userid] = Date.now();
     if (channel.type == "dm" || channel.type == "group" || channel.memberPermissions(bot.user) == null || channel.memberPermissions(bot.user).has("SEND_MESSAGES")) {
         return channel.send(initialTextToSend).then(() => {
             return channel.awaitMessages(response => response.author.id == userid && response.channel.id == channel.id, {
