@@ -47,9 +47,9 @@ module.exports = async function (message, user) {
         if (admins.indexOf(id) == -1) { return functions.replyMessage(message, "You already have a raid in this channel!"); }
         if (words.length == 1) { functions.summon(raid) }
         else {
-            let level = parseInt(words[1])
-            if (isNaN(level) || level <= 0) { return functions.replyMessage(message, "Please specify a level.") }
-            functions.summon(raid, level)
+            // let level = parseInt(words[1])
+            // if (isNaN(level) || level <= 0) { return functions.replyMessage(message, "Please specify a level.") }
+            functions.summon(raid)
         }
         functions.replyMessage(message, "A boss has been summoned! It is level " + raid.level + "!");
         functions.setObject("mobData", raid)
