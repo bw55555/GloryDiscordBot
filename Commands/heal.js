@@ -31,6 +31,10 @@ module.exports = async function (message, user) {
             if (target.currenthealth >= target.health) {
                 return functions.replyMessage(message, "<@" + target._id + "> is already at full health!");
             }
+            if (user.shield > ts) {
+                functions.replyMessage(message, "You just healed someone else! You lost your shield :(");
+                user.shield = 1
+            }
             let heal = Math.floor(target.health * Math.random() + (user.health / 5))
 
             if (target.currenthealth + heal > target.health || functions.hasSkill(user, 14)) {
@@ -54,6 +58,7 @@ module.exports = async function (message, user) {
                 functions.setCD(user, ts, healcd * 30, "heal")
                 target.speed = 0;
             }
+            functions.setCD(user, ts, 60, "purchase")
             functions.setUser(target)
         })
     } else {
