@@ -12,6 +12,8 @@ module.exports = async function (message, user) {
         return;
     }
     if (words.length > 1) {
+        if (user.triangleid != "5") {return functions.replyMessage(message, "Non-healers cannot heal others.") }
+
         return Promise.all([functions.validate(message,user)]).then(ret => {
             let target = ret[0];
             if (target == false) { return }
