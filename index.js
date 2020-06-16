@@ -374,7 +374,11 @@ bot.on("guildCreate", guild => {
                 },
                 {
                     "name": "Raid bosses too easy? ",
-                    "value": "There are higher leveled bosses in the support server. FInd the invite using `!info`."
+                    "value": "There are higher leveled bosses in the support server. Find the invite using `!info`."
+                },
+                {
+                    "name": "Want to support the bot? ",
+                    "value": "You may donate using patreon. See `!donate` for the link."
                 }
             ]
         }
