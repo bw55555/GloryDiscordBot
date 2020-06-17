@@ -334,13 +334,13 @@ function generateItem(owner, itemid, attack, defense, rarity, name, modifiers, i
         let items = ["Stick", "Pebble", "Rock", "Sling"]
         if (!isNaN(owner.triangleid)) {
             if (owner.triangleid % 3 == 1) {
-                items = ["Bow", "Crossbow", "Longbow", "Recurve Bow", "Flatbow", "Rifle Crossbow", "Kunai", "Throwing Stars", "Shuriken", "Sniper", "Yumi", "Blow Darts", "Throwing Knife", "Rifle", "Pistol"]
+                items = ["Bow", "Crossbow", "Longbow", "Recurve Bow", "Kunai", "Throwing Stars", "Shuriken", "Throwing Knife"]
             }
             else if (owner.triangleid % 3 == 2) {
-                items = ["Diamond", "Amulet", "Staff", "Wand", "Gem", "Talisman", "Spellblade", "Orb", "Tome", "Book", "Focus", "Flames", "Asta", "Crystal", "Runes", "Runestaff", "Ragnell", "Aura", "Arcanics", "Skull", "Rite"]
+                items = ["Amulet", "Staff", "Wand", "Gem", "Talisman", "Spellblade", "Orb", "Tome", "Book", "Crystal", "Runes", "Runestaff", "Arcanics", "Skull", "Rite"]
             }
             else if (owner.triangleid % 3 == 0 && owner.triangleid != 0) {
-                items = ["Sword", "Axe", "Lance", "Spear", "Rapier", "Mace", "Scythe", "Hammer", "Longsword", "Claymore", "Dagger", "Knife", "Scimitar", "Broadsword", "Katana", "Falchion", "Cutlass", "Sabre", "Dao", "Khopesh", "Tachi"]
+                items = ["Sword", "Axe", "Spear", "Rapier", "Mace", "Scythe", "Hammer", "Longsword", "Dagger", "Knife", "Scimitar", "Greatsword", "Katana", "Falchion", "Cutlass", "Sabre", "Khopesh"]
             }
             if (attack * 5 < defense) {
                 items = ["Shield", "Plate", "Robes", "Armor", "Mail"];
@@ -1334,25 +1334,25 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
                     }
                 })
             }
-            for (var k = 0; k < 2; k++) {
-                var i = Math.floor(Math.random() * keys.length)
-                if (keys[i] == user._id) {
-                    user.consum.reroll += 1;
-                } else {
-                    tasks.push({
-                        updateOne:
-                        {
-                            "filter": { _id: keys[i] },
-                            "update": {
-                                $inc: {
-                                    "consum.reroll": 1
-                                }
+            user.consum.reroll += 1;
+            var i = Math.floor(Math.random() * keys.length)
+            if (keys[i] == user._id) {
+                user.consum.reroll += 1;
+            } else {
+                tasks.push({
+                    updateOne:
+                    {
+                        "filter": { _id: keys[i] },
+                        "update": {
+                            $inc: {
+                                "consum.reroll": 1
                             }
                         }
-                    })
-                }
-                text += "<@" + keys[i] + "> was lucky and recieved a skill reroll!\n";
+                    }
+                })
             }
+            text += "<@" + user._id + "> killed the boss and recieved a skill reroll!\n";
+            text += "<@" + keys[i] + "> was lucky and recieved a skill reroll!\n";
             
         } else {
             for (var i = 0; i < keys.length; i++) {
