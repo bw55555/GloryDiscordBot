@@ -599,7 +599,7 @@ module.exports = async function (message, user) {
         }
         else if (command == "RESETRAID") {
             if (admins.indexOf(id) == -1) {
-                if (guild.raid.alive == true) { guild.raid = ts + 1000 * 60 * guild.raid.level; return functions.replyMessage(message, "Your raid was reset!") }
+                if (guild.raid.alive == true) { guild.raid = ts + 1000 * 60 * guild.raid.level; functions.setObject("guildData", guild); return functions.replyMessage(message, "Your raid was reset!") }
                 return functions.replyMessage(message, "This feature is admin only...")
             }
             guild.raid = 1
