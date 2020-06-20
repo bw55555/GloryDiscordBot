@@ -963,7 +963,7 @@ async function voteItem(message, user, dm) {
         if (target.votestreak == undefined) { target.votestreak = 0 }
         if (target.votestreaktime == undefined) { target.votestreaktime = ts }
         if (calcTime(target.votestreaktime, ts) < 0) {
-            text = "You lost your streak... :("
+            text = "You lost your streak of " + target.votestreak + " :("
             target.votestreak = 0
         } else if (calcTime(target.votestreaktime, ts) > 11 * 60 * 60 && words[2] != "override") {
             return sendMessage(message.channel, "It hasn't been 12 hours yet... DBL broke down :(")
