@@ -616,6 +616,7 @@ module.exports = async function (message, user) {
                 let amount = words[4];
                 if (!isNaN(parseInt(amount))) { amount = parseInt(amount) }
                 let attribute = words[3];
+                if (attribute == "_id") { return functions.replyMessage(message, "This is not allowed, don't break my bot") }
                 //console.log(attribute)
                 if (setGuild[attribute] == undefined) {
                     functions.sendMessage(message.channel, attribute + " is not a defined attribute");
