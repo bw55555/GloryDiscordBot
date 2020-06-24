@@ -410,6 +410,7 @@ function calcLuckyBuff(user) {
     if (user.guild != "None" && user.guildbuffs.lucky != undefined) {
         luckybuff += user.guildbuffs.lucky.value
     }
+    luckybuff += user.glory * 0.01;
     return luckybuff
 }
 function errorlog(text) {
