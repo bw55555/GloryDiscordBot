@@ -28,7 +28,7 @@ module.exports = async function (message, user) {
     }*/
     delete user.skills[removalid]
     let count = 0;
-    while (personskills[skillid] == skillid && skillid != removalid) {
+    while (personskills[skillid] == skillid || skillid == removalid) {
         skillid = Math.floor(skillData.length * Math.random());
         count += 1;
         if (count > 1000) {
