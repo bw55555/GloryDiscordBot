@@ -1,4 +1,4 @@
-
+﻿
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
@@ -17,8 +17,10 @@ module.exports = async function (message, user) {
                 let fields = [];
                 for (var i = 0; i < wepsra.length; i++) {
                     if (wepsra[i] != undefined) {
+                        let fav = "";
+                        if (wepsra[i].favorite == true) { fav = " ⭐"}
                         fields.push({
-                            name: wepsra[i].name + " (" + wepsra[i]._id + ")",
+                            name: wepsra[i].name + " (" + wepsra[i]._id + ")" + fav,
                             value: "**Rarity**: " + rarities[wepsra[i].rarity] + "\n**Atk**: " + wepsra[i].attack + " / **Def**: " + wepsra[i].defense + "\n**Modifiers**: \n" + functions.getModifierText(wepsra[i].modifiers),
                             inline: false,
                         })
