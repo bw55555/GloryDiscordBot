@@ -27,7 +27,7 @@ module.exports = async function (message, user) {
             user.consum.reroll += 1;
             user.ascension += 1;
             functions.setUser(user);
-            functions.replyMessage(message, "You have ascended! You now have " + (user.consum.sp + 1) + " skill points!\n(Note that your weapon has been dequipped. Favorite it before smelting everything!)")
+            functions.replyMessage(message, "You have ascended! You now have " + (user.consum.sp) + " skill points!\n(Note that your weapon has been dequipped. Favorite it before smelting everything!)")
         })
     }, [message], "Please enter `confirm` to ascend. (no caps)");
     //functions.replyMessage(message,"Are you sure you want to Ascend? You will be set back to level 1 and leveling will become twice as hard!\nIf you are sure, type `!ascendconfirm`")
