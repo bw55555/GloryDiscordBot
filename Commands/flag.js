@@ -8,10 +8,9 @@ module.exports = async function (message, user) {
     return Promise.all([functions.validate(message, words[1])]).then(ret => {
         let target = ret[0];
         if (target == false) { return user; }
-        let message = ret[1];
-        if (target.flag == true) { delete target.flag }
-        else { target.flag = true; }
-        functions.setUser(target);
-        functions.replyMessage(message, "<@"+target+"> was successfully flagged!")
+        if (target.flag == true) { delete target.flag; functions.setUser(target); return functions.replyMessage(message, "<@" + target + "> was successfully unflagged!")}
+        else { target.flag = true; functions.setUser(target); return functions.replyMessage(message, "<@" + target + "> was successfully unflagged!") }
+        
+        
     });
 }
