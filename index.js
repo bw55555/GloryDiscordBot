@@ -107,6 +107,7 @@ function evaluateMessage(message) {
     if (message.channel.type != "dm" && serverData[message.guild.id] == undefined) {
         addServer(message.guild)
     }
+
     message.content = message.content.trim().split(/\s+/).join(" ")
     let prefix = (message.channel.type == "dm") ? defaultPrefix : serverData[message.guild.id].prefix;
     if (message.content.startsWith("<@" + bot.user.id + ">")) prefix = "<@" + bot.user.id +">"
@@ -268,7 +269,10 @@ function evaluateMessage(message) {
             functions.deleteMessage(message);
             return; //fml
         }
-        console.log(message.author.id + "|" + message.content + "|" + ts)
+        if (user.flag == true) {
+            console.log(message.author.id + "|" + message.content + "|" + ts)
+        }
+        
         //sendMessage(bot.guilds.get("536599503608872961").channels.get("538710109241606154"), clean(message.author.id + "|" + message.content + "|" + ts))
         //console.time("run")
         commands[command](message, user).then(ret => { functions.setUser(user) })
