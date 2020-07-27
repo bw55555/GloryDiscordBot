@@ -411,6 +411,9 @@ function calcLuckyBuff(user) {
         luckybuff += user.guildbuffs.lucky.value
     }
     luckybuff += user.glory * 0.01;
+    if (user.vip != undefined) {
+        luckybuff += user.vip.lucky;
+    }
     return luckybuff
 }
 function errorlog(text) {
