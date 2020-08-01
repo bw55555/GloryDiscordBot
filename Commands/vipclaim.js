@@ -4,9 +4,11 @@ module.exports = async function (message, user) {
     let words = message.content.split(/\s+/)
     if (user.vip == undefined) { return }
     if (user.vip.extrarerolls != undefined) {
-        if (user.vip.rerollsclaimed < user.ascension * user.vip.extrarerolls) {
-            user.consum.reroll += user.ascension * user.vip.extrarerolls - user.vip.rerollsclaimed
+        let rem = user.ascension * user.vip.extrarerolls - user.vip.rerollsclaimed
+        if (rem > 0) {
+            user.consum.reroll += rem
             user.vip.rerollsclaimed = user.ascension * user.vip.extrarerolls;
         }
+        functions.replyMessage(message, "You have claimed "+rem+ " rerolls.")
     }
 }
