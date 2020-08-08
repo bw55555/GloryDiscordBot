@@ -17,6 +17,7 @@ module.exports = async function (message, user) {
             if (user.vip.rerollsclaimed == undefined) { user.vip.rerollsclaimed = 0;}
             user.vip.lucky = vipbenefits[i].lucky;
             user.vip.extrarerolls = vipbenefits[i].extrarerolls;
+            functions.replyMessage(message, "Your vip level was set to "+ i)
             break;
         }
     }
