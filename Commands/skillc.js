@@ -30,14 +30,17 @@ module.exports = async function (message, user) {
         return;
     }
 
-    if (words.length == 2) {
-        var skillid = words[1]
+    if (words.length >= 2) {
+        words.splice(0, 1);
+        var skillid = words.join(" ");
         if (skillid.toUpperCase() == `NONE`) {
             user.skillC = "None"
-            functions.replyMessage(message, "You have removed SkillC!");
+            functions.replyMessage(message, "You have removed SkillA!");
         } else {
+            if (!isNaN(parseInt(skillid))) { skillid = parseInt(skillid) }
+            else { skillid = skillData.findIndex(item => item.name == skillid) }
             if (isNaN(skillid)) { //checks if skill is a number
-                functions.replyMessage(message, "The Skill ID must be an integer");
+                functions.replyMessage(message, "The argument must be an integer or a skill name");
                 return;
             }
             if (user.skills[skillid] != skillid) { //checks if you own skill

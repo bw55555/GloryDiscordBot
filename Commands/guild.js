@@ -171,6 +171,7 @@ module.exports = async function (message, user) {
             user.guild = "None";
             user.guildpos = "None";
             user.guildbuffs = {}
+            guild.members.splice(guild.members.indexOf(user._id),1)
             functions.replyMessage(message, "You left your guild!");
         }
         else if (command == "DISBAND") {
@@ -347,6 +348,7 @@ module.exports = async function (message, user) {
                     target.guild = "None";
                     target.guildpos = "None";
                     target.guildbuffs = {};
+                    guild.members.splice(guild.members.indexOf(target._id), 1)
                     functions.sendMessage(message.channel, "<@" + target._id + "> was kicked from the guild!");
                     functions.setUser(target)
                     //if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + "(id " + id + ") has kicked "+target.username + "(id " + target._id + ") from your guild.") }
