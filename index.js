@@ -141,8 +141,9 @@ function evaluateMessage(message) {
         words.splice(0, 2)
         message.content = prefix + words.join(" ")
         message.createdTimestamp += time
-        functions.replyMessage(message, "The command `" + prefix + words.join(" ") + "`" + " will be executed in " + functions.displayTime(time, 0))
+        functions.replyMessage(message, "The command `" + message.content + "`" + " will be executed in " + functions.displayTime(time, 0))
         bot.setTimeout(function () {
+            functions.replyMessage(message, "The command + `" + message.content+"` will be executed.")
             evaluateMessage(message)
         }, time)
         return
