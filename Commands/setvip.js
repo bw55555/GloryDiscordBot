@@ -18,7 +18,7 @@ module.exports = async function (message, user) {
             user.vip.lucky = vipbenefits[i].lucky;
             user.vip.extrarerolls = vipbenefits[i].extrarerolls;
             user.vip.level = vipbenefits[i].level;
-            functions.replyMessage(message, "Your vip level was set to "+ i)
+            functions.replyMessage(message, "Your vip level was set to "+ (i+1))
             break;
         }
     }
