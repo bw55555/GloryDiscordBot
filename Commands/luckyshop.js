@@ -47,6 +47,9 @@ module.exports = async function (message, user) {
         let randomchance = Math.floor(Math.random() * totalchance);
         let currtot = 0;
         user.luckyshop = [];
+        if (calcTime(user.cooldowns.luckyshoprefresh, ts) > 0) {
+            return functions.replyMessage(message, 'You can refresh the lucky shop in ' + functions.displayTime(user.cooldowns.luckyshoprefresh, ts));
+        }
         for (let item = 0; item < 4; item++) {
             for (let i = 0; i < storeitems.length; i++) {
                 currtot += storeitems[i].chance;
@@ -59,9 +62,11 @@ module.exports = async function (message, user) {
                 }
             }
         }
+        functions.setCD(user, ts, 24 * 60 * 60, "luckyshoprefresh")
+        functions.replyMessage(message, "The lucky shop was successfully refreshed!")
     }
     else {
-        if (user.luckyshop.length == 0) { return functions.replyMessage(message) }
+        if (user.luckyshop.length == 0) { return functions.replyMessage(message, "The lucky shop is currently empty...") }
         let fields = [];
         for (let i = 0; i < user.luckyshop.length; i++) {
             let item = user.luckyshop[i].split(" ");
@@ -71,5 +76,13 @@ module.exports = async function (message, user) {
                 inline: false,
             })
         }
+        functions.replyMessage(message, {
+            "embed": {
+                //"title": "Global Wealth",
+                "color": 0xffffff,
+                "title": user.username + "'s Lucky Shop",
+                "fields": fields
+            }
+        })
     }
 }

@@ -422,11 +422,12 @@ function errorlog(text) {
     sendMessage(bot.guilds.get("536599503608872961").channels.get("538526944141246486"),text)
 }
 function setCD(user, ts, cdsecs, cdname) {
-    if (user.cooldowns[cdname] == undefined) { errorlog("Something went wrong with setCD. " + cdname + " not defined." + user._id + "|" + ts) }
+    //if (user.cooldowns[cdname] == undefined) { errorlog("Something went wrong with setCD. " + cdname + " not defined." + user._id + "|" + ts) }
     if (user.weapon != false && user.weapon.modifiers.haste != undefined) { cdsecs -= parseInt(user.weapon.modifiers.haste) }
     user.cooldowns[cdname] = ts + cdsecs * 1000
 }
 function calcTime(time1, time2) {
+    if (time1 == undefined || time2 == undefined) { return -1;}
     return Math.floor((time1 - time2) / 1000)
 }
 function displayTime(time1, time2) {
