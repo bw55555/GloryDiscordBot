@@ -10,8 +10,8 @@ module.exports = async function (message, user) {
     let ts = message.createdTimestamp;
     let words = message.content.split(/\s+/)
     let scmd = words[1];
-    if (user.luckyshop == undefined) { user.luckyshop = [];}
-    if (scmd == "buy") {
+    if (user.luckyshop == undefined) { user.luckyshop = []; }
+    if (scmd == "buy" || scmd == "b") {
         let item = parseInt(words[2]);
         if (isNaN(item) || item < 0 || item > user.luckyshop.length) {
             return functions.replyMessage(message, "This item is not defined")
@@ -24,7 +24,7 @@ module.exports = async function (message, user) {
         if (user.money < totalprice) {
             return functions.replyMessage(message, "You do not have enough money to buy this!")
         }
-        
+
         if (type == "boxes") {
             user.consum.box += amt;
         } else if (type == "reroll") {
@@ -40,14 +40,14 @@ module.exports = async function (message, user) {
         }
         user.money -= totalprice;
         user.luckyshop.splice(item, 1)
-        functions.replyMessage(message, "You have bought "+amt+ " "+ type + " for $"+totalprice)
+        functions.replyMessage(message, "You have bought " + amt + " " + type + " for $" + totalprice)
     }
-    else if (scmd == "refresh") {
+    else if (scmd == "refresh" || scmd == "r") {
         let totalchance = storeitems.reduce((tot, next) => tot + next.chance)
         let randomchance = Math.floor(Math.random() * totalchance);
         let currtot = 0;
         user.luckyshop = [];
-        if (calcTime(user.cooldowns.luckyshoprefresh, ts) > 0) {
+        if (functions.calcTime(user.cooldowns.luckyshoprefresh, ts) > 0) {
             return functions.replyMessage(message, 'You can refresh the lucky shop in ' + functions.displayTime(user.cooldowns.luckyshoprefresh, ts));
         }
         for (let item = 0; item < 4; item++) {
