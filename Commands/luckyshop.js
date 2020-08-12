@@ -73,8 +73,8 @@ module.exports = async function (message, user) {
         for (let i = 0; i < user.luckyshop.length; i++) {
             let item = user.luckyshop[i].split(" ").map(x=> parseInt(x));
             fields.push({
-                name: storeitems[item[0]].type + " ("+item[1]+")",
-                value: "**Price**: " + item[1]*item[2] + " (~~"+storeitems[item[0]].price+"~~ "+item[2]+" ea)",
+                name: "**"+i+".**"+storeitems[item[0]].type + " ("+item[1]+")",
+                value: "**Price**: $" + item[1]*item[2] + " (~~"+storeitems[item[0]].price+"~~ "+item[2]+" ea)",
                 inline: false,
             })
         }
