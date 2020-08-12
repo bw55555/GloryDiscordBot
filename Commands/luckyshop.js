@@ -57,7 +57,8 @@ module.exports = async function (message, user) {
                 if (randomchance < currtot) {
                     let amt = storeitems[i].min + Math.floor(Math.pow(Math.random(), 4) * (storeitems[i].max - storeitems[i].min + 1))
                     let price = storeitems[i].price * 0.5 * Math.pow(Math.random(), 4)
-                    if (user.vip != undefined) {price *= (1-user.vip.level/10)}
+                    if (user.vip != undefined) { price *= (1 - user.vip.level / 10) }
+                    price = Math.floor(price)
                     user.luckyshop.push(i + " "+amt +" "+price)
                     break;
                 }
