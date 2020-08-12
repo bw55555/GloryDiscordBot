@@ -1,7 +1,7 @@
 let storeitems = [
     { "type": "boxes", "min": 10, "max": 200, "price": 125000, "chance": 1000000 },
     { "type": "reroll", "min": 1, "max": 1, "price": 20000000, "chance": 100 },
-    { "type": "sp", "min": 1, "max": 1, "price": 500000000, "chance":1 },
+    { "type": "skill point", "min": 1, "max": 1, "price": 500000000, "chance":1 },
     { "type": "materials", "min": 1000, "max": 20000, "price": 10000, "chance": 500000 },
     { "type": "crystals", "min": 10, "max": 100, "price": 100000, "chance": 50000}
 ]
@@ -29,11 +29,12 @@ module.exports = async function (message, user) {
             user.consum.box += amt;
         } else if (type == "reroll") {
             user.consum.reroll += amt;
-        } else if (type == "sp") {
+        } else if (type == "skill point") {
             user.consum.sp += amt;
         } else if (type == "materials") {
             user.materials += amt;
         } else if (type == "crystals") {
+            if (user.guild == "None") { return functions.replyMessage(message, "Since you are currently not in a guild, you cannot buy this. ")}
             functions.getObject("guildData", user.guild).then(guild => { guild.crystals += amt; functions.setObject("guildData", guild) });
         } else {
             return functions.replyMessage(message, "There was an error. Please report it in the support server. The link is in !info")
