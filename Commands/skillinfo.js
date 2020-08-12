@@ -8,7 +8,9 @@ module.exports = async function (message, user) {
         return;
     }
     if (words.length == 2) {
-        let skillid = parseInt(words[1])
+        let skillid = words.join(" ");
+        if (!isNaN(parseInt(skillid))) { skillid = parseInt(skillid) }
+        else { skillid = skillData.findIndex(item => item.name == skillid) }
         if (isNaN(skillid)) {
             functions.sendMessage(message.channel, "Please type an integer skill ID");
             return;
