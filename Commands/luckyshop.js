@@ -43,7 +43,7 @@ module.exports = async function (message, user) {
         functions.replyMessage(message, "You have bought " + amt + " " + type + " for $" + totalprice)
     }
     else if (scmd == "refresh" || scmd == "r") {
-        let totalchance = storeitems.reduce((tot, next) => tot + next.chance)
+        let totalchance = storeitems.reduce((tot, next) => tot + next.chance, 0)
         
         user.luckyshop = [];
         if (functions.calcTime(user.cooldowns.luckyshoprefresh, ts) > 0) {
