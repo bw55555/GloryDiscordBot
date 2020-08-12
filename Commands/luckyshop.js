@@ -77,7 +77,7 @@ module.exports = async function (message, user) {
                 inline: false,
             })
         }
-        functions.sendMessage(message, {
+        functions.sendMessage(message.channel, {
             "embed": {
                 //"title": "Global Wealth",
                 "color": 0xffffff,
