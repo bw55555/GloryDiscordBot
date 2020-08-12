@@ -8,6 +8,7 @@ module.exports = async function (message, user) {
         return;
     }
     if (words.length == 2) {
+        words.splice(0, 1);
         let skillid = words.join(" ");
         if (!isNaN(parseInt(skillid))) { skillid = parseInt(skillid) }
         else { skillid = skillData.findIndex(item => item.name == skillid) }
