@@ -12,7 +12,7 @@ module.exports = async function (message, user) {
     let scmd = words[1];
     if (user.luckyshop == undefined) { user.luckyshop = []; }
     if (scmd == "buy" || scmd == "b") {
-        let item = parseInt(words[2]);
+        let item = parseInt(words[2])-1;
         if (isNaN(item) || item < 0 || item > user.luckyshop.length) {
             return functions.replyMessage(message, "This item is not defined")
         }
@@ -73,7 +73,7 @@ module.exports = async function (message, user) {
         for (let i = 0; i < user.luckyshop.length; i++) {
             let item = user.luckyshop[i].split(" ").map(x=> parseInt(x));
             fields.push({
-                name: "**"+i+".**"+storeitems[item[0]].type + " ("+item[1]+")",
+                name: "**"+(i+1)+". **"+storeitems[item[0]].type + " ("+item[1]+")",
                 value: "**Price**: $" + item[1]*item[2] + " (~~"+storeitems[item[0]].price+"~~ "+item[2]+" ea)",
                 inline: false,
             })
