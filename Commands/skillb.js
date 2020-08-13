@@ -37,7 +37,7 @@ module.exports = async function (message, user) {
             user.skillB = "None"
             functions.replyMessage(message, "You have removed SkillB!");
         } else {
-            if (!isNaN(parseInt(skill))) { skillid = parseInt(skill) }
+            if (!isNaN(parseInt(skillid))) { skillid = parseInt(skillid) }
             else { skillid = skillData.findIndex(item => item.name == skillid)}
             if (isNaN(skillid)) { //checks if skill is a number
                 functions.replyMessage(message, "The argument must be an integer or a skill name");
