@@ -242,6 +242,7 @@ function evaluateMessage(message) {
             delete require.cache[require.resolve(`./Commands/${commandName}`)];
             delete commands[commandName.split(".")[0]];
             commands[commandName.split(".")[0]] = require(`./Commands/${commandName}`);
+            commandlist[commandname] = "exists"
             functions.replyMessage(message, `The command ${commandName} has been reloaded!`);
         }
     }
