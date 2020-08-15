@@ -121,8 +121,10 @@ module.exports = async function (message, user) {
                 functions.replyMessage(message, "You must be the Leader or a Co-Leader to invite someone!");
                 return;
             }
+            if (guild.members.length >= Math.floor(guild.level / 2 + 20)) { return functions.replyMessage(message, "This guild is already full!")}
             return Promise.all([functions.validate(message, user, 2)]).then(ret => {
                 let target = ret[0];
+
                 if (target == false) {
                     functions.replyMessage(message, "You can't invite rocks!");
                     return;
@@ -143,6 +145,7 @@ module.exports = async function (message, user) {
                                 functions.replyMessage(message, "You must be the Leader or a Co-Leader to invite someone!");
                                 return;
                             }
+                            if (guild.members.length >= Math.floor(guild.level / 2 + 20)) { return functions.replyMessage(message, "This guild is already full!") }
                             if (target == false) {
                                 functions.replyMessage(message, "You can't invite rocks!");
                                 return;

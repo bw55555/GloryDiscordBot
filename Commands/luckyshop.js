@@ -2,8 +2,8 @@ let storeitems = [
     { "type": "boxes", "min": 10, "max": 200, "price": 125000, "chance": 1000000 },
     { "type": "reroll", "min": 1, "max": 1, "price": 20000000, "chance": 10000 },
     { "type": "skill point", "min": 1, "max": 1, "price": 500000000, "chance":1 },
-    { "type": "materials", "min": 1000, "max": 20000, "price": 10000, "chance": 500000 },
-    { "type": "crystals", "min": 10, "max": 100, "price": 100000, "chance": 50000}
+    { "type": "materials", "min": 1000, "max": 20000, "price": 1500, "chance": 500000 },
+    { "type": "crystals", "min": 100, "max": 1000, "price": 100000, "chance": 100000}
 ]
 module.exports = async function (message, user) {
     let id = message.author.id;
