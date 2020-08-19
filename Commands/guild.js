@@ -39,13 +39,13 @@ const guildForgePrices = {
     ], 
     "enchant": [
         { "name": "Max Level", "bonus": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "price": [0,20000,50000,100000,200000, 500000, 1000000, 2000000, 5000000, 10000000] },
-        { "name": "Cost Down", "bonus": [0, 0.6, 0.8, 0.90, 0.96, 0.98, 0.99, 0.996, 0.998, 0.999], "price": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000] },
-        { "name": "Rate Up", "bonus": [0, 0.01, 0.02, 0.04, 0.08, 0.14, 0.22, 0.32, 0.44, 0.58], "price": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000]}
+        { "name": "Cost Down", "bonus": [0, 0.6, 0.8, 0.90, 0.96, 0.98, 0.99, 0.996, 0.998, 0.999], "prices": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000] },
+        { "name": "Rate Up", "bonus": [0, 0.01, 0.02, 0.04, 0.08, 0.14, 0.22, 0.32, 0.44, 0.58], "prices": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000]}
     ],
     "enhance": [
         { "name": "Max Level", "bonus": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "price": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000] },
-        { "name": "Cost Down", "bonus": [0, 0.6, 0.8, 0.90, 0.96, 0.98, 0.99, 0.996, 0.998, 0.999], "price": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000] },
-        { "name": "Rate Up", "bonus": [0, 0.01, 0.02, 0.04, 0.08, 0.14, 0.22, 0.32, 0.44, 0.58], "price": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000] }
+        { "name": "Cost Down", "bonus": [0, 0.6, 0.8, 0.90, 0.96, 0.98, 0.99, 0.996, 0.998, 0.999], "prices": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000] },
+        { "name": "Rate Up", "bonus": [0, 0.01, 0.02, 0.04, 0.08, 0.14, 0.22, 0.32, 0.44, 0.58], "prices": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000] }
     ]
 }
 module.exports = async function (message, user) {
@@ -691,7 +691,7 @@ module.exports = async function (message, user) {
                     let spaces = " ".repeat(10 - item.name.length)
                     let upgradetext = "(MAX LEVEL)"
                     if (guild.forge.enchant[i] < 9) {
-                        upgradetext = guild.forge.level <= guild.forge.enchant[i] ? "(Forge level " + (guild.forge.enchant[i] + 1) + " required for next upgrade)" : "(Ready to upgrade to " + (100 * item.bonus[guild.forge.enchant[i]+1]) + "% for "+item.price[guild.forge.enchant[i]+1]+" crystals)"
+                        upgradetext = guild.forge.level <= guild.forge.enchant[i] ? "(Forge level " + (guild.forge.enchant[i] + 1) + " required for next upgrade)" : "(Ready to upgrade to " + (100 * item.bonus[guild.forge.enchant[i]+1]) + "% for "+item.prices[guild.forge.enchant[i]+1]+" crystals)"
                     }
                     
                     text += "[" + i + "] " + item.name + spaces + ": " + (100 * item.bonus[guild.forge.enchant[i]]) + "% (level "+guild.forge.enchant[i]+") "+upgradetext+"\n";
@@ -703,7 +703,7 @@ module.exports = async function (message, user) {
                     let spaces = " ".repeat(10 - item.name.length)
                     let upgradetext = "(MAX LEVEL)"
                     if (guild.forge.enhance[i] < 9) {
-                        upgradetext = guild.forge.level <= guild.forge.enhance[i] ? "(Forge level " + (guild.forge.enhance[i] + 1) + " required for next upgrade)" : "(Ready to upgrade to " + (100 * item.bonus[guild.forge.enhance[i]+1]) + "% for " + item.price[guild.forge.enhance[i]+1] + " crystals)"
+                        upgradetext = guild.forge.level <= guild.forge.enhance[i] ? "(Forge level " + (guild.forge.enhance[i] + 1) + " required for next upgrade)" : "(Ready to upgrade to " + (100 * item.bonus[guild.forge.enhance[i]+1]) + "% for " + item.prices[guild.forge.enhance[i]+1] + " crystals)"
                     }
 
                     text += "[" + i + "] " + item.name + spaces + ": " + (100 * item.bonus[guild.forge.enhance[i]]) + "% (level " + guild.forge.enhance[i] + ") " + upgradetext + "\n";
