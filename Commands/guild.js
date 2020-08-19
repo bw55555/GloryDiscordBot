@@ -655,7 +655,8 @@ module.exports = async function (message, user) {
                     
                     text += "[" + i + "] " + item.name + spaces + ": " + (100 * item.bonus[guild.forge.enchant[i]]) + "% (level "+guild.forge.enchant[i]+") "+upgradetext+"\n";
                 }
-                text+= "```"
+                text += "```"
+                return functions.sendMessage(message.channel, text)
             }
         }
         else if (command == "QUEST") {
