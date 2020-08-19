@@ -626,10 +626,26 @@ module.exports = async function (message, user) {
         else if (command == "FORGE") {
             if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
             if (guild.forge == undefined) {
-                guild.forge = {"level": 0, "enchant": [0,0,0], "enhance": [0,0,0]}
+                guild.forge = {
+                    "level": 0, "enchant": [0, 0, 0], "enhance": [0, 0, 0], "donate": { "money": 0, "materials": 0 }
+                }
             }
+            if (guild.forge.level == undefined) { guild.forge.level = 0 }
+            if (guild.forge.enchant == undefined) { guild.forge.enchant = [0,0,0] }
+            if (guild.forge.enhance == undefined) { guild.forge.enhance = [0,0,0] }
+            if (guild.forge.donate == undefined) { guild.forge.donate = { "money": 0, "materials": 0 } }
             let scmd = words.length < 3 ? "" : words[2].toUpperCase()
-            if (scmd == "UPGRADE") {
+            if (scmd == "DONATE") {
+                if (guild.forge.level == 9) { return functions.replyMessage(message, "The guild forge is at max level!")}
+                let option = words.length < 4 ? "undefined" : words[3].toLowerCase();
+                let amt = words.length < 5 ? -1 : parseInt(words[4])
+                if (guild.forge.donate[option] == undefined) { return functions.replyMessage(message, "Please specify either money or materials!") }
+                if (isNaN(amt) || amt <= 0) { return functions.replyMessage(message, "Please specify a positive integer amount!") }
+                if (user[option] < amt) { return functions.replyMessage(message, "You do not have enough to donate!")}
+                guild.forge.donate[option] += amt;
+                user[option] -= amt;
+                functions.replyMessage(message, "You have donated "+amt + " "+option+" to the guild forge!")
+            } else if (scmd == "UPGRADE") {
                 let option1 = words.length < 4 ? "" : words[3].toUpperCase();
                 let option2 = words.length < 5 ? -1 : parseInt(words[4])
                 if (option == "ENCHANT") {
@@ -641,10 +657,15 @@ module.exports = async function (message, user) {
                 }
             } else {
                 let text = "```"
+                let forgeupgradetext = ""
+                if (guild.forge.level == 9) { forgeupgradetext = "(MAX LEVEL)" }
+                let moneydiff = Math.max(0, guildForgePrices.level[guild.forge.level + 1].money - guild.forge.donate.money)
+                let matsdiff = Math.max(0, guildForgePrices.level[guild.forge.level + 1].materials - guild.forge.donate.materials)
+                if (moneydiff == 0 && matsdiff == 0) { forgeupgradetext = "(Ready to upgrade!)" }
+                else {forgeupgradetext = "($"+moneydiff + " and "+matsdiff+" materials needed for next upgrade)"}
+                text+="Forge Level "+guild.forge.level+ " "+forgeupgradetext + "\n"
 
-                text+="Forge Level "+guild.forge.level+"\n\n"
-
-                text+="Enchantment \n"
+                text+="\n Enchantment \n"
                 for (let i = 0; i < guildForgePrices.enchant.length; i++) {
                     let item = guildForgePrices.enchant[i];
                     let spaces = " ".repeat(10 - item.name.length)
@@ -655,6 +676,19 @@ module.exports = async function (message, user) {
                     
                     text += "[" + i + "] " + item.name + spaces + ": " + (100 * item.bonus[guild.forge.enchant[i]]) + "% (level "+guild.forge.enchant[i]+") "+upgradetext+"\n";
                 }
+
+                text += "\n Enhancement \n"
+                for (let i = 0; i < guildForgePrices.enhance.length; i++) {
+                    let item = guildForgePrices.enhance[i];
+                    let spaces = " ".repeat(10 - item.name.length)
+                    let upgradetext = "(MAX LEVEL)"
+                    if (guild.forge.enhance[i] < 9) {
+                        upgradetext = guild.forge.level <= guild.forge.enhance[i] ? "(Forge level " + (guild.forge.enhance[i] + 1) + " required for next upgrade)" : "(Ready to upgrade to " + (100 * item.bonus[guild.forge.enhance[i + 1]]) + "% for " + item.price[guild.forge.enhance[i + 1]] + "crystals)"
+                    }
+
+                    text += "[" + i + "] " + item.name + spaces + ": " + (100 * item.bonus[guild.forge.enhance[i]]) + "% (level " + guild.forge.enhance[i] + ") " + upgradetext + "\n";
+                }
+
                 text += "```"
                 return functions.sendMessage(message.channel, text)
             }
