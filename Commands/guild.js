@@ -647,7 +647,7 @@ module.exports = async function (message, user) {
                 text+="Enchantment \n"
                 for (let i = 0; i < guildForgePrices.enchant.length; i++) {
                     let item = guildForgePrices.enchant[i];
-                    let spaces = (10 - item.name.length) * " "
+                    let spaces = " ".repeat(10 - item.name.length)
                     let upgradetext = "(MAX LEVEL)"
                     if (guild.forge.enchant[i] < 9) {
                         upgradetext = guild.forge.level <= guild.forge.enchant[i] ? "(Forge level " + (guild.forge.enchant[i] + 1) + " required for next upgrade)" : "(Ready to upgrade to " + (100 * item.bonus[guild.forge.enchant[i+1]]) + "% for "+item.price[guild.forge.enchant[i+1]]+"crystals)"
