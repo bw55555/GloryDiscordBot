@@ -26,15 +26,16 @@ const guildBuffStore = [
 
 const guildForgePrices = {
     "level": [
-        { "money": 50000000, "materials": 500000 },
-        { "money": 100000000, "materials": 1000000 },
-        { "money": 150000000, "materials": 1500000 },
-        { "money": 250000000, "materials": 2500000 },
-        { "money": 500000000, "materials": 5000000 },
-        { "money": 750000000, "materials": 7500000 },
-        { "money": 1000000000, "materials": 10000000 },
-        { "money": 2000000000, "materials": 20000000 },
-        { "money": 5000000000, "materials": 50000000 }
+        { "money": 0, "materials": 0, "guildlevel": 0},
+        { "money": 100000000, "materials": 1000000, "guildlevel": 20 },
+        { "money": 150000000, "materials": 1500000, "guildlevel": 25 },
+        { "money": 250000000, "materials": 2500000, "guildlevel": 30 },
+        { "money": 500000000, "materials": 5000000, "guildlevel": 35 },
+        { "money": 750000000, "materials": 7500000, "guildlevel": 40 },
+        { "money": 1000000000, "materials": 10000000, "guildlevel": 45 },
+        { "money": 2000000000, "materials": 20000000, "guildlevel": 50 },
+        { "money": 5000000000, "materials": 50000000, "guildlevel": 55 },
+        { "money": 10000000000, "materials": 100000000, "guildlevel": 60 }
     ], 
     "enhance": [
         { "name": "Max Level", "bonus": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "price": [0,20000,50000,100000,200000, 500000, 1000000, 2000000, 5000000, 10000000] },
@@ -646,8 +647,19 @@ module.exports = async function (message, user) {
                 user[option] -= amt;
                 functions.replyMessage(message, "You have donated "+amt + " "+option+" to the guild forge!")
             } else if (scmd == "UPGRADE") {
-                let option1 = words.length < 4 ? "" : words[3].toUpperCase();
+                let option = words.length < 4 ? "" : words[3].toUpperCase();
                 let option2 = words.length < 5 ? -1 : parseInt(words[4])
+                if (option == "LEVEL") {
+                    if (guild.forge.level == 9) { return functions.replyMessage(message, "The guild forge is already max level!") }
+                    let moneydiff = Math.max(0, guildForgePrices.level[guild.forge.level + 1].money - guild.forge.donate.money)
+                    let matsdiff = Math.max(0, guildForgePrices.level[guild.forge.level + 1].materials - guild.forge.donate.materials)
+                    if (guild.level < guildForgePrices.level[guild.forge.level + 1].guildlevel) { return functions.replyMessage(message, "Your guild is not high enough level to upgrade the forge!") }
+                    if (moneydiff > 0 && matsdiff > 0) { return functions.replyMessage(message, "You do not have enough money and/or materials to upgrade the forge!") }
+                    guild.forge.donate.money -= guildForgePrices.level[guild.forge.level + 1].money
+                    guild.forge.donate.materials -= guildForgePrices.level[guild.forge.level + 1].materials
+                    guild.forge.level += 1;
+                    functions.replyMessage(message, "You have upgraded the guild forge to level " + guild.forge.level + " for $" + guildForgePrices.level[guild.forge.level + 1].money + " and " + guildForgePrices.level[guild.forge.level + 1].materials+" materials!")
+                }
                 if (option == "ENCHANT") {
                     if (isNaN(option2) || option2 < 0 || option2 > guildForgePrices.enchant.length) { return functions.replyMessage(message, "This is not a valid option!") }
                 } else if (option == "ENHANCE") {
@@ -661,11 +673,12 @@ module.exports = async function (message, user) {
                 if (guild.forge.level == 9) { forgeupgradetext = "(MAX LEVEL)" }
                 let moneydiff = Math.max(0, guildForgePrices.level[guild.forge.level + 1].money - guild.forge.donate.money)
                 let matsdiff = Math.max(0, guildForgePrices.level[guild.forge.level + 1].materials - guild.forge.donate.materials)
-                if (moneydiff == 0 && matsdiff == 0) { forgeupgradetext = "(Ready to upgrade!)" }
+                if (guild.level < guildForgePrices.level[guild.forge.level + 1].guildlevel) { "(guild level " + guildForgePrices.level[guild.forge.level + 1].guildlevel+" required for next upgrade)"}
+                else if (moneydiff == 0 && matsdiff == 0) { forgeupgradetext = "(Ready to upgrade!)" }
                 else {forgeupgradetext = "($"+moneydiff + " and "+matsdiff+" materials needed for next upgrade)"}
                 text+="Forge Level "+guild.forge.level+ " "+forgeupgradetext + "\n"
 
-                text+="\n Enchantment \n"
+                text+="\nEnchantment \n"
                 for (let i = 0; i < guildForgePrices.enchant.length; i++) {
                     let item = guildForgePrices.enchant[i];
                     let spaces = " ".repeat(10 - item.name.length)
@@ -677,7 +690,7 @@ module.exports = async function (message, user) {
                     text += "[" + i + "] " + item.name + spaces + ": " + (100 * item.bonus[guild.forge.enchant[i]]) + "% (level "+guild.forge.enchant[i]+") "+upgradetext+"\n";
                 }
 
-                text += "\n Enhancement \n"
+                text += "\nEnhancement \n"
                 for (let i = 0; i < guildForgePrices.enhance.length; i++) {
                     let item = guildForgePrices.enhance[i];
                     let spaces = " ".repeat(10 - item.name.length)
