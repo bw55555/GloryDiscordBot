@@ -673,9 +673,11 @@ module.exports = async function (message, user) {
                 if (guild.forge.level == 9) { forgeupgradetext = "(MAX LEVEL)" }
                 let moneydiff = Math.max(0, guildForgePrices.level[guild.forge.level + 1].money - guild.forge.donate.money)
                 let matsdiff = Math.max(0, guildForgePrices.level[guild.forge.level + 1].materials - guild.forge.donate.materials)
-                if (moneydiff == 0 && matsdiff == 0) { forgeupgradetext = "(Ready to upgrade!)" }
-                else if (guild.level < guildForgePrices.level[guild.forge.level + 1].guildlevel) { forgeupgradetext = "(guild level " + guildForgePrices.level[guild.forge.level + 1].guildlevel+" required for next upgrade)"}
-                else {forgeupgradetext = "($"+moneydiff + " and "+matsdiff+" materials needed for next upgrade)"}
+                if (moneydiff == 0 && matsdiff == 0) {
+                    if (guild.level < guildForgePrices.level[guild.forge.level + 1].guildlevel) { forgeupgradetext = "(guild level " + guildForgePrices.level[guild.forge.level + 1].guildlevel + " required for next upgrade)" }
+                    else { forgeupgradetext = "(Ready to upgrade!)" }
+                }
+                else { forgeupgradetext = "($" + moneydiff + " and " + matsdiff + " materials needed for next upgrade)" }
                 text+="Forge Level "+guild.forge.level+ " "+forgeupgradetext + "\n"
 
                 text+="\nEnchantment \n"
