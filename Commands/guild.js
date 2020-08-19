@@ -686,7 +686,7 @@ module.exports = async function (message, user) {
                     let spaces = " ".repeat(10 - item.name.length)
                     let upgradetext = "(MAX LEVEL)"
                     if (guild.forge.enchant[i] < 9) {
-                        upgradetext = guild.forge.level <= guild.forge.enchant[i] ? "(Forge level " + (guild.forge.enchant[i] + 1) + " required for next upgrade)" : "(Ready to upgrade to " + (100 * item.bonus[guild.forge.enchant[i+1]]) + "% for "+item.price[guild.forge.enchant[i+1]]+"crystals)"
+                        upgradetext = guild.forge.level <= guild.forge.enchant[i] ? "(Forge level " + (guild.forge.enchant[i] + 1) + " required for next upgrade)" : "(Ready to upgrade to " + (100 * item.bonus[guild.forge.enchant[i]+1]) + "% for "+item.price[guild.forge.enchant[i]+1]+"crystals)"
                     }
                     
                     text += "[" + i + "] " + item.name + spaces + ": " + (100 * item.bonus[guild.forge.enchant[i]]) + "% (level "+guild.forge.enchant[i]+") "+upgradetext+"\n";
@@ -698,7 +698,7 @@ module.exports = async function (message, user) {
                     let spaces = " ".repeat(10 - item.name.length)
                     let upgradetext = "(MAX LEVEL)"
                     if (guild.forge.enhance[i] < 9) {
-                        upgradetext = guild.forge.level <= guild.forge.enhance[i] ? "(Forge level " + (guild.forge.enhance[i] + 1) + " required for next upgrade)" : "(Ready to upgrade to " + (100 * item.bonus[guild.forge.enhance[i + 1]]) + "% for " + item.price[guild.forge.enhance[i + 1]] + "crystals)"
+                        upgradetext = guild.forge.level <= guild.forge.enhance[i] ? "(Forge level " + (guild.forge.enhance[i] + 1) + " required for next upgrade)" : "(Ready to upgrade to " + (100 * item.bonus[guild.forge.enhance[i]+1]) + "% for " + item.price[guild.forge.enhance[i]+1] + "crystals)"
                     }
 
                     text += "[" + i + "] " + item.name + spaces + ": " + (100 * item.bonus[guild.forge.enhance[i]]) + "% (level " + guild.forge.enhance[i] + ") " + upgradetext + "\n";
