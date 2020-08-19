@@ -658,9 +658,9 @@ module.exports = async function (message, user) {
                     guild.forge.donate.money -= guildForgePrices.level[guild.forge.level + 1].money
                     guild.forge.donate.materials -= guildForgePrices.level[guild.forge.level + 1].materials
                     guild.forge.level += 1;
-                    functions.replyMessage(message, "You have upgraded the guild forge to level " + guild.forge.level + " for $" + guildForgePrices.level[guild.forge.level + 1].money + " and " + guildForgePrices.level[guild.forge.level + 1].materials+" materials!")
+                    functions.replyMessage(message, "You have upgraded the guild forge to level " + guild.forge.level + " for $" + guildForgePrices.level[guild.forge.level].money + " and " + guildForgePrices.level[guild.forge.level].materials+" materials!")
                 }
-                if (option == "ENCHANT") {
+                else if (option == "ENCHANT") {
                     if (isNaN(option2) || option2 < 0 || option2 > guildForgePrices.enchant.length) { return functions.replyMessage(message, "This is not a valid option!") }
                 } else if (option == "ENHANCE") {
                     if (isNaN(option2) || option2 < 0 || option2 > guildForgePrices.enhance.length) { return functions.replyMessage(message, "This is not a valid option!") }
@@ -673,8 +673,8 @@ module.exports = async function (message, user) {
                 if (guild.forge.level == 9) { forgeupgradetext = "(MAX LEVEL)" }
                 let moneydiff = Math.max(0, guildForgePrices.level[guild.forge.level + 1].money - guild.forge.donate.money)
                 let matsdiff = Math.max(0, guildForgePrices.level[guild.forge.level + 1].materials - guild.forge.donate.materials)
-                if (guild.level < guildForgePrices.level[guild.forge.level + 1].guildlevel) { forgeupgradetext = "(guild level " + guildForgePrices.level[guild.forge.level + 1].guildlevel+" required for next upgrade)"}
-                else if (moneydiff == 0 && matsdiff == 0) { forgeupgradetext = "(Ready to upgrade!)" }
+                if (moneydiff == 0 && matsdiff == 0) { forgeupgradetext = "(Ready to upgrade!)" }
+                else if (guild.level < guildForgePrices.level[guild.forge.level + 1].guildlevel) { forgeupgradetext = "(guild level " + guildForgePrices.level[guild.forge.level + 1].guildlevel+" required for next upgrade)"}
                 else {forgeupgradetext = "($"+moneydiff + " and "+matsdiff+" materials needed for next upgrade)"}
                 text+="Forge Level "+guild.forge.level+ " "+forgeupgradetext + "\n"
 
