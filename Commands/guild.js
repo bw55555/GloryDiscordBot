@@ -23,6 +23,30 @@ const guildBuffStore = [
     { "name": "Rage +", "stat": "rage", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 0.2, 0.4, 0.6, 0.8, 1], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] },
     { "name": "Pierce +", "stat": "pierce", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 0.04, 0.08, 0.12, 0.16, 0.2], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] }
 ]
+
+const guildForgePrices = {
+    "level": [
+        { "money": 50000000, "materials": 500000 },
+        { "money": 100000000, "materials": 1000000 },
+        { "money": 150000000, "materials": 1500000 },
+        { "money": 250000000, "materials": 2500000 },
+        { "money": 500000000, "materials": 5000000 },
+        { "money": 750000000, "materials": 7500000 },
+        { "money": 1000000000, "materials": 10000000 },
+        { "money": 2000000000, "materials": 20000000 },
+        { "money": 5000000000, "materials": 50000000 }
+    ], 
+    "enhance": [
+        { "name": "Max Level", "bonus": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "price": [0,20000,50000,100000,200000, 500000, 1000000, 2000000, 5000000, 10000000] },
+        { "name": "Cost Down", "bonus": [0, 0.6, 0.8, 0.90, 0.96, 0.98, 0.99, 0.996, 0.998, 0.999], "price": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000] },
+        { "name": "Rate Up", "bonus": [0, 0.01, 0.02, 0.04, 0.08, 0.14, 0.22, 0.32, 0.44, 0.58], "price": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000]}
+    ],
+    "enchant": [
+        { "name": "Max Level", "bonus": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] },
+        { "name": "Cost Down", "bonus": [0, 0.6, 0.8, 0.90, 0.96, 0.98, 0.99, 0.996, 0.998, 0.999] },
+        { "name": "Rate Up", "bonus": [0, 0.01, 0.02, 0.04, 0.08, 0.14, 0.22, 0.32, 0.44, 0.58] }
+    ]
+}
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
@@ -81,6 +105,7 @@ module.exports = async function (message, user) {
                 guild.store = {};
                 guild.buffs = {};
                 guild.quests = {};
+                //guild.forge = {};
                 guild.crystals = 0;
                 user.guild = guildName;
                 user.guildpos = "Leader";
@@ -598,7 +623,41 @@ module.exports = async function (message, user) {
             if (text == "Your guild's buffs: ```\nUpgrade a buff with !guild upgrade buff [buff]```") { text = "Your guild has no buffs! Purchase one with !guild upgrade buff [buff]" }
             functions.replyMessage(message, text)
         }
+        else if (command == "FORGE") {
+            if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
+            if (guild.forge == undefined) {
+                guild.forge = {"level": 0, "enchant": [0,0,0], "enhance": [0,0,0]}
+            }
+            let scmd = words.length < 3 ? "" : words[2].toUpperCase()
+            if (scmd == "UPGRADE") {
+                let option1 = words.length < 4 ? "" : words[3].toUpperCase();
+                let option2 = words.length < 5 ? -1 : parseInt(words[4])
+                if (option == "ENCHANT") {
+                    if (isNaN(option2) || option2 < 0 || option2 > guildForgePrices.enchant.length) { return functions.replyMessage(message, "This is not a valid option!") }
+                } else if (option == "ENHANCE") {
+                    if (isNaN(option2) || option2 < 0 || option2 > guildForgePrices.enhance.length) { return functions.replyMessage(message, "This is not a valid option!") }
+                } else {
+                    return functions.replyMessage(message, "This is not a valid option!")
+                }
+            } else {
+                let text = "```"
 
+                text+="Forge Level "+guild.forge.level+"\n\n"
+
+                text+="Enchantment \n"
+                for (let i = 0; i < guildForgePrices.enchant.length; i++) {
+                    let item = guildForgePrices.enchant[i];
+                    let spaces = (10 - item.name.length) * " "
+                    let upgradetext = "(MAX LEVEL)"
+                    if (guild.forge.enchant[i] < 9) {
+                        upgradetext = guild.forge.level <= guild.forge.enchant[i] ? "(Forge level " + (guild.forge.enchant[i] + 1) + " required for next upgrade)" : "(Ready to upgrade to " + (100 * item.bonus[guild.forge.enchant[i+1]]) + "% for "+item.price[guild.forge.enchant[i+1]]+"crystals)"
+                    }
+                    
+                    text += "[" + i + "] " + item.name + spaces + ": " + (100 * item.bonus[guild.forge.enchant[i]]) + "% (level "+guild.forge.enchant[i]+") "+upgradetext+"\n";
+                }
+                text+= "```"
+            }
+        }
         else if (command == "QUEST") {
             if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
         }
