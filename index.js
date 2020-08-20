@@ -31,6 +31,7 @@ global.mobData = "mobData"//JSON.parse(fs.readFileSync('Storage/mobData.json', '
 global.guildData = "guildData"//JSON.parse(fs.readFileSync('Storage/guildData.json', 'utf8'));
 global.questData = "questData"//JSON.parse(fs.readFileSync('Storage/questData.json', 'utf8'));
 global.partyData = "partyData"
+global.dailyrefresh = null;
 const TOKEN = config.token;//woah woah woah woah whatcha
 client.connect((err) => {
     console.log(err);
@@ -324,12 +325,14 @@ bot.on('ready', function () {
             functions.setObject("mobData", raid);
         })
     }
-    bot.setTimeout(function () {
-        timeReset()
-        bot.setInterval(function () {
+    if (dailyrefresh == null) {
+        dailyrefresh = bot.setTimeout(function () {
             timeReset()
-        }, 86400000)
-    }, resettimer)
+            dailyrefresh = bot.setInterval(function () {
+                timeReset()
+            }, 86400000)
+        }, resettimer)
+    }
     //console.timeEnd("actual ping")
 })
 bot.on("guildCreate", guild => {

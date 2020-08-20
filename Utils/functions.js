@@ -1126,6 +1126,7 @@ function checkProps(message,user) {
     if (!user.bounty) user.bounty = 0;
     if (!user.glory) user.glory = 0;
     if (!user.burn) user.burn = 0;
+    if (!user.runes) user.runes = [0,0,0,0,0,0]
     if (!user.cooldowns) user.cooldowns = {}
     if (!user.cooldowns.attack) user.cooldowns.attack = 1;
     if (!user.cooldowns.heal) user.cooldowns.heal = 1;

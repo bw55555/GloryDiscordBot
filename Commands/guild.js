@@ -710,7 +710,7 @@ module.exports = async function (message, user) {
                 }
 
                 text += "```"
-                return functions.sendMessage(message.channel, text)
+                functions.sendMessage(message.channel, text)
             }
         }
         else if (command == "QUEST") {

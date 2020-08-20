@@ -37,6 +37,7 @@ module.exports = async function (message, user) {
         bounty: 0,
         glory: 0,
         burn: 0,
+        runes: [0, 0, 0, 0, 0, 0],
         cooldowns: { normal: 1, attack: 1, heal: 1, rez: 1, work: 1, bolster: 1, smeltall: 1, purchase: 1, merge: 1, daily: 1, luckyshoprefresh: 1 },
         skills: {},
         skillA: "None",
