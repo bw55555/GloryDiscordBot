@@ -10,6 +10,7 @@ global.fs = require('fs')
 global.util = require("util");
 const http = require('http');
 const DBL = require('dblapi.js');
+//global.runeNames in runes.js, global.guildForgePrices in guild.js
 global.functions = require(`./Utils/functions.js`)
 global.bot = new Discord.Client();
 global.ready = false

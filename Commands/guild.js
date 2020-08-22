@@ -24,7 +24,7 @@ const guildBuffStore = [
     { "name": "Pierce +", "stat": "pierce", "levels": [0, 20, 40, 60, 80, 100], "bonus": [0, 0.04, 0.08, 0.12, 0.16, 0.2], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] }
 ]
 
-const guildForgePrices = {
+global.guildForgePrices = {
     "level": [
         { "money": 0, "materials": 0, "guildlevel": 0},
         { "money": 100000000, "materials": 1000000, "guildlevel": 20 },

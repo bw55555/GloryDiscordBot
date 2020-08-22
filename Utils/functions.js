@@ -355,7 +355,7 @@ function generateItem(owner, itemid, attack, defense, rarity, name, modifiers, i
     if (owner != "event") { owner.inventory[itemid] = itemid }
     let maxenhance = (rarity == "Unique") ? 1024 : Math.pow(2, rarity)
     devData.nextItem++;
-    let item = { "owner": owner._id, "_id": itemid, "equip": false, "attack": attack, "defense": defense, "rarity": rarity, "modifiers": modifiers, "name": name, "enhancementlevel": 0, "maxenhancement": maxenhance, "enhancementattempts": 0, "favorite": false, "merge": 0 }
+    let item = { "owner": owner._id, "_id": itemid, "equip": false, "attack": attack, "defense": defense, "rarity": rarity, "modifiers": modifiers, "name": name, "enhancementlevel": 0, "maxenhancement": maxenhance, "enhancementattempts": 0, "enchantlevel": 0, "numenchants": 0, "favorite": false, "merge": 0 }
     if (isBulk != true) {
         setItem(item)
         setObject("devData", devData)
@@ -1126,7 +1126,8 @@ function checkProps(message,user) {
     if (!user.bounty) user.bounty = 0;
     if (!user.glory) user.glory = 0;
     if (!user.burn) user.burn = 0;
-    if (!user.runes) user.runes = [0,0,0,0,0,0]
+    if (!user.runes) user.runes = [0, 0, 0, 0, 0, 0, 0]
+    while (user.runes.length < 7) { user.runes.push(0) }
     if (!user.cooldowns) user.cooldowns = {}
     if (!user.cooldowns.attack) user.cooldowns.attack = 1;
     if (!user.cooldowns.heal) user.cooldowns.heal = 1;
