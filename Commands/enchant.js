@@ -33,9 +33,10 @@ module.exports = async function (message, user) {
         
         if (ench == undefined || enchantData[ench] == undefined) { return functions.replyMessage(message, "This enchant does not exist!") }
         if (isNaN(energy) || energy < 0) { return functions.replyMessage(message, "Please specify the number of energy runes to use!") }
-        if (energy > user.runes[2]) { return functions.replyMessage(message, "You do not have enough energy runes to do this!")}
+        if (energy > user.runes[2]) { return functions.replyMessage(message, "You do not have enough energy runes to do this!") }
         if (item.enchantlevel == undefined) { item.enchantlevel = 0; }
         if (item.enchantlevel >= guild.forge.enchant[0]) { return functions.replyMessage(message, "Your guild forge is not advanced enough to enchant your weapon!") }
+        if (item.enchantlevel >= item.rarity) { return functions.replyMessage(message, "Your weapon is not yet strong enough to sustain a more powerful enchantment!")}
         let elevel = item.enchantlevel + 1;
         let runemult = parseInt((elevel) * (elevel + 2) / 2)
         let runetext = "";
@@ -79,7 +80,7 @@ module.exports = async function (message, user) {
                 }
                 functions.replyMessage(message, "You have ascended! You now have " + (user.consum.sp) + " skill points!\n(Note that your weapon has been dequipped. Favorite it before smelting everything!)")
             })
-        }, [message], "Please enter `confirm` to ascend. (no caps)");
+        }, [message], "Please enter `confirm` to enchant your weapon. (no caps)");
 
         
 
