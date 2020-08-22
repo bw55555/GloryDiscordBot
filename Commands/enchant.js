@@ -30,21 +30,23 @@ module.exports = async function (message, user) {
         if (item == false) { return functions.replyMessage(message, "That item does not exist!") }
         let ench = words[2];
         let energy = parseInt(words[3]);
+        
         if (ench == undefined || enchantData[ench] == undefined) { return functions.replyMessage(message, "This enchant does not exist!") }
         if (isNaN(energy) || energy < 0) { return functions.replyMessage(message, "Please specify the number of energy runes to use!") }
         if (energy > user.runes[2]) { return functions.replyMessage(message, "You do not have enough energy runes to do this!")}
         if (item.enchantlevel == undefined) { item.enchantlevel = 0; }
         if (item.enchantlevel >= guild.forge.enchant[0]) { return functions.replyMessage(message, "Your guild forge is not advanced enough to enchant your weapon!") }
-        let runemult = parseInt(item.enchantlevel * (item.enchantlevel + 1) / 2)
+        let elevel = item.enchantlevel + 1;
+        let runemult = parseInt((elevel) * (elevel + 2) / 2)
         let runetext = "";
         for (var i = 0; i < enchantData[ench].cost.length; i++) {
             if (enchantData[ench].cost[i] > 0) { runetext += enchantData[ench].cost[i] * runemult+" "+runeNames[3+i]+", "}
             if (user.runes[3 + i] < enchantData[ench].cost[i] * runemult) { return functions.replyMessage(message, "You do not have enough runes to enchant your weapon!") }
         }
         
-        let matscost = parseInt(100000 * Math.pow(4, item.enchantlevel) * guildForgePrices.enchant[1].bonus[guild.forge.enchant[1]])
+        let matscost = parseInt(100000 * Math.pow(4, elevel) * guildForgePrices.enchant[1].bonus[guild.forge.enchant[1]])
         
-        let successrate = parseInt((Math.pow(Math.pow(200 * item.enchantlevel, 2) - Math.pow(energy - 200 * item.enchantlevel, 2), 0.5) / item.enchantlevel) - Math.pow(item.enchantlevel,2) + 100*guildForgePrices.enchant[2].bonus[guild.forge.enchant[2]])
+        let successrate = parseInt((Math.pow(Math.pow(200 * elevel, 2) - Math.pow(energy - 200 * elevel, 2), 0.5) / elevel) - Math.pow(elevel,2) + 100*guildForgePrices.enchant[2].bonus[guild.forge.enchant[2]])
 
         functions.MessageAwait(message.channel, id, "Are you sure you want to enchant your weapon? It will cost you "+runetext+"and "+matscost+" materials. "+"You have a success rate of "+successrate+"%\nIf you are sure, type `confirm`", "confirm", function (response, extraArgs) {
             Promise.all([functions.getUser(id), functions.getItem(weaponid)]).then(ret => {
@@ -54,7 +56,7 @@ module.exports = async function (message, user) {
                 if (item == false) { return functions.replyMessage(message, "That item does not exist!") }
                 if (energy > user.runes[2]) { return functions.replyMessage(message, "You do not have enough energy runes to do this!") }
                 if (user.materials < matscost) { return functions.replyMessage(message, "You do not have enough materials!") }
-                let runemult = parseInt(item.enchantlevel * (item.enchantlevel + 1) / 2)
+                let runemult = parseInt((elevel) * (elevel + 1) / 2)
                 for (var i = 0; i < enchantData[ench].cost.length; i++) {
                     if (user.runes[3 + i] < enchantData[ench].cost[i] * runemult) { return functions.replyMessage(message, "You do not have enough "+runeNames[3+i]+" to enchant your weapon!") }
                 }
