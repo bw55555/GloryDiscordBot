@@ -3,7 +3,7 @@ const enchantData = {
     "critDamage": { "start": 0.4, "level": 0.3, "end": 0.5, "cost": [7, 3, 0, 0] },
     "lifeSteal": { "start": 0.04, "level": 0.03, "end": 0.5, "cost": [3, 2, 0, 5] },
     "lucky": { "start": 1.2, "level": 0.3, "end": 0.5, "cost": [10, 0, 0, 0] },
-    "sacrifice": { "start": 0.05, "level": 0.05, "end": 0.1, "cost": [3, 5, 0, 2] },
+    "sacrifice": { "start": 0.04, "level": 0.03, "end": 0.05, "cost": [3, 5, 0, 2] },
     "revenge": { "start": 0.005, "level": 0.005, "end": 0.01, "cost": [6, 3, 1, 0] },
     "rage": { "start": 0.2, "level": 0.2, "end": 0.4, "cost": [6, 3, 0, 1] },
     "burn": { "start": 5, "level": 2, "end": 6, "cost": [6, 4, 0, 0] },
@@ -45,7 +45,7 @@ module.exports = async function (message, user) {
             if (user.runes[3 + i] < enchantData[ench].cost[i] * runemult) { return functions.replyMessage(message, "You do not have enough runes to enchant your weapon!") }
         }
         
-        let matscost = parseInt(100000 * Math.pow(4, elevel) * guildForgePrices.enchant[1].bonus[guild.forge.enchant[1]])
+        let matscost = parseInt(100000 * Math.pow(4, elevel) * (1-guildForgePrices.enchant[1].bonus[guild.forge.enchant[1]]))
         
         let successrate = parseInt((Math.pow(Math.pow(200 * elevel, 2) - Math.pow(energy - 200 * elevel, 2), 0.5) / elevel) - Math.pow(elevel,2) + 100*guildForgePrices.enchant[2].bonus[guild.forge.enchant[2]])
 
