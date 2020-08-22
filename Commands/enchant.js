@@ -1,20 +1,20 @@
 const enchantData = {
     "critRate": { "start": 0.01, "level": 0.01, "end": 0.02, "cost": [6, 4, 0, 0] },
-    "critDamage": [7, 3, 0, 0],
-    "lifeSteal": [3, 2, 0, 5],
-    "lucky": [10, 0, 0, 0],
-    "sacrifice": [3, 5, 0, 2],
-    "revenge": [6, 3, 1, 0],
-    "rage": [6, 3, 0, 1],
-    "burn": [6, 4, 0, 0],
-    "haste": [10, 0, 0, 0],
-    "evade": [8, 0, 2, 0],
-    "tempo": [8, 2, 0, 0],
-    "regen": [2, 0, 0, 8],
-    "pierce": [0, 10, 0, 0],
-    "spikes": [0, 5, 5, 0],
-    "block": [0, 0, 10, 0],
-    "maxhp": [0, 0, 0, 10]
+    "critDamage": { "start": 0.4, "level": 0.3, "end": 0.5, "cost": [7, 3, 0, 0] },
+    "lifeSteal": { "start": 0.04, "level": 0.03, "end": 0.5, "cost": [3, 2, 0, 5] },
+    "lucky": { "start": 1.2, "level": 0.3, "end": 0.5, "cost": [10, 0, 0, 0] },
+    "sacrifice": { "start": 0.05, "level": 0.05, "end": 0.1, "cost": [3, 5, 0, 2] },
+    "revenge": { "start": 0.005, "level": 0.005, "end": 0.01, "cost": [6, 3, 1, 0] },
+    "rage": { "start": 0.2, "level": 0.2, "end": 0.4, "cost": [6, 3, 0, 1] },
+    "burn": { "start": 5, "level": 2, "end": 6, "cost": [6, 4, 0, 0] },
+    "haste": { "start": 0.03, "level": 0.01, "end": 0.05, "cost": [10, 0, 0, 0] },
+    "evade": { "start": 0.01, "level": 0.005, "end": 0.015, "cost": [8, 0, 2, 0] },
+    "tempo": { "start": 0.2, "level": 0.3, "end": 0.4, "cost": [8, 2, 0, 0] },
+    "regen": { "start": 0.05, "level": 0.02, "end": 0.06, "cost": [2, 0, 0, 8] },
+    "pierce": { "start": 0.02, "level": 0.02, "end": 0.4, "cost": [0, 10, 0, 0] },
+    "spikes": { "start": 0.2, "level": 0.2, "end": 0.4, "cost": [0, 5, 5, 0] },
+    "block": { "start": 0.02, "level": 0.01, "end": 0.03, "cost": [0, 0, 10, 0] },
+    "maxhp": { "start": 20.0, "level": 40.0, "end": 100.0, "cost": [0, 0, 0, 10] }
 }
 module.exports = async function (message, user) {
     let id = message.author.id;
