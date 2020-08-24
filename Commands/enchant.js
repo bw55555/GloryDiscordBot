@@ -28,17 +28,21 @@ module.exports = async function (message, user) {
         let item = ret[0]
         let guild = ret[1]
         if (item == false) { return functions.replyMessage(message, "That item does not exist!") }
-        let ench = words[2];
-        let energy = parseInt(words[3]);
-        
-        if (ench == undefined || enchantData[ench] == undefined) { return functions.replyMessage(message, "This enchant does not exist!") }
-        if (isNaN(energy) || energy < 0) { return functions.replyMessage(message, "Please specify the number of energy runes to use!") }
-        if (energy > user.runes[2]) { return functions.replyMessage(message, "You do not have enough energy runes to do this!") }
-        
+        if (item.owner != user._id) { return functions.replyMessage(message, "You do not own this item!") }
+        if (item._id == user.weapon) { return functions.replyMessage(message, "This item is currently equipped!") }
         if (item.enchantlevel == undefined) { item.enchantlevel = 0; }
         if (item.enchantlevel >= guild.forge.enchant[0]) { return functions.replyMessage(message, "Your guild forge is not advanced enough to enchant your weapon!") }
-        if (item.enchantlevel >= item.rarity) { return functions.replyMessage(message, "Your weapon is not yet strong enough to sustain a more powerful enchantment!")}
+        if (item.enchantlevel >= item.rarity) { return functions.replyMessage(message, "Your weapon is not yet strong enough to sustain a more powerful enchantment!") }
         let elevel = item.enchantlevel + 1;
+        let ench = words[2];
+        let energy = parseInt(words[3]);
+        if (words[3] == "%") {
+            let wanted = parseInt(words[4]);
+            energy = parseInt(200 * elevel - Math.pow(Math.pow(200 * elevel, 2) - Math.pow(elevel * (p + elevel * elevel - guildForgePrices.enchant[2].bonus[guild.forge.enchant[2]]), 2), 0.5));
+        }
+        if (isNaN(energy) || energy < 0) { return functions.replyMessage(message, "Please specify the number of energy runes to use!") }
+        if (ench == undefined || enchantData[ench] == undefined) { return functions.replyMessage(message, "This enchant does not exist!") }
+        
         let runemult = parseInt((elevel) * (elevel + 2) / 2)
         let runetext = "";
         for (var i = 0; i < enchantData[ench].cost.length; i++) {
