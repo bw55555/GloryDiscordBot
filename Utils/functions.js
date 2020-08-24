@@ -250,11 +250,11 @@ function generateWeaponTemplate(owner, weapon, current, total) {
                 inline: false,
             }, {
                 name: "Attack:",
-                value: weapon.attack,
+                value: weapon.attack +"(+"+weapon.enhance.attack+")",
                 inline: true,
             }, {
                 name: "Defense:",
-                value: weapon.defense,
+                value: weapon.defense + "(+" + weapon.enhance.defense + ")",
                 inline: true,
             }, {
                 name: "Rarity:",
@@ -353,9 +353,9 @@ function generateItem(owner, itemid, attack, defense, rarity, name, modifiers, i
         itemid = devData.nextItem;
     }
     if (owner != "event") { owner.inventory[itemid] = itemid }
-    let maxenhance = (rarity == "Unique") ? 1024 : Math.pow(2, rarity)
     devData.nextItem++;
-    let item = { "owner": owner._id, "_id": itemid, "equip": false, "attack": attack, "defense": defense, "rarity": rarity, "modifiers": modifiers, "name": name, "enhancementlevel": 0, "maxenhancement": maxenhance, "enhancementattempts": 0, "enchantlevel": 0, "numenchants": 0, "favorite": false, "merge": 0 }
+    let item = {
+        "owner": owner._id, "_id": itemid, "equip": false, "attack": attack, "defense": defense, "rarity": rarity, "modifiers": modifiers, "name": name, "enhance": {"level": 0, "attack": 0, "defense": 0}, "enchantlevel": 0, "numenchants": 0, "favorite": false, "merge": 0 }
     if (isBulk != true) {
         setItem(item)
         setObject("devData", devData)
@@ -882,9 +882,9 @@ function calcStats(message, user, stat, skillenable,confused) {
 
         if (user.weapon != false && user.weapon != undefined) {
             if (confused) {
-                attack += user.weapon.defense;
+                attack += user.weapon.defense + user.weapon.enhance.defense;
             } else {
-                attack += user.weapon.attack;
+                attack += user.weapon.attack+ user.weapon.enhance.defense;
             }
             
         }
@@ -947,9 +947,9 @@ function calcStats(message, user, stat, skillenable,confused) {
     if (stat == "defense") {
         if (user.weapon != false && user.weapon != undefined) {
             if (!confused) {
-                defense += user.weapon.defense;
+                defense += user.weapon.defense+user.weapon.enhance.defense;
             } else {
-                defense += user.weapon.attack;
+                defense += user.weapon.attack+user.weapon.enhance.attack;
             }
 
         }

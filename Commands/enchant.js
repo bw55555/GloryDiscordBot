@@ -47,10 +47,10 @@ module.exports = async function (message, user) {
         if (isNaN(energy) || energy < 0) { return functions.replyMessage(message, "Please specify the number of energy runes to use!") }
         if (ench == undefined || enchantData[ench] == undefined) { return functions.replyMessage(message, "This enchant does not exist!") }
         
-        let runemult = parseInt((elevel) * (elevel + 2) / 2)
+        let runemult = parseInt((elevel) * (elevel + 1) / 2)
         let runetext = "";
         for (var i = 0; i < enchantData[ench].cost.length; i++) {
-            if (enchantData[ench].cost[i] > 0) { runetext += enchantData[ench].cost[i] * runemult+" "+runeNames[3+i]+", "}
+            if (enchantData[ench].cost[i] > 0) { runetext += enchantData[ench].cost[i] * runemult+" "+runeNames[3+i]+"s, "}
             if (user.runes[3 + i] < enchantData[ench].cost[i] * runemult) { return functions.replyMessage(message, "You do not have enough runes to enchant your weapon!") }
         }
         if (item.numenchants == undefined) { item.numenchants = 0; }
@@ -78,7 +78,7 @@ module.exports = async function (message, user) {
                 for (var i = 0; i < enchantData[ench].cost.length; i++) {
                     user.runes[3 + i] -= enchantData[ench].cost[i] * runemult
                 }
-                if (item.modifiers[ench] == undefined) { user.runes[0] -= item.numenchants; }
+                if (item.modifiers[ench] == undefined) { user.runes[1] -= item.numenchants; }
                 user.runes[2] -= energy
                 user.materials -= matscost
                 functions.setUser(user)
