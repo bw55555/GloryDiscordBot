@@ -34,6 +34,7 @@ module.exports = async function (message, user) {
         if (ench == undefined || enchantData[ench] == undefined) { return functions.replyMessage(message, "This enchant does not exist!") }
         if (isNaN(energy) || energy < 0) { return functions.replyMessage(message, "Please specify the number of energy runes to use!") }
         if (energy > user.runes[2]) { return functions.replyMessage(message, "You do not have enough energy runes to do this!") }
+        
         if (item.enchantlevel == undefined) { item.enchantlevel = 0; }
         if (item.enchantlevel >= guild.forge.enchant[0]) { return functions.replyMessage(message, "Your guild forge is not advanced enough to enchant your weapon!") }
         if (item.enchantlevel >= item.rarity) { return functions.replyMessage(message, "Your weapon is not yet strong enough to sustain a more powerful enchantment!")}
@@ -44,7 +45,9 @@ module.exports = async function (message, user) {
             if (enchantData[ench].cost[i] > 0) { runetext += enchantData[ench].cost[i] * runemult+" "+runeNames[3+i]+", "}
             if (user.runes[3 + i] < enchantData[ench].cost[i] * runemult) { return functions.replyMessage(message, "You do not have enough runes to enchant your weapon!") }
         }
-        
+        if (item.numenchants == undefined) { item.numenchants = 0; }
+        if (item.numenchants > 0) { runetext += item.numenchants + " Wisdom Rune(s), "; }
+        runetext += energy + " Energy Runes "
         let matscost = parseInt(100000 * Math.pow(4, elevel) * (1-guildForgePrices.enchant[1].bonus[guild.forge.enchant[1]]))
         
         let successrate = parseInt((Math.pow(Math.pow(200 * elevel, 2) - Math.pow(energy - 200 * elevel, 2), 0.5) / elevel) - Math.pow(elevel,2) + 100*guildForgePrices.enchant[2].bonus[guild.forge.enchant[2]])
@@ -55,15 +58,19 @@ module.exports = async function (message, user) {
                 let item = ret[1];
                 let message = extraArgs[0]
                 if (item == false) { return functions.replyMessage(message, "That item does not exist!") }
+                if (item.owner != user._id) { return functions.replyMessage(message, "You do not own this item!") }
+                if (item._id == user.weapon) { return functions.replyMessage(message, "This item is currently equipped!") }
                 if (energy > user.runes[2]) { return functions.replyMessage(message, "You do not have enough energy runes to do this!") }
                 if (user.materials < matscost) { return functions.replyMessage(message, "You do not have enough materials!") }
                 let runemult = parseInt((elevel) * (elevel + 1) / 2)
                 for (var i = 0; i < enchantData[ench].cost.length; i++) {
                     if (user.runes[3 + i] < enchantData[ench].cost[i] * runemult) { return functions.replyMessage(message, "You do not have enough "+runeNames[3+i]+" to enchant your weapon!") }
                 }
+                if (item.numenchants > 0 && user.runes[0] < item.numenchants) { return functions.replyMessage(message, "You do not have enough wisdom runes!")}
                 for (var i = 0; i < enchantData[ench].cost.length; i++) {
                     user.runes[3 + i] -= enchantData[ench].cost[i] * runemult
                 }
+                user.runes[0] -= item.numenchants;
                 user.runes[2] -= energy
                 user.materials -= matscost
                 functions.setUser(user)
