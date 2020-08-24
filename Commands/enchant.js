@@ -38,7 +38,11 @@ module.exports = async function (message, user) {
         let energy = parseInt(words[3]);
         if (words[3] == "%") {
             let wanted = parseInt(words[4]);
-            energy = parseInt(200 * elevel - Math.pow(Math.pow(200 * elevel, 2) - Math.pow(elevel * (wanted + elevel * elevel - 100*guildForgePrices.enchant[2].bonus[guild.forge.enchant[2]]), 2), 0.5));
+            if (wanted + elevel * elevel - 100 * guildForgePrices.enchant[2].bonus[guild.forge.enchant[2]] > 0) {
+                energy = 1 + parseInt(200 * elevel - Math.pow(Math.pow(200 * elevel, 2) - Math.pow(elevel * (wanted + elevel * elevel - 100 * guildForgePrices.enchant[2].bonus[guild.forge.enchant[2]]), 2), 0.5));
+            } else {
+                energy = 1;
+            }
         }
         if (isNaN(energy) || energy < 0) { return functions.replyMessage(message, "Please specify the number of energy runes to use!") }
         if (ench == undefined || enchantData[ench] == undefined) { return functions.replyMessage(message, "This enchant does not exist!") }
