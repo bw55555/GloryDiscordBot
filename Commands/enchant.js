@@ -54,7 +54,7 @@ module.exports = async function (message, user) {
             if (user.runes[3 + i] < enchantData[ench].cost[i] * runemult) { return functions.replyMessage(message, "You do not have enough runes to enchant your weapon!") }
         }
         if (item.numenchants == undefined) { item.numenchants = 0; }
-        if (item.numenchants > 0) { runetext += item.numenchants + " Wisdom Rune(s), "; }
+        if (item.modifiers[ench] == undefined && item.numenchants > 0) { runetext += item.numenchants + " Wisdom Rune(s), "; }
         runetext += energy + " Energy Runes "
         let matscost = parseInt(100000 * Math.pow(4, elevel) * (1-guildForgePrices.enchant[1].bonus[guild.forge.enchant[1]]))
         
@@ -78,7 +78,7 @@ module.exports = async function (message, user) {
                 for (var i = 0; i < enchantData[ench].cost.length; i++) {
                     user.runes[3 + i] -= enchantData[ench].cost[i] * runemult
                 }
-                user.runes[0] -= item.numenchants;
+                if (item.modifiers[ench] == undefined) { user.runes[0] -= item.numenchants; }
                 user.runes[2] -= energy
                 user.materials -= matscost
                 functions.setUser(user)
