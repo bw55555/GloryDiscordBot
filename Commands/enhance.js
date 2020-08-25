@@ -25,22 +25,27 @@ module.exports = async function (message, user) {
     if (isNaN(weaponid)) { return functions.replyMessage(message, "The weapon id must be an integer"); return; }
     if (user.guild == "None") { return functions.replyMessage(message, "You need to be in a guild to enhance something!") }
     let stat = words[2];
-    if (stat == undefined) { stat = "random" }
+    if (stat == undefined) { return functions.replyMessage(message, "Please specify a stat(random, attack, or defense)!") }
     stat = stat.toLowerCase();
     if (stat != "random" && stat != "attack" && stat != "defense") { return functions.replyMessage(message, "Please specify attack, defense, or random. ") }
+    let num = words[3];
+    if (num == undefined) { num = 1; }
+    num = parseInt(num);
+    if (num < 0) {return functions.replyMessage(message, "Please specify a positive integer number!")}
     return Promise.all([functions.getItem(weaponid), functions.getObject("guildData", user.guild)]).then(ret => {
         let item = ret[0]
         let guild = ret[1]
         if (item == false) { return functions.replyMessage(message, "That item does not exist!") }
         if (item.owner != user._id) { return functions.replyMessage(message, "You do not own this item!") }
         if (item._id == user.weapon) { return functions.replyMessage(message, "This item is currently equipped!") }
-        if (item.enhance.level >= guildForgePrices.enhance[0].bonus[guild.forge.enhance[0]]) { return functions.replyMessage(message, "The guild forge is not advanced enough to enhance this item further!") }
-        if (item.enhance.level > Math.pow(2, item.rarity)) { return functions.replyMessage(message, "Your weapon is not strong enough to withstand another enhancement!")}
+        if (item.enhance.level+1 > guildForgePrices.enhance[0].bonus[guild.forge.enhance[0]]) { return functions.replyMessage(message, "The guild forge is not advanced enough to enhance this item further!") }
+        if (item.enhance.level+1 > Math.pow(2, item.rarity)) { return functions.replyMessage(message, "Your weapon is not strong enough to withstand another enhancement!") }
         let successrate = 100 - 10 * item.rarity + 100 * guildForgePrices.enhance[2].bonus[guild.forge.enhance[2]]
-        let elevel = item.enhance.level+1
-        let cost = Math.pow(2, Math.pow(elevel, 0.5)) * elevel * 10000 * (1-guildForgePrices.enhance[1].bonus[guild.forge.enhance[1]])
-        if (stat == "attack" || stat == "defense") { cost *= 2}
-        functions.MessageAwait(message.channel, id, "Are you sure you want to enhance your weapon? It will cost you $" +cost+ ". You have a success rate of " + successrate + "%\nIf you are sure, type `confirm`", "confirm", function (response, extraArgs) {
+        let cost = parseInt(Math.pow(2, Math.pow(item.enhance.level, 0.5)) * item.enhance.level * 10000 * (1 - guildForgePrices.enhance[1].bonus[guild.forge.enhance[1]]))
+        let extratext = "? It will cost you $" + cost + ".You have a success rate of " + successrate + "%"
+        if (num > 1) { extratext = " "+num+" times?"}
+        if (stat == "attack" || stat == "defense") { cost *= 2 }
+        functions.MessageAwait(message.channel, id, "Are you sure you want to enhance your weapon" +extratext+ "\nIf you are sure, type `confirm`", "confirm", function (response, extraArgs) {
             Promise.all([functions.getUser(id), functions.getItem(weaponid)]).then(ret => {
                 let user = ret[0];
                 let item = ret[1];
@@ -48,26 +53,57 @@ module.exports = async function (message, user) {
                 if (item == false) { return functions.replyMessage(message, "That item does not exist!") }
                 if (item.owner != user._id) { return functions.replyMessage(message, "You do not own this item!") }
                 if (item._id == user.weapon) { return functions.replyMessage(message, "This item is currently equipped!") }
-                if (user.money < cost) { return functions.replyMessage(message, "You do not have enough money!") }
-                user.money -= cost;
-                functions.setUser(user)
-                let chance = Math.random() * 100;
-                if (chance > successrate) {
-                    return functions.replyMessage(message, "Oh no! It failed...")
-                } else {
-                    item.enhance.level += 1;
-                    if (stat == "random") {
-                        if (Math.random() > 0.5) {
-                            stat = "attack"
-                        } else {
-                            stat = "defense"
+                if (num == 1) {
+                    let cost = parseInt(Math.pow(2, Math.pow(item.enhance.level, 0.5)) * item.enhance.level * 10000 * (1 - guildForgePrices.enhance[1].bonus[guild.forge.enhance[1]]))
+                    let successrate = 100 - 10 * item.rarity + 100 * guildForgePrices.enhance[2].bonus[guild.forge.enhance[2]]
+                    if (user.money < cost) { return functions.replyMessage(message, "You do not have enough money!") }
+                    user.money -= cost;
+                    functions.setUser(user)
+                    let chance = Math.random() * 100;
+                    if (chance > successrate) {
+                        return functions.replyMessage(message, "Oh no! It failed...")
+                    } else {
+                        item.enhance.level += 1;
+                        if (stat == "random") {
+                            if (Math.random() > 0.5) {
+                                stat = "attack"
+                            } else {
+                                stat = "defense"
+                            }
                         }
+                        item.enhance[stat] += 1;
+                        functions.setItem(item)
+                        return functions.replyMessage(message, "You have successfully enhanced your weapon to level " + item.enhance.level)
                     }
-                    item.enhance[stat] += 1;
-                    functions.setItem(item)
-                    return functions.replyMessage(message, "You have successfully enhanced your weapon to level " + item.enhance.level)
                 }
-                functions.replyMessage(message, "You have ascended! You now have " + (user.consum.sp) + " skill points!\n(Note that your weapon has been dequipped. Favorite it before smelting everything!)")
+                let text = "";
+                for (let i = 0; i < num; i++) {
+                    if (text.length > 1900) {functions.replyMessage(message, text); text = ""}
+                    cost = parseInt(Math.pow(2, Math.pow(item.enhance.level, 0.5)) * item.enhance.level * 10000 * (1 - guildForgePrices.enhance[1].bonus[guild.forge.enhance[1]]))
+                    successrate = 100 - 10 * item.rarity + 100 * guildForgePrices.enhance[2].bonus[guild.forge.enhance[2]]
+                    if (item.enhance.level + 1 > guildForgePrices.enhance[0].bonus[guild.forge.enhance[0]]) { text += "The guild forge is not advanced enough to enhance this item further!";break }
+                    if (item.enhance.level + 1 > Math.pow(2, item.rarity)) { text+= "Your weapon is not strong enough to withstand another enhancement!";break }
+                    if (user.money < cost) { text += "You do not have enough money!"; break }
+                    user.money -= cost;
+                    functions.setUser(user)
+                    let chance = Math.random() * 100;
+                    if (chance > successrate) {
+                        text += "Oh no! It failed...";
+                    } else {
+                        item.enhance.level += 1;
+                        if (stat == "random") {
+                            if (Math.random() > 0.5) {
+                                stat = "attack"
+                            } else {
+                                stat = "defense"
+                            }
+                        }
+                        item.enhance[stat] += 1;
+                        text+="You have successfully enhanced your weapon to level " + item.enhance.level
+                    }
+                }
+                if (text != "") { functions.replyMessage(message, text); }
+                functions.setItem(item);
             })
         }, [message], "Please enter `confirm` to enhance your weapon. (no caps)");
     })

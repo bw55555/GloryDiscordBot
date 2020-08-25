@@ -93,7 +93,6 @@ module.exports = async function (message, user) {
                     functions.setItem(item)
                     return functions.replyMessage(message, "You have successfully enchanted your weapon to level "+item.enchantlevel)
                 }
-                functions.replyMessage(message, "You have ascended! You now have " + (user.consum.sp) + " skill points!\n(Note that your weapon has been dequipped. Favorite it before smelting everything!)")
             })
         }, [message], "Please enter `confirm` to enchant your weapon. (no caps)");
 
