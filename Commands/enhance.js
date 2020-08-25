@@ -34,10 +34,11 @@ module.exports = async function (message, user) {
         if (item == false) { return functions.replyMessage(message, "That item does not exist!") }
         if (item.owner != user._id) { return functions.replyMessage(message, "You do not own this item!") }
         if (item._id == user.weapon) { return functions.replyMessage(message, "This item is currently equipped!") }
-        if (item.enhance.level > guildForgePrices.enhance[0].bonus[guild.forge.enhance[0]]) { return functions.replyMessage(message, "The guild forge is not advanced enough to enhance this item further!") }
+        if (item.enhance.level >= guildForgePrices.enhance[0].bonus[guild.forge.enhance[0]]) { return functions.replyMessage(message, "The guild forge is not advanced enough to enhance this item further!") }
         if (item.enhance.level > Math.pow(2, item.rarity)) { return functions.replyMessage(message, "Your weapon is not strong enough to withstand another enhancement!")}
         let successrate = 100 - 10 * item.rarity + 100 * guildForgePrices.enhance[2].bonus[guild.forge.enhance[2]]
-        let cost = Math.pow(2, Math.pow(item.enhance.level, 0.5)) * item.enhance.level * 10000 * guildForgePrices.enhance[1].bonus[guild.forge.enhance[1]]
+        let elevel = item.enhance.level+1
+        let cost = Math.pow(2, Math.pow(elevel, 0.5)) * elevel * 10000 * (1-guildForgePrices.enhance[1].bonus[guild.forge.enhance[1]])
         if (stat == "attack" || stat == "defense") { cost *= 2}
         functions.MessageAwait(message.channel, id, "Are you sure you want to enhance your weapon? It will cost you $" +cost+ ". You have a success rate of " + successrate + "%\nIf you are sure, type `confirm`", "confirm", function (response, extraArgs) {
             Promise.all([functions.getUser(id), functions.getItem(weaponid)]).then(ret => {
