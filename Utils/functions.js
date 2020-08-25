@@ -558,7 +558,7 @@ function calcDamage(message, attacker, defender, initiator) {
         }
         text += attackername + " has pierced their opponents defense!\n"
         if (attacker.isRaid != true && hasSkill(attacker, 28, skillenable)) {
-            attack *= 1.4
+            attack *= 1.2
         }
     }
 
@@ -849,7 +849,7 @@ function calcStats(message, user, stat, skillenable,confused) {
     }
     if (hasSkill(user, 12, skillenable)) {
         if (user.health == user.currenthealth) {
-            buff *= 1.5;
+            buff += 0.5;
             /*buff += 1;
             dbuff += 1;*/
         }
@@ -873,8 +873,8 @@ function calcStats(message, user, stat, skillenable,confused) {
     }
 
     if (user.bolster == true) {
-        buff *= 1.5;
-        dbuff *= 1.5;
+        buff += 0.5;
+        dbuff += 0.5;
         user.bolster = false;
     }
 
@@ -904,7 +904,7 @@ function calcStats(message, user, stat, skillenable,confused) {
                 text += "<@" + user._id + "> \"sacrificed\" **" + Math.floor(buff * attack * sacrifice) + "** Health, but mysteriously just didn't!\n";
             } else {
                 user.currenthealth -= Math.floor(buff * attack * sacrifice)
-                text += "<@" + user._id + "> sacrificed **" + Math.floor(buff * attack * sacrifice) + "** Health!\n";
+                text += "<@" + user._id     + "> sacrificed **" + Math.floor(buff * attack * sacrifice) + "** Health!\n";
             }
         }
 
@@ -937,7 +937,7 @@ function calcStats(message, user, stat, skillenable,confused) {
         let critchance = Math.random();
         if (critchance < critrate) {
             text += "<@" + user._id + "> just dealt critical damage!\n";
-            buff *= critdmg;
+            buff += critdmg-1;
         }
 
         if (text != "") { sendMessage(message.channel, text) }
