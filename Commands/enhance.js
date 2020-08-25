@@ -41,10 +41,10 @@ module.exports = async function (message, user) {
         if (item.enhance.level+1 > guildForgePrices.enhance[0].bonus[guild.forge.enhance[0]]) { return functions.replyMessage(message, "The guild forge is not advanced enough to enhance this item further!") }
         if (item.enhance.level+1 > Math.pow(2, item.rarity)) { return functions.replyMessage(message, "Your weapon is not strong enough to withstand another enhancement!") }
         let successrate = 100 - 10 * item.rarity + 100 * guildForgePrices.enhance[2].bonus[guild.forge.enhance[2]]
-        let cost = parseInt(Math.pow(2, Math.pow(item.enhance.level, 0.5)) * item.enhance.level * 10000 * (1 - guildForgePrices.enhance[1].bonus[guild.forge.enhance[1]]))
+        let cost = parseInt(Math.pow(2, Math.pow(item.enhance.level, 0.5)) * (item.enhance.level + 1) * 10000 * (1 - guildForgePrices.enhance[1].bonus[guild.forge.enhance[1]]))
+        if (stat == "attack" || stat == "defense") { cost *= 2 }
         let extratext = "? It will cost you $" + cost + ".You have a success rate of " + successrate + "%"
         if (num > 1) { extratext = " "+num+" times?"}
-        if (stat == "attack" || stat == "defense") { cost *= 2 }
         functions.MessageAwait(message.channel, id, "Are you sure you want to enhance your weapon" +extratext+ "\nIf you are sure, type `confirm`", "confirm", function (response, extraArgs) {
             Promise.all([functions.getUser(id), functions.getItem(weaponid)]).then(ret => {
                 let user = ret[0];
@@ -81,25 +81,26 @@ module.exports = async function (message, user) {
                     if (text.length > 1900) {functions.replyMessage(message, text); text = ""}
                     cost = parseInt(Math.pow(2, Math.pow(item.enhance.level, 0.5)) * item.enhance.level * 10000 * (1 - guildForgePrices.enhance[1].bonus[guild.forge.enhance[1]]))
                     successrate = 100 - 10 * item.rarity + 100 * guildForgePrices.enhance[2].bonus[guild.forge.enhance[2]]
-                    if (item.enhance.level + 1 > guildForgePrices.enhance[0].bonus[guild.forge.enhance[0]]) { text += "The guild forge is not advanced enough to enhance this item further!";break }
-                    if (item.enhance.level + 1 > Math.pow(2, item.rarity)) { text+= "Your weapon is not strong enough to withstand another enhancement!";break }
-                    if (user.money < cost) { text += "You do not have enough money!"; break }
+                    if (item.enhance.level + 1 > guildForgePrices.enhance[0].bonus[guild.forge.enhance[0]]) { text += "The guild forge is not advanced enough to enhance this item further!\n";break }
+                    if (item.enhance.level + 1 > Math.pow(2, item.rarity)) { text += "Your weapon is not strong enough to withstand another enhancement!\n";break }
+                    if (user.money < cost) { text += "You do not have enough money!\n"; break }
                     user.money -= cost;
                     functions.setUser(user)
                     let chance = Math.random() * 100;
                     if (chance > successrate) {
-                        text += "Oh no! It failed...";
+                        text += "Oh no! It failed...\n";
                     } else {
                         item.enhance.level += 1;
+                        let tu = stat;
                         if (stat == "random") {
                             if (Math.random() > 0.5) {
-                                stat = "attack"
+                                tu = "attack"
                             } else {
-                                stat = "defense"
+                                tu = "defense"
                             }
                         }
-                        item.enhance[stat] += 1;
-                        text+="You have successfully enhanced your weapon to level " + item.enhance.level
+                        item.enhance[tu] += 1;
+                        text += "You have successfully enhanced your weapon to level " + item.enhance.level +"\n"
                     }
                 }
                 if (text != "") { functions.replyMessage(message, text); }
