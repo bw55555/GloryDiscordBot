@@ -1396,7 +1396,12 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
             }
             //console.log(rarity)
             let item = generateRandomItem(user, rarity)
-            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and an item (ID: " + item._id + ") with rarity "+item.rarity+".\n";
+            let runeshardnum = Math.floor(2 * raid.level / 5 + 8 * raid.level / 5 * Math.random())
+            let floating = runeshardnum % 100;
+            let extra = Math.random() * 100 > floating ? 0 : 1
+            runeshardnum = Math.floor(runeshardnum / 100) + floating;
+            user.runes[0]+=runeshardnum
+            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and an item (ID: " + item._id + ") with rarity "+item.rarity+".\nThey also received "+runeshardnum + " Rune Shards.";
         } else {
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\nThe guild was also given "+ raid.reward + " xp and "+raid.crystalreward+" crystals.\n"
             guild.xp += raid.reward
