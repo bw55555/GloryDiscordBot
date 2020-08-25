@@ -77,15 +77,16 @@ module.exports = async function (message, user) {
                     }
                 }
                 let text = "";
+                let totalcost = 0;
                 for (let i = 0; i < num; i++) {
-                    if (text.length > 1900) {functions.replyMessage(message, text); text = ""}
+                    if (text.length > 1900) { functions.replyMessage(message, text); text = "" }
                     cost = parseInt(Math.pow(2, Math.pow(item.enhance.level, 0.5)) * item.enhance.level * 10000 * (1 - guildForgePrices.enhance[1].bonus[guild.forge.enhance[1]]))
                     successrate = 100 - 10 * item.rarity + 100 * guildForgePrices.enhance[2].bonus[guild.forge.enhance[2]]
                     if (item.enhance.level + 1 > guildForgePrices.enhance[0].bonus[guild.forge.enhance[0]]) { text += "The guild forge is not advanced enough to enhance this item further!\n";break }
                     if (item.enhance.level + 1 > Math.pow(2, item.rarity)) { text += "Your weapon is not strong enough to withstand another enhancement!\n";break }
                     if (user.money < cost) { text += "You do not have enough money!\n"; break }
                     user.money -= cost;
-                    functions.setUser(user)
+                    totalcost += cost;
                     let chance = Math.random() * 100;
                     if (chance > successrate) {
                         text += "Oh no! It failed...\n";
@@ -103,7 +104,9 @@ module.exports = async function (message, user) {
                         text += "You have successfully enhanced your weapon to level " + item.enhance.level +"\n"
                     }
                 }
-                if (text != "") { functions.replyMessage(message, text); }
+                text += "You spent a total of $" + totalcost;
+                functions.replyMessage(message, text);
+                functions.setUser(user);
                 functions.setItem(item);
             })
         }, [message], "Please enter `confirm` to enhance your weapon. (no caps)");
