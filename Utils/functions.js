@@ -1181,23 +1181,20 @@ function checkStuff(message,user) {
     user.xp += 1 + Math.floor(Math.random() * user.level);
     let leveluptext = ""
     if (user.level >= 100) { user.xp = Math.min(checkxp(user) - 1, user.xp) }
+    let extratext = ""
     while (user.xp >= checkxp(user) && user.level < 100) { //increases levels when xp>100*level
         user.xp -= checkxp(user)
         user.level += 1;
-        leveluptext += "You leveled up to level " + user.level + "!\n"
+        leveluptext = "You leveled up to level " + user.level + "!\n"
         if (user.level === 5 && user.triangle == "None") {
-            replyMessage(message, "You are level 5! Use !class to get information on how to choose a **class**!");
+            extratext +="You are level 5! Use !class to get information on how to choose a **class**!\n";
         }
         if (user.level === 15 && (user.triangle == "None" || user.triangleid < 4)) {
-            replyMessage(message, "You are level 15! Use !class to get information on how to choose a **subclass**!");
-        }
-        if (leveluptext.length > 1900) {
-            replyMessage(message, leveluptext)
-            leveluptext = ""
+            extratext +="You are level 15! Use !class to get information on how to choose a **subclass**!\n";
         }
     }
     if (leveluptext != "") {
-        replyMessage(message, leveluptext)
+        replyMessage(message, leveluptext+extratext)
     }
 
 
