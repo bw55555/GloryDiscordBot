@@ -44,8 +44,8 @@ global.guildForgePrices = {
     ],
     "enhance": [
         { "name": "Max Level", "bonus": [1, 2, 4, 8, 16, 32, 64, 128, 256, 1024], "prices": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000] },
-        { "name": "Cost Down", "bonus": [0, 0.25, 0.5, 0.8, 0.95, 0.98, 0.99, 0.996, 0.9998, 0.99999], "prices": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000] },
-        { "name": "Rate Up", "bonus": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9], "prices": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000] }
+        { "name": "Cost Down", "bonus": [0, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.98, 0.995, 0.999], "prices": [0, 1000, 5000, 20000, 50000, 200000, 500000, 2000000, 5000000, 10000000] },
+        { "name": "Rate Up", "bonus": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9], "prices": [0, 20000, 60000, 120000, 200000, 300000, 420000, 560000, 720000, 9000000] }
     ]
 }
 module.exports = async function (message, user) {
@@ -663,7 +663,7 @@ module.exports = async function (message, user) {
                 else if (option == "enchant" || option == "enhance") {
                     if (isNaN(option2) || option2 < 0 || option2 > guildForgePrices[option].length) { return functions.replyMessage(message, "This is not a valid option!") }
                     if (guild.forge[option][option2] == 9) { return functions.replyMessage(message, "This option is currently at max level!")}
-                    if (guild.forge.level <= guild.forge[option][option2]) { return functions.replyMessage(message, "Your forge needs to be level " + guild.forge[option][option2] + 1 + " to upgrade this!") }
+                    if (guild.forge.level <= guild.forge[option][option2]) { return functions.replyMessage(message, "Your forge needs to be level " + (guild.forge[option][option2] + 1) + " to upgrade this!") }
                     if (guild.crystals < guildForgePrices[option][option2].prices[guild.forge[option][option2] + 1]) { return functions.replyMessage(message, "Your guild does not have enough crystals!")}
                     guild.crystals -= guildForgePrices[option][option2].prices[guild.forge[option][option2] + 1]
                     guild.forge[option][option2] += 1;

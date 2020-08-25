@@ -41,7 +41,7 @@ module.exports = async function (message, user) {
         if (item.enhance.level+1 > guildForgePrices.enhance[0].bonus[guild.forge.enhance[0]]) { return functions.replyMessage(message, "The guild forge is not advanced enough to enhance this item further!") }
         if (item.enhance.level+1 > Math.pow(2, item.rarity)) { return functions.replyMessage(message, "Your weapon is not strong enough to withstand another enhancement!") }
         let successrate = 100 - 10 * item.rarity + 100 * guildForgePrices.enhance[2].bonus[guild.forge.enhance[2]]
-        let cost = parseInt(Math.pow(2, Math.pow(item.enhance.level, 0.5)) * (item.enhance.level + 1) * 10000 * (1 - guildForgePrices.enhance[1].bonus[guild.forge.enhance[1]]))
+        let cost = parseInt(Math.pow(1.4, Math.pow(item.enhance.level, 0.5)) * Math.pow(item.enhance.level + 1, 1.5) * 10000 * (1 - guildForgePrices.enhance[1].bonus[guild.forge.enhance[1]]))
         if (stat == "attack" || stat == "defense") { cost *= 2 }
         let extratext = "? It will cost you $" + cost + ".You have a success rate of " + successrate + "%"
         if (num > 1) { extratext = " "+num+" times?"}
@@ -54,7 +54,7 @@ module.exports = async function (message, user) {
                 if (item.owner != user._id) { return functions.replyMessage(message, "You do not own this item!") }
                 if (item._id == user.weapon) { return functions.replyMessage(message, "This item is currently equipped!") }
                 if (num == 1) {
-                    let cost = parseInt(Math.pow(2, Math.pow(item.enhance.level, 0.5)) * item.enhance.level * 10000 * (1 - guildForgePrices.enhance[1].bonus[guild.forge.enhance[1]]))
+                    let cost = parseInt(Math.pow(1.4, Math.pow(item.enhance.level, 0.5)) * Math.pow(item.enhance.level + 1, 1.5) * 10000 * (1 - guildForgePrices.enhance[1].bonus[guild.forge.enhance[1]]))
                     let successrate = 100 - 10 * item.rarity + 100 * guildForgePrices.enhance[2].bonus[guild.forge.enhance[2]]
                     if (user.money < cost) { return functions.replyMessage(message, "You do not have enough money!") }
                     user.money -= cost;
@@ -80,7 +80,7 @@ module.exports = async function (message, user) {
                 let totalcost = 0;
                 for (let i = 0; i < num; i++) {
                     if (text.length > 1900) { functions.replyMessage(message, text); text = "" }
-                    cost = parseInt(Math.pow(2, Math.pow(item.enhance.level, 0.5)) * item.enhance.level * 10000 * (1 - guildForgePrices.enhance[1].bonus[guild.forge.enhance[1]]))
+                    cost = parseInt(Math.pow(1.4, Math.pow(item.enhance.level, 0.5)) * Math.pow(item.enhance.level + 1, 1.5) * 10000 * (1 - guildForgePrices.enhance[1].bonus[guild.forge.enhance[1]]))
                     successrate = 100 - 10 * item.rarity + 100 * guildForgePrices.enhance[2].bonus[guild.forge.enhance[2]]
                     if (item.enhance.level + 1 > guildForgePrices.enhance[0].bonus[guild.forge.enhance[0]]) { text += "The guild forge is not advanced enough to enhance this item further!\n";break }
                     if (item.enhance.level + 1 > Math.pow(2, item.rarity)) { text += "Your weapon is not strong enough to withstand another enhancement!\n";break }
