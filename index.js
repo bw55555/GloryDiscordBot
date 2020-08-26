@@ -33,6 +33,7 @@ global.guildData = "guildData"//JSON.parse(fs.readFileSync('Storage/guildData.js
 global.questData = "questData"//JSON.parse(fs.readFileSync('Storage/questData.json', 'utf8'));
 global.partyData = "partyData"
 global.dailyrefresh = null;
+var nctlist = {};
 const TOKEN = config.token;//woah woah woah woah whatcha
 client.connect((err) => {
     console.log(err);
@@ -98,19 +99,14 @@ function evaluateMessage(message) {
     if (!devData.enable && devs.indexOf(message.author.id) == -1) {
         return;
     }
-    //console.time("actual ping")
-    //sendMessage(message.channel, "actual ping")
     if (devData.hardbans[message.author.id] && devs.indexOf(message.author.id) == -1) {
         return;
     }
-    /*if (banlist.indexOf(message.author.id) != -1){
-        return;
-    }*/
     if (message.channel.type != "dm" && serverData[message.guild.id] == undefined) {
         addServer(message.guild)
     }
-
     message.content = message.content.trim().split(/\s+/).join(" ")
+
     let prefix = (message.channel.type == "dm") ? defaultPrefix : serverData[message.guild.id].prefix;
     if (message.content.startsWith("<@" + bot.user.id + ">")) prefix = "<@" + bot.user.id +">"
     if (message.content.startsWith("<@!" + bot.user.id + ">")) prefix = "<@!" + bot.user.id +">"
@@ -123,6 +119,12 @@ function evaluateMessage(message) {
         let words = message.content.trim().split(/\s+/)
         words.splice(0, 1)
         message.content = prefix + words.join(" ")
+    }
+    if (!message.content.startsWith(prefix)) {
+        if (nctlist[message.author.id] == undefined) { nctlist[message.author.id] = 0;}
+        nctlist[message.author.id] += 1;
+        
+        return;
     }
     if (message.author.bot == true) {
         if (message.author.id == "537622416604528654" && (message.channel.id == "538800067507650590" || message.channel.id == "553385894183174165")) {
@@ -173,9 +175,7 @@ function evaluateMessage(message) {
     }
     message.author.original = id
     functions.respond(message)
-    if (!message.content.startsWith(prefix)) {
-        return;
-    }
+    
     id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
@@ -262,6 +262,10 @@ function evaluateMessage(message) {
         functions.checkBurn(message, user)
         functions.checkStuff(message, user)
         if (commandlist[command] == undefined) { return }
+        if (user.cnumbers == undefined) { user.cnumbers = [0, 0] }
+        user.cnumbers[0] += nctlist[message.author.id]
+        user.cnumbers[1] += 1
+        delete nct[message.author.id];
         if (!globalcdlist.has(message.author.id)) {
             globalcdlist.add(message.author.id);
             setTimeout(() => {

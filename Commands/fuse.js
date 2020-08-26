@@ -16,7 +16,7 @@ module.exports = async function (message, user) {
         for (let key of keys) {
             text += "ID " + key + " - " + items[key].name + " - (" + items[key].cost+")\n"
         }
-        functions.sendMessage(message.channel, {
+        return functions.sendMessage(message.channel, {
             "embed": {
                 "title": "The Smith",
                 "description": "Welcome to the fusion reactor!\nUse `!fuse [ID_of_Item] [number of items]` to select the item you want to fuse!\n",
