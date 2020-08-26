@@ -1424,7 +1424,7 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
                 let damagetotal = 0;
                 let keys = Object.keys(raid.damagelist)
                 for (var key of keys) {
-                    damagetotal += damagelist[key];
+                    damagetotal += raid.damagelist[key];
                     if (damagetotal < damagechance) { continue;}
                     tasks.push({
                         updateOne:
