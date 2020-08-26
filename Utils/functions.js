@@ -1232,6 +1232,7 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
     if (type == undefined) { type = "raid"}
     let ts = message.createdTimestamp;
     if (!raid.attacklist) { raid.attacklist = {} }
+    if (!raid.damagelist) { raid.damagelist = {} }
     if (user.dead === true) {
         replyMessage(message, "Corpses can\'t attack! Do !resurrect");
         return;
@@ -1265,6 +1266,7 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
         user.shield = 1
     }
     if (!raid.attacklist[user._id]) { raid.attacklist[user._id] = 0 }
+    if (!raid.damagelist[user._id]) { raid.damagelist[user._id] = 0 }
     let luckybuff = calcLuckyBuff(user)
     let damage = calcDamage(message, user, raid, user);//ok...
     let counter = calcDamage(message, raid, user, user);//ok...
@@ -1274,6 +1276,7 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
     if (damage < 0) {
         damage = 0;
     }
+    if (damage > raid.currenthealth) { damage = raid.currenthealth}
     if (counter < 0) {
         counter = 0;
     }
@@ -1282,8 +1285,9 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
     user.currenthealth = user.currenthealth - counter;
     raid.currenthealth = raid.currenthealth - damage;
     let counterstolen = Math.floor((user.money) / 5);
-    if (!raid.attacklist[user._id]) { raid.attacklist[user._id] = 0 }
+
     raid.attacklist[user._id] += damagereward
+    raid.damagelist[user._id] += damage;
     //user.money += damagereward;
     user.xp += damagereward;
     if (user.currenthealth > user.health) {
@@ -1316,7 +1320,7 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
         raid.alive = false;
         let keys = Object.keys(raid.attacklist);
         let tasks = [];
-        let luckyperson = keys[Math.floor(Math.random()*keys.length)]
+        let luckyperson = keys[Math.floor(Math.random() * keys.length)]
         if (type == "event" || type == "world") {
             sendMessage(bot.channels.get(devData.debugChannelId), "A level "+raid.level+" "+raid.name+" was killed by " + user.username + " (ID: "+user._id+")!")
             let listtotal = 0;
@@ -1399,10 +1403,42 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
             runeshardnum = Math.floor(runeshardnum / 100) + extra;
             let runetext = "";
             if (runeshardnum > 0) {
-                runetext = ".\nThey also received " + runeshardnum + " Rune Shards.\n"
+                runetext = "They also received " + runeshardnum + " Rune Shards.\n"
                 user.runes[0] += runeshardnum
             }
-            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and an item (ID: " + item._id + ") with rarity "+item.rarity+runetext;
+            let cruneinfo = {
+                "Treant Boss": [0, 0, 0.02, 0, 0, 0, 0.015],
+                "Kraken Boss": [0, 0, 0.02, 0, 0, 0.015, 0],
+                "Dragon Boss": [0, 0, 0.02, 0, 0.015, 0, 0],
+                "Deity Boss": [0, 0, 0.02, 0.005, 0.01, 0.01, 0.01],
+                "Hell Lord": [0, 0, 0.02, 0.01, 0.02, 0.02, 0.02],
+                "Fallen Angel": [0, 0.01, 1, 0.25, 0, 0, 0]
+            }
+            let runeprobs = cruneinfo[raid.name]
+            for (let i = 0; i < runeprobs.length; i++) {
+                let toSet = {}
+                if (Math.random() < runeprobs[i]) {
+                    toSet["runes." + i] = 1;
+                }
+                let damagechance = Math.random() * raid.maxhealth;
+                let damagetotal = 0;
+                let keys = Object.keys(raid.damagelist)
+                for (var i = 0; i < keys.length; i++) {
+                    damagetotal += damagelist[keys[i]];
+                    if (damagetotal < damagechance) { continue;}
+                    tasks.push({
+                        updateOne:
+                        {
+                            "filter": { _id: keys[i] },
+                            "update": {
+                                $inc: toSet
+                            }
+                        }
+                    })
+                    break;
+                }
+            }
+            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and an item (ID: " + item._id + ") with rarity " + item.rarity + "./n"+runetext;
         } else {
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\nThe guild was also given "+ raid.reward + " xp and "+raid.crystalreward+" crystals.\n"
             guild.xp += raid.reward
