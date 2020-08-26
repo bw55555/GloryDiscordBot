@@ -1423,18 +1423,19 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
                 let damagechance = Math.random() * raid.maxhealth;
                 let damagetotal = 0;
                 let keys = Object.keys(raid.damagelist)
-                for (var i = 0; i < keys.length; i++) {
-                    damagetotal += damagelist[keys[i]];
+                for (var key of keys) {
+                    damagetotal += damagelist[key];
                     if (damagetotal < damagechance) { continue;}
                     tasks.push({
                         updateOne:
                         {
-                            "filter": { _id: keys[i] },
+                            "filter": { _id: key },
                             "update": {
                                 $inc: toSet
                             }
                         }
                     })
+                    runetext+="<@"+key+"> received a "+runeNames[i]+"!\n"
                     break;
                 }
             }
