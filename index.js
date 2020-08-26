@@ -265,7 +265,7 @@ function evaluateMessage(message) {
         if (user.cnumbers == undefined) { user.cnumbers = [0, 0] }
         user.cnumbers[0] += nctlist[message.author.id]
         user.cnumbers[1] += 1
-        delete nct[message.author.id];
+        delete nctlist[message.author.id];
         if (!globalcdlist.has(message.author.id)) {
             globalcdlist.add(message.author.id);
             setTimeout(() => {
