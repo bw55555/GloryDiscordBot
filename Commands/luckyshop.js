@@ -3,7 +3,12 @@ let storeitems = [
     { "type": "reroll", "min": 1, "max": 1, "price": 20000000, "chance": 10000 },
     { "type": "skill point", "min": 1, "max": 1, "price": 500000000, "chance":1 },
     { "type": "materials", "min": 1000, "max": 20000, "price": 1500, "chance": 500000 },
-    { "type": "crystals", "min": 100, "max": 1000, "price": 100000, "chance": 100000}
+    { "type": "crystals", "min": 100, "max": 1000, "price": 100000, "chance": 100000 },
+    { "type": "Arcane rune", "min": 1, "max": 10, "price": 10000000, "chance": 2000 },
+    { "type": "Force rune", "min": 1, "max": 10, "price": 5000000, "chance": 5000 },
+    { "type": "Guard rune", "min": 1, "max": 10, "price": 5000000, "chance": 5000 },
+    { "type": "Life rune", "min": 1, "max": 10, "price": 5000000, "chance": 5000 },
+    { "type": "Energy rune", "min": 1, "max": 10, "price": 5000000, "chance": 10000 }
 ]
 module.exports = async function (message, user) {
     let id = message.author.id;
@@ -33,6 +38,16 @@ module.exports = async function (message, user) {
             user.consum.sp += amt;
         } else if (type == "materials") {
             user.materials += amt;
+        } else if (type == "Arcane rune") {
+            user.runes[3] += amt;
+        } else if (type == "Force rune") {
+            user.runes[4] += amt;
+        } else if (type == "Guard rune") {
+            user.runes[5] += amt;
+        } else if (type == "Life rune") {
+            user.runes[6] += amt;
+        } else if (type == "Energy rune") {
+            user.runes[2] += amt;
         } else if (type == "crystals") {
             if (user.guild == "None") { return functions.replyMessage(message, "Since you are currently not in a guild, you cannot buy this. ")}
             functions.getObject("guildData", user.guild).then(guild => { guild.crystals += amt; functions.setObject("guildData", guild) });
