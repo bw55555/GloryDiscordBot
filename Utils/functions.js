@@ -1417,30 +1417,34 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
             let runeprobs = cruneinfo[raid.name]
             for (let i = 0; i < runeprobs.length; i++) {
                 if (Math.random() < runeprobs[i]) {
-                    let toSet = {}
-                    toSet["runes." + i] = 1;
+                    
                     let damagechance = Math.random() * raid.maxhealth;
                     let damagetotal = 0;
                     let keys = Object.keys(raid.damagelist)
                     for (var key of keys) {
                         damagetotal += raid.damagelist[key];
                         if (damagetotal < damagechance) { continue; }
-                        tasks.push({
-                            updateOne:
-                            {
-                                "filter": { _id: key },
-                                "update": {
-                                    $inc: toSet
+                        if (user._id == key) { user.runes[i] += 1 }
+                        else {
+                            let toSet = {}
+                            toSet["runes." + i] = 1;
+                            tasks.push({
+                                updateOne:
+                                {
+                                    "filter": { _id: key },
+                                    "update": {
+                                        $inc: toSet
+                                    }
                                 }
-                            }
-                        })
+                            })
+                        }
                         runetext += "<@" + key + "> received a " + runeNames[i] + "!\n"
                         break;
                     }
                 }
                 
             }
-            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and an item (ID: " + item._id + ") with rarity " + item.rarity + "./n"+runetext;
+            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and an item (ID: " + item._id + ") with rarity " + item.rarity + ".\n"+runetext;
         } else {
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\nThe guild was also given "+ raid.reward + " xp and "+raid.crystalreward+" crystals.\n"
             guild.xp += raid.reward
