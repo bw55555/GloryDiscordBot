@@ -768,6 +768,22 @@ module.exports = async function (message, user) {
                 functions.logCommand(message)
                 return
             })
+        } else if (command == "ADMINCRYSTALS" || command == "ACRYSTALS") {
+            if (admins.indexOf(id) == -1) { return }
+            if (words.length == 2) { return functions.replyMessage(message, "!g aset [guildName] [attribute] [amount]") }
+            let newGuildName = words[2];
+            if (newGuildName == undefined) { return functions.replyMessage(message, "Please specify a valid guild name. ") }
+            return Promise.all([functions.getObject("guildData", newGuildName)]).then(ret => {
+                let setGuild = ret[0]
+                if (setGuild == false) { return functions.replyMessage(message, "Please specify a valid guild name. ") }
+                let amount = words[3];
+                if (!isNaN(parseInt(amount))) { amount = parseInt(amount) }
+                setGuild.crystals += amount;
+                functions.sendMessage(message.channel, 'Sent guild ' + setGuild._id + " " + amount + " crystals.");
+                functions.setObject("guildData", setGuild)
+                functions.logCommand(message)
+                return
+            })
         }
         else {
             functions.sendMessage(message.channel, functions.generateGuildTemplate(guild))
