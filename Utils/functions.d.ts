@@ -24,7 +24,7 @@ export function sendMessage(channel: Channel, text: string, override: boolean): 
 export function replyMessage(message: Message, text: string): void
 export function replyMessage(message: Message, text: string, override:boolean): void
 export function deleteMessage(message: Message):void
-export function dmUser(user: string, text: string):void
+export function dmUser(user: JSON, text: string):void
 export function logCommand(message: Message, extratext: string): void
 export function validate(message: Message, user: string): Promise<JSON>
 export function validate(message: Message, user: string, spot: number): Promise<JSON>
