@@ -668,29 +668,7 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
 
-    if (attacker.isRaid != true) {
-        let lifesteal = (attacker.triangleid == 11) ? 0.15 : 0;
-        if (attacker.isRaid != true && attacker.guild != "None" && attacker.guildbuffs.lifeSteal != undefined) {
-            lifesteal += attacker.guildbuffs.lifeSteal.value
-        }
-        if (weapon != false && weapon.modifiers.lifeSteal != undefined) {
-            lifesteal += weapon.modifiers.lifeSteal
-        }
-        if (hasSkill(attacker, 3, skillenable)) {
-            lifesteal += 0.1;
-        }
-        if (hasSkill(attacker, 21, skillenable)) {
-            if (attacker.currenthealth >= attacker.health) {
-                lifesteal += 0.5;
-            }
-        }
-        if (lifesteal > 0) {
-            let stealAmount = Math.abs(Math.floor((attack * 0.75 * roll + attack * 0.25 - defense) * lifesteal))
-            if (stealAmount < 0) { stealAmount = 0 }
-            attacker.currenthealth += stealAmount
-            text += attackername + " lifestole **" + stealAmount + "** health!\n";
-        }
-    }
+    
     if (attacker.isRaid != true) {
         if (hasSkill(attacker, 22, skillenable)) {
             let leech = 0
@@ -764,6 +742,30 @@ function calcDamage(message, attacker, defender, initiator) {
                 defender.currenthealth = truedamage + 1
                 text += defendername + " has activated Last Breath!"
             }
+        }
+    }
+    if (truedamage > defender.currenthealth && defender.isRaid) { truedamage = defender.currenthealth}
+    if (attacker.isRaid != true) {
+        let lifesteal = (attacker.triangleid == 11) ? 0.15 : 0;
+        if (attacker.isRaid != true && attacker.guild != "None" && attacker.guildbuffs.lifeSteal != undefined) {
+            lifesteal += attacker.guildbuffs.lifeSteal.value
+        }
+        if (weapon != false && weapon.modifiers.lifeSteal != undefined) {
+            lifesteal += weapon.modifiers.lifeSteal
+        }
+        if (hasSkill(attacker, 3, skillenable)) {
+            lifesteal += 0.1;
+        }
+        if (hasSkill(attacker, 21, skillenable)) {
+            if (attacker.currenthealth >= attacker.health) {
+                lifesteal += 0.5;
+            }
+        }
+        if (lifesteal > 0) {
+            let stealAmount = Math.abs(Math.floor(truedamage * lifesteal))
+            if (stealAmount < 0) { stealAmount = 0 }
+            attacker.currenthealth += stealAmount
+            text += attackername + " lifestole **" + stealAmount + "** health!\n";
         }
     }
     if (text != "") { sendMessage(message.channel, text) }
