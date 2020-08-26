@@ -1417,7 +1417,6 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
             let runeprobs = cruneinfo[raid.name]
             for (let i = 0; i < runeprobs.length; i++) {
                 if (Math.random() < runeprobs[i]) {
-                    
                     let damagechance = Math.random() * raid.maxhealth;
                     let damagetotal = 0;
                     let keys = Object.keys(raid.damagelist)
