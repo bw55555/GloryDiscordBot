@@ -14,7 +14,7 @@ module.exports = async function (message, user) {
         let text = "";
         let keys = Object.keys(items)
         for (let key of keys) {
-            text += "ID " + key + " - " + items[key].name + " - (" + items[key].cost+")"
+            text += "ID " + key + " - " + items[key].name + " - (" + items[key].cost+")\n"
         }
         functions.sendMessage(message.channel, {
             "embed": {
