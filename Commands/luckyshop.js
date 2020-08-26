@@ -8,7 +8,9 @@ let storeitems = [
     { "type": "Force rune", "min": 1, "max": 10, "price": 5000000, "chance": 5000 },
     { "type": "Guard rune", "min": 1, "max": 10, "price": 5000000, "chance": 5000 },
     { "type": "Life rune", "min": 1, "max": 10, "price": 5000000, "chance": 5000 },
-    { "type": "Energy rune", "min": 1, "max": 10, "price": 5000000, "chance": 10000 }
+    { "type": "Energy rune", "min": 1, "max": 10, "price": 2000000, "chance": 10000 },
+    { "type": "Wisdom rune", "min": 1, "max": 10, "price": 200000000, "chance": 5 },
+    { "type": "Rune shard", "min": 50, "max":1000, "price": 200000, "chance": 200000 }
 ]
 module.exports = async function (message, user) {
     let id = message.author.id;
@@ -48,6 +50,10 @@ module.exports = async function (message, user) {
             user.runes[6] += amt;
         } else if (type == "Energy rune") {
             user.runes[2] += amt;
+        } else if (type == "Wisdom rune") {
+            user.runes[1] += amt;
+        } else if (type == "Rune shard") {
+            user.runes[0] += amt;
         } else if (type == "crystals") {
             if (user.guild == "None") { return functions.replyMessage(message, "Since you are currently not in a guild, you cannot buy this. ")}
             functions.getObject("guildData", user.guild).then(guild => { guild.crystals += amt; functions.setObject("guildData", guild) });
