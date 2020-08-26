@@ -35,16 +35,18 @@ module.exports = async function (message, user) {
     if (items[item] != undefined) {
         let itemid = parseInt(item)
         let num = parseInt(words[2])
-        if (words.length < 3) { num = 1}
-        if (isNaN(num) && num > 0) { return functions.replyMessage(message, "Please select a positive number of items to fuse!")}
+        if (words.length < 3) { num = 1 }
+        if (isNaN(num) && num > 0) { return functions.replyMessage(message, "Please select a positive number of items to fuse!") }
         if (102 <= itemid && itemid <= 106) {
             let shardcosts = [50, 25, 25, 25, 10]
             if (user.runes[0] < shardcosts[itemid - 102] * num) { return functions.replyMessage(message, "You do not have enough rune shards!") }
             user.runes[0] -= shardcosts[itemid - 102] * num
             user.runes[itemid - 100] += num
-            return functions.replyMessage(message, "You successfully fused "+num+" "+items[item].name+"!")
+            return functions.replyMessage(message, "You successfully fused " + num + " " + items[item].name + "!")
         }
 
+    } else {
+        return functions.replyMessage(message, "Please select a proper item or use `!fuse list` to see them all!")
     }
     
 }
