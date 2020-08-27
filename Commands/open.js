@@ -23,6 +23,7 @@ module.exports = async function (message, user) {
         return;
     }
     user.consum.box -= amount;
+
     let text = "You opened " + amount + " boxes and got:\n"
     text += functions.craftItems(message, user, -1, -1, amount)
     if (amount != 1) { functions.replyMessage(message, text) }

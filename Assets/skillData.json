@@ -92,12 +92,12 @@
     {
         "name": "Offensive Strike",
         "id": 18,
-        "description": "Gain 30% Attack while initiating attack"
+        "description": "Gain 20% Attack while initiating attack"
     },
     {
         "name": "Defensive Stance",
         "id": 19,
-        "description": "Gain 30% Defense when attacked"
+        "description": "Gain 20% Defense when attacked"
     },
     {
         "name": "Combo",

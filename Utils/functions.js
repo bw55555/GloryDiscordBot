@@ -360,6 +360,7 @@ function generateItem(owner, itemid, attack, defense, rarity, name, modifiers, i
         setItem(item)
         setObject("devData", devData)
     }
+    completeQuest(owner, "getItem", { "item": item }, 1)
     return item;
 }
 
@@ -724,17 +725,21 @@ function calcDamage(message, attacker, defender, initiator) {
     //Percentage increases
     if (defender.isRaid != true && attacker._id == initiator._id) {
         if (hasSkill(defender, 19, skillenable)) {
-            defense *= 1.3;
+            defense *= 1.2;
         }
     }
     if (attacker.isRaid != true && attacker._id == initiator._id) {
         if (hasSkill(attacker, 18, skillenable)) {
-            attack *= 1.3;
+            attack *= 1.2;
         }
     }
     //console.log("Counter")
-    truedamage = Math.floor(attack * 0.75 * roll + attack * 0.25 - defense)
-
+    let x = attack * 0.75 * roll + attack * 0.25;
+    let defmult = 10;
+    let truedamage = x;
+    if (defmult * defense > x) {
+        truedamage = Math.floor(x * Math.pow(1 - Math.sqrt(defmult * defmult * defense * defense - x * x)/10, 1/3))
+    }
     //Last Breath Check
     if (defender.isRaid != true) {
         if (hasSkill(defender, 25, skillenable)) {
@@ -1602,15 +1607,27 @@ function completeQuest(user, condition, extra, amount) {
             if (user.quests[i].conditions[j].type == "a") {
                 let canClaim = true;
                 for (var key in user.quests[i].conditions[j].condition) {
-                    let op = user.quests[i].conditions[j].condition[key].operator;
-                    let value = user.quests[i].conditions[j].condition[key].value;
+                    let curr = user.quests[i].conditions[j].condition;
+                    while (key.indexOf(".") != -1) {
+                        let index = key.indexOf(".");
+                        let currkey = key.substring(0, index)
+                        key = key.substring(index+1)
+                        if (key == undefined || curr[key] == undefined) { return; }
+                        curr = curr[key];
+                    }
+                    if (key == undefined || curr[key] == undefined) { return; }
+                    curr = curr[key]; 
+                    let op = curr.operator;
+                    let value = curr.value;
                     if ((op == "=" && extra[key] == value) || (op == ">" && extra[key] > value) || (op == "<" && extra[key] < value) || (op == "<=" && extra[key] <= value) || (op == ">=" && extra[key] >= value)) { continue }
                     canClaim = false;
                     break;
                 }
                 if (canClaim) { user.quests[i].conditions[j].current += amount; }
             } else {
-                if (user.quests[i].conditions[j].condition.category.value == condition) { user.quests[i].conditions[j].current = extra[user.quests[i].conditions[j].condition.special]}
+                if (user.quests[i].conditions[j].condition.category.value == condition) {
+                    user.quests[i].conditions[j].current = extra[user.quests[i].conditions[j].condition.special]
+                }
             }
         }
     }

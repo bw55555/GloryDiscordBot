@@ -136,7 +136,7 @@ module.exports = async function (message, user) {
                 functions.sendMessage(message.channel, "Soulsteal activated. <@" + user._id + "> has stolen " + target.health + " health");
                 user.currenthealth = Math.min(user.currenthealth, user.health)
             }
-
+            functions.completeQuest(user, "kill", {}, 1)
         } else if (user.currenthealth <= 0) {
             user.dead = true;
             user.currenthealth = 0;
@@ -167,11 +167,12 @@ module.exports = async function (message, user) {
                 target.currenthealth = Math.min(target.currenthealth, target.health)
             }
         }
-        user.cooldowns.attack = ts + attackcd * 60 * 1000
-        user.cooldowns.heal = ts + healcd * 60 * 1000
-        target.cooldowns.heal = ts + healcd * 60 * 1000
-        user.cooldowns.purchase = ts + 1000 * 60
-        target.cooldowns.purchase = ts + 1000 * 60
+        functions.setCD(user, ts, attackcd * 60, "attack")
+        functions.setCD(user, ts, healcd * 60, "heal")
+        functions.setCD(user, ts, 60, "purchase")
+        functions.setCD(target, ts, attackcd * 60, "attack")
+        functions.setCD(target, ts, healcd * 60, "heal")
+        functions.setCD(target, ts, 60, "purchase")
         user.speed += 1;
         target.speed += 1;
         functions.setUser(target)
