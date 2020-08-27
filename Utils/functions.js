@@ -742,11 +742,11 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     //Last Breath Check
     if (defender.isRaid != true) {
-        if (hasSkill(defender, 25, skillenable) && !isCD(user, ts, "lastbreath")) {
+        if (hasSkill(defender, 25, skillenable) && !isCD(defender, ts, "lastbreath")) {
             if (truedamage > defender.currenthealth && defender.currenthealth * 2 > defender.health) {
                 defender.currenthealth = truedamage + 1
                 text += defendername + " has activated Last Breath!"
-                setCD(user, ts, 180, "lastbreath")
+                setCD(defender, ts, 180, "lastbreath");
             }
         }
     }

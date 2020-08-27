@@ -35,7 +35,7 @@ module.exports = async function (message, user) {
         var skillid = words.join(" ");
         if (skillid.toUpperCase() == `NONE`) {
             user.skillC = "None"
-            functions.replyMessage(message, "You have removed SkillA!");
+            functions.replyMessage(message, "You have removed SkillC!");
         } else {
             if (!isNaN(parseInt(skillid))) { skillid = parseInt(skillid) }
             else { skillid = skillData.findIndex(item => item.name == skillid) }
