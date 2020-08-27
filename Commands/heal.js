@@ -87,12 +87,9 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You healed for " + heal + " Health!");
         }
         user.speed = 0;
-        functions.setCD(user, ts, healcd * 60, "heal")
-        user.speed = 0;
+        functions.setCD(user, ts, healcd * 90, "heal")
         if (functions.hasSkill(user, 34)) {
-            user.speed = 0;
-            functions.setCD(user, ts, healcd * 30, "heal")
-            user.speed = 0;
+            functions.setCD(user, ts, healcd * 45, "heal")
         }
     }
 }
