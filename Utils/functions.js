@@ -734,11 +734,11 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
     //console.log("Counter")
-    let x = attack * 0.75 * roll + attack * 0.25;
+    let x = Math.floor(attack * 0.75 * roll + attack * 0.25);
     let defmult = 10;
     let truedamage = x;
     if (defmult * defense > x) {
-        truedamage = Math.floor(x * Math.pow(1 - Math.sqrt(defmult * defmult * defense * defense - x * x)/10, 1/3))
+        truedamage = Math.floor(x * Math.pow(1 - (Math.sqrt(defmult * defmult * defense * defense - x * x)/10), (1/3)))
     }
     //Last Breath Check
     if (defender.isRaid != true) {
