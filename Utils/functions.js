@@ -1094,6 +1094,7 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability) {
         raid.maxhealth = summonlevel * 100 * (Math.floor(2 * summonlevel / 25) + 1);
         raid.reward = Math.floor(summonlevel * 5000);
         raid.level = summonlevel;
+        raid.attacklist = {};
         raid.damagelist = {};
     } else {
         if (level != undefined) { summonlevel = level }
