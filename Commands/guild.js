@@ -6,7 +6,7 @@ const guildStore = [
     { "name": "Rare Scroll", "price": 1000000, "levels": [20, 30, 40], "stocks": [1, 1, 1] },
     { "name": "Epic Scroll", "price": 2500000, "levels": [30, 40], "stocks": [1, 1] },
     { "name": "Legendary Scroll", "price": 5000000, "levels": [40], "stocks": [1] },
-    { "name": "Box", "level": 1, "stock": 10, "price": 125000, "id": 5, "levels": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50], "stocks": [25, 75, 150, 250, 500, 1000, 2000, 3000, 4000, 5000, 10000] }
+    { "name": "Box", "level": 1, "stock": 10, "price": 50000, "id": 5, "levels": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50], "stocks": [25, 75, 150, 250, 500, 1000, 2000, 3000, 4000, 5000, 10000] }
 ]
 const guildBuffStore = [
     { "name": "Attack +", "stat": "attack", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.2, 0.4, 0.6, 0.8, 1, 1.5, 2, 2.5, 3, 4], "prices": [0, 400, 1500, 10000, 50000, 150000, 500000, 1500000, 5000000, 15000000, 50000000] },
