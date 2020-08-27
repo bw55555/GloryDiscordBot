@@ -74,3 +74,4 @@ export function smeltItem(user: JSON, item: JSON, giveReward: boolean, isBulk: b
 export function itemFilter(message: Message, user: JSON, defaults: JSON): Promise<boolean | Array<JSON>>
 export function getModifierText(modifierlist: JSON): string
 export function checkxp(user: JSON): number
+export function isCD(user: JSON, ts: number, cdtype: string): boolean

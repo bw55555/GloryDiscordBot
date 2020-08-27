@@ -738,14 +738,15 @@ function calcDamage(message, attacker, defender, initiator) {
     let defmult = 10;
     let truedamage = x;
     if (defmult * defense > x) {
-        truedamage = Math.floor(x * Math.pow(1 - (Math.sqrt(defmult * defmult * defense * defense - x * x)/(10*defense)), (1/3)))
+        truedamage = Math.floor(x * Math.pow(1 - (Math.sqrt(defmult * defmult * defense * defense - x * x)/(defmult*defense)), (1/3)))
     }
     //Last Breath Check
     if (defender.isRaid != true) {
-        if (hasSkill(defender, 25, skillenable)) {
+        if (hasSkill(defender, 25, skillenable) && !isCD(user, ts, "lastbreath")) {
             if (truedamage > defender.currenthealth && defender.currenthealth * 2 > defender.health) {
                 defender.currenthealth = truedamage + 1
                 text += defendername + " has activated Last Breath!"
+                setCD(user, ts, 180, "lastbreath")
             }
         }
     }
@@ -1127,7 +1128,9 @@ function checkProps(message,user) {
     if (!user.marry) user.marry = "None";
     if (!user.guild) user.guild = "None";
     if (!user.guildpos) user.guildpos = "None";
+    if (!user.guildbuffs) user.guildbuffs = {};
     if (!user.bolster) user.bolster = false;
+    if (!user.votestreak) user.votestreak = 0;
     if (!user.shield) user.shield = ts + 24 * 1000 * 60 * 60;
     if (!user.materials) user.materials = 0;
     if (!user.ascension) user.ascension = 0;
@@ -1146,7 +1149,8 @@ function checkProps(message,user) {
     if (!user.cooldowns.purchase) user.cooldowns.purchase = 1;
     if (!user.cooldowns.merge) user.cooldowns.merge = 1;
     if (!user.cooldowns.daily) user.cooldowns.daily = 1;
-
+    if (!user.cooldowns.luckyshoprefresh) user.cooldowns.luckyshoprefresh = 1;
+    if (!user.cooldowns.lastbreath) user.cooldowns.lastbreath = 1;
     if (!user.skills) user.skills = {}
     if (!user.skillA) user.skillA = "None";
     if (!user.skillB) user.skillB = "None";
@@ -1632,6 +1636,11 @@ function completeQuest(user, condition, extra, amount) {
         }
     }
 }
+
+function isCD(user, ts, cdtype) {
+    return functions.calcTime(user.cooldowns[cdtype], ts) > 0
+}
+
 module.exports.clean = function (text) { return clean(text) }
 module.exports.getUser = function (uid) { return getUser(uid) }
 module.exports.findUsers = function (query,projection) { return findUsers(query,projection) }
@@ -1685,6 +1694,7 @@ module.exports.checkxp = function (user) { return checkxp(user) }
 module.exports.makeQuest = function (user, name, conditions, reward) { return makeQuest(user, name, conditions, reward) }
 module.exports.completeQuest = function (user, condition, extra, amount) { return completeQuest(user, condition, extra, amount) }
 module.exports.addQuestCondition = function (condition, description, total, extra, type) { return addQuestCondition(condition, description, total, extra, type) }
+module.exports.isCD = function (user, ts, cdtype) { return isCD(user, ts, cdtype)}
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
