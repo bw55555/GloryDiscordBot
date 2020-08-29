@@ -1614,20 +1614,21 @@ function completeQuest(user, condition, extra, amount) {
             if (user.quests[i].conditions[j].type == "a") {
                 let canClaim = true;
                 for (var key in user.quests[i].conditions[j].condition) {
-                    let curr = user.quests[i].conditions[j].condition;
-                    while (key.indexOf(".") != -1) {
-                        let index = key.indexOf(".");
-                        let currkey = key.substring(0, index)
-                        key = key.substring(index + 1)
-                        console.log(currkey+" "+key)
-                        if (key == undefined || curr[currkey] == undefined) { return; }
+                    let curr = extra
+                    let skey = key;
+                    while (skey.indexOf(".") != -1) {
+                        let index = skey.indexOf(".");
+                        let currkey = skey.substring(0, index)
+                        skey = skey.substring(index + 1)
+                        console.log(currkey+" "+skey)
+                        if (skey == undefined || curr[currkey] == undefined) { return; }
                         curr = curr[currkey];
 
                     }
-                    if (key == undefined || curr[key] == undefined) { return; }
-                    curr = curr[key]; 
-                    let op = curr.operator;
-                    let value = curr.value;
+                    if (skey == undefined || curr[skey] == undefined) { return; }
+                    curr = curr[skey]; 
+                    let op = user.quests[i].conditions[j].condition[key].operator;
+                    let value = user.quests[i].conditions[j].condition[key].value;
                     if ((op == "=" && extra[key] == value) || (op == ">" && extra[key] > value) || (op == "<" && extra[key] < value) || (op == "<=" && extra[key] <= value) || (op == ">=" && extra[key] >= value)) { continue }
                     canClaim = false;
                     break;
