@@ -1591,6 +1591,7 @@ function addQuestCondition(condition, description, total, extra, type) {
     if (extra == undefined) { extra = {} }
     if (type != "c") { type = "a"}
     extra.category = { "value": condition, "operator": "=" }
+    ret.type = type
     ret.condition = extra
     ret.total = total
     ret.current = 0;
@@ -1606,6 +1607,7 @@ function makeQuest(user, name, conditions, reward) {
 }
 
 function completeQuest(user, condition, extra, amount) {
+    if (amount == null || amount == undefined) { amount = 1;}
     extra.category = condition;
     for (var i = 0; i < user.quests.length; i++) {
         for (var j = 0; j < user.quests[i].conditions.length; j++) {

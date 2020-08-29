@@ -64,8 +64,8 @@ module.exports = async function (message, user) {
                 curr = "nextra"
                 text = "Do you want to add another special condition? (`yes` or `no`)";
                 let questwords = message.content.trim().split(/\s+/)
-                if (words.length < 3) { text = "The special condition must follow [conditionName] [operator] [value]. Do you want to add another special condition? (yes or no)"; }
-                else if (["=", ">", "<", "<=", ">="].indexOf(questwords[1]) == -1) { text = "Incorrect operator. Do you want to add another special condition? (yes or no)"; }
+                if (questwords.length < 3) { text = "The special condition must follow [conditionName] [operator] [value]. Do you want to add another special condition? (yes or no)"; }
+                else if (["=", ">", "<", "<=", ">="].indexOf(questwords[1]) != -1) { text = "Incorrect operator. Do you want to add another special condition? (yes or no)"; }
                 else {
                     extra[words[0]] = { "value": words[2], "operator": words[1] }
                 }
@@ -84,7 +84,7 @@ module.exports = async function (message, user) {
                 functions.getUser(target._id).then(t => { functions.makeQuest(t, name, conditions, reward, type); functions.setUser(t) })
                 collector.stop("complete")
             } 
-            functions.sendMessage(message.channel, text)
+            if (text != "") { functions.sendMessage(message.channel, text) }
             //console.log(collector)
             //collector.resetTimer({"time": 60000, "idle": 60000})
         });
