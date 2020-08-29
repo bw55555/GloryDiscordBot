@@ -63,11 +63,11 @@ module.exports = async function (message, user) {
             } else if (curr == "extra") {
                 curr = "nextra"
                 text = "Do you want to add another special condition? (`yes` or `no`)";
-                let questwords = message.content.trim().split(/\s+/)
+                let questwords = m.content.trim().split(/\s+/)
                 if (questwords.length < 3) { text = "The special condition must follow [conditionName] [operator] [value]. Do you want to add another special condition? (yes or no)"; }
                 else if (["=", ">", "<", "<=", ">="].indexOf(questwords[1]) != -1) { text = "Incorrect operator. Do you want to add another special condition? (yes or no)"; }
                 else {
-                    extra[words[0]] = { "value": words[2], "operator": words[1] }
+                    extra[questwords[0]] = { "value": questwords[2], "operator": questwords[1] }
                 }
             } else if (curr == "next") {
                 conditions.push(functions.addQuestCondition(condition, description, total, extra, type));
