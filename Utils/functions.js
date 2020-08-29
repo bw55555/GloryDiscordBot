@@ -1620,17 +1620,14 @@ function completeQuest(user, condition, extra, amount) {
                         let index = skey.indexOf(".");
                         let currkey = skey.substring(0, index)
                         skey = skey.substring(index + 1)
-                        console.log(currkey + " " + skey)
                         if (skey == undefined || curr[currkey] == undefined) { return; }
                         curr = curr[currkey];
-                        console.log(curr)
                     }
                     if (skey == undefined || curr[skey] == undefined) { return; }
                     curr = curr[skey];
-                    console.log(curr)
                     let op = user.quests[i].conditions[j].condition[key].operator;
                     let value = user.quests[i].conditions[j].condition[key].value;
-                    if ((op == "=" && extra[key] == value) || (op == ">" && extra[key] > value) || (op == "<" && extra[key] < value) || (op == "<=" && extra[key] <= value) || (op == ">=" && extra[key] >= value)) { continue }
+                    if ((op == "=" && curr == value) || (op == ">" && curr > value) || (op == "<" && curr < value) || (op == "<=" && curr <= value) || (op == ">=" && curr >= value)) { continue }
                     canClaim = false;
                     break;
                 }
