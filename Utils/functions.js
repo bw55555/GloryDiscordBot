@@ -1618,9 +1618,11 @@ function completeQuest(user, condition, extra, amount) {
                     while (key.indexOf(".") != -1) {
                         let index = key.indexOf(".");
                         let currkey = key.substring(0, index)
-                        key = key.substring(index+1)
-                        if (key == undefined || curr[key] == undefined) { return; }
-                        curr = curr[key];
+                        key = key.substring(index + 1)
+                        console.log(currkey+" "+key)
+                        if (key == undefined || curr[currkey] == undefined) { return; }
+                        curr = curr[currkey];
+
                     }
                     if (key == undefined || curr[key] == undefined) { return; }
                     curr = curr[key]; 
