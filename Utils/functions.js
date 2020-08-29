@@ -1089,7 +1089,7 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability) {
     if (level != undefined && !isNaN(level)) { summonlevel = level}
     if (raid._id == "world") { 
         //world boss
-        raid.attack = Math.floor(summonlevel * 15);
+        raid.attack = Math.floor(summonlevel * 20);
         raid.currenthealth = summonlevel * 100 * (Math.floor(2 * summonlevel / 25) + 1);
         raid.maxhealth = summonlevel * 100 * (Math.floor(2 * summonlevel / 25) + 1);
         raid.reward = Math.floor(summonlevel * 5000);
@@ -1098,7 +1098,7 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability) {
         raid.damagelist = {};
     } else {
         if (level != undefined) { summonlevel = level }
-        raid.attack = summonlevel * 10;
+        raid.attack = summonlevel * 15;
         raid.currenthealth = summonlevel * 5 * (Math.floor(2 * summonlevel / 25) + 1);
         raid.maxhealth = summonlevel * 5 * (Math.floor(2 * summonlevel / 25) + 1);
         raid.reward = summonlevel * 500;
