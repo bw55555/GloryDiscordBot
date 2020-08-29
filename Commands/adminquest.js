@@ -65,7 +65,7 @@ module.exports = async function (message, user) {
                 text = "Do you want to add another special condition? (`yes` or `no`)";
                 let questwords = m.content.trim().split(/\s+/)
                 if (questwords.length < 3) { text = "The special condition must follow [conditionName] [operator] [value]. Do you want to add another special condition? (yes or no)"; }
-                else if (["=", ">", "<", "<=", ">="].indexOf(questwords[1]) != -1) { text = "Incorrect operator. Do you want to add another special condition? (yes or no)"; }
+                else if (["=", ">", "<", "<=", ">="].indexOf(questwords[1]) == -1) { text = "Incorrect operator. Do you want to add another special condition? (yes or no)"; }
                 else {
                     extra[questwords[0]] = { "value": questwords[2], "operator": questwords[1] }
                 }
