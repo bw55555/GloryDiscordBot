@@ -66,8 +66,11 @@ module.exports = async function (message, user) {
                 else {
                     let key = questwords[0]
                     let op = questwords[1]
-                    questwords.splice(0,2)
-                    extra[key] = { "value": questwords.join(" "), "operator": op }
+                    questwords.splice(0, 2)
+                    let value = questwords.join(" ");
+                    if (value == "true") { value = true }
+                    if (value == "false") { value = false }
+                    extra[key] = { "value": value, "operator": op }
                 }
             } else if (curr == "next") {
                 conditions.push(functions.addQuestCondition(condition, description, total, extra, type));
