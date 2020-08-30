@@ -36,9 +36,11 @@ export function generateItem(owner: JSON, itemid: number, attack: number, defens
 export function generateItem(owner: JSON, itemid: number, attack: number, defense: number, rarity: number | string, name: string): JSON
 export function generateItem(owner: JSON, itemid: number, attack: number, defense: number, rarity: number | string, name: string, modifiers: JSON): JSON
 export function generateItem(owner: JSON, itemid: number, attack: number, defense: number, rarity: number | string, name: string, modifiers: JSON, isBulk: boolean): JSON
+export function generateItem(owner: JSON, itemid: number, attack: number, defense: number, rarity: number | string, name: string, modifiers: JSON, isBulk: boolean, source: string): JSON
 export function generateRandomItem(owner: JSON): JSON
 export function generateRandomItem(owner: JSON, rarity: number): JSON
 export function generateRandomItem(owner: JSON, rarity: number, isBulk: boolean): JSON
+export function generateRandomItem(owner: JSON, rarity: number, isBulk: boolean, source: string): JSON
 export function calcExtraStat(user: JSON, stat: string): number
 export function calcLuckyBuff(user: JSON):number
 export function errorlog(text:string):void

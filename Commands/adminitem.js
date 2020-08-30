@@ -70,7 +70,7 @@ module.exports = async function (message, user) {
                 modifiers[modifier] = modifierstat
             }
         }
-        let item = functions.generateItem(target, null, attack, defense, rarity, name, modifiers)
+        let item = functions.generateItem(target, null, attack, defense, rarity, name, modifiers, false, "craft")
         functions.sendMessage(message.channel, "Gave item with id " + item._id + ", attack " + attack + ", defense " + defense + ", rarity " + rarity + ", name " + name + " to <@" + target._id + ">")
         functions.logCommand(message)
         functions.setUser(target)

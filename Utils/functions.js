@@ -328,7 +328,7 @@ function generateGuildTemplate(guild) {
         }
     }
 }
-function generateItem(owner, itemid, attack, defense, rarity, name, modifiers, isBulk) {
+function generateItem(owner, itemid, attack, defense, rarity, name, modifiers, isBulk, source) {
     if (modifiers == undefined) { modifiers = {} }
     if (name == undefined) {
         let items = ["Stick", "Pebble", "Rock", "Sling"]
@@ -360,11 +360,13 @@ function generateItem(owner, itemid, attack, defense, rarity, name, modifiers, i
         setItem(item)
         setObject("devData", devData)
     }
-    completeQuest(owner, "getItem", { "item": item }, 1)
+    if (source == undefined) { source = "craft"}
+    completeQuest(owner, "getItem", { "item": item, "source": source }, 1)
     return item;
 }
 
-function generateRandomItem(owner, rarity, isBulk) {
+function generateRandomItem(owner, rarity, isBulk, source) {
+    isBulk = (isBulk == true) ? true : false;
     //console.log(owner)
     //console.log(rarity)
     rarity = parseInt(rarity)
@@ -387,7 +389,7 @@ function generateRandomItem(owner, rarity, isBulk) {
     let attack = Math.floor(Math.random() * (total + 1))
     let defense = total - attack
 
-    let item = generateItem(owner, null, attack, defense, rarity, undefined, undefined, isBulk)
+    let item = generateItem(owner, null, attack, defense, rarity, undefined, undefined, isBulk, source)
     return item
 }
 function calcExtraStat(user, stat) {
@@ -1030,10 +1032,10 @@ function craftItem(message,owner, minrarity, maxrarity, reply, isBulk) {
     reply = (reply == false) ? false : true
     let item;
     if (minrarity == -1 || maxrarity == -1 || minrarity == undefined || maxrarity == undefined) {
-        item = generateRandomItem(owner,undefined,isBulk)
+        item = generateRandomItem(owner,undefined,isBulk, "craft")
     } else {
         let rarity = Math.floor((maxrarity - minrarity + 1) * Math.random() + minrarity)
-        item = generateRandomItem(owner, rarity, isBulk)
+        item = generateRandomItem(owner, rarity, isBulk, "craft")
     }
     if (reply) sendMessage(message.channel, "<@" + owner._id + "> has recieved an item with id " + item._id + " and of rarity " + item.rarity)
     return item
@@ -1410,7 +1412,7 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
                 }
             }
             //console.log(rarity)
-            let item = generateRandomItem(user, rarity)
+            let item = generateRandomItem(user, rarity, false, "raid")
             let runeshardnum = Math.floor(2 * raid.level / 5 + 8 * raid.level / 5 * Math.random())
             let floating = runeshardnum % 100;
             let extra = Math.random() * 100 > floating ? 0 : 1
@@ -1688,8 +1690,8 @@ module.exports.validate = function (message, user, spot) { return validate(messa
 module.exports.hasSkill = function (user, skillid, enable) { return hasSkill(user, skillid, enable) }
 module.exports.generateWeaponTemplate = function (owner, weapon, current, total) { return generateWeaponTemplate(owner, weapon, current, total) }
 module.exports.generateGuildTemplate = function (guild) { return generateGuildTemplate(guild) }
-module.exports.generateItem = function (owner, itemid, attack, defense, rarity, name, modifiers, isBulk) { return generateItem(owner, itemid, attack, defense, rarity, name, modifiers, isBulk) }
-module.exports.generateRandomItem = function (owner, rarity, isBulk) { return generateRandomItem(owner, rarity, isBulk) }
+module.exports.generateItem = function (owner, itemid, attack, defense, rarity, name, modifiers, isBulk, source) { return generateItem(owner, itemid, attack, defense, rarity, name, modifiers, isBulk, source) }
+module.exports.generateRandomItem = function (owner, rarity, isBulk, source) { return generateRandomItem(owner, rarity, isBulk, source) }
 module.exports.calcExtraStat = function (user, stat) { return calcExtraStat(user, stat) }
 module.exports.calcLuckyBuff = function (user) { return calcLuckyBuff(user) }
 module.exports.errorlog = function (text) { return errorlog(text) }
@@ -1715,7 +1717,8 @@ module.exports.checkxp = function (user) { return checkxp(user) }
 module.exports.makeQuest = function (user, name, conditions, reward) { return makeQuest(user, name, conditions, reward) }
 module.exports.completeQuest = function (user, condition, extra, amount) { return completeQuest(user, condition, extra, amount) }
 module.exports.addQuestCondition = function (condition, description, total, extra, type) { return addQuestCondition(condition, description, total, extra, type) }
-module.exports.isCD = function (user, ts, cdtype) { return isCD(user, ts, cdtype)}
+module.exports.isCD = function (user, ts, cdtype) { return isCD(user, ts, cdtype) }
+module.exports.JSONselect = function (json, key) { return JSONselect(json, key) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {

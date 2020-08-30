@@ -9,7 +9,7 @@ module.exports = async function (message, user) {
         if (target == false) { return user}
         let rarity = parseInt(words[2])
         if (isNaN(rarity) || rarity < 0 || rarity > 9) { rarity = undefined }
-        let item = functions.generateRandomItem(target, rarity)
+        let item = functions.generateRandomItem(target, rarity, false, "craft")
         functions.setUser(target)
         functions.sendMessage(message.channel, "<@" + target._id + "> has been given an item with id " + item._id + " and of rarity " + item.rarity)
         functions.logCommand(message)
