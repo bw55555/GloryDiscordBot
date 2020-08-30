@@ -28,7 +28,7 @@ module.exports = async function (message, user) {
             else if (curr == "type") {
                 curr = "condition"
                 text = "Please enter a condition. (ex. vote)";
-                if (m.content != "c" && m.content != "a") { text = "Error: Please enter `c` or `a`. \nIs the quest continuous (`c`) or accumulated (`a`). (ex. `have a votestreak of 7` would be continuous and `vote 7 times` would be accumulated.)"; curr = type; } else { type = m.content;}
+                if (m.content != "c" && m.content != "a") { text = "Error: Please enter `c` or `a`. \nIs the quest continuous (`c`) or accumulated (`a`). (ex. `have a votestreak of 7` would be continuous and `vote 7 times` would be accumulated.)"; curr = "type"; } else { type = m.content;}
                 
             } else if (curr == "condition") {
                 curr = "description"
@@ -39,13 +39,8 @@ module.exports = async function (message, user) {
                 text = "Please enter the number of times the condition needs to be completed. (ex. 1)";
                 description = m.content;
             } else if (curr == "total") {
-                if (type == "a") {
-                    curr = "nextra"
-                    text = "Do you want to add a special condition? (`yes` or `no`)";
-                } else {
-                    curr = "cextra"
-                    text = "Please enter the continuous condition to measure. (ex. votestreak)";
-                }
+                curr = "nextra"
+                text = "Do you want to add a special condition? (`yes` or `no`)";
                 total = m.content;
             } else if (curr == "cextra") {
                 curr = "next"
@@ -56,16 +51,18 @@ module.exports = async function (message, user) {
                     curr = "extra"
                     text = "Please enter a special condition. (ex. votestreak >= 7) ";
                 }
-                else {
+                else if ((m.content.toLowerCase() == "no")) {
                     curr = "next"
                     text = "Do you want to add another condition? (`yes` or `no`)"
+                } else {
+                    text = "Please enter `yes` or `no`."
                 }
             } else if (curr == "extra") {
                 curr = "nextra"
                 text = "Do you want to add another special condition? (`yes` or `no`)";
                 let questwords = m.content.trim().split(/\s+/)
-                if (questwords.length < 3) { text = "The special condition must follow [conditionName] [operator] [value]. Do you want to add another special condition? (yes or no)"; }
-                else if (["=", ">", "<", "<=", ">="].indexOf(questwords[1]) == -1) { text = "Incorrect operator. Do you want to add another special condition? (yes or no)"; }
+                if (questwords.length < 3) { text = "The special condition must follow [conditionName] [operator] [value]. Please try again."; curr = "extra";}
+                else if (["=", ">", "<", "<=", ">="].indexOf(questwords[1]) == -1) { text = "Incorrect operator. Please try again."; curr = "extra"}
                 else {
                     extra[questwords[0]] = { "value": questwords[2], "operator": questwords[1] }
                 }

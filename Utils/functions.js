@@ -1242,7 +1242,7 @@ function checkBurn(message,user) {
 }
 
 function raidAttack(message, user, raid, type, guild) { //raid attack
-    if (type == undefined) { type = "raid"}
+    if (type == undefined) { type = "raid" }
     let ts = message.createdTimestamp;
     if (!raid.attacklist) { raid.attacklist = {} }
     if (!raid.damagelist) { raid.damagelist = {} }
@@ -1284,12 +1284,12 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
     let damage = calcDamage(message, user, raid, user);//ok...
     let counter = calcDamage(message, raid, user, user);//ok...
     if (raid.name == "Cerberus") {
-        counter*=3;
+        counter *= 3;
     }
     if (damage < 0) {
         damage = 0;
     }
-    if (damage > raid.currenthealth) { damage = raid.currenthealth}
+    if (damage > raid.currenthealth) { damage = raid.currenthealth }
     if (counter < 0) {
         counter = 0;
     }
@@ -1328,6 +1328,7 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
             ]
         }
     })
+    completeQuest(user, "raidAttack", {"raid": raid, "counter": counter, "damage": damage, "reward": damagereward, "user": user}, 1)
     let text = ""
     if (raid.currenthealth <= 0) {
         raid.alive = false;
@@ -1589,8 +1590,12 @@ function addQuestCondition(condition, description, total, extra, type) {
     let ret = {}
     ret.description = description;
     if (extra == undefined) { extra = {} }
-    if (type != "c") { type = "a"}
+    if (type != "c") { type = "a" }
+    let measure = "";
+    let index = condition.indexOf(".")
+    if (index != -1) { measure = condition.substring(index + 1); condition = condition.substring(0,index)}
     extra.category = { "value": condition, "operator": "=" }
+    ret.measure = measure;
     ret.type = type
     ret.condition = extra
     ret.total = total
@@ -1606,25 +1611,37 @@ function makeQuest(user, name, conditions, reward) {
     })
 }
 
+function JSONselect(json, key) {
+    let curr = json
+    let skey = key;
+    while (skey.indexOf(".") != -1) {
+        let index = skey.indexOf(".");
+        let currkey = skey.substring(0, index)
+        skey = skey.substring(index + 1)
+        if (skey == undefined || curr[currkey] == undefined) { return; }
+        curr = curr[currkey];
+    }
+    if (skey == undefined || curr[skey] == undefined) { return; }
+    curr = curr[skey];
+    return curr;
+}
+
 function completeQuest(user, condition, extra, amount) {
-    if (amount == null || amount == undefined) { amount = 1;}
+    if (amount == null || amount == undefined) { amount = 1; }
+    
     extra.category = condition;
     for (var i = 0; i < user.quests.length; i++) {
         for (var j = 0; j < user.quests[i].conditions.length; j++) {
+            let setAmount = amount;
+            if (user.quests[i].conditions[j].measure != "") {
+                amount = parseFloat(JSONselect(extra, user.quests[i].conditions[j].measure));
+                if (isNaN(amount)) { return; }
+            }
             if (user.quests[i].conditions[j].type == "a") {
                 let canClaim = true;
                 for (var key in user.quests[i].conditions[j].condition) {
-                    let curr = extra
-                    let skey = key;
-                    while (skey.indexOf(".") != -1) {
-                        let index = skey.indexOf(".");
-                        let currkey = skey.substring(0, index)
-                        skey = skey.substring(index + 1)
-                        if (skey == undefined || curr[currkey] == undefined) { return; }
-                        curr = curr[currkey];
-                    }
-                    if (skey == undefined || curr[skey] == undefined) { return; }
-                    curr = curr[skey];
+                    let curr = JSONselect(extra, key)
+                    if (curr == null) { return;}
                     let op = user.quests[i].conditions[j].condition[key].operator;
                     let value = user.quests[i].conditions[j].condition[key].value;
                     if ((op == "=" && curr == value) || (op == ">" && curr > value) || (op == "<" && curr < value) || (op == "<=" && curr <= value) || (op == ">=" && curr >= value)) { continue }
