@@ -26,6 +26,7 @@ module.exports = async function (message, user) {
             user.consum.sp += 1; 
             user.consum.reroll += 1;
             user.ascension += 1;
+            functions.completeQuest(user, "ascend", {}, 1)
             functions.setUser(user);
             functions.replyMessage(message, "You have ascended! You now have " + (user.consum.sp) + " skill points!\n(Note that your weapon has been dequipped. Favorite it before smelting everything!)")
         })

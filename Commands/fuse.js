@@ -42,9 +42,9 @@ module.exports = async function (message, user) {
             if (user.runes[0] < shardcosts[itemid - 102] * num) { return functions.replyMessage(message, "You do not have enough rune shards!") }
             user.runes[0] -= shardcosts[itemid - 102] * num
             user.runes[itemid - 100] += num
-            return functions.replyMessage(message, "You successfully fused " + num + " " + items[item].name + "!")
+            functions.replyMessage(message, "You successfully fused " + num + " " + items[item].name + "!")
         }
-
+        functions.completeQuest(user, "fuse", {"itemid": itemid}, num)
     } else {
         return functions.replyMessage(message, "Please select a proper item or use `!fuse list` to see them all!")
     }

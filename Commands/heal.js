@@ -91,5 +91,6 @@ module.exports = async function (message, user) {
         if (functions.hasSkill(user, 34)) {
             functions.setCD(user, ts, healcd * 45, "heal")
         }
+        functions.completeQuest(user, "heal", {}, amount)
     }
 }

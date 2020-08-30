@@ -80,6 +80,7 @@ module.exports = async function (message, user) {
         functions.deleteItem(wep2._id)
         functions.setItem(wep1)
         functions.setCD(user, ts, extratime, "merge")
+        functions.completeQuest(user, "merge", {"item": wep1}, 1)
         if (functions.hasSkill(user, 35)) {
             functions.setCD(user, ts, extratime / 2, "merge")
         }

@@ -1330,7 +1330,7 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
             ]
         }
     })
-    completeQuest(user, "raidAttack", {"raid": raid, "counter": counter, "damage": damage, "reward": damagereward, "user": user}, 1)
+    completeQuest(user, "raidAttack", {"raid": raid, "counter": counter, "damage": damage, "reward": damagereward}, 1)
     let text = ""
     if (raid.currenthealth <= 0) {
         raid.alive = false;
@@ -1513,6 +1513,7 @@ function smeltItem(user, item, givereward, isBulk) {
         user.money += money
         user.xp += xp
     }
+    completeQuest(user, "smelt", {"item": item, "money": money, "xp":xp, "materials": materials}, 1)
     delete user.inventory[item._id];
     if (isBulk != true) { deleteItem(item._id) }
     return [xp, money, materials]
@@ -1630,7 +1631,7 @@ function JSONselect(json, key) {
 
 function completeQuest(user, condition, extra, amount) {
     if (amount == null || amount == undefined) { amount = 1; }
-    
+    extra.user = user;
     extra.category = condition;
     for (var i = 0; i < user.quests.length; i++) {
         for (var j = 0; j < user.quests[i].conditions.length; j++) {

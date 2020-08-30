@@ -83,16 +83,19 @@ module.exports = async function (message, user) {
                 user.materials -= matscost
                 functions.setUser(user)
                 let chance = Math.random() * 100;
+                let success = true;
                 if (chance > successrate) {
-                    return functions.replyMessage(message, "Oh no! There wasn't enough energy to activate the runes...")
+                    success = false;
+                    functions.replyMessage(message, "Oh no! There wasn't enough energy to activate the runes...")
                 } else {
                     if (item.modifiers[ench] == undefined) { item.modifiers[ench] = enchantData[ench].start; item.numenchants += 1; }
                     else if (item.enchantlevel == 8 && item.numenchants <= 1) { item.modifiers[ench] += enchantData[ench].end}
                     else { item.modifiers[ench] += enchantData[ench].level }
                     item.enchantlevel += 1;
                     functions.setItem(item)
-                    return functions.replyMessage(message, "You have successfully enchanted your weapon to level "+item.enchantlevel)
+                    functions.replyMessage(message, "You have successfully enchanted your weapon to level "+item.enchantlevel)
                 }
+                functions.completeQuest(user, "enchant", {"item": item, "success": success}, 1)
             })
         }, [message], "Please enter `confirm` to enchant your weapon. (no caps)");
 

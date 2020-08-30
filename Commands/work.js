@@ -49,6 +49,7 @@ module.exports = async function (message, user) {
             })
         }, [message, user]);
     }
+    functions.completeQuest(user, "work", {}, earnings)
     user.speed = 0;
     functions.deleteMessage(message);
     functions.sendMessage(message.channel, text)

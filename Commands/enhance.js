@@ -88,8 +88,10 @@ module.exports = async function (message, user) {
                     user.money -= cost;
                     totalcost += cost;
                     let chance = Math.random() * 100;
+                    let success = true;
                     if (chance > successrate) {
                         text += "Oh no! It failed...\n";
+                        success = false;
                     } else {
                         item.enhance.level += 1;
                         let tu = stat;
@@ -105,6 +107,7 @@ module.exports = async function (message, user) {
                     }
                 }
                 text += "You spent a total of $" + totalcost;
+                functions.completeQuest(user, "enhance", {"success": success, "item": item}, 1)
                 functions.replyMessage(message, text);
                 functions.setUser(user);
                 functions.setItem(item);

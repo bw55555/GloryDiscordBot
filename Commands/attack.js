@@ -85,7 +85,6 @@ module.exports = async function (message, user) {
                 ]
             }
         });
-
         if (target.currenthealth <= 0 && user.currenthealth <= 0) {
             target.dead = true;
             target.currenthealth = 0;
@@ -167,6 +166,7 @@ module.exports = async function (message, user) {
                 target.currenthealth = Math.min(target.currenthealth, target.health)
             }
         }
+        functions.completeQuest(user, "attack", {"target": target, "damage": damage, "counter": counter})
         functions.setCD(user, ts, attackcd * 60, "attack")
         functions.setCD(user, ts, healcd * 60, "heal")
         functions.setCD(user, ts, 60, "purchase")
