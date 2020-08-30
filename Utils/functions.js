@@ -1644,7 +1644,7 @@ function completeQuest(user, condition, extra, amount) {
                 let canClaim = true;
                 for (var key in user.quests[i].conditions[j].condition) {
                     let curr = JSONselect(extra, key)
-                    if (curr == null) { return;}
+                    if (curr == undefined) { return;}
                     let op = user.quests[i].conditions[j].condition[key].operator;
                     let value = user.quests[i].conditions[j].condition[key].value;
                     if ((op == "=" && curr == value) || (op == ">" && curr > value) || (op == "<" && curr < value) || (op == "<=" && curr <= value) || (op == ">=" && curr >= value)) { continue }

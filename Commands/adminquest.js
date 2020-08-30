@@ -27,7 +27,7 @@ module.exports = async function (message, user) {
             }
             else if (curr == "type") {
                 curr = "condition"
-                text = "Please enter a condition. (ex. vote)";
+                text = "Please enter a condition. (ex. vote.votestreak measures votestreak, vote measures how many votes)";
                 if (m.content != "c" && m.content != "a") { text = "Error: Please enter `c` or `a`. \nIs the quest continuous (`c`) or accumulated (`a`). (ex. `have a votestreak of 7` would be continuous and `vote 7 times` would be accumulated.)"; curr = "type"; } else { type = m.content;}
                 
             } else if (curr == "condition") {
