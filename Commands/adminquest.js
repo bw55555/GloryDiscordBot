@@ -64,9 +64,10 @@ module.exports = async function (message, user) {
                 if (questwords.length < 3) { text = "The special condition must follow [conditionName] [operator] [value]. Please try again."; curr = "extra";}
                 else if (["=", ">", "<", "<=", ">="].indexOf(questwords[1]) == -1) { text = "Incorrect operator. Please try again."; curr = "extra"}
                 else {
+                    let key = questwords[0]
                     let op = questwords[1]
                     questwords.splice(0,2)
-                    extra[questwords[0]] = { "value": questwords.join(" "), "operator": op }
+                    extra[key] = { "value": questwords.join(" "), "operator": op }
                 }
             } else if (curr == "next") {
                 conditions.push(functions.addQuestCondition(condition, description, total, extra, type));
