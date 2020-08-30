@@ -77,3 +77,7 @@ export function itemFilter(message: Message, user: JSON, defaults: JSON): Promis
 export function getModifierText(modifierlist: JSON): string
 export function checkxp(user: JSON): number
 export function isCD(user: JSON, ts: number, cdtype: string): boolean
+export function makeQuest(user: JSON, name: string, conditions: JSON[], reward: JSON): void
+export function completeQuest(user: JSON, condition: string, extra: JSON, amount: number): void
+export function addQuestCondition(condition: string, description: string, total: number, extra: JSON, type: "c" | "a"): JSON
+export function JSONselect(json: JSON, key: string): any
