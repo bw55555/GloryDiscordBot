@@ -1617,6 +1617,7 @@ function makeQuest(user, name, conditions, reward) {
 function JSONselect(json, key) {
     let curr = json
     let skey = key;
+    if (key == undefined) { return}
     while (skey.indexOf(".") != -1) {
         let index = skey.indexOf(".");
         let currkey = skey.substring(0, index)
@@ -1636,7 +1637,7 @@ function completeQuest(user, condition, extra, amount) {
     for (var i = 0; i < user.quests.length; i++) {
         for (var j = 0; j < user.quests[i].conditions.length; j++) {
             let setAmount = amount;
-            if (user.quests[i].conditions[j].measure != "") {
+            if (user.quests[i].conditions[j].measure != "" && user.quests[i].conditions[j].measure != undefined) {
                 amount = parseFloat(JSONselect(extra, user.quests[i].conditions[j].measure));
                 if (isNaN(amount)) { return; }
             }
