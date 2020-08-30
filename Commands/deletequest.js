@@ -11,6 +11,7 @@ module.exports = async function (message, user) {
         }
         qnum -= 1;
         target.quests.splice(qnum, 1)
+        functions.replyMessage(message, "Deleted <@"+target._id+">'s quest "+(qnum+1))
         functions.setUser(target)
     })
 }
