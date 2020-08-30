@@ -1639,7 +1639,7 @@ function completeQuest(user, condition, extra, amount) {
             let setAmount = amount;
             if (user.quests[i].conditions[j].measure != "" && user.quests[i].conditions[j].measure != undefined) {
                 setAmount = parseFloat(JSONselect(extra, user.quests[i].conditions[j].measure));
-                if (isNaN(amount)) { return; }
+                if (isNaN(setAmount)) { continue; }
             }
             if (user.quests[i].conditions[j].type == "a") {
                 let canClaim = true;
