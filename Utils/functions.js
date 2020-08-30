@@ -1638,7 +1638,7 @@ function completeQuest(user, condition, extra, amount) {
         for (var j = 0; j < user.quests[i].conditions.length; j++) {
             let setAmount = amount;
             if (user.quests[i].conditions[j].measure != "" && user.quests[i].conditions[j].measure != undefined) {
-                amount = parseFloat(JSONselect(extra, user.quests[i].conditions[j].measure));
+                setAmount = parseFloat(JSONselect(extra, user.quests[i].conditions[j].measure));
                 if (isNaN(amount)) { return; }
             }
             if (user.quests[i].conditions[j].type == "a") {
