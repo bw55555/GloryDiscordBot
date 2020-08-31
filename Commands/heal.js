@@ -4,7 +4,7 @@ module.exports = async function (message, user) {
     let words = message.content.trim().split(/\s+/)
     if (functions.calcTime(user.cooldowns.heal, ts) > 0) {
         functions.deleteMessage(message);
-        return functions.replyMessage(message, "You can't heal right now. You can only heal once every minute.\nYour next heal will be ready in " + functions.displayTime(user.cooldowns.heal, ts));
+        return functions.replyMessage(message, "You can't heal right now. \nYour next heal will be ready in " + functions.displayTime(user.cooldowns.heal, ts));
     }
 
     if (user.dead === true) {
@@ -50,16 +50,16 @@ module.exports = async function (message, user) {
                 user.currenthealth -= Math.floor(heal * Math.random())
             }
             functions.replyMessage(message, "<@" + target._id + "> was healed for " + heal + " health!")
+            let healcd = 0;
             if (user.triangleid == "5") {
-                functions.setCD(user, ts, healcd * 45, "heal")
+                healcd = 60;
             } else {
-                functions.setCD(user, ts, healcd * 60, "heal")
+                healcd = 90;
             }
             if (functions.hasSkill(user, 34)) {
-                user.speed = 0;
-                functions.setCD(user, ts, healcd * 30, "heal")
-                target.speed = 0;
+                healcd = Math.floor(healcd/2)
             }
+            functions.setCD(user, ts, healcd, "heal")
             functions.setCD(user, ts, 60, "purchase")
             functions.setUser(target)
         })
@@ -87,10 +87,16 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You healed for " + heal + " Health!");
         }
         user.speed = 0;
-        functions.setCD(user, ts, healcd * 90, "heal")
-        if (functions.hasSkill(user, 34)) {
-            functions.setCD(user, ts, healcd * 45, "heal")
+        let healcd = 0;
+        if (user.triangleid == "5") {
+            healcd = 60;
+        } else {
+            healcd = 90;
         }
+        if (functions.hasSkill(user, 34)) {
+            healcd = Math.floor(healcd / 2)
+        }
+        functions.setCD(user, ts, healcd, "heal")
         functions.completeQuest(user, "heal", {}, heal)
     }
 }

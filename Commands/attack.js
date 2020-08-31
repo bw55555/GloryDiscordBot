@@ -31,12 +31,16 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "They are protected from attacks! Try again in " + functions.displayTime(target.shield, ts));
             return;
         }
-        if (user.ascension * 10 + user.level > target.ascension * 10 + target.level + 100) {
-            functions.replyMessage(message, "You can't attack anyone that's less than 100 levels less than you!");
+        if (user.ascension < 2 || target.ascension < 2) {
+            functions.replyMessage(message, "pvp is locked for anyone that's ascension 1 or less!");
             return;
         }
-        if (user.ascension * 10 + user.level < target.ascension * 10 + target.level - 100) {
-            functions.replyMessage(message, "You can't attack anyone that's more than 100 levels higher than you!");
+        if (user.ascension > target.ascension+2) {
+            functions.replyMessage(message, "You can't attack anyone that's 3 or more ascensions less than you!");
+            return;
+        }
+        if (user.ascension +2 < target.ascension) {
+            functions.replyMessage(message, "You can't attack anyone that's 3 or more ascensions higher than you!");
             return;
         }
         if (user.shield > ts) {

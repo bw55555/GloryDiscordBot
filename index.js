@@ -22,7 +22,6 @@ global.allowedmodifiers = ["critRate", "critDamage", "block", "lifeSteal", "pier
 global.cdseconds = 1.5;
 global.attackcd = 0.35;
 global.rezcd = 1;
-global.healcd = .8;
 global.workcdseconds = 10;
 global.smeltallcd = 1;
 global.bolstercd = 2; //every 2 minute, you can do !bolster on another player or yourself. That adds 100 to their currenthealth regardless of max health.
