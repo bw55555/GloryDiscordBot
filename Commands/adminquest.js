@@ -121,12 +121,12 @@ module.exports = async function (message, user) {
             while (words.indexOf("-condition") != -1) {
                 if (words.length < 5) { return functions.replyMessage(message, "Please enter a quest condition.") }
                 type = words[1]
-                if (type != "a" && type != "c") { return functions.replyMessage(message, "Please enter a quest type (`a` or `c`)") }
+                if (type != "a" && type != "c") { return functions.replyMessage(message, "Incorrect quest type ("+type+"). Please enter a quest type (`a` or `c`)") }
                 condition = words[2]
                 operator = words[3]
-                if (operator != ">=" && operator != "<=") { return functions.replyMessage(message, "Incorrect Operator in quest condition. ") }
+                if (operator != ">=" && operator != "<=") { return functions.replyMessage(message, "Incorrect Operator " + operator +" in quest condition. Please enter `>= or `<=`") }
                 total = parseInt(words[4])
-                if (isNaN(total)) { return functions.replyMessage(message, "Total must be an integer.") }
+                if (isNaN(total)) { return functions.replyMessage(message, "Total ("+words[4]+") must be an integer.") }
                 index = words.indexOf("-desc")
                 if (index == -1) { return functions.replyMessage(message, "Please enter a description for the condition.") }
                 words.splice(0, index + 1)
@@ -134,9 +134,10 @@ module.exports = async function (message, user) {
                 if (index == -1) { return functions.replyMessage(message, "Please enter a quest reward.") }
                 description = words.splice(0, index).join(" ")
                 while (words[0] == "-special") {
-                    if (words.length < 3) { return functions.replyMessage(message, "Please enter a special condition.") }
+                    if (words.length < 3) { return functions.replyMessage(message, "Please enter a special condition. The special condition must follow [conditionName] [operator] [value].") }
                     let key = words[1];
                     let op = words[2];
+                    if (["=", ">", "<", "<=", ">="].indexOf(op) == -1) { return functions.replyMessage(message, "Incorrect operator ("+op+"). Please enter `=`, `>`, `<`, `>= or `<=`");}
                     words.splice(0, 3)
                     index = words.findIndex(x => ["-special", "-condition", "-reward"].indexOf(x) != -1)
                     if (index == -1) { return functions.replyMessage(message, "Please enter a quest reward.") }
