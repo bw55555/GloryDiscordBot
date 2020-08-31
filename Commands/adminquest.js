@@ -9,7 +9,7 @@ module.exports = async function (message, user) {
         const filter = m => m.author.id == message.author.id
         const collector = message.channel.createMessageCollector(filter, { idle: 60000, time:300000 });
         let curr = "name"
-        let name, conditions = [], reward;
+        let name, conditions = [], reward = {};
         let condition, description, total, extra = {};
         let type;
         let operator;
@@ -36,7 +36,8 @@ module.exports = async function (message, user) {
                     text = "Please enter a description for the condition. (ex. Vote 7 times in a row.) ";
                     let questwords = m.content.trim().split(/\s+/)
                     if (questwords.length < 3) { text = "The condition must follow [conditionName] [operator] [value]. Please try again."; curr = "condition"; }
-                    else if (["=", ">", "<", "<=", ">="].indexOf(questwords[1]) == -1) { text = "Incorrect operator. Please try again."; curr = "condition" }
+                    else if (["<=", ">="].indexOf(questwords[1]) == -1) { text = "Incorrect operator. Please try again."; curr = "condition" }
+                    else if (isNaN(parseInt(questwords[2]))) { text = "The total must be an integer. Please try again."; curr = "condition"}
                     else {
                         condition = questwords[0];
                         operator = questwords[1];
@@ -86,10 +87,17 @@ module.exports = async function (message, user) {
                     }
                     else {
                         curr = "reward"
-                        text = "Please enter a reward in JSON format. (ex. {\"money\":100})"
+                        text = "Please enter a reward in property value format. (ex. money 100))"
                     }
                 } else if (curr == "reward") {
-                    reward = JSON.parse(m.content);
+                    let questwords = m.content.trim().split(/\s+/)
+                    if (questwords.length % 2 == 0) { text = "Please enter a correct quest reward. There must be an amount for every property. " }
+                    for (let i = 0; i < questwords.length / 2; i++) {
+                        let key = questwords[2 * i];
+                        let value = parseInt(questwords[2 * i+1]);
+                        if (isNaN(value)) { functions.replyMessage(message, "Please enter a correct quest reward. The amount of property " + key + " must be an integer.") }
+                        reward[key] = value;
+                    }
                     functions.getUser(target._id).then(t => { functions.makeQuest(t, name, conditions, reward, type); functions.setUser(t) })
                     collector.stop("complete")
                 }
@@ -104,7 +112,53 @@ module.exports = async function (message, user) {
             functions.setUser(target)
             return
         } else {
-            //if (words.indexOf())
+            let index = words.indexOf("-name")
+            if (index == -1) { functions.replyMessage(message, "Please enter a quest name.") }
+            words.splice(0, index + 1)
+            index = words.indexOf("-condition")
+            if (index == -1) { functions.replyMessage(message, "Please enter a quest condition.") }
+            name = words.splice(0, index).join(" ")
+            while (words.indexOf("-condition") != -1) {
+                if (words.length < 5) { functions.replyMessage(message, "Please enter a quest condition.") }
+                type = words[1]
+                if (type != "a" && type != "c") { functions.replyMessage(message, "Please enter a quest type (`a` or `c`)") }
+                condition = words[2]
+                operator = words[3]
+                if (operator != ">=" && operator != "<=") { functions.replyMessage(message, "Incorrect Operator in quest condition. ") }
+                total = parseInt(words[4])
+                if (isNaN(total)) { functions.replyMessage(message, "Total must be an integer.") }
+                index = words.indexOf("-desc")
+                if (index == -1) { functions.replyMessage(message, "Please enter a description for the condition.") }
+                words.splice(0, index + 1)
+                index = words.findIndex(x => ["-special", "-condition", "-reward"].indexOf(x) != -1)
+                if (index == -1) { functions.replyMessage(message, "Please enter a quest reward.") }
+                description = words.splice(0, index).join(" ")
+                while (words[0] == "-special") {
+                    if (words.length < 3) { functions.replyMessage(message, "Please enter a special condition.") }
+                    let key = words[1];
+                    let op = words[2];
+                    words.splice(0, 3)
+                    index = words.findIndex(x => ["-special", "-condition", "-reward"].indexOf(x) != -1)
+                    if (index == -1) { functions.replyMessage(message, "Please enter a quest reward.") }
+                    let value = words.splice(0, index).join(" ")
+                    extra[key] = { "value": value, "operator": op }
+                }
+                conditions.push(functions.addQuestCondition(condition, operator, description, total, extra, type))
+                extra = {}
+                console.log(words)
+            }
+            index = words.indexOf("-reward")
+            if (index == -1) { functions.replyMessage(message, "Please enter a quest reward.") }
+            words.splice(0, index + 1)
+            if (words.length % 2 == 0) { functions.replyMessage(message, "Please enter a correct quest reward. There must be an amount for every property. ") }
+            for (let i = 0; i < words.length / 2; i++) {
+                let key = words[2 * i + 1];
+                let value = parseInt(words[2 * i]);
+                if (isNaN(value)) { functions.replyMessage(message, "Please enter a correct quest reward. The amount of property " + key + " must be an integer.") }
+                reward[key] = value;
+            }
+            functions.getUser(target._id).then(t => { functions.makeQuest(t, name, conditions, reward, type); functions.setUser(t) })
+            functions.replyMessage(message, "The quest was given. ")
         }
     });
 }
