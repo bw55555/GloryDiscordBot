@@ -1589,7 +1589,7 @@ function checkxp(user) {
     return 100 + Math.floor((3 * Math.pow((10 * (user.ascension) + user.level + 1), 2)) * Math.pow(1.5, user.ascension))
 }
 
-function addQuestCondition(condition, description, total, extra, type) {
+function addQuestCondition(condition, operator, description, total, extra, type) {
     let ret = {}
     ret.description = description;
     if (extra == undefined) { extra = {} }
@@ -1601,6 +1601,7 @@ function addQuestCondition(condition, description, total, extra, type) {
     ret.measure = measure;
     ret.type = type
     ret.condition = extra
+    ret.operator = operator
     ret.total = total
     ret.current = 0;
     return ret
@@ -1718,7 +1719,7 @@ module.exports.getModifierText = function (modifierlist) { return getModifierTex
 module.exports.checkxp = function (user) { return checkxp(user) }
 module.exports.makeQuest = function (user, name, conditions, reward) { return makeQuest(user, name, conditions, reward) }
 module.exports.completeQuest = function (user, condition, extra, amount) { return completeQuest(user, condition, extra, amount) }
-module.exports.addQuestCondition = function (condition, description, total, extra, type) { return addQuestCondition(condition, description, total, extra, type) }
+module.exports.addQuestCondition = function (condition, operator, description, total, extra, type) { return addQuestCondition(condition, operator, description, total, extra, type) }
 module.exports.isCD = function (user, ts, cdtype) { return isCD(user, ts, cdtype) }
 module.exports.JSONselect = function (json, key) { return JSONselect(json, key) }
 fs.readdir("./Utils/", (err, files) => {

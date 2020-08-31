@@ -9,7 +9,14 @@ module.exports = async function (message, user) {
     claimid--;
     if (claimid < 0 || claimid >= user.quests.length) { return functions.replyMessage(message, "This quest id does not exist!") }
     for (var j = 0; j < user.quests[claimid].conditions.length; j++) {
-        if (user.quests[claimid].conditions[j].current < user.quests[claimid].conditions[j].total) { return functions.replyMessage(message, "You have not completed this quest yet!") }
+        let op = user.quests[claimid].conditions[j].operator
+        let c = user.quests[claimid].conditions[j].current
+        let t = user.quests[claimid].conditions[j].total
+        if (op == "=" && !(c == t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
+        if (op == ">=" && !(c >= t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
+        if (op == "<=" && !(c <= t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
+        if (op == "<" && !(c < t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
+        if (op == ">" && !(c > t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
     }
     for (var key in user.quests[claimid].reward) {
         user[key] += user.quests[claimid].reward[key];
