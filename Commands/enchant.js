@@ -11,7 +11,7 @@ const enchantData = {
     "evade": { "start": 0.01, "level": 0.005, "end": 0.015, "cost": [8, 0, 2, 0] },
     "tempo": { "start": 0.2, "level": 0.3, "end": 0.4, "cost": [8, 2, 0, 0] },
     "regen": { "start": 0.05, "level": 0.02, "end": 0.06, "cost": [2, 0, 0, 8] },
-    "pierce": { "start": 0.02, "level": 0.02, "end": 0.4, "cost": [0, 10, 0, 0] },
+    "pierce": { "start": 0.02, "level": 0.02, "end": 0.04, "cost": [0, 10, 0, 0] },
     "spikes": { "start": 0.2, "level": 0.2, "end": 0.4, "cost": [0, 5, 5, 0] },
     "block": { "start": 0.02, "level": 0.01, "end": 0.03, "cost": [0, 0, 10, 0] },
     "maxhp": { "start": 20.0, "level": 40.0, "end": 100.0, "cost": [0, 0, 0, 10] }

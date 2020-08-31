@@ -7,7 +7,7 @@ module.exports = async function (message, user) {
     if (functions.hasSkill(user, 24)) {
         regen += 3;
     }
-    if (user.weapon.modifiers != undefined && user.weapon.modifiers.regen != undefined) { regen += user.weapon.modifiers}
+    if (user.weapon.modifiers != undefined && user.weapon.modifiers.regen != undefined) { regen += user.weapon.modifiers.regen}
     if (regen > 0) {
         if (!user.cooldowns.regenerate) user.cooldowns.regenerate = ts;
         if (user.dead == true) return functions.replyMessage(message, "You can't regenerate while dead!")
