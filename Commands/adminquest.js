@@ -8,11 +8,11 @@ module.exports = async function (message, user) {
         if (target == false) { return; }
         const filter = m => m.author.id == message.author.id
         const collector = message.channel.createMessageCollector(filter, { idle: 60000, time:300000 });
-        var curr = "name"
-        var name, conditions = [], reward;
-        var condition, description, total, extra = {};
-        var type;
-        var operator;
+        let curr = "name"
+        let name, conditions = [], reward;
+        let condition, description, total, extra = {};
+        let type;
+        let operator;
         if (words.length <= 2) {
             functions.sendMessage(message.channel, "At any time, type `exit` to stop. \nPlease enter a name for the quest.");
             collector.on('collect', m => {
