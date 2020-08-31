@@ -78,6 +78,8 @@ module.exports = async function (message, user) {
                     }
                 } else if (curr == "next") {
                     conditions.push(functions.addQuestCondition(condition, operator, description, total, extra, type));
+                    extra = null;
+                    extra = {};
                     if (m.content.toLowerCase() == "yes") {
                         curr = "condition"
                         text = "Please enter a condition. (ex. vote)";
