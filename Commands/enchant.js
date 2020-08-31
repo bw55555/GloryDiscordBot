@@ -2,7 +2,7 @@ const enchantData = {
     "critRate": { "start": 0.01, "level": 0.01, "end": 0.02, "cost": [6, 4, 0, 0] },
     "critDamage": { "start": 0.4, "level": 0.3, "end": 0.5, "cost": [7, 3, 0, 0] },
     "lifeSteal": { "start": 0.04, "level": 0.03, "end": 0.05, "cost": [3, 2, 0, 5] },
-    "lucky": { "start": 1.2, "level": 0.3, "end": 0.5, "cost": [10, 0, 0, 0] },
+    "lucky": { "start": 0.6, "level": 0.4, "end": 0.7, "cost": [10, 0, 0, 0] },
     "sacrifice": { "start": 0.04, "level": 0.03, "end": 0.05, "cost": [3, 5, 0, 2] },
     "revenge": { "start": 0.005, "level": 0.005, "end": 0.01, "cost": [6, 3, 1, 0] },
     "rage": { "start": 0.2, "level": 0.2, "end": 0.4, "cost": [6, 3, 0, 1] },
@@ -29,7 +29,7 @@ module.exports = async function (message, user) {
         let guild = ret[1]
         if (item == false) { return functions.replyMessage(message, "That item does not exist!") }
         if (item.owner != user._id) { return functions.replyMessage(message, "You do not own this item!") }
-        if (item._id == user.weapon) { return functions.replyMessage(message, "This item is currently equipped!") }
+        if (item._id == user.weapon._id) { return functions.replyMessage(message, "This item is currently equipped!") }
         if (item.enchantlevel == undefined) { item.enchantlevel = 0; }
         if (item.enchantlevel >= guild.forge.enchant[0]) { return functions.replyMessage(message, "Your guild forge is not advanced enough to enchant your weapon!") }
         if (item.enchantlevel >= item.rarity) { return functions.replyMessage(message, "Your weapon is not yet strong enough to sustain a more powerful enchantment!") }
