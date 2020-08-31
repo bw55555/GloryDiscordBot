@@ -102,7 +102,7 @@ module.exports = async function (message, user) {
             functions.setUser(target)
             return
         } else {
-            if (words.indexOf())
+            //if (words.indexOf())
         }
     });
 }
