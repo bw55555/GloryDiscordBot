@@ -6,7 +6,7 @@ const enchantData = {
     "sacrifice": { "start": 0.04, "level": 0.03, "end": 0.05, "cost": [3, 5, 0, 2] },
     "revenge": { "start": 0.005, "level": 0.005, "end": 0.01, "cost": [6, 3, 1, 0] },
     "rage": { "start": 0.2, "level": 0.2, "end": 0.4, "cost": [6, 3, 0, 1] },
-    "burn": { "start": 5, "level": 2, "end": 6, "cost": [6, 4, 0, 0] },
+    "burn": { "start": 2, "level": 1, "end": 3, "cost": [6, 4, 0, 0] },
     "haste": { "start": 1, "level": 1, "end": 2, "cost": [10, 0, 0, 0] },
     "evade": { "start": 0.01, "level": 0.005, "end": 0.015, "cost": [8, 0, 2, 0] },
     "tempo": { "start": 0.2, "level": 0.3, "end": 0.4, "cost": [8, 2, 0, 0] },
