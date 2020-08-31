@@ -37,7 +37,7 @@ module.exports = async function (message, user) {
         let guild = ret[1]
         if (item == false) { return functions.replyMessage(message, "That item does not exist!") }
         if (item.owner != user._id) { return functions.replyMessage(message, "You do not own this item!") }
-        if (item._id == user.weapon) { return functions.replyMessage(message, "This item is currently equipped!") }
+        if (item._id == user.weapon._id) { return functions.replyMessage(message, "This item is currently equipped!") }
         if (item.enhance.level+1 > guildForgePrices.enhance[0].bonus[guild.forge.enhance[0]]) { return functions.replyMessage(message, "The guild forge is not advanced enough to enhance this item further!") }
         if (item.enhance.level+1 > Math.pow(2, item.rarity)) { return functions.replyMessage(message, "Your weapon is not strong enough to withstand another enhancement!") }
         let successrate = 100 - 10 * item.rarity + 100 * guildForgePrices.enhance[2].bonus[guild.forge.enhance[2]]
