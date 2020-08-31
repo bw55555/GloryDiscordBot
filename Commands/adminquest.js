@@ -90,16 +90,21 @@ module.exports = async function (message, user) {
                         text = "Please enter a reward in property value format. (ex. money 100))"
                     }
                 } else if (curr == "reward") {
+                    curr = "complete"
                     let questwords = m.content.trim().split(/\s+/)
-                    if (questwords.length % 2 == 0) { text = "Please enter a correct quest reward. There must be an amount for every property. " }
-                    for (let i = 0; i < questwords.length / 2; i++) {
-                        let key = questwords[2 * i];
-                        let value = parseInt(questwords[2 * i+1]);
-                        if (isNaN(value)) { functions.replyMessage(message, "Please enter a correct quest reward. The amount of property " + key + " must be an integer.") }
-                        reward[key] = value;
+                    if (questwords.length % 2 == 0) { text = "Please enter a correct quest reward. There must be an amount for every property. "; curr = "reward" }
+                    else {
+                        for (let i = 0; i < questwords.length / 2; i++) {
+                            let key = questwords[2 * i];
+                            let value = parseInt(questwords[2 * i + 1]);
+                            if (isNaN(value)) { text += "Please enter a correct quest reward. The amount of property " + key + " must be an integer."; curr = "reward"; break}
+                            reward[key] = value;
+                        }
+                        if (curr == "complete") {
+                            functions.getUser(target._id).then(t => { functions.makeQuest(t, name, conditions, reward, type); functions.setUser(t) })
+                            collector.stop("complete")
+                        }
                     }
-                    functions.getUser(target._id).then(t => { functions.makeQuest(t, name, conditions, reward, type); functions.setUser(t) })
-                    collector.stop("complete")
                 }
                 if (text != "") { functions.sendMessage(message.channel, text) }
                 //console.log(collector)
