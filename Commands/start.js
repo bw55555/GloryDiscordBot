@@ -46,7 +46,8 @@ module.exports = async function (message, user) {
         skillB: "None",
         skillC: "None",
         consum: { explosion: 0, box: 0, sp: 0, phoenixfeather: 0, nametag: 0, reroll: 0 },
-        quests: []
+        quests: [],
+        cnumbers: [0,0]
     }
 
     user.money += 1000;

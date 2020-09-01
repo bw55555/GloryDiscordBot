@@ -8,7 +8,7 @@ const guildStore = [
     { "name": "Legendary Scroll", "price": 5000000, "levels": [40], "stocks": [1] },
     { "name": "Box", "level": 1, "stock": 10, "price": 50000, "id": 5, "levels": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50], "stocks": [25, 75, 150, 250, 500, 1000, 2000, 3000, 4000, 5000, 10000] }
 ]
-const guildBuffStore = [
+global.guildBuffStore = [
     { "name": "Attack +", "stat": "attack", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.2, 0.4, 0.6, 0.8, 1, 1.5, 2, 2.5, 3, 4], "prices": [0, 400, 1500, 10000, 50000, 150000, 500000, 1500000, 5000000, 15000000, 50000000] },
     { "name": "Defense +", "stat": "defense", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.2, 0.4, 0.6, 0.8, 1, 1.5, 2, 2.5, 3, 4], "prices": [0, 400, 1500, 10000, 50000, 150000, 500000, 1500000, 5000000, 15000000, 50000000] },
     { "name": "CritDamage +", "stat": "critDamage", "levels": [0, 10, 40, 60, 80, 100], "bonus": [0, 0.5, 1, 2, 3, 5], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] },
@@ -21,7 +21,7 @@ const guildBuffStore = [
     { "name": "Lucky +", "stat": "lucky", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.1, 0.2, 0.3, 0.5, 0.8, 1.3, 2.1, 3.4, 5.5, 8.9], "prices": [0, 1000, 5000, 25000, 100000, 300000, 1000000, 3000000, 10000000, 30000000, 100000000] },
     { "name": "Revenge +", "stat": "revenge", "levels": [0, 30, 60, 90, 100], "bonus": [0, 0.01, 0.02, 0.03, 0.05], "prices": [0, 100000, 3000000, 90000000, 100000000] },
     { "name": "Rage +", "stat": "rage", "levels": [0, 10, 40, 60, 80, 100], "bonus": [0, 0.2, 0.4, 0.6, 0.8, 1], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] },
-    { "name": "Pierce +", "stat": "pierce", "levels": [0, 10, 40, 60, 80, 100], "bonus": [0, 0.04, 0.08, 0.12, 0.16, 0.20], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] }
+    { "name": "Pierce +", "stat": "pierce", "levels": [0, 10, 40, 60, 80, 100], "bonus": [0, 0.01, 0.03, 0.06, 0.10, 0.15], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] }
 ]
 
 global.guildForgePrices = {
@@ -43,7 +43,7 @@ global.guildForgePrices = {
         { "name": "Rate Up", "bonus": [0, 0.01, 0.02, 0.04, 0.08, 0.14, 0.22, 0.32, 0.44, 0.58], "prices": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000]}
     ],
     "enhance": [
-        { "name": "Max Level", "bonus": [1, 2, 4, 8, 16, 32, 64, 128, 256, 1024], "prices": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000] },
+        { "name": "Max Level", "bonus": [1, 2, 4, 8, 16, 32, 64, 128, 256, 1024], "prices": [0, 1000, 2000, 4000, 8000, 20000, 50000, 100000, 200000, 500000] },
         { "name": "Cost Down", "bonus": [0, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.98, 0.995, 0.999], "prices": [0, 1000, 5000, 20000, 50000, 200000, 500000, 2000000, 5000000, 10000000] },
         { "name": "Rate Up", "bonus": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9], "prices": [0, 20000, 60000, 120000, 200000, 300000, 420000, 560000, 720000, 9000000] }
     ]
@@ -106,7 +106,9 @@ module.exports = async function (message, user) {
                 guild.store = {};
                 guild.buffs = {};
                 guild.quests = {};
-                //guild.forge = {};
+                guild.forge = {
+                    "level": 0, "enchant": [0, 0, 0], "enhance": [0, 0, 0], "donate": { "money": 0, "materials": 0 }
+                }
                 guild.crystals = 0;
                 user.guild = guildName;
                 user.guildpos = "Leader";
@@ -490,20 +492,15 @@ module.exports = async function (message, user) {
                 let buff = parseInt(words[3])
                 if (isNaN(buff) || guildBuffStore[buff] == undefined) { return functions.replyMessage(message, "This buff does not exist!") }
                 let buffname = guildBuffStore[buff].stat
-                let bufflevel = guild.buffs[buffname] == undefined ? 0 : guild.buffs[buffname].level
+                let bufflevel = guild.buffs[buffname] == undefined ? 0 : guild.buffs[buffname]
                 if (bufflevel >= guildBuffStore[buff].bonus.length - 1) { return functions.replyMessage(message, "This buff is at the maximum level!") }
                 if (guildBuffStore[buff].levels[bufflevel + 1] > guild.level) { return functions.replyMessage(message, "You cannot upgrade this buff since your guild is not at a high enough level!") }
                 if (guild.crystals < guildBuffStore[buff].prices[bufflevel + 1]) { return functions.replyMessage(message, "Your guild does not have enough crystals!") }
                 guild.crystals -= guildBuffStore[buff].prices[bufflevel + 1]
-                if (guild.buffs[buffname] == undefined) { guild.buffs[buffname] = { "level": 0, "value": guildBuffStore[buff].bonus[0] } }
-                guild.buffs[buffname].level = bufflevel + 1
-                guild.buffs[buffname].value = guildBuffStore[buff].bonus[bufflevel + 1]
+                guild.buffs[buffname] = bufflevel + 1
                 let setJsonObj = {}
-                setJsonObj["guildbuffs." + buffname + ".level"] = bufflevel + 1
-                setJsonObj["guildbuffs." + buffname + ".value"] = guildBuffStore[buff].bonus[bufflevel + 1]
-                user.guildbuffs[buffname] = {}
-                user.guildbuffs[buffname].level = bufflevel + 1
-                user.guildbuffs[buffname].value = guildBuffStore[buff].bonus[bufflevel + 1]
+                setJsonObj["guildbuffs." + buffname] = bufflevel + 1
+                user.guildbuffs[buffname] = bufflevel + 1
                 functions.setProp("userData", { "guild": guild._id }, { $set: setJsonObj}) 
                 functions.replyMessage(message, "You have successfully upgraded " + buffname + " to level " + (bufflevel + 1))
             }
@@ -534,33 +531,6 @@ module.exports = async function (message, user) {
             }
             text += "Buy an item with !guild purchase {id} [amount]```"
             functions.replyMessage(message, text)
-            /*
-            pages.push(text)
-            text = "Your guild's store: ```\n"
-            for (var i = 0; i < guildBuffStore.length; i++) {
-                let buff = guildBuffStore[i]
-                let currbufflevel = (guild.buffs[i + ""] == undefined) ? 0 : guild.buffs[buff.stat]
-                //if (i==1) functions.replyMessage(message,alreadybought)
-                text += "[" + i + "] " + guildStore[i].name
-                let canbuy = 0
-                for (var j = 0; j < guildStore[i].levels.length; j++) {
-                    if (level < guildStore[i].levels[j]) {
-                        break
-                    }
-                    canbuy += guildStore[i].stocks[j]
-                };
-                text += " ($" + guildStore[i].price + ")"
-                text += " (" + (canbuy - alreadybought) + " left)"
-                if (level < guildStore[i].levels[j]) {
-                    text += " (Level " + guildStore[i].levels[j] + " to unlock " + guildStore[i].stocks[j] + " more)"
-                } else {
-                    text += " (MAX amount)"
-                }
-                text += "\n"
-            }
-            */
-            //functions.Paginator(message.channel,message.author,pages)
-
         }
         else if (command == "PURCHASE" || command == "BUY" || command == "B") {
             //if (admins.indexOf(id) == -1) { return }
@@ -613,7 +583,7 @@ module.exports = async function (message, user) {
             let text = "Your guild's buffs: ```\n"
             for (var buffno in guildBuffStore) {
                 let buff = guildBuffStore[buffno].stat
-                let bufflevel = guild.buffs[buff] == undefined ? 0 : guild.buffs[buff].level
+                let bufflevel = guild.buffs[buff] == undefined ? 0 : guild.buffs[buff]
 
                 let numspaces = 15 - guildBuffStore[buffno].name.length - buffno.length
                 let leveltext = (guildBuffStore[buffno].levels[bufflevel + 1] > guild.level) ? " (guild level " + guildBuffStore[buffno].levels[bufflevel + 1] + " required for next upgrade)" : "(Ready to upgrade to " + (100 * guildBuffStore[buffno].bonus[bufflevel + 1]) + "% for " + guildBuffStore[buffno].prices[bufflevel + 1] + " crystals)"

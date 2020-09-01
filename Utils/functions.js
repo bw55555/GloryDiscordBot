@@ -222,6 +222,12 @@ function hasSkill(user, skillid, enable) {
     if (user.skillA == skillid || user.skillB == skillid || user.skillC == skillid) return enable
     else return false
 }
+function getGuildBuff(user, buffname) {
+    if (user.guild != "None" && user.guildbuffs[buffname] != undefined) {
+        return guildBuffStore.find(x => x.stat == buffname).bonus[user.guildbuffs[buffname]];
+    }
+    return 0;
+}
 function generateWeaponTemplate(owner, weapon, current, total) {
     let mergetext = weapon.merge //+ " (Merges until next rarity: " + (10-weapon.merge) + ")";
     if (weapon.rarity == 'Unique' || weapon.rarity == 9) {
@@ -410,9 +416,7 @@ function calcLuckyBuff(user) {
     if (hasSkill(user, 16)) { //Royalty Skill
         luckybuff += 0.5
     }
-    if (user.guild != "None" && user.guildbuffs.lucky != undefined) {
-        luckybuff += user.guildbuffs.lucky.value
-    }
+    luckybuff += getGuildBuff(user, "lucky")
     luckybuff += user.glory * 0.01;
     if (user.vip != undefined) {
         luckybuff += user.vip.lucky;
@@ -791,41 +795,27 @@ function calcStats(message, user, stat, skillenable,confused) {
     }
     let buff = user.trianglemod;
     let dbuff = 1;
-    let critrate = 0;
-    critrate = (user.triangleid == 4) ? 0.08 : 0;
-    let critdmg = (user.triangleid == 4) ? 3 : 2;
+    let critRate = 0;
+    critRate = (user.triangleid == 4) ? 0.08 : 0;
+    let critDamage = (user.triangleid == 4) ? 3 : 2;
     let rage = (user.triangleid == 6) ? 1 : 0;
     let sacrifice = (user.triangleid == 311) ? 0.15 : 0;
     let tempo = 0;
     let antitempo = 0;
-    if (user.guild != "None" && user.guildbuffs.attack != undefined) {
-        buff += user.guildbuffs.attack.value
-    }
-    if (user.guild != "None" && user.guildbuffs.defense != undefined) {
-        dbuff += user.guildbuffs.defense.value
-    }
-    if (user.guild != "None" && user.guildbuffs.critDamage != undefined) {
-        critdmg += user.guildbuffs.critDamage.value
-    }
-    if (user.guild != "None" && user.guildbuffs.critRate != undefined) {
-        critrate += user.guildbuffs.critRate.value
-    }
-    if (user.guild != "None" && user.guildbuffs.tempo != undefined) {
-        tempo += user.guildbuffs.tempo.value
-    }
-    if (user.guild != "None" && user.guildbuffs.sacrifice != undefined) {
-        sacrifice += user.guildbuffs.sacrifice.value
-    }
-    if (user.guild != "None" && user.guildbuffs.rage != undefined) {
-        rage += user.guildbuffs.rage.value
-    }
+    buff += getGuildBuff(user, "attack")
+    dbuff += getGuildBuff(user, "defense")
+    critDamage+= getGuildBuff(user, "critDamage")
+    critRate+=getGuildBuff(user, "critRate")
+    tempo += getGuildBuff(user, "tempo")
+    sacrifice += getGuildBuff(user, "sacrifice")
+    rage += getGuildBuff(user, "rage")
     if (user.weapon != false && user.weapon != undefined) {
         if (user.weapon.modifiers == undefined) { user.weapon.modifiers = {} }
         if (user.weapon.modifiers.critRate != undefined) {
-            critrate += user.weapon.modifiers.critRate
+            critRate += user.weapon.modifiers.critRate
         }
         if (user.weapon.modifiers.critDamage != undefined) {
-            critdmg += user.weapon.modifiers.critDamage
+            critDamage += user.weapon.modifiers.critDamage
         }
 
         if (user.weapon.modifiers.rage != undefined) {
@@ -840,10 +830,10 @@ function calcStats(message, user, stat, skillenable,confused) {
     }
     //if (user.skills == undefined) { user.skills = {} }
     if (hasSkill(user, 0, skillenable)) {
-        attack += 20;
+        attack += 40;
     }
     if (hasSkill(user, 1, skillenable)) {
-        defense += 20;
+        defense += 40;
     }
     if (hasSkill(user, 2, skillenable)) {
         rage += .7;
@@ -855,7 +845,7 @@ function calcStats(message, user, stat, skillenable,confused) {
         tempo += 1;
     }
     if (hasSkill(user, 9, skillenable)) {
-        critrate += 0.06;
+        critRate += 0.06;
     }
     if (hasSkill(user, 12, skillenable)) {
         if (user.health == user.currenthealth) {
@@ -872,8 +862,8 @@ function calcStats(message, user, stat, skillenable,confused) {
         sacrifice += 0.05
     }
     if (hasSkill(user, 27, skillenable)) {
-        critrate += 0.01
-        critdmg += 2
+        critRate += 0.01
+        critDamage += 2
     }
     if (hasSkill(user, 29, skillenable)) {
         rage += 0.3
@@ -940,14 +930,14 @@ function calcStats(message, user, stat, skillenable,confused) {
             if (urspeed > 25) {
                 urspeed = 25
             }
-            critrate += 0.008 * urspeed;
-            text += "<@" + user._id + "> has **" + (Math.floor(critrate * 1000) / 10) + "%** chance of hitting a critical\n"
+            critRate += 0.008 * urspeed;
+            text += "<@" + user._id + "> has **" + (Math.floor(critRate * 1000) / 10) + "%** chance of hitting a critical\n"
         }
 
         let critchance = Math.random();
-        if (critchance < critrate) {
+        if (critchance < critRate) {
             text += "<@" + user._id + "> just dealt critical damage!\n";
-            buff += critdmg-1;
+            buff += critDamage-1;
         }
 
         if (text != "") { sendMessage(message.channel, text) }
@@ -1690,6 +1680,7 @@ module.exports.deleteMessage = function (message) { return deleteMessage(message
 module.exports.dmUser = function (user, text) { return dmUser(user, text) }
 module.exports.logCommand = function (message, extratext) { return logCommand(message, extratext) }
 module.exports.validate = function (message, user, spot) { return validate(message, user, spot) }
+module.exports.getGuildBuff = function (user, buffname) { return getGuildBuff(user, buffname) }
 module.exports.hasSkill = function (user, skillid, enable) { return hasSkill(user, skillid, enable) }
 module.exports.generateWeaponTemplate = function (owner, weapon, current, total) { return generateWeaponTemplate(owner, weapon, current, total) }
 module.exports.generateGuildTemplate = function (guild) { return generateGuildTemplate(guild) }

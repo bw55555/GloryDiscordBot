@@ -2,12 +2,12 @@
     {
         "name": "Attack+",
         "id": 0,
-        "description": "Increase attack by 20"
+        "description": "Increase attack by 40"
     },
     {
         "name": "Defense+",
         "id": 1,
-        "description": "Increase Defense by 20"
+        "description": "Increase Defense by 40"
     },
     {
         "name": "Rage",
