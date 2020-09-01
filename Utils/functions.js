@@ -855,8 +855,8 @@ function calcStats(message, user, stat, skillenable,confused) {
         }
     }
     if (hasSkill(user, 17, skillenable)) {
-        attack += 50;
-        defense -= 50;
+        attack += 60;
+        defense -= 60;
     }
     if (hasSkill(user, 26, skillenable)) {
         sacrifice += 0.05

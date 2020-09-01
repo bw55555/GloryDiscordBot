@@ -87,7 +87,7 @@
     {
         "name": "Reckless",
         "id": 17,
-        "description": "Increase Attack by 50, but decrease Defense by 50"
+        "description": "Increase Attack by 60, but decrease Defense by 60"
     },
     {
         "name": "Offensive Strike",
