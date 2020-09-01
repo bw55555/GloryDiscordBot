@@ -1194,7 +1194,7 @@ function checkStuff(message,user) {
         if (user.level === 5 && user.triangle == "None") {
             extratext +="You are level 5! Use !class to get information on how to choose a **class**!\n";
         }
-        if (user.level === 15 && (user.triangle == "None" || user.triangleid < 4)) {
+        if (user.ascension === 1 && user.level == 10) {
             extratext +="You are level 15! Use !class to get information on how to choose a **subclass**!\n";
         }
     }

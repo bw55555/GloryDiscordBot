@@ -25,7 +25,7 @@ module.exports = async function (message, user) {
             "<:berserker:541748571662188549> Berserker - Warrior Subclass; Deals increased damage while damaged\n" +
             "<:paladin:542093280930824202> Paladin - Warrior Subclass; `!bolster` other players! They are buffed during their next attack!\n" +
             "\n" +
-            "Warning: You can only choose this at level 15+, and will lose 1 level."
+            "Warning: You can only choose this at ascension 1 level 10+, and will lose 1 level."
 
         );
         return;
@@ -51,8 +51,8 @@ module.exports = async function (message, user) {
         user.trianglemod = 1.2;
         functions.replyMessage(message, 'You are now a Warrior!');
     } else if (classpick === 'ASSASSIN') {
-        if (user.level < 15 || (user.triangleid) % 3 !== 1) {
-            functions.replyMessage(message, "You must be level 15 Archer to choose this subclass");
+        if (user.ascension == 0 || (user.ascension == 1 && user.level < 10) || (user.triangleid) % 3 !== 1) {
+            functions.replyMessage(message, "You must be an ascension 1 level 10 Archer to choose this subclass");
             return;
         }
         user.triangle = '<:assassin:542178120141373440> Assassin';
@@ -60,8 +60,8 @@ module.exports = async function (message, user) {
         user.trianglemod = 1.4;
         functions.replyMessage(message, 'You are now an Assassin!');
     } else if (classpick === 'MERCHANT') {
-        if (user.level < 15 || (user.triangleid) % 3 !== 1) {
-            functions.replyMessage(message, "You must be level 15 Archer to choose this subclass");
+        if (user.ascension == 0 || (user.ascension == 1 && user.level < 10) || (user.triangleid) % 3 !== 1) {
+            functions.replyMessage(message, "You must be an ascension 1 level 10 Archer to choose this subclass");
             return;
         }
         user.triangle = '<:Merchant:541741539991486465> Merchant';
@@ -69,8 +69,8 @@ module.exports = async function (message, user) {
         user.trianglemod = 1.4;
         functions.replyMessage(message, 'You are now a Merchant!');
     } else if (classpick === 'HEALER') {
-        if (user.level < 15 || (user.triangleid) % 3 !== 2) {
-            functions.replyMessage(message, "You must be level 15 Mage to choose this subclass");
+        if (user.ascension == 0 || (user.ascension == 1 && user.level < 10) || (user.triangleid) % 3 !== 2) {
+            functions.replyMessage(message, "You must be an ascension 1 level 10 Mage to choose this subclass");
             return;
         }
         user.triangle = '<:Healer:541737142376857601> Healer';
@@ -78,8 +78,8 @@ module.exports = async function (message, user) {
         user.trianglemod = 1.4;
         functions.replyMessage(message, 'You are now a Healer!');
     } else if (classpick === 'ORACLE') {
-        if (user.level < 15 || (user.triangleid) % 3 !== 2) {
-            functions.replyMessage(message, "You must be level 15 Mage to choose this subclass");
+        if (user.ascension == 0 || (user.ascension == 1 && user.level < 10) || (user.triangleid) % 3 !== 2) {
+            functions.replyMessage(message, "You must be an ascension 1 level 10 Mage to choose this subclass");
             return;
         }
         user.triangle = '<:oracle:542183480558092308> Oracle';
@@ -87,8 +87,8 @@ module.exports = async function (message, user) {
         user.trianglemod = 1.4;
         functions.replyMessage(message, 'You are now an Oracle!');
     } else if (classpick === 'LIFEWEAVER' || classpick === 'BLOODWEAVER' || classpick === 'WEAVER') {
-        if (user.level < 15 || (user.triangleid) % 3 !== 2) {
-            functions.replyMessage(message, "You must be level 15 Mage to choose this subclass");
+        if (user.ascension == 0 || (user.ascension == 1 && user.level < 10) || (user.triangleid) % 3 !== 2) {
+            functions.replyMessage(message, "You must be an ascension 1 level 10 Mage to choose this subclass");
             return;
         }
         user.triangle = '<:bloodlifeweaver:542188575333023754> Life/Bloodweaver';
@@ -96,8 +96,8 @@ module.exports = async function (message, user) {
         user.trianglemod = 1.4;
         functions.replyMessage(message, 'You are now an Lifeweaver!');
     } else if (classpick === 'BERSERKER') {
-        if (user.level < 15 || (user.triangleid) % 3 != 0) {
-            functions.replyMessage(message, "You must be level 15 Warrior to choose this subclass");
+        if (user.ascension == 0 || (user.ascension == 1 && user.level < 10) || (user.triangleid) % 3 !== 0) {
+            functions.replyMessage(message, "You must be an ascension 1 level 10 Warrior to choose this subclass");
             return;
         }
         user.triangle = '<:berserker:541748571662188549> Berserker';
@@ -105,8 +105,8 @@ module.exports = async function (message, user) {
         user.trianglemod = 1.4;
         functions.replyMessage(message, 'You are now a Berserker!');
     } else if (classpick === 'PALADIN') {
-        if (user.level < 15 || (user.triangleid) % 3 != 0) {
-            functions.replyMessage(message, "You must be level 15 Warrior to choose this subclass");
+        if (user.ascension == 0 || (user.ascension == 1 && user.level < 10) || (user.triangleid) % 3 !== 0) {
+            functions.replyMessage(message, "You must be an ascension 1 level 10 Warrior to choose this subclass");
             return;
         }
         user.triangle = '<:paladin:542093280930824202> Paladin';
