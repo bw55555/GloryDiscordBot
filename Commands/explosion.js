@@ -15,7 +15,7 @@ module.exports = async function (message, user) {
         let inchannel = talkedRecently[message.channel.id];
         let nearby = [];
         for (person in inchannel) {
-            if (functions.calcTime(ts, inchannel[person]) < 15000 && person!=id) {
+            if (functions.calcTime(ts, inchannel[person]) < 15000 && person!=id && devs.indexOf(person) == -1) {
                 nearby.push(person)
             }
         }

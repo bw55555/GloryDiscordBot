@@ -14,7 +14,8 @@ module.exports = async function (message, user) {
                     "level": 0,
                     "attack": 0,
                     "defense": 0
-                }
+                }, 
+                "equip": false
             },
             $unset: {
                 "enhancementlevel": "",
@@ -27,7 +28,9 @@ module.exports = async function (message, user) {
                 "cnumbers": [0, 0],
                 "quests": [],
                 "contribution": 0,
-                "guildbuffs": {}
+                "guildbuffs": {},
+                "weapon": false,
+                "shield": ts + 1000*60*60*24
             }
         })
         await functions.setProp(guildData, {}, {
@@ -52,5 +55,6 @@ module.exports = async function (message, user) {
                 functions.setObject("guildData", guild)
             }
         })
+        functions.replyMessage(message, "Maintenance was completed!")
     }, [message])
 }
