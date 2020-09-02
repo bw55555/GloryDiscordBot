@@ -124,7 +124,7 @@ function evaluateMessage(message) {
     if (talkedRecently[chid] == undefined) { talkedRecently[chid] = {} }
     talkedRecently[chid][message.author.id] = ts;
     for (let key in talkedRecently[chid]) {
-        if (functions.calcTime(ts, talkedRecently[chid][key]) > 15000) { delete talkedRecently[chid][key]}
+        if (functions.calcTime(ts, talkedRecently[chid][key]) > 15) { delete talkedRecently[chid][key]}
     }
     if (!message.content.startsWith(prefix)) {
         if (nctlist[message.author.id] == undefined) { nctlist[message.author.id] = 0;}
