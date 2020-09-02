@@ -33,7 +33,7 @@ module.exports = async function (message, user) {
                 let blast = (Math.floor(Math.random() * 3000));
                 text += "<@" + person._id + "> was caught in the explosion and took " + blast + " damage!\n"
                 person.currenthealth -= blast
-                functions.dmUser(person._id, "https://tenor.com/view/explosion-gif-9488133 \nYou were caught in <@" + id + ">\'s explosion and took " + blast + " damage!")
+                functions.dmUser(person, "https://tenor.com/view/explosion-gif-9488133 \nYou were caught in <@" + id + ">\'s explosion and took " + blast + " damage!")
                 if (person.currenthealth <= 0) {
                     person.dead = true;
                     person.currenthealth = 0;
@@ -51,6 +51,7 @@ module.exports = async function (message, user) {
                     }
                 })
             }
+            functions.sendMessage(message.channel, text)
             functions.bulkWrite("userData", tasks)
         })
     }
