@@ -41,7 +41,7 @@ module.exports = async function (message, user) {
                     person.money -= stolen;
                     user.money += stolen;
                     total+=stolen
-                    text += '<@' + i + '> was Meme-Maged for $' + stolen + '!\n';
+                    text += '<@' + person._id + '> was Meme-Maged for $' + stolen + '!\n';
                 }
                 tasks.push({
                     replaceOne:
