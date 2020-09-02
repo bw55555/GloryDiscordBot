@@ -122,7 +122,7 @@ function evaluateMessage(message) {
     let ts = message.createdTimestamp;
     let chid = message.channel.id
     if (talkedRecently[chid] == undefined) { talkedRecently[chid] = {} }
-    talkedRecently[chid] = ts;
+    talkedRecently[chid][message.author.id] = ts;
     for (key of talkedRecently[chid]) {
         if (functions.calcTime(ts, talkedRecently[chid][key]) > 15000) { delete talkedRecently[chid][key]}
     }
