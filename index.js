@@ -32,6 +32,7 @@ global.guildData = "guildData"//JSON.parse(fs.readFileSync('Storage/guildData.js
 global.questData = "questData"//JSON.parse(fs.readFileSync('Storage/questData.json', 'utf8'));
 global.partyData = "partyData"
 global.dailyrefresh = null;
+global.talkedRecently = {};
 var nctlist = {};
 const TOKEN = config.token;//woah woah woah woah whatcha
 client.connect((err) => {
@@ -44,7 +45,6 @@ client.connect((err) => {
         }
         global.devData = someDataReturn[1];
         console.log(devData);
-        global.talkedRecently = new Set();
         global.globalcdlist = new Set();
         global.admins = devData.admins
         global.devs = devData.devs
@@ -119,10 +119,16 @@ function evaluateMessage(message) {
         words.splice(0, 1)
         message.content = prefix + words.join(" ")
     }
+    let ts = message.createdTimestamp;
+    let chid = message.channel.id
+    if (talkedRecently[chid] == undefined) { talkedRecently[chid] = {} }
+    talkedRecently[chid] = ts;
+    for (key of talkedRecently[chid]) {
+        if (functions.calcTime(ts, talkedRecently[chid][key]) > 15000) { delete talkedRecently[chid][key]}
+    }
     if (!message.content.startsWith(prefix)) {
         if (nctlist[message.author.id] == undefined) { nctlist[message.author.id] = 0;}
         nctlist[message.author.id] += 1;
-        
         return;
     }
     if (message.author.bot == true) {
@@ -139,7 +145,7 @@ function evaluateMessage(message) {
     if ((message.content.startsWith(prefix + "setcommandtimer") || message.content.startsWith(prefix + "sct")) && devs.indexOf(message.author.id) != -1) {
         let words = message.content.trim().split(/\s+/)
         let time = functions.extractTime(message, words[1])
-        let ts = message.createdTimestamp;
+        
         if (time === false) { return }
         words.splice(0, 2)
         message.content = prefix + words.join(" ")
@@ -176,7 +182,6 @@ function evaluateMessage(message) {
     functions.respond(message)
     
     id = message.author.id;
-    let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     //here
     let command = words[0].toLowerCase()
@@ -284,13 +289,6 @@ function evaluateMessage(message) {
         //console.time("run")
         commands[command](message, user).then(ret => { functions.setUser(user) })
         //console.timeEnd("run")
-        if (!talkedRecently.has(message.author.id)) {
-            talkedRecently.add(message.author.id);
-            setTimeout(() => {
-                // Removes the user from the set after a minute
-                talkedRecently.delete(message.author.id);
-            }, 15000);
-        }
         //console.timeEnd("Command")
         //Command cooldowns
     });
