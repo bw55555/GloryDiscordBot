@@ -27,7 +27,7 @@ module.exports = async function (message, user) {
             let count = 0;
             let total = 0;
             let tasks = [];
-            for (let person in ret) {
+            for (let person of ret) {
                 count++;
                 let blast = (Math.floor(Math.random() * 3000));
                 text += "<@" + person._id + "> was caught in the explosion and took " + blast + " damage!\n"
