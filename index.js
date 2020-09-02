@@ -123,8 +123,7 @@ function evaluateMessage(message) {
     let chid = message.channel.id
     if (talkedRecently[chid] == undefined) { talkedRecently[chid] = {} }
     talkedRecently[chid][message.author.id] = ts;
-    console.log(talkedRecently)
-    for (let key of talkedRecently[chid]) {
+    for (let key in talkedRecently[chid]) {
         if (functions.calcTime(ts, talkedRecently[chid][key]) > 15000) { delete talkedRecently[chid][key]}
     }
     if (!message.content.startsWith(prefix)) {
