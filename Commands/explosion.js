@@ -23,6 +23,7 @@ module.exports = async function (message, user) {
         user.money -= 10000000
         if (nearby.length == 0) { return functions.replyMessage(message, "The bomb exploded, but no one got hit... ") }
         functions.findUsers({ "_id": { $in: nearby }, "dead": false }).then(ret => {
+            if (ret.length == 0) { return functions.replyMessage(message, "The bomb exploded, but no one got hit... ")}
             let text = "https://tenor.com/view/explosion-gif-9488133 \n";
             let count = 0;
             let total = 0;
@@ -36,7 +37,7 @@ module.exports = async function (message, user) {
                 if (person.currenthealth <= 0) {
                     person.dead = true;
                     person.currenthealth = 0;
-                    let stolen = Math.floor(oerson.money / 5)
+                    let stolen = Math.floor(person.money / 5)
                     person.money -= stolen;
                     user.money += stolen;
                     total+=stolen
