@@ -184,6 +184,10 @@ async function validate(message, user, spot) {
             sendMessage(message.channel, targetname + " is not a real person");
             return false;
         }
+        if (ret.dungeonts != undefined) {
+            sendMessage(message.channel, targetname + " is currently in a dungeon.");
+            return false;
+        }
         return ret
     })
 }

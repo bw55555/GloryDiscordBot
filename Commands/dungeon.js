@@ -28,7 +28,11 @@ module.exports = async function (message, user) {
         if (dungeon == false) { return functions.replyMessage(message, "You have not yet acquired a permit to the crystal mines!") }
         if (command == "start" || command == "s") {
             if (dungeon.task == "start") {
+                dungeon.ts = ts;
+                user.dungeonts = ts;
                 dungeon.floor = 0;
+                user.bolster = false;
+                user.speed = 0;
                 nextFloor(message, dungeon)
             }
         } else if (command == "attack" || command == "atk" || command == "a") {
@@ -37,11 +41,28 @@ module.exports = async function (message, user) {
             if (!dungeon.raid.alive) {dungeon.task = "next" }
         } else if (command == "info" || command == "view" || command == "i") {
             if (dungeon.task == "raid") {
-                functions.raidInfo(message, dungeon.raid)
+                return functions.raidInfo(message, dungeon.raid)
+            } else if (dungeon.task == "next") {
+                return functions.sendMessage(message, {
+                    embed: {
+                        color: 0xF1C40F,
+                        fields: [
+                            {
+                                name: "Current Floor",
+                                value: dungeon.floor
+                            }
+                        ]
+                    }
+                })
+            } else {
+                return functions.replyMessage(message, "You cannot do this right now!")
             }
         } else if (command == "next") {
             if (dungeon.task == "next") {
                 nextFloor(message, dungeon)
+                user.dungeonts = ts;
+            } else {
+                functions.replyMessage(message, "You cannot go deeper into the mines during an encounter!")
             }
         } else if (command == "exit") {
             if (dungeon.task == "next") {
@@ -49,9 +70,13 @@ module.exports = async function (message, user) {
                 let text = "You have successfully left the dungeon. Your guild earned " + dungeon.crystals + " crystals and " + dungeon.xp + " xp. "
                 dungeon.crystals = 0; dungeon.xp = 0;
                 dungeon.task = "start";
-                
+                user.dungeonts = undefined;
+                user.bolster = false;
+                user.speed = 0;
                 functions.setCD(user, ts, functions.secondsUntilReset(ts), "crystalmines")
                 functions.replyMessage(message, text)
+            } else {
+                functions.replyMessage(message, "You cannot exit the mines during an encounter!")
             }
         } else if (command == "stats") {
             let text = "```\n"
@@ -72,6 +97,7 @@ module.exports = async function (message, user) {
 }
 function nextFloor(message, dungeon) {
     dungeon.floor += 1;
+    dungeon.maxFloor = Math.max(dungeon.maxFloor, dungeon.floor)
     let base = Math.floor(dungeon.floor / 25)
     if (base > 2) { base = 2 }
     if (dungeon.floor % 5 == 0) {
@@ -102,4 +128,5 @@ function nextFloor(message, dungeon) {
     dungeon.raid.level = summonlevel;
     functions.sendMessage(message.channel, "You encountered a level "+summonlevel+" "+raid.name+"!" )
     functions.raidInfo(message, dungeon.raid)
+
 }

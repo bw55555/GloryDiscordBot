@@ -64,6 +64,7 @@ module.exports = async function (message, user) {
             functions.setUser(target)
         })
     } else {
+        if (user.dungeonts)
         if (user.health <= user.currenthealth) {
             return functions.replyMessage(message, "You are already at full health!");
         }
@@ -93,6 +94,7 @@ module.exports = async function (message, user) {
         } else {
             healcd = 90;
         }
+        if (user.dungeonts != undefined) { healcd*=3;}
         if (functions.hasSkill(user, 34)) {
             healcd = Math.floor(healcd / 2)
         }
