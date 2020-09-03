@@ -117,12 +117,12 @@ function sendMessage(channel, text, override) {
     channel.send(text).catch(function (err) {
         
         if (err.errno == "ENOBUFS") {
-            if (message.retry == undefined) {
-                bot.setTimeout(function () { replyMessage(message, text, override) }, 100)
+            if (channel.retry == undefined) {
+                bot.setTimeout(function () { sendMessage(channel, text, override) }, 100)
             } else {
                 console.error(err)
             }
-            message.retry = true;
+            channel.retry = true;
         } else {
             console.error(err)
         }
