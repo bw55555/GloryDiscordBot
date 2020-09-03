@@ -16,7 +16,7 @@ module.exports = async function (message, user) {
             "maxFloor": 0,
             "floor": 0,
             "raid": {},
-            "task": "raid", 
+            "task": "start", 
             "crystals": 0,
             "xp": 0
         }
@@ -46,10 +46,12 @@ module.exports = async function (message, user) {
         } else if (command == "exit") {
             if (dungeon.task == "next") {
                 functions.setProp("guildData", { "_id": user.guild }, { $inc: { "crystals": dungeon.crystals, "xp": dungeon.xp } })
+                let text = "You have successfully left the dungeon. Your guild earned " + dungeon.crystals + " crystals and " + dungeon.xp + " xp. "
                 dungeon.crystals = 0; dungeon.xp = 0;
                 dungeon.task = "start";
+                
                 functions.setCD(user, ts, functions.secondsUntilReset(ts), "crystalmines")
-                functions.replyMessage(message, "You have successfully left the dungeon. Your guild earned " + dungeon.crystals+" crystals and "+dungeon.xp +" xp. ")
+                functions.replyMessage(message, text)
             }
         } else if (command == "stats") {
             let text = "```\n"
