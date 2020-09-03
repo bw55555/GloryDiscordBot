@@ -28,6 +28,7 @@ module.exports = async function (message, user) {
         if (dungeon == false) { return functions.replyMessage(message, "You have not yet acquired a permit to the crystal mines!") }
         if (command == "start" || command == "s") {
             if (dungeon.task == "start") {
+                dungeon.floor = 0;
                 nextFloor(message, dungeon)
             }
         } else if (command == "attack" || command == "atk" || command == "a") {
@@ -59,6 +60,7 @@ module.exports = async function (message, user) {
             let floornum = parseInt(words[2]);
             if (isNaN(floornum) || floornum < 0) { return functions.replyMessage(message, "The dungeon floor must be a positive integer!")}
             dungeon.floor = floornum
+            functions.replyMessage(message, "The dungeon floor has been set to "+dungeon.floor)
         }
         else {
             return functions.replyMessage(message, "This command is not recognized!")

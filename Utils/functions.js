@@ -1431,7 +1431,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         }
         user.money += Math.floor(luckybuff * raid.reward);
         user.xp += Math.floor(luckybuff * raid.reward);
-        text += "Rewards have been given to everyone who participated in the raid!\n"
+        if (type != "dungeon") { text += "Rewards have been given to everyone who participated in the raid!\n" }
         if (user.currenthealth > 0 && hasSkill(user, 15)) { //soulsteal skill in raids.
             user.currenthealth += raid.maxhealth
             text += "Soulsteal activated. <@" + user._id + "> has stolen " + raid.maxhealth + " health. \n";
