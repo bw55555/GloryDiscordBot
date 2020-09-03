@@ -1351,7 +1351,7 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
             }
         }
         if (tasks != undefined && tasks != [] && tasks[0] != undefined) { bulkWrite("userData", tasks) }
-        if (type != "guild") {
+        if (type != "guild" && type != "dungeon") {
             let rarity = Math.floor(raid.level / 75) + Math.floor(Math.random() * (Math.min(raid.level, 75) / 15 - Math.floor(raid.level / 75)))
             if (raid.level > 75 && Math.random() < (raid.level - 75) / 1000) {
                 rarity = 5
@@ -1413,13 +1413,15 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
                         break;
                     }
                 }
-                
+
             }
-            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and an item (ID: " + item._id + ") with rarity " + item.rarity + ".\n"+runetext;
-        } else {
-            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\nThe guild was also given "+ raid.reward + " xp and "+raid.crystalreward+" crystals.\n"
+            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and an item (ID: " + item._id + ") with rarity " + item.rarity + ".\n" + runetext;
+        } else if (type == "guild") {
+            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\nThe guild was also given " + raid.reward + " xp and " + raid.crystalreward + " crystals.\n"
             guild.xp += raid.reward
             guild.crystals += raid.crystalreward
+        } else if (type == "dungeon") {
+
         }
         user.money += Math.floor(luckybuff * raid.reward);
         user.xp += Math.floor(luckybuff * raid.reward);

@@ -1,4 +1,4 @@
-﻿const guildRaidData = require("../Assets/guildRaidData.json")
+﻿const raidData = require("../Assets/raidData.json")
 
 const guildStore = [
     { "name": "Common Scroll", "price": 50000, "levels": [0, 10, 20, 30, 40], "stocks": [1, 1, 1, 1, 1] },
@@ -407,7 +407,7 @@ module.exports = async function (message, user) {
             guild.scrolls[scrollrarities[summonrarity]] -= 1
             let raritylevels = [0, 25, 75, 100, 125, 150]
             let summonlevel = Math.floor(Math.random() * (raritylevels[scrollrarities[summonrarity] + 1] - raritylevels[scrollrarities[summonrarity]]) + 1 + raritylevels[scrollrarities[summonrarity]])
-            let rarityraids = guildRaidData[summonrarity]
+            let rarityraids = raidData[summonrarity]
             let raid = rarityraids[Math.floor(rarityraids.length * Math.random())]
             guild.raid = {}
             guild.raid._id = "GRaid"+guild._id
