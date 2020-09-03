@@ -17,7 +17,7 @@ module.exports = async function (message, user) {
             "crystals": 0,
             "xp": 0
         }
-        functions.setObject("dungeonData", dungeon)
+        return functions.setObject("dungeonData", dungeon)
     }
     return Promise.all([functions.getObject("dungeonData", user._id)]).then(ret => {
         let dungeon = ret[0];
@@ -46,7 +46,7 @@ module.exports = async function (message, user) {
 function nextFloor(message, dungeon) {
     dungeon.floor += 1;
     let base = Math.floor(dungeon.floor / 25)
-    if (base > 2) { base = 2}
+    if (base > 2) { base = 2 }
     if (dungeon.floor % 5 == 0) {
         if (dungeon.floor % 10 == 0 && dungeon.floor < 50) {
             base += 2;
@@ -56,7 +56,7 @@ function nextFloor(message, dungeon) {
     }
     let summonrarity = base;
     let summonlevel = 2*dungeon.floor+10
-    let rarityraids = raidData[base]
+    let rarityraids = raidData[summonrarity]
     let raid = rarityraids[Math.floor(rarityraids.length * Math.random())]
     dungeon.task = "raid"
     dungeon.raid = {}
