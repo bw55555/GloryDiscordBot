@@ -32,7 +32,7 @@ async function getFloorMob(floor) {
 })
 }
 async function getObject(coll, oid) {
-    return throttle(function () {
+    //return throttle(function () {
         return client.db(db).collection(coll).find({ _id: oid }).toArray().then(r => {
             if (r[0] == undefined) { return false }
             return r[0];
@@ -40,10 +40,10 @@ async function getObject(coll, oid) {
             console.error(err)
             return false
         })
-    })
+    //})
 }
 async function findObjects(coll, query, projection) {
-    return throttle(function () {
+    //return throttle(function () {
         return client.db(db).collection(coll).find(query, { "projection": projection }).toArray().then(r => {
             if (r == []) { return false }
             return r;
@@ -51,7 +51,7 @@ async function findObjects(coll, query, projection) {
             console.error(err)
             return false
         })
-    })
+    //})
 }
 async function setObject(coll, newobj) {
     return throttle(function () {
