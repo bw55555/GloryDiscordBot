@@ -134,20 +134,7 @@ function replyMessage(message, text, override) {
     override = (override == true) ? true : false
     if (!override && message.channel.guild != undefined && serverData[message.guild.id] != undefined && serverData[message.guild.id].disabledChannels.indexOf(message.channel.id) != -1) { return; }
     if (message.channel.type != "dm" && message.channel.type != "group" && message.channel.memberPermissions(bot.user) != null && !message.channel.memberPermissions(bot.user).has("SEND_MESSAGES")) { return }
-    message.channel.reply(text).catch(function (err) {
-        console.error(err);
-        if (err.errno == "ENOBUFS") {
-            if (message.retry == undefined) {
-                bot.setTimeout(function () { replyMessage(message, text, override) }, 100)
-            } else {
-                console.error(err)
-            }
-            message.retry = true;
-        } else {
-            console.error(err)
-        }
-            
-    })
+    sendMessage(message.channel, "<@"+message.author.id+">, "+text, override )
     //console.timeEnd("Message Send")
 }
 function deleteMessage(message) {
