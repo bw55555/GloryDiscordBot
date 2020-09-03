@@ -4,6 +4,9 @@ module.exports = async function (message, user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     let command = (words.length == 1) ? "" : words[1].toLowerCase()
+    if (functions.isCD(user, ts, "crystalmines")) { return functions.replyMessage(message, "You can only enter the crystal mines once per day. ") }
+    if (user.ascension < 3) { return functions.replyMessage(message, "You can only enter the crystal mines at ascension 3. ") }
+    if (user.guild == "None") { return functions.replyMessage(message, "You must have a guild to enter the crystal mines. ")}
     if (command == "help") {
         return;
     }
@@ -24,7 +27,9 @@ module.exports = async function (message, user) {
         let dungeon = ret[0];
         if (dungeon == false) { return functions.replyMessage(message, "You have not yet acquired a permit to the crystal mines!") }
         if (command == "start" || command == "s") {
-            nextFloor(message, dungeon)
+            if (dungeon.task == "start") {
+                nextFloor(message, dungeon)
+            }
         } else if (command == "attack" || command == "atk" || command == "a") {
             if (dungeon.task != "raid") { return functions.replyMessage(message, "You have not yet encountered a monster!") }
             functions.raidAttack(message, user, dungeon.raid, "dungeon", dungeon)
@@ -37,12 +42,24 @@ module.exports = async function (message, user) {
             if (dungeon.task == "next") {
                 nextFloor(message, dungeon)
             }
+        } else if (command == "exit") {
+            if (dungeon.task == "next") {
+                functions.setProp("guildData", { "_id": user.guild }, { $inc: { "crystals": dungeon.crystals, "xp": dungeon.xp } })
+                dungeon.crystals = 0; dungeon.xp = 0;
+                dungeon.task = "start";
+                functions.setCD(user, ts, functions.secondsUntilReset(ts), "crystalmines")
+            }
         } else if (command == "stats") {
             let text = "```\n"
             text += "Max Floor: " + dungeon.maxFloor + "\n";
             text+="```"
-            return functions.replyMessage(message, "")
-        } else {
+            return functions.replyMessage(message, text)
+        } else if (command == "setfloor" && admins.indexOf(id) != -1) {
+            let floornum = parseInt(words[2]);
+            if (isNaN(floornum) || floornum < 0) { return functions.replyMessage(message, "The dungeon floor must be a positive integer!")}
+            dungeon.floor = floornum
+        }
+        else {
             return functions.replyMessage(message, "This command is not recognized!")
         }
         functions.setObject("dungeonData", dungeon)

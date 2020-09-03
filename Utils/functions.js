@@ -394,6 +394,10 @@ function errorlog(text) {
     if (!bot.guilds.get("536599503608872961").channels.has("538526944141246486")) {return}
     sendMessage(bot.guilds.get("536599503608872961").channels.get("538526944141246486"),text)
 }
+function secondsUntilReset(ts) {
+    let x = ts % (24 * 60 * 60 * 1000)
+    return 24*60*60-Math.floor(x/1000)
+}
 function setCD(user, ts, cdsecs, cdname) {
     //if (user.cooldowns[cdname] == undefined) { errorlog("Something went wrong with setCD. " + cdname + " not defined." + user._id + "|" + ts) }
     if (user.weapon != false && user.weapon.modifiers.haste != undefined) { cdsecs -= parseInt(user.weapon.modifiers.haste) }
@@ -1624,6 +1628,7 @@ function completeQuest(user, condition, extra, amount) {
 }
 
 function isCD(user, ts, cdtype) {
+    if (user.cooldowns[cdtype] == undefined) { return false}
     return functions.calcTime(user.cooldowns[cdtype], ts) > 0
 }
 
@@ -1682,6 +1687,7 @@ module.exports.makeQuest = function (user, name, conditions, reward) { return ma
 module.exports.completeQuest = function (user, condition, extra, amount) { return completeQuest(user, condition, extra, amount) }
 module.exports.addQuestCondition = function (condition, operator, description, total, extra, type) { return addQuestCondition(condition, operator, description, total, extra, type) }
 module.exports.isCD = function (user, ts, cdtype) { return isCD(user, ts, cdtype) }
+module.exports.secondsUntilReset = function (ts) { return secondsUntilReset(ts) }
 module.exports.JSONselect = function (json, key) { return JSONselect(json, key) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
