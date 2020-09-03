@@ -28,10 +28,14 @@ module.exports = async function (message, user) {
         } else if (command == "attack" || command == "atk" || command == "a") {
             if (dungeon.task != "raid") { return functions.replyMessage(message, "You have not yet encountered a monster!") }
             functions.raidAttack(message, user, dungeon.raid, "dungeon", dungeon)
-            if (!raid.alive) { nextFloor(message, dungeon)}
+            if (!dungeon.raid.alive) {dungeon.task = "next" }
         } else if (command == "info" || command == "view" || command == "i") {
             if (dungeon.task == "raid") {
                 functions.raidInfo(message, dungeon.raid)
+            }
+        } else if (command == "next") {
+            if (dungeon.task == "next") {
+                nextFloor(message, dungeon)
             }
         } else if (command == "stats") {
             let text = "```\n"
