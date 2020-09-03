@@ -115,7 +115,17 @@ function sendMessage(channel, text, override) {
     if (!override && channel.guild != undefined && serverData[channel.guild.id] != undefined && serverData[channel.guild.id].disabledChannels.indexOf(channel.id) != -1) { return; }
     if (channel.type != "dm" && channel.type != "group" && (channel.memberPermissions(bot.user) != null && !channel.memberPermissions(bot.user).has("SEND_MESSAGES"))) { return }
     channel.send(text).catch(function (err) {
-        console.error(err)
+        
+        if (err.errno == "ENOBUFS") {
+            if (message.retry == undefined) {
+                bot.setTimeout(function () { replyMessage(message, text, override) }, 100)
+            } else {
+                console.error(err)
+            }
+            message.retry = true;
+        } else {
+            console.error(err)
+        }
     })
     //console.timeEnd("Message Send")
 }
@@ -124,8 +134,19 @@ function replyMessage(message, text, override) {
     override = (override == true) ? true : false
     if (!override && message.channel.guild != undefined && serverData[message.guild.id] != undefined && serverData[message.guild.id].disabledChannels.indexOf(message.channel.id) != -1) { return; }
     if (message.channel.type != "dm" && message.channel.type != "group" && message.channel.memberPermissions(bot.user) != null && !message.channel.memberPermissions(bot.user).has("SEND_MESSAGES")) { return }
-    message.channel.send("<@" + message.author.id + ">, " + text).catch(function (err) {
-        console.error(err)
+    message.channel.reply(text).catch(function (err) {
+        console.error(err);
+        if (err.errno == "ENOBUFS") {
+            if (message.retry == undefined) {
+                bot.setTimeout(function () { replyMessage(message, text, override) }, 100)
+            } else {
+                console.error(err)
+            }
+            message.retry = true;
+        } else {
+            console.error(err)
+        }
+            
     })
     //console.timeEnd("Message Send")
 }
