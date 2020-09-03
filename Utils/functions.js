@@ -31,22 +31,26 @@ async function getFloorMob(floor) {
     return false
 })
 }
-async function getObject(coll,oid) {
-    return client.db(db).collection(coll).find({ _id: oid }).toArray().then(r => {
-        if (r[0] == undefined) { return false }
-        return r[0];
-    }).catch(err => {
-        console.error(err)
-        return false
+async function getObject(coll, oid) {
+    return throttle(function () {
+        return client.db(db).collection(coll).find({ _id: oid }).toArray().then(r => {
+            if (r[0] == undefined) { return false }
+            return r[0];
+        }).catch(err => {
+            console.error(err)
+            return false
+        })
     })
 }
 async function findObjects(coll, query, projection) {
-    return client.db(db).collection(coll).find(query, { "projection": projection }).toArray().then(r => {
-        if (r == []) { return false }
-        return r;
-    }).catch(err => {
-        console.error(err)
-        return false
+    return throttle(function () {
+        return client.db(db).collection(coll).find(query, { "projection": projection }).toArray().then(r => {
+            if (r == []) { return false }
+            return r;
+        }).catch(err => {
+            console.error(err)
+            return false
+        })
     })
 }
 async function setObject(coll, newobj) {
