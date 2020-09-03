@@ -34,6 +34,8 @@ module.exports = async function (message, user) {
                 user.bolster = false;
                 user.speed = 0;
                 nextFloor(message, dungeon)
+            } else {
+                functions.replyMessage(message, "You are already in the crystal mines!")
             }
         } else if (command == "attack" || command == "atk" || command == "a") {
             if (dungeon.task != "raid") { return functions.replyMessage(message, "You have not yet encountered a monster!") }
