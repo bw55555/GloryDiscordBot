@@ -1199,7 +1199,7 @@ function checkBurn(message,user) {
     return user
 }
 
-function raidAttack(message, user, raid, type, guild) { //raid attack
+function raidAttack(message, user, raid, type, extra) { //raid attack
     if (type == undefined) { type = "raid" }
     let ts = message.createdTimestamp;
     if (!raid.attacklist) { raid.attacklist = {} }
@@ -1418,10 +1418,12 @@ function raidAttack(message, user, raid, type, guild) { //raid attack
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and an item (ID: " + item._id + ") with rarity " + item.rarity + ".\n" + runetext;
         } else if (type == "guild") {
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\nThe guild was also given " + raid.reward + " xp and " + raid.crystalreward + " crystals.\n"
-            guild.xp += raid.reward
-            guild.crystals += raid.crystalreward
+            extra.xp += raid.reward
+            extra.crystals += raid.crystalreward
         } else if (type == "dungeon") {
-
+            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\nThe guild was also given " + raid.reward + " xp and " + raid.crystalreward + " crystals.\n"
+            extra.xp += raid.reward
+            extra.crystals += raid.crystalreward
         }
         user.money += Math.floor(luckybuff * raid.reward);
         user.xp += Math.floor(luckybuff * raid.reward);
