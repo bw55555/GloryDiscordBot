@@ -17,18 +17,19 @@ module.exports = async function (message, user) {
             "crystals": 0,
             "xp": 0
         }
-        return functions.setObject("dungeonData", dungeon)
+        functions.setObject("dungeonData", dungeon)
+        return functions.replyMessage(message, "You may now enter the mines. ")
     }
     return Promise.all([functions.getObject("dungeonData", user._id)]).then(ret => {
         let dungeon = ret[0];
         if (dungeon == false) { return functions.replyMessage(message, "You have not yet acquired a permit to the crystal mines!") }
-        if (command == "start") {
+        if (command == "start" || command == "s") {
             nextFloor(message, dungeon)
-        } else if (command == "attack" || command == "atk") {
+        } else if (command == "attack" || command == "atk" || command == "a") {
             if (dungeon.task != "raid") { return functions.replyMessage(message, "You have not yet encountered a monster!") }
             functions.raidAttack(message, user, dungeon.raid, "dungeon", dungeon)
             if (!raid.alive) { nextFloor(message, dungeon)}
-        } else if (command == "info" || command == "view") {
+        } else if (command == "info" || command == "view" || command == "i") {
             if (dungeon.task == "raid") {
                 functions.raidInfo(message, dungeon.raid)
             }
@@ -54,6 +55,8 @@ function nextFloor(message, dungeon) {
             base += 1;
         }
     }
+    console.log(base)
+    console.log(raidData)
     let summonrarity = base;
     let summonlevel = 2*dungeon.floor+10
     let rarityraids = raidData[summonrarity]
