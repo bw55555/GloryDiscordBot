@@ -1,70 +1,26 @@
 async function getUser(uid) {
-    return client.db(db).collection("userData").find({ _id: uid }).toArray().then(r => {
-        if (r[0] == undefined) {return false }
-        return r[0];
-    }).catch(err => {
-        console.error(err)
-        return false
-    })
+    return getObject("userData", uid)
 }
 async function findUsers(query,projection) {
-    return client.db(db).collection("userData").find(query, { "projection": projection }).toArray().then(r => {
-        if (r == []) { return false }
-        return r;
-    }).catch(err => {
-        console.error(err)
-        return false
-    })
+    return findObjects("userData", query, projection)
 }
 async function setUser(newuser) {
-    return client.db(db).collection("userData").replaceOne({ _id: newuser._id }, newuser, { upsert: true }).then(function (r) {
-        return true;
-    }).catch(function (err) {
-        console.error(err)
-        return false;
-    })
+    return setObject("userData", newuser)
 }
 async function deleteUser(uid) {
-    return client.db(db).collection("userData").deleteOne({ _id: uid }).then(function (r) {
-        return true;
-    }).catch(function (err) {
-        console.error(err)
-        return false;
-    })
+    return deleteObject("userData", newuser)
 }
 async function getItem(iid) {
-    return client.db(db).collection("itemData").find({ _id: iid }).toArray().then(r => {
-        if (r[0] == undefined) { return false }
-        return r[0];
-    }).catch(err => {
-        console.error(err)
-        return false
-    })
+    return getObject("itemData", iid)
 }
 async function findItems(query, projection) {
-    return client.db(db).collection("itemData").find(query, { "projection": projection }).toArray().then(r => {
-        if (r == []) { return false }
-        return r;
-    }).catch(err => {
-        console.error(err)
-        return false
-    })
+    return findObjects("itemData", query, projection)
 }
 async function setItem(newitem) {
-    return client.db(db).collection("itemData").replaceOne({ _id: newitem._id }, newitem, {upsert:true}).then(function (r) {
-        return true;
-    }).catch(function (err) {
-        console.error(err)
-        return false;
-    })
+    return setObject("itemData", newitem)
 }
 async function deleteItem(iid) {
-    return client.db(db).collection("itemData").deleteOne({ _id: iid }).then(function (r) {
-        return true;
-    }).catch(function (err) {
-        console.error(err)
-        return false;
-    })
+    return deleteObject("itemData", newitem)
 }
 async function getFloorMob(floor) {
     return client.db(db).collection("floorData").find({ floorlevel: floor }).toArray().then(r => {
@@ -93,44 +49,54 @@ async function findObjects(coll, query, projection) {
         return false
     })
 }
-async function setObject(coll,newobj) {
-    return client.db(db).collection(coll).replaceOne({ _id: newobj._id }, newobj, { upsert: true }).then(function (r) {
-        return true;
-    }).catch(function (err) {
-        console.error(err)
-        return false;
+async function setObject(coll, newobj) {
+    return throttle(function () {
+        return client.db(db).collection(coll).replaceOne({ _id: newobj._id }, newobj, { upsert: true }).then(function (r) {
+            return true;
+        }).catch(function (err) {
+            console.error(err)
+            return false;
+        })
     })
 }
-async function deleteObject(coll,oid) {
-    return client.db(db).collection(coll).deleteOne({ _id: oid }).then(function (r) {
-        return true;
-    }).catch(function (err) {
-        console.error(err)
-        return false;
+async function deleteObject(coll, oid) {
+    return throttle(function () {
+        return client.db(db).collection(coll).deleteOne({ _id: oid }).then(function (r) {
+            return true;
+        }).catch(function (err) {
+            console.error(err)
+            return false;
+        })
     })
 }
 async function setProp(coll, query, newvalue) {
-    return client.db(db).collection(coll).updateMany(query,newvalue).then(function (r) {
-        return true;
-    }).catch(function (err) {
-        console.error(err)
-        return false;
+    return throttle(function () {
+        return client.db(db).collection(coll).updateMany(query, newvalue).then(function (r) {
+            return true;
+        }).catch(function (err) {
+            console.error(err)
+            return false;
+        })
     })
 }
 async function bulkWrite(coll, tasks) {
-    return client.db(db).collection(coll).bulkWrite(tasks).then(function (r) {
-        return true;
-    }).catch(function (err) {
-        console.error(err)
-        return false;
+    return throttle(function () {
+        return client.db(db).collection(coll).bulkWrite(tasks).then(function (r) {
+            return true;
+        }).catch(function (err) {
+            console.error(err)
+            return false;
+        })
     })
 }
 async function deleteObjects(coll, filter) {
-    return client.db(db).collection(coll).deleteMany(filter).then(function (r) {
-        return true;
-    }).catch(function (err) {
-        console.error(err)
-        return false;
+    return throttle(function () {
+        return client.db(db).collection(coll).deleteMany(filter).then(function (r) {
+            return true;
+        }).catch(function (err) {
+            console.error(err)
+            return false;
+        })
     })
 }
 function clean(text) {
