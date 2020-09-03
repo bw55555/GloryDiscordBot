@@ -62,7 +62,7 @@ function nextFloor(message, dungeon) {
     let raid = rarityraids[Math.floor(rarityraids.length * Math.random())]
     dungeon.task = "raid"
     dungeon.raid = {}
-    dungeon.raid._id = user._id
+    dungeon.raid._id = "Draid" + dungeon._id
     dungeon.raid.isRaid = true
     dungeon.raid.url = raid.url
     dungeon.raid.name = raid.name;
