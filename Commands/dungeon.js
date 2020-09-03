@@ -48,6 +48,7 @@ module.exports = async function (message, user) {
                 dungeon.crystals = 0; dungeon.xp = 0;
                 dungeon.task = "start";
                 functions.setCD(user, ts, functions.secondsUntilReset(ts), "crystalmines")
+                functions.replyMessage(message, "You have successfully left the dungeon. Your guild earned " + dungeon.crystals+" crystals and "+dungeon.xp +" xp. ")
             }
         } else if (command == "stats") {
             let text = "```\n"
@@ -78,7 +79,7 @@ function nextFloor(message, dungeon) {
     }
     let raritytoscroll = { "0": "common", "1": "uncommon", "2": "rare", "3": "epic", "4": "legendary", "c": "common", "u": "uncommon", "r": "rare", "e": "epic", "l": "legendary" }
     let summonrarity = raritytoscroll[base];
-    let summonlevel = 2*dungeon.floor+10
+    let summonlevel = 2*dungeon.floor+60
     let rarityraids = raidData[summonrarity]
     let raid = rarityraids[Math.floor(rarityraids.length * Math.random())]
     dungeon.task = "raid"

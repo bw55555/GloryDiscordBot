@@ -1425,7 +1425,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             extra.xp += raid.reward
             extra.crystals += raid.crystalreward
         } else if (type == "dungeon") {
-            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\nThe guild was also given " + raid.reward + " xp and " + raid.crystalreward + " crystals.\n"
+            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\nYou collected " + raid.reward + " guild xp and " + raid.crystalreward + " crystals.\nYou may now go deeper into the mines... \n"
             extra.xp += raid.reward
             extra.crystals += raid.crystalreward
         }
@@ -1434,7 +1434,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         text += "Rewards have been given to everyone who participated in the raid!\n"
         if (user.currenthealth > 0 && hasSkill(user, 15)) { //soulsteal skill in raids.
             user.currenthealth += raid.maxhealth
-            text += "Soulsteal activated. <@" + user._id + "> has stolen " + raid.maxhealth + " health.";
+            text += "Soulsteal activated. <@" + user._id + "> has stolen " + raid.maxhealth + " health. \n";
             user.currenthealth = Math.min(user.currenthealth, user.health)
         }
         if (type == "raid") {
