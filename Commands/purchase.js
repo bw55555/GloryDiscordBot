@@ -43,33 +43,54 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You do not have enough materials to buy this!")
             return;
         }
-        user.materials -= 125
-        let text = "You successfully spent " + 125 + " materials for SIMPLE CRAFTING...\n"
-        text += functions.craftItems(message, user, 0, 2)
-        if (amount != 1) { functions.replyMessage(message, text) }
+        user.materials -= 125 * amount
+        let text = "You successfully spent " + 125 * amount + " materials for SIMPLE CRAFTING...\n"
+        if (amount == 1) {
+            let item = functions.craftItem(message, user, 0, 2, false)
+            text += "You recieved an item with id " + item._id + " and rarity " + item.rarity
+            functions.replyMessage(message, text)
+        }
+        else {
+            text += "You Recieved: " + functions.craftItems(message, user, 0, 2, amount)
+            functions.replyMessage(message, text)
+        }
 
     }
 
     else if (purchaseID == 103) {
-        if (user.materials < 3125) {
+        if (user.materials < 3125 * amount) {
             functions.replyMessage(message, "You do not have enough materials to buy this!")
             return;
         }
-        user.materials -= 3125
-        let text = "You successfully spent " + 3125 + " materials for MODERATE CRAFTING and got:\n"
-        text += functions.craftItems(message, user, 2, 4)
-        if (amount != 1) { functions.replyMessage(message, text) }
+        user.materials -= 3125 * amount
+        let text = "You successfully spent " + 3125 * amount + " materials for MODERATE CRAFTING...\n"
+        if (amount == 1) {
+            let item = functions.craftItem(message, user, 2, 4, false)
+            text += "You recieved an item with id " + item._id + " and rarity " + item.rarity
+            functions.replyMessage(message, text)
+        }
+        else {
+            text += "You Recieved: " + functions.craftItems(message, user, 2, 4, amount)
+            functions.replyMessage(message, text)
+        }
     }
 
     else if (purchaseID == 104) {
-        if (user.materials < 78125) {
+        if (user.materials < 78125*amount) {
             functions.replyMessage(message, "You do not have enough materials to buy this!")
             return;
         }
-        user.materials -= 78125
-        let text = "You successfully spent " + 78125 + " materials for EXQUISITE CRAFTING...\n"
-        text += functions.craftItem(message, user, 4, 6)
-        if (amount != 1) { functions.replyMessage(message, text) }
+        user.materials -= 78125*amount
+        let text = "You successfully spent " + 78125*amount + " materials for EXQUISITE CRAFTING...\n"
+        if (amount == 1) {
+            let item = functions.craftItem(message, user, 4, 6, false)
+            text+= "You recieved an item with id "+item._id+" and rarity "+ item.rarity
+            functions.replyMessage(message, text)
+        }
+        else {
+            text+="You Recieved: "+functions.craftItems(message, user, 4, 6, amount) 
+            functions.replyMessage(message, text)
+        }
     }
 
     else if (purchaseID == 200) {

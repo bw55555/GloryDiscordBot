@@ -1017,7 +1017,7 @@ function craftItem(message,owner, minrarity, maxrarity, reply, isBulk) {
         let rarity = Math.floor((maxrarity - minrarity + 1) * Math.random() + minrarity)
         item = generateRandomItem(owner, rarity, isBulk, "craft")
     }
-    if (reply) sendMessage(message.channel, "<@" + owner._id + "> has recieved an item with id " + item._id + " and of rarity " + item.rarity)
+    if (reply) sendMessage(message.channel, "<@" + owner._id + "> has recieved an item with id " + item._id + " and rarity " + item.rarity)
     return item
 }
 function raidInfo(message, raid) {
