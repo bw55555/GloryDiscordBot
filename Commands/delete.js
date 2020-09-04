@@ -8,6 +8,7 @@ module.exports = async function (message, user) {
         if (user.guild != "None") { return functions.replyMessage(message, "You cannot delete your character if you are in a guild!") }
         functions.deleteObjects("itemData",{ "owner": id });
         if (user.marry != "None") { functions.setProp("userData", { "_id": user.marry }, { $set: { "marry": "None" } }) }
+        functions.deleteObject("dungeonData", id)
         functions.deleteUser(id);
         functions.replyMessage(message, 'Your character has been deleted. :(')
     }, [message, id]);

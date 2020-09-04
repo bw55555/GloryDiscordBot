@@ -64,7 +64,7 @@ module.exports = async function (message, user) {
             functions.setUser(target)
         })
     } else {
-        if (user.dungeonts)
+
         if (user.health <= user.currenthealth) {
             return functions.replyMessage(message, "You are already at full health!");
         }

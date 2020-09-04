@@ -13,6 +13,7 @@ module.exports = async function (message, user) {
             let target = extraArgs[1]
             let message = extraArgs[0]
             functions.deleteUser(target._id);
+            functions.deleteObject("dungeonData", target._id)
             if (target.guild != "None") { return functions.replyMessage(message, "You cannot delete your character if you are in a guild!") }
             functions.deleteObjects("itemData",{ "owner": target._id });
             if (target.marry != "None") { functions.setProp("userData", { "_id": target.marry }, { $set: { "marry": "None" } }) }

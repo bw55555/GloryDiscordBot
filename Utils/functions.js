@@ -196,7 +196,7 @@ async function validate(message, user, spot) {
             sendMessage(message.channel, targetname + " is not a real person");
             return false;
         }
-        if (ret.dungeonts != undefined) {
+        if (ret.dungeonts != undefined && calcTime(ts,ret.dungeonts)<600) {
             sendMessage(message.channel, targetname + " is currently in a dungeon.");
             return false;
         }
@@ -1660,6 +1660,13 @@ function completeQuest(user, condition, extra, amount) {
 function isCD(user, ts, cdtype) {
     if (user.cooldowns[cdtype] == undefined) { return false}
     return functions.calcTime(user.cooldowns[cdtype], ts) > 0
+}
+
+function canUseCommand(message, user, cmd) {
+    let alias = {"g": "guild", "ratk": "raidAttack"}
+    if (user.dungeonts != undefined) {
+        if (cmd == "g") { }
+    }
 }
 
 module.exports.clean = function (text) { return clean(text) }
