@@ -27,7 +27,7 @@ module.exports = async function (message, user) {
         let dungeon = ret[0];
         if (dungeon == false) { return functions.replyMessage(message, "You have not yet acquired a permit to the crystal mines!") }
         let timeout = false;
-        if (user.dungeonts != undefined && calcTime(ts, user.dungeonts) > 600) { leaveDungeon(message, dungeon, user, "timeout")}
+        if (user.dungeonts != undefined && functions.calcTime(ts, user.dungeonts) > 600) { leaveDungeon(message, dungeon, user, "timeout")}
         else if (command == "start" || command == "s") {
             if (dungeon.task == "start") {
                 dungeon.ts = ts;

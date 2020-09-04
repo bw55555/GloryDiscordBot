@@ -1659,13 +1659,13 @@ function completeQuest(user, condition, extra, amount) {
 
 function isCD(user, ts, cdtype) {
     if (user.cooldowns[cdtype] == undefined) { return false}
-    return functions.calcTime(user.cooldowns[cdtype], ts) > 0
+    return calcTime(user.cooldowns[cdtype], ts) > 0
 }
 
 function canUseCommand(message, user, cmd) {
     let alias = {"g": "guild", "ratk": "raidAttack"}
     if (user.dungeonts != undefined) {
-        if (cmd == "g") { }
+        if (cmd == "guild" || cmd == "raidattack") { }
     }
 }
 
