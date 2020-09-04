@@ -47,11 +47,11 @@ module.exports = async function (message, user) {
         let text = "You successfully spent " + 125 * amount + " materials for SIMPLE CRAFTING...\n"
         if (amount == 1) {
             let item = functions.craftItem(message, user, 0, 2, false)
-            text += "You recieved an item with id " + item._id + " and rarity " + item.rarity
+            text += "You received an item with id " + item._id + " and rarity " + item.rarity
             functions.replyMessage(message, text)
         }
         else {
-            text += "You Recieved: " + functions.craftItems(message, user, 0, 2, amount)
+            text += "You received "+amount+" items and got: \n" + functions.craftItems(message, user, 0, 2, amount)
             functions.replyMessage(message, text)
         }
 
@@ -66,11 +66,11 @@ module.exports = async function (message, user) {
         let text = "You successfully spent " + 3125 * amount + " materials for MODERATE CRAFTING...\n"
         if (amount == 1) {
             let item = functions.craftItem(message, user, 2, 4, false)
-            text += "You recieved an item with id " + item._id + " and rarity " + item.rarity
+            text += "You received an item with id " + item._id + " and rarity " + item.rarity
             functions.replyMessage(message, text)
         }
         else {
-            text += "You Recieved: " + functions.craftItems(message, user, 2, 4, amount)
+            text += "You received " + amount + " items and got: \n" + functions.craftItems(message, user, 2, 4, amount)
             functions.replyMessage(message, text)
         }
     }
@@ -84,11 +84,11 @@ module.exports = async function (message, user) {
         let text = "You successfully spent " + 78125*amount + " materials for EXQUISITE CRAFTING...\n"
         if (amount == 1) {
             let item = functions.craftItem(message, user, 4, 6, false)
-            text+= "You recieved an item with id "+item._id+" and rarity "+ item.rarity
+            text+= "You received an item with id "+item._id+" and rarity "+ item.rarity
             functions.replyMessage(message, text)
         }
         else {
-            text+="You Recieved: "+functions.craftItems(message, user, 4, 6, amount) 
+            text += "You received " + amount + " items and got: \n"+functions.craftItems(message, user, 4, 6, amount) 
             functions.replyMessage(message, text)
         }
     }
