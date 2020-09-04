@@ -82,4 +82,4 @@ export function secondsUntilReset(ts: number): number
 export function makeQuest(user: JSON, name: string, conditions: JSON[], reward: JSON): void
 export function completeQuest(user: JSON, condition: string, extra: JSON, amount: number): void
 export function addQuestCondition(condition: string,operator:string, description: string, total: number, extra: JSON, type: "c" | "a"): JSON
-export function JSONselect(json: JSON, key: string): any
+export function JSONoperate(json: JSON, key: string, op: "get" | "set" | "add", obj: string | number): any

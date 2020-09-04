@@ -1599,7 +1599,8 @@ function makeQuest(user, name, conditions, reward) {
     })
 }
 
-function JSONselect(json, key) {
+function JSONoperate(json, key, op, obj) {
+    if (op == undefined) { op = "get"}
     let curr = json
     let skey = key;
     if (key == undefined) { return}
@@ -1611,8 +1612,16 @@ function JSONselect(json, key) {
         curr = curr[currkey];
     }
     if (skey == undefined || curr[skey] == undefined) { return; }
-    curr = curr[skey];
-    return curr;
+    if (op == "get") {
+        curr = curr[skey];
+        return curr;
+    } else if (op == "set") {
+        curr[skey] = obj;
+        return true;
+    } else if (op == "add") {
+        curr[skey] += obj;
+        return true;
+    }
 }
 
 function completeQuest(user, condition, extra, amount) {
@@ -1623,13 +1632,13 @@ function completeQuest(user, condition, extra, amount) {
         for (var j = 0; j < user.quests[i].conditions.length; j++) {
             let setAmount = amount;
             if (user.quests[i].conditions[j].measure != "" && user.quests[i].conditions[j].measure != undefined) {
-                setAmount = parseFloat(JSONselect(extra, user.quests[i].conditions[j].measure));
+                setAmount = parseFloat(JSONoperate(extra, user.quests[i].conditions[j].measure));
                 if (isNaN(setAmount)) { continue; }
             }
             if (user.quests[i].conditions[j].type == "a") {
                 let canClaim = true;
                 for (var key in user.quests[i].conditions[j].condition) {
-                    let curr = JSONselect(extra, key)
+                    let curr = JSONoperate(extra, key)
                     if (curr == undefined) { canClaim = false;break;}
                     let op = user.quests[i].conditions[j].condition[key].operator;
                     let value = user.quests[i].conditions[j].condition[key].value;
@@ -1708,7 +1717,7 @@ module.exports.completeQuest = function (user, condition, extra, amount) { retur
 module.exports.addQuestCondition = function (condition, operator, description, total, extra, type) { return addQuestCondition(condition, operator, description, total, extra, type) }
 module.exports.isCD = function (user, ts, cdtype) { return isCD(user, ts, cdtype) }
 module.exports.secondsUntilReset = function (ts) { return secondsUntilReset(ts) }
-module.exports.JSONselect = function (json, key) { return JSONselect(json, key) }
+module.exports.JSONoperate = function (json, key, op, obj) { return JSONoperate(json, key, op, obj) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {

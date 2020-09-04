@@ -19,7 +19,7 @@ module.exports = async function (message, user) {
         if (op == ">" && !(c > t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
     }
     for (var key in user.quests[claimid].reward) {
-        user[key] += user.quests[claimid].reward[key];
+        functions.JSONoperate(user, key, "add", user.quests[claimid].reward[key])
     }
     functions.replyMessage(message, "You have completed the quest `" + user.quests[claimid].name + "`!")
     user.quests.splice(claimid, 1);
