@@ -6,7 +6,9 @@ module.exports = async function (message, user) {
     if (user.quests.length == 0) { return functions.replyMessage(message, "You have no quests!") }
     let fields = []
     for (var i = 0; i < user.quests.length; i++) {
-        var text = "**Description:**\n"
+        let text = "";
+        if (user.quests[i].flavortext != undefined && user.quests[i].flavortext != "") { text+="**Description:**\n" + user.quests[i].flavortext+"\n"}
+        text += "**Requirements:**\n"
         for (var j = 0; j < user.quests[i].conditions.length; j++) {
             text += user.quests[i].conditions[j].description + " (" + user.quests[i].conditions[j].current + "/" + user.quests[i].conditions[j].total + ")\n"
         }

@@ -9,22 +9,26 @@ module.exports = async function (message, user) {
         const filter = m => m.author.id == message.author.id
         const collector = message.channel.createMessageCollector(filter, { idle: 60000, time:300000 });
         let curr = "name"
-        let name, conditions = [], reward = {};
+        let name, flavortext ="", conditions = [], reward = {};
         let condition, description, total, extra = {};
         let type;
         let operator;
         if (words.length <= 2) {
             functions.sendMessage(message.channel, "At any time, type `exit` to stop. \nPlease enter a name for the quest.");
             collector.on('collect', m => {
-                let text = "";
+                let text = "";  
                 if (m.content == "exit") {
                     collector.stop("User Terminated")
                     return
                 }
                 if (curr == "name") {
+                    curr = "flavortext"
+                    text = "Please enter flavortext for the quest. (or -noft for no flavortext)";
+                    name = m.content;
+                } else if (curr == "flavortext") {
                     curr = "type"
                     text = "Is the quest continuous (`c`) or accumulated (`a`). (ex. `have a votestreak of 7` would be continuous and `vote 7 times` would be accumulated.)";
-                    name = m.content;
+                    if (m.content != "-noft") { flavortext = m.content; }
                 }
                 else if (curr == "type") {
                     curr = "condition"
@@ -120,9 +124,18 @@ module.exports = async function (message, user) {
             let index = words.indexOf("-name")
             if (index == -1) { return functions.replyMessage(message, "Please enter a quest name.") }
             words.splice(0, index + 1)
-            index = words.indexOf("-condition")
-            if (index == -1) { return functions.replyMessage(message, "Please enter a quest condition.") }
-            name = words.splice(0, index).join(" ")
+            index = words.indexOf("-flavortext")
+            if (index != -1) {
+                name = words.splice(0, index).join(" ")
+                words.splice(0, index + 1);
+                index = words.indexOf("-condition")
+                if (index == -1) { return functions.replyMessage(message, "Please enter a quest condition.") }
+                flavortext = words.splice(0, index).join(" ")
+            } else {
+                index = words.indexOf("-condition")
+                if (index == -1) { return functions.replyMessage(message, "Please enter a quest condition.") }
+                name = words.splice(0, index).join(" ")
+            }
             while (words.indexOf("-condition") != -1) {
                 if (words.length < 5) { return functions.replyMessage(message, "Please enter a quest condition.") }
                 type = words[1]
@@ -162,7 +175,7 @@ module.exports = async function (message, user) {
                 if (isNaN(value)) { return functions.replyMessage(message, "Please enter a correct quest reward. The amount of property " + key + " must be an integer.") }
                 reward[key] = value;
             }
-            functions.getUser(target._id).then(t => { functions.makeQuest(t, name, conditions, reward, type); functions.setUser(t) })
+            functions.getUser(target._id).then(t => { functions.makeQuest(t, name, flavortext, conditions, reward, type); functions.setUser(t) })
             functions.replyMessage(message, "The quest was given. ")
         }
     });

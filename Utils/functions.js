@@ -1591,9 +1591,10 @@ function addQuestCondition(condition, operator, description, total, extra, type)
     return ret
 }
 
-function makeQuest(user, name, conditions, reward) {
+function makeQuest(user, name, flavortext, conditions, reward) {
     user.quests.push({
         "name": name,
+        "flavortext": flavortext, 
         "conditions": conditions,
         "reward": reward
     })
@@ -1712,7 +1713,7 @@ module.exports.smeltItem = function (user, item, giveReward, isBulk) { return sm
 module.exports.itemFilter = function (message, user, defaults) { return itemFilter(message, user, defaults) }
 module.exports.getModifierText = function (modifierlist) { return getModifierText(modifierlist) }
 module.exports.checkxp = function (user) { return checkxp(user) }
-module.exports.makeQuest = function (user, name, conditions, reward) { return makeQuest(user, name, conditions, reward) }
+module.exports.makeQuest = function (user, name, flavortext, conditions, reward) { return makeQuest(user, name, flavortext, conditions, reward) }
 module.exports.completeQuest = function (user, condition, extra, amount) { return completeQuest(user, condition, extra, amount) }
 module.exports.addQuestCondition = function (condition, operator, description, total, extra, type) { return addQuestCondition(condition, operator, description, total, extra, type) }
 module.exports.isCD = function (user, ts, cdtype) { return isCD(user, ts, cdtype) }
