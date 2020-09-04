@@ -105,7 +105,7 @@ module.exports = async function (message, user) {
                             reward[key] = value;
                         }
                         if (curr == "complete") {
-                            functions.getUser(target._id).then(t => { functions.makeQuest(t, name, conditions, reward, type); functions.setUser(t) })
+                            functions.getUser(target._id).then(t => { functions.makeQuest(t, name, flavortext, conditions, reward, type); functions.setUser(t) })
                             collector.stop("complete")
                         }
                     }
