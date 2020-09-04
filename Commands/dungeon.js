@@ -139,6 +139,6 @@ function leaveDungeon(message, dungeon, user, option) {
     dungeon.task = "start";
     dungeon.raid = {};
     user.dungeonts = undefined;
-    functions.setCD(user, ts, functions.secondsUntilReset(ts), "crystalmines")
+    functions.setCD(user, message.createdTimestamp, functions.secondsUntilReset(message.createdTimestamp), "crystalmines")
     functions.replyMessage(message, text)
 }
