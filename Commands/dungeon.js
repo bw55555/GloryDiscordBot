@@ -26,7 +26,9 @@ module.exports = async function (message, user) {
     return Promise.all([functions.getObject("dungeonData", user._id)]).then(ret => {
         let dungeon = ret[0];
         if (dungeon == false) { return functions.replyMessage(message, "You have not yet acquired a permit to the crystal mines!") }
-        if (command == "start" || command == "s") {
+        let timeout = false;
+        if (user.dungeonts != undefined && calcTime(ts, user.dungeonts) > 600) { leaveDungeon(message, dungeon, user, "timeout")}
+        else if (command == "start" || command == "s") {
             if (dungeon.task == "start") {
                 dungeon.ts = ts;
                 user.dungeonts = ts;
@@ -40,7 +42,8 @@ module.exports = async function (message, user) {
         } else if (command == "attack" || command == "atk" || command == "a") {
             if (dungeon.task != "raid") { return functions.replyMessage(message, "You have not yet encountered a monster!") }
             functions.raidAttack(message, user, dungeon.raid, "dungeon", dungeon)
-            if (!dungeon.raid.alive) {dungeon.task = "next" }
+            if (user.dead || user.currenthealth < 0) { leaveDungeon(message, dungeon, user, "death")}
+            else if (!dungeon.raid.alive) {dungeon.task = "next" }
         } else if (command == "info" || command == "view" || command == "i") {
             if (dungeon.task == "raid") {
                 return functions.raidInfo(message, dungeon.raid)
@@ -68,15 +71,7 @@ module.exports = async function (message, user) {
             }
         } else if (command == "exit") {
             if (dungeon.task == "next") {
-                functions.setProp("guildData", { "_id": user.guild }, { $inc: { "crystals": dungeon.crystals, "xp": dungeon.xp } })
-                let text = "You have successfully left the dungeon. Your guild earned " + dungeon.crystals + " crystals and " + dungeon.xp + " xp. "
-                dungeon.crystals = 0; dungeon.xp = 0;
-                dungeon.task = "start";
-                user.dungeonts = undefined;
-                user.bolster = false;
-                user.speed = 0;
-                functions.setCD(user, ts, functions.secondsUntilReset(ts), "crystalmines")
-                functions.replyMessage(message, text)
+                leaveDungeon(message, dungeon, user, "exit")
             } else {
                 functions.replyMessage(message, "You cannot exit the mines during an encounter!")
             }
@@ -131,4 +126,19 @@ function nextFloor(message, dungeon) {
     functions.sendMessage(message.channel, "You encountered a level "+summonlevel+" "+raid.name+"!" )
     functions.raidInfo(message, dungeon.raid)
 
+}
+
+function leaveDungeon(message, dungeon, user, option) {
+    functions.setProp("guildData", { "_id": user.guild }, { $inc: { "crystals": dungeon.crystals, "xp": dungeon.xp } })
+    let text = ""
+    if (option == "timeout") { text = "You ran out of time and you were forced to leave the dungeon. " }
+    else if (option == "death") { text = "You died in the dungeon... "; dungeon.crystals /= 2; dungeon.xp /= 2; }
+    else { text = "You have successfully left the dungeon. " }
+    text += "Your guild earned " + dungeon.crystals + " crystals and " + dungeon.xp + " xp. "
+    dungeon.crystals = 0; dungeon.xp = 0;
+    dungeon.task = "start";
+    dungeon.raid = {};
+    user.dungeonts = undefined;
+    functions.setCD(user, ts, functions.secondsUntilReset(ts), "crystalmines")
+    functions.replyMessage(message, text)
 }
