@@ -96,7 +96,7 @@ module.exports = async function (message, user) {
                 } else if (curr == "reward") {
                     curr = "complete"
                     let questwords = m.content.trim().split(/\s+/)
-                    if (questwords.length % 2 == 0) { text = "Please enter a correct quest reward. There must be an amount for every property. "; curr = "reward" }
+                    if (questwords.length % 2 != 0) { text = "Please enter a correct quest reward. There must be an amount for every property. "; curr = "reward" }
                     else {
                         for (let i = 0; i < questwords.length / 2; i++) {
                             let key = questwords[2 * i];
