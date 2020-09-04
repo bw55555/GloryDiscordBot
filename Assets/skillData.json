@@ -127,7 +127,7 @@
     {
         "name": "LastBreath",
         "id": 25,
-        "description": "While you have at least 75% health remaining and take fatal damage, prevent it and set your health to 1."
+        "description": "While you have at least 75% health remaining and take fatal damage, prevent it and set your health to 1. Has a cooldown of 3 minutes. "
     },
     {
         "name": "Chthonic",
