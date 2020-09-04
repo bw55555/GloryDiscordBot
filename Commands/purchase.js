@@ -7,8 +7,9 @@ module.exports = async function (message, user) {
     shieldprices = [20000, 40000, 100000, 160000, 240000, 400000]
     let purchaseID = parseInt(words[1])
     let amount = parseInt(words[2])
-    if (amount > 10000) { return functions.replyMessage(message, "You cannot buy an amount greater than 10000!")}
-    if (isNaN(amount) || amount < 0) amount = 1
+    if (amount > 10000) { return functions.replyMessage(message, "You cannot buy an amount greater than 10000!") }
+    if (words.length == 2) { amount = 1}
+    if (isNaN(amount) || amount < 1) { return functions.replyMessage(message, "Please specify a positive integer amount")}
     if (isNaN(purchaseID) == true) {
         functions.replyMessage(message, "Make sure you're selecting a real item!")
         return;
