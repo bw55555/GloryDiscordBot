@@ -479,7 +479,7 @@ function calcDamage(message, attacker, defender, initiator) {
         evaderate += defender.weapon.modifiers.evade
     }
     if (evadechance < evaderate) {
-        text = attackername + ", "+defendername + " has evaded the attack!"
+        text = attackername + ", "+defendername + " has evaded the attack!\n"
         return [text, 0]
     }
     let attack = 0;
@@ -735,7 +735,7 @@ function calcDamage(message, attacker, defender, initiator) {
         if (hasSkill(defender, 25, skillenable) && !isCD(defender, message.createdTimestamp, "lastbreath")) {
             if (truedamage > defender.currenthealth && defender.currenthealth * 2 > defender.health) {
                 defender.currenthealth = truedamage + 1
-                text += defendername + " has activated Last Breath!"
+                text += defendername + " has activated Last Breath!\n"
                 setCD(defender, message.createdTimestamp, 180, "lastbreath");
             }
         }
