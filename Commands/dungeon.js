@@ -97,12 +97,11 @@ function nextFloor(message, dungeon) {
     dungeon.maxFloor = Math.max(dungeon.maxFloor, dungeon.floor)
     let base = Math.floor(dungeon.floor / 25)
     if (base > 2) { base = 2 }
-    if (dungeon.floor % 5 == 0) {
-        if (dungeon.floor % 10 == 0 && dungeon.floor <= 75) {
-            base += 2;
-        } else {
-            base += 1;
-        }
+    if (dungeon.floor % 10 == 0) {
+        base += 2;
+    }
+    else if (dungeon.floor % 10 >= 5) {
+        base += 1;
     }
     let raritytoscroll = { "0": "common", "1": "uncommon", "2": "rare", "3": "epic", "4": "legendary", "c": "common", "u": "uncommon", "r": "rare", "e": "epic", "l": "legendary" }
     let summonrarity = raritytoscroll[base];
