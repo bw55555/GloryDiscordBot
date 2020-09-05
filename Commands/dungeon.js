@@ -98,7 +98,7 @@ function nextFloor(message, dungeon) {
     let base = Math.floor(dungeon.floor / 25)
     if (base > 2) { base = 2 }
     if (dungeon.floor % 5 == 0) {
-        if (dungeon.floor % 10 == 0 && dungeon.floor < 50) {
+        if (dungeon.floor % 10 == 0 && dungeon.floor <= 75) {
             base += 2;
         } else {
             base += 1;
@@ -116,7 +116,7 @@ function nextFloor(message, dungeon) {
     dungeon.raid.url = raid.url
     dungeon.raid.name = raid.name;
     dungeon.raid.attack = raid.attack * summonlevel;
-    dungeon.raid.currenthealth = summonlevel * raid.health * 4;
+    dungeon.raid.currenthealth = summonlevel * raid.health;
     dungeon.raid.maxhealth = summonlevel * raid.health * 4;
     dungeon.raid.reward = summonlevel * raid.reward * 5;
     dungeon.raid.crystalreward = Math.floor(summonlevel * raid.crystalreward / 20);
