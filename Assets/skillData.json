@@ -32,7 +32,7 @@
     {
         "name": "Pierce",
         "id": 6,
-        "description": "Have a 20% chance to ignore defenses"
+        "description": "Have a 15% chance to ignore defenses"
     },
     {
         "name": "Spikes",
@@ -82,7 +82,7 @@
     {
         "name": "Royalty",
         "id": 16,
-        "description": "Earn 50% more money"
+        "description": "Earn 50% more money and xp"
     },
     {
         "name": "Reckless",
@@ -142,7 +142,7 @@
     {
         "name": "Coeus",
         "id": 28,
-        "description": "Pierce Chance +5% Whenever you pierce through defenses, deal increased damage"
+        "description": "Pierce Chance +5% Whenever you pierce through defenses, deal 25% more damage"
     },
     {
         "name": "Dies Irae",

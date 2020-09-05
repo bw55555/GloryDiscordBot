@@ -530,7 +530,7 @@ function calcDamage(message, attacker, defender, initiator) {
         if (weapon != false && weapon.modifiers.pierce != undefined) { piercerate += weapon.modifiers.pierce }
 
         if (hasSkill(attacker, 6, skillenable)) {
-            piercerate += 0.2;
+            piercerate += 0.15;
         }
         if (hasSkill(attacker, 28, skillenable)) {
             piercerate += 0.05;
@@ -555,7 +555,7 @@ function calcDamage(message, attacker, defender, initiator) {
         }
         text += attackername + " has pierced their opponents defense!\n"
         if (attacker.isRaid != true && hasSkill(attacker, 28, skillenable)) {
-            attack *= 1.2
+            attack *= 1.25
         }
     }
 
