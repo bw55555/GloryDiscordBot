@@ -49,10 +49,10 @@ export function setCD(user: JSON, ts:number, cdsecs:number, cdname:string):void
 export function calcTime(time1: number, time2: number): number
 export function displayTime(time1: number, time2: number): string
 export function extractTime(message: Message, timeword: string): number
-export function calcDamage(message: Message, attacker: JSON, defender: JSON, initiator: JSON): number
-export function calcStats(message: Message, user: JSON, stat: "attack" | "defense"): number
-export function calcStats(message: Message, user: JSON, stat: "attack" | "defense", skillenable: boolean): number
-export function calcStats(message: Message, user: JSON, stat: "attack" | "defense", skillenable: boolean, confused: boolean): number
+export function calcDamage(message: Message, attacker: JSON, defender: JSON, initiator: JSON): [string, number]
+export function calcStats(message: Message, user: JSON, stat: "attack" | "defense"): [string, number]
+export function calcStats(message: Message, user: JSON, stat: "attack" | "defense", skillenable: boolean): [string, number]
+export function calcStats(message: Message, user: JSON, stat: "attack" | "defense", skillenable: boolean, confused: boolean): [string, number]
 export function voteItem(message: Message, user: JSON): void
 export function voteItem(message: Message, user: JSON, dm: boolean):void
 export function craftItems(message: Message, owner: JSON, minrarity: number, maxrarity: number, amount: number): string

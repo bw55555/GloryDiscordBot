@@ -484,11 +484,10 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     let attack = 0;
     if (attacker.isRaid != true) {
-        if (defender.isRaid != true && hasSkill(defender, 23, skillenable)) {
-            attack = calcStats(message, attacker, "attack", skillenable, true);
-        } else {
-            attack = calcStats(message, attacker, "attack", skillenable);
-        }
+        let hasConfusion = defender.isRaid != true && hasSkill(defender, 23, skillenable)
+        let attackarr = calcStats(message, attacker, "attack", skillenable, hasConfusion);
+        attack = attackarr[1];
+        text += attackarr[0];
     } else {
         attack = attacker.attack;
         if (attacker.name == "Hell Lord") {
@@ -501,11 +500,10 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     let defense = 0;
     if (defender.isRaid != true) {
-        if (attacker.isRaid != true && hasSkill(attacker, 23, skillenable)) {
-            defense = calcStats(message, defender, "defense", skillenable, true);
-        } else {
-            defense = calcStats(message, defender, "defense", skillenable);
-        }
+        let hasConfusion = attacker.isRaid != true && hasSkill(attacker, 23, skillenable)
+        let defensearr = calcStats(message, defender, "defense", skillenable, hasConfusion);
+        defense = defensearr[1];
+        text += defensearr[0];
     }
     if (attacker.isRaid != true && defender.isRaid != true) {
         if ((attacker.triangleid - defender.triangleid) % 3 == 2) {
@@ -921,8 +919,8 @@ function calcStats(message, user, stat, skillenable,confused) {
             buff += critDamage-1;
         }
 
-        if (text != "") { sendMessage(message.channel, text) }
-        return Math.floor(buff * attack)
+        //if (text != "") { sendMessage(message.channel, text) }
+        return [text, Math.floor(buff * attack)]
 
     }
     if (stat == "defense") {
@@ -934,8 +932,8 @@ function calcStats(message, user, stat, skillenable,confused) {
             }
 
         }
-        if (text != "") { sendMessage(message.channel, text) }
-        return Math.floor(dbuff * defense)
+        //if (text != "") { sendMessage(message.channel, text) }
+        return [text,Math.floor(dbuff * defense)]
     }
 }
 ///---------------
