@@ -209,7 +209,8 @@ function hasSkill(user, skillid, enable) {
     else return false
 }
 function getGuildBuff(user, buffname) {
-    if (user.guild != "None" && user.guildbuffs[buffname] != undefined) {
+    if (user.isRaid) { return 0}
+    if (user.guild != "None" && user.guildbuffs != undefined && user.guildbuffs[buffname] != undefined) {
         return guildBuffStore.find(x => x.stat == buffname).bonus[user.guildbuffs[buffname]];
     }
     return 0;
@@ -535,9 +536,7 @@ function calcDamage(message, attacker, defender, initiator) {
         if (hasSkill(attacker, 28, skillenable)) {
             piercerate += 0.05;
         }
-        if (attacker.isRaid != true && attacker.guild != "None" && attacker.guildbuffs.pierce != undefined) {
-            piercerate += attacker.guildbuffs.pierce.value
-        }
+        piercerate += getGuildBuff(attacker, "pierce")
 
     } else {
         if (attacker.name == "Godzilla") {
@@ -560,23 +559,21 @@ function calcDamage(message, attacker, defender, initiator) {
     }
 
     //Both?
-    let spikedmod = 0;
+    let spikes = 0;
     if (dweapon != false && dweapon.modifiers.spikes != undefined) {
-        spikedmod += dweapon.modifiers.spikes
+        spikes += dweapon.modifiers.spikes
     }
-    if (defender.isRaid != true && defender.guild != "None" && defender.guildbuffs.spikes != undefined) {
-        spikedmod += defender.guildbuffs.spikes.value
-    }
+    spikes += getGuildBuff(defender, "spikes")
     if (defender.isRaid != true) {
         if (hasSkill(defender, 7, skillenable)) {
-            spikedmod += 0.5;
+            spikes += 0.5;
         }
         if (hasSkill(defender, 31, skillenable)) {
-            spikedmod += 0.2;
+            spikes += 0.2;
         }
     }
-    if (spikedmod > 0) {
-        let spiked = Math.floor(defense * spikedmod)
+    if (spikes > 0) {
+        let spiked = Math.floor(defense * spikes)
         if (attacker.isRaid != true) {
             if (hasSkill(attacker, 37)) { text += defendername + "'s spikes was dispelled!\n" }
             else {
@@ -588,7 +585,7 @@ function calcDamage(message, attacker, defender, initiator) {
                     if (hasSkill(attacker, 37)) { text += defendername + "'s burn was dispelled!\n" }
                     else {
                         if (attacker.burn == undefined) { attacker.burn = 0 }
-                        attacker.burn += spikedmod * 5; //Burn status, if burning, have a chance to take 5% damage after talking.
+                        attacker.burn += spikes * 5; //Burn status, if burning, have a chance to take 5% damage after talking.
                         text += attackername + " is now burning!"
                     }
                 }
@@ -625,34 +622,30 @@ function calcDamage(message, attacker, defender, initiator) {
             text += "Raid boss cannot be burned!\n"
         }
     }
-
-
-    let blockrate = 0;
+    let block = 0;
     let blockchance = Math.random()
-    if (defender.isRaid != true && defender.guild != "None" && defender.guildbuffs.block != undefined) {
-        blockrate += defender.guildbuffs.block.value
-    }
+    block += getGuildBuff(defender, "block")
     if (defender.isRaid != true && defender.dead == false) {
         if (dweapon != false && dweapon.modifiers.block != undefined) {
-            blockrate += dweapon.modifiers.block
+            block += dweapon.modifiers.block
         }
         if (hasSkill(defender, 10, skillenable)) {
-            blockrate += 0.15;
+            block += 0.15;
         }
         if (hasSkill(defender, 30, skillenable)) {
-            blockrate += 0.05;
+            block += 0.05;
         }
 
     } else if (defender._id == undefined) {
         if (defender.name == "Baba Yaga") {
-            blockrate += 0.2
+            block += 0.2
         }
         if (defender.name == "Asmodeus") {
-            blockrate += 0.2
+            block += 0.2
         }
     }
 
-    if (blockrate > blockchance) {
+    if (block > blockchance) {
         if (piercechance < piercerate) {
             text += defendername + " has blocked the attack, but " + attackername + " pierced though anyway!\n"
         } else {
@@ -678,27 +671,25 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
     //defender only skills
-    let revmod = 0;
+    let revenge = 0;
     let revengechance = Math.random()
     if (defender.isRaid != true) {
         if (attacker._id == initiator._id && dweapon != false && dweapon.modifiers.revenge != undefined) {
-            revmod += dweapon.modifiers.revenge;
+            revenge += dweapon.modifiers.revenge;
         }
 
         if (hasSkill(defender, 8, skillenable)) {
-            revmod += 0.02;
+            revenge += 0.02;
         }
         if (hasSkill(defender, 32, skillenable)) {
-            revmod += 0.005;
-            revmod *= 2;
+            revenge += 0.005;
+            revenge *= 2;
         }
-        if (defender.isRaid != true && defender.guild != "None" && defender.guildbuffs.revenge != undefined) {
-            revmod += defender.guildbuffs.revenge.value
-        }
+        revenge += getGuildBuff(defender, "revenge")
     }
 
     if (attacker.isRaid != true) {
-        if (revengechance < revmod) {
+        if (revengechance < revenge) {
             attacker.currenthealth = 0;
             text += defendername + " has avenged the attack!\n"
             //return false
@@ -752,9 +743,7 @@ function calcDamage(message, attacker, defender, initiator) {
     if (truedamage > defender.currenthealth && defender.isRaid) { truedamage = defender.currenthealth}
     if (attacker.isRaid != true) {
         let lifesteal = (attacker.triangleid == 11) ? 0.15 : 0;
-        if (attacker.isRaid != true && attacker.guild != "None" && attacker.guildbuffs.lifeSteal != undefined) {
-            lifesteal += attacker.guildbuffs.lifeSteal.value
-        }
+        lifesteal+=getGuildBuff(attacker, "lifeSteal")
         if (weapon != false && weapon.modifiers.lifeSteal != undefined) {
             lifesteal += weapon.modifiers.lifeSteal
         }
