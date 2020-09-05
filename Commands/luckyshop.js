@@ -10,7 +10,7 @@ let storeitems = [
     { "type": "Life rune", "min": 1, "max": 10, "price": 5000000, "chance": 5000 },
     { "type": "Energy rune", "min": 1, "max": 10, "price": 2000000, "chance": 10000 },
     { "type": "Wisdom rune", "min": 1, "max": 10, "price": 200000000, "chance": 5 },
-    { "type": "Rune shard", "min": 50, "max":1000, "price": 200000, "chance": 200000 }
+    { "type": "Rune shard", "min": 50, "max":500, "price": 200000, "chance": 200000 }
 ]
 module.exports = async function (message, user) {
     let id = message.author.id;
@@ -20,7 +20,7 @@ module.exports = async function (message, user) {
     if (user.luckyshop == undefined) { user.luckyshop = []; }
     if (scmd == "buy" || scmd == "b") {
         let item = parseInt(words[2])-1;
-        if (isNaN(item) || item < 0 || item > user.luckyshop.length) {
+        if (isNaN(item) || item < 0 || item >= user.luckyshop.length) {
             return functions.replyMessage(message, "This item is not defined")
         }
         let temp = user.luckyshop[item].split(/\s+/)
