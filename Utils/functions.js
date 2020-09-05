@@ -479,8 +479,8 @@ function calcDamage(message, attacker, defender, initiator) {
         evaderate += defender.weapon.modifiers.evade
     }
     if (evadechance < evaderate) {
-        sendMessage(message.channel, attackername + ", "+defendername + " has evaded the attack!")
-        return 0
+        text = attackername + ", "+defendername + " has evaded the attack!"
+        return [text, 0]
     }
     let attack = 0;
     if (attacker.isRaid != true) {
@@ -762,8 +762,7 @@ function calcDamage(message, attacker, defender, initiator) {
             text += attackername + " lifestole **" + stealAmount + "** health!\n";
         }
     }
-    if (text != "") { sendMessage(message.channel, text) }
-    return truedamage
+    return [text, truedamage]
 }
 function calcStats(message, user, stat, skillenable,confused) {
     skillenable = (skillenable == false) ? false : true
@@ -1255,8 +1254,12 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
     if (!raid.attacklist[user._id]) { raid.attacklist[user._id] = 0 }
     if (!raid.damagelist[user._id]) { raid.damagelist[user._id] = 0 }
     let luckybuff = calcLuckyBuff(user)
-    let damage = calcDamage(message, user, raid, user);//ok...
-    let counter = calcDamage(message, raid, user, user);//ok...
+    let damagearr = calcDamage(message, user, raid, user);//ok...
+    let damagetext = damagearr[0];
+    let damage = damagearr[1]
+    let counterarr = calcDamage(message, raid, user, user);//ok...
+    let countertext = counterarr[0];
+    let counter = counterarr[1];
     if (raid.name == "Cerberus") {
         counter *= 3;
     }
@@ -1294,10 +1297,10 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 },*/
                 {
                     name: "Attack Results",
-                    value: '<@' + user._id + "> attacks a Lv." + raid.level + " " + raid.name + "!\n" + raid.name + " took **" + damage + "** damage! It has " + raid.currenthealth + " Health remaining! You earned " + damagereward + " xp!",
+                    value: damagetext+'<@' + user._id + "> attacks a Lv." + raid.level + " " + raid.name + "!\n" + raid.name + " took **" + damage + "** damage! It has " + raid.currenthealth + " Health remaining! You earned " + damagereward + " xp!",
                 }, {
                     name: "Counter Results",
-                    value: "<@" + user._id + "> took **" + counter + "** counterdamage! You have " + user.currenthealth + " Health remaining!",
+                    value: countertext+"<@" + user._id + "> took **" + counter + "** counterdamage! You have " + user.currenthealth + " Health remaining!",
                 }
             ]
         }

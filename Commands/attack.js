@@ -18,7 +18,6 @@ module.exports = async function (message, user) {
         if (target == false) {
             return;
         }
-        console.log(target._id)
         if (target.dead == true) {
             functions.replyMessage(message, "Don't attack corpses!");
             return;
@@ -48,8 +47,12 @@ module.exports = async function (message, user) {
             user.shield = 1
         }
         functions.dmUser(target, "You have been attacked by " + user.username + "! Their id is " + id)
-        let damage = functions.calcDamage(message, user, target, user);//ok...
-        let counter = functions.calcDamage(message, target, user, user);
+        let damagearr = calcDamage(message, user, target, user);//ok...
+        let damagetext = damagearr[0];
+        let damage = damagearr[1]
+        let counterarr = calcDamage(message, target, user, user);//ok...
+        let countertext = counterarr[0];
+        let counter = counterarr[1];
 
         if (damage < 0) {
             damage = 0;
@@ -81,10 +84,10 @@ module.exports = async function (message, user) {
                 fields: [
                     {
                         name: "Attack Results",
-                        value: "<@" + target._id + "> took " + damage + " damage! They have " + target.currenthealth + " Health remaining!",
+                        value: damagetext + "<@" + target._id + "> took " + damage + " damage! They have " + target.currenthealth + " Health remaining!",
                     }, {
                         name: "Counter Results",
-                        value: "<@" + user._id + "> took " + counter + " counterdamage! You have " + user.currenthealth + " Health remaining!",
+                        value: countertext + "<@" + user._id + "> took " + counter + " counterdamage! You have " + user.currenthealth + " Health remaining!",
                     }
                 ]
             }
