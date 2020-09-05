@@ -1,1010 +1,929 @@
 {
-    "common": [
-        {
-            "name": "Lizardman",
-            "url": "https://i.imgur.com/19nhllA.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Beholder",
-            "url": "https://i.imgur.com/xzWj5l0.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Centaur",
-            "url": "https://i.imgur.com/MeYHWZX.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Vermin Rat",
-            "url": "https://i.imgur.com/3ZF0OHk.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Dryad",
-            "url": "https://i.imgur.com/0MGtc8o.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Enraged Demon",
-            "url": "https://i.imgur.com/snGBuBx.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Golem",
-            "url": "https://i.imgur.com/6LVrh5L.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Dire Wolf",
-            "url": "https://i.imgur.com/12QScCz.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Nymph",
-            "url": "https://i.imgur.com/UoGSZlu.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Horror Wraith",
-            "url": "https://i.imgur.com/3JnLSYI.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Cockatrice",
-            "url": "https://i.imgur.com/M6X5j6M.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Gnome ",
-            "url": "https://i.imgur.com/MdeGua2.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Dark Raven",
-            "url": "https://i.imgur.com/6uYhxZe.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Ifrit ",
-            "url": "https://i.imgur.com/rH9p0bP.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Troll",
-            "url": "https://i.imgur.com/MqffXb6.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Ogre",
-            "url": "https://i.imgur.com/05EDtax.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Slime",
-            "url": "https://i.imgur.com/rHEyWCy.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Undead Revenant",
-            "url": "https://i.imgur.com/AMtNbUs.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Doppelganger",
-            "url": "https://i.imgur.com/kYNkyFr.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Ghoul",
-            "url": "https://i.imgur.com/6DFDXu0.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Mummy",
-            "url": "https://i.imgur.com/D8aHgxX.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Zombie",
-            "url": "https://i.imgur.com/LLlzNH1.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Dark Spawn",
-            "url": "https://i.imgur.com/l51hKr8.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Satyr",
-            "url": "https://i.imgur.com/NbplSjv.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Questing Beast",
-            "url": "https://i.imgur.com/2O4FNG0.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Gatekeeper",
-            "url": "https://i.imgur.com/W0BbymI.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Lurker",
-            "url": "https://i.imgur.com/rV7jbHM.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Vengeful Spirit",
-            "url": "https://i.imgur.com/ge6arcl.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        },
-        {
-            "name": "Vampire",
-            "url": "https://i.imgur.com/FYCRBpf.jpg",
-            "rarity": "Common",
-            "attack": 10,
-            "defense": 0,
-            "health": 10,
-            "reward": 20,
-            "crystalreward": 2
-        }
-    ],
-    "uncommon": [
-        {
-            "name": "Basilisk",
-            "url": "https://i.imgur.com/Pj7BRyT.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0.25,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Hell Hound",
-            "url": "https://i.imgur.com/3mLKNTr.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0.25,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Kelpie",
-            "url": "https://i.imgur.com/zyQLHeE.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Imp",
-            "url": "https://i.imgur.com/p5kHeDC.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Harpy",
-            "url": "https://imgur.com/xf5hWNX.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Griffin",
-            "url": "https://i.imgur.com/AHpnism.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0.25,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Orc",
-            "url": "https://i.imgur.com/b4pSXRE.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Titan",
-            "url": "https://i.imgur.com/LFjBgqq.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Genie",
-            "url": "https://i.imgur.com/Pk7fpEB.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Cyclops",
-            "url": "https://i.imgur.com/T7drUZR.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0.25,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Banshee",
-            "url": "https://i.imgur.com/RfuISlB.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Gargoyle",
-            "url": "https://i.imgur.com/mUHcfmE.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Djinn",
-            "url": "https://i.imgur.com/zeQY7rK.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Pyromancer",
-            "url": "https://i.imgur.com/Arp057d.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Werewolf",
-            "url": "https://i.imgur.com/z8j90W8.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0.25,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Thunderbird",
-            "url": "https://i.imgur.com/T7adYOd.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Beetle King",
-            "url": "https://i.imgur.com/5ODVWXR.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0.25,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Giant Scorpion",
-            "url": "https://i.imgur.com/ASR4SNV.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0.25,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Empusa",
-            "url": "https://i.imgur.com/gJ9jxTG.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Goblin",
-            "url": "https://i.imgur.com/UlYs96g.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Plague Demon",
-            "url": "https://i.imgur.com/Ol7vgoc.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0.25,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Kobold",
-            "url": "https://i.imgur.com/hetMnTR.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0.25,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Pegasus",
-            "url": "https://i.imgur.com/rCOvgCE.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Broodmother",
-            "url": "https://i.imgur.com/7YQm7nH.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        },
-        {
-            "name": "Headless Rider",
-            "url": "https://i.imgur.com/NcukvgU.jpg",
-            "rarity": "Uncommon",
-            "attack": 10,
-            "defense": 0,
-            "health": 15,
-            "reward": 22,
-            "crystalreward": 4
-        }
-    ],
-    "rare": [
-        {
-            "name": "Serpent Dragon",
-            "url": "https://i.imgur.com/mGZOc7y.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0.4,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Gorgon",
-            "url": "https://i.imgur.com/5Wnspf3.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Phoenix",
-            "url": "https://i.imgur.com/GIgzx9v.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Minotaur",
-            "url": "https://i.imgur.com/z7rB55v.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0.4,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Dark Templar",
-            "url": "https://i.imgur.com/fyPgruR.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0.4,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Elder Lich",
-            "url": "https://i.imgur.com/V7txxRZ.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Nightmare",
-            "url": "https://i.imgur.com/N5BbOeE.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0.4,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Behemoth",
-            "url": "https://i.imgur.com/wHK9FED.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0.4,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Succubus",
-            "url": "https://i.imgur.com/ynpug7I.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0.4,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Necromancer",
-            "url": "https://i.imgur.com/XijMlSm.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Manticore",
-            "url": "https://i.imgur.com/5i4oef0.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0.4,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Shade",
-            "url": "https://i.imgur.com/Y6qaTGo.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Wendigo",
-            "url": "https://i.imgur.com/ZvFIYIO.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Bahamut",
-            "url": "https://i.imgur.com/wDwiAD2.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0.4,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Diablo",
-            "url": "https://i.imgur.com/oZ35w4b.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0.4,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Leviathan",
-            "url": "https://i.imgur.com/aOmFwTm.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0.4,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Drow",
-            "url": "https://i.imgur.com/9RAWn80.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Umberlee",
-            "url": "https://i.imgur.com/iHJ6s0d.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Garuda",
-            "url": "https://i.imgur.com/BwNinQ0.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0.4,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Incubus",
-            "url": "https://i.imgur.com/qFWTlgy.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Drake",
-            "url": "https://i.imgur.com/4Yy37eZ.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0.4,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Peryton",
-            "url": "https://i.imgur.com/HOlZfyC.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Roc",
-            "url": "https://i.imgur.com/8NdVdMW.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Abomination",
-            "url": "https://i.imgur.com/FGYHbBl.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        },
-        {
-            "name": "Unholy Champion",
-            "url": "https://i.imgur.com/Fk00ogr.jpg",
-            "rarity": "Rare",
-            "attack": 11,
-            "defense": 0.4,
-            "health": 12,
-            "reward": 23,
-            "crystalreward": 6
-        }
-    ],
-    "epic": [
-        {
-            "name": "Archfiend",
-            "url": "https://i.imgur.com/P5XjrIS.jpg",
-            "rarity": "Epic",
-            "attack": 14,
-            "defense": 0.65,
-            "health": 17,
-            "reward": 24,
-            "crystalreward": 8
-        },
-        {
-            "name": "Cthulhu",
-            "url": "https://i.imgur.com/M0Ez20V.jpg",
-            "rarity": "Epic",
-            "attack": 14,
-            "defense": 0,
-            "health": 17,
-            "reward": 24,
-            "crystalreward": 8
-        },
-        {
-            "name": "Hydra",
-            "url": "https://i.imgur.com/TJjZE6d.jpg",
-            "rarity": "Epic",
-            "attack": 14,
-            "defense": 0.65,
-            "health": 17,
-            "reward": 24,
-            "crystalreward": 8
-        },
-        {
-            "name": "Hell Reaper",
-            "url": "https://i.imgur.com/2HWdh8l.jpg",
-            "rarity": "Epic",
-            "attack": 14,
-            "defense": 0,
-            "health": 17,
-            "reward": 24,
-            "crystalreward": 8
-        },
-        {
-            "name": "Colossus",
-            "url": "https://i.imgur.com/vyUIbRd.jpg",
-            "rarity": "Epic",
-            "attack": 14,
-            "defense": 0.65,
-            "health": 17,
-            "reward": 24,
-            "crystalreward": 8
-        },
-        {
-            "name": "Scylla",
-            "url": "https://i.imgur.com/08ENw39.jpg",
-            "rarity": "Epic",
-            "attack": 14,
-            "defense": 0,
-            "health": 17,
-            "reward": 24,
-            "crystalreward": 8
-        },
-        {
-            "name": "Fallen Valkyrie",
-            "url": "https://i.imgur.com/YTE1maN.jpg",
-            "rarity": "Epic",
-            "attack": 14,
-            "defense": 0.65,
-            "health": 17,
-            "reward": 24,
-            "crystalreward": 8
-        },
-        {
-            "name": "Yeti",
-            "url": "https://i.imgur.com/E8l4Sb3.jpg",
-            "rarity": "Epic",
-            "attack": 14,
-            "defense": 0.65,
-            "health": 17,
-            "reward": 24,
-            "crystalreward": 8
-        },
-        {
-            "name": "Vampire Lord",
-            "url": "https://i.imgur.com/TmOtgE6.jpg",
-            "rarity": "Epic",
-            "attack": 14,
-            "defense": 0,
-            "health": 17,
-            "reward": 24,
-            "crystalreward": 8
-        },
-        {
-            "name": "Ventaurion",
-            "url": "https://i.imgur.com/ijRe10r.jpg",
-            "rarity": "Epic",
-            "attack": 14,
-            "defense": 0.65,
-            "health": 17,
-            "reward": 24,
-            "crystalreward": 8
-        },
-        {
-            "name": "Sphinx",
-            "url": "https://i.imgur.com/GmcYMyz.jpg",
-            "rarity": "Epic",
-            "attack": 14,
-            "defense": 0.65,
-            "health": 17,
-            "reward": 24,
-            "crystalreward": 8
-        }
-    ],
-    "legendary": [
-        {
-            "name": "Medusa",
-            "url": "https://i.imgur.com/NLqFPM2.jpg",
-            "rarity": "Legendary",
-            "attack": 15,
-            "defense": 0,
-            "health": 20,
-            "reward": 75,
-            "ability": "Has a 15% chance to instantly kill you. ",
-            "crystalreward": 10
-        },
-        {
-            "name": "Cerberus",
-            "url": "https://i.imgur.com/Ey1QLsi.jpg",
-            "rarity": "Legendary",
-            "attack": 7,
-            "defense": 0,
-            "health": 20,
-            "reward": 75,
-            "ability": "Can attack between 1 and 3 times. ",
-            "crystalreward": 10
-        },
-        {
-            "name": "Ignis",
-            "url": "https://i.imgur.com/zBrBPng.jpg",
-            "rarity": "Legendary",
-            "attack": 20,
-            "defense": 0,
-            "health": 20,
-            "reward": 75,
-            "ability": "Burns the opponent. (5) ",
-            "crystalreward": 10
-        },
-        {
-            "name": "Typhon",
-            "url": "https://i.imgur.com/vQX8knT.jpg",
-            "rarity": "Legendary",
-            "attack": 15,
-            "defense": 0,
-            "health": 25,
-            "reward": 75,
-            "crystalreward": 10
-        },
-        {
-            "name": "Baba Yaga",
-            "url": "https://i.imgur.com/BIWBxCA.jpg",
-            "rarity": "Legendary",
-            "attack": 15,
-            "defense": 0,
-            "health": 20,
-            "reward": 75,
-            "ability": "20% chance to block the attack and take no damage.",
-            "crystalreward": 10
-        },
-        {
-            "name": "Charybdis",
-            "url": "https://i.imgur.com/4yTrEAp.jpg",
-            "rarity": "Legendary",
-            "attack": 18,
-            "defense": 0,
-            "health": 20,
-            "reward": 100,
-            "ability": "Dispel the opponent's skills.",
-            "crystalreward": 10
-        },
-        {
-            "name": "Will-o'-the-wisp",
-            "url": "https://i.imgur.com/arj0Ori.jpg",
-            "rarity": "Legendary",
-            "attack": 50,
-            "defense": 0,
-            "health": 1,
-            "reward": 100,
-            "ability": "95% chance to evade the attack and cancel it.",
-            "crystalreward": 10
-        },
-        {
-            "name": "Asmodeus",
-            "url": "https://i.imgur.com/jk3tCbV.jpg",
-            "rarity": "Legendary",
-            "attack": 15,
-            "defense": 0,
-            "health": 20,
-            "reward": 100,
-            "ability": "20% chance to parry the opponent's attack, and 10% chance to instantly kill the opponent. ",
-            "crystalreward": 10
-        },
-        {
-            "name": "Godzilla",
-            "url": "https://i.imgur.com/cgMFr9Q.jpg",
-            "rarity": "Legendary",
-            "attack": 20,
-            "defense": 0,
-            "health": 30,
-            "reward": 150,
-            "ability": "100% chance to pierce the opponent's defense. Additional 20% chance to instantly kill the target. ",
-            "crystalreward": 10
-        }
-    ]
+  "common": [
+    {
+      "name": "Gnoll",
+      "url": "https://i.imgur.com/dreQX6M.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Lizardman",
+      "url": "https://i.imgur.com/19nhllA.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Beholder",
+      "url": "https://i.imgur.com/xzWj5l0.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Centaur",
+      "url": "https://i.imgur.com/MeYHWZX.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Vermin Rat",
+      "url": "https://i.imgur.com/3ZF0OHk.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Dryad",
+      "url": "https://i.imgur.com/0MGtc8o.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Enraged Demon",
+      "url": "https://i.imgur.com/snGBuBx.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Golem",
+      "url": "https://i.imgur.com/6LVrh5L.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Dire Wolf",
+      "url": "https://i.imgur.com/12QScCz.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Nymph",
+      "url": "https://i.imgur.com/UoGSZlu.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Horror Wraith",
+      "url": "https://i.imgur.com/3JnLSYI.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Cockatrice",
+      "url": "https://i.imgur.com/M6X5j6M.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Gnome ",
+      "url": "https://i.imgur.com/MdeGua2.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Dark Raven",
+      "url": "https://i.imgur.com/6uYhxZe.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Ifrit ",
+      "url": "https://i.imgur.com/rH9p0bP.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Troll",
+      "url": "https://i.imgur.com/MqffXb6.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Ogre",
+      "url": "https://i.imgur.com/05EDtax.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Slime",
+      "url": "https://i.imgur.com/rHEyWCy.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Undead Revenant",
+      "url": "https://i.imgur.com/AMtNbUs.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Doppelganger",
+      "url": "https://i.imgur.com/kYNkyFr.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Ghoul",
+      "url": "https://i.imgur.com/6DFDXu0.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Mummy",
+      "url": "https://i.imgur.com/D8aHgxX.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Zombie",
+      "url": "https://i.imgur.com/LLlzNH1.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Dark Spawn",
+      "url": "https://i.imgur.com/l51hKr8.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Satyr",
+      "url": "https://i.imgur.com/NbplSjv.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Questing Beast",
+      "url": "https://i.imgur.com/2O4FNG0.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Gatekeeper",
+      "url": "https://i.imgur.com/W0BbymI.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Lurker",
+      "url": "https://i.imgur.com/rV7jbHM.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Vengeful Spirit",
+      "url": "https://i.imgur.com/ge6arcl.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    },
+    {
+      "name": "Vampire",
+      "url": "https://i.imgur.com/FYCRBpf.jpg",
+      "rarity": "Common",
+      "attack": 15,
+      "defense": 0,
+      "health": 10,
+      "reward": 20
+    }
+  ],
+  "uncommon": [
+    {
+      "name": "Basilisk",
+      "url": "https://i.imgur.com/Pj7BRyT.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Hell Hound",
+      "url": "https://i.imgur.com/3mLKNTr.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Kelpie",
+      "url": "https://i.imgur.com/zyQLHeE.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Imp",
+      "url": "https://i.imgur.com/p5kHeDC.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Harpy",
+      "url": "https://imgur.com/xf5hWNX.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Griffin",
+      "url": "https://i.imgur.com/AHpnism.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Orc",
+      "url": "https://i.imgur.com/b4pSXRE.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Titan",
+      "url": "https://i.imgur.com/LFjBgqq.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Genie",
+      "url": "https://i.imgur.com/Pk7fpEB.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Cyclops",
+      "url": "https://i.imgur.com/T7drUZR.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Banshee",
+      "url": "https://i.imgur.com/RfuISlB.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Gargoyle",
+      "url": "https://i.imgur.com/mUHcfmE.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Djinn",
+      "url": "https://i.imgur.com/zeQY7rK.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Pyromancer",
+      "url": "https://i.imgur.com/Arp057d.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Werewolf",
+      "url": "https://i.imgur.com/z8j90W8.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Thunderbird",
+      "url": "https://i.imgur.com/T7adYOd.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Beetle King",
+      "url": "https://i.imgur.com/5ODVWXR.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Giant Scorpion",
+      "url": "https://i.imgur.com/ASR4SNV.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Empusa",
+      "url": "https://i.imgur.com/gJ9jxTG.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Goblin",
+      "url": "https://i.imgur.com/UlYs96g.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Plague Demon",
+      "url": "https://i.imgur.com/Ol7vgoc.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Kobold",
+      "url": "https://i.imgur.com/hetMnTR.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Pegasus",
+      "url": "https://i.imgur.com/rCOvgCE.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Broodmother",
+      "url": "https://i.imgur.com/7YQm7nH.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    },
+    {
+      "name": "Headless Rider",
+      "url": "https://i.imgur.com/NcukvgU.jpg",
+      "rarity": "Uncommon",
+      "attack": 16,
+      "defense": 0,
+      "health": 15,
+      "reward": 22
+    }
+  ],
+  "rare": [
+    {
+      "name": "Serpent Dragon",
+      "url": "https://i.imgur.com/mGZOc7y.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Gorgon",
+      "url": "https://i.imgur.com/5Wnspf3.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Phoenix",
+      "url": "https://i.imgur.com/GIgzx9v.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Minotaur",
+      "url": "https://i.imgur.com/z7rB55v.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Dark Templar",
+      "url": "https://i.imgur.com/fyPgruR.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Elder Lich",
+      "url": "https://i.imgur.com/V7txxRZ.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Nightmare",
+      "url": "https://i.imgur.com/N5BbOeE.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Behemoth",
+      "url": "https://i.imgur.com/wHK9FED.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Succubus",
+      "url": "https://i.imgur.com/ynpug7I.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Necromancer",
+      "url": "https://i.imgur.com/XijMlSm.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Manticore",
+      "url": "https://i.imgur.com/5i4oef0.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Shade",
+      "url": "https://i.imgur.com/Y6qaTGo.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Wendigo",
+      "url": "https://i.imgur.com/ZvFIYIO.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Bahamut",
+      "url": "https://i.imgur.com/wDwiAD2.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Diablo",
+      "url": "https://i.imgur.com/oZ35w4b.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Leviathan",
+      "url": "https://i.imgur.com/aOmFwTm.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Drow",
+      "url": "https://i.imgur.com/9RAWn80.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Umberlee",
+      "url": "https://i.imgur.com/iHJ6s0d.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Garuda",
+      "url": "https://i.imgur.com/BwNinQ0.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Incubus",
+      "url": "https://i.imgur.com/qFWTlgy.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Drake",
+      "url": "https://i.imgur.com/4Yy37eZ.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Peryton",
+      "url": "https://i.imgur.com/HOlZfyC.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Roc",
+      "url": "https://i.imgur.com/8NdVdMW.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Abomination",
+      "url": "https://i.imgur.com/FGYHbBl.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    },
+    {
+      "name": "Unholy Champion",
+      "url": "https://i.imgur.com/Fk00ogr.jpg",
+      "rarity": "Rare",
+      "attack": 17,
+      "defense": 0,
+      "health": 16,
+      "reward": 24
+    }
+  ],
+  "epic": [
+    {
+      "name": "Archfiend",
+      "url": "https://i.imgur.com/P5XjrIS.jpg",
+      "rarity": "Epic",
+      "attack": 19,
+      "defense": 0,
+      "health": 17,
+      "reward": 26
+    },
+    {
+      "name": "Cthulhu",
+      "url": "https://i.imgur.com/M0Ez20V.jpg",
+      "rarity": "Epic",
+      "attack": 19,
+      "defense": 0,
+      "health": 17,
+      "reward": 26
+    },
+    {
+      "name": "Hydra",
+      "url": "https://i.imgur.com/TJjZE6d.jpg",
+      "rarity": "Epic",
+      "attack": 19,
+      "defense": 0,
+      "health": 17,
+      "reward": 26
+    },
+    {
+      "name": "Hell Reaper",
+      "url": "https://i.imgur.com/2HWdh8l.jpg",
+      "rarity": "Epic",
+      "attack": 19,
+      "defense": 0,
+      "health": 17,
+      "reward": 26
+    },
+    {
+      "name": "Colossus",
+      "url": "https://i.imgur.com/vyUIbRd.jpg",
+      "rarity": "Epic",
+      "attack": 19,
+      "defense": 0,
+      "health": 17,
+      "reward": 26
+    },
+    {
+      "name": "Scylla",
+      "url": "https://i.imgur.com/08ENw39.jpg",
+      "rarity": "Epic",
+      "attack": 19,
+      "defense": 0,
+      "health": 17,
+      "reward": 26
+    },
+    {
+      "name": "Fallen Valkyrie",
+      "url": "https://i.imgur.com/YTE1maN.jpg",
+      "rarity": "Epic",
+      "attack": 19,
+      "defense": 0,
+      "health": 17,
+      "reward": 26
+    },
+    {
+      "name": "Yeti",
+      "url": "https://i.imgur.com/E8l4Sb3.jpg",
+      "rarity": "Epic",
+      "attack": 19,
+      "defense": 0,
+      "health": 17,
+      "reward": 26
+    },
+    {
+      "name": "Vampire Lord",
+      "url": "https://i.imgur.com/TmOtgE6.jpg",
+      "rarity": "Epic",
+      "attack": 19,
+      "defense": 0,
+      "health": 17,
+      "reward": 26
+    },
+    {
+      "name": "Ventaurion",
+      "url": "https://i.imgur.com/ijRe10r.jpg",
+      "rarity": "Epic",
+      "attack": 19,
+      "defense": 0,
+      "health": 17,
+      "reward": 26
+    },
+    {
+      "name": "Sphinx",
+      "url": "https://i.imgur.com/GmcYMyz.jpg",
+      "rarity": "Epic",
+      "attack": 19,
+      "defense": 0,
+      "health": 17,
+      "reward": 26
+    }
+  ],
+  "legendary": [
+    {
+      "name": "Medusa",
+      "url": "https://i.imgur.com/NLqFPM2.jpg",
+      "rarity": "Legendary",
+      "attack": 27,
+      "defense": 0,
+      "health": 20,
+      "reward": 75,
+      "ability": "Has a 15% chance to instantly kill you. ",
+      "crystalreward": 10
+    },
+    {
+      "name": "Cerberus",
+      "url": "https://i.imgur.com/Ey1QLsi.jpg",
+      "rarity": "Legendary",
+      "attack": 15,
+      "defense": 0,
+      "health": 20,
+      "reward": 75,
+      "ability": "Can attack between 1 and 3 times. ",
+      "crystalreward": 10
+    },
+    {
+      "name": "Ignis",
+      "url": "https://i.imgur.com/zBrBPng.jpg",
+      "rarity": "Legendary",
+      "attack": 27,
+      "defense": 0,
+      "health": 20,
+      "reward": 75,
+      "ability": "Burns the opponent. (5) ",
+      "crystalreward": 10
+    },
+    {
+      "name": "Typhon",
+      "url": "https://i.imgur.com/vQX8knT.jpg",
+      "rarity": "Legendary",
+      "attack": 21,
+      "defense": 0,
+      "health": 25,
+      "reward": 75,
+      "crystalreward": 10
+    },
+    {
+      "name": "Baba Yaga",
+      "url": "https://i.imgur.com/BIWBxCA.jpg",
+      "rarity": "Legendary",
+      "attack": 21,
+      "defense": 0,
+      "health": 20,
+      "reward": 75,
+      "ability": "20% chance to block the attack and take no damage.",
+      "crystalreward": 10
+    },
+    {
+      "name": "Charybdis",
+      "url": "https://i.imgur.com/4yTrEAp.jpg",
+      "rarity": "Legendary",
+      "attack": 24,
+      "defense": 0,
+      "health": 20,
+      "reward": 100,
+      "ability": "Dispel the opponent's skills.",
+      "crystalreward": 10
+    },
+    {
+      "name": "Will-o'-the-wisp",
+      "url": "https://i.imgur.com/arj0Ori.jpg",
+      "rarity": "Legendary",
+      "attack": 55,
+      "defense": 0,
+      "health": 1,
+      "reward": 100,
+      "ability": "95% chance to evade the attack and cancel it.",
+      "crystalreward": 10
+    },
+    {
+      "name": "Asmodeus",
+      "url": "https://i.imgur.com/jk3tCbV.jpg",
+      "rarity": "Legendary",
+      "attack": 21,
+      "defense": 0,
+      "health": 20,
+      "reward": 100,
+      "ability": "20% chance to parry the opponent's attack, and 10% chance to instantly kill the opponent. ",
+      "crystalreward": 10
+    },
+    {
+      "name": "Godzilla",
+      "url": "https://i.imgur.com/cgMFr9Q.jpg",
+      "rarity": "Legendary",
+      "attack": 27,
+      "defense": 0,
+      "health": 30,
+      "reward": 150,
+      "ability": "100% chance to pierce the opponent's defense. Additional 20% chance to instantly kill the target. ",
+      "crystalreward": 10
+    }
+  ]
 }
