@@ -105,7 +105,7 @@ function nextFloor(message, dungeon) {
     }
     let raritytoscroll = { "0": "common", "1": "uncommon", "2": "rare", "3": "epic", "4": "legendary", "c": "common", "u": "uncommon", "r": "rare", "e": "epic", "l": "legendary" }
     let summonrarity = raritytoscroll[base];
-    let summonlevel = 2*dungeon.floor+60
+    let summonlevel = 3*dungeon.floor+30
     let rarityraids = raidData[summonrarity]
     let raid = rarityraids[Math.floor(rarityraids.length * Math.random())]
     dungeon.task = "raid"
