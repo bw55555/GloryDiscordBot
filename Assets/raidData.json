@@ -7,7 +7,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Lizardman",
@@ -16,7 +17,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Beholder",
@@ -25,7 +27,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Centaur",
@@ -34,7 +37,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Vermin Rat",
@@ -43,7 +47,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Dryad",
@@ -52,7 +57,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Enraged Demon",
@@ -61,7 +67,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Golem",
@@ -70,7 +77,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Dire Wolf",
@@ -79,7 +87,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Nymph",
@@ -88,7 +97,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Horror Wraith",
@@ -97,7 +107,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Cockatrice",
@@ -106,7 +117,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Gnome ",
@@ -115,7 +127,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Dark Raven",
@@ -124,7 +137,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Ifrit ",
@@ -133,7 +147,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Troll",
@@ -142,7 +157,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Ogre",
@@ -151,7 +167,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Slime",
@@ -160,7 +177,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Undead Revenant",
@@ -169,7 +187,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Doppelganger",
@@ -178,7 +197,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Ghoul",
@@ -187,7 +207,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Mummy",
@@ -196,7 +217,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Zombie",
@@ -205,7 +227,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Dark Spawn",
@@ -214,7 +237,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Satyr",
@@ -223,7 +247,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Questing Beast",
@@ -232,7 +257,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Gatekeeper",
@@ -241,7 +267,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Lurker",
@@ -250,7 +277,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Vengeful Spirit",
@@ -259,7 +287,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     },
     {
       "name": "Vampire",
@@ -268,7 +297,8 @@
       "attack": 15,
       "defense": 0,
       "health": 10,
-      "reward": 20
+      "reward": 20,
+      "crystalreward": 2
     }
   ],
   "uncommon": [
@@ -279,7 +309,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Hell Hound",
@@ -288,7 +319,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Kelpie",
@@ -297,7 +329,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Imp",
@@ -306,7 +339,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Harpy",
@@ -315,7 +349,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Griffin",
@@ -324,7 +359,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Orc",
@@ -333,7 +369,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Titan",
@@ -342,7 +379,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Genie",
@@ -351,7 +389,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Cyclops",
@@ -360,7 +399,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Banshee",
@@ -369,7 +409,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Gargoyle",
@@ -378,7 +419,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Djinn",
@@ -387,7 +429,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Pyromancer",
@@ -396,7 +439,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Werewolf",
@@ -405,7 +449,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Thunderbird",
@@ -414,7 +459,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Beetle King",
@@ -423,7 +469,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Giant Scorpion",
@@ -432,7 +479,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Empusa",
@@ -441,7 +489,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Goblin",
@@ -450,7 +499,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Plague Demon",
@@ -459,7 +509,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Kobold",
@@ -468,7 +519,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Pegasus",
@@ -477,7 +529,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Broodmother",
@@ -486,7 +539,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     },
     {
       "name": "Headless Rider",
@@ -495,7 +549,8 @@
       "attack": 16,
       "defense": 0,
       "health": 15,
-      "reward": 22
+      "reward": 22,
+      "crystalreward": 4
     }
   ],
   "rare": [
@@ -506,7 +561,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Gorgon",
@@ -515,7 +571,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Phoenix",
@@ -524,7 +581,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Minotaur",
@@ -533,7 +591,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Dark Templar",
@@ -542,7 +601,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Elder Lich",
@@ -551,7 +611,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Nightmare",
@@ -560,7 +621,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Behemoth",
@@ -569,7 +631,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Succubus",
@@ -578,7 +641,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Necromancer",
@@ -587,7 +651,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Manticore",
@@ -596,7 +661,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Shade",
@@ -605,7 +671,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Wendigo",
@@ -614,7 +681,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Bahamut",
@@ -623,7 +691,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Diablo",
@@ -632,7 +701,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Leviathan",
@@ -641,7 +711,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Drow",
@@ -650,7 +721,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Umberlee",
@@ -659,7 +731,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Garuda",
@@ -668,7 +741,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Incubus",
@@ -677,7 +751,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Drake",
@@ -686,7 +761,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Peryton",
@@ -695,7 +771,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Roc",
@@ -704,7 +781,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Abomination",
@@ -713,7 +791,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     },
     {
       "name": "Unholy Champion",
@@ -722,7 +801,8 @@
       "attack": 17,
       "defense": 0,
       "health": 16,
-      "reward": 24
+      "reward": 24,
+      "crystalreward": 6
     }
   ],
   "epic": [
@@ -733,7 +813,8 @@
       "attack": 19,
       "defense": 0,
       "health": 17,
-      "reward": 26
+      "reward": 26,
+      "crystalreward": 8
     },
     {
       "name": "Cthulhu",
@@ -742,7 +823,8 @@
       "attack": 19,
       "defense": 0,
       "health": 17,
-      "reward": 26
+      "reward": 26,
+      "crystalreward": 8
     },
     {
       "name": "Hydra",
@@ -751,7 +833,8 @@
       "attack": 19,
       "defense": 0,
       "health": 17,
-      "reward": 26
+      "reward": 26,
+      "crystalreward": 8
     },
     {
       "name": "Hell Reaper",
@@ -760,7 +843,8 @@
       "attack": 19,
       "defense": 0,
       "health": 17,
-      "reward": 26
+      "reward": 26,
+      "crystalreward": 8
     },
     {
       "name": "Colossus",
@@ -769,7 +853,8 @@
       "attack": 19,
       "defense": 0,
       "health": 17,
-      "reward": 26
+      "reward": 26,
+      "crystalreward": 8
     },
     {
       "name": "Scylla",
@@ -778,7 +863,8 @@
       "attack": 19,
       "defense": 0,
       "health": 17,
-      "reward": 26
+      "reward": 26,
+      "crystalreward": 8
     },
     {
       "name": "Fallen Valkyrie",
@@ -787,7 +873,8 @@
       "attack": 19,
       "defense": 0,
       "health": 17,
-      "reward": 26
+      "reward": 26,
+      "crystalreward": 8
     },
     {
       "name": "Yeti",
@@ -796,7 +883,8 @@
       "attack": 19,
       "defense": 0,
       "health": 17,
-      "reward": 26
+      "reward": 26,
+      "crystalreward": 8
     },
     {
       "name": "Vampire Lord",
@@ -805,7 +893,8 @@
       "attack": 19,
       "defense": 0,
       "health": 17,
-      "reward": 26
+      "reward": 26,
+      "crystalreward": 8
     },
     {
       "name": "Ventaurion",
@@ -814,7 +903,8 @@
       "attack": 19,
       "defense": 0,
       "health": 17,
-      "reward": 26
+      "reward": 26,
+      "crystalreward": 8
     },
     {
       "name": "Sphinx",
@@ -823,7 +913,8 @@
       "attack": 19,
       "defense": 0,
       "health": 17,
-      "reward": 26
+      "reward": 26,
+      "crystalreward": 8
     }
   ],
   "legendary": [
