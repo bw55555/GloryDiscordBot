@@ -84,10 +84,10 @@ module.exports = async function (message, user) {
                 fields: [
                     {
                         name: "Attack Results",
-                        value: damagetext + "<@" + target._id + "> took " + damage + " damage! They have " + target.currenthealth + " Health remaining!",
+                        value: damagetext + "<@" + target._id + "> took **" + damage + "** damage! They have **" + target.currenthealth + "** Health remaining!",
                     }, {
                         name: "Counter Results",
-                        value: countertext + "<@" + user._id + "> took " + counter + " counterdamage! You have " + user.currenthealth + " Health remaining!",
+                        value: countertext + "<@" + user._id + "> took **" + counter + "** counterdamage! You have **" + user.currenthealth + "** Health remaining!",
                     }
                 ]
             }

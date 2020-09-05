@@ -1295,10 +1295,10 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 },*/
                 {
                     name: "Attack Results",
-                    value: damagetext+'<@' + user._id + "> attacks a Lv." + raid.level + " " + raid.name + "!\n" + raid.name + " took **" + damage + "** damage! It has " + raid.currenthealth + " Health remaining! You earned " + damagereward + " xp!",
+                    value: damagetext+'<@' + user._id + "> attacks a Lv." + raid.level + " " + raid.name + "!\n" + raid.name + " took **" + damage + "** damage! It has **" + raid.currenthealth + "** Health remaining! You earned **" + damagereward + "** xp!",
                 }, {
                     name: "Counter Results",
-                    value: countertext+"<@" + user._id + "> took **" + counter + "** counterdamage! You have " + user.currenthealth + " Health remaining!",
+                    value: countertext+"<@" + user._id + "> took **" + counter + "** counterdamage! You have **" + user.currenthealth + "** Health remaining!",
                 }
             ]
         }
