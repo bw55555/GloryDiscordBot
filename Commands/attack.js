@@ -171,8 +171,8 @@ module.exports = async function (message, user) {
             }
         }
         functions.completeQuest(user, "attack", {"target": target, "damage": damage, "counter": counter})
-        functions.setCD(user, ts, attackcd * 60, "attack")
-        functions.setCD(user, ts, healcd * 60, "heal")
+        functions.setCD(user, ts, 60, "attack")
+        functions.setCD(user, ts, 60, "heal")
         functions.setCD(user, ts, 60, "purchase")
         functions.setCD(target, ts, attackcd * 60, "attack")
         functions.setCD(target, ts, healcd * 60, "heal")
