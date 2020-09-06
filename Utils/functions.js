@@ -491,7 +491,7 @@ function calcDamage(message, attacker, defender, initiator) {
     } else {
         attack = attacker.attack;
         if (attacker.name == "Hell Lord") {
-            if (Math.random() > 0.75) {
+            if (Math.random() < 0.1) {
                 attack = attack * 2
                 text += attackername +" just dealt critical damage!\n"
             }
@@ -541,7 +541,7 @@ function calcDamage(message, attacker, defender, initiator) {
             piercerate += 1
         }
         if (attacker.name == "Hell Lord") {
-            piercerate += 0.25
+            piercerate += 0.1
         }
     }
     if (piercechance < piercerate) {

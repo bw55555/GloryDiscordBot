@@ -10,7 +10,7 @@ let storeitems = [
     { "type": "Life rune", "min": 1, "max": 10, "price": 5000000, "chance": 5000 },
     { "type": "Energy rune", "min": 1, "max": 10, "price": 2000000, "chance": 10000 },
     { "type": "Wisdom rune", "min": 1, "max": 10, "price": 200000000, "chance": 5 },
-    { "type": "Rune shard", "min": 50, "max":500, "price": 200000, "chance": 200000 }
+    { "type": "Rune shard", "min": 25, "max":150, "price": 200000, "chance": 200000 }
 ]
 module.exports = async function (message, user) {
     let id = message.author.id;

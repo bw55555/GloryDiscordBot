@@ -37,7 +37,7 @@ module.exports = async function (message, user) {
                 if (message.channel.id != 570356602843168769 && devs.indexOf(id) == -1) { return functions.replyMessage(message, "This is for the support server only!") }
                 if (serverData[message.guild.id].hell != undefined || (serverData[message.guild.id].hell == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a hell raid in this server!") }
                 else { serverData[message.guild.id].hell = message.channel.id; functions.setProp("serverData", { "_id": message.guild.id }, { $set: { "hell": message.channel.id } }) }
-                functions.summon(raid, level, 100, 200, "Hell Lord", 'https://imgur.com/MbGhMkJ.jpg', '25% chance to pierce, 25% chance to crit and deal 2x damage. ')
+                functions.summon(raid, level, 100, 200, "Hell Lord", 'https://imgur.com/MbGhMkJ.jpg', '10% chance to pierce, 10% chance to crit and deal 2x damage. ')
             }
             else { return functions.replyMessage(message, "Please name the channel either #treant-raid, #kraken-raid, #dragon-raid, or #deity-raid. Join the support server to access #hell-raid, a level 100-200 boss!") }
             functions.replyMessage(message, "A boss has been summoned! It is level "+ raid.level + "!");
