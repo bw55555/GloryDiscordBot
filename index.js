@@ -414,4 +414,7 @@ bot.on("debug", debug => {
 })
 process.on('unhandledRejection', error => {
     console.error(`Uncaught Promise Error: \n${error.stack}`);
+    if (bot != undefined && bot.guilds != undefined && devData != undefined && devData.errorChannelId != undefined && devData.debugGuildId != undefined) {
+        functions.sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n"+error.stack+"\n```")
+    }
 });
