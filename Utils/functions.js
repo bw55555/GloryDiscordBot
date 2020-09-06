@@ -8,7 +8,7 @@ async function setUser(newuser) {
     return setObject("userData", newuser)
 }
 async function deleteUser(uid) {
-    return deleteObject("userData", newuser)
+    return deleteObject("userData", uid)
 }
 async function getItem(iid) {
     return getObject("itemData", iid)
@@ -20,7 +20,7 @@ async function setItem(newitem) {
     return setObject("itemData", newitem)
 }
 async function deleteItem(iid) {
-    return deleteObject("itemData", newitem)
+    return deleteObject("itemData", iid)
 }
 async function getFloorMob(floor) {
     return client.db(db).collection("floorData").find({ floorlevel: floor }).toArray().then(r => {
