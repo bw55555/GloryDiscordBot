@@ -4,7 +4,7 @@ module.exports = async function (message, user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     let text = ""
-    if (functions.calcTime(user.cooldowns.work, ts) > 0) {
+    if (functions.isCD(user, ts, "work")) {
         functions.replyMessage(message, "More work will be available in " + functions.displayTime(user.cooldowns.work, ts))
         functions.deleteMessage(message);
         return;

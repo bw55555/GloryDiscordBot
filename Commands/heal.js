@@ -2,7 +2,7 @@
 module.exports = async function (message, user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    if (functions.calcTime(user.cooldowns.heal, ts) > 0) {
+    if (isCD(user, ts, "heal")) {
         functions.deleteMessage(message);
         return functions.replyMessage(message, "You can't heal right now. \nYour next heal will be ready in " + functions.displayTime(user.cooldowns.heal, ts));
     }

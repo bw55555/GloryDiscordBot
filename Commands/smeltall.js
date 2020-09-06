@@ -3,7 +3,7 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    if (functions.calcTime(user.cooldowns.smeltall, ts) > 0) { return functions.replyMessage(message, "Be patient! Wait " + functions.displayTime(user.cooldowns.smeltall, ts)) }
+    if (functions.isCD(user, ts, "smeltall")) { return functions.replyMessage(message, "Be patient! Wait " + functions.displayTime(user.cooldowns.smeltall, ts)) }
     let totalmaterials = 0
     let totalmoney = 0
     let totalxp = 0

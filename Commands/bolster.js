@@ -6,7 +6,7 @@ module.exports = async function (message, user) {
     if (user.triangleid != 9 && !functions.hasSkill(user, 11)) {
         return functions.replyMessage(message, "You can't bolster!");
     }
-    if (functions.calcTime(user.cooldowns.bolster, ts) > 0) {
+    if (functions.isCD(user, ts, "bolster")) {
         functions.deleteMessage(message);
         return functions.replyMessage(message, "You can't bolster right now. You can bolster again in " + functions.displayTime(user.cooldowns.bolster, ts));
     }

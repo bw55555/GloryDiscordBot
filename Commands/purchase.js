@@ -16,7 +16,7 @@ module.exports = async function (message, user) {
     }
 
     if (purchaseID >= 0 && purchaseID <= 5) {
-        if (functions.calcTime(user.cooldowns.purchase, ts) > 0) { return functions.replyMessage(message, "Please wait " + functions.displayTime(user.cooldowns.purchase, ts)) }
+        if (functions.isCD(user, ts, "purchase")) { return functions.replyMessage(message, "Please wait " + functions.displayTime(user.cooldowns.purchase, ts)) }
         if (user.money < shieldprices[purchaseID]) {
             functions.replyMessage(message, "You do not have enough money to buy this!")
             return;

@@ -3,7 +3,7 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.split(/\s+/)
-    if (functions.calcTime(user.cooldowns.attack, ts) > 0) {
+    if (functions.isCD(user, ts, "attack")) {
         functions.deleteMessage(message);
         functions.replyMessage(message, 'You can\'t attack right now. You can attack again in ' + functions.displayTime(user.cooldowns.attack, ts));
         return;

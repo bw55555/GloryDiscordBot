@@ -1081,69 +1081,55 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability) {
 function checkProps(message,user) {
     let ts = message.createdTimestamp;
     if (user.username != message.author.username) user.username = message.author.username; //Creates object with name as username
-    if (!user.money) user.money = 0; //gives money object
-    if (!user.health) user.health = 10; //Health
-    if (!user.currenthealth) user.currenthealth = 0; //Health
-    if (!user.xp) user.xp = 0; //XP
-    if (!user.level) user.level = 1; //XP
-    if (!user.attack) user.attack = 0; //character's attack
-    if (!user.defense) user.defense = 0; //character's defense
-    if (!user.speed) user.speed = 0; //character's speed
-    if (!user.dead) user.dead = false; //character's status (alive/dead)
-    if (!user.start) user.start = false; //character's speed
-    if (!user.triangle) user.triangle = "None"; //character's class
-    if (!user.triangleid) user.triangleid = "0"; //character's class
-    if (!user.trianglemod) user.trianglemod = 1.0; //character's class-based damage modifier.
-    if (!user.weapon && user.weapon != 0) user.weapon = false;
-    if (!user.ability) user.ability = "Ability";
-    if (!user.inventory) user.inventory = {};
-    if (!user.marry) user.marry = "None";
-    if (!user.guild) user.guild = "None";
-    if (!user.guildpos) user.guildpos = "None";
-    if (!user.guildbuffs) user.guildbuffs = {};
-    if (!user.bolster) user.bolster = false;
-    if (!user.votestreak) user.votestreak = 0;
-    if (!user.shield) user.shield = ts + 24 * 1000 * 60 * 60;
-    if (!user.materials) user.materials = 0;
-    if (!user.ascension) user.ascension = 0;
-    if (!user.bounty) user.bounty = 0;
-    if (!user.glory) user.glory = 0;
-    if (!user.burn) user.burn = 0;
-    if (!user.runes) user.runes = [0, 0, 0, 0, 0, 0, 0]
+    if (user.money == undefined) user.money = 0; //gives money object
+    if (user.health == undefined) user.health = 10; //Health
+    if (user.currenthealth == undefined) user.currenthealth = 0; //Health
+    if (user.xp == undefined) user.xp = 0; //XP
+    if (user.level == undefined) user.level = 1; //XP
+    if (user.attack == undefined) user.attack = 0; //character's attack
+    if (user.defense == undefined) user.defense = 0; //character's defense
+    if (user.speed == undefined) user.speed = 0; //character's speed
+    if (user.dead == undefined) user.dead = false; //character's status (alive/dead)
+    if (user.start == undefined) user.start = false; //character's speed
+    if (user.triangle == undefined) user.triangle = "None"; //character's class
+    if (user.triangleid == undefined) user.triangleid = "0"; //character's class
+    if (user.trianglemod == undefined) user.trianglemod = 1.0; //character's class-based damage modifier.
+    if (user.weapon == undefined) user.weapon = false;
+    if (user.ability == undefined) user.ability = "Ability";
+    if (user.inventory == undefined) user.inventory = {};
+    if (user.marry == undefined) user.marry = "None";
+    if (user.guild == undefined) user.guild = "None";
+    if (user.guildpos == undefined) user.guildpos = "None";
+    if (user.guildbuffs == undefined) user.guildbuffs = {};
+    if (user.bolster == undefined) user.bolster = false;
+    if (user.votestreak == undefined) user.votestreak = 0;
+    if (user.shield == undefined) user.shield = ts + 24 * 1000 * 60 * 60;
+    if (user.materials == undefined) user.materials = 0;
+    if (user.ascension == undefined) user.ascension = 0;
+    if (user.bounty == undefined) user.bounty = 0;
+    if (user.glory == undefined) user.glory = 0;
+    if (user.burn == undefined) user.burn = 0;
+    if (user.runes == undefined) user.runes = [0, 0, 0, 0, 0, 0, 0]
     while (user.runes.length < 7) { user.runes.push(0) }
-    if (!user.cooldowns) user.cooldowns = {}
-    if (!user.cooldowns.attack) user.cooldowns.attack = 1;
-    if (!user.cooldowns.heal) user.cooldowns.heal = 1;
-    if (!user.cooldowns.rez) user.cooldowns.rez = 1;
-    if (!user.cooldowns.work) user.cooldowns.work = 1;
-    if (!user.cooldowns.bolster) user.cooldowns.bolster = 1;
-    if (!user.cooldowns.smeltall) user.cooldowns.smeltall = 1;
-    if (!user.cooldowns.purchase) user.cooldowns.purchase = 1;
-    if (!user.cooldowns.merge) user.cooldowns.merge = 1;
-    if (!user.cooldowns.daily) user.cooldowns.daily = 1;
-    if (!user.cooldowns.luckyshoprefresh) user.cooldowns.luckyshoprefresh = 1;
-    if (!user.cooldowns.lastbreath) user.cooldowns.lastbreath = 1;
-    if (!user.skills) user.skills = {}
-    if (!user.skillA) user.skillA = "None";
-    if (!user.skillB) user.skillB = "None";
-    if (!user.skillC) user.skillC = "None";
-
-    if (!user.consum) user.consum = {}
-    if (!user.consum.explosion) user.consum.explosion = 0;
-    if (!user.consum.egg) user.consum.egg = 0;
-    if (!user.consum.eggsplosion) user.consum.eggsplosion = 0;
-    if (!user.consum.box) user.consum.box = 0;
-    if (!user.consum.sp) user.consum.sp = 0;
-    if (!user.consum.phoenixfeather) user.consum.phoenixfeather = 0;
-    if (!user.consum.nametag) user.consum.nametag = 0;
-    if (!user.consum.reroll) user.consum.reroll = 0;
-
-    if (!user.quests) user.quests = [];
-
-    if (user.currenthealth > user.health) user.currenthealth = user.health;
-
-
-
+    if (user.cooldowns == undefined) user.cooldowns = {}
+    if (user.cooldowns.attack == undefined) user.cooldowns.attack = 1;
+    if (user.cooldowns.heal == undefined) user.cooldowns.heal = 1;
+    if (user.cooldowns.rez == undefined) user.cooldowns.rez = 1;
+    if (user.cooldowns.work == undefined) user.cooldowns.work = 1;
+    if (user.cooldowns.bolster == undefined) user.cooldowns.bolster = 1;
+    if (user.cooldowns.smeltall == undefined) user.cooldowns.smeltall = 1;
+    if (user.cooldowns.purchase == undefined) user.cooldowns.purchase = 1;
+    if (user.cooldowns.merge == undefined) user.cooldowns.merge = 1;
+    if (user.cooldowns.daily == undefined) user.cooldowns.daily = 1;
+    if (user.cooldowns.luckyshoprefresh == undefined) user.cooldowns.luckyshoprefresh = 1;
+    if (user.cooldowns.lastbreath == undefined) user.cooldowns.lastbreath = 1;
+    if (user.skills == undefined) user.skills = {}
+    if (user.skillA == undefined) user.skillA = "None";
+    if (user.skillB == undefined) user.skillB = "None";
+    if (user.skillC == undefined) user.skillC = "None";
+    if (!user.consum == undefined) user.consum = {}
+    if (user.quests == undefined) user.quests = [];
+    if (user.currenthealth > user.health) user.currenthealth = user.health
     if (user.start === false) { //when you start, your currenthealth will be to 10;
         user.currenthealth = 10;
         user.start = true;
@@ -1226,7 +1212,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         replyMessage(message, "There is no raid right now!");
         return;
     }
-    if (calcTime(user.cooldowns.attack, ts) > 0) {
+    if (isCD(user, ts,"attack")) {
         deleteMessage(message);
         replyMessage(message, 'You can\'t attack right now.\n You can attack again in ' + displayTime(user.cooldowns.attack, ts) + ".");
         return;

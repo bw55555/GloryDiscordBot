@@ -11,7 +11,7 @@ module.exports = async function (message, user) {
         functions.replyMessage(message, "Choose another ID to merge the first item with!")
         return
     }
-    if (functions.calcTime(user.cooldowns.merge, ts) > 0) { return functions.replyMessage(message, "You cannot merge now. Try again in " + functions.displayTime(user.cooldowns.merge, ts)) }
+    if (functions.isCD(user, ts, "merge")) { return functions.replyMessage(message, "You cannot merge now. Try again in " + functions.displayTime(user.cooldowns.merge, ts)) }
     let weaponid = parseInt(words[1])
     if (isNaN(weaponid)) { return functions.replyMessage(message, "The first weapon id must be an integer"); return; }
     let weaponid2 = parseInt(words[2])

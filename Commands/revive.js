@@ -26,7 +26,7 @@ module.exports = async function (message, user) {
         functions.replyMessage(message, "You have been resurrected! You find yourself a little weaker than before. You also have a 1-minute Rez Shield and can't be attacked.");
     }
     if (words.length == 2 && user.triangleid == 5) {
-        if (functions.calcTime(user.cooldowns.rez, ts) > 0) {
+        if (functions.isCD(user, ts, "rez")) {
             return functions.replyMessage(message, 'You can\'t rez right now. You can only rez once every minute.');
         }
         return Promise.all([functions.validate(message, user)]).then(ret => {

@@ -8,7 +8,7 @@ module.exports = async function (message, user) {
     let cooldowns = Object.keys(user.cooldowns)
     for (var i = 0; i < cooldowns.length; i++) {
         //if (functions.calcTime(user.cooldowns[cooldowns[i]], ts) < 0) { continue }
-        if (words[1] == "-all" || functions.calcTime(user.cooldowns[cooldowns[i]], ts) > 0) {
+        if (words[1] == "-all" || functions.isCD(user, ts, cooldowns[i])) {
             text += "**" + cooldowns[i] + "**: " + functions.displayTime(user.cooldowns[cooldowns[i]], Math.min(ts, user.cooldowns[cooldowns[i]])) + "\n"
         }
     }
