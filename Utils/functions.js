@@ -185,7 +185,7 @@ async function validate(message, user, spot) {
         target = temptarget.id
         targetname = temptarget
     }
-    if (target == message.author.id) { return user }
+    if (target == user._id) { return user }
     if (user.dungeonts != undefined) {
         sendMessage(message.channel, "You cannot target someone else while in a dungeon!");
         return false

@@ -117,6 +117,7 @@ module.exports = async function (message, user) {
         functions.replyMessage(message, 'That is not an available class!');
         return
     }
+    functions.completeQuest(user, "class", {"oldid": oldid}, 1)
     if (oldid != 0) {
         if (!(user.triangleid > 3 && oldid <= 3)) {
             user.level -= 1;
