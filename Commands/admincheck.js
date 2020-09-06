@@ -9,7 +9,7 @@ module.exports = async function (message, user) {
         if (target == false) { return; }
         let attribute = words[2];
         if (attribute == undefined) { return functions.replyMessage(message, "Please specify an attribute to set!"); }
-        functions.sendMessage(message.channel, JSON.stringify(JSONoperate(target, attribute, "get")));
+        functions.sendMessage(message.channel, JSON.stringify(functions.JSONoperate(target, attribute, "get")));
         functions.logCommand(message)
     })
 }
