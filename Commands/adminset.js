@@ -21,6 +21,7 @@ module.exports = async function (message, user) {
         if (obj == undefined) { return functions.replyMessage(message, "This selection is not defined!") }
         if (typeof obj == "object") { return functions.replyMessage(message, "This selection is an object!") }
         functions.JSONoperate(target, attribute, "set", amount)
+        functions.replyMessage(message,"<@"+target._id+">'s "+attribute+" was set to "+amount)
         functions.setUser(target)
         functions.logCommand(message)
         return user
