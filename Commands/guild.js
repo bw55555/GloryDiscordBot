@@ -710,30 +710,11 @@ module.exports = async function (message, user) {
                 let attribute = words[3];
                 if (attribute == "_id") { return functions.replyMessage(message, "This is not allowed, don't break my bot") }
                 //console.log(attribute)
-                if (setGuild[attribute] == undefined) {
-                    functions.sendMessage(message.channel, attribute + " is not a defined attribute");
-                    return;
-                }
-                if (typeof setGuild[attribute] == "object") {
-                    if (words.length > 5) {
-                        let secondattribute = words[4]
-                        let amount = parseInt(words[5]);
-                        if (!isNaN(parseInt(amount))) { amount = parseInt(amount) }
-                        if (setGuild[attribute][secondattribute] == undefined) {
-                            functions.sendMessage(message.channel, attribute + ":" + secondattribute + " is not a defined attribute");
-                            return
-                        }
-                        functions.sendMessage(message.channel, 'Set ' + setGuild._id+"\'s " + attribute + ":" + secondattribute + " to " + amount);
-                        setGuild[attribute][secondattribute] = amount;
-                        functions.logCommand(message)
-                        functions.setObject("guildData", setGuild)
-                        return
-                    }
-                    functions.sendMessage(message.channel, attribute + " is an object. Try setting one of its properties.")
-                    return;
-                }
-                functions.sendMessage(message.channel, 'Set ' + setGuild._id + "\'s " + attribute + " to " + amount);
-                setGuild[attribute] = amount;
+                let obj = functions.JSONoperate(setGuild, attribute, "get")
+                if (obj == undefined) { return functions.replyMessage(message, "This selection is not defined!") }
+                if (typeof obj == "object") { return functions.replyMessage(message, "This selection is an object!") }
+                functions.JSONoperate(setGuild, attribute, "set", amount)
+                functions.replyMessage(message, setGuild._id + "'s " + attribute + " was set to " + amount)
                 functions.setObject("guildData", setGuild)
                 functions.logCommand(message)
                 return
