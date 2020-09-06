@@ -60,8 +60,8 @@ client.connect((err) => {
             });
             const dbl = new DBL('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUzNjYyMjAyMjcwOTYwODQ2OCIsImJvdCI6dHJ1ZSwiaWF0IjoxNTQ5ODE3MTkxfQ.2pFz9ECHEzpi0OtneZ2LrP-_apXf5oXj2Tsv_OaUPTw', { webhookAuth: 'GLORYpassword', webhookServer: server }, bot);
         }
-        console.log("Bot logging in...")
-        bot.login(TOKEN);
+        console.log("Bot Logging In...")
+        bot.login(TOKEN).catch(console.error);
     })
 })
 global.skillData = JSON.parse(fs.readFileSync('Assets/skillData.json', 'utf8'));

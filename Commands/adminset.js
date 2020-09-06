@@ -16,30 +16,11 @@ module.exports = async function (message, user) {
         let attribute = words[2];
         if (attribute == "_id") { return functions.replyMessage(message, "This is not allowed, don't break my bot")}
         //console.log(attribute)
-        if (target[attribute] == undefined) {
-            functions.sendMessage(message.channel, attribute + " is not a defined attribute");
-            return user;
-        }
-        if (typeof target[attribute] == "object") {
-            if (words.length > 4) {
-                let secondattribute = words[3]
-                let amount = parseInt(words[4]);
-                if (!isNaN(parseInt(amount))) { amount = parseInt(amount) }
-                if (target[attribute][secondattribute] == undefined) {
-                    functions.sendMessage(message.channel, attribute + ":" + secondattribute + " is not a defined attribute");
-                    return user
-                }
-                functions.sendMessage(message.channel, 'Set <@' + target._id + ">\'s " + attribute + ":" + secondattribute + " to " + amount);
-                target[attribute][secondattribute] = amount;
-                functions.logCommand(message)
-                functions.setUser(target)
-                return user
-            }
-            functions.sendMessage(message.channel, attribute + " is an object. Try setting one of its properties.")
-            return user;
-        }
-        functions.sendMessage(message.channel, 'Set <@' + target._id + ">\'s " + attribute + " to " + amount);
-        target[attribute] = amount;
+        if (attribute == undefined) { return functions.replyMessage(message, "This attribute is not defined!")}
+        let obj = functions.JSONoperate(target, attribute, "get")
+        if (obj == undefined) { return functions.replyMessage(message, "This selection is not defined!") }
+        if (typeof obj == "object") { return functions.replyMessage(message, "This selection is an object!") }
+        functions.JSONoperate(target, attribute, "set", amount)
         functions.setUser(target)
         functions.logCommand(message)
         return user
