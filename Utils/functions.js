@@ -1580,12 +1580,13 @@ function addQuestCondition(condition, operator, description, total, extra, type)
     return ret
 }
 
-function makeQuest(user, name, flavortext, conditions, reward) {
+function makeQuest(user, name, flavortext, conditions, reward, mqid) {
     user.quests.push({
         "name": name,
         "flavortext": flavortext, 
         "conditions": conditions,
-        "reward": reward
+        "reward": reward,
+        "mqid": mqid
     })
 }
 
@@ -1658,13 +1659,19 @@ function adminQuest(words, target) {
     let condition, description, total, extra = {};
     let type;
     let operator;
-    let index = words.indexOf("-name")
+    let mqid;
+    let index = words.indexOf("-mqid")
+    if (index != -1) {
+        mqid = parseInt(words[index + 1]);
+        if (isNaN(mqid)) { return "The main quest id must be an integer."}
+        words.splice(0, index + 2)
+    }
+    index = words.indexOf("-name")
     if (index == -1) { return "Please enter a quest name." }
     words.splice(0, index + 1)
     index = words.indexOf("-flavortext")
     if (index != -1) {
         name = words.splice(0, index).join(" ")
-        words.splice(0, index + 1);
         index = words.indexOf("-condition")
         if (index == -1) { return "Please enter a quest condition." }
         flavortext = words.splice(0, index).join(" ")
@@ -1780,7 +1787,7 @@ module.exports.smeltItem = function (user, item, giveReward, isBulk) { return sm
 module.exports.itemFilter = function (message, user, defaults) { return itemFilter(message, user, defaults) }
 module.exports.getModifierText = function (modifierlist) { return getModifierText(modifierlist) }
 module.exports.checkxp = function (user) { return checkxp(user) }
-module.exports.makeQuest = function (user, name, flavortext, conditions, reward) { return makeQuest(user, name, flavortext, conditions, reward) }
+module.exports.makeQuest = function (user, name, flavortext, conditions, reward, mqid) { return makeQuest(user, name, flavortext, conditions, reward, mqid) }
 module.exports.completeQuest = function (user, condition, extra, amount) { return completeQuest(user, condition, extra, amount) }
 module.exports.addQuestCondition = function (condition, operator, description, total, extra, type) { return addQuestCondition(condition, operator, description, total, extra, type) }
 module.exports.isCD = function (user, ts, cdtype) { return isCD(user, ts, cdtype) }
