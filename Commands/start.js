@@ -51,7 +51,8 @@ module.exports = async function (message, user) {
     }
 
     user.money += 1000;
-    functions.adminQuest(mainQuestData[0], user)
+    let text = "Welcome to Glory!\nTo get started type `!help` to see all the commands available, or use `!tutorial` to see the official glory tutorial!\n Go obtain your Glory!"
+    text += functions.adminQuest(mainQuestData[0], user)
     functions.setUser(user)
-    functions.replyMessage(message, "Welcome to Glory!\nTo get started type `!help` to see all the commands available, or use `!tutorial` to see the official glory tutorial!\n Go obtain your Glory!")
+    functions.replyMessage(message, text)
 }

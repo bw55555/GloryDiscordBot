@@ -22,9 +22,10 @@ module.exports = async function (message, user) {
     for (var key in user.quests[claimid].reward) {
         functions.JSONoperate(user, key, "add", user.quests[claimid].reward[key])
     }
+    let text = "You have completed the quest `" + user.quests[claimid].name + "`!"
     if (user.quests[claimid].mqid != undefined && user.quests[claimid].mqid < mainQuestData.length - 1) {
-        functions.adminQuest(mainQuestData[user.quests[claimid].mqid], user)
+        text += functions.adminQuest(mainQuestData[user.quests[claimid].mqid], user)
     }
-    functions.replyMessage(message, "You have completed the quest `" + user.quests[claimid].name + "`!")
+    functions.replyMessage(message, text)
     user.quests.splice(claimid, 1);
 }
