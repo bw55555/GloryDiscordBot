@@ -38,6 +38,7 @@ module.exports = async function (message, user) {
         }
         user.weapon = item
         if (user.weapon.modifiers.maxhp != undefined) { user.health += user.weapon.modifiers.maxhp }
+        functions.completeQuest(user, "equip", {"item": item}, 1)
         functions.setProp("itemData", { "_id": item._id }, { $set: {"equip":true}})
         functions.sendMessage(message.channel, "You successfully equipped the weapon with id " + item._id)
     })
