@@ -55,6 +55,10 @@ module.exports = async function (message, user) {
     let command = (words.length == 1) ? "" : words[1].toUpperCase()
     let leveluptext = ""
     let guildName = user.guild;
+    if (user.dungeonts != undefined) {
+        functions.sendMessage(message.channel, "You cannot do this while in a dungeon!");
+        return
+    }
     if (guildName == "None" && words.length == 1) {
         functions.replyMessage(message, "You don't have a guild!");
         return;

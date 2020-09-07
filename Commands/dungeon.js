@@ -94,7 +94,6 @@ module.exports = async function (message, user) {
 }
 function nextFloor(message, dungeon) {
     dungeon.floor += 1;
-    dungeon.maxFloor = Math.max(dungeon.maxFloor, dungeon.floor)
     let base = Math.floor(dungeon.floor / 25)
     if (base > 2) { base = 2 }
     if (dungeon.floor % 10 == 0) {
@@ -130,9 +129,11 @@ function nextFloor(message, dungeon) {
 function leaveDungeon(message, dungeon, user, option) {
     functions.setProp("guildData", { "_id": user.guild }, { $inc: { "crystals": dungeon.crystals, "xp": dungeon.xp } })
     let text = ""
-    if (option == "timeout") { text = "You ran out of time and you were forced to leave the dungeon. " }
-    else if (option == "death") { text = "You died in the dungeon... "; dungeon.crystals /= 2; dungeon.xp /= 2; }
-    else { text = "You have successfully left the dungeon. " }
+    
+    if (option == "timeout") { text = "You ran out of time and you were forced to leave the dungeon. "; dungeon.floor -= 1; }
+    else if (option == "death") { text = "You died in the dungeon... "; dungeon.crystals /= 2; dungeon.xp /= 2; dungeon.floor -= 1; }
+    else { text = "You have successfully left the dungeon. ";}
+    dungeon.maxFloor = Math.max(dungeon.maxFloor, dungeon.floor)
     text += "Your guild earned " + dungeon.crystals + " crystals and " + dungeon.xp + " xp. "
     dungeon.crystals = 0; dungeon.xp = 0;
     dungeon.task = "start";
