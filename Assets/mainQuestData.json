@@ -1,5 +1,5 @@
 [
-  "-mqid 0 -name Hard Work -condition a work >= 50 -desc Work for a total of $50  -reward xp 200 money 500",
+  "-mqid 0 -name Hard Work -condition a work >= 50 -desc Work for a total of $50 -reward xp 200 money 500",
   "-mqid 1 -name Power Up 1 -flavortext Upgrade all stats once -condition c upgrade.current >= 2 -desc Upgrade your attack stat to level 2 -special stat = attack -condition c upgrade.current >= 2 -desc Upgrade your defense stat to level 2 -special stat = defense -condition c upgrade.current >= 2 -desc Upgrade your health stat to level 2 -special stat = health -reward xp 250 money 500",
   "-mqid 2 -name Level Up 1 -condition c user.level >= 5 -desc Reach level 5 -reward xp 500 money 1000",
   "-mqid 3 -name Classy -condition a class >= 1 -desc Choose a class -reward xp 500 money 1000",

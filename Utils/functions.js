@@ -1654,7 +1654,8 @@ function completeQuest(user, condition, extra, amount) {
     }
 }
 
-function adminQuest(words, target) {
+function adminQuest(text, target) {
+    let words = text.trim().split(/\s+/)
     let name, flavortext = "", conditions = [], reward = {};
     let condition, description, total, extra = {};
     let type;

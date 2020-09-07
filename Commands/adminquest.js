@@ -120,7 +120,7 @@ module.exports = async function (message, user) {
             });
             return
         } else {
-            functions.replyMessage(message, functions.adminQuest(words, target))
+            functions.replyMessage(message, functions.adminQuest(message.content, target))
             functions.setUser(target)
         }
     });
