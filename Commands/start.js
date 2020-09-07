@@ -52,7 +52,7 @@ module.exports = async function (message, user) {
 
     user.money += 1000;
     let text = "Welcome to Glory!\nTo get started type `!help` to see all the commands available, or use `!tutorial` to see the official glory tutorial!\n Go obtain your Glory!"
-    text += "\n" +functions.adminQuest(mainQuestData[0], user)
+    text += "\n" +functions.adminQuest(mainQuestData[0].quest, user)
     functions.setUser(user)
     functions.replyMessage(message, text)
 }

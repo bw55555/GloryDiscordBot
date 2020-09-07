@@ -1,36 +1,146 @@
 [
-  "-mqid 0 -name Hard Work -condition a work >= 50 -desc Work for a total of $50 -reward xp 200 money 500",
-  "-mqid 1 -name Power Up 1 -flavortext Upgrade all stats once -condition c upgrade.current >= 2 -desc Upgrade your attack stat to level 2 -special stat = attack -condition c upgrade.current >= 2 -desc Upgrade your defense stat to level 2 -special stat = defense -condition c upgrade.current >= 2 -desc Upgrade your health stat to level 2 -special stat = health -reward xp 250 money 500",
-  "-mqid 2 -name Level Up 1 -condition c user.level >= 5 -desc Reach level 5 -reward xp 500 money 1000",
-  "-mqid 3 -name Classy -condition a class >= 1 -desc Choose a class -reward xp 500 money 1000",
-  "-mqid 4 -name Chop Chop  -condition a raidAttack >= 1 -desc Attack a treant and die from it -special raid.name = Treant Boss -special user.currenthealth <= 0 -reward xp 500 money 1000",
-  "-mqid 5 -name I can hear angels -condition a revive >= 1 -desc Die and revive yourself once (hint: !rez) -reward xp 500 money 1000",
-  "-mqid 6 -name Daily Delivery -condition a daily >= 1 -desc Collect your daily boxes (hint: !daily) -reward materials 125 money 2000",
-  "-mqid 7 -name I'm feeling lucky -condition a getItem >= 1 -desc Open a box (hint: !open) -special source = box -reward xp 750 money 1500",
-  "-mqid 8 -name Smelter -condition a smelt.xp >= 1500 -desc Smelt a weapon(s) for 1500xp (hint: !smelt) -reward xp 750 money 1500",
-  "-mqid 9 -name Blacksmith 1 -condition a purchase >= 1 -desc Buy SIMPLE CRAFTING from the blacksmith (hint: !bs) -special pid = 102 -reward xp 750 money 1500",
-  "-mqid 10 -name Art of war -condition a equip >= 1 -desc Equip a weapon (hint: !equip) -reward xp 750 money 1500",
-  "-mqid 11 -name Power Up 2 -flavortext Upgrade all stats to level 10 (hint: !u all 8) -condition c upgrade.current >= 10 -desc Upgrade your attack stat to level 10 -special stat = attack -condition c upgrade.current >= 10 -desc Upgrade your defense stat to level 10 -special stat = defense -condition c upgrade.current >= 10 -desc Upgrade your health stat to level 10 -special stat = health -reward xp 1000 money 2000",
-  "-mqid 12 -name Medic -condition a heal >= 90 -desc heal for 90 health -reward xp 1000 money 2000",
-  "-mqid 13 -name PowerPuff -condition a raidAttack.damage >= 200 -desc Deal a total of 200 damage to treants -special raid.name = Treant Boss -reward xp 1500 money 3000",
-  "-mqid 14 -name Blacksmith 2 -condition a merge >= 2 -desc Merge any two items of the same rarity,twice (hint: !merge) -reward xp 1500 money 3000",
-  "-mqid 15 -name Treant Hunter -condition a raidAttack >= 10 -desc Kill 10 treants -special raid.name = Treant Boss -special raid.currenthealth <= 0 -reward xp 2500 money 5000",
-  "-mqid 16 -name Hard Work 2 -condition a work >= 5000 -desc Work for a total of $5000 -reward xp 5000 money 10000",
-  "-mqid 17 -name Burn Down the Forest -condition a raidAttack >= 25 -desc Kill 25 treants -special raid.name = Treant Boss  -special raid.currenthealth <= 0 -reward xp 20000 money 20000",
-  "-mqid 18 -name Power Up 3 -flavortext Upgrade all stats to level 20 -condition c upgrade.current >= 20 -desc Upgrade your attack stat to level 20 -special stat = attack -condition c upgrade.current >= 20 -desc Upgrade your defense stat to level 20 -special stat = defense -condition c upgrade.current >= 20 -desc Upgrade your health stat to level 20 -special stat = health -reward xp 50000 money 50000",
-  "-mqid 19 -name Sea Explorer -condition a raidAttack >= 1 -desc Kill a kraken -special raid.name = Kraken Boss  -special raid.currenthealth <= 0 -reward xp 20000 money 20000",
-  "-mqid 20 -name Kraken's Bane -condition a raidAttack.damage >= 1000 -desc Deal a total of 1000 damage to krakens -special raid.name = Kraken Boss -reward xp 100000 money 100000",
-  "-mqid 21 -name Power Up 4 -flavortext Upgrade all stats to level 40 (hint: !u all 9) -condition c upgrade.current >= 40 -desc Upgrade your attack stat to level 40 -special stat = attack -condition c upgrade.current >= 40 -desc Upgrade your defense stat to level 40 -special stat = defense -condition c upgrade.current >= 40 -desc Upgrade your health stat to level 40 -special stat = health -reward consum.box 5",
-  "-mqid 22 -name Kraken Hunter -condition a raidAttack >= 10 -desc Kill 10 krakens -special raid.name = Kraken Boss -special raid.currenthealth <= 0 -reward xp 50000 money 50000",
-  "-mqid 23 -name Hard Work 3 -condition a work >= 20000 -desc Earn a total of $20000 from !work -reward money 200000",
-  "-mqid 24 -name Mastering the Sea -condition a raidAttack >= 50 -desc Kill 50 krakens -special raid.name = Kraken Boss -special raid.currenthealth <= 0 -reward xp 100000 money 100000",
-  "-mqid 25 -name Power Up 5 -flavortext Upgrade all stats to level 60 (hint: !u all 9) -condition c upgrade.current >= 60 -desc Upgrade your attack stat to level 60 -special stat = attack -condition c upgrade.current >= 60 -desc Upgrade your defense stat to level 60 -special stat = defense -condition c upgrade.current >= 60 -desc Upgrade your health stat to level 60 -special stat = health -reward consum.box 10",
-  "-mqid 26 -name Blacksmith 3 -condition a smelt.xp >= 50000 -desc Smelt weapons to gain 50000xp (hint: You can acquire weapons by killing Treants and Krakens) -reward money 500000",
-  "-mqid 27 -name Knighthood -condition a raidAttack >= 1 -desc Kill a dragon -special raid.name = Dragon Boss -special raid.currenthealth <= 0 -reward xp 50000 money 50000",
-  "-mqid 28 -name Power Up 6 -flavortext Upgrade all stats to level 80 (hint: !u all 9) -condition c upgrade.current >= 80 -desc Upgrade your attack stat to level 80 -special stat = attack -condition c upgrade.current >= 80 -desc Upgrade your defense stat to level 80 -special stat = defense -condition c upgrade.current >= 80 -desc Upgrade your health stat to level 80 -special stat = health -reward consum.box 20",
-  "-mqid 29 -name Hard Work 4 -condition a work >=50000 -desc Earn $50000 by working -reward money 500000",
-  "-mqid 30 -name Dragon Hunter -condition a raidAttack >= 5 -desc Kill 5 dragons -special raid.name = Dragon Boss -special raid.currenthealth <= 0 -reward xp 100000 money 100000",
-  "-mqid 31 -name Weapon master -condition c user.weapon.rarity >= 4 -desc Equip a weapon of rarity 4 (Rare) or higher -reward materials 1000",
-  "-mqid 32 -name Dragon Slayer -condition a raidAttack >= 25 -desc Kill 25 dragons -special raid.name = Dragon Boss -special raid.currenthealth <= 0  -reward xp 200000 money 200000",
-  "-mqid 33 -name Ascend -flavortext Upgrade all attributes to level 100 and ascend(hint: Use !ascend) -condition c upgrade.current >= 100 -desc Upgrade your attack stat to level 100 -special stat = attack -condition c upgrade.current >= 100 -desc Upgrade your defense stat to level 100 -special stat = defense -condition c upgrade.current >= 100 -desc Upgrade your health stat to level 100 -special stat = health -condition c ascend >= 1 -reward consum.box 50 consum.reroll 3"
+  {
+    "quest": "-mqid 0 -name Quest Complete! -condition a claimquest >= 1 -desc Claim 1 quest. (hint: !cq 1)  -reward xp 1",
+    "next": [ 1 ]
+  },
+  {
+    "quest": "-mqid 1 -name Hard Work -condition a work >= 50 -desc Work for a total of $50 (hint: !w) -reward xp 200 money 500",
+    "next": [ 2, 5 ]
+  },
+  {
+    "quest": "-mqid 2 -name Hard Work 2 -condition a work >= 5000 -desc Work for a total of $5000 -reward xp 5000 money 10000",
+    "next": [ 3 ]
+  },
+  {
+    "quest": "-mqid 3 -name Hard Work 3 -condition a work >= 20000 -desc Earn a total of $20000 from !work -reward money 200000",
+    "next": [ 4 ]
+  },
+  {
+    "quest": "-mqid 4 -name Hard Work 4 -condition a work >=50000 -desc Earn $50000 by working -reward money 500000",
+    "next": []
+  },
+  {
+    "quest": "-mqid 5 -name Power Up 1 -flavortext Upgrade all stats once (hint: !u all) -condition c upgrade.current >= 2 -desc Upgrade your attack stat to level 2 -special stat = attack -condition c upgrade.current >= 2 -desc Upgrade your defense stat to level 2 -special stat = defense -condition c upgrade.current >= 2 -desc Upgrade your health stat to level 2 -special stat = health -reward xp 250 money 500",
+    "next": [ 6, 11 ]
+  },
+  {
+    "quest": "-mqid 6 -name Power Up 2 -flavortext Upgrade all stats to level 10 (hint: !u all 8) -condition c upgrade.current >= 10 -desc Upgrade your attack stat to level 10 -special stat = attack -condition c upgrade.current >= 10 -desc Upgrade your defense stat to level 10 -special stat = defense -condition c upgrade.current >= 10 -desc Upgrade your health stat to level 10 -special stat = health -reward xp 1000 money 2000",
+    "next": [ 7 ]
+  },
+  {
+    "quest": "-mqid 7 -name Power Up 3 -flavortext Upgrade all stats to level 20 -condition c upgrade.current >= 20 -desc Upgrade your attack stat to level 20 -special stat = attack -condition c upgrade.current >= 20 -desc Upgrade your defense stat to level 20 -special stat = defense -condition c upgrade.current >= 20 -desc Upgrade your health stat to level 20 -special stat = health -reward xp 50000 money 50000",
+    "next": [ 8 ]
+  },
+  {
+    "quest": "-mqid 8 -name Power Up 4 -flavortext Upgrade all stats to level 40 (hint: !u all 9) -condition c upgrade.current >= 40 -desc Upgrade your attack stat to level 40 -special stat = attack -condition c upgrade.current >= 40 -desc Upgrade your defense stat to level 40 -special stat = defense -condition c upgrade.current >= 40 -desc Upgrade your health stat to level 40 -special stat = health -reward consum.box 5",
+    "next": [ 9 ]
+  },
+  {
+    "quest": "-mqid 9 -name Power Up 5 -flavortext Upgrade all stats to level 60 (hint: !u all 9) -condition c upgrade.current >= 60 -desc Upgrade your attack stat to level 60 -special stat = attack -condition c upgrade.current >= 60 -desc Upgrade your defense stat to level 60 -special stat = defense -condition c upgrade.current >= 60 -desc Upgrade your health stat to level 60 -special stat = health -reward consum.box 10",
+    "next": [ 10 ]
+  },
+  {
+    "quest": "-mqid 10 -name Power Up 6 -flavortext Upgrade all stats to level 80 (hint: !u all 9) -condition c upgrade.current >= 80 -desc Upgrade your attack stat to level 80 -special stat = attack -condition c upgrade.current >= 80 -desc Upgrade your defense stat to level 80 -special stat = defense -condition c upgrade.current >= 80 -desc Upgrade your health stat to level 80 -special stat = health -reward consum.box 20",
+    "next": []
+  },
+  {
+    "quest": "-mqid 11 -name Level Up -condition c user.level >= 5 -desc Reach level 5 (hint: use !p to see your profile) -reward xp 500 money 1000",
+    "next": [ 12 ]
+  },
+  {
+    "quest": "-mqid 12 -name Classy -condition c user >= 1 -desc Choose a class -special triangleid > 0 -reward xp 500 money 1000",
+    "next": [ 13 ]
+  },
+  {
+    "quest": "-mqid 13 -name I shouldn't have done this  -condition a raidAttack >= 1 -desc Attack a treant and die from it (note: you will need a raid channel to do this. Use !summon if you don't have one) (hint: !ratk) -special raid.name = Treant Boss -special user.currenthealth <= 0 -reward xp 500 money 1000",
+    "next": [ 14 ]
+  },
+  {
+    "quest": "-mqid 14 -name I can hear angels -condition a revive >= 1 -desc Die and revive yourself once (hint: !rez) -reward xp 500 money 1000",
+    "next": [ 15 ]
+  },
+  {
+    "quest": "-mqid 15 -name Daily Delivery -condition a daily >= 1 -desc Collect your daily boxes (hint: !daily) -reward materials 125 money 2000",
+    "next": [ 16 ]
+  },
+  {
+    "quest": "-mqid 16 -name I'm feeling lucky -condition a getItem >= 1 -desc Open a box (hint: !open) -special source = box -reward xp 750 money 1500",
+    "next": [ 17 ]
+  },
+  {
+    "quest": "-mqid 17 -name Smelter -condition a smelt >= 1 -desc Smelt a weapon (hint: !smelt) -reward xp 750 money 1500",
+    "next": [ 18 ]
+  },
+  {
+    "quest": "-mqid 18 -name Blacksmith 1 -condition a purchase >= 1 -desc Buy SIMPLE CRAFTING from the blacksmith (hint: !bs) -special pid = 102 -reward xp 750 money 1500",
+    "next": [ 19, 21 ]
+  },
+  {
+    "quest": "-mqid 19 -name Blacksmith 2 -condition a merge >= 2 -desc Merge any two items of the same rarity,twice (hint: !merge) -reward xp 1500 money 3000",
+    "next": [ 20 ]
+  },
+  {
+    "quest": "-mqid 20 -name Blacksmith 3 -condition a smelt.xp >= 50000 -desc Smelt weapons to gain 50000xp (hint: You can acquire weapons by killing Treants and Krakens) -reward money 500000",
+    "next": []
+  },
+  {
+    "quest": "-mqid 21 -name Art of war -condition a equip >= 1 -desc Equip a weapon (Note 1: You can see your inventory using !i) (Note 2: You can view a weapon using !wi) (hint: !equip)  -reward xp 750 money 1500",
+    "next": [ 22, 23 ]
+  },
+  {
+    "quest": "-mqid 22 -name Art of war 2 -condition c user.weapon.rarity >= 4 -desc Equip a weapon of rarity 4 (Rare) or higher -reward materials 1000",
+    "next": []
+  },
+  {
+    "quest": "-mqid 23 -name Medic -condition a heal >= 80 -desc heal for 80 health (hint: !heal) -reward xp 1000 money 2000",
+    "next": [ 24 ]
+  },
+  {
+    "quest": "-mqid 24 -name Chop Chop -condition a raidAttack >= 1 -desc Kill a treant -special raid.name = Treant Boss -special raid.currenthealth <= 0 -reward xp 1000 money 2000",
+    "next": [ 25, 27 ]
+  },
+  {
+    "quest": "-mqid 25 -name Treant Hunter -condition a raidAttack >= 5 -desc Kill 5 treants -special raid.name = Treant Boss -special raid.currenthealth <= 0 -reward xp 2500 money 5000",
+    "next": [ 26 ]
+  },
+  {
+    "quest": "-mqid 26 -name Treant Slayer -condition a raidAttack >= 25 -desc Kill 25 treants -special raid.name = Treant Boss  -special raid.currenthealth <= 0 -reward xp 20000 money 20000",
+    "next": []
+  },
+  {
+    "quest": "-mqid 27 -name PowerPuff -condition a raidAttack.damage >= 200 -desc Deal a total of 200 damage to treants -special raid.name = Treant Boss -reward xp 1500 money 3000",
+    "next": [ 28 ]
+  },
+  {
+    "quest": "-mqid 28 -name Sea Explorer -condition a raidAttack >= 1 -desc Kill a kraken -special raid.name = Kraken Boss  -special raid.currenthealth <= 0 -reward xp 20000 money 20000",
+    "next": [ 29, 31 ]
+  },
+  {
+    "quest": "-mqid 29 -name Kraken Hunter -condition a raidAttack >= 5 -desc Kill 5 krakens -special raid.name = Kraken Boss -special raid.currenthealth <= 0 -reward xp 50000 money 50000",
+    "next": [ 30 ]
+  },
+  {
+    "quest": "-mqid 30 -name Kraken Slayer -condition a raidAttack >= 25 -desc Kill 25 krakens -special raid.name = Kraken Boss -special raid.currenthealth <= 0 -reward xp 100000 money 100000",
+    "next": []
+  },
+  {
+    "quest": "-mqid 31 -name Kraken's Bane -condition a raidAttack.damage >= 1000 -desc Deal a total of 1000 damage to krakens -special raid.name = Kraken Boss -reward xp 100000 money 100000",
+    "next": [ 32 ]
+  },
+  {
+    "quest": "-mqid 32 -name Knighthood -condition a raidAttack >= 1 -desc Kill a dragon -special raid.name = Dragon Boss -special raid.currenthealth <= 0 -reward xp 50000 money 50000",
+    "next": [ 33, 35 ]
+  },
+  {
+    "quest": "-mqid 33 -name Dragon Hunter -condition a raidAttack >= 5 -desc Kill 5 dragons -special raid.name = Dragon Boss -special raid.currenthealth <= 0 -reward xp 100000 money 100000",
+    "next": [ 34 ]
+  },
+  {
+    "quest": "-mqid 34 -name Dragon Slayer -condition a raidAttack >= 25 -desc Kill 25 dragons -special raid.name = Dragon Boss -special raid.currenthealth <= 0  -reward xp 200000 money 200000",
+    "next": []
+  },
+  {
+    "quest": "-mqid 35 -name Ascend -flavortext Upgrade all attributes to level 100 and ascend(hint: Use !ascend) -condition c upgrade.current >= 100 -desc Upgrade your attack stat to level 100 -special stat = attack -condition c upgrade.current >= 100 -desc Upgrade your defense stat to level 100 -special stat = defense -condition c upgrade.current >= 100 -desc Upgrade your health stat to level 100 -special stat = health -condition c ascend >= 1 -reward consum.box 50 consum.reroll 3",
+    "next": []
+  }
 ]
