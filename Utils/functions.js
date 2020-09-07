@@ -1688,7 +1688,7 @@ function adminQuest(text, target) {
         if (type != "a" && type != "c") { return "Incorrect quest type (" + type + "). Please enter a quest type (`a` or `c`)" }
         condition = words[2]
         operator = words[3]
-        if (operator != ">=" && operator != "<=") { return "Incorrect Operator " + operator + " in quest condition. Please enter `>= or `<=`" }
+        if (operator != ">=" && operator != "<=") { return "Incorrect Operator " + operator + " in quest condition. Please enter `>=` or `<=`" }
         total = parseInt(words[4])
         if (isNaN(total)) { return "Total (" + words[4] + ") must be an integer." }
         index = words.indexOf("-desc")
