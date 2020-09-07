@@ -114,7 +114,7 @@ function sendMessage(channel, text, override) {
     override = (override == true) ? true : false
     if (!override && channel.guild != undefined && serverData[channel.guild.id] != undefined && serverData[channel.guild.id].disabledChannels.indexOf(channel.id) != -1) { return; }
     if (channel.type != "dm" && channel.type != "group" && (channel.memberPermissions(bot.user) != null && !channel.memberPermissions(bot.user).has("SEND_MESSAGES"))) { return }
-    channel.send(text).catch(function (err) {
+    return channel.send(text).catch(function (err) {
         
         if (err.errno == "ENOBUFS") {
             if (channel.retry == undefined) {
@@ -127,7 +127,6 @@ function sendMessage(channel, text, override) {
             console.error(err)
         }
     })
-    //console.timeEnd("Message Send")
 }
 function replyMessage(message, text, override) {
     //console.time("Message Send")
@@ -1710,7 +1709,7 @@ fs.readdir("./Utils/", (err, files) => {
     files.forEach(file => {
         //console.log(file)
         // If the file is not a JS file, ignore it (thanks, Apple)
-        if (!file.endsWith(".js") || file == "js") { return };
+        if (!file.endsWith(".js") || file == ".js" || file == "functions.js") { return };
         // Load the event file itself
         let commandname = file.split(".")[0];
         //console.log(commandname)

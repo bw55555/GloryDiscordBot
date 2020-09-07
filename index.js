@@ -122,6 +122,7 @@ function evaluateMessage(message) {
         words.splice(0, 1)
         message.content = prefix + words.join(" ")
     }
+    
     let ts = message.createdTimestamp;
     let chid = message.channel.id
     if (talkedRecently[chid] == undefined) { talkedRecently[chid] = {} }
@@ -190,6 +191,7 @@ function evaluateMessage(message) {
     let command = words[0].toLowerCase()
     if (command.length <= prefix.length) { return }
     command = command.slice(prefix.length)
+    if (message.channel.guild != undefined && serverData[message.channel.guild.id] != undefined && serverData[message.channel.guild.id].disabledChannels.indexOf(message.channel.id) != -1 && command != "settings") { return; }
     //-----------------------------
     if (command == 'reload' && devs.indexOf(message.author.id) != -1) {
         if (words.length <= 1) return functions.replyMessage(message, "Must provide a command name to reload.");
