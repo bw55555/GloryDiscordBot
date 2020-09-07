@@ -1721,7 +1721,7 @@ function adminQuest(text, target) {
         if (isNaN(value)) { return "Please enter a correct quest reward. The amount of property " + key + " must be an integer." }
         reward[key] = value;
     }
-    makeQuest(target, name, flavortext, conditions, reward, type);
+    makeQuest(target, name, flavortext, conditions, reward, type, mqid);
     setUser(target);
     return "The quest, `"+name+"` was assigned! Use `!quests` to see it!"
 }
