@@ -595,7 +595,6 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, text)
         }
         else if (command == "FORGE") {
-            if (admins.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
             if (guild.forge == undefined) {
                 guild.forge = {
                     "level": 0, "enchant": [0, 0, 0], "enhance": [0, 0, 0], "donate": { "money": 0, "materials": 0 }

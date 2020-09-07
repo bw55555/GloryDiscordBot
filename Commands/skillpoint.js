@@ -41,6 +41,7 @@ module.exports = async function (message, user) {
         return;
     }
     user.skills[skillid] = skillid
+    functions.completeQuest(user, "sp", {}, 1)
     functions.replyMessage(message, "You earned the skill " + skillData[skillid].name + " (" + skillData[skillid].id + ")!");
     user.consum.sp -= 1;
 }

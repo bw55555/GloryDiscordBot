@@ -16,7 +16,7 @@
     "next": [ 4 ]
   },
   {
-    "quest": "-mqid 4 -name Hard Work 4 -condition a work >=50000 -desc Earn $50000 by working -reward money 500000",
+    "quest": "-mqid 4 -name Hard Work 4 -condition a work >= 50000 -desc Earn $50000 by working -reward money 500000",
     "next": []
   },
   {
@@ -80,7 +80,7 @@
     "next": [ 20 ]
   },
   {
-    "quest": "-mqid 20 -name Blacksmith 3 -condition a smelt.xp >= 50000 -desc Smelt weapons to gain 50000xp (hint: You can acquire weapons by killing Treants and Krakens) -reward money 500000",
+    "quest": "-mqid 20 -name Blacksmith 3 -condition a smelt.xp >= 50000 -desc Smelt weapons to gain 50000 xp (hint: You can acquire weapons by killing Treants and Krakens) -reward money 500000",
     "next": []
   },
   {
@@ -137,10 +137,14 @@
   },
   {
     "quest": "-mqid 34 -name Dragon Slayer -condition a raidAttack >= 25 -desc Kill 25 dragons -special raid.name = Dragon Boss -special raid.currenthealth <= 0  -reward xp 200000 money 200000",
-    "next": []
+    "next": [ 35 ]
   },
   {
-    "quest": "-mqid 35 -name Ascend -flavortext Upgrade all attributes to level 100 and ascend(hint: Use !ascend) -condition c upgrade.current >= 100 -desc Upgrade your attack stat to level 100 -special stat = attack -condition c upgrade.current >= 100 -desc Upgrade your defense stat to level 100 -special stat = defense -condition c upgrade.current >= 100 -desc Upgrade your health stat to level 100 -special stat = health -condition c ascend >= 1 -reward consum.box 50 consum.reroll 3",
+    "quest": "-mqid 35 -name Ascend -flavortext Upgrade all attributes to level 100 and ascend(hint: Use !ascend) -condition c upgrade.current >= 100 -desc Upgrade your attack stat to level 100 -special stat = attack -condition c upgrade.current >= 100 -desc Upgrade your defense stat to level 100 -special stat = defense -condition c upgrade.current >= 100 -desc Upgrade your health stat to level 100 -special stat = health -condition c ascend >= 1 -desc Ascend once -reward consum.box 50 ",
+    "next": [ 36 ]
+  },
+  {
+    "quest": "-mqid 36 -name Skilled -condition a sp >= 1 -desc Use your skill point (Hint: !sp)  -reward consum.reroll 3",
     "next": []
   }
 ]
