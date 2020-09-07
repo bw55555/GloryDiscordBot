@@ -40,6 +40,7 @@ function upgradeStats(attributeToUpgrade, amount, user) {
     if (moneystop == true) {
         text += 'You need $' + cost + ' to level up your ' + attributeToUpgrade + ' to ' + (basestat + attrcosts[attributeToUpgrade]) + '. You have $' + user.money + "\n";
     }
+    functions.completeQuest(user, "upgrade", {"stat": stat, "current": basestat, "cost": totalcost}, amount)
     return text;
 }
 module.exports = async function (message, user) {
