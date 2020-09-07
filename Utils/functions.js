@@ -1672,6 +1672,7 @@ function adminQuest(words, target) {
     index = words.indexOf("-flavortext")
     if (index != -1) {
         name = words.splice(0, index).join(" ")
+        words.splice(0,1)
         index = words.indexOf("-condition")
         if (index == -1) { return "Please enter a quest condition." }
         flavortext = words.splice(0, index).join(" ")
