@@ -697,6 +697,10 @@ module.exports = async function (message, user) {
             guild.raid = 1
             functions.replyMessage(message, guild._id + " had their raid reset!");
         }
+        else if (command == "UPDATEBUFFS") {
+            user.guildbuffs = guild.buffs;
+            functions.replyMessage(message, "You updated your buffs!");
+        }
         else if (command == "ADMINSET" || command == "ASET") {
             if (admins.indexOf(id) == -1) { return }
             if (words.length == 2) { return functions.replyMessage(message, "!g aset [guildName] [attribute] [amount]")}
