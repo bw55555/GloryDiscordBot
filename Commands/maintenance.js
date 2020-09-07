@@ -60,7 +60,7 @@ module.exports = async function (message, user) {
                 let toSet = {};
                 for (let buffname in guild.buffs) {
                     guild.buffs[buffname] = guild.buffs[buffname].level;
-                    toSet[buffname] = guild.buffs[buffname]
+                    toSet["guildbuffs."+buffname] = guild.buffs[buffname]
                 }
                 
                 functions.setProp("userData", { "guild": guild._id }, toSet)
