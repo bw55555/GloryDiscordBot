@@ -1155,7 +1155,8 @@ function checkProps(message,user) {
 function checkStuff(message,user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    checkProps(message,user)
+    checkProps(message, user)
+
     //user.xp += Math.floor(20 * Math.random() + 1); //whenever a message is sent, their experience increases by a random number 1-25.
     user.xp += 1 + Math.floor(Math.random() * user.level);
     let leveluptext = ""
@@ -1181,6 +1182,7 @@ function checkStuff(message,user) {
         user.currenthealth = 0;
         user.dead = true;
     }
+    functions.completeQuest(user, "user", user, 0)
 }
 
 function checkBurn(message,user) {
@@ -1614,7 +1616,7 @@ function JSONoperate(json, key, op, obj) {
 
 function completeQuest(user, condition, extra, amount) {
     if (amount == null || amount == undefined) { amount = 1; }
-    extra.user = user;
+    if (condition != "user") { extra.user = user; }
     extra.category = condition;
     for (var i = 0; i < user.quests.length; i++) {
         for (var j = 0; j < user.quests[i].conditions.length; j++) {
