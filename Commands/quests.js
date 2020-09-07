@@ -16,7 +16,7 @@ module.exports = async function (message, user) {
             text += user.quests[i].conditions[j].description + " (" + user.quests[i].conditions[j].current + "/" + user.quests[i].conditions[j].total + ")\n"
         }
         let rewardtext = Object.keys(user.quests[i].reward).map(x => user.quests[i].reward[x] + " " + x.substring(x.lastIndexOf("."))).join(", ")
-        if (rewardtext == "") { }
+        if (rewardtext == "") { rewardtext = "No Rewards."}
         text += "** Reward:** " + rewardtext
         fields.push({
             name: (i+1)+": "+user.quests[i].name,
@@ -29,10 +29,10 @@ module.exports = async function (message, user) {
                     "embed": {
                         //"title": "Global Wealth",
                         "color": 0xffffff,
-                        "title": user.username + "'s Inventory",
+                        "title": user.username + "'s Quests",
                         "fields": fields,
                         "footer": {
-                            "text": "Page " + (pages.length + 1) + " of " + (Math.ceil(wepsra.length / numPerPage))
+                            "text": "Page " + (pages.length + 1) + " of " + (Math.ceil(user.quests.length / numPerPage))
                         },
                     }
                 }
@@ -46,10 +46,10 @@ module.exports = async function (message, user) {
             "embed": {
                 //"title": "Global Wealth",
                 "color": 0xffffff,
-                "title": user.username + "'s Inventory",
+                "title": user.username + "'s Quests",
                 "fields": fields,
                 "footer": {
-                    "text": "Page " + (pages.length + 1) + " of " + (Math.ceil(wepsra.length / numPerPage))
+                    "text": "Page " + (pages.length + 1) + " of " + (Math.ceil(user.quests.length / numPerPage))
                 },
             }
         }
