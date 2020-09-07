@@ -4,7 +4,7 @@ module.exports = async function (message, user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     if (words.length == 1) {
-        functions.replyMessage(message, "Choose two IDs to merge them!")
+        functions.replyMessage(message, "Choose two IDs to merge them! ex. !merge 12345 67890")
         return
     }
     if (words.length == 2) {
