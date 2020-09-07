@@ -31,6 +31,10 @@ module.exports = async function (message, user) {
                 "guildbuffs": {},
                 "weapon": false,
                 "shield": ts + 1000*60*60*24
+            },
+            $inc: {
+                "consum.reroll": 3,
+                "box": 100
             }
         })
         await functions.setProp(guildData, {}, {
