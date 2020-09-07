@@ -35,7 +35,7 @@ global.questData = "questData"//JSON.parse(fs.readFileSync('Storage/questData.js
 global.partyData = "partyData"
 global.dailyrefresh = null;
 global.talkedRecently = {};
-var nctlist = {};
+global.nctlist = {};
 const TOKEN = config.token;//woah woah woah woah whatcha
 client.connect((err) => {
     console.log(err);
@@ -130,8 +130,8 @@ function evaluateMessage(message) {
     for (let key in talkedRecently[chid]) {
         if (functions.calcTime(ts, talkedRecently[chid][key]) > 15) { delete talkedRecently[chid][key]}
     }
+    if (nctlist[message.author.id] == undefined) { nctlist[message.author.id] = 0; }
     if (!message.content.startsWith(prefix)) {
-        if (nctlist[message.author.id] == undefined) { nctlist[message.author.id] = 0;}
         nctlist[message.author.id] += 1;
         return;
     }
@@ -274,7 +274,7 @@ function evaluateMessage(message) {
         if (user.cnumbers == undefined) { user.cnumbers = [0, 0] }
         user.cnumbers[0] += nctlist[message.author.id]
         user.cnumbers[1] += 1
-        delete nctlist[message.author.id];
+        nctlist[message.author.id] = 0;
         if (!globalcdlist.has(message.author.id)) {
             globalcdlist.add(message.author.id);
             setTimeout(() => {
