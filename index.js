@@ -5,7 +5,7 @@ const asyncpkg = require("async")
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb://localhost/glory?retryWrites=true&w=majority";
 global.throttledQueue = require("throttled-queue");
-global.throttle = throttledQueue(10, 1000);
+global.throttle = throttledQueue(1000, 1000);
 global.client = new MongoClient(uri, { useNewUrlParser: true });
 global.db = config.db
 global.fs = require('fs')
