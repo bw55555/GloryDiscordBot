@@ -26,7 +26,7 @@ module.exports = async function (message, user) {
     let mqid = user.quests[claimid].mqid
     user.quests.splice(claimid, 1);
     if (mqid != undefined && mqid < mainQuestData.length - 1) {
-        for (let nqid of mainQuestData[mqid + 1].next) {
+        for (let nqid of mainQuestData[mqid].next) {
             text += "\n" + functions.adminQuest(mainQuestData[nqid].quest, user)
         }
     }
