@@ -1184,7 +1184,7 @@ function checkStuff(message,user) {
         user.currenthealth = 0;
         user.dead = true;
     }
-    completeQuest(user, "user", user, 0)
+    completeQuest(user, "user", user, 1)
 }
 
 function checkBurn(message,user) {

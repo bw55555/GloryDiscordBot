@@ -26,6 +26,7 @@ module.exports = async function (message, user) {
     if (user.quests[claimid].mqid != undefined && user.quests[claimid].mqid < mainQuestData.length - 1) {
         text += "\n"+ functions.adminQuest(mainQuestData[user.quests[claimid].mqid+1], user)
     }
+    functions.completeQuest(user, "claimquest", {}, 1)
     functions.replyMessage(message, text)
     user.quests.splice(claimid, 1);
 }
