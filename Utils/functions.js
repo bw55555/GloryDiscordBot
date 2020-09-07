@@ -1595,8 +1595,7 @@ function JSONoperate(json, key, op, obj) {
     }
     if (skey == undefined || curr[skey] == undefined) { return; }
     if (op == "get") {
-        curr = curr[skey];
-        return curr;
+        return curr[skey];
     } else if (op == "set") {
         curr[skey] = obj;
         return true;
@@ -1614,7 +1613,7 @@ function completeQuest(user, condition, extra, amount) {
         for (var j = 0; j < user.quests[i].conditions.length; j++) {
             let setAmount = amount;
             if (user.quests[i].conditions[j].measure != "" && user.quests[i].conditions[j].measure != undefined) {
-                setAmount = parseFloat(JSONoperate(extra, user.quests[i].conditions[j].measure));
+                setAmount = parseFloat(JSONoperate(extra, user.quests[i].conditions[j].measure, "get"));
                 if (isNaN(setAmount)) { continue; }
             }
             if (user.quests[i].conditions[j].type == "a") {
@@ -1628,7 +1627,7 @@ function completeQuest(user, condition, extra, amount) {
                     canClaim = false;
                     break;
                 }
-                if (canClaim) { user.quests[i].conditions[j].current += amount; }
+                if (canClaim) { user.quests[i].conditions[j].current += setAmount; }
             } else {
                 if (user.quests[i].conditions[j].condition.category.value == condition) {
                     user.quests[i].conditions[j].current = extra[user.quests[i].conditions[j].condition.special]
