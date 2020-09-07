@@ -35,7 +35,7 @@ module.exports = async function (message, user) {
                 } else {
                     user.votestreak += 1
                     let numboxes = Math.ceil((1 + user.ascension) * Math.sqrt(user.votestreak) / 2)
-                    if (user.glory != undefined && user.glory < 100) {
+                    if (user.glory != undefined) {
                         user.glory += Math.random() * 0.5;
                     }
                     user.consum.box += numboxes

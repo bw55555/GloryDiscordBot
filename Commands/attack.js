@@ -129,9 +129,9 @@ module.exports = async function (message, user) {
             target.xp = 0
 
             if (user.glory != undefined && target.glory != undefined) {
-                let glorywon = (target.level / user.level) * target.glory * 0.005
-                if (glorywon > 1.5) {
-                    glorywon = 1.5
+                let glorywon = target.glory * 0.001
+                if (glorywon > 1) {
+                    glorywon = 1;
                 }
                 target.glory -= glorywon
                 user.glory += glorywon
@@ -158,9 +158,9 @@ module.exports = async function (message, user) {
             user.xp = 0
 
             if (user.glory != undefined && target.glory != undefined) {
-                let glorywon = (user.level / target.level) * user.glory * 0.005
-                if (glorywon > 1.5) {
-                    glorywon = 1.5
+                let glorywon = user.glory * 0.001
+                if (glorywon > 1) {
+                    glorywon = 1
                 }
                 target.glory += glorywon
                 user.glory -= glorywon

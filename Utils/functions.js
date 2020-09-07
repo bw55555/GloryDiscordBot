@@ -967,7 +967,7 @@ async function voteItem(message, user, dm) {
         target.votestreaktime = ts + 24 * 60 * 60 * 1000
         let numboxes = Math.ceil((1 + target.ascension) * Math.sqrt(target.votestreak) / 2)
 
-        if (target.glory != undefined && target.glory < 100) {
+        if (target.glory != undefined) {
             target.glory += Math.random() * 0.5;
         }
         target.consum.box += numboxes
@@ -977,13 +977,14 @@ async function voteItem(message, user, dm) {
         setUser(target)
     })
 }
-function craftItems(message, owner, minrarity, maxrarity, amount) {
+function craftItems(message, owner, minrarity, maxrarity, amount, source) {
+    if (source == undefined) { source = "craft"}
     amount = (isNaN(parseInt(amount))) ? 1 : parseInt(amount)
     if (amount > 1) {
         let getrarities = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         let tasks = [];
         for (var i = 0; i < amount; i++) {
-            let item = craftItem(message, owner, minrarity, maxrarity, false, true);
+            let item = craftItem(message, owner, minrarity, maxrarity, false, true, source);
             tasks.push({
                 insertOne:
                 {
@@ -1002,18 +1003,19 @@ function craftItems(message, owner, minrarity, maxrarity, amount) {
         }
         return text
     } else {
-        let item = craftItem(message, owner, minrarity, maxrarity, true);
+        let item = craftItem(message, owner, minrarity, maxrarity, true, false, source);
         return ""
     }
 }
-function craftItem(message,owner, minrarity, maxrarity, reply, isBulk) {
+function craftItem(message, owner, minrarity, maxrarity, reply, isBulk, source) {
+    if (source == undefined) { source = "craft"}
     reply = (reply == false) ? false : true
     let item;
     if (minrarity == -1 || maxrarity == -1 || minrarity == undefined || maxrarity == undefined) {
-        item = generateRandomItem(owner,undefined,isBulk, "craft")
+        item = generateRandomItem(owner,undefined,isBulk, source)
     } else {
         let rarity = Math.floor((maxrarity - minrarity + 1) * Math.random() + minrarity)
-        item = generateRandomItem(owner, rarity, isBulk, "craft")
+        item = generateRandomItem(owner, rarity, isBulk, source)
     }
     if (reply) sendMessage(message.channel, "<@" + owner._id + "> has recieved an item with id " + item._id + " and rarity " + item.rarity)
     return item
@@ -1309,12 +1311,8 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         let luckyperson = keys[Math.floor(Math.random() * keys.length)]
         if (type == "event" || type == "world") {
             sendMessage(bot.channels.get(devData.debugChannelId), "A level "+raid.level+" "+raid.name+" was killed by " + user.username + " (ID: "+user._id+")!")
-            let listtotal = 0;
             for (var i = 0; i < keys.length; i++) {
-                listtotal += raid.attacklist[keys[i]];
-            }
-            for (var i = 0; i < keys.length; i++) {
-                if (user._id == keys[i]) { user.money += raid.attacklist[keys[i]]; user.glory += (raid.level / 25) * (raid.attacklist[keys[i]] / listtotal);continue}
+                if (user._id == keys[i]) { user.money += raid.attacklist[keys[i]]; user.glory += (raid.health / 100000) * (raid.damagelist[keys[i]] / raid.health);continue}
                 tasks.push({
                     updateOne:
                     {
@@ -1322,15 +1320,15 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                         "update": {
                             $inc: {
                                 "money": raid.attacklist[keys[i]],
-                                "glory": (raid.level / 25) * (raid.attacklist[keys[i]] / listtotal)
+                                "glory": (raid.level / 100) * (raid.damagelist[keys[i]] / raid.health)
                             }
                         }
                     }
                 })
             }
             user.consum.reroll += 1;
-            var i = Math.floor(Math.random() * keys.length)
-            if (keys[i] == user._id) {
+            let key = getRandomByDamage(raid)
+            if (key == user._id) {
                 user.consum.reroll += 1;
             } else {
                 tasks.push({
@@ -1403,29 +1401,22 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             let runeprobs = cruneinfo[raid.name]
             for (let i = 0; i < runeprobs.length; i++) {
                 if (Math.random() < runeprobs[i]) {
-                    let damagechance = Math.random() * raid.maxhealth;
-                    let damagetotal = 0;
-                    let keys = Object.keys(raid.damagelist)
-                    for (var key of keys) {
-                        damagetotal += raid.damagelist[key];
-                        if (damagetotal < damagechance) { continue; }
-                        if (user._id == key) { user.runes[i] += 1 }
-                        else {
-                            let toSet = {}
-                            toSet["runes." + i] = 1;
-                            tasks.push({
-                                updateOne:
-                                {
-                                    "filter": { _id: key },
-                                    "update": {
-                                        $inc: toSet
-                                    }
+                    let key = getRandomByDamage(raid)
+                    if (user._id == key) { user.runes[i] += 1 }
+                    else {
+                        let toSet = {}
+                        toSet["runes." + i] = 1;
+                        tasks.push({
+                            updateOne:
+                            {
+                                "filter": { _id: key },
+                                "update": {
+                                    $inc: toSet
                                 }
-                            })
-                        }
-                        runetext += "<@" + key + "> received a " + runeNames[i] + "!\n"
-                        break;
+                            }
+                        })
                     }
+                    runetext += "<@" + key + "> received a " + runeNames[i] + "!\n"
                 }
 
             }
@@ -1472,6 +1463,14 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
     if (text != "") { sendMessage(message.channel, text) }
     setCD(user, ts, attackcd * 60, "attack");
     user.speed += 1;
+}
+function getRandomByDamage(raid) {
+    let damagechance = Math.random() * raid.maxhealth;
+    let damagetotal = 0;
+    for (var key in raid.damagelist) {
+        damagetotal += raid.damagelist[key];
+        if (damagetotal > damagechance) { return key; }
+    }
 }
 function smeltItem(user, item, givereward, isBulk) {
     givereward = (givereward == false) ? false : true
@@ -1705,8 +1704,8 @@ module.exports.extractTime = function (message,timeword) { return extractTime(me
 module.exports.calcDamage = function (message, attacker, defender, initiator) { return calcDamage(message, attacker, defender, initiator) }
 module.exports.calcStats = function (message, user, stat, skillenable, confused) { return calcStats(message, user, stat, skillenable, confused) }
 module.exports.voteItem = function (message, user, dm) { return voteItem(message, user, dm) }
-module.exports.craftItems = function (message, owner, minrarity, maxrarity, amount) { return craftItems(message, owner, minrarity, maxrarity, amount) }
-module.exports.craftItem = function (message, owner, minrarity, maxrarity, reply, isBulk) { return craftItem(message, owner, minrarity, maxrarity, reply, isBulk) }
+module.exports.craftItems = function (message, owner, minrarity, maxrarity, amount, source) { return craftItems(message, owner, minrarity, maxrarity, amount, source) }
+module.exports.craftItem = function (message, owner, minrarity, maxrarity, reply, isBulk, source) { return craftItem(message, owner, minrarity, maxrarity, reply, isBulk, source) }
 module.exports.raidInfo = function (message, raid) { return raidInfo(message, raid) }
 module.exports.summon = function (raid, level, minlevel, maxlevel, name, image, ability) { return summon(raid, level, minlevel, maxlevel, name, image, ability) }
 module.exports.checkProps = function (message,user) { return checkProps(message,user) }

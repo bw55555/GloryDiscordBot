@@ -77,10 +77,10 @@ module.exports = async function (message, user) {
             functions.sendMessage(message.channel, "It is now a " + rarities[wep1.rarity] + " weapon!")
         }
         delete user.inventory[weaponid2];
+        functions.completeQuest(user, "merge", { "item": wep1, "sacrifice": wep2 }, 1)
         functions.deleteItem(wep2._id)
         functions.setItem(wep1)
         functions.setCD(user, ts, extratime, "merge")
-        functions.completeQuest(user, "merge", {"item": wep1}, 1)
         if (functions.hasSkill(user, 35)) {
             functions.setCD(user, ts, extratime / 2, "merge")
         }

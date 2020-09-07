@@ -55,11 +55,12 @@ export function calcStats(message: Message, user: JSON, stat: "attack" | "defens
 export function calcStats(message: Message, user: JSON, stat: "attack" | "defense", skillenable: boolean, confused: boolean): [string, number]
 export function voteItem(message: Message, user: JSON): void
 export function voteItem(message: Message, user: JSON, dm: boolean):void
-export function craftItems(message: Message, owner: JSON, minrarity: number, maxrarity: number, amount: number): string
+export function craftItems(message: Message, owner: JSON, minrarity: number, maxrarity: number, amount: number, source: "box" | "craft"): string
 export function craftItem(message: Message, owner: JSON): JSON
 export function craftItem(message: Message, owner: JSON, minrarity: number, maxrarity: number): JSON
 export function craftItem(message: Message, owner: JSON, minrarity: number, maxrarity: number, reply: boolean): JSON
 export function craftItem(message: Message, owner: JSON, minrarity: number, maxrarity: number, reply: boolean, isBulk: boolean): JSON
+export function craftItem(message: Message, owner: JSON, minrarity: number, maxrarity: number, reply: boolean, isBulk: boolean, source: "box" | "craft"): JSON
 export function raidInfo(message: Message, raid: JSON): void
 export function summon(raid: JSON): void
 export function summon(raid: JSON, level: number): void
