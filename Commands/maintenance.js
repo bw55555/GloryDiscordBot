@@ -6,6 +6,11 @@ module.exports = async function (message, user) {
     if (devData.enable) { return functions.replyMessage(message, "You cannot do this while the bot is enabled!")}
     functions.MessageAwait(message.channel, id, "Are you sure you want to start maintenance?\nIf you are sure, type `confirm`", "confirm", async function (response, extraArgs) {
         let message = extraArgs[0];
+        await functions.setProp(mobData, {}, {
+            $set: {
+                "damagelist": []
+            }
+        })
         await functions.setProp(itemData, {}, {
             $set: {
                 "enchantlevel": 0,

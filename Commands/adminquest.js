@@ -118,10 +118,10 @@ module.exports = async function (message, user) {
                 if (reason == "complete") { functions.sendMessage(message.channel, "The quest was given.") }
                 else { functions.sendMessage(message.channel, "Failed to make a quest. Please try again. \nReason: " + reason) }
             });
-            functions.setUser(target)
             return
         } else {
             functions.replyMessage(message, functions.adminQuest(words, target))
+            functions.setUser(target)
         }
     });
 }

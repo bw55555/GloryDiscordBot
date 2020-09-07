@@ -1,4 +1,4 @@
-
+const mainQuestData = require("../Assets/mainQuestData.json")
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
@@ -18,8 +18,12 @@ module.exports = async function (message, user) {
         if (op == "<" && !(c < t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
         if (op == ">" && !(c > t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
     }
+
     for (var key in user.quests[claimid].reward) {
         functions.JSONoperate(user, key, "add", user.quests[claimid].reward[key])
+    }
+    if (user.quests[claimid].mqid != undefined && user.quests[claimid].mqid < mainQuestData.length - 1) {
+        functions.adminQuest(mainQuestData[user.quests[claimid].mqid], user)
     }
     functions.replyMessage(message, "You have completed the quest `" + user.quests[claimid].name + "`!")
     user.quests.splice(claimid, 1);

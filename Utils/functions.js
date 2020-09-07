@@ -1722,7 +1722,7 @@ function adminQuest(words, target) {
     }
     makeQuest(target, name, flavortext, conditions, reward, type);
     setUser(target);
-    return "The quest was given. "
+    return "The quest, `"+name+"` was assigned! Use `!quests` to see it!"
 }
 
 function isCD(user, ts, cdtype) {
