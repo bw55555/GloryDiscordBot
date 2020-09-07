@@ -1103,7 +1103,7 @@ function checkProps(message,user) {
     if (user.dead == undefined) user.dead = false; //character's status (alive/dead)
     if (user.start == undefined) user.start = false; //character's speed
     if (user.triangle == undefined) user.triangle = "None"; //character's class
-    if (user.triangleid == undefined) user.triangleid = "0"; //character's class
+    if (user.triangleid == undefined) user.triangleid = 0; //character's class
     if (user.trianglemod == undefined) user.trianglemod = 1.0; //character's class-based damage modifier.
     if (user.weapon == undefined) user.weapon = false;
     if (user.ability == undefined) user.ability = "Ability";

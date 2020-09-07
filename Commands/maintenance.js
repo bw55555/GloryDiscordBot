@@ -63,7 +63,7 @@ module.exports = async function (message, user) {
                     toSet["guildbuffs."+buffname] = guild.buffs[buffname]
                 }
                 
-                functions.setProp("userData", { "guild": guild._id }, toSet)
+                functions.setProp("userData", { "guild": guild._id }, { "$set": toSet })
                 functions.setObject("guildData", guild)
             }
         })
