@@ -1636,9 +1636,17 @@ function completeQuest(user, condition, extra, amount) {
                 }
                 if (canClaim) { user.quests[i].conditions[j].current += setAmount; }
             } else {
-                if (user.quests[i].conditions[j].condition.category.value == condition) {
-                    user.quests[i].conditions[j].current = extra[user.quests[i].conditions[j].condition.special]
+                let canClaim = true;
+                for (var key in user.quests[i].conditions[j].condition) {
+                    let curr = JSONoperate(extra, key)
+                    if (curr == undefined) { canClaim = false; break; }
+                    let op = user.quests[i].conditions[j].condition[key].operator;
+                    let value = user.quests[i].conditions[j].condition[key].value;
+                    if ((op == "=" && curr == value) || (op == ">" && curr > value) || (op == "<" && curr < value) || (op == "<=" && curr <= value) || (op == ">=" && curr >= value)) { continue }
+                    canClaim = false;
+                    break;
                 }
+                if (canClaim) { user.quests[i].conditions[j].current = Math.max(user.quests[i].conditions[j].current,setAmount); }
             }
         }
     }
