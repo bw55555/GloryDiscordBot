@@ -1,6 +1,6 @@
 [
   {
-    "quest": "-mqid 0 -name Quest Complete! -condition a claimquest >= 1 -desc Claim 1 quest. (hint: !cq 1)  -reward xp 1",
+    "quest": "-mqid 0 -name Quest Complete! -condition a claimquest >= 0 -desc Claim 1 quest. (hint: !cq 1)  -reward xp 1",
     "next": [ 1 ]
   },
   {
