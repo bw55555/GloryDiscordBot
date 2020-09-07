@@ -7,6 +7,7 @@ module.exports = async function (message, user) {
     let fields = []
     let pages = [];
     let page = {};
+    let numPerPage = 5;
     for (var i = 0; i < user.quests.length; i++) {
         let text = "";
         if (user.quests[i].flavortext != undefined && user.quests[i].flavortext != "") { text+="**Description:**\n" + user.quests[i].flavortext+"\n"}
