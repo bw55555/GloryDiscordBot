@@ -19,10 +19,10 @@ export function deleteObject(coll:string, oid:JSON): Promise<boolean>
 export function setProp(coll:string, query:JSON, newvalue:JSON): Promise<boolean>
 export function bulkWrite(coll:string, tasks:Array<JSON>): Promise<boolean>
 export function deleteObjects(coll: string, filter: JSON): Promise<boolean>
-export function sendMessage(channel: Channel, text: string): void
-export function sendMessage(channel: Channel, text: string, override: boolean): void
-export function replyMessage(message: Message, text: string): void
-export function replyMessage(message: Message, text: string, override:boolean): void
+export function sendMessage(channel: Channel, text: string): Promise<Message>
+export function sendMessage(channel: Channel, text: string, override: boolean): Promise<Message>
+export function replyMessage(message: Message, text: string): Promise<Message>
+export function replyMessage(message: Message, text: string, override: boolean): Promise<Message>
 export function deleteMessage(message: Message):void
 export function dmUser(user: JSON, text: string):void
 export function logCommand(message: Message, extratext: string): void
@@ -84,3 +84,4 @@ export function makeQuest(user: JSON, name: string, conditions: JSON[], reward: 
 export function completeQuest(user: JSON, condition: string, extra: JSON, amount: number): void
 export function addQuestCondition(condition: string,operator:string, description: string, total: number, extra: JSON, type: "c" | "a"): JSON
 export function JSONoperate(json: JSON, key: string, op: "get" | "set" | "add", obj: string | number): any
+export function adminQuest(message: Message, target: JSON): string

@@ -1184,7 +1184,7 @@ function checkStuff(message,user) {
         user.currenthealth = 0;
         user.dead = true;
     }
-    functions.completeQuest(user, "user", user, 0)
+    completeQuest(user, "user", user, 0)
 }
 
 function checkBurn(message,user) {
@@ -1653,6 +1653,70 @@ function completeQuest(user, condition, extra, amount) {
     }
 }
 
+function adminQuest(words, target) {
+    let name, flavortext = "", conditions = [], reward = {};
+    let condition, description, total, extra = {};
+    let type;
+    let operator;
+    let index = words.indexOf("-name")
+    if (index == -1) { return "Please enter a quest name." }
+    words.splice(0, index + 1)
+    index = words.indexOf("-flavortext")
+    if (index != -1) {
+        name = words.splice(0, index).join(" ")
+        words.splice(0, index + 1);
+        index = words.indexOf("-condition")
+        if (index == -1) { return "Please enter a quest condition." }
+        flavortext = words.splice(0, index).join(" ")
+    } else {
+        index = words.indexOf("-condition")
+        if (index == -1) { return "Please enter a quest condition." }
+        name = words.splice(0, index).join(" ")
+    }
+    while (words.indexOf("-condition") != -1) {
+        if (words.length < 5) { return "Please enter a quest condition." }
+        type = words[1]
+        if (type != "a" && type != "c") { return "Incorrect quest type (" + type + "). Please enter a quest type (`a` or `c`)" }
+        condition = words[2]
+        operator = words[3]
+        if (operator != ">=" && operator != "<=") { return "Incorrect Operator " + operator + " in quest condition. Please enter `>= or `<=`" }
+        total = parseInt(words[4])
+        if (isNaN(total)) { return "Total (" + words[4] + ") must be an integer." }
+        index = words.indexOf("-desc")
+        if (index == -1) { return "Please enter a description for the condition." }
+        words.splice(0, index + 1)
+        index = words.findIndex(x => ["-special", "-condition", "-reward"].indexOf(x) != -1)
+        if (index == -1) { return "Please enter a quest reward." }
+        description = words.splice(0, index).join(" ")
+        while (words[0] == "-special") {
+            if (words.length < 3) { return "Please enter a special condition. The special condition must follow [conditionName] [operator] [value]." }
+            let key = words[1];
+            let op = words[2];
+            if (["=", ">", "<", "<=", ">="].indexOf(op) == -1) { return "Incorrect operator (" + op + "). Please enter `=`, `>`, `<`, `>= or `<=`"; }
+            words.splice(0, 3)
+            index = words.findIndex(x => ["-special", "-condition", "-reward"].indexOf(x) != -1)
+            if (index == -1) { return "Please enter a quest reward." }
+            let value = words.splice(0, index).join(" ")
+            extra[key] = { "value": value, "operator": op }
+        }
+        conditions.push(addQuestCondition(condition, operator, description, total, extra, type))
+        extra = {}
+    }
+    index = words.indexOf("-reward")
+    if (index == -1) { return "Please enter a quest reward." }
+    words.splice(0, index + 1)
+    if (words.length % 2 != 0) { return "Please enter a correct quest reward. There must be an amount for every property. " }
+    for (let i = 0; i < words.length / 2; i++) {
+        let key = words[2 * i];
+        let value = parseInt(words[2 * i + 1]);
+        if (isNaN(value)) { return "Please enter a correct quest reward. The amount of property " + key + " must be an integer." }
+        reward[key] = value;
+    }
+    makeQuest(target, name, flavortext, conditions, reward, type);
+    setUser(target);
+    return "The quest was given. "
+}
+
 function isCD(user, ts, cdtype) {
     if (user.cooldowns[cdtype] == undefined) { return false}
     return calcTime(user.cooldowns[cdtype], ts) > 0
@@ -1722,6 +1786,7 @@ module.exports.addQuestCondition = function (condition, operator, description, t
 module.exports.isCD = function (user, ts, cdtype) { return isCD(user, ts, cdtype) }
 module.exports.secondsUntilReset = function (ts) { return secondsUntilReset(ts) }
 module.exports.JSONoperate = function (json, key, op, obj) { return JSONoperate(json, key, op, obj) }
+module.exports.adminQuest = function (message, target) { return adminQuest(message, target) }
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
