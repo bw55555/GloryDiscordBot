@@ -121,11 +121,14 @@ function sendMessage(channel, text, override) {
                 bot.setTimeout(function () { sendMessage(channel, text, override) }, 100)
             } else {
                 console.error(err)
+                sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + error.stack + "\n```")
             }
             channel.retry = true;
         } else {
             console.error(err)
+            sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + error.stack + "\n```")
         }
+        
     })
 }
 function replyMessage(message, text, override) {
