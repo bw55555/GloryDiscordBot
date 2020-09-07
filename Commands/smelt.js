@@ -4,7 +4,7 @@ module.exports = async function (message, user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     if (words.length == 1) {
-        functions.replyMessage(message, "Choose an id!")
+        functions.replyMessage(message, "Choose an id! ex. !smelt 123456")
         return
     }
     let weaponid = parseInt(words[1])

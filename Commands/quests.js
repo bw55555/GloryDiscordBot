@@ -1,10 +1,12 @@
-
+﻿
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     if (user.quests.length == 0) { return functions.replyMessage(message, "You have no quests!") }
     let fields = []
+    let pages = [];
+    let page = {};
     for (var i = 0; i < user.quests.length; i++) {
         let text = "";
         if (user.quests[i].flavortext != undefined && user.quests[i].flavortext != "") { text+="**Description:**\n" + user.quests[i].flavortext+"\n"}
@@ -12,18 +14,46 @@ module.exports = async function (message, user) {
         for (var j = 0; j < user.quests[i].conditions.length; j++) {
             text += user.quests[i].conditions[j].description + " (" + user.quests[i].conditions[j].current + "/" + user.quests[i].conditions[j].total + ")\n"
         }
-        text += "** Reward:** "+JSON.stringify(user.quests[i].reward)
+        let rewardtext = Object.keys(user.quests[i].reward).map(x => user.quests[i].reward[x] + " " + x.substring(x.lastIndexOf("."))).join(", ")
+        if (rewardtext == "") { }
+        text += "** Reward:** " + rewardtext
         fields.push({
             name: (i+1)+": "+user.quests[i].name,
             value: text,
             inline: false,
         })
-    }
-    functions.sendMessage(message.channel,{
-        "embed": {
-            "color": 0xffffff,
-            "title": user.username + "'s Quests",
-            "fields": fields,
+        if ((i % numPerPage) == (numPerPage - 1)) {
+            if (fields.length > 0) {
+                page = {
+                    "embed": {
+                        //"title": "Global Wealth",
+                        "color": 0xffffff,
+                        "title": user.username + "'s Inventory",
+                        "fields": fields,
+                        "footer": {
+                            "text": "Page " + (pages.length + 1) + " of " + (Math.ceil(wepsra.length / numPerPage))
+                        },
+                    }
+                }
+                pages.push(page)
+                fields = []
+            }
         }
-    })
+    }
+    if (fields.length > 0) {
+        page = {
+            "embed": {
+                //"title": "Global Wealth",
+                "color": 0xffffff,
+                "title": user.username + "'s Inventory",
+                "fields": fields,
+                "footer": {
+                    "text": "Page " + (pages.length + 1) + " of " + (Math.ceil(wepsra.length / numPerPage))
+                },
+            }
+        }
+        pages.push(page)
+        fields = []
+    }
+    new functions.Paginator(message.channel, message.author, pages)
 }
