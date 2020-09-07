@@ -38,6 +38,7 @@ async function getObject(coll, oid) {
             return r[0];
         }).catch(err => {
             console.error(err)
+            sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
             return false
         })
     //})
@@ -49,59 +50,65 @@ async function findObjects(coll, query, projection) {
             return r;
         }).catch(err => {
             console.error(err)
+            sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
             return false
         })
     //})
 }
 async function setObject(coll, newobj) {
-    return throttle(function () {
+    //return throttle(function () {
         return client.db(db).collection(coll).replaceOne({ _id: newobj._id }, newobj, { upsert: true }).then(function (r) {
             return true;
         }).catch(function (err) {
             console.error(err)
+            sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
             return false;
         })
-    })
+    //})
 }
 async function deleteObject(coll, oid) {
-    return throttle(function () {
+    //return throttle(function () {
         return client.db(db).collection(coll).deleteOne({ _id: oid }).then(function (r) {
             return true;
         }).catch(function (err) {
             console.error(err)
+            sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
             return false;
         })
-    })
+    //})
 }
 async function setProp(coll, query, newvalue) {
-    return throttle(function () {
+    //return throttle(function () {
         return client.db(db).collection(coll).updateMany(query, newvalue).then(function (r) {
             return true;
         }).catch(function (err) {
             console.error(err)
+            sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
             return false;
         })
-    })
+    //})
 }
 async function bulkWrite(coll, tasks) {
-    return throttle(function () {
+    //return throttle(function () {
         return client.db(db).collection(coll).bulkWrite(tasks).then(function (r) {
             return true;
         }).catch(function (err) {
             console.error(err)
+            sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
             return false;
         })
-    })
+    //})
 }
 async function deleteObjects(coll, filter) {
-    return throttle(function () {
+    //return throttle(function () {
         return client.db(db).collection(coll).deleteMany(filter).then(function (r) {
             return true;
         }).catch(function (err) {
             console.error(err)
+            sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
             return false;
         })
-    })
+    //})
 }
 function clean(text) {
     if (typeof (text) === "string")
