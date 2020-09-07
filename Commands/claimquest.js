@@ -24,7 +24,7 @@ module.exports = async function (message, user) {
     }
     let text = "You have completed the quest `" + user.quests[claimid].name + "`!"
     if (user.quests[claimid].mqid != undefined && user.quests[claimid].mqid < mainQuestData.length - 1) {
-        text += "\n"+ functions.adminQuest(mainQuestData[user.quests[claimid].mqid], user)
+        text += "\n"+ functions.adminQuest(mainQuestData[user.quests[claimid].mqid+1], user)
     }
     functions.replyMessage(message, text)
     user.quests.splice(claimid, 1);
