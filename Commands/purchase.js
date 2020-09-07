@@ -139,6 +139,7 @@ module.exports = async function (message, user) {
 
     }
     else {
-        functions.replyMessage(message, "Make sure you're selecting a real item!")
+        return functions.replyMessage(message, "Make sure you're selecting a real item!")
     }
+    functions.completeQuest(user, "purchase", { "pid": purchaseID }, amount)
 }
