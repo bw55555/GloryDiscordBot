@@ -57,10 +57,13 @@ module.exports = async function (message, user) {
         })
         await functions.findObjects("guildData", {}).then(ret => {
             for (let guild of ret) {
+                let toSet = {};
                 for (let buffname in guild.buffs) {
                     guild.buffs[buffname] = guild.buffs[buffname].level;
+                    toSet[buffname] = guild.buffs[buffname]
                 }
-                functions.setProp("userData", { "guild": guild._id }, {"guildbuffs": guild.buffs})
+                
+                functions.setProp("userData", { "guild": guild._id }, toSet)
                 functions.setObject("guildData", guild)
             }
         })
