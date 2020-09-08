@@ -747,7 +747,6 @@ function calcDamage(message, attacker, defender, initiator) {
             }
         }
     }
-    if (truedamage > defender.currenthealth && defender.isRaid) { truedamage = defender.currenthealth}
     if (attacker.isRaid != true) {
         let lifesteal = (attacker.triangleid == 11) ? 0.15 : 0;
         lifesteal+=getGuildBuff(attacker, "lifeSteal")
@@ -765,6 +764,7 @@ function calcDamage(message, attacker, defender, initiator) {
         if (lifesteal > 0) {
             let stealAmount = Math.abs(Math.floor(truedamage * lifesteal))
             if (stealAmount < 0) { stealAmount = 0 }
+            if (defender.isRaid && stealAmount > defender.maxhealth) { stealAmount = defender.maxhealth;}
             attacker.currenthealth += stealAmount
             text += attackername + " lifestole **" + stealAmount + "** health!\n";
         }
@@ -1271,7 +1271,6 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
     if (damage < 0) {
         damage = 0;
     }
-    if (damage > raid.currenthealth) { damage = raid.currenthealth }
     if (counter < 0) {
         counter = 0;
     }
@@ -1282,6 +1281,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
     let counterstolen = Math.floor((user.money) / 5);
 
     raid.attacklist[user._id] += damagereward
+    if (damage > raid.currenthealth) { damage = raid.currenthealth}
     raid.damagelist[user._id] += damage;
     //user.money += damagereward;
     user.xp += damagereward;
