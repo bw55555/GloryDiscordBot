@@ -34,6 +34,14 @@ module.exports = async function (message, user) {
         if (target.glory != undefined && target.glory != null && !isNaN(parseInt(target.glory))) {
             nametext += " (" + parseInt(target.glory) + " Glory)"
         }
+        let attack = target.attack + " (+" + weaponatk + ")" 
+        let defense = target.defense + " (+" + weapondef + ")"
+        if (weapon.enhance != undefined) {
+            attack += " (+" + weapon.enhance.attack + ")"
+            defense += " (+" + weapon.enhance.defense + ")"
+        }
+        
+        
         functions.sendMessage(message.channel, {
             embed: {
                 color: 0xF1C40F,
@@ -71,11 +79,11 @@ module.exports = async function (message, user) {
                         inline: true
                     }, {
                         name: "Attack <:attack:542134564391223321>",
-                        value: target.attack + " (+" + weaponatk + ")" + " (+" + weapon.enhance.attack + ")",
+                        value: attack,
                         inline: true
                     }, {
                         name: "Defense <:defence:542134628421468181>",
-                        value: target.defense + " (+" + weapondef + ")" + " (+" + weapon.enhance.defense + ")",
+                        value: defense,
                         inline: true
                     }, {
                         name: "Weapon <:weaponicon:542069411817717780>",
