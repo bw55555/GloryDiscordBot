@@ -610,6 +610,7 @@ module.exports = async function (message, user) {
             if (guild.forge.donate == undefined) { guild.forge.donate = { "money": 0, "materials": 0 } }
             let scmd = words.length < 3 ? "" : words[2].toUpperCase()
             if (scmd == "DONATE") {
+                
                 if (guild.forge.level == 9) { return functions.replyMessage(message, "The guild forge is at max level!") }
                 let option = words.length < 4 ? "undefined" : words[3].toLowerCase();
                 let amt = words.length < 5 ? -1 : parseInt(words[4])
@@ -620,6 +621,7 @@ module.exports = async function (message, user) {
                 user[option] -= amt;
                 functions.replyMessage(message, "You have donated " + amt + " " + option + " to the guild forge!")
             } else if (scmd == "UPGRADE") {
+                if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") { return functions.replyMessage(message, "You do not have permission to do this!") }
                 let option = words.length < 4 ? "" : words[3].toLowerCase();
                 let option2 = words.length < 5 ? -1 : parseInt(words[4])
                 if (option == "level") {
@@ -627,7 +629,7 @@ module.exports = async function (message, user) {
                     let moneydiff = Math.max(0, guildForgePrices.level[guild.forge.level + 1].money - guild.forge.donate.money)
                     let matsdiff = Math.max(0, guildForgePrices.level[guild.forge.level + 1].materials - guild.forge.donate.materials)
                     if (guild.level < guildForgePrices.level[guild.forge.level + 1].guildlevel) { return functions.replyMessage(message, "Your guild is not high enough level to upgrade the forge!") }
-                    if (moneydiff > 0 && matsdiff > 0) { return functions.replyMessage(message, "You do not have enough money and/or materials to upgrade the forge!") }
+                    if (moneydiff > 0 || matsdiff > 0) { return functions.replyMessage(message, "You do not have enough money and/or materials to upgrade the forge!") }
                     guild.forge.donate.money -= guildForgePrices.level[guild.forge.level + 1].money
                     guild.forge.donate.materials -= guildForgePrices.level[guild.forge.level + 1].materials
                     guild.forge.level += 1;
