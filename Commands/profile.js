@@ -71,11 +71,11 @@ module.exports = async function (message, user) {
                         inline: true
                     }, {
                         name: "Attack <:attack:542134564391223321>",
-                        value: target.attack + " (+" + weaponatk + ")",
+                        value: target.attack + " (+" + weaponatk + ")" + " (+" + weapon.enhance.attack + ")",
                         inline: true
                     }, {
                         name: "Defense <:defence:542134628421468181>",
-                        value: target.defense + " (+" + weapondef + ")",
+                        value: target.defense + " (+" + weapondef + ")" + " (+" + weapon.enhance.defense + ")",
                         inline: true
                     }, {
                         name: "Weapon <:weaponicon:542069411817717780>",
