@@ -55,7 +55,7 @@ module.exports = async function (message, user) {
             if (!functions.hasSkill(user, 14)) {
                 text += " (On the other hand, you don't feel so well)"
             }
-            functions.completeQuest(message, "reviveOther", {"target": target}, 1)
+            functions.completeQuest(user, "reviveOther", {"target": target}, 1)
             functions.replyMessage(message, text);
             functions.setUser(target)
         })
