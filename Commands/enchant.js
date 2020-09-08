@@ -50,7 +50,7 @@ module.exports = async function (message, user) {
         let runetext = "";
         for (var i = 0; i < enchantData[ench].cost.length; i++) {
             if (enchantData[ench].cost[i] > 0) { runetext += enchantData[ench].cost[i] * runemult+" "+runeNames[3+i]+"s, "}
-            if (user.runes[3 + i] < enchantData[ench].cost[i] * runemult) { return functions.replyMessage(message, "You do not have enough runes to enchant your weapon!") }
+            //if (user.runes[3 + i] < enchantData[ench].cost[i] * runemult) { return functions.replyMessage(message, "You do not have enough runes to enchant your weapon!") }
         }
         if (item.numenchants == undefined) { item.numenchants = 0; }
         if (item.modifiers[ench] == undefined && item.numenchants > 0) { runetext += item.numenchants + " Wisdom Rune(s), "; }
