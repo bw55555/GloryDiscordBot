@@ -39,7 +39,7 @@ module.exports = async function (message, user) {
                 user.dungeonts = ts;
                 user.bolster = false;
                 user.speed = 0;
-                functions.sendMessage(message, "You have swept floors 1 - " + dungeon.maxFloor - 10 + " of the crystal mines for " + dungeon.xp + " guild xp and " + dungeon.crystals + " crystals. Use `!d next` to keep exploring or `!d exit` to leave. ")
+                functions.sendMessage(message.channel, "You have swept floors 1 - " + dungeon.maxFloor - 10 + " of the crystal mines for " + dungeon.xp + " guild xp and " + dungeon.crystals + " crystals. Use `!d next` to keep exploring or `!d exit` to leave. ")
                 dungeon.task = "next"
             } else {
                 functions.replyMessage(message, "You are already in the crystal mines!")
