@@ -28,11 +28,28 @@ module.exports = async function (message, user) {
         if (dungeon == false) { return functions.replyMessage(message, "You have not yet acquired a permit to the crystal mines!") }
         let timeout = false;
         if (user.dungeonts != undefined && functions.calcTime(ts, user.dungeonts) > 600) { leaveDungeon(message, dungeon, user, "timeout") }
+        else if (command == "sweep") {
+            if (dungeon.task == "start") {
+                for (let i = 0; i < dungeon.maxFloor - 10; i++) {
+                    nextFloor(message, dungeon, true);
+                    dungeon.xp += dungeon.raid.reward;
+                    dungeon.crystals += dungeon.raid.crystalreward;
+                }
+                dungeon.ts = ts;
+                user.dungeonts = ts;
+                user.bolster = false;
+                user.speed = 0;
+                functions.sendMessage(message, "You have swept floors 1 - " + dungeon.maxFloor - 10 + " for " + dungeon.xp + " guild xp and " + dungeon.crystals + " crystals. ")
+                nextFloor(message, dungeon)
+            } else {
+                functions.replyMessage(message, "You are already in the crystal mines!")
+            }
+            
+        }
         else if (command == "start" || command == "s") {
             if (dungeon.task == "start") {
                 dungeon.ts = ts;
                 user.dungeonts = ts;
-                dungeon.floor = 0;
                 user.bolster = false;
                 user.speed = 0;
                 nextFloor(message, dungeon)
@@ -94,7 +111,8 @@ module.exports = async function (message, user) {
         functions.setObject("dungeonData", dungeon)
     })
 }
-function nextFloor(message, dungeon) {
+function nextFloor(message, dungeon, notext) {
+    if (notext != true) { notext = false;}
     dungeon.floor += 1;
     let base = Math.floor(dungeon.floor / 25)
     if (base > 2) { base = 2 }
@@ -124,8 +142,10 @@ function nextFloor(message, dungeon) {
     dungeon.raid.attacklist = {};
     dungeon.raid.level = summonlevel;
     if (raid.ability != undefined) { dungeon.raid.ability = raid.ability; }
-    functions.sendMessage(message.channel, "You encountered a level "+summonlevel+" "+raid.name+"!" )
-    functions.raidInfo(message, dungeon.raid)
+    if (notext == false) {
+        functions.sendMessage(message.channel, "You encountered a level " + summonlevel + " " + raid.name + "!")
+        functions.raidInfo(message, dungeon.raid)
+    }
 }
 
 function leaveDungeon(message, dungeon, user, option) {
@@ -140,6 +160,7 @@ function leaveDungeon(message, dungeon, user, option) {
     dungeon.crystals = 0; dungeon.xp = 0;
     dungeon.task = "start";
     dungeon.raid = {};
+    dungeon.floor = 0;
     user.dungeonts = undefined;
     functions.setCD(user, message.createdTimestamp, functions.secondsUntilReset(message.createdTimestamp), "crystalmines")
     functions.replyMessage(message, text)
