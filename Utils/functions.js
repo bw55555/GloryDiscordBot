@@ -1158,7 +1158,7 @@ function checkStuff(message,user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     checkProps(message, user)
-
+    if (message.content.indexOf("@everyone") != -1) { return functions.sendMessage(message, "Don't be sneaky and try to ping everyone!")}
     //user.xp += Math.floor(20 * Math.random() + 1); //whenever a message is sent, their experience increases by a random number 1-25.
     user.xp += 1 + Math.floor(Math.random() * user.level);
     let leveluptext = ""
