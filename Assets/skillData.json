@@ -137,7 +137,7 @@
     {
         "name": "Odysseus",
         "id": 27,
-        "description": "Critical Chance +1%; Double damage dealt by critical hits"
+        "description": "Critical Chance +1%; Crit Damage +100%"
     },
     {
         "name": "Coeus",
