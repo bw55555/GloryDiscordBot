@@ -699,8 +699,11 @@ module.exports = async function (message, user) {
                 if (guild.raid.alive == true) { guild.raid = ts + 1000 * 60 * guild.raid.level; functions.setObject("guildData", guild); return functions.replyMessage(message, "Your raid was reset!") }
                 return functions.replyMessage(message, "This feature is admin only...")
             }
-            guild.raid = 1
-            functions.replyMessage(message, guild._id + " had their raid reset!");
+            else {
+                if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") { return functions.replyMessage(message, "You do not have permission to do this!") }
+                guild.raid = 1
+                functions.replyMessage(message, guild._id + " had their raid reset!");
+            }
         }
         else if (command == "UPDATEBUFFS") {
             user.guildbuffs = guild.buffs;
