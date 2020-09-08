@@ -27,7 +27,7 @@ module.exports = async function (message, user) {
         let dungeon = ret[0];
         if (dungeon == false) { return functions.replyMessage(message, "You have not yet acquired a permit to the crystal mines!") }
         let timeout = false;
-        if (user.dungeonts != undefined && functions.calcTime(ts, user.dungeonts) > 600) { leaveDungeon(message, dungeon, user, "timeout")}
+        if (user.dungeonts != undefined && functions.calcTime(ts, user.dungeonts) > 600) { leaveDungeon(message, dungeon, user, "timeout") }
         else if (command == "start" || command == "s") {
             if (dungeon.task == "start") {
                 dungeon.ts = ts;
@@ -39,6 +39,18 @@ module.exports = async function (message, user) {
             } else {
                 functions.replyMessage(message, "You are already in the crystal mines!")
             }
+        } else if (command == "stats") {
+            let text = "```\n"
+            text += "Max Floor: " + dungeon.maxFloor + "\n";
+            text += "```"
+            return functions.replyMessage(message, text)
+        } else if (command == "setfloor" && admins.indexOf(id) != -1) {
+            let floornum = parseInt(words[2]);
+            if (isNaN(floornum) || floornum < 0) { return functions.replyMessage(message, "The dungeon floor must be a positive integer!") }
+            dungeon.floor = floornum
+            functions.replyMessage(message, "The dungeon floor has been set to " + dungeon.floor)
+        } else if (dungeon.task == "start") {
+            return functions.replyMessage(message, "You have not yet entered the dungeon! Use `!d start`")
         } else if (command == "attack" || command == "atk" || command == "a") {
             if (dungeon.task != "raid") { return functions.replyMessage(message, "You have not yet encountered a monster!") }
             functions.raidAttack(message, user, dungeon.raid, "dungeon", dungeon)
@@ -75,17 +87,7 @@ module.exports = async function (message, user) {
             } else {
                 functions.replyMessage(message, "You cannot exit the mines during an encounter!")
             }
-        } else if (command == "stats") {
-            let text = "```\n"
-            text += "Max Floor: " + dungeon.maxFloor + "\n";
-            text+="```"
-            return functions.replyMessage(message, text)
-        } else if (command == "setfloor" && admins.indexOf(id) != -1) {
-            let floornum = parseInt(words[2]);
-            if (isNaN(floornum) || floornum < 0) { return functions.replyMessage(message, "The dungeon floor must be a positive integer!")}
-            dungeon.floor = floornum
-            functions.replyMessage(message, "The dungeon floor has been set to "+dungeon.floor)
-        }
+        } 
         else {
             return functions.replyMessage(message, "This command is not recognized!")
         }
