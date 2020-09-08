@@ -851,7 +851,7 @@ function calcStats(message, user, stat, skillenable,confused) {
     }
     if (hasSkill(user, 27, skillenable)) {
         critRate += 0.01
-        critDamage += 2
+        critDamage += 1;
     }
     if (hasSkill(user, 29, skillenable)) {
         rage += 0.3
@@ -1276,12 +1276,12 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
     }
     let damagereward = Math.floor(damage * Math.sqrt(raid.level) * Math.random() * luckybuff);
     if (type != "event") { damagereward *= 5 }
+    if (damage > raid.currenthealth) { damage = raid.currenthealth }
     user.currenthealth = user.currenthealth - counter;
     raid.currenthealth = raid.currenthealth - damage;
     let counterstolen = Math.floor((user.money) / 5);
 
     raid.attacklist[user._id] += damagereward
-    if (damage > raid.currenthealth) { damage = raid.currenthealth}
     raid.damagelist[user._id] += damage;
     //user.money += damagereward;
     user.xp += damagereward;
