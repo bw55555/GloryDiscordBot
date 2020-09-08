@@ -1618,6 +1618,7 @@ function completeQuest(user, condition, extra, amount) {
     if (amount == null || amount == undefined) { amount = 1; }
     if (condition != "user") { extra.user = user; }
     extra.category = condition;
+    if (user.quests == undefined) { return;}
     for (var i = 0; i < user.quests.length; i++) {
         for (var j = 0; j < user.quests[i].conditions.length; j++) {
             let setAmount = amount;
