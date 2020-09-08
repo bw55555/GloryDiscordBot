@@ -60,7 +60,7 @@ module.exports = async function (message, user) {
             if (dungeon.task == "raid") {
                 return functions.raidInfo(message, dungeon.raid)
             } else if (dungeon.task == "next") {
-                return functions.sendMessage(message, {
+                return functions.sendMessage(message.channel, {
                     embed: {
                         color: 0xF1C40F,
                         fields: [
