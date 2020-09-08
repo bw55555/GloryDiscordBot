@@ -872,7 +872,7 @@ function calcStats(message, user, stat, skillenable,confused) {
             if (confused) {
                 attack += user.weapon.defense + user.weapon.enhance.defense;
             } else {
-                attack += user.weapon.attack+ user.weapon.enhance.defense;
+                attack += user.weapon.attack+ user.weapon.enhance.attack;
             }
             
         }
