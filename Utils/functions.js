@@ -886,7 +886,7 @@ function calcStats(message, user, stat, skillenable,confused) {
             
         }
         if (sacrifice > 0) {
-            buff += 3 * sacrifice
+            buff += 5 * sacrifice
             if (hasSkill(user, 26, skillenable)) {
                 //user.currenthealth += Math.floor(buff * attack * sacrifice)
                 text += "<@" + user._id + "> \"sacrificed\" **" + Math.floor(attack * Math.pow(1 + sacrifice, 2)) + "** Health, but mysteriously just didn't!\n";
