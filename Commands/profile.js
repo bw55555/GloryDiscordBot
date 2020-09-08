@@ -36,9 +36,9 @@ module.exports = async function (message, user) {
         }
         let attack = target.attack + " (+" + weaponatk + ")" 
         let defense = target.defense + " (+" + weapondef + ")"
-        if (weapon.enhance != undefined) {
-            attack += " (+" + weapon.enhance.attack + ")"
-            defense += " (+" + weapon.enhance.defense + ")"
+        if (target.weapon.enhance != undefined) {
+            attack += " (+" + target.weapon.enhance.attack + ")"
+            defense += " (+" + target.weapon.enhance.defense + ")"
         }
         
         
