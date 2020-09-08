@@ -104,9 +104,9 @@ module.exports = async function (message, user) {
                         item.enhance[tu] += 1;
                         text += "You have successfully enhanced your weapon to level " + item.enhance.level +"\n"
                     }
+                    functions.completeQuest(user, "enhance", { "success": success, "item": item }, 1)
                 }
                 text += "You spent a total of $" + totalcost;
-                functions.completeQuest(user, "enhance", {"success": success, "item": item}, 1)
                 functions.replyMessage(message, text);
                 functions.setUser(user);
                 functions.setItem(item);
