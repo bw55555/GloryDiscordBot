@@ -1074,6 +1074,7 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability) {
         raid.attack = Math.floor(summonlevel * 20);
         raid.currenthealth = summonlevel * 100 * (Math.floor(2 * summonlevel / 25) + 1);
         raid.maxhealth = summonlevel * 100 * (Math.floor(2 * summonlevel / 25) + 1);
+        raid.health = summonlevel * 5 * (Math.floor(summonlevel / 25) + 1);
         raid.reward = Math.floor(summonlevel * 5000);
         raid.level = summonlevel;
         raid.attacklist = {};
@@ -1083,6 +1084,7 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability) {
         raid.attack = summonlevel * 10+Math.floor(summonlevel/25);
         raid.currenthealth = summonlevel * 5 * (Math.floor(summonlevel / 25) + 1);
         raid.maxhealth = summonlevel * 5 * (Math.floor(summonlevel / 25) + 1);
+        raid.health = summonlevel * 5 * (Math.floor(summonlevel / 25) + 1);
         raid.reward = summonlevel * 500;
         raid.level = summonlevel;
         raid.attacklist = {};
@@ -1328,7 +1330,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                         "update": {
                             $inc: {
                                 "money": raid.attacklist[keys[i]],
-                                "glory": (raid.level / 100) * (raid.damagelist[keys[i]] / raid.health)
+                                "glory": (raid.level / 100) * (raid.damagelist[keys[i]] / raid.maxhealth)
                             }
                         }
                     }
