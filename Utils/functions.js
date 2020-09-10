@@ -124,6 +124,9 @@ function sendMessage(channel, text, override) {
     while (text.indexOf != undefined && text.indexOf("@everyone") != -1) {
         text.replace("@everyone", "everyone")
     }
+    while (text.indexOf != undefined && text.indexOf("@here") != -1) {
+        text.replace("@here", "here")
+    }
     return channel.send(text).catch(function (err) {
         
         if (err.errno == "ENOBUFS") {
@@ -1164,7 +1167,7 @@ function checkStuff(message,user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     checkProps(message, user)
-    if (message.content.indexOf("@everyone") != -1) {
+    if (message.content.indexOf("@everyone") != -1 || message.content.indexOf("@here") != -1) {
         if (message.guild.id != devData.debugGuildId) {
             functions.replyMessage(message, "Don't be sneaky and try to ping everyone!")
             return false;
