@@ -121,7 +121,7 @@ function sendMessage(channel, text, override) {
     override = (override == true) ? true : false
     if (!override && channel.guild != undefined && serverData[channel.guild.id] != undefined && serverData[channel.guild.id].disabledChannels.indexOf(channel.id) != -1) { return; }
     if (channel.type != "dm" && channel.type != "group" && (channel.memberPermissions(bot.user) != null && !channel.memberPermissions(bot.user).has("SEND_MESSAGES"))) { return }
-    while (text.indexOf("@everyone") != -1) {
+    while (text.indexOf != undefined && text.indexOf("@everyone") != -1) {
         text.replace("@everyone", "everyone")
     }
     return channel.send(text).catch(function (err) {
