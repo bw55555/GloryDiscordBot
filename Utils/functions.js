@@ -121,6 +121,15 @@ function sendMessage(channel, text, override) {
     override = (override == true) ? true : false
     if (!override && channel.guild != undefined && serverData[channel.guild.id] != undefined && serverData[channel.guild.id].disabledChannels.indexOf(channel.id) != -1) { return; }
     if (channel.type != "dm" && channel.type != "group" && (channel.memberPermissions(bot.user) != null && !channel.memberPermissions(bot.user).has("SEND_MESSAGES"))) { return }
+    if (text.indexOf("@everyone") != -1) {
+        if (message.guild.id != devData.debugGuildId) {
+            text = "Don't be sneaky and try to ping everyone!"
+            return false;
+        } else {
+            text = "Don't be sneaky and try to ping everyone!"
+            return false;
+        }
+    }
     return channel.send(text).catch(function (err) {
         
         if (err.errno == "ENOBUFS") {
@@ -137,6 +146,7 @@ function sendMessage(channel, text, override) {
         }
         
     })
+
 }
 function replyMessage(message, text, override) {
     //console.time("Message Send")
@@ -1161,11 +1171,11 @@ function checkStuff(message,user) {
     let words = message.content.trim().split(/\s+/)
     checkProps(message, user)
     if (message.content.indexOf("@everyone") != -1) {
-        if (message.guild.id == devData.debugGuildId) {
+        if (message.guild.id != devData.debugGuildId) {
             functions.replyMessage(message, "Don't be sneaky and try to ping everyone!")
             return false;
         } else {
-            functions.replyMessage(message, "Don't be sneaky and try to ping everyone! <@266984067059154944> ban "+message.author.id)
+            functions.replyMessage(message, "Don't be sneaky and try to ping everyone! <@266984067059154944> ban " + message.author.id)
             return false;
         }
     }
