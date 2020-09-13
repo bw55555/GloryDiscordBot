@@ -427,9 +427,7 @@ function calcLuckyBuff(user) {
     return luckybuff
 }
 function errorlog(text) {
-    if (!bot.guilds.cache.has("536599503608872961")) {return}
-    if (!bot.guilds.cache.get("536599503608872961").channels.cache.has("538526944141246486")) {return}
-    sendMessage(bot.guilds.cache.get("536599503608872961").channels.cache.get("538526944141246486"),text)
+    sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId),text)
 }
 function secondsUntilReset(ts) {
     let x = ts % (24 * 60 * 60 * 1000)
