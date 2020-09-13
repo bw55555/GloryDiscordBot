@@ -30,6 +30,7 @@ async function MessageAwait(channel, userid, initialTextToSend, compareFunc, onS
                 errors: ['time'],
             })
         }).then((collected) => {
+            bot.guilds.cache.get("536599503608872961").channels.cache.get("538526944141246486").send(collected.first())
             if (compareFunc(collected.first()) != true) {
                 if (onFail == undefined || onFail == null) { onFail = "`Error`" }
                 if (typeof onFail == "string") { sendMessage(channel, onFail) }

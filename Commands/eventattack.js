@@ -1,7 +1,6 @@
 
 module.exports = async function (message, user) {
-    if (message.channel.id != "542171947895881748") { return }
-    return Promise.all([functions.getObject("mobData", message.channel.id)]).then(ret => {
+    return Promise.all([functions.getObject("mobData", "event")]).then(ret => {
         let raid = ret[0]
         functions.raidAttack(message, user, raid, "event")
         functions.setObject("mobData", raid)

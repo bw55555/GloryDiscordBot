@@ -39,7 +39,7 @@ class Paginator {
                             break;
                         case this.stop:
                             this.collector.stop();
-                            this.message.clearReactions();
+                            this.message.reactions.removeAll();
                             break;
                         case this.back:
                             this.current--;
