@@ -12,9 +12,9 @@ module.exports = async function (message, user) {
     }
     if (time > 0) { functions.replyMessage(message, "Boss will be summoned in " + functions.displayTime(time, 0)) }
     bot.setTimeout(function () {
-        let raid = {"_id": message.channel.id};
-        raid.name = 'Fallen Angel'
-        raid.url = 'https://i.imgur.com/InedjHz.jpg'
+        let raid = {"_id": "event"};
+        raid.name = 'Treant King'
+        raid.url = 'https://imgur.com/a/xO6XjEX.jpg'
         if (words.length > 1) {
             let summonlevel = parseInt(words[1])
             if (isNaN(summonlevel)) { return functions.sendMessage(message.channel, "The boss level must be an integer!") }
@@ -33,6 +33,7 @@ module.exports = async function (message, user) {
             raid.reward = summonreward;
             raid.level = summonlevel;
             raid.attacklist = [];
+            raid.damagelist = [];
         } else {
             //let roll = 1 + ((Math.random() - 0.5) * 0.2);
             let summonlevel = 200 + Math.floor(Math.random() * 100)
@@ -44,13 +45,11 @@ module.exports = async function (message, user) {
             raid.maxhealth = Math.floor(summonlevel * 50);
             raid.reward = Math.floor(summonlevel * 5000);
             raid.level = summonlevel;
-            //raid.itemReward = itemrewardId;
             raid.attacklist = [];
         }
         functions.setObject("mobData", raid)
         message.channel.overwritePermissions(message.guild.roles.cache.get("536599503608872961"), {
-            "READ_MESSAGES": true,
-            "SEND_MESSAGES": true
+            "READ_MESSAGES": true
         }).then(function () { functions.replyMessage(message, "Boss summoned. It is level " + raid.level + "!\n" + "<@&564565782852272140>"); }).catch(console.error);
     }, time)
 }
