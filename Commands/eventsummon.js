@@ -48,8 +48,8 @@ module.exports = async function (message, user) {
             raid.attacklist = [];
         }
         functions.setObject("mobData", raid)
-        message.channel.overwritePermissions(message.guild.roles.cache.get(devData.eventRaidChannel), {
-            "READ_MESSAGES": true
+        message.channel.updateOverwrite(message.guild.roles.everyone, {
+            VIEW_MESSAGES: true
         }).then(function () { functions.replyMessage(message, "Boss summoned. It is level " + raid.level + "!\n" + "<@&564565782852272140>"); }).catch(console.error);
     }, time)
 }

@@ -1459,8 +1459,8 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         }
         if (type == "event") {
             bot.setTimeout(function () {
-                message.channel.overwritePermissions(message.guild.roles.cache.get(devData.eventRaidChannel), {
-                    "READ_MESSAGES": false
+                bot.channels.cache.get(devData.eventRaidChannel).updateOverwrite(message.guild.roles.everyone, {
+                    VIEW_MESSAGES: false
                 }).catch(console.error);
             }, 30000)
         }
