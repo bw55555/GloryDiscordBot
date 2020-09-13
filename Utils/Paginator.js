@@ -4,7 +4,7 @@ class Paginator {
         this.current = 0;
         this.total = pages.length;
         this.pages = pages;
-        if (channel.type != "dm" && channel.type != "group" && (channel.memberPermissions(bot.user) != null && !channel.memberPermissions(bot.user).has("SEND_MESSAGES"))) {return}
+        if (channel.type != "dm" && channel.type != "group" && (channel.permissionsFor(bot.user) != null && !channel.permissionsFor(bot.user).has("SEND_MESSAGES"))) {return}
         this.first = "⏮";
         this.back = "◀"
         this.stop = "⏹";
@@ -12,14 +12,13 @@ class Paginator {
         this.last = "⏭";
         this.number = "🔢";
         this.pause = false
-        //if (channel.memberPermissions(bot.id) != null && !channel.memberPermissions(bot.id).has("SEND_MESSAGES")) { return }
         channel.send(pages[0]).then(async (msg) => {
             /**
 			 * Message sent
 			 * @type {Message}
 			 */
             this.message = msg;
-            if (channel.type == "dm" || channel.type == "group" || channel.memberPermissions(bot.user) != null || channel.memberPermissions(bot.user).has("ADD_REACTIONS")) {
+            if (channel.type == "dm" || channel.type == "group" || channel.permissionsFor(bot.user) != null || channel.permissionsFor(bot.user).has("ADD_REACTIONS")) {
                 await this.message.react(this.first).catch(function (err) { console.error(err) });
                 await this.message.react(this.back).catch(function (err) { console.error(err) });
                 await this.message.react(this.stop).catch(function (err) { console.error(err) });
@@ -30,7 +29,7 @@ class Paginator {
             this.collector = this.message.createReactionCollector((reaction, user) => reaction.me && user.id === dad.original && user.id !== this.message.author.id, { time: 100000 });
             this.collector.on("collect", (reaction, collector) => {
                 if (!this.pause) {
-                    if (this.message.channel.type == "dm" || this.message.channel.type || "group" || (this.message.channel.memberPermissions(bot.user) == null || this.message.channel.memberPermissions(bot.user).has("MANAGE_MESSAGES"))) {reaction.remove(dad)};
+                    if (this.message.channel.type == "dm" || this.message.channel.type == "group" || (this.message.channel.permissionsFor(bot.user) == null || this.message.channel.permissionsFor(bot.user).has("MANAGE_MESSAGES"))) {reaction.remove(dad)};
                     switch (reaction.emoji.toString()) {
                         case this.first:
                             this.current = 0;

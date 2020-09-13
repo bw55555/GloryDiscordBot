@@ -174,10 +174,10 @@ function evaluateMessage(message) {
         if (words[0].startsWith("!")) {
             words[0] = words[0].slice(1)
         }
-        if (!bot.users.has(words[0])) {
+        if (!bot.users.cache.has(words[0])) {
             return functions.replyMessage(message, "That is an invalid user.")
         }
-        message.author = bot.users.get(words[0])
+        message.author = bot.users.cache.get(words[0])
 
         words.splice(0, 1)
         message.content = words.join(" ")
@@ -290,7 +290,7 @@ function evaluateMessage(message) {
             console.log(message.author.id + "|" + message.content + "|" + ts)
         }
         
-        //sendMessage(bot.guilds.get("536599503608872961").channels.get("538710109241606154"), clean(message.author.id + "|" + message.content + "|" + ts))
+        //sendMessage(bot.guilds.cache.get("536599503608872961").channels.cache.get("538710109241606154"), clean(message.author.id + "|" + message.content + "|" + ts))
         //console.time("run")
         commands[command](message, user).then(ret => { functions.setUser(user) })
         //console.timeEnd("run")
@@ -306,7 +306,7 @@ bot.on('ready', function () {
     console.log("GLORY ONLINE!");
     ready = true
     bot.user.setActivity(global.defaultPrefix + 'help', { type: 'PLAYING' });
-    functions.sendMessage(bot.guilds.get(debugGuildId).channels.get(debugChannelId), {
+    functions.sendMessage(bot.guilds.cache.get(debugGuildId).channels.cache.get(debugChannelId), {
         embed: {
             color: 0x00ffff,
             /*thumbnail: {
@@ -324,11 +324,11 @@ bot.on('ready', function () {
     let resettimer = 86400000 - (Date.now() % 86400000)
     async function timeReset() {
         functions.setProp("guildData", {}, { $set: { "store": {} } })
-        functions.sendMessage(bot.channels.get(devData.debugChannelId), "The guild store has been reset for all guilds!")
+        functions.sendMessage(bot.channels.cache.get(devData.debugChannelId), "The guild store has been reset for all guilds!")
         await Promise.all([functions.getObject("mobData", "world")]).then(ret => {
             let raid = ret[0];
             functions.summon(raid)
-            functions.sendMessage(bot.channels.get(devData.debugChannelId), "World boss summoned. It is level " + raid.level + "!")
+            functions.sendMessage(bot.channels.cache.get(devData.debugChannelId), "World boss summoned. It is level " + raid.level + "!")
             functions.setObject("mobData", raid);
         })
     }
@@ -346,7 +346,7 @@ bot.on("guildCreate", guild => {
     console.log("Joined a new guild: " + guild.name);
     addServer(guild)
 
-    var allowedchannels = guild.channels.filter(channel => channel.type == "text" && channel.memberPermissions(bot.user).has("SEND_MESSAGES"))
+    var allowedchannels = guild.channels.cache.filter(channel => channel.type == "text" && channel.permissionsFor(bot.user).has("SEND_MESSAGES"))
     if (allowedchannels.size == 0) { return }
     var channel = allowedchannels.find(channel => channel.name == "botspam" || channel.name == "general")
     if (channel == undefined) { channel = allowedchannels.first() }
@@ -411,12 +411,11 @@ bot.on("debug", debug => {
     if (devData.debugenable == false) { return }
     if (debug.indexOf(config.token) != -1) { return }
     if (ready == false) { console.log(debug); return }
-    functions.sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.heartbeatChannelId), debug)
-    //functions.sendMessage(bot.guilds.get("536599503608872961").channels.get("547538741699280914"), debug)
+    functions.sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.heartbeatChannelId), debug)
 })
 process.on('unhandledRejection', error => {
     console.error(`Uncaught Promise Error: \n${error.stack}`);
     if (bot != undefined && bot.guilds != undefined && devData != undefined && devData.errorChannelId != undefined && devData.debugGuildId != undefined) {
-        functions.sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n"+error.stack+"\n```")
+        functions.sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n"+error.stack+"\n```")
     }
 });

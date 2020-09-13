@@ -2,7 +2,7 @@ function sendMessage(channel, text, override) {
     //console.time("Message Send")
     override = (override == true) ? true : false
     if (!override && channel.guild != undefined && serverData[channel.guild.id] != undefined && serverData[channel.guild.id].disabledChannels.indexOf(channel.id) != -1) { return; }
-    if (channel.type != "dm" && channel.type != "group" && (channel.memberPermissions(bot.user) != null && !channel.memberPermissions(bot.user).has("SEND_MESSAGES"))) { return }
+    if (channel.type != "dm" && channel.type != "group" && (channel.permissionsFor(bot.user) != null && !channel.permissionsFor(bot.user).has("SEND_MESSAGES"))) { return }
     channel.send(text).catch(function (err) {
         console.error(err)
     })
@@ -22,7 +22,7 @@ async function MessageAwait(channel, userid, initialTextToSend, compareFunc, onS
     if (onSuccess == undefined || onSuccess == null) { onSuccess = function (response) { return response } }
     if (waitList[userid] > Date.now()+30000) { return sendMessage(channel, "<@"+userid+"> already has a message awaiting confirmation.")}
     waitList[userid] = Date.now();
-    if (channel.type == "dm" || channel.type == "group" || channel.memberPermissions(bot.user) == null || channel.memberPermissions(bot.user).has("SEND_MESSAGES")) {
+    if (channel.type == "dm" || channel.type == "group" || channel.permissionsFor(bot.user) == null || channel.permissionsFor(bot.user).has("SEND_MESSAGES")) {
         return channel.send(initialTextToSend).then(() => {
             return channel.awaitMessages(response => response.author.id == userid && response.channel.id == channel.id, {
                 max: 1,

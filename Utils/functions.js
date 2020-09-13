@@ -38,7 +38,7 @@ async function getObject(coll, oid) {
             return r[0];
         }).catch(err => {
             console.error(err)
-            sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
             return false
         })
     //})
@@ -50,7 +50,7 @@ async function findObjects(coll, query, projection) {
             return r;
         }).catch(err => {
             console.error(err)
-            sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
             return false
         })
     //})
@@ -61,7 +61,7 @@ async function setObject(coll, newobj) {
             return true;
         }).catch(function (err) {
             console.error(err)
-            sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
             return false;
         })
     //})
@@ -72,7 +72,7 @@ async function deleteObject(coll, oid) {
             return true;
         }).catch(function (err) {
             console.error(err)
-            sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
             return false;
         })
     //})
@@ -83,7 +83,7 @@ async function setProp(coll, query, newvalue) {
             return true;
         }).catch(function (err) {
             console.error(err)
-            sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
             return false;
         })
     //})
@@ -94,7 +94,7 @@ async function bulkWrite(coll, tasks) {
             return true;
         }).catch(function (err) {
             console.error(err)
-            sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
             return false;
         })
     //})
@@ -105,7 +105,7 @@ async function deleteObjects(coll, filter) {
             return true;
         }).catch(function (err) {
             console.error(err)
-            sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
             return false;
         })
     //})
@@ -120,7 +120,7 @@ function sendMessage(channel, text, override) {
     //console.time("Message Send")
     override = (override == true) ? true : false
     if (!override && channel.guild != undefined && serverData[channel.guild.id] != undefined && serverData[channel.guild.id].disabledChannels.indexOf(channel.id) != -1) { return; }
-    if (channel.type != "dm" && channel.type != "group" && (channel.memberPermissions(bot.user) != null && !channel.memberPermissions(bot.user).has("SEND_MESSAGES"))) { return }
+    if (channel.type != "dm" && channel.type != "group" && (channel.permissionsFor(bot.user) != null && !channel.permissionsFor(bot.user).has("SEND_MESSAGES"))) { return }
     while (text.indexOf != undefined && text.indexOf("@everyone") != -1) {
         text.replace("@everyone", "everyone")
     }
@@ -134,12 +134,12 @@ function sendMessage(channel, text, override) {
                 bot.setTimeout(function () { sendMessage(channel, text, override) }, 100)
             } else {
                 console.error(err)
-                sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+                sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
             }
             channel.retry = true;
         } else {
             console.error(err)
-            sendMessage(bot.guilds.get(devData.debugGuildId).channels.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
         }
         
     })
@@ -149,7 +149,7 @@ function replyMessage(message, text, override) {
     //console.time("Message Send")
     override = (override == true) ? true : false
     if (!override && message.channel.guild != undefined && serverData[message.guild.id] != undefined && serverData[message.guild.id].disabledChannels.indexOf(message.channel.id) != -1) { return; }
-    if (message.channel.type != "dm" && message.channel.type != "group" && message.channel.memberPermissions(bot.user) != null && !message.channel.memberPermissions(bot.user).has("SEND_MESSAGES")) { return }
+    if (message.channel.type != "dm" && message.channel.type != "group" && message.channel.permissionsFor(bot.user) != null && !message.channel.permissionsFor(bot.user).has("SEND_MESSAGES")) { return }
     sendMessage(message.channel, "<@"+message.author.id+">, "+text, override )
     //console.timeEnd("Message Send")
 }
@@ -162,15 +162,15 @@ function deleteMessage(message) {
 }
 
 function dmUser(user, text) {
-    if (user._id == bot.id || bot.users.get(user._id) == undefined) { return }
-    if (user.dmmute != true) bot.users.get(user._id).send(text).catch(function (err) { console.error(err) })
+    if (user._id == bot.id || bot.users.cache.get(user._id) == undefined) { return }
+    if (user.dmmute != true) bot.users.cache.get(user._id).send(text).catch(function (err) { console.error(err) })
 }
 
 
 function logCommand(message, extratext) {
     if (message.author.bot) { return }
     if (extratext == undefined) { extratext = "" } else { extratext = "|" + extratext }
-    sendMessage(bot.guilds.get(debugGuildId).channels.get(debugChannelId), clean(message.author.id + "|" + message.content + "|" + message.createdTimestamp + extratext))
+    sendMessage(bot.guilds.cache.get(debugGuildId).channels.cache.get(debugChannelId), clean(message.author.id + "|" + message.content + "|" + message.createdTimestamp + extratext))
 }
 
 async function validate(message, user, spot) {
@@ -193,9 +193,9 @@ async function validate(message, user, spot) {
     let temptarget = undefined
     if (target.slice(target.length - 5).startsWith("#")) {
         //replyMessage(message,"Ran")
-        temptarget = bot.users.find(val => val.discriminator == target.slice(target.length - 4) && val.username == target.slice(0, target.length - 5));
+        temptarget = bot.users.cache.find(val => val.discriminator == target.slice(target.length - 4) && val.username == target.slice(0, target.length - 5));
     } else {
-        temptarget = bot.users.find(val => val.username == target)
+        temptarget = bot.users.cache.find(val => val.username == target)
     }
     if (temptarget != undefined) {
         target = temptarget.id
@@ -243,7 +243,7 @@ function generateWeaponTemplate(owner, weapon, current, total) {
     if (weapon.owner == "event") {
         name = "event"
     } else {
-        name = bot.users.get(weapon.owner).username
+        name = bot.users.cache.get(weapon.owner).username
     }
     return {
         embed: {
@@ -427,9 +427,9 @@ function calcLuckyBuff(user) {
     return luckybuff
 }
 function errorlog(text) {
-    if (!bot.guilds.has("536599503608872961")) {return}
-    if (!bot.guilds.get("536599503608872961").channels.has("538526944141246486")) {return}
-    sendMessage(bot.guilds.get("536599503608872961").channels.get("538526944141246486"),text)
+    if (!bot.guilds.cache.has("536599503608872961")) {return}
+    if (!bot.guilds.cache.get("536599503608872961").channels.cache.has("538526944141246486")) {return}
+    sendMessage(bot.guilds.cache.get("536599503608872961").channels.cache.get("538526944141246486"),text)
 }
 function secondsUntilReset(ts) {
     let x = ts % (24 * 60 * 60 * 1000)
@@ -1327,7 +1327,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         let tasks = [];
         let luckyperson = keys[Math.floor(Math.random() * keys.length)]
         if (type == "event" || type == "world") {
-            sendMessage(bot.channels.get(devData.debugChannelId), "A level "+raid.level+" "+raid.name+" was killed by " + user.username + " (ID: "+user._id+")!")
+            sendMessage(bot.channels.cache.get(devData.debugChannelId), "A level "+raid.level+" "+raid.name+" was killed by " + user.username + " (ID: "+user._id+")!")
             for (var i = 0; i < keys.length; i++) {
                 if (user._id == keys[i]) { user.money += raid.attacklist[keys[i]]; user.glory += (raid.health / 100000) * (raid.damagelist[keys[i]] / raid.health);continue}
                 tasks.push({
@@ -1461,7 +1461,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         }
         if (type == "event") {
             bot.setTimeout(function () {
-                message.channel.overwritePermissions(message.guild.roles.get("536599503608872961"), {
+                message.channel.overwritePermissions(message.guild.roles.cache.get("536599503608872961"), {
                     "READ_MESSAGES": false,
                     "SEND_MESSAGES": false
                 }).catch(console.error);

@@ -12,7 +12,7 @@ module.exports = async function (message, user) {
     ]
     let viplevel = parseInt(words[1]);
     for (var i = viproles.length - 1; i >= 0; i--) {
-        if (message.member.roles.has(viproles[i])) {
+        if (message.member.roles.cache.has(viproles[i])) {
             if (user.vip == undefined) { user.vip = {} }
             if (user.vip.rerollsclaimed == undefined) { user.vip.rerollsclaimed = 0;}
             user.vip.lucky = vipbenefits[i].lucky;

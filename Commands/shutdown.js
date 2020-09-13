@@ -8,11 +8,10 @@ module.exports = async function (message, user) {
     if (words.indexOf("-nobackup") == -1) {
         //this.backup(message)
     }
-    message.reply('GLORY is shutting down...').then(function (session) {
-        return bot.destroy().then(function (destruct) {
-            setTimeout(function () {
-                process.exit(2)
-            }, 2000)
-        }).catch(function (err) { console.error(err) })
+    message.reply('GLORY has shut down!').then(function (session) {
+        bot.destroy()
+        setTimeout(function () {
+            process.exit(2)
+        }, 2000)
     }).catch(function (err) { console.error(err) })
 }
