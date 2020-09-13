@@ -1359,7 +1359,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 })
             }
             text += "<@" + user._id + "> killed the boss and recieved a skill reroll!\n";
-            text += "<@" + keys[i] + "> was lucky and recieved a skill reroll!\n";
+            text += "<@" + key + "> was lucky and recieved a skill reroll!\n";
             
         } else {
             for (var i = 0; i < keys.length; i++) {
