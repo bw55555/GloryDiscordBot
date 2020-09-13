@@ -1411,7 +1411,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 "Dragon Boss": [0, 0, 0.02, 0, 0.015, 0, 0],
                 "Deity Boss": [0, 0, 0.02, 0.005, 0.01, 0.01, 0.01],
                 "Hell Lord": [0, 0, 0.02, 0.01, 0.02, 0.02, 0.02],
-                "Fallen Angel": [0, 0.01, 1, 0.25, 0, 0, 0]
+                "Treant King": [0, 1, 1, 1, 1, 1, 1]
             }
             let runeprobs = cruneinfo[raid.name]
             for (let i = 0; i < runeprobs.length; i++) {
