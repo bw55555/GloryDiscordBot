@@ -1327,7 +1327,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         if (type == "event" || type == "world") {
             sendMessage(bot.channels.cache.get(devData.debugChannelId), "A level "+raid.level+" "+raid.name+" was killed by " + user.username + " (ID: "+user._id+")!")
             for (var i = 0; i < keys.length; i++) {
-                if (user._id == keys[i]) { user.money += raid.attacklist[keys[i]]; user.glory += (raid.health / 100000) * (raid.damagelist[keys[i]] / raid.health);continue}
+                if (user._id == keys[i]) { user.money += raid.attacklist[keys[i]]; user.glory += (raid.maxhealth / 100000) * (raid.damagelist[keys[i]] / raid.maxhealth);continue}
                 tasks.push({
                     updateOne:
                     {
@@ -1335,7 +1335,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                         "update": {
                             $inc: {
                                 "money": raid.attacklist[keys[i]],
-                                "glory": (raid.level / 100) * (raid.damagelist[keys[i]] / raid.maxhealth)
+                                "glory": (raid.maxhealth / 100000) * (raid.damagelist[keys[i]] / raid.maxhealth)
                             }
                         }
                     }
