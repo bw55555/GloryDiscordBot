@@ -848,9 +848,6 @@ function calcStats(message, user, stat, skillenable,confused) {
         attack += 60;
         defense -= 60;
     }
-    if (hasSkill(user, 26, skillenable)) {
-        sacrifice += 0.05
-    }
     if (hasSkill(user, 27, skillenable)) {
         critRate += 0.01
         critDamage += 1;
