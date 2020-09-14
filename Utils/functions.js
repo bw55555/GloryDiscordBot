@@ -1475,7 +1475,8 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         }
         if (type == "event") {
             bot.setTimeout(function () {
-                bot.channels.cache.get(devData.eventRaidChannel).updateOverwrite(message.guild.roles.everyone, {
+                let erc = bot.channels.cache.get(devData.eventRaidChannel)
+                erc.updateOverwrite(erc.guild.roles.everyone, {
                     VIEW_MESSAGES: false
                 }).catch(console.error);
             }, 30000)
