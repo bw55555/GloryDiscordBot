@@ -1394,9 +1394,9 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             let floating = runeshardnum % 100;
             let extra = Math.random() * 100 > floating ? 0 : 1
             runeshardnum = Math.floor(runeshardnum / 100) + extra;
-            let runetext = "";
+            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and an item (ID: " + item._id + ") with rarity " + item.rarity + ".\n";
             if (runeshardnum > 0) {
-                runetext = "They also received " + runeshardnum + " Rune Shards.\n"
+                text += "They also received " + runeshardnum + " Rune Shards.\n"
                 user.runes[0] += runeshardnum
             }
             let cruneinfo = {
@@ -1420,7 +1420,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             }
             
             for (let person in runerewards) {
-                runetext += "<@" + person + "> received: "
+                text += "<@" + person + "> received: "
                 let personrunetext = [];
                 for (let i = 0; i < runerewards[person].length; i++) {
                     if (runerewards[person][i] == 0) { continue }
@@ -1442,9 +1442,16 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                     if (runerewards[person][i] > 1) { currtext += "s" }
                     personrunetext.push(currtext)                    
                 }
-                runetext+=personrunetext.join(", ")+"!\n"
+                text += personrunetext.join(", ") + "!\n"
+                if (text.length > 1800) {
+                    if (type == "event") {
+                        sendMessage(bot.channels.cache.get(devData.eventRaidChannel), text)
+                    } else {
+                        sendMessage(message.channel, text)
+                    }
+                }
             }
-            text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and an item (ID: " + item._id + ") with rarity " + item.rarity + ".\n" + runetext;
+            
         } else if (type == "guild") {
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\nThe guild was also given " + raid.reward + " xp and " + raid.crystalreward + " crystals.\n"
             extra.xp += raid.reward
