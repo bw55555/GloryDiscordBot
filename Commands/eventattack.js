@@ -10,5 +10,4 @@ module.exports = async function (message, user) {
         functions.raidAttack(message, user, raid, "event")
         functions.setObject("mobData", raid)
     })
-    
 }

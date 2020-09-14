@@ -1276,7 +1276,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         counter = 0;
     }
     let damagereward = Math.floor(damage * Math.sqrt(raid.level) * Math.random() * luckybuff);
-    if (type != "event") { damagereward *= 5 }
+    damagereward *= 5
     if (damage > raid.currenthealth) { damage = raid.currenthealth }
     user.currenthealth = user.currenthealth - counter;
     raid.currenthealth = raid.currenthealth - damage;
@@ -1472,6 +1472,13 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         if (type == "raid") {
             summon(raid)
             text += "Boss automatically summoned. It is level "+raid.level+"!"
+        }
+        if (type == "event") {
+            bot.setTimeout(function () {
+                bot.channels.cache.get(devData.eventRaidChannel).updateOverwrite(message.guild.roles.everyone, {
+                    VIEW_MESSAGES: false
+                }).catch(console.error);
+            }, 30000)
         }
     }
     if (user.currenthealth <= 0) {

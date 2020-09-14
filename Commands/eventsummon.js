@@ -4,6 +4,7 @@ module.exports = async function (message, user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     if (admins.indexOf(id) == -1) { return }
+    if (message.channel.id != devData.eventRaidChannel) { return; }
     let time = 0;
     if (words[1] == "-time") {
         time = functions.extractTime(message,words[2])
@@ -49,6 +50,8 @@ module.exports = async function (message, user) {
             raid.attacklist = [];
         }
         functions.setObject("mobData", raid)
-        functions.replyMessage(message, "Boss summoned. It is level " + raid.level + "!\n" + "<@&564565782852272140>");
-    })
+        message.channel.updateOverwrite(message.guild.roles.everyone, {
+            VIEW_MESSAGES: true
+        }).then(ret => functions.replyMessage(message, "Boss summoned. It is level " + raid.level + "!\n" + "<@&564565782852272140>"));
+    }, time)
 }
