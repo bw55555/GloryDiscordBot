@@ -34,8 +34,8 @@ module.exports = async function (message, user) {
             raid.maxhealth = summonhp;
             raid.reward = summonreward;
             raid.level = summonlevel;
-            raid.attacklist = [];
-            raid.damagelist = [];
+            raid.attacklist = {};
+            raid.damagelist = {};
         } else {
             //let roll = 1 + ((Math.random() - 0.5) * 0.2);
             let summonlevel = 200 + Math.floor(Math.random() * 100)
@@ -47,7 +47,8 @@ module.exports = async function (message, user) {
             raid.maxhealth = Math.floor(summonlevel * 50);
             raid.reward = Math.floor(summonlevel * 5000);
             raid.level = summonlevel;
-            raid.attacklist = [];
+            raid.attacklist = {};
+            raid.damagelist = {};
         }
         functions.setObject("mobData", raid)
         message.channel.updateOverwrite(message.guild.roles.everyone, {

@@ -1,6 +1,6 @@
 
 module.exports = async function (message, user) {
-    if (message.channel.id != devData.eventRaidChannel) { return;}
+    //if (message.channel.id != devData.eventRaidChannel) { return;}
     return Promise.all([functions.getObject("mobData", "event")]).then(ret => {
         let raid = ret[0]
         if (raid == false) {
