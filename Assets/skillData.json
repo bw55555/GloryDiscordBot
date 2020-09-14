@@ -147,7 +147,7 @@
     {
         "name": "Dies Irae",
         "id": 29,
-        "description": "Rage + 0.3; Rage assumes your health is half of its true value"
+        "description": "Rage + 0.3; Rage assumes your health is 7/8 of its true value"
     },
     {
         "name": "Aegis",

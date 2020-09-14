@@ -878,7 +878,7 @@ function calcStats(message, user, stat, skillenable,confused) {
         if (rage > 0) {
             let x = user.currenthealth / user.health
             if (hasSkill(user, 29, skillenable)) {
-                x = user.currenthealth / (user.health * 2)
+                x = 7*user.currenthealth / (8*user.health)
             }
             x = Math.sqrt(x)
             buff += (rage * -1 * (Math.log(x) + 0.15));
