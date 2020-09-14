@@ -1513,6 +1513,7 @@ function getRandomByDamage(raid) {
         damagetotal += raid.damagelist[key];
         if (damagetotal > damagechance) { return key; }
     }
+    return key;
 }
 function smeltItem(user, item, givereward, isBulk) {
     givereward = (givereward == false) ? false : true
