@@ -80,7 +80,7 @@ class Paginator {
                             this.pause = true;
                             MessageAwait(this.message.channel,dad.id, "Please enter a number between 1 and "+pages.length+".",
                             function(response) {
-                                let number = parseInt(response.content);
+                                let number = parseInt(response);
                                 if (!isNaN(number) && number>=1 && number <= pages.length) {
                                     return true
                                 } else {
@@ -91,6 +91,10 @@ class Paginator {
                                 currPaginator.current = parseInt(response.content)-1;
                                 currPaginator.pause = false;
                                 currPaginator.refresh()
+                            },
+                            this,
+                            function (response, currPaginator) {
+                                currPaginator.pause = false;
                             },
                             this)
                     }
