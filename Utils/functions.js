@@ -410,7 +410,7 @@ function calcLuckyBuff(user) {
     let luckybuff = 1
     if (user.weapon != false && user.weapon != undefined) { //lucky enchant
         if (user.weapon.modifiers.lucky != undefined) {
-            luckybuff = user.weapon.modifiers.lucky
+            luckybuff += user.weapon.modifiers.lucky
         }
     }
     if (hasSkill(user, 16)) { //Royalty Skill
