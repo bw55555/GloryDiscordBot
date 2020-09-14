@@ -128,7 +128,6 @@ function sendMessage(channel, text, override) {
         text.replace("@here", "here")
     }
     return channel.send(text).catch(function (err) {
-        
         if (err.errno == "ENOBUFS") {
             if (channel.retry == undefined) {
                 bot.setTimeout(function () { sendMessage(channel, text, override) }, 100)
@@ -141,9 +140,7 @@ function sendMessage(channel, text, override) {
             console.error(err)
             sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
         }
-        
     })
-
 }
 function replyMessage(message, text, override) {
     //console.time("Message Send")

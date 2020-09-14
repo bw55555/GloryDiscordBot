@@ -1,10 +1,35 @@
-﻿var MessageAwait=require("./MessageAwait.js")
+﻿function sendMessage(channel, text, override) {
+    //console.time("Message Send")
+    override = (override == true) ? true : false
+    if (!override && channel.guild != undefined && serverData[channel.guild.id] != undefined && serverData[channel.guild.id].disabledChannels.indexOf(channel.id) != -1) { return; }
+    if (channel.type != "dm" && channel.type != "group" && (channel.permissionsFor(bot.user) != null && !channel.permissionsFor(bot.user).has("SEND_MESSAGES"))) { return }
+    while (text.indexOf != undefined && text.indexOf("@everyone") != -1) {
+        text.replace("@everyone", "everyone")
+    }
+    while (text.indexOf != undefined && text.indexOf("@here") != -1) {
+        text.replace("@here", "here")
+    }
+    return channel.send(text).catch(function (err) {
+        if (err.errno == "ENOBUFS") {
+            if (channel.retry == undefined) {
+                bot.setTimeout(function () { sendMessage(channel, text, override) }, 100)
+            } else {
+                console.error(err)
+                sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+            }
+            channel.retry = true;
+        } else {
+            console.error(err)
+            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+        }
+    })
+}
+var MessageAwait = require("./MessageAwait.js")
 class Paginator {
     constructor(channel, dad, pages) {
         this.current = 0;
         this.total = pages.length;
         this.pages = pages;
-        if (channel.type != "dm" && channel.type != "group" && (channel.permissionsFor(bot.user) != null && !channel.permissionsFor(bot.user).has("SEND_MESSAGES"))) {return}
         this.first = "⏮";
         this.back = "◀"
         this.stop = "⏹";
@@ -12,7 +37,9 @@ class Paginator {
         this.last = "⏭";
         this.number = "🔢";
         this.pause = false
-        channel.send(pages[0]).then(async (msg) => {
+        let sendmsg = sendMessage(channel,pages[0])
+        if (sendmsg == undefined) { return }
+        sendmsg.then(async (msg) => {
             /**
 			 * Message sent
 			 * @type {Message}

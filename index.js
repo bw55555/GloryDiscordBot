@@ -290,7 +290,7 @@ function evaluateMessage(message) {
             console.log(message.author.id + "|" + message.content + "|" + ts)
         }
         
-        //sendMessage(bot.guilds.cache.get("536599503608872961").channels.cache.get("538710109241606154"), clean(message.author.id + "|" + message.content + "|" + ts))
+        //sendMessage(bot.guilds.cache.get("536599503608872961").channels.cache.get("538710109241606154"), message.author.id + "|" + message.content + "|" + ts)
         //console.time("run")
         commands[command](message, user).then(ret => { functions.setUser(user) })
         //console.timeEnd("run")
