@@ -419,9 +419,3 @@ process.on('unhandledRejection', error => {
         functions.sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n"+error.stack+"\n```")
     }
 });
-
-Math.prototype.randint = function (a,b) {
-    let num = Math.random() * (b - a) + a;
-    let extra = Math.random() < num - Math.floor(num) ? 1 : 0
-    return Math.floor(num) + extra;
-}

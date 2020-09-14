@@ -86,3 +86,4 @@ export function completeQuest(user: JSON, condition: string, extra: JSON, amount
 export function addQuestCondition(condition: string,operator:string, description: string, total: number, extra: JSON, type: "c" | "a"): JSON
 export function JSONoperate(json: JSON, key: string, op: "get" | "set" | "add", obj: string | number): any
 export function adminQuest(message: Message, target: JSON): string
+export function randint(a: number,b: number): number

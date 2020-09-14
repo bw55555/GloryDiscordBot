@@ -1410,7 +1410,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             let runeprobs = cruneinfo[raid.name]
             let runerewards = {};
             for (let i = 0; i < runeprobs.length; i++) {
-                let num = Math.randint(0, runeprobs[i])
+                let num = randint(0, runeprobs[i])
                 while (num > 0) {
                     let person = getRandomByDamage(raid)
                     if (runerewards[person] == undefined) { runerewards[person] = [0,0,0,0,0,0,0] }
@@ -1485,6 +1485,11 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
     }
     setCD(user, ts, attackcd * 60, "attack");
     user.speed += 1;
+}
+function randint(a, b) {
+    let num = Math.random() * (b - a) + a;
+    let extra = Math.random() < num - Math.floor(num) ? 1 : 0
+    return Math.floor(num) + extra;
 }
 function getRandomByDamage(raid) {
     let damagechance = Math.random() * raid.maxhealth;
@@ -1808,6 +1813,7 @@ module.exports.checkProps = function (message,user) { return checkProps(message,
 module.exports.checkStuff = function (message,user) { return checkStuff(message,user) }
 module.exports.checkBurn = function (message,user) { return checkBurn(message,user) }
 module.exports.raidAttack = function (message, user, raid, type, guild) { return raidAttack(message, user, raid, type, guild) }
+module.exports.randint = function (a,b) { return randint(a,b) }
 module.exports.smeltItem = function (user, item, giveReward, isBulk) { return smeltItem(user, item, giveReward, isBulk) }
 module.exports.itemFilter = function (message, user, defaults) { return itemFilter(message, user, defaults) }
 module.exports.getModifierText = function (modifierlist) { return getModifierText(modifierlist) }
