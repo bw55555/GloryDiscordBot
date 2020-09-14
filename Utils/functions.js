@@ -1405,29 +1405,44 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 "Dragon Boss": [0, 0, 0.02, 0, 0.015, 0, 0],
                 "Deity Boss": [0, 0, 0.02, 0.005, 0.01, 0.01, 0.01],
                 "Hell Lord": [0, 0, 0.02, 0.01, 0.02, 0.02, 0.02],
-                "Treant King": [0, 1, 1, 1, 1, 1, 1]
+                "Treant King": [500, 1, 5, 2, 2, 2, 2]
             }
             let runeprobs = cruneinfo[raid.name]
+            let runerewards = {};
             for (let i = 0; i < runeprobs.length; i++) {
-                if (Math.random() < runeprobs[i]) {
-                    let key = getRandomByDamage(raid)
-                    if (user._id == key) { user.runes[i] += 1 }
+                let num = Math.randint(0, runeprobs[i])
+                while (num > 0) {
+                    let person = getRandomByDamage(raid)
+                    if (runerewards[person] == undefined) { runerewards[person] = [0,0,0,0,0,0,0] }
+                    runerewards[person][i] += 1;
+                    num -= 1;
+                }
+            }
+            
+            for (let person in runerewards) {
+                runetext += "<@" + person + "> received: "
+                let personrunetext = [];
+                for (let i = 0; i < runerewards[person].length; i++) {
+                    if (runerewards[person][i] == 0) { continue }
+                    if (user._id == person) { user.runes[i] += runerewards[person][i] }
                     else {
-                        let toSet = {}
-                        toSet["runes." + i] = 1;
+                        let toSet = {};
+                        toSet["runes." + i] = runerewards[person][i];
                         tasks.push({
                             updateOne:
                             {
-                                "filter": { _id: key },
+                                "filter": { _id: person },
                                 "update": {
                                     $inc: toSet
                                 }
                             }
                         })
                     }
-                    runetext += "<@" + key + "> received a " + runeNames[i] + "!\n"
+                    let currtext = runerewards[person][i] + " " + runeNames[i]
+                    if (runerewards[person][i] > 1) { currtext += "s" }
+                    personrunetext.push(currtext)                    
                 }
-
+                runetext+=personrunetext.join(", ")+"!\n"
             }
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp and an item (ID: " + item._id + ") with rarity " + item.rarity + ".\n" + runetext;
         } else if (type == "guild") {
@@ -1451,13 +1466,6 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             summon(raid)
             text += "Boss automatically summoned. It is level "+raid.level+"!"
         }
-        if (type == "event") {
-            bot.setTimeout(function () {
-                bot.channels.cache.get(devData.eventRaidChannel).updateOverwrite(message.guild.roles.everyone, {
-                    VIEW_MESSAGES: false
-                }).catch(console.error);
-            }, 30000)
-        }
     }
     if (user.currenthealth <= 0) {
         user.dead = true;
@@ -1468,7 +1476,13 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             user.glory *= 0.999
         }
     }
-    if (text != "") { sendMessage(message.channel, text) }
+    if (text != "") {
+        if (type == "event") {
+            sendMessage(bot.channels.cache.get(devData.eventRaidChannel), text)
+        } else {
+            sendMessage(message.channel, text)
+        }
+    }
     setCD(user, ts, attackcd * 60, "attack");
     user.speed += 1;
 }
