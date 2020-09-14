@@ -1410,7 +1410,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             let runeprobs = cruneinfo[raid.name]
             let runerewards = {};
             for (let i = 0; i < runeprobs.length; i++) {
-                let num = randint(0, runeprobs[i])
+                let num = randint(Math.floor(runeprobs[i]), runeprobs[i])
                 while (num > 0) {
                     let person = getRandomByDamage(raid)
                     if (runerewards[person] == undefined) { runerewards[person] = [0,0,0,0,0,0,0] }
