@@ -472,6 +472,7 @@ function extractTime(message,timeword) {
 ///---------------------
 function calcDamage(message, attacker, defender, initiator) {
     let text = ""
+    let counter = 0;
     let roll = Math.random()
     let burn = 0;
     let skillenable = true;
@@ -585,7 +586,7 @@ function calcDamage(message, attacker, defender, initiator) {
         let spiked = Math.floor(defense * spikes)
         if (hasSkill(attacker, 37)) { text += defendername + "'s spikes was dispelled!\n" }
         else {
-            attacker.currenthealth -= spiked
+            counter+=spiked
             text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
         }
     }
@@ -756,7 +757,7 @@ function calcDamage(message, attacker, defender, initiator) {
             text += attackername + " lifestole **" + stealAmount + "** health!\n";
         }
     }
-    return [text, truedamage]
+    return [text, truedamage, counter]
 }
 function calcStats(message, user, stat, skillenable,confused) {
     skillenable = (skillenable == false) ? false : true
@@ -1245,12 +1246,16 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
     if (!raid.attacklist[user._id]) { raid.attacklist[user._id] = 0 }
     if (!raid.damagelist[user._id]) { raid.damagelist[user._id] = 0 }
     let luckybuff = calcLuckyBuff(user)
+    let damage = 0;
+    let counter = 0;
     let damagearr = calcDamage(message, user, raid, user);//ok...
     let damagetext = damagearr[0];
-    let damage = damagearr[1]
+    damage += damagearr[1]
+    counter += damagearr[2]
     let counterarr = calcDamage(message, raid, user, user);//ok...
     let countertext = counterarr[0];
-    let counter = counterarr[1];
+    counter += counterarr[1];
+    damage += counterarr[2];
     if (raid.name == "Cerberus") {
         counter *= 3;
     }
