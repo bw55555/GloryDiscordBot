@@ -15,6 +15,9 @@ module.exports = async function (message, user) {
         if (amount == undefined) { return functions.replyMessage(message, "This amount is not defined!") }
         amount.replace("_", " ")
         if (!isNaN(parseInt(amount))) { amount = parseInt(amount) }
+        if (amount == "true") { amount = true; }
+        if (amount == "false") { amount = false; }
+        if (amount == "undefined") { amount = undefined; }
         let attribute = words[2];
         if (attribute == "_id") { return functions.replyMessage(message, "This is not allowed, don't break my bot")}
         //console.log(attribute)

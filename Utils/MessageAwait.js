@@ -61,7 +61,6 @@ async function MessageAwait(channel, userid, initialTextToSend, compareFunc, onS
         }).catch((err) => {
             console.log(err)
             //console.log(err.size())
-            console.log(err.first())
             if (onFail == undefined || onFail == null) { onFail = "`Timeout`" }
             if (typeof onFail == "string") { sendMessage(channel, onFail) }
             else { onFail(argsForFail) }

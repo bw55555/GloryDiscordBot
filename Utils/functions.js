@@ -513,7 +513,7 @@ function calcDamage(message, attacker, defender, initiator) {
     if (defender.isRaid != true) {
         let hasConfusion = attacker.isRaid != true && hasSkill(attacker, 23, skillenable)
         let defensearr = calcStats(message, defender, "defense", skillenable, hasConfusion);
-        defense = defensearr[1];
+        defense = defensearr[1]; 
         text += defensearr[0];
     }
     if (attacker.isRaid != true && defender.isRaid != true) {
@@ -583,25 +583,10 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     if (spikes > 0) {
         let spiked = Math.floor(defense * spikes)
-        if (attacker.isRaid != true) {
-            if (hasSkill(attacker, 37)) { text += defendername + "'s spikes was dispelled!\n" }
-            else {
-                attacker.currenthealth -= spiked
-                text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
-            }
-            if (defender.isRaid != true) {
-                if (hasSkill(defender, 31, skillenable)) {
-                    if (hasSkill(attacker, 37)) { text += defendername + "'s burn was dispelled!\n" }
-                    else {
-                        if (attacker.burn == undefined) { attacker.burn = 0 }
-                        attacker.burn += spikes * 5; //Burn status, if burning, have a chance to take 5% damage after talking.
-                        text += attackername + " is now burning!"
-                    }
-                }
-            }
-        } else {
-            attack += spiked;
-            text += defendername + " has damaged the raid boss with spikes!\n"
+        if (hasSkill(attacker, 37)) { text += defendername + "'s spikes was dispelled!\n" }
+        else {
+            attacker.currenthealth -= spiked
+            text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
         }
     }
 
@@ -730,7 +715,7 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
     //console.log("Counter")
-    let x = Math.floor(attack * 0.60 * roll + attack * 0.5);
+    let x = Math.floor(attack * 0.60 * roll + attack * 0.4);
     let defmult = 10;
     let truedamage = x;
     if (defense <= 0) {
