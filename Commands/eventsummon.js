@@ -52,7 +52,7 @@ module.exports = async function (message, user) {
         }
         functions.setObject("mobData", raid)
         message.channel.updateOverwrite(message.guild.roles.everyone, {
-            VIEW_MESSAGES: true
+            SEND_MESSAGES: true
         }).then(ret => functions.replyMessage(message, "Boss summoned. It is level " + raid.level + "!\n" + "<@&564565782852272140>"));
     }, time)
 }
