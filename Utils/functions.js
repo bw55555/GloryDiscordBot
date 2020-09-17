@@ -1160,11 +1160,11 @@ function checkStuff(message,user) {
     let words = message.content.trim().split(/\s+/)
     checkProps(message, user)
     if (message.content.indexOf("@everyone") != -1 || message.content.indexOf("@here") != -1) {
-        if (message.guild.id != devData.debugGuildId) {
-            functions.replyMessage(message, "Don't be sneaky and try to ping everyone!")
+        if (message.guild != undefined && message.guild.id != devData.debugGuildId) {
+            replyMessage(message, "Don't be sneaky and try to ping everyone!")
             return false;
         } else {
-            functions.replyMessage(message, "Don't be sneaky and try to ping everyone! <@266984067059154944> ban " + message.author.id)
+            replyMessage(message, "Don't be sneaky and try to ping everyone! <@266984067059154944> ban " + message.author.id)
             return false;
         }
     }
