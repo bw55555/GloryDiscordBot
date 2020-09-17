@@ -125,7 +125,7 @@ module.exports = async function (message, user) {
                 target.bounty = 0;
             }
 
-            user.xp += target.xp
+            user.xp += target.xp/2
             target.xp = 0
 
             if (user.glory != undefined && target.glory != undefined) {
@@ -154,7 +154,7 @@ module.exports = async function (message, user) {
                 target.money += user.bounty;
                 user.bounty = 0;
             }
-            target.xp += user.xp
+            target.xp += user.xp/2
             user.xp = 0
 
             if (user.glory != undefined && target.glory != undefined) {

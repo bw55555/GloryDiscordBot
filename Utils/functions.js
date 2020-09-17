@@ -1371,7 +1371,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 })
             }
         }
-        if (tasks != undefined && tasks != [] && tasks[0] != undefined) { bulkWrite("userData", tasks) }
+        
         if (type != "guild" && type != "dungeon") {
             let rarity = Math.floor(raid.level / 75) + Math.floor(Math.random() * (Math.min(raid.level, 75) / 15 - Math.floor(raid.level / 75)))
             if (raid.level > 75 && Math.random() < (raid.level - 75) / 1000) {
@@ -1451,7 +1451,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                     }
                 }
             }
-            
+            if (tasks != undefined && tasks.length > 0) { bulkWrite("userData", tasks) }
         } else if (type == "guild") {
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\nThe guild was also given " + raid.reward + " xp and " + raid.crystalreward + " crystals.\n"
             extra.xp += raid.reward
