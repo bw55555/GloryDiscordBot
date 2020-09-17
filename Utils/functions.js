@@ -1301,6 +1301,33 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             ]
         }
     })
+    
+    if (type == "event") {
+        var erc = bot.channels.cache.get(devData.eventRaidChannel)
+        if (erc.id != message.channel.id) {
+            sendMessage(erc, {
+                embed: {
+                    thumbnail: {
+                        url: raid.url
+                    },
+                    color: 0xF1C40F,
+                    fields: [
+                        /*{
+                            name: "Attack Results",
+                            value: '<@' + user._id + "> attacks a Lv." + raid.level + " " + raid.name + "!",
+                        },*/
+                        {
+                            name: "Attack Results",
+                            value: damagetext + '<@' + user._id + "> attacks a Lv." + raid.level + " " + raid.name + "!\n" + raid.name + " took **" + damage + "** damage! It has **" + raid.currenthealth + "** Health remaining! You earned **" + damagereward + "** xp!",
+                        }, {
+                            name: "Counter Results",
+                            value: countertext + "<@" + user._id + "> took **" + counter + "** counterdamage! You have **" + user.currenthealth + "** Health remaining!",
+                        }
+                    ]
+                }
+            })
+        }
+    }
     completeQuest(user, "raidAttack", {"raid": raid, "counter": counter, "damage": damage, "reward": damagereward}, 1)
     let text = ""
     if (raid.currenthealth <= 0) {
@@ -1437,7 +1464,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 text += personrunetext.join(", ") + "!\n"
                 if (text.length > 1800) {
                     if (type == "event") {
-                        sendMessage(bot.channels.cache.get(devData.eventRaidChannel), text)
+                        sendMessage(erc, text)
                     } else {
                         sendMessage(message.channel, text)
                     }
@@ -1467,9 +1494,8 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         }
         if (type == "event") {
             bot.setTimeout(function () {
-                let erc = bot.channels.cache.get(devData.eventRaidChannel)
                 erc.updateOverwrite(erc.guild.roles.everyone, {
-                    VIEW_MESSAGES: false
+                    SEND_MESSAGES: false
                 }).catch(console.error);
             }, 30000)
         }
@@ -1485,7 +1511,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
     }
     if (text != "") {
         if (type == "event") {
-            sendMessage(bot.channels.cache.get(devData.eventRaidChannel), text)
+            sendMessage(erc, text)
         } else {
             sendMessage(message.channel, text)
         }
