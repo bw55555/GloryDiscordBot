@@ -49,11 +49,11 @@ module.exports = async function (message, user) {
         functions.dmUser(target, "You have been attacked by " + user.username + "! Their id is " + id)
         let damage = 0;
         let counter = 0;
-        let damagearr = functions.calcDamage(message, user, raid, user);//ok...
+        let damagearr = functions.calcDamage(message, user, target, user);//ok...
         let damagetext = damagearr[0];
         damage += damagearr[1]
         counter += damagearr[2]
-        let counterarr = functions.calcDamage(message, raid, user, user);//ok...
+        let counterarr = functions.calcDamage(message, target, user, user);//ok...
         let countertext = counterarr[0];
         counter += counterarr[1];
         damage += counterarr[2];
