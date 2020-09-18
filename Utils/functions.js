@@ -492,7 +492,7 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     if (evadechance < evaderate) {
         text = attackername + ", "+defendername + " has evaded the attack!\n"
-        return [text, 0]
+        return [text, 0, 0]
     }
     let attack = 0;
     if (attacker.isRaid != true) {
@@ -586,7 +586,7 @@ function calcDamage(message, attacker, defender, initiator) {
         let spiked = Math.floor(defense * spikes)
         if (hasSkill(attacker, 37)) { text += defendername + "'s spikes was dispelled!\n" }
         else {
-            counter+=spiked
+            counter+= spiked
             text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
         }
     }
