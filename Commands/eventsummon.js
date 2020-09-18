@@ -7,6 +7,7 @@ module.exports = async function (message, user) {
     if (message.channel.id != devData.eventRaidChannel) { return; }
     let time = 0;
     if (words[1] == "-time") {
+        if (words[2] == "random") { words[2] = Math.floor(Math.random() * 24) + "h" + Math.floor(Math.random() * 60) + "m" + Math.floor(Math.random() * 60) + "s"}
         time = functions.extractTime(message,words[2])
         if (time === false) { return }
         words.splice(1, 2)
