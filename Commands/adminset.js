@@ -13,7 +13,7 @@ module.exports = async function (message, user) {
         if (target == false) { return user; }
         let amount = words[3];
         if (amount == undefined) { return functions.replyMessage(message, "This amount is not defined!") }
-        amount.replace("_", " ")
+        amount = amount.replace("_", " ")
         if (!isNaN(parseInt(amount))) { amount = parseInt(amount) }
         if (amount == "true") { amount = true; }
         if (amount == "false") { amount = false; }
