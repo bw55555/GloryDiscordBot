@@ -524,7 +524,7 @@ function calcDamage(message, attacker, defender, initiator) {
         options.skillenable = skillenable
         let hasConfusion = attacker.isRaid != true && hasSkill(attacker, 23, skillenable)
         options.hasConfusion = hasConfusion
-        if (hasSkill(attacker, 37, skillenable) && defender.speed > 0 && Math.random() < 0.33) {
+        if (hasSkill(attacker, 37) && defender.speed > 0 && Math.random() < 0.33) {
             options.hasDispel = true; 
             text += defendername + "'s speed was dispelled!\n"
         }
@@ -581,27 +581,7 @@ function calcDamage(message, attacker, defender, initiator) {
     }
 
     //Both?
-    let spikes = 0;
-    if (dweapon != false && dweapon.modifiers.spikes != undefined) {
-        spikes += dweapon.modifiers.spikes
-    }
-    spikes += getGuildBuff(defender, "spikes")
-    if (defender.isRaid != true) {
-        if (hasSkill(defender, 7, skillenable)) {
-            spikes += 0.5;
-        }
-        if (hasSkill(defender, 31, skillenable)) {
-            spikes += 0.2;
-        }
-    }
-    if (spikes > 0) {
-        let spiked = Math.floor(defense * spikes)
-        if (hasSkill(attacker, 37)) { text += defendername + "'s spikes was dispelled!\n" }
-        else {
-            counter+= spiked
-            text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
-        }
-    }
+    
 
     //burn check
     if (attacker.isRaid != true) {
@@ -767,6 +747,27 @@ function calcDamage(message, attacker, defender, initiator) {
             if (defender.isRaid && stealAmount > defender.maxhealth) { stealAmount = defender.maxhealth;}
             attacker.currenthealth += stealAmount
             text += attackername + " lifestole **" + stealAmount + "** health!\n";
+        }
+    }
+    let spikes = 0;
+    if (dweapon != false && dweapon.modifiers.spikes != undefined) {
+        spikes += dweapon.modifiers.spikes
+    }
+    spikes += getGuildBuff(defender, "spikes")
+    if (defender.isRaid != true) {
+        if (hasSkill(defender, 7, skillenable)) {
+            spikes += 0.5;
+        }
+        if (hasSkill(defender, 31, skillenable)) {
+            spikes += 0.2;
+        }
+    }
+    if (spikes > 0) {
+        let spiked = Math.floor(defense * spikes)
+        if (hasSkill(attacker, 37)) { text += defendername + "'s spikes was dispelled!\n" }
+        else {
+            counter += spiked
+            text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
         }
     }
     return [text, truedamage, counter]
