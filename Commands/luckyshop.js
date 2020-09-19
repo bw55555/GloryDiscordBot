@@ -85,7 +85,7 @@ module.exports = async function (message, user) {
                 }
             }
         }
-        functions.setCD(user, ts, functions.secondsUntilReset(ts), "luckyshoprefresh")
+        functions.setCD(user, ts, "daily", "luckyshoprefresh")
         functions.replyMessage(message, "The lucky shop was successfully refreshed!")
     }
     else {

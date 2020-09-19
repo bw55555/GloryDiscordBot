@@ -6,7 +6,7 @@ module.exports = async function (message, user) {
     if (functions.isCD(user, ts, "daily")) {
         return functions.sendMessage(message.channel, 'Your next daily will be ready ' + functions.displayTime(user.cooldowns.daily, ts) + '.'); //already gotten, scammer
     }
-    functions.setCD(user, ts, functions.secondsUntilReset(ts), "daily")//Sets daily as L
+    functions.setCD(user, ts, "daily", "daily")//Sets daily as L
     let boxNumber = user.ascension + 1
     user.consum.box += boxNumber; //gives you one box
     functions.sendMessage(message.channel, "You received " + boxNumber + " mysterious box(es)... what could it contain?");
