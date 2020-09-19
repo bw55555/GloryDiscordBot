@@ -14,7 +14,7 @@ module.exports = async function (message, user) {
         if (item.equip == true) { return functions.replyMessage(message, "You cannot enchant an equipped weapon!") }
         let amt = parseFloat(words[3])
         if (isNaN(amt) && words[3] != "level") { return functions.replyMessage(message, "The modifier must be a float!") }
-        if (amt == "level") {
+        if (words[3] == "level") {
             if (ench == undefined || enchantData[ench] == undefined) { return functions.replyMessage(message, "This enchant does not exist!") }
             let elevel = parseInt(words[4]);
             if (isNaN(elevel)) { return functions.replyMessage(message, "Please specify an integer level!") }
