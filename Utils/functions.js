@@ -440,8 +440,9 @@ function secondsUntilReset(ts) {
 function setCD(user, ts, cdsecs, cdname) {
     //if (user.cooldowns[cdname] == undefined) { errorlog("Something went wrong with setCD. " + cdname + " not defined." + user._id + "|" + ts) }
     if (user.weapon != false && user.weapon.modifiers.haste != undefined && cdsecs != "daily") { cdsecs -= parseInt(user.weapon.modifiers.haste) }
-    if (cdsecs == "daily") { cdsecs = secondsUntilReset(ts)  }
-    user.cooldowns[cdname] = ts + cdsecs * 1000
+    if (cdsecs == "daily") { cdsecs = secondsUntilReset(ts) }
+    if (user.cooldowns[cdname] == undefined) { user.cooldowns[cdname] = 1;}
+    user.cooldowns[cdname] = Math.max(ts + cdsecs * 1000, user.cooldowns[cdname])
 }
 function calcTime(time1, time2) {
     if (time1 == undefined || time2 == undefined) { return -1;}
@@ -727,6 +728,9 @@ function calcDamage(message, attacker, defender, initiator) {
             let leech = 0
             if (defender.isRaid != true) {
                 leech = Math.floor(0.05 * defender.health);
+                if (truedamage > defender.currenthealth) {
+                    leech = 0;
+                }
                 if (truedamage < defender.currenthealth && truedamage + leech > defender.currenthealth) {
                     leech = leech - (defender.currenthealth-truedamage) - 1
                 }
@@ -1230,9 +1234,9 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         replyMessage(message, "There is no raid right now!");
         return;
     }
-    if (isCD(user, ts,"raidAttack")) {
+    if (isCD(user, ts,"attack")) {
         deleteMessage(message);
-        replyMessage(message, 'You can\'t attack right now.\n You can attack again in ' + displayTime(user.cooldowns.raidAttack, ts) + ".");
+        replyMessage(message, 'You can\'t attack right now.\n You can attack again in ' + displayTime(user.cooldowns.attack, ts) + ".");
         return;
     }
     if (raid.alive == false) {
@@ -1526,7 +1530,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             sendMessage(message.channel, text)
         }
     }
-    setCD(user, ts, attackcd * 60, "raidAttack");
+    setCD(user, ts, attackcd * 60, "attack");
     user.speed += 1;
 }
 function randint(a, b) {

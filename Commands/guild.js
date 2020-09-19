@@ -6,7 +6,7 @@ const guildStore = [
     { "name": "Rare Scroll", "price": 1000000, "levels": [20, 30, 40], "stocks": [1, 1, 1] },
     { "name": "Epic Scroll", "price": 2500000, "levels": [30, 40], "stocks": [1, 1] },
     { "name": "Legendary Scroll", "price": 5000000, "levels": [40], "stocks": [1] },
-    { "name": "Box", "level": 1, "stock": 10, "price": 50000, "id": 5, "levels": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50], "stocks": [25, 75, 150, 250, 500, 1000, 2000, 3000, 4000, 5000, 10000] }
+    { "name": "Box", "price": 50000, "levels": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50], "stocks": [25, 75, 150, 250, 500, 1000, 2000, 3000, 4000, 5000, 10000] }
 ]
 global.guildBuffStore = [
     { "name": "Attack +", "stat": "attack", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.1, 0.2, 0.4, 0.6, 1, 1.5, 2, 2.5, 3, 4], "prices": [0, 400, 1500, 10000, 50000, 150000, 500000, 1500000, 5000000, 15000000, 50000000] },
@@ -706,8 +706,24 @@ module.exports = async function (message, user) {
             }
         }
         else if (command == "UPDATEBUFFS") {
-            user.guildbuffs = guild.buffs;
-            functions.replyMessage(message, "You updated your buffs!");
+            if (words[3] != undefined) {
+                let updateStat = words[3]
+                if (isNaN(parseInt(updateStat))) {
+                    if (guildBuffStore.findIndex(x => x.stat == updateStat) == -1) {
+                        return functions.replyMessage(message, "Please specify a valid buff!")
+                    }
+                    updateStat = guildBuffStore.findIndex(x => x.stat == updateStat)
+                }
+                updateStat = guildBuffStore[updateStat].stat
+                let lvl = parseInt(words[4]);
+                if (isNaN(lvl) || lvl < 0 || lvl > guild.buffs[updateStat]) { return functions.replyMessage(message, "Please specify a valid level!") }
+                if (user.guildbuffs == undefined) { user.guildbuffs = {} }
+                user.guildbuffs[updateStat] = lvl;
+                functions.replyMessage(message, "You set your "+updateStat+" buff to level "lvl+"!");
+            } else {
+                user.guildbuffs = guild.buffs;
+                functions.replyMessage(message, "You updated your buffs!");
+            }
         }
         else if (command == "ADMINSET" || command == "ASET") {
             if (admins.indexOf(id) == -1) { return }
