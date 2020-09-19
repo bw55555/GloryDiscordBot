@@ -183,7 +183,7 @@ module.exports = async function (message, user) {
         functions.setCD(user, ts, 60, "heal")
         functions.setCD(user, ts, 120, "purchase")
         functions.setCD(user, ts, 120, "crystalmines")
-        functions.setCD(target, ts, 50, "attack")
+        functions.setCD(target, ts, 40, "attack")
         functions.setCD(target, ts, 60, "heal")
         functions.setCD(user, ts, 120, "purchase")
         functions.setCD(user, ts, 120, "crystalmines")

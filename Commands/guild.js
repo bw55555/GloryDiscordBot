@@ -719,7 +719,7 @@ module.exports = async function (message, user) {
                 if (isNaN(lvl) || lvl < 0 || lvl > guild.buffs[updateStat]) { return functions.replyMessage(message, "Please specify a valid level!") }
                 if (user.guildbuffs == undefined) { user.guildbuffs = {} }
                 user.guildbuffs[updateStat] = lvl;
-                functions.replyMessage(message, "You set your "+updateStat+" buff to level "lvl+"!");
+                functions.replyMessage(message, "You set your "+updateStat+" buff to level "+lvl+"!");
             } else {
                 user.guildbuffs = guild.buffs;
                 functions.replyMessage(message, "You updated your buffs!");
