@@ -187,6 +187,6 @@
     {
         "name": "Dispel",
         "id": 37,
-        "description": "33% chance to ignore the opponent's tempo, combo, spikes, and burn."
+        "description": "33% chance to ignore each of the opponent's tempo, combo, spikes, and burn."
     }
 ]

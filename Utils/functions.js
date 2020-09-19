@@ -524,7 +524,7 @@ function calcDamage(message, attacker, defender, initiator) {
         options.skillenable = skillenable
         let hasConfusion = attacker.isRaid != true && hasSkill(attacker, 23, skillenable)
         options.hasConfusion = hasConfusion
-        if (hasSkill(attacker, 37) && defender.speed > 0 && Math.random() < 0.33) {
+        if (hasSkill(attacker, 37, skillenable) && defender.speed > 0 && Math.random() < 0.33) {
             options.hasDispel = true; 
             text += defendername + "'s speed was dispelled!\n"
         }
@@ -596,7 +596,7 @@ function calcDamage(message, attacker, defender, initiator) {
             burn += 5;
         }
     }
-    if (defender.isRaid != true && hasSkill(defender, 37)) {
+    if (defender.isRaid != true && hasSkill(defender, 37, skillenable) && Math.random() < 0.33) {
         text += attackername + "'s burn was dispelled!\n"
         burn = 0
     }
@@ -764,7 +764,7 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     if (spikes > 0) {
         let spiked = Math.floor(defense * spikes)
-        if (hasSkill(attacker, 37)) { text += defendername + "'s spikes was dispelled!\n" }
+        if (hasSkill(attacker, 37, skillenable) && Math.random() < 0.33) { text += defendername + "'s spikes was dispelled!\n" }
         else {
             counter += spiked
             text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
