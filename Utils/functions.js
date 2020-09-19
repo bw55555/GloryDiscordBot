@@ -228,6 +228,13 @@ function getGuildBuff(user, buffname) {
     }
     return 0;
 }
+function getWeaponEnchant(user, buffname) {
+    if (user.isRaid) { return 0 }
+    if (user.weapon != undefined && user.weapon != false && user.weapon.modifiers[buffname] != undefined) {
+        return user.weapon.modifiers[buffname]
+    }
+    return 0;
+}
 function generateWeaponTemplate(owner, weapon, current, total) {
     let mergetext = weapon.merge //+ " (Merges until next rarity: " + (10-weapon.merge) + ")";
     if (weapon.rarity == 'Unique' || weapon.rarity == 9) {
@@ -709,7 +716,9 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
     //console.log("Counter")
-    let x = Math.floor(attack * 0.40 * roll + attack * 0.6);
+    let attackvariance = 0.4;
+    attackvariance -= getWeaponEnchant(attacker, "attackvariance")
+    let x = Math.floor(attack * (attackvariance * roll + 1-attackvariance));
     let defmult = 10;
     x -= defense;
     let truedamage = x;
@@ -735,9 +744,7 @@ function calcDamage(message, attacker, defender, initiator) {
     if (attacker.isRaid != true) {
         let lifesteal = (attacker.triangleid == 11) ? 0.15 : 0;
         lifesteal+=getGuildBuff(attacker, "lifeSteal")
-        if (weapon != false && weapon.modifiers.lifeSteal != undefined) {
-            lifesteal += weapon.modifiers.lifeSteal
-        }
+        lifesteal+=getWeaponEnchant(attacker, "lifeSteal")
         if (hasSkill(attacker, 3, skillenable)) {
             lifesteal += 0.1;
         }
@@ -755,9 +762,7 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
     let spikes = 0;
-    if (dweapon != false && dweapon.modifiers.spikes != undefined) {
-        spikes += dweapon.modifiers.spikes
-    }
+    spikes += getWeaponEnchant(defender, "spikes")
     spikes += getGuildBuff(defender, "spikes")
     if (defender.isRaid != true) {
         if (hasSkill(defender, 7, skillenable)) {
@@ -805,25 +810,14 @@ function calcStats(message, user, stat, options) {
     tempo += getGuildBuff(user, "tempo")
     sacrifice += getGuildBuff(user, "sacrifice")
     rage += getGuildBuff(user, "rage")
-    if (user.weapon != false && user.weapon != undefined) {
-        if (user.weapon.modifiers == undefined) { user.weapon.modifiers = {} }
-        if (user.weapon.modifiers.critRate != undefined) {
-            critRate += user.weapon.modifiers.critRate
-        }
-        if (user.weapon.modifiers.critDamage != undefined) {
-            critDamage += user.weapon.modifiers.critDamage
-        }
 
-        if (user.weapon.modifiers.rage != undefined) {
-            rage += user.weapon.modifiers.rage
-        }
-        if (user.weapon.modifiers.sacrifice != undefined) {
-            sacrifice += user.weapon.modifiers.sacrifice
-        }
-        if (user.weapon.modifiers.tempo != undefined) {
-            tempo += user.weapon.modifiers.tempo
-        }
-    }
+    buff += getWeaponEnchant(user, "attack")
+    dbuff += getWeaponEnchant(user, "defense")
+    critDamage += getWeaponEnchant(user, "critDamage")
+    critRate += getWeaponEnchant(user, "critRate")
+    tempo += getWeaponEnchant(user, "tempo")
+    sacrifice += getWeaponEnchant(user, "sacrifice")
+    rage += getWeaponEnchant(user, "rage")
     //if (user.skills == undefined) { user.skills = {} }
     if (hasSkill(user, 0, skillenable)) {
         attack += 40;
