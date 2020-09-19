@@ -181,12 +181,11 @@ module.exports = async function (message, user) {
         functions.completeQuest(user, "attack", {"target": target, "damage": damage, "counter": counter})
         functions.setCD(user, ts, 60, "attack")
         functions.setCD(user, ts, 60, "heal")
-        functions.setCD(user, ts, 120, "purchase")
-        functions.setCD(user, ts, 120, "crystalmines")
+        functions.setCD(user, ts, 300, "purchase")
+        functions.setCD(user, ts, 300, "crystalmines")
         functions.setCD(target, ts, 40, "attack")
         functions.setCD(target, ts, 60, "heal")
-        functions.setCD(user, ts, 120, "purchase")
-        functions.setCD(user, ts, 120, "crystalmines")
+        functions.setCD(target, ts, 300, "crystalmines")
         user.speed += 1;
         target.speed += 1;
         functions.setUser(target)
