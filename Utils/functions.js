@@ -432,7 +432,8 @@ function secondsUntilReset(ts) {
 }
 function setCD(user, ts, cdsecs, cdname) {
     //if (user.cooldowns[cdname] == undefined) { errorlog("Something went wrong with setCD. " + cdname + " not defined." + user._id + "|" + ts) }
-    if (user.weapon != false && user.weapon.modifiers.haste != undefined) { cdsecs -= parseInt(user.weapon.modifiers.haste) }
+    if (user.weapon != false && user.weapon.modifiers.haste != undefined && cdsecs != "daily") { cdsecs -= parseInt(user.weapon.modifiers.haste) }
+    if (cdsecs = "daily") { cdsecs = secondsUntilReset(ts)  }
     user.cooldowns[cdname] = ts + cdsecs * 1000
 }
 function calcTime(time1, time2) {
@@ -708,7 +709,7 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
     //console.log("Counter")
-    let x = Math.floor(attack * 0.20 * roll + attack * 0.8);
+    let x = Math.floor(attack * 0.40 * roll + attack * 0.6);
     let defmult = 10;
     x -= defense;
     let truedamage = x;
