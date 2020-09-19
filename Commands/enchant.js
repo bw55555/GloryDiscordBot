@@ -3,7 +3,7 @@ global.enchantData = {
     "critRate": { "start": 0.01, "level": 0.01, "end": 0.02, "cost": [6, 4, 0, 0] },
     "critDamage": { "start": 0.4, "level": 0.3, "end": 0.5, "cost": [7, 3, 0, 0] },
     "lifeSteal": { "start": 0.04, "level": 0.03, "end": 0.05, "cost": [3, 2, 0, 5] },
-    "lucky": { "start": 0.6, "level": 0.4, "end": 0.7, "cost": [10, 0, 0, 0] },
+    "lucky": { "start": 0.6, "level": 0.4, "end": 0.6, "cost": [10, 0, 0, 0] },
     "sacrifice": { "start": 0.04, "level": 0.03, "end": 0.05, "cost": [3, 5, 0, 2] },
     "revenge": { "start": 0.005, "level": 0.005, "end": 0.01, "cost": [6, 3, 1, 0] },
     "rage": { "start": 0.2, "level": 0.2, "end": 0.4, "cost": [6, 3, 0, 1] },
