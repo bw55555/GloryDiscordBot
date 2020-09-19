@@ -881,7 +881,7 @@ function calcStats(message, user, stat, options) {
                 x = 7*user.currenthealth / (8*user.health)
             }
             x = Math.sqrt(x)
-            buff += Math.min(3, (rage * -1 * (Math.log(x) + 0.15)))
+            buff += Math.min(rage * 2.5, (rage * -1 * (Math.log(x) + 0.15)))
             
         }
         if (sacrifice > 0) {
