@@ -957,7 +957,7 @@
       "rarity": "Legendary",
       "attack": 16,
       "defense": 0,
-      "health": 40,
+      "health": 50,
       "reward": 75,
       "crystalreward": 10
     },
@@ -989,7 +989,7 @@
       "rarity": "Legendary",
       "attack": 50,
       "defense": 0,
-      "health": 10,
+      "health": 2,
       "reward": 100,
       "ability": "95% chance to evade the attack and cancel it.",
       "crystalreward": 10
