@@ -116,6 +116,8 @@ module.exports = async function (message, user) {
                 user.money += target.bounty;
                 target.bounty = 0;
             }
+            functions.completeQuest(user, "kill", { "death": target }, 1)
+            functions.completeQuest(target, "kill", { "death": user }, 1)
         }
         else if (target.currenthealth <= 0) {
             target.dead = true;
@@ -145,7 +147,7 @@ module.exports = async function (message, user) {
                 functions.sendMessage(message.channel, "Soulsteal activated. <@" + user._id + "> has stolen " + target.health + " health");
                 user.currenthealth = Math.min(user.currenthealth, user.health)
             }
-            functions.completeQuest(user, "kill", {}, 1)
+            functions.completeQuest(user, "kill", {"death": target}, 1)
         } else if (user.currenthealth <= 0) {
             user.dead = true;
             user.currenthealth = 0;
@@ -174,6 +176,7 @@ module.exports = async function (message, user) {
                 functions.sendMessage(message.channel, "Soulsteal activated. <@" + target._id + "> has stolen " + user.health + " health");
                 target.currenthealth = Math.min(target.currenthealth, target.health)
             }
+            functions.completeQuest(target, "kill", { "death": user }, 1)
         }
         functions.completeQuest(user, "attack", {"target": target, "damage": damage, "counter": counter})
         functions.setCD(user, ts, 60, "attack")
