@@ -112,7 +112,7 @@
     {
         "name": "Leech",
         "id": 22,
-        "description": "Steal 5% of your opponents remaining health while attacking"
+        "description": "Steal 5% of your opponents max health while attacking. Cannot kill your opponent."
     },
     {
         "name": "Confusion",

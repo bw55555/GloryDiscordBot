@@ -654,17 +654,7 @@ function calcDamage(message, attacker, defender, initiator) {
     }
 
     
-    if (attacker.isRaid != true) {
-        if (hasSkill(attacker, 22, skillenable)) {
-            let leech = 0
-            if (defender.isRaid != true) {
-                leech = Math.floor(0.05 * defender.currenthealth);
-                attacker.currenthealth += leech
-                defender.currenthealth -= leech
-                text += attackername + " leeched **" + leech + "** health!\n";
-            }
-        }
-    }
+    
     //defender only skills
     let revenge = 0;
     let revengechance = Math.random()
@@ -732,6 +722,19 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
     //Last Breath Check
+    if (attacker.isRaid != true) {
+        if (hasSkill(attacker, 22, skillenable)) {
+            let leech = 0
+            if (defender.isRaid != true) {
+                leech = Math.floor(0.05 * defender.health);
+                if (truedamage < defender.currenthealth && truedamage + leech > defender.currenthealth) {
+                    leech = leech - (defender.currenthealth-truedamage) - 1
+                }
+                attacker.currenthealth += leech
+                text += attackername + " leeched **" + leech + "** health!\n";
+            }
+        }
+    }
     if (defender.isRaid != true) {
         if (hasSkill(defender, 25, skillenable) && !isCD(defender, message.createdTimestamp, "lastbreath")) {
             if (truedamage > defender.currenthealth && defender.currenthealth * 2 > defender.health) {
