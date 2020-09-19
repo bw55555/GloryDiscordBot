@@ -476,6 +476,7 @@ function calcDamage(message, attacker, defender, initiator) {
     let roll = Math.random()
     let burn = 0;
     let skillenable = true;
+
     if (defender.name == "Charybdis") { skillenable = false }
     if (attacker.name == "Charybdis") { skillenable = false }
     let defendername = defender.name
@@ -496,8 +497,15 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     let attack = 0;
     if (attacker.isRaid != true) {
+        let options = {};
+        options.skillenable = skillenable
         let hasConfusion = defender.isRaid != true && hasSkill(defender, 23, skillenable)
-        let attackarr = calcStats(message, attacker, "attack", skillenable, hasConfusion);
+        options.hasConfusion = hasConfusion
+        if (hasSkill(defender, 37) && attacker.speed > 0 && Math.random() < 0.33) {
+            options.hasDispel = true;
+            text += defendername + "'s speed was dispelled!\n"
+        }
+        let attackarr = calcStats(message, attacker, "attack", options);
         attack = attackarr[1];
         text += attackarr[0];
     } else {
@@ -512,8 +520,15 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     let defense = 0;
     if (defender.isRaid != true) {
+        let options = {};
+        options.skillenable = skillenable
         let hasConfusion = attacker.isRaid != true && hasSkill(attacker, 23, skillenable)
-        let defensearr = calcStats(message, defender, "defense", skillenable, hasConfusion);
+        options.hasConfusion = hasConfusion
+        if (hasSkill(attacker, 37) && defender.speed > 0 && Math.random() < 0.33) {
+            options.hasDispel = true; 
+            text += defendername + "'s speed was dispelled!\n"
+        }
+        let defensearr = calcStats(message, defender, "defense", options);
         defense = defensearr[1]; 
         text += defensearr[0];
     }
@@ -525,10 +540,7 @@ function calcDamage(message, attacker, defender, initiator) {
                 attack *= 1.4
             }
         }
-        if (hasSkill(defender, 37) && attacker.speed > 0) {
-            attacker.speed = 0
-            text += attackername+"'s tempo was dispelled!\n"
-        }
+
     }
 
     let weapon = (attacker.isRaid != true && attacker.weapon != false) ? attacker.weapon : false
@@ -759,9 +771,11 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     return [text, truedamage, counter]
 }
-function calcStats(message, user, stat, skillenable,confused) {
-    skillenable = (skillenable == false) ? false : true
-    confused = (confused == true) ? true : false
+function calcStats(message, user, stat, options) {
+    if (options == undefined) {options = {}}
+    skillenable = (options.skillenable == false) ? false : true
+    confused = (options.hasConfusion == true) ? true : false
+    dispel = (options.hasDispel == true) ? true : false
     let text = ""
     let attack = user.attack
     let defense = user.defense
@@ -780,7 +794,7 @@ function calcStats(message, user, stat, skillenable,confused) {
     let antitempo = 0;
     buff += getGuildBuff(user, "attack")
     dbuff += getGuildBuff(user, "defense")
-    critDamage+= getGuildBuff(user, "critDamage")
+    critDamage += getGuildBuff(user, "critDamage")
     critRate+=getGuildBuff(user, "critRate")
     tempo += getGuildBuff(user, "tempo")
     sacrifice += getGuildBuff(user, "sacrifice")
@@ -867,7 +881,7 @@ function calcStats(message, user, stat, skillenable,confused) {
                 x = 7*user.currenthealth / (8*user.health)
             }
             x = Math.sqrt(x)
-            buff += (rage * -1 * (Math.log(x) + 0.15));
+            buff += Math.min(3, (rage * -1 * (Math.log(x) + 0.15)))
             
         }
         if (sacrifice > 0) {
@@ -882,28 +896,21 @@ function calcStats(message, user, stat, skillenable,confused) {
         }
 
         let urspeed = user.speed
+        if (urspeed > 20) {
+            urspeed = 20
+        }
+        if (dispel) { urspeed = 0;}
         if (tempo > 0) {
-
-            if (urspeed > 25) {
-                urspeed = 25
-            }
             buff += ((urspeed * 0.05 * tempo));
             text += "<@" + user._id + "> has **" + urspeed + "** tempo\n";
         }
         if (antitempo > 0) {
-
-            if (urspeed > 25) {
-                urspeed = 25
-            }
             dbuff += ((urspeed * 0.05 * antitempo));
             text += "<@" + user._id + "> has **" + urspeed + "** antitempo\n";
         }
 
         if (hasSkill(user, 20, skillenable)) {
-            if (urspeed > 25) {
-                urspeed = 25
-            }
-            critRate += 0.008 * urspeed;
+            critRate += 0.01 * urspeed;
             text += "<@" + user._id + "> has **" + (Math.floor(critRate * 1000) / 10) + "%** chance of hitting a critical\n"
         }
 
@@ -1837,7 +1844,7 @@ module.exports.calcTime = function (time1, time2) { return calcTime(time1, time2
 module.exports.displayTime = function (time1, time2) { return displayTime(time1, time2) }
 module.exports.extractTime = function (message,timeword) { return extractTime(message,timeword) }
 module.exports.calcDamage = function (message, attacker, defender, initiator) { return calcDamage(message, attacker, defender, initiator) }
-module.exports.calcStats = function (message, user, stat, skillenable, confused) { return calcStats(message, user, stat, skillenable, confused) }
+module.exports.calcStats = function (message, user, stat, options) { return calcStats(message, user, stat, options) }
 module.exports.voteItem = function (message, user, dm) { return voteItem(message, user, dm) }
 module.exports.craftItems = function (message, owner, minrarity, maxrarity, amount, source) { return craftItems(message, owner, minrarity, maxrarity, amount, source) }
 module.exports.craftItem = function (message, owner, minrarity, maxrarity, reply, isBulk, source) { return craftItem(message, owner, minrarity, maxrarity, reply, isBulk, source) }
