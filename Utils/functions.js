@@ -1227,9 +1227,9 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         replyMessage(message, "There is no raid right now!");
         return;
     }
-    if (isCD(user, ts,"attack")) {
+    if (isCD(user, ts,"raidAttack")) {
         deleteMessage(message);
-        replyMessage(message, 'You can\'t attack right now.\n You can attack again in ' + displayTime(user.cooldowns.attack, ts) + ".");
+        replyMessage(message, 'You can\'t attack right now.\n You can attack again in ' + displayTime(user.cooldowns.raidAttack, ts) + ".");
         return;
     }
     if (raid.alive == false) {
@@ -1523,7 +1523,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             sendMessage(message.channel, text)
         }
     }
-    setCD(user, ts, attackcd * 60, "attack");
+    setCD(user, ts, attackcd * 60, "raidAttack");
     user.speed += 1;
 }
 function randint(a, b) {

@@ -182,9 +182,10 @@ module.exports = async function (message, user) {
         functions.setCD(user, ts, 60, "attack")
         functions.setCD(user, ts, 60, "heal")
         functions.setCD(user, ts, 60, "purchase")
-        functions.setCD(target, ts, attackcd * 60, "attack")
+        functions.setCD(user, ts, 60, "raidAttack")
         functions.setCD(target, ts, 60, "heal")
         functions.setCD(target, ts, 60, "purchase")
+        functions.setCD(target, ts, 60, "raidAttack")
         user.speed += 1;
         target.speed += 1;
         functions.setUser(target)
