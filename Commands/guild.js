@@ -153,7 +153,7 @@ module.exports = async function (message, user) {
                 functions.replyMessage(message, "You must be the Leader or a Co-Leader to invite someone!");
                 return;
             }
-            if (guild.members.length >= Math.floor(guild.level / 2 + 20)) { return functions.replyMessage(message, "This guild is already full!")}
+            if (guild.members.length >= Math.floor(guild.level / 2 + 20)) { return functions.replyMessage(message, "This guild is already full!") }
             return Promise.all([functions.validate(message, user, 2)]).then(ret => {
                 let target = ret[0];
 
@@ -187,7 +187,7 @@ module.exports = async function (message, user) {
                                 return;
                             }
                             functions.setProp("guildData", { "_id": guild._id }, { $push: { "members": target._id } })
-                            functions.setProp("userData", { "_id": target._id }, { $set: { "guild": guild._id, "guildpos": "Member", "guildbuffs":  guild.buffs} })
+                            functions.setProp("userData", { "_id": target._id }, { $set: { "guild": guild._id, "guildpos": "Member", "guildbuffs": guild.buffs } })
                             functions.sendMessage(message.channel, "<@" + target._id + "> has joined " + guild._id + "!");
                         })
                     },
@@ -202,11 +202,11 @@ module.exports = async function (message, user) {
                 functions.replyMessage(message, "Guild leaders can't leave their guild! Disband it or appoint someone else!");
                 return;
             }
-            functions.setProp("guildData", { "_id": guild._id }, { $pull: {"members": user._id}})
+            functions.setProp("guildData", { "_id": guild._id }, { $pull: { "members": user._id } })
             user.guild = "None";
             user.guildpos = "None";
             user.guildbuffs = {}
-            guild.members.splice(guild.members.indexOf(user._id),1)
+            guild.members.splice(guild.members.indexOf(user._id), 1)
             functions.replyMessage(message, "You left your guild!");
         }
         else if (command == "DISBAND") {
@@ -220,10 +220,10 @@ module.exports = async function (message, user) {
             user.guildbuffs = {}
             user.money += guild.bank
             user.materials += guild.materials
-            functions.deleteObject("guildData",guild._id);
+            functions.deleteObject("guildData", guild._id);
 
             functions.replyMessage(message, "You disbanded your guild! Everyone in it is now guildless :(");
-            return 
+            return
         }
         else if (command == "DEPOSIT" || command == "INVEST" || command == "DEP") {//It's enough already with youknowwhoafter me xD lmao
             let type = ""
@@ -373,13 +373,13 @@ module.exports = async function (message, user) {
                     functions.replyMessage(message, "You can't kick a rock! (Well you can, but I wouldn't)");
                     return;
                 }
-                if (target._id == user._id) { return functions.replyMessage(message,"You can't kick yourself!")}
+                if (target._id == user._id) { return functions.replyMessage(message, "You can't kick yourself!") }
                 if (target.guild != guild._id) {
                     functions.replyMessage(message, "You can't kick someone who's not in your guild!");
                     return;
                 }
                 if (user.guildpos == "Leader" || (user.guildpos == "Co-Leader" && target.guildpos == "Member")) {
-                    functions.setProp("guildData", { "_id": guild._id }, { $pull: {"members": target._id}})
+                    functions.setProp("guildData", { "_id": guild._id }, { $pull: { "members": target._id } })
                     target.guild = "None";
                     target.guildpos = "None";
                     target.guildbuffs = {};
@@ -414,7 +414,7 @@ module.exports = async function (message, user) {
             let rarityraids = raidData[summonrarity]
             let raid = rarityraids[Math.floor(rarityraids.length * Math.random())]
             guild.raid = {}
-            guild.raid._id = "GRaid"+guild._id
+            guild.raid._id = "GRaid" + guild._id
             guild.raid.isRaid = true
             guild.raid.url = raid.url
             guild.raid.name = raid.name;
@@ -505,7 +505,7 @@ module.exports = async function (message, user) {
                 let setJsonObj = {}
                 setJsonObj["guildbuffs." + buffname] = bufflevel + 1
                 user.guildbuffs[buffname] = bufflevel + 1
-                functions.setProp("userData", { "guild": guild._id }, { $set: setJsonObj}) 
+                functions.setProp("userData", { "guild": guild._id }, { $set: setJsonObj })
                 functions.replyMessage(message, "You have successfully upgraded " + buffname + " to level " + (bufflevel + 1))
             }
         }
@@ -564,7 +564,7 @@ module.exports = async function (message, user) {
         }
         else if (command == "RESET") {
             if (admins.indexOf(id) == -1) { return }
-            let time = functions.extractTime(message,words[3])
+            let time = functions.extractTime(message, words[3])
             if (time === false) { return; }
             bot.setTimeout(function () {
                 let guildName = words[2]
@@ -605,12 +605,12 @@ module.exports = async function (message, user) {
                 }
             }
             if (guild.forge.level == undefined) { guild.forge.level = 0 }
-            if (guild.forge.enchant == undefined) { guild.forge.enchant = [0,0,0] }
-            if (guild.forge.enhance == undefined) { guild.forge.enhance = [0,0,0] }
+            if (guild.forge.enchant == undefined) { guild.forge.enchant = [0, 0, 0] }
+            if (guild.forge.enhance == undefined) { guild.forge.enhance = [0, 0, 0] }
             if (guild.forge.donate == undefined) { guild.forge.donate = { "money": 0, "materials": 0 } }
             let scmd = words.length < 3 ? "" : words[2].toUpperCase()
             if (scmd == "DONATE") {
-                
+
                 if (guild.forge.level == 9) { return functions.replyMessage(message, "The guild forge is at max level!") }
                 let option = words.length < 4 ? "undefined" : words[3].toLowerCase();
                 let amt = words.length < 5 ? -1 : parseInt(words[4])
@@ -637,9 +637,9 @@ module.exports = async function (message, user) {
                 }
                 else if (option == "enchant" || option == "enhance") {
                     if (isNaN(option2) || option2 < 0 || option2 > guildForgePrices[option].length) { return functions.replyMessage(message, "This is not a valid option!") }
-                    if (guild.forge[option][option2] == 9) { return functions.replyMessage(message, "This option is currently at max level!")}
+                    if (guild.forge[option][option2] == 9) { return functions.replyMessage(message, "This option is currently at max level!") }
                     if (guild.forge.level <= guild.forge[option][option2]) { return functions.replyMessage(message, "Your forge needs to be level " + (guild.forge[option][option2] + 1) + " to upgrade this!") }
-                    if (guild.crystals < guildForgePrices[option][option2].prices[guild.forge[option][option2] + 1]) { return functions.replyMessage(message, "Your guild does not have enough crystals!")}
+                    if (guild.crystals < guildForgePrices[option][option2].prices[guild.forge[option][option2] + 1]) { return functions.replyMessage(message, "Your guild does not have enough crystals!") }
                     guild.crystals -= guildForgePrices[option][option2].prices[guild.forge[option][option2] + 1]
                     guild.forge[option][option2] += 1;
                     functions.replyMessage(message, "You have upgraded " + option + ":" + guildForgePrices[option][option2].name + " to level " + guild.forge[option][option2])
@@ -660,19 +660,19 @@ module.exports = async function (message, user) {
                     }
                     else { forgeupgradetext = "($" + moneydiff + " and " + matsdiff + " materials needed for next upgrade)" }
                 }
-                
-                text+="Forge Level "+guild.forge.level+ " "+forgeupgradetext + "\n"
 
-                text+="\nEnchantment \n"
+                text += "Forge Level " + guild.forge.level + " " + forgeupgradetext + "\n"
+
+                text += "\nEnchantment \n"
                 for (let i = 0; i < guildForgePrices.enchant.length; i++) {
                     let item = guildForgePrices.enchant[i];
                     let spaces = " ".repeat(10 - item.name.length)
                     let upgradetext = "(MAX LEVEL)"
                     if (guild.forge.enchant[i] < 9) {
-                        upgradetext = guild.forge.level <= guild.forge.enchant[i] ? "(Forge level " + (guild.forge.enchant[i] + 1) + " required for next upgrade)" : "(Ready to upgrade to " + (100 * item.bonus[guild.forge.enchant[i]+1]) + "% for "+item.prices[guild.forge.enchant[i]+1]+" crystals)"
+                        upgradetext = guild.forge.level <= guild.forge.enchant[i] ? "(Forge level " + (guild.forge.enchant[i] + 1) + " required for next upgrade)" : "(Ready to upgrade to " + (100 * item.bonus[guild.forge.enchant[i] + 1]) + "% for " + item.prices[guild.forge.enchant[i] + 1] + " crystals)"
                     }
-                    
-                    text += "[" + i + "] " + item.name + spaces + ": " + (100 * item.bonus[guild.forge.enchant[i]]) + "% (level "+guild.forge.enchant[i]+") "+upgradetext+"\n";
+
+                    text += "[" + i + "] " + item.name + spaces + ": " + (100 * item.bonus[guild.forge.enchant[i]]) + "% (level " + guild.forge.enchant[i] + ") " + upgradetext + "\n";
                 }
 
                 text += "\nEnhancement \n"
@@ -681,7 +681,7 @@ module.exports = async function (message, user) {
                     let spaces = " ".repeat(10 - item.name.length)
                     let upgradetext = "(MAX LEVEL)"
                     if (guild.forge.enhance[i] < 9) {
-                        upgradetext = guild.forge.level <= guild.forge.enhance[i] ? "(Forge level " + (guild.forge.enhance[i] + 1) + " required for next upgrade)" : "(Ready to upgrade to " + (100 * item.bonus[guild.forge.enhance[i]+1]) + "% for " + item.prices[guild.forge.enhance[i]+1] + " crystals)"
+                        upgradetext = guild.forge.level <= guild.forge.enhance[i] ? "(Forge level " + (guild.forge.enhance[i] + 1) + " required for next upgrade)" : "(Ready to upgrade to " + (100 * item.bonus[guild.forge.enhance[i] + 1]) + "% for " + item.prices[guild.forge.enhance[i] + 1] + " crystals)"
                     }
 
                     text += "[" + i + "] " + item.name + spaces + ": " + (100 * item.bonus[guild.forge.enhance[i]]) + "% (level " + guild.forge.enhance[i] + ") " + upgradetext + "\n";
@@ -705,25 +705,24 @@ module.exports = async function (message, user) {
                 functions.replyMessage(message, guild._id + " had their raid reset!");
             }
         }
-        else if (command == "UPDATEBUFFS") {
-            if (words[3] != undefined) {
-                let updateStat = words[3]
-                if (isNaN(parseInt(updateStat))) {
-                    if (guildBuffStore.findIndex(x => x.stat == updateStat) == -1) {
-                        return functions.replyMessage(message, "Please specify a valid buff!")
-                    }
-                    updateStat = guildBuffStore.findIndex(x => x.stat == updateStat)
+        else if (command == "UPDATEBUFF") {
+            let updateStat = words[2]
+            if (isNaN(parseInt(updateStat))) {
+                if (guildBuffStore.findIndex(x => x.stat == updateStat) == -1) {
+                    return functions.replyMessage(message, "Please specify a valid buff!")
                 }
-                updateStat = guildBuffStore[updateStat].stat
-                let lvl = parseInt(words[4]);
-                if (isNaN(lvl) || lvl < 0 || lvl > guild.buffs[updateStat]) { return functions.replyMessage(message, "Please specify a valid level!") }
-                if (user.guildbuffs == undefined) { user.guildbuffs = {} }
-                user.guildbuffs[updateStat] = lvl;
-                functions.replyMessage(message, "You set your "+updateStat+" buff to level "+lvl+"!");
-            } else {
-                user.guildbuffs = guild.buffs;
-                functions.replyMessage(message, "You updated your buffs!");
+                updateStat = guildBuffStore.findIndex(x => x.stat == updateStat)
             }
+            updateStat = guildBuffStore[updateStat].stat
+            let lvl = parseInt(words[3]);
+            if (isNaN(lvl) || lvl < 0 || lvl > guild.buffs[updateStat]) { return functions.replyMessage(message, "Please specify a valid level!") }
+            if (user.guildbuffs == undefined) { user.guildbuffs = {} }
+            user.guildbuffs[updateStat] = lvl;
+            functions.replyMessage(message, "You set your " + updateStat + " buff to level " + lvl + "!");
+        }
+        else if (command == "UPDATEBUFFS") {
+            user.guildbuffs = guild.buffs;
+            functions.replyMessage(message, "You updated your buffs!");
         }
         else if (command == "ADMINSET" || command == "ASET") {
             if (admins.indexOf(id) == -1) { return }
