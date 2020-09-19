@@ -42,22 +42,42 @@ module.exports = async function (message, user) {
                 functions.replyMessage(message, "They're not dead. Why do you need to rez?");
                 return;
             }
-            if (!functions.hasSkill(user, 14)) {
-                user.currenthealth -= Math.abs(Math.floor(Math.random() * Math.random() * target.health) - user.defense);
-            }
-            target.speed = 0;
-            user.speed = 0;
-            target.xp = 0;
-            target.currenthealth = target.health;
-            target.dead = false;
-            target.shield = ts + 1800000;
-            let text = "<@" + target._id + "> has been resurrected! They feel wonderful!"
-            if (!functions.hasSkill(user, 14)) {
-                text += " (On the other hand, you don't feel so well)"
-            }
-            functions.completeQuest(user, "reviveOther", {"target": target}, 1)
-            functions.replyMessage(message, text);
-            functions.setUser(target)
+            functions.MessageAwait(message.channel, target._id, "<@" + target._id + ">, <@" + user._id + "> would like to revive you! Type `confirm` to be revived!", "confirm",
+                function (response, extraArgs) {
+                    return Promise.all([functions.getUser(extraArgs[0]._id), functions.getUser(extraArgs[1]._id), functions.getObject("guildData", extraArgs[0]._id)]).then(ret => {
+                        let user = ret[0];
+                        let target = ret[1];
+                        let message = extraArgs[2];
+                        if (user.dead === true) {
+                            functions.replyMessage(message, "You can't rez as a corpse! Do !resurrect");
+                            return;
+                        }
+                        if (target.dead === false) {
+                            functions.replyMessage(message, "They're not dead. Why do you need to rez?");
+                            return;
+                        }
+                        if (!functions.hasSkill(user, 14)) {
+                            user.currenthealth -= Math.abs(Math.floor(Math.random() * Math.random() * target.health) - user.defense);
+                        }
+                        target.speed = 0;
+                        user.speed = 0;
+                        target.xp = 0;
+                        target.currenthealth = target.health;
+                        target.dead = false;
+                        target.shield = ts + 1800000;
+                        let text = "<@" + target._id + "> has been resurrected! They feel wonderful!"
+                        if (!functions.hasSkill(user, 14)) {
+                            text += " (On the other hand, you don't feel so well)"
+                        }
+                        functions.completeQuest(user, "reviveOther", { "target": target }, 1)
+                        functions.replyMessage(message, text);
+                        functions.setUser(user)
+                        functions.setUser(target)
+                    })
+                },
+                [user, target, message],
+                "They didn't want to be revived..."
+            );
         })
     }
 }
