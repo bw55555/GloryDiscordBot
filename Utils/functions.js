@@ -501,9 +501,9 @@ function calcDamage(message, attacker, defender, initiator) {
         options.skillenable = skillenable
         let hasConfusion = defender.isRaid != true && hasSkill(defender, 23, skillenable)
         options.hasConfusion = hasConfusion
-        if (hasSkill(defender, 37) && attacker.speed > 0 && Math.random() < 0.33) {
+        if (hasSkill(defender, 37, skillenable) && attacker.speed > 0 && Math.random() < 0.33) {
             options.hasDispel = true;
-            text += defendername + "'s speed was dispelled!\n"
+            text += attackername + "'s speed was dispelled!\n"
         }
         let attackarr = calcStats(message, attacker, "attack", options);
         attack = attackarr[1];
@@ -524,7 +524,7 @@ function calcDamage(message, attacker, defender, initiator) {
         options.skillenable = skillenable
         let hasConfusion = attacker.isRaid != true && hasSkill(attacker, 23, skillenable)
         options.hasConfusion = hasConfusion
-        if (hasSkill(attacker, 37) && defender.speed > 0 && Math.random() < 0.33) {
+        if (hasSkill(attacker, 37, skillenable) && defender.speed > 0 && Math.random() < 0.33) {
             options.hasDispel = true; 
             text += defendername + "'s speed was dispelled!\n"
         }

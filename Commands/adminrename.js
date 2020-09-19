@@ -27,7 +27,7 @@ module.exports = async function (message, user) {
         item.name = name
         if (item.equip == true) {
             if (item.owner == user._id) { user.weapon = item; }
-            else { functions.setProp("userData", { "_id": item.owner }, { "weapon": item }); }
+            else { functions.setProp("userData", { "_id": item.owner }, { "weapon.name": name }); }
         }
         functions.setProp("itemData", { _id: item._id }, { $set: {"name":name}})
         functions.replyMessage(message, "Weapon ID " + weaponid + " is now called " + name);
