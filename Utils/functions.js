@@ -710,7 +710,7 @@ function calcDamage(message, attacker, defender, initiator) {
     //console.log("Counter")
     let x = Math.floor(attack * 0.60 * roll + attack * 0.4);
     let defmult = 10;
-    let truedamage = x;
+    let truedamage = x - defense;
     if (defense <= 0) {
         truedamage *= (1-defense/50)
     }
