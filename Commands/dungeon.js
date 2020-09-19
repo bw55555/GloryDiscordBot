@@ -49,6 +49,7 @@ module.exports = async function (message, user) {
         else if (command == "start" || command == "s") {
             if (dungeon.task == "start") {
                 dungeon.ts = ts;
+                dungeon.floor = 0;
                 user.dungeonts = ts;
                 user.bolster = false;
                 user.speed = 0;

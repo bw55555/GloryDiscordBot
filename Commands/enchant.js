@@ -1,5 +1,5 @@
 global.allowedmodifiers = ["critRate", "critDamage", "block", "lifeSteal", "pierce", "lucky", "spikes", "revenge", "rage", "sacrifice", "maxhp", "tempo", "burn", "haste", "evade", "regen", "attackvariance"]
-const enchantData = {
+global.enchantData = {
     "critRate": { "start": 0.01, "level": 0.01, "end": 0.02, "cost": [6, 4, 0, 0] },
     "critDamage": { "start": 0.4, "level": 0.3, "end": 0.5, "cost": [7, 3, 0, 0] },
     "lifeSteal": { "start": 0.04, "level": 0.03, "end": 0.05, "cost": [3, 2, 0, 5] },
