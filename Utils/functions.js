@@ -734,8 +734,9 @@ function calcDamage(message, attacker, defender, initiator) {
                     leech = 0;
                 }
                 if (truedamage < defender.currenthealth && truedamage + leech > defender.currenthealth) {
-                    leech = leech - (defender.currenthealth-truedamage) - 1
+                    leech = (defender.currenthealth-truedamage) - 1
                 }
+                truedamage += leech
                 attacker.currenthealth += leech
                 text += attackername + " leeched **" + leech + "** health!\n";
             }
