@@ -1176,7 +1176,7 @@ function checkStuff(message,user) {
     //user.xp += Math.floor(20 * Math.random() + 1); //whenever a message is sent, their experience increases by a random number 1-25.
     user.xp += 1 + Math.floor(Math.random() * user.level);
     let leveluptext = ""
-    if (user.level >= 100) { user.xp = Math.min(checkxp(user) - 1, user.xp) }
+    if (user.level >= 100) { user.xp = Math.min(checkxp(user), user.xp) }
     let extratext = ""
     while (user.xp >= checkxp(user) && user.level < 100) { //increases levels when xp>100*level
         user.xp -= checkxp(user)
@@ -1304,7 +1304,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             thumbnail: {
                 url: raid.url
             },
-            title: '<@' + user._id + "> attacks a Lv." + raid.level + " " + raid.name,
+            title: user.username + " attacks a Lv." + raid.level + " " + raid.name,
             color: 0xF1C40F,
             fields: [
                 /*{
@@ -1330,7 +1330,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                     thumbnail: {
                         url: raid.url
                     },
-                    title: '<@' + user._id + "> attacks a Lv." + raid.level + " " + raid.name,
+                    title: user.username + " attacks a Lv." + raid.level + " " + raid.name,
                     color: 0xF1C40F,
                     fields: [
                         /*{

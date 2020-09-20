@@ -28,7 +28,7 @@ module.exports = async function (message, user) {
         }
         let xptext = "(" + xpleft + "(" + (Math.floor(1000 - target.xp / functions.checkxp(target) * 1000) / 10) + "%) xp until next lvl)"
         if (target.level == 100) {
-            xptext = "(MAX LEVEL +"+(Math.floor(target.level/functions.checkxp(target) * 1000)/10) + "%)";
+            xptext = "(MAX LEVEL +"+(Math.floor(target.xp/functions.checkxp(target) * 1000)/10) + "%)";
         }
         let nametext = "<@" + target._id + ">"
         if (target.glory != undefined && target.glory != null && !isNaN(parseInt(target.glory))) {
