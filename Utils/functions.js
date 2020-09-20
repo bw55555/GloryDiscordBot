@@ -320,7 +320,7 @@ function generateGuildTemplate(guild) {
                     inline: true
                 },
                 {
-                    name: "<:mallowhug:541663981895417866> Guild Members <:mallowhug:541663981895417866>",
+                    name: "<:mallowhug:542482607716171799> Guild Members <:mallowhug:542482607716171799>",
                     value: guild.members.length,
                     inline: true
                 },

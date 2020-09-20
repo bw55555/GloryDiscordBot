@@ -31,7 +31,7 @@ module.exports = async function (message, user) {
                         }
                         functions.setProp("userData", { _id: user._id }, { $set: { "marry": target._id } })
                         functions.setProp("userData", { _id: target._id }, { $set: { "marry": user._id } })
-                        functions.sendMessage(message.channel, "<:nixheart:506240330916429837><:nixheart:506240330916429837><:nixheart:506240330916429837>🎉🎉🎉Congradulations! <@" + target._id + "> and <@" + user._id + "> are now married!🎉🎉🎉<:nixheart:506240330916429837><:nixheart:506240330916429837><:nixheart:506240330916429837>");
+                        functions.sendMessage(message.channel, "🎉🎉🎉Congratulations! <@" + target._id + "> and <@" + user._id + "> are now married!🎉🎉🎉");
                     })
                 },
                 [user, target, message],
