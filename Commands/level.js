@@ -11,9 +11,9 @@ module.exports = async function (message, user) {
         if (xpleft < 0) {
             xpleft = 0;
         }
-        let xptext = "(" + xpleft + " xp until next lvl)"
+        let xptext = "(" + xpleft + "(" + (1000 - Math.floor(target.level / functions.checkxp(target) * 1000) / 10)+"%) xp until next lvl)"
         if (target.level == 100) {
-            xptext = "(MAX LEVEL)";
+            xptext = "(MAX LEVEL +" + (Math.floor(target.level / functions.checkxp(target) * 1000) / 10) + "%)";
         }
         functions.sendMessage(message.channel, {
             embed: {

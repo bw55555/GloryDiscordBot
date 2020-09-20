@@ -103,11 +103,11 @@ module.exports = async function (message, user) {
             user.currenthealth = 0;
             let xplost = Math.floor(functions.checkxp(user) / 10)
             user.xp -= xplost;
-            if (user.level == 0) { user.xp = 0 }
+            if (user.level <= 1) { user.xp = 0 }
             if (user.xp < 0) { user.level -= 1; user.xp += functions.checkxp(user) }
             xplost = Math.floor(functions.checkxp(target) / 10)
             target.xp -= xplost;
-            if (target.level == 0) { target.xp = 0 }
+            if (target.level <= 1) { target.xp = 0 }
             if (target.xp < 0) { target.level -= 1; target.xp += functions.checkxp(target) }
             target.money -= stolen;
             user.money -= counterstolen;
@@ -139,7 +139,7 @@ module.exports = async function (message, user) {
 
             let xplost = Math.floor(functions.checkxp(target) / 10)
             target.xp -= xplost;
-            if (target.level == 0) { target.xp = 0 }
+            if (target.level <= 1) { target.xp = 0 }
             if (target.xp < 0) { target.level -= 1; target.xp += functions.checkxp(target) }
 
             if (user.glory != undefined && target.glory != undefined) {
@@ -170,7 +170,7 @@ module.exports = async function (message, user) {
             }
             let xplost = Math.floor(functions.checkxp(user) / 10)
             user.xp -= xplost;
-            if (user.level == 0) { user.xp = 0 }
+            if (user.level <= 1) { user.xp = 0 }
             if (user.xp < 0) { user.level -= 1; user.xp += functions.checkxp(user) }
 
             if (user.glory != undefined && target.glory != undefined) {
