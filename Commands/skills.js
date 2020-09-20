@@ -38,7 +38,8 @@ SkillData stores the name, id and description of the skill.
 
   functions.sendMessage(message.channel, {
     embed: {
-      color: 0x008080,
+          color: 0x008080,
+        title: user.username+"'s Skills",
       /*thumbnail: {
         "url": "https://i.imgur.com/r39nI8f.jpg"
       },*/

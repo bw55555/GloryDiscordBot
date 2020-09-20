@@ -18,7 +18,7 @@ module.exports = async function (message, user) {
     }
     functions.sendMessage(message.channel, {
         "embed": {
-            //"title": user.username + "'s Cooldowns",
+            "title": user.username + "'s Cooldowns",
             //"description": "Welcome to the blacksmith\nUse `!purchase [ID_of_Item]` to select the item you want to buy!\n",
             "color": 13498074,
 

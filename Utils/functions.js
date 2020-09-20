@@ -725,23 +725,7 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
     //Last Breath Check
-    if (attacker.isRaid != true) {
-        if (hasSkill(attacker, 22, skillenable)) {
-            let leech = 0
-            if (defender.isRaid != true) {
-                leech = Math.floor(0.05 * defender.health);
-                if (truedamage > defender.currenthealth) {
-                    leech = 0;
-                }
-                if (truedamage < defender.currenthealth && truedamage + leech > defender.currenthealth) {
-                    leech = (defender.currenthealth-truedamage) - 1
-                }
-                truedamage += leech
-                attacker.currenthealth += leech
-                text += attackername + " leeched **" + leech + "** health!\n";
-            }
-        }
-    }
+    
     if (defender.isRaid != true) {
         if (hasSkill(defender, 25, skillenable) && !isCD(defender, message.createdTimestamp, "lastbreath")) {
             if (truedamage > defender.currenthealth && defender.currenthealth * 2 > defender.health) {
@@ -769,6 +753,23 @@ function calcDamage(message, attacker, defender, initiator) {
             if (defender.isRaid && stealAmount > defender.maxhealth) { stealAmount = defender.maxhealth;}
             attacker.currenthealth += stealAmount
             text += attackername + " lifestole **" + stealAmount + "** health!\n";
+        }
+    }
+    if (attacker.isRaid != true) {
+        if (hasSkill(attacker, 22, skillenable)) {
+            let leech = 0
+            if (defender.isRaid != true) {
+                leech = Math.floor(0.05 * defender.health);
+                if (truedamage > defender.currenthealth) {
+                    leech = 0;
+                }
+                if (truedamage < defender.currenthealth && truedamage + leech > defender.currenthealth) {
+                    leech = (defender.currenthealth - truedamage) - 1
+                }
+                truedamage += leech
+                attacker.currenthealth += leech
+                text += attackername + " leeched **" + leech + "** health!\n";
+            }
         }
     }
     let spikes = 0;
@@ -1036,6 +1037,7 @@ function raidInfo(message, raid) {
             thumbnail: {
                 "url": raid.url
             },
+            title: "Raid Info",
             color: 0xF1C40F,
             fields: [
                 {
@@ -1302,6 +1304,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             thumbnail: {
                 url: raid.url
             },
+            title: '<@' + user._id + "> attacks a Lv." + raid.level + " " + raid.name,
             color: 0xF1C40F,
             fields: [
                 /*{
@@ -1310,10 +1313,10 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 },*/
                 {
                     name: "Attack Results",
-                    value: damagetext+'<@' + user._id + "> attacks a Lv." + raid.level + " " + raid.name + "!\n" + raid.name + " took **" + damage + "** damage! It has **" + raid.currenthealth + "** Health remaining! You earned **" + damagereward + "** xp!",
+                    value: damagetext + raid.name + " took **" + damage + "** damage! It has **" + raid.currenthealth + "** Health remaining! You earned **" + damagereward + "** xp!",
                 }, {
                     name: "Counter Results",
-                    value: countertext+"<@" + user._id + "> took **" + counter + "** counterdamage! You have **" + user.currenthealth + "** Health remaining!",
+                    value: countertext + "<@" + user._id + "> took **" + counter + "** counterdamage! You have **" + user.currenthealth + "** Health remaining!",
                 }
             ]
         }
@@ -1327,6 +1330,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                     thumbnail: {
                         url: raid.url
                     },
+                    title: '<@' + user._id + "> attacks a Lv." + raid.level + " " + raid.name,
                     color: 0xF1C40F,
                     fields: [
                         /*{
@@ -1335,7 +1339,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                         },*/
                         {
                             name: "Attack Results",
-                            value: damagetext + '<@' + user._id + "> attacks a Lv." + raid.level + " " + raid.name + "!\n" + raid.name + " took **" + damage + "** damage! It has **" + raid.currenthealth + "** Health remaining! You earned **" + damagereward + "** xp!",
+                            value: damagetext + raid.name + " took **" + damage + "** damage! It has **" + raid.currenthealth + "** Health remaining! You earned **" + damagereward + "** xp!",
                         }, {
                             name: "Counter Results",
                             value: countertext + "<@" + user._id + "> took **" + counter + "** counterdamage! You have **" + user.currenthealth + "** Health remaining!",
