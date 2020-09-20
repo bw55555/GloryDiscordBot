@@ -13,7 +13,7 @@ module.exports = async function (message, user) {
         }
         let xptext = "(" + xpleft + "(" + (1000 - Math.floor(target.level / functions.checkxp(target) * 1000) / 10)+"%) xp until next lvl)"
         if (target.level == 100) {
-            xptext = "(MAX LEVEL +" + (Math.floor(target.level / functions.checkxp(target) * 1000) / 10) + "%)";
+            xptext = "(MAX LEVEL +" + (Math.floor(target.xp / functions.checkxp(target) * 1000) / 10) + "%)";
         }
         functions.sendMessage(message.channel, {
             embed: {
