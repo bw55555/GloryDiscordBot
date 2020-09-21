@@ -1385,7 +1385,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 tasks.push({
                     updateOne:
                     {
-                        "filter": { _id: keys[i] },
+                        "filter": { _id: key },
                         "update": {
                             $inc: {
                                 "consum.reroll": 1
