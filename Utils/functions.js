@@ -600,7 +600,10 @@ function calcDamage(message, attacker, defender, initiator) {
             burn += weapon.modifiers.burn
         }
         if (hasSkill(attacker, 36, skillenable)) {
-            burn += 1;
+            burn += 4;
+        }
+        if (hasSkill(attacker, 31, skillenable)) {
+            burn += 2;
         }
     } else {
         if (attacker.name == "Ignis") {
@@ -782,6 +785,7 @@ function calcDamage(message, attacker, defender, initiator) {
         if (hasSkill(defender, 31, skillenable)) {
             spikes += 0.2;
         }
+        
     }
     if (spikes > 0) {
         let spiked = Math.floor(defense * spikes)

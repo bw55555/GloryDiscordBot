@@ -157,7 +157,7 @@
     {
         "name": "Aura Ignition",
         "id": 31,
-        "description": "Spikes + 0.2; Spikes also cause players to burn"
+        "description": "Spikes + 20%; Burn + 2"
     },
     {
         "name": "Nemesis",
@@ -182,7 +182,7 @@
     {
         "name": "Pyromancy",
         "id": 36,
-        "description": "Enemies you fight become burned and take damage over time"
+        "description": "Enemies you fight become burned for 4 commands and take damage over time"
     },
     {
         "name": "Dispel",
