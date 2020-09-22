@@ -1,4 +1,5 @@
 import { Message, Channel } from "discord.js"
+export function importObject(db: string, coll: string, oid: string | number): Promise<false | JSON>
 export function clean(text: string): string
 export function getUser(uid: string | number): Promise<JSON | false>
 export function findUsers(query: JSON): Promise<Array<JSON> | false>

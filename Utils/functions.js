@@ -1,3 +1,13 @@
+async function importObject(db1, coll, oid) {
+    return client.db(db1).collection(coll).find({ _id: oid }).toArray().then(r => {
+        if (r[0] == undefined) { return false }
+        return r[0];
+    }).catch(err => {
+        console.error(err)
+        sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+        return false
+    })
+}
 async function getUser(uid) {
     return getObject("userData", uid)
 }
@@ -858,8 +868,7 @@ function calcStats(message, user, stat, options) {
     if (hasSkill(user, 12, skillenable)) {
         if (user.health == user.currenthealth) {
             buff += 0.5;
-            /*buff += 1;
-            dbuff += 1;*/
+            dbuff += 0.5;
         }
     }
     if (hasSkill(user, 17, skillenable)) {
@@ -1829,6 +1838,7 @@ function canUseCommand(message, user, cmd) {
 }
 
 module.exports.clean = function (text) { return clean(text) }
+module.exports.importObject = function (db, coll, oid) { return importObject(db, coll, oid) }
 module.exports.getUser = function (uid) { return getUser(uid) }
 module.exports.findUsers = function (query,projection) { return findUsers(query,projection) }
 module.exports.setUser = function (newuser) { return setUser(newuser) }
