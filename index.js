@@ -97,6 +97,7 @@ function addServer(guild) {
 function evaluateMessage(message) {
     if (ready == false) { console.log("Not Ready"); return }
     if (bot.user.id === message.author.id) { return }
+    functions.respond(message)
     if (!devData.enable && devs.indexOf(message.author.id) == -1) {
         return;
     }
@@ -182,7 +183,7 @@ function evaluateMessage(message) {
         message.content = words.join(" ")
     }
     message.author.original = id
-    functions.respond(message)
+    
     
     id = message.author.id;
     let words = message.content.trim().split(/\s+/)

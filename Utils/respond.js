@@ -8,11 +8,11 @@ module.exports=function(message) {
 	//Autoresponders
 	if (msg === 'DOSEI') {
 		functions.sendMessage(message.channel,'Slower than absolute zero.');
-        }
-        if (msg === 'RAZOREIGN') {
+    }
+	if (msg === 'RAZOREIGN') {
 		functions.sendMessage(message.channel,'Incompetence at its finest.');
-        }
-        if (msg === '3628800') {
+    }
+    if (msg === '3628800') {
 		functions.sendMessage(message.channel,'Competence at its worst.');
 	}
 	if (msg === 'NIX') {
