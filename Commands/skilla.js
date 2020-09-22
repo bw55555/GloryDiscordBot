@@ -15,7 +15,7 @@ module.exports = async function (message, user) {
         functions.sendMessage(message.channel, {
             embed: {
                 color: 0x008080,
-                title: user.username + "'s Skill A",
+                title: user.username + "'s Skill A" + " (" + skillid + ")",
                 /*thumbnail: {
                   "url": "https://i.imgur.com/r39nI8f.jpg"
                 },*/

@@ -235,7 +235,7 @@ function hasSkill(user, skillid, enable) {
 }
 function getGuildBuff(user, buffname) {
     if (user.isRaid) { return 0}
-    if (user.guild != "None" && user.guildbuffs != undefined && user.guildbuffs[buffname] != undefined) {
+    if (user.guildbuffs != undefined && user.guildbuffs[buffname] != undefined) {
         return guildBuffStore.find(x => x.stat == buffname).bonus[user.guildbuffs[buffname]];
     }
     return 0;
