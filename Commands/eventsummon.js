@@ -16,8 +16,13 @@ module.exports = async function (message, user) {
     bot.setTimeout(function () {
         let raid = { "_id": "event" };
         raid.isRaid = true
-        raid.name = 'Leviathan'
-        raid.url = 'https://i.imgur.com/x6QeL4U.jpg'
+        let raidpics = {
+            "Treant King": "https://i.imgur.com/1zjU5kt.jpeg",
+            "Leviathan": "https://i.imgur.com/x6QeL4U.jpg",
+            "Dragonlord": "https://i.imgur.com/cMile7I.png"
+        }
+        raid.name = "Dragonlord"
+        raid.url = raidpics[raid.name]
         if (words.length > 1) {
             let summonlevel = parseInt(words[1])
             if (isNaN(summonlevel)) { return functions.sendMessage(message.channel, "The boss level must be an integer!") }
