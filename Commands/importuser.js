@@ -19,10 +19,10 @@ module.exports = async function (message, user) {
             target.guild = "None"
             target.guildpos = "None"
             target.inventory = {}
-            functions.setObject(target)
+            functions.setUser(target)
             functions.logCommand(message)
             functions.replyMessage(message, "Successfully imported id " + words[1] + ". Please note guild and inventory were cleared. ")
         })
     }, [message], "Please enter `confirm`. (no caps)");
-    
+
 }
