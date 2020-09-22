@@ -805,9 +805,6 @@ function calcDamage(message, attacker, defender, initiator) {
             text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
         }
     }
-    if (attacker.isRaid != true && defender.isRaid != true) {
-        truedamage *= 2;
-    }
     return [text, truedamage, counter]
 }
 function calcStats(message, user, stat, options) {
