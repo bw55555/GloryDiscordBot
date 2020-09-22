@@ -9,17 +9,20 @@ module.exports = async function (message, user) {
         return user;
     }
     if (isNaN(parseInt(words[1]))) { return functions.replyMessage(message, "The id must be an integer!") }
-    if (db != "test") { return functions.replyMessage(message, "This can only be used in the test server!")}
-    return Promise.all([functions.importObject("current", "userData", words[1])]).then(ret => {
-        let target = ret[0];
-        if (target == false) { return functions.replyMessage(message, "This id does not exist!"); }
-        target._id = user._id
-        target.username = user.username
-        target.guild = "None"
-        target.guildpos = "None"
-        target.inventory = {}
-        user = target;
-        functions.logCommand(message)
-        functions.replyMessage(message, "Successfully imported id "+words[1]+". Please note guild and inventory were cleared. ")
-    })
+    if (db != "test") { return functions.replyMessage(message, "This can only be used in the test server!") }
+    functions.MessageAwait(message.channel, id, "Are you sure you want to do this? It will overwrite all your data.\nIf you are sure, type `confirm`", "confirm", function (response, extraArgs) {
+        Promise.all([functions.importObject("current", "userData", words[1])]).then(ret => {
+            let target = ret[0];
+            if (target == false) { return functions.replyMessage(message, "This id does not exist!"); }
+            target._id = user._id
+            target.username = user.username
+            target.guild = "None"
+            target.guildpos = "None"
+            target.inventory = {}
+            functions.setObject(target)
+            functions.logCommand(message)
+            functions.replyMessage(message, "Successfully imported id " + words[1] + ". Please note guild and inventory were cleared. ")
+        })
+    }, [message], "Please enter `confirm`. (no caps)");
+    
 }
