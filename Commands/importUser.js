@@ -20,6 +20,7 @@ module.exports = async function (message, user) {
         target.inventory = {}
         functions.setUser(target)
         functions.logCommand(message)
+        functions.replyMessage(message, "Successfully imported id "+words[1]+". Please note guild and inventory were cleared. ")
         return user
     })
 }
