@@ -975,7 +975,7 @@ async function voteItem(message, user, dm) {
         let numboxes = Math.ceil((1 + target.ascension) * Math.sqrt(target.votestreak) / 2)
 
         if (target.glory != undefined) {
-            target.glory += Math.random() * 0.5;
+            target.glory += 0.1;
         }
         target.consum.box += numboxes
         completeQuest(target, "vote", {"votestreak":target.votestreak}, 1)
