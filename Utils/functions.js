@@ -981,7 +981,7 @@ async function voteItem(message, user, dm) {
         }
         target.votestreak += 1
         target.votestreaktime = ts + 24 * 60 * 60 * 1000
-        let numboxes = Math.ceil((1 + target.ascension) * Math.sqrt(target.votestreak) / 2)
+        let numboxes = Math.ceil(2 * (1 + target.ascension) * Math.sqrt(target.votestreak))
 
         if (target.glory != undefined) {
             target.glory += 0.1;
