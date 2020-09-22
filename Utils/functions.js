@@ -583,7 +583,7 @@ function calcDamage(message, attacker, defender, initiator) {
         if (defender._id == undefined) {
             attack *= 1.5
         } else {
-            defense = 0
+            defense = Math.floor(defense/2)
         }
         text += attackername + " has pierced their opponents defense!\n"
         if (attacker.isRaid != true && hasSkill(attacker, 28, skillenable)) {
@@ -794,6 +794,9 @@ function calcDamage(message, attacker, defender, initiator) {
             counter += spiked
             text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
         }
+    }
+    if (attacker.isRaid != true && defender.isRaid != true) {
+        truedamage *= 2;
     }
     return [text, truedamage, counter]
 }
