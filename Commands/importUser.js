@@ -12,15 +12,14 @@ module.exports = async function (message, user) {
     if (db != "test") { return functions.replyMessage(message, "This can only be used in the test server!")}
     return Promise.all([functions.importUser("current", "userData", words[1])]).then(ret => {
         let target = ret[0];
-        if (target == false) { return functions.replyMessage(message,"This id does not exist!"); }
+        if (target == false) { return functions.replyMessage(message, "This id does not exist!"); }
         target._id = user._id
         target.username = user.username
         target.guild = "None"
         target.guildpos = "None"
         target.inventory = {}
-        functions.setUser(target)
+        user = target;
         functions.logCommand(message)
         functions.replyMessage(message, "Successfully imported id "+words[1]+". Please note guild and inventory were cleared. ")
-        return user
     })
 }
