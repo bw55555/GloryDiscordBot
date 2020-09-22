@@ -16,12 +16,12 @@ module.exports = async function (message, user) {
             if (target == false) { return functions.replyMessage(message, "This id does not exist!"); }
             target._id = user._id
             target.username = user.username
-            target.guild = "None"
-            target.guildpos = "None"
-            target.inventory = {}
+            target.guild = user.guild
+            target.guildpos = user.guildpos
+            target.inventory = user.inventory
             functions.setUser(target)
             functions.logCommand(message)
-            functions.replyMessage(message, "Successfully imported id " + words[1] + ". Please note guild and inventory were cleared. ")
+            functions.replyMessage(message, "Successfully imported id " + words[1] + ". Please note guild and inventory will remain the same. Guild buffs will be imported.  ")
         })
     }, [message], "Please enter `confirm`. (no caps)");
 
