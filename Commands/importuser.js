@@ -10,7 +10,7 @@ module.exports = async function (message, user) {
     }
     if (isNaN(parseInt(words[1]))) { return functions.replyMessage(message, "The id must be an integer!") }
     if (db != "test") { return functions.replyMessage(message, "This can only be used in the test server!")}
-    return Promise.all([functions.importUser("current", "userData", words[1])]).then(ret => {
+    return Promise.all([functions.importObject("current", "userData", words[1])]).then(ret => {
         let target = ret[0];
         if (target == false) { return functions.replyMessage(message, "This id does not exist!"); }
         target._id = user._id
