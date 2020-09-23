@@ -309,6 +309,7 @@ function generateGuildTemplate(guild) {
     xpleft = (guild.level == 100) ? "MAX level" : xpleft
     return {
         embed: {
+            title: "Guild Info",
             color: 0xF1C40F,
             thumbnail: {
                 "url": guild.icon
