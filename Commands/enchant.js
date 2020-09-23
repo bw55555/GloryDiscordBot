@@ -79,7 +79,6 @@ module.exports = async function (message, user) {
                     user.runes[3 + i] -= enchantData[ench].cost[i] * runemult
                 }
                 if (item.modifiers[ench] == undefined) { user.runes[1] -= item.numenchants; }
-                user.runes[1] -= item.numenchants
                 user.runes[2] -= energy
                 user.materials -= matscost
                 functions.setUser(user)
