@@ -87,14 +87,16 @@ class Paginator {
                                     return false
                                 }
                             }, 
-                            function (response,currPaginator) { 
-                                currPaginator.current = parseInt(response.content)-1;
-                                currPaginator.pause = false;
-                                currPaginator.refresh()
+                            function (response, currPaginator) { 
+                                if (currPaginator != undefined) {
+                                    currPaginator.current = parseInt(response.content) - 1;
+                                    currPaginator.pause = false;
+                                    currPaginator.refresh()
+                                }
                             },
                             this,
                             function (response, currPaginator) {
-                                currPaginator.pause = false;
+                                if (currPaginator != undefined) { currPaginator.pause = false };
                             },
                             this)
                     }
