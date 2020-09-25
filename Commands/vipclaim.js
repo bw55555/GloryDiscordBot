@@ -4,6 +4,7 @@ module.exports = async function (message, user) {
     let words = message.content.split(/\s+/)
     if (user.vip == undefined) { return }
     if (user.vip.extrarerolls != undefined) {
+        if (user.vipclaims.rerolls == undefined) { user.vipclaims.rerolls = 0}
         let rem = user.ascension * user.vip.extrarerolls - user.vipclaims.rerolls
         if (rem > 0) {
             user.consum.reroll += rem

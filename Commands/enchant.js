@@ -74,7 +74,7 @@ module.exports = async function (message, user) {
                 for (var i = 0; i < enchantData[ench].cost.length; i++) {
                     if (user.runes[3 + i] < enchantData[ench].cost[i] * runemult) { return functions.replyMessage(message, "You do not have enough "+runeNames[3+i]+" to enchant your weapon!") }
                 }
-                if (item.numenchants > 0 && user.runes[1] < item.numenchants) { return functions.replyMessage(message, "You do not have enough wisdom runes!")}
+                if (item.modifiers[ench] == undefined && item.numenchants > 0 && user.runes[1] < item.numenchants) { return functions.replyMessage(message, "You do not have enough wisdom runes!")}
                 for (var i = 0; i < enchantData[ench].cost.length; i++) {
                     user.runes[3 + i] -= enchantData[ench].cost[i] * runemult
                 }
