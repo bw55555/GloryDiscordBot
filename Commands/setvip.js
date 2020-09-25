@@ -18,11 +18,11 @@ module.exports = async function (message, user) {
         { "level": 4, "lucky": 0.5, "extrarerolls": 3 },
     ]
     for (var viprole of viproles) {
-        if (message.member.roles.cache.has(viprole)) {
+        if (message.member.roles.cache.has(viprole.role)) {
             if (user.vip == undefined) { user.vip = {} }
             if (user.vipclaims == undefined) { user.vipclaims = {} }
             user.vipclaims.rerolls = 0;
-            let viplevel = viproles[viprole]
+            let viplevel = viprole.level
             user.vip.lucky = vipbenefits[viplevel].lucky;
             user.vip.extrarerolls = vipbenefits[viplevel].extrarerolls;
             user.vip.level = vipbenefits[viplevel].level;
