@@ -1,4 +1,4 @@
-const raidData = require("../Assets/raidData.json")
+const raidData = Assets.raidData
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;

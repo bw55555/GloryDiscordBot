@@ -1,4 +1,4 @@
-﻿const raidData = require("../Assets/raidData.json")
+﻿const raidData = Assets.raidData
 
 const guildStore = [
     { "name": "Common Scroll", "price": 50000, "levels": [0, 10, 20, 30, 40], "stocks": [1, 1, 1, 1, 1] },

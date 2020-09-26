@@ -808,6 +808,9 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     return [text, truedamage, counter]
 }
+function calcEnchant(user, enchantName) {
+
+}
 function calcStats(message, user, stat, options) {
     if (options == undefined) {options = {}}
     skillenable = (options.skillenable == false) ? false : true

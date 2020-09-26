@@ -1,4 +1,4 @@
-const mainQuestData = require("../Assets/mainQuestData.json")
+const mainQuestData = Assets.mainQuestData
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
