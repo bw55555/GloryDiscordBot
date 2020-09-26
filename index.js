@@ -103,9 +103,9 @@ fs.readdir("./Assets/", (err, files) => {
 
     });
     console.log("Done Reading Assets")
+    global.skillData = Assets.skillData;
     //console.log(commandlist)
 });
-global.skillData = Assets.skillData;
 function addServer(guild) {
     if (serverData[guild.id] == undefined) { serverData[guild.id] = {} }
     serverData[guild.id]._id = guild.id
@@ -238,6 +238,7 @@ function evaluateMessage(message) {
                 });
                 //console.log("Done Reading Assets")
                 //console.log(commandlist)
+                global.skillData = Assets.skillData;
             });
         }
         if (commandName == "Utils") {
