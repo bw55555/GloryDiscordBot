@@ -24,7 +24,7 @@ module.exports = async function (message, user) {
         let pages = []
         for (var i = 0; i < dungeonArr.length; i++) {
             //let leveltext = parseInt(user[0]) - 100 * asctext
-            page.embed.fields[0].value += "**" + (i + 1) + ". " + dungeonArr[i]._id + "** at floor **" + dungeonArr[i].maxFloor + "**"
+            page.embed.fields[0].value += "**" + (i + 1) + ". <@" + dungeonArr[i]._id + ">** at floor **" + dungeonArr[i].maxFloor + "**"
             if (i % numPerPage == numPerPage - 1) { // separate pages
                 page.embed.footer.text = (pages.length * numPerPage + 1) + "-" + (i + 1) + " out of " + dungeonArr.length //add footer to display where you are
                 pages.push(page)
