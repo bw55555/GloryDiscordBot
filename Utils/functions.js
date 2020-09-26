@@ -1443,7 +1443,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 "Dragon Boss": [0, 0, 0.02, 0, 0.015, 0, 0],
                 "Deity Boss": [0, 0, 0.02, 0.005, 0.01, 0.01, 0.01],
                 "Hell Lord": [0, 0, 0.02, 0.01, 0.02, 0.02, 0.02],
-                "Fallen Angel": [500, 0.01, 1, 0.25, 0.5, 0.5, 0.5],
+                "Fallen Angel": [5000, 0.05, 1, 0.5, 1, 1, 1],
                 "Treant King": [2000, 0.2, 5, 1, 2, 2, 2],
                 "Leviathan": [4000, 0.4, 10, 2, 4, 4, 4],
                 "Dragonlord": [6000, 0.6, 15, 3, 6, 6, 6],
