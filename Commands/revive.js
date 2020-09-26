@@ -66,8 +66,8 @@ module.exports = async function (message, user) {
                         user.speed = 0;
                         let xplost = Math.floor(functions.checkxp(target) / 10)
                         target.xp -= xplost;
+                        while (target.xp < 0 && target.level > 1) { target.level -= 1; target.xp += functions.checkxp(target) }
                         if (target.level <= 1) { target.xp = 0 }
-                        if (target.xp < 0) { target.level -= 1; target.xp += functions.checkxp(target) }
                         target.currenthealth = target.health;
                         target.dead = false;
                         target.shield = ts + 1800000;
