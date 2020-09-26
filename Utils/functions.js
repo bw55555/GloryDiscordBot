@@ -864,7 +864,7 @@ function calcStats(message, user, stat, options) {
         critRate += 0.06;
     }
     if (hasSkill(user, 12, skillenable)) {
-        if (user.health >= user.currenthealth) {
+        if (user.health <= user.currenthealth) {
             buff += 0.5;
             dbuff += 0.5;
         }
