@@ -15,7 +15,7 @@ module.exports = async function (message, user) {
         for (var j = 0; j < user.quests[i].conditions.length; j++) {
             text += user.quests[i].conditions[j].description + " (" + user.quests[i].conditions[j].current + "/" + user.quests[i].conditions[j].total + ")\n"
         }
-        let rewardtext = Object.keys(user.quests[i].reward).map(x => user.quests[i].reward[x] + " " + x.substring(x.lastIndexOf("."))).join(", ")
+        let rewardtext = Object.keys(user.quests[i].reward).map(x => user.quests[i].reward[x] + " " + x.substring(x.lastIndexOf(".")+1)).join(", ")
         if (rewardtext == "") { rewardtext = "No Rewards."}
         text += "** Reward:** " + rewardtext
         fields.push({
