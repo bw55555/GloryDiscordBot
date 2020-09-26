@@ -898,54 +898,53 @@ function calcStats(message, user, stat, options) {
             defense += user.weapon.defense + user.weapon.enhance.defense;
         }
     }
-    if (rage > 0) {
-        let x = user.currenthealth / user.health
-        if (hasSkill(user, 29, skillenable)) {
-            x = 7 * user.currenthealth / (8 * user.health)
-        }
-        x = Math.sqrt(x)
-        buff += Math.min(rage + 1.5, (rage * -1 * (Math.log(x) + 0.15)))
-
-    }
-    if (sacrifice > 0) {
-        buff += 5 * sacrifice
-        if (hasSkill(user, 26, skillenable)) {
-            //user.currenthealth += Math.floor(buff * attack * sacrifice)
-            text += "<@" + user._id + "> \"sacrificed\" **" + Math.floor(attack * 5 * sacrifice) + "** Health, but mysteriously just didn't!\n";
-        } else {
-            user.currenthealth -= Math.floor(attack * 5 * sacrifice)
-            text += "<@" + user._id + "> sacrificed **" + Math.floor(attack * 5 * sacrifice) + "** Health!\n";
-        }
-    }
+    
 
     let urspeed = user.speed
     if (urspeed > 20) {
         urspeed = 20
     }
     if (dispel) { urspeed = 0; }
-    if (tempo > 0) {
-        buff += ((urspeed * 0.05 * tempo));
-        text += "<@" + user._id + "> has **" + urspeed + "** tempo\n";
-    }
-    if (antitempo > 0) {
-        dbuff += ((urspeed * 0.05 * antitempo));
-        text += "<@" + user._id + "> has **" + urspeed + "** antitempo\n";
-    }
-
-    if (hasSkill(user, 20, skillenable)) {
-        critRate += 0.01 * urspeed;
-        text += "<@" + user._id + "> has **" + (Math.floor(critRate * 1000) / 10) + "%** chance of hitting a critical\n"
-    }
-
-    let critchance = Math.random();
-    if (critchance < critRate) {
-        text += "<@" + user._id + "> just dealt critical damage!\n";
-        buff += critDamage - 1;
-    }
     if (stat == "attack") {
+        if (rage > 0) {
+            let x = user.currenthealth / user.health
+            if (hasSkill(user, 29, skillenable)) {
+                x = 7 * user.currenthealth / (8 * user.health)
+            }
+            x = Math.sqrt(x)
+            buff += Math.min(rage + 1.5, (rage * -1 * (Math.log(x) + 0.15)))
+
+        }
+        if (sacrifice > 0) {
+            buff += 5 * sacrifice
+            if (hasSkill(user, 26, skillenable)) {
+                //user.currenthealth += Math.floor(buff * attack * sacrifice)
+                text += "<@" + user._id + "> \"sacrificed\" **" + Math.floor(attack * 5 * sacrifice) + "** Health, but mysteriously just didn't!\n";
+            } else {
+                user.currenthealth -= Math.floor(attack * 5 * sacrifice)
+                text += "<@" + user._id + "> sacrificed **" + Math.floor(attack * 5 * sacrifice) + "** Health!\n";
+            }
+        }
+        if (hasSkill(user, 20, skillenable)) {
+            critRate += 0.01 * urspeed;
+            text += "<@" + user._id + "> has **" + (Math.floor(critRate * 1000) / 10) + "%** chance of hitting a critical\n"
+        }
+        let critchance = Math.random();
+        if (critchance < critRate) {
+            text += "<@" + user._id + "> just dealt critical damage!\n";
+            buff += critDamage - 1;
+        }
+        if (tempo > 0) {
+            buff += ((urspeed * 0.05 * tempo));
+            text += "<@" + user._id + "> has **" + urspeed + "** tempo\n";
+        }
         return [text, Math.floor(buff * attack)]
     }
     if (stat == "defense") {
+        if (antitempo > 0) {
+            dbuff += ((urspeed * 0.05 * antitempo));
+            text += "<@" + user._id + "> has **" + urspeed + "** antitempo\n";
+        }
         return [text,Math.floor(dbuff * defense)]
     }
 }
