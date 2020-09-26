@@ -885,80 +885,67 @@ function calcStats(message, user, stat, options) {
     }
 
     if (user.bolster == true) {
-        buff += 0.5;
-        dbuff += 0.5;
+        buff += 0.2;
+        dbuff += 0.2;
         user.bolster = false;
     }
-
-    if (stat == "attack") {
-
-        if (user.weapon != false && user.weapon != undefined) {
-            if (confused) {
-                attack += user.weapon.defense + user.weapon.enhance.defense;
-            } else {
-                attack += user.weapon.attack+ user.weapon.enhance.attack;
-            }
-            
+    if (user.weapon != false && user.weapon != undefined) {
+        if (confused) {
+            attack += user.weapon.defense + user.weapon.enhance.defense;
+            defense += user.weapon.attack + user.weapon.enhance.attack;
+        } else {
+            attack += user.weapon.attack + user.weapon.enhance.attack;
+            defense += user.weapon.defense + user.weapon.enhance.defense;
         }
-        if (rage > 0) {
-            let x = user.currenthealth / user.health
-            if (hasSkill(user, 29, skillenable)) {
-                x = 7*user.currenthealth / (8*user.health)
-            }
-            x = Math.sqrt(x)
-            buff += Math.min(rage + 1.5, (rage * -1 * (Math.log(x) + 0.15)))
-            
+    }
+    if (rage > 0) {
+        let x = user.currenthealth / user.health
+        if (hasSkill(user, 29, skillenable)) {
+            x = 7 * user.currenthealth / (8 * user.health)
         }
-        if (sacrifice > 0) {
-            buff += 5 * sacrifice
-            if (hasSkill(user, 26, skillenable)) {
-                //user.currenthealth += Math.floor(buff * attack * sacrifice)
-                text += "<@" + user._id + "> \"sacrificed\" **" + Math.floor(attack * 5 * sacrifice) + "** Health, but mysteriously just didn't!\n";
-            } else {
-                user.currenthealth -= Math.floor(attack * 5 * sacrifice)
-                text += "<@" + user._id + "> sacrificed **" + Math.floor(attack * 5 * sacrifice) + "** Health!\n";
-            }
-        }
-
-        let urspeed = user.speed
-        if (urspeed > 20) {
-            urspeed = 20
-        }
-        if (dispel) { urspeed = 0;}
-        if (tempo > 0) {
-            buff += ((urspeed * 0.05 * tempo));
-            text += "<@" + user._id + "> has **" + urspeed + "** tempo\n";
-        }
-        if (antitempo > 0) {
-            dbuff += ((urspeed * 0.05 * antitempo));
-            text += "<@" + user._id + "> has **" + urspeed + "** antitempo\n";
-        }
-
-        if (hasSkill(user, 20, skillenable)) {
-            critRate += 0.01 * urspeed;
-            text += "<@" + user._id + "> has **" + (Math.floor(critRate * 1000) / 10) + "%** chance of hitting a critical\n"
-        }
-
-        let critchance = Math.random();
-        if (critchance < critRate) {
-            text += "<@" + user._id + "> just dealt critical damage!\n";
-            buff += critDamage-1;
-        }
-
-        //if (text != "") { sendMessage(message.channel, text) }
-        return [text, Math.floor(buff * attack)]
+        x = Math.sqrt(x)
+        buff += Math.min(rage + 1.5, (rage * -1 * (Math.log(x) + 0.15)))
 
     }
-    if (stat == "defense") {
-        if (user.weapon != false && user.weapon != undefined) {
-            if (!confused) {
-                defense += user.weapon.defense+user.weapon.enhance.defense;
-            } else {
-                defense += user.weapon.attack+user.weapon.enhance.attack;
-            }
-
+    if (sacrifice > 0) {
+        buff += 5 * sacrifice
+        if (hasSkill(user, 26, skillenable)) {
+            //user.currenthealth += Math.floor(buff * attack * sacrifice)
+            text += "<@" + user._id + "> \"sacrificed\" **" + Math.floor(attack * 5 * sacrifice) + "** Health, but mysteriously just didn't!\n";
+        } else {
+            user.currenthealth -= Math.floor(attack * 5 * sacrifice)
+            text += "<@" + user._id + "> sacrificed **" + Math.floor(attack * 5 * sacrifice) + "** Health!\n";
         }
-        //if (text != "") { sendMessage(message.channel, text) }
+    }
+
+    let urspeed = user.speed
+    if (urspeed > 20) {
+        urspeed = 20
+    }
+    if (dispel) { urspeed = 0; }
+    if (tempo > 0) {
+        buff += ((urspeed * 0.05 * tempo));
+        text += "<@" + user._id + "> has **" + urspeed + "** tempo\n";
+    }
+    if (antitempo > 0) {
+        dbuff += ((urspeed * 0.05 * antitempo));
+        text += "<@" + user._id + "> has **" + urspeed + "** antitempo\n";
+    }
+
+    if (hasSkill(user, 20, skillenable)) {
+        critRate += 0.01 * urspeed;
+        text += "<@" + user._id + "> has **" + (Math.floor(critRate * 1000) / 10) + "%** chance of hitting a critical\n"
+    }
+
+    let critchance = Math.random();
+    if (critchance < critRate) {
+        text += "<@" + user._id + "> just dealt critical damage!\n";
+        buff += critDamage - 1;
+    }
+    if (stat == "attack") {
+        return [text, Math.floor(buff * attack)]
+    }
+    if (stat == "defense") {
         return [text,Math.floor(dbuff * defense)]
     }
 }
@@ -1460,7 +1447,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 "Fallen Angel": [500, 0.01, 1, 0.25, 0.5, 0.5, 0.5],
                 "Treant King": [2000, 0.2, 5, 1, 2, 2, 2],
                 "Leviathan": [4000, 0.4, 10, 2, 4, 4, 4],
-                "Dragonlord": [6000, 1, 15, 3, 6, 6, 6],
+                "Dragonlord": [6000, 0.6, 15, 3, 6, 6, 6],
                 "Godking": [8000, 1, 20, 4, 8, 8, 8],
                 "Lord of the Abyss": [10000, 1, 25, 5, 10, 10, 10]
             }
