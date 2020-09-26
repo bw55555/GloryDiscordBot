@@ -20,10 +20,10 @@ module.exports = async function (message, user) {
             { "name": "Treant King", "url": "https://i.imgur.com/1zjU5kt.jpeg", "level": 100, "health": 500000, "attack": 1000, "reward": 10000000 },
             { "name": "Leviathan", "url": "https://i.imgur.com/x6QeL4U.jpg", "level": 150, "health": 750000, "attack": 1500, "reward": 15000000},
             { "name": "Dragonlord", "url": "https://i.imgur.com/cMile7I.png", "level": 200, "health": 1000000, "attack": 2000, "reward": 20000000 },
-            { "name": "Godking", "url": undefined, "level": 250, "health": 1250000, "attack": 2500, "reward": 25000000 },
+            { "name": "Godking", "url": "https://i.imgur.com/ENTCcfx.jpg", "level": 250, "health": 1250000, "attack": 2500, "reward": 25000000 },
             { "name": "Lord of the Abyss", "url": undefined, "level": 300, "health": 1500000, "attack": 3000, "reward": 30000000 }
         ]
-        let raidnum = 2;
+        let raidnum = 3;
         raid.name = raidoptions[raidnum].name
         raid.url = raidoptions[raidnum].url
         if (words.length > 1) {
