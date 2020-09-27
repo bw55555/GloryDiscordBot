@@ -751,8 +751,8 @@ function calcEnchants(attacker, defender, options) {
     for (let key in attacker.equippedSkills) {
         let sid = attacker.equippedSkills[key];
         if (sid == "None") { continue }
-        for (let effect in skillData[sid].effects) {
-            enchants[effect] += skillData[sid].effects[effect]
+        for (let i in skillData[sid].effect) {
+            enchants[i] += skillData[sid].effect[i]
         }
         if (skillData[sid].conditional != undefined) {
             for (let condition in skillData[sid].conditional) {
