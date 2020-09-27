@@ -13,7 +13,15 @@ module.exports = async function (message, user) {
                 "equippedSkills.A": "None",
                 "equippedSkills.B": "None",
                 "equippedSkills.C": "None",
-                "statusEffects": "None"
+                "statusEffects": {}
+            }
+        })
+        await functions.findObjects("guildData", {}).then(ret => {
+            for (let guild of ret) {
+                guild.buffs.buff = guild.buffs.attack
+                guild.buffs.dbuff = guild.buffs.defense
+                delete guild.buffs.attack
+                delete guild.buffs.defense
             }
         })
         functions.replyMessage(message, "Maintenance was completed!")

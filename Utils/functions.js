@@ -234,7 +234,9 @@ function hasSkill(user, skillid, enable) {
     else return false
 }
 function getGuildBuff(user, buffname) {
-    if (user.isRaid) { return 0}
+    if (user.isRaid) { return 0 }
+    if (buffname == "attack") { buffname = "buff" }
+    if (buffname == "defense") {buffname = "dbuff"}
     if (user.guildbuffs != undefined && user.guildbuffs[buffname] != undefined) {
         return guildBuffStore.find(x => x.stat == buffname).bonus[user.guildbuffs[buffname]];
     }
@@ -767,8 +769,6 @@ function calcEnchants(attacker, defender, options) {
             }
         }
     }
-    
-    let critRate = 0;
     switch (attacker.triangleid) {
         case 4:
             enchants.critRate += 0.08;
