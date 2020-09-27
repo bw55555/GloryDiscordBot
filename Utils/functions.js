@@ -720,7 +720,12 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     return [text, truedamage, counter]
 }
-function calcEnchants(attacker, defender) {
+function calcEnchants(attacker, defender, options) {
+    if (defender == undefined) {defender = {}}
+    if (options == undefined) { options = {} }
+    skillenable = (options.skillenable == false) ? false : true
+    confused = (options.hasConfusion == true) ? true : false
+    dispel = (options.hasDispel == true) ? true : false
     let enchants = {};
     enchants.attack = 0;
     enchants.defense = 0;
@@ -762,10 +767,7 @@ function calcEnchants(attacker, defender) {
             }
         }
     }
-    if (options == undefined) { options = {} }
-    skillenable = (options.skillenable == false) ? false : true
-    confused = (options.hasConfusion == true) ? true : false
-    dispel = (options.hasDispel == true) ? true : false
+    
     let critRate = 0;
     switch (attacker.triangleid) {
         case 4:
@@ -1768,7 +1770,7 @@ module.exports.displayTime = function (time1, time2) { return displayTime(time1,
 module.exports.extractTime = function (message,timeword) { return extractTime(message,timeword) }
 module.exports.calcDamage = function (message, attacker, defender, initiator) { return calcDamage(message, attacker, defender, initiator) }
 module.exports.calcStats = function (message, user, stat, options) { return calcStats(message, user, stat, options) }
-module.exports.calcEnchants = function (attacker, defender) {return calcEnchants(attacker, defender)}
+module.exports.calcEnchants = function (attacker, defender, options) {return calcEnchants(attacker, defender, options)}
 module.exports.voteItem = function (message, user, dm) { return voteItem(message, user, dm) }
 module.exports.craftItems = function (message, owner, minrarity, maxrarity, amount, source) { return craftItems(message, owner, minrarity, maxrarity, amount, source) }
 module.exports.craftItem = function (message, owner, minrarity, maxrarity, reply, isBulk, source) { return craftItem(message, owner, minrarity, maxrarity, reply, isBulk, source) }
