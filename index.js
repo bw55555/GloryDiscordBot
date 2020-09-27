@@ -240,6 +240,7 @@ function evaluateMessage(message) {
                 //console.log(commandlist)
                 global.skillData = Assets.skillData;
             });
+            functions.replyMessage(message, "You have successfully reloaded all Assets!")
             commandName = "Utils"
         }
         if (commandName == "Utils") {
