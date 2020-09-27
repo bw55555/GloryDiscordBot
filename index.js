@@ -131,9 +131,9 @@ function evaluateMessage(message) {
     message.content = message.content.trim().split(/\s+/).join(" ")
 
     let prefix = (message.channel.type == "dm") ? defaultPrefix : serverData[message.guild.id].prefix;
-    if (message.content.startsWith("<@" + bot.user.id + ">")) prefix = "<@" + bot.user.id + ">"
-    if (message.content.startsWith("<@!" + bot.user.id + ">")) prefix = "<@!" + bot.user.id + ">"
-    if (message.content.startsWith("<@" + bot.user.id + "> ")) {
+    if (message.content.startsWith("<@" + bot.user.id + ">")) prefix = "<@" + bot.user.id +">"
+    if (message.content.startsWith("<@!" + bot.user.id + ">")) prefix = "<@!" + bot.user.id +">"
+    if (message.content.startsWith("<@" + bot.user.id +"> ")) {
         let words = message.content.trim().split(/\s+/)
         words.splice(0, 1)
         message.content = prefix + words.join(" ")
@@ -143,13 +143,13 @@ function evaluateMessage(message) {
         words.splice(0, 1)
         message.content = prefix + words.join(" ")
     }
-
+    
     let ts = message.createdTimestamp;
     let chid = message.channel.id
     if (talkedRecently[chid] == undefined) { talkedRecently[chid] = {} }
     talkedRecently[chid][message.author.id] = ts;
     for (let key in talkedRecently[chid]) {
-        if (functions.calcTime(ts, talkedRecently[chid][key]) > 15) { delete talkedRecently[chid][key] }
+        if (functions.calcTime(ts, talkedRecently[chid][key]) > 15) { delete talkedRecently[chid][key]}
     }
     if (nctlist[message.author.id] == undefined) { nctlist[message.author.id] = 0; }
     if (!message.content.startsWith(prefix)) {
@@ -170,14 +170,14 @@ function evaluateMessage(message) {
     if ((message.content.startsWith(prefix + "setcommandtimer") || message.content.startsWith(prefix + "sct")) && devs.indexOf(message.author.id) != -1) {
         let words = message.content.trim().split(/\s+/)
         let time = functions.extractTime(message, words[1])
-
+        
         if (time === false) { return }
         words.splice(0, 2)
         message.content = prefix + words.join(" ")
         message.createdTimestamp += time
         functions.replyMessage(message, "The command `" + message.content + "`" + " will be executed in " + functions.displayTime(time, 0))
         bot.setTimeout(function () {
-            functions.replyMessage(message, "The command + `" + message.content + "` will be executed.")
+            functions.replyMessage(message, "The command + `" + message.content+"` will be executed.")
             evaluateMessage(message)
         }, time)
         return
@@ -204,8 +204,8 @@ function evaluateMessage(message) {
         message.content = words.join(" ")
     }
     message.author.original = id
-
-
+    
+    
     id = message.author.id;
     let words = message.content.trim().split(/\s+/)
     //here
@@ -240,6 +240,8 @@ function evaluateMessage(message) {
                 //console.log(commandlist)
                 global.skillData = Assets.skillData;
             });
+            functions.replyMessage(message, "You have successfully reloaded all Assets!")
+            commandName = "Utils"
         }
         if (commandName == "Utils") {
             fs.readdir("./Utils/", (err, files) => {
@@ -310,9 +312,7 @@ function evaluateMessage(message) {
         } else if (commandlist[command] == undefined) {
             return;
         }
-        if (functions.checkStuff(message, user) == false) { return }
-        functions.checkBurn(message, user)
-        if (functions.checkStuff(message, user) == false) { return }
+        if (functions.checkStuff(message, user) == false) { return}
         if (commandlist[command] == undefined) { return }
         if (user.cnumbers == undefined) { user.cnumbers = [0, 0] }
         user.cnumbers[0] += nctlist[message.author.id]
@@ -327,7 +327,7 @@ function evaluateMessage(message) {
         if (user.flag == true) {
             console.log(message.author.id + "|" + message.content + "|" + ts)
         }
-
+        
         //sendMessage(bot.guilds.cache.get("536599503608872961").channels.cache.get("538710109241606154"), message.author.id + "|" + message.content + "|" + ts)
         //console.time("run")
         commands[command](message, user).then(ret => { functions.setUser(user) })
@@ -454,6 +454,6 @@ bot.on("debug", debug => {
 process.on('unhandledRejection', error => {
     console.error(`Uncaught Promise Error: \n${error.stack}`);
     if (bot != undefined && bot.guilds != undefined && devData != undefined && devData.errorChannelId != undefined && devData.debugGuildId != undefined) {
-        functions.sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + error.stack + "\n```")
+        functions.sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n"+error.stack+"\n```")
     }
 });
