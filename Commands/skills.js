@@ -9,7 +9,9 @@ module.exports = async function (message, user) {
     let command = words[1];
     if (command == undefined) { command = "LIST" }
     command.toUpperCase();
-    words.splice(0, 2)
+    if (words.length >= 2) {
+        words.splice(0, 2)
+    }
     if (command == "LIST") {
         let fields = [];
         for (var i in user.equippedSkills) {
