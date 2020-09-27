@@ -711,9 +711,9 @@ function calcDamage(message, attacker, defender, initiator) {
 function calcEnchants(user, defender, options) {
     if (defender == undefined) {defender = {}}
     if (options == undefined) { options = {} }
-    skillenable = (options.skillenable == false) ? false : true
-    confused = (options.hasConfusion == true) ? true : false
-    dispel = (options.hasDispel == true) ? true : false
+    skillenable = (options.skillenable === false) ? false : true
+    confused = (options.hasConfusion === true) ? true : false
+    dispel = (options.hasDispel === true) ? true : false
     let enchants = {};
     enchants.attack = 0;
     enchants.defense = 0;
