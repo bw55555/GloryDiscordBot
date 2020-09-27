@@ -708,7 +708,7 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     return [text, truedamage, counter]
 }
-function calcEnchants(attacker, defender, options) {
+function calcEnchants(user, defender, options) {
     if (defender == undefined) {defender = {}}
     if (options == undefined) { options = {} }
     skillenable = (options.skillenable == false) ? false : true
@@ -737,11 +737,11 @@ function calcEnchants(attacker, defender, options) {
     enchants.regen = 0;
     enchants.lucky = 1;
     for (let key in enchants) {
-        enchants[key] += getGuildBuff(attacker, key) + getWeaponEnchant(attacker, key)
+        enchants[key] += getGuildBuff(user, key) + getWeaponEnchant(user, key)
     }
     if (skillenable == false) {
-        for (let key in attacker.equippedSkills) {
-            let sid = attacker.equippedSkills[key];
+        for (let key in user.equippedSkills) {
+            let sid = user.equippedSkills[key];
             if (sid == "None") { continue }
             for (let i in skillData[sid].effect) {
                 enchants[i] += skillData[sid].effect[i]
@@ -749,8 +749,8 @@ function calcEnchants(attacker, defender, options) {
             if (skillData[sid].conditional != undefined) {
                 for (let condition in skillData[sid].conditional) {
                     let cwords = condition.split(" ")
-                    let vA = JSONoperate(attacker, cwords[0], "get")
-                    let vB = JSONoperate(attacker, cwords[2], "get")
+                    let vA = JSONoperate(user, cwords[0], "get")
+                    let vB = JSONoperate(user, cwords[2], "get")
                     if ((op == ">=" && vA >= vB) || (op == "<=" && vA <= vB) || (op == "=" && vA == vB) || (op == ">" && vA > vB) || (op == "<" && vA < vB)) {
                         for (let effect in skillData[sid].conditional[condition]) {
                             enchants[effect] += skillData[sid].conditional[condition][effect]
@@ -764,7 +764,7 @@ function calcEnchants(attacker, defender, options) {
     if (user.vip != undefined) {
         enchants.lucky += user.vip.lucky;
     }
-    switch (attacker.triangleid) {
+    switch (user.triangleid) {
         case 4:
             enchants.critRate += 0.08;
             enchants.critDamage += 1;
