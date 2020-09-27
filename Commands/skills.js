@@ -8,7 +8,7 @@ module.exports = async function (message, user) {
     let fields = [];
     let command = words[1];
     if (command == undefined) { command = "LIST" }
-    command.toUpperCase();
+    command = command.toUpperCase();
     if (words.length >= 2) {
         words.splice(0, 2)
     }
@@ -87,46 +87,42 @@ module.exports = async function (message, user) {
             }
         }
     } else if (command == "INFO") {
-        if (words.length == 1) {
+        if (words.length == 0) {
             functions.sendMessage(message.channel, "Choose a skill ID");
             return;
         }
-        if (words.length == 2) {
-            words.splice(0, 1);
-            let skillid = words.join(" ");
-            if (!isNaN(parseInt(skillid))) { skillid = parseInt(skillid) }
-            else { skillid = skillData.findIndex(item => item.name == skillid) }
-            if (isNaN(skillid)) {
-                functions.sendMessage(message.channel, "Please type an integer skill ID");
-                return;
-            }
-            if (skillid < 0 || skillid >= skillData.length) {
-                functions.sendMessage(message.channel, "Please select an existing skill ID");
-                return;
-            }
-            if (skillid == undefined) {
-                return;
-            }
-            skillname = skillData[skillid].name
-            skilltext = skillData[skillid].description
-            functions.sendMessage(message.channel, {
-                embed: {
-                    color: 0x008080,
-                    title: "Skill Info" + " (" + skillid + ")",
-                    /*thumbnail: {
-                      "url": "https://i.imgur.com/r39nI8f.jpg"
-                    },*/
-                    fields: [
-                        {
-                            name: skillname,
-                            value: skilltext,
-                            inline: true
-                        }
-                    ]
-                }
-            });
+        let skillid = words.join(" ");
+        if (!isNaN(parseInt(skillid))) { skillid = parseInt(skillid) }
+        else { skillid = skillData.findIndex(item => item.name == skillid) }
+        if (isNaN(skillid)) {
+            functions.sendMessage(message.channel, "Please type an integer skill ID");
             return;
         }
+        if (skillid < 0 || skillid >= skillData.length) {
+            functions.sendMessage(message.channel, "Please select an existing skill ID");
+            return;
+        }
+        if (skillid == undefined) {
+            return;
+        }
+        skillname = skillData[skillid].name
+        skilltext = skillData[skillid].description
+        functions.sendMessage(message.channel, {
+            embed: {
+                color: 0x008080,
+                title: "Skill Info" + " (" + skillid + ")",
+                /*thumbnail: {
+                    "url": "https://i.imgur.com/r39nI8f.jpg"
+                },*/
+                fields: [
+                    {
+                        name: skillname,
+                        value: skilltext,
+                        inline: true
+                    }
+                ]
+            }
+        });
     } else if (command == "I" || command == "INV" || command == "INVENTORY") {
         let text = "**Your Skills**\n"
         //let skills = user.skills;
