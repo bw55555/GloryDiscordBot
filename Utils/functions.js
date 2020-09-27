@@ -743,7 +743,25 @@ function calcEnchants(attacker, defender) {
     for (let key in enchants) {
         enchants[key] += getGuildBuff(attacker, key) + getWeaponEnchant(attacker, key)
     }
-
+    for (let key in user.equippedSkills) {
+        let sid = user.equippedSkills[key];
+        if (sid == "None") { continue }
+        for (let effect in skillData[sid].effects) {
+            enchants[effect] += skillData[sid].effects[effect]
+        }
+        if (skillData[sid].conditional != undefined) {
+            for (let condition in skillData[sid].conditional) {
+                let cwords = condition.split(" ")
+                let vA = JSONoperate(user, cwords[0], "get")
+                let vB = JSONoperate(user, cwords[2], "get")
+                if ((op == ">=" && vA >= vB) || (op == "<=" && vA <= vB) || (op == "=" && vA == vB) || (op == ">" && vA > vB) || (op == "<" && vA < vB)) {
+                    for (let effect in skillData[sid].conditional[condition]) {
+                        enchants[effect] += skillData[sid].conditional[condition][effect]
+                    }
+                }
+            }
+        }
+    }
     if (options == undefined) { options = {} }
     skillenable = (options.skillenable == false) ? false : true
     confused = (options.hasConfusion == true) ? true : false
@@ -760,6 +778,7 @@ function calcEnchants(attacker, defender) {
         case 311:
             enchants.sacrifice += 0.15;
     }
+    return enchants
 }
 function calcStats(message, user, stat, options) {
     if (options == undefined) {options = {}}
@@ -775,7 +794,6 @@ function calcStats(message, user, stat, options) {
     }
     let buff = user.trianglemod;
     let dbuff = 1;
-    //if (user.skills == undefined) { user.skills = {} }
     if (user.bolster == true) {
         buff += 0.2;
         dbuff += 0.2;
@@ -1038,7 +1056,6 @@ function checkProps(message,user) {
     if (user.start === false) { //when you start, your currenthealth will be to 10;
         user.currenthealth = 10;
         user.start = true;
-        //console.log(user.start);
     }
     if (admins.indexOf(user._id) == -1) {
         if (user.attack > user.level + calcExtraStat(user, "attack")) user.attack = user.level + calcExtraStat(user, "attack"); //prevents overleveling
@@ -1751,6 +1768,7 @@ module.exports.displayTime = function (time1, time2) { return displayTime(time1,
 module.exports.extractTime = function (message,timeword) { return extractTime(message,timeword) }
 module.exports.calcDamage = function (message, attacker, defender, initiator) { return calcDamage(message, attacker, defender, initiator) }
 module.exports.calcStats = function (message, user, stat, options) { return calcStats(message, user, stat, options) }
+module.exports.calcEnchants = function (attacker, defender) {return calcEnchants(attacker, defender)}
 module.exports.voteItem = function (message, user, dm) { return voteItem(message, user, dm) }
 module.exports.craftItems = function (message, owner, minrarity, maxrarity, amount, source) { return craftItems(message, owner, minrarity, maxrarity, amount, source) }
 module.exports.craftItem = function (message, owner, minrarity, maxrarity, reply, isBulk, source) { return craftItem(message, owner, minrarity, maxrarity, reply, isBulk, source) }
