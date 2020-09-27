@@ -712,8 +712,6 @@ function calcEnchants(user, defender, options) {
     if (defender == undefined) {defender = {}}
     if (options == undefined) { options = {} }
     skillenable = (options.skillenable === false) ? false : true
-    confused = (options.hasConfusion === true) ? true : false
-    dispel = (options.hasDispel === true) ? true : false
     let enchants = {};
     enchants.attack = 0;
     enchants.defense = 0;
@@ -739,7 +737,7 @@ function calcEnchants(user, defender, options) {
     for (let key in enchants) {
         enchants[key] += getGuildBuff(user, key) + getWeaponEnchant(user, key)
     }
-    if (skillenable == false) {
+    if (skillenable == true) {
         for (let key in user.equippedSkills) {
             let sid = user.equippedSkills[key];
             if (sid == "None") { continue }
@@ -760,7 +758,7 @@ function calcEnchants(user, defender, options) {
             }
         }
     }
-    enchants.lucky += user.glory * 0.01;
+    enchants.lucky += Math.floor(user.glory) * 0.01;
     if (user.vip != undefined) {
         enchants.lucky += user.vip.lucky;
     }
