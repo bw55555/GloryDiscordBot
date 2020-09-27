@@ -42,7 +42,7 @@ module.exports = async function (message, user) {
         runes: [0, 0, 0, 0, 0, 0, 0],
         cooldowns: { normal: 1, attack: 1, heal: 1, rez: 1, work: 1, bolster: 1, smeltall: 1, purchase: 1, merge: 1, daily: 1, luckyshoprefresh: 1, lastbreath: 1 },
         skills: {},
-        equippedskills: {},
+        equippedSkills: {"A": "None", "B": "None", "C": "None"},
         consum: { explosion: 0, box: 0, sp: 0, phoenixfeather: 0, nametag: 0, reroll: 0 },
         quests: [],
         cnumbers: [0,0]
