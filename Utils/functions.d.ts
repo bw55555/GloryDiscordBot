@@ -71,7 +71,6 @@ export function summon(raid: JSON, level: undefined, minlevel: number, maxlevel:
 export function summon(raid: JSON, level: undefined, minlevel: number, maxlevel: number, name: string, image: string, ability: string): void
 export function checkProps(message: Message, user: JSON): void
 export function checkStuff(message: Message, user: JSON): void
-export function checkBurn(message: Message, user: JSON): void
 export function raidAttack(message: Message, user: JSON, raid: JSON): void
 export function raidAttack(message: Message, user: JSON, raid: JSON, type: "raid" | "world" | "event"): void
 export function raidAttack(message: Message, user: JSON, raid: JSON, type: "guild", guild: JSON): void

@@ -313,8 +313,6 @@ function evaluateMessage(message) {
             return;
         }
         if (functions.checkStuff(message, user) == false) { return}
-        functions.checkBurn(message, user)
-        if (functions.checkStuff(message, user) == false) { return }
         if (commandlist[command] == undefined) { return }
         if (user.cnumbers == undefined) { user.cnumbers = [0, 0] }
         user.cnumbers[0] += nctlist[message.author.id]

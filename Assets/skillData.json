@@ -193,9 +193,9 @@
     {
         "name": "Regeneration",
         "id": 24,
-        "description": "Charge up a health pack over time and use it with with `!regenerate`", 
+        "description": "Regenerate 7hp/second", 
         "effect": {
-          "regen": 3
+          "regen": 7
         }
     },
     {

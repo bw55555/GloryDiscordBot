@@ -429,21 +429,7 @@ function calcExtraStat(user, stat) {
     return extrastat
 }
 function calcLuckyBuff(user) {
-    let luckybuff = 1
-    if (user.weapon != false && user.weapon != undefined) { //lucky enchant
-        if (user.weapon.modifiers.lucky != undefined) {
-            luckybuff += user.weapon.modifiers.lucky
-        }
-    }
-    if (hasSkill(user, 16)) { //Royalty Skill
-        luckybuff += 0.5
-    }
-    luckybuff += getGuildBuff(user, "lucky")
-    luckybuff += user.glory * 0.01;
-    if (user.vip != undefined) {
-        luckybuff += user.vip.lucky;
-    }
-    return luckybuff
+    return calcEnchants(user).lucky
 }
 function errorlog(text) {
     sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId),text)
@@ -748,6 +734,8 @@ function calcEnchants(attacker, defender, options) {
     enchants.block = 0;
     enchants.burn = 0;
     enchants.dispel = 0;
+    enchants.regen = 0;
+    enchants.lucky = 1;
     for (let key in enchants) {
         enchants[key] += getGuildBuff(attacker, key) + getWeaponEnchant(attacker, key)
     }
@@ -772,6 +760,10 @@ function calcEnchants(attacker, defender, options) {
             }
         }
     }
+    enchants.lucky += user.glory * 0.01;
+    if (user.vip != undefined) {
+        enchants.lucky += user.vip.lucky;
+    }
     switch (attacker.triangleid) {
         case 4:
             enchants.critRate += 0.08;
@@ -780,8 +772,12 @@ function calcEnchants(attacker, defender, options) {
         case 6:
             enchants.rage += 1;
             break;
+        case 7:
+            enchants.lucky += 0.5;
+            break;
         case 311:
             enchants.sacrifice += 0.15;
+            break;
     }
     return enchants
 }
@@ -1103,21 +1099,18 @@ function checkStuff(message,user) {
         replyMessage(message, leveluptext+extratext)
     }
 
-
-    if (user.currenthealth <= 0) { //If health is 0, you are dead.
-        user.currenthealth = 0;
-        user.dead = true;
+    //regen
+    let regenpersec = calcEnchants(user).regen
+    if (regenpersec > 0) {
+        user.currenthealth = Math.min(user.currenthealth + regenpersec* calcTime(message.createdTimestamp, user.cooldowns.normal), user.health)
     }
-    completeQuest(user, "user", user, 1)
-}
 
-function checkBurn(message,user) {
-    //let ts = message.createdTimestamp;
+    //burn
     if (user.burn != undefined && user.dead == false && !isNaN(user.burn) && user.burn > 0) {
         let burndamage = Math.floor(user.health * .05)
         user.burn -= 1
         user.currenthealth -= burndamage
-        let burntext = "You took **" + burndamage + "** from burning. (You will burn for "+user.burn+" more commands)"
+        let burntext = "You took **" + burndamage + "** from burning. (You will burn for " + user.burn + " more commands)"
         if (user.dead) {
             burntext += " You burned to death!"
             user.dead = true
@@ -1132,7 +1125,12 @@ function checkBurn(message,user) {
     } else if (isNaN(user.burn)) {
         user.burn = 0
     }
-    return user
+
+    if (user.currenthealth <= 0) { //If health is 0, you are dead.
+        user.currenthealth = 0;
+        user.dead = true;
+    }
+    completeQuest(user, "user", user, 1)
 }
 
 function raidAttack(message, user, raid, type, extra) { //raid attack
@@ -1781,7 +1779,6 @@ module.exports.raidInfo = function (message, raid) { return raidInfo(message, ra
 module.exports.summon = function (raid, level, minlevel, maxlevel, name, image, ability) { return summon(raid, level, minlevel, maxlevel, name, image, ability) }
 module.exports.checkProps = function (message,user) { return checkProps(message,user) }
 module.exports.checkStuff = function (message,user) { return checkStuff(message,user) }
-module.exports.checkBurn = function (message,user) { return checkBurn(message,user) }
 module.exports.raidAttack = function (message, user, raid, type, guild) { return raidAttack(message, user, raid, type, guild) }
 module.exports.randint = function (a, b) { return randint(a, b) }
 module.exports.getRandomByDamage = function (raid) { return getRandomByDamage(raid) }

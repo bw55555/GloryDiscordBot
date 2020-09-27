@@ -506,7 +506,7 @@ let page11 = {
 //PAGE 12 STARTS
 let page12 = {
     "embed": {
-        "title": "Dungeon",
+        "title": "Dungeon Commands",
         "color": 16312092,
         "thumbnail": {
             "url": "https://i.imgur.com/r39nI8f.jpg"

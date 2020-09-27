@@ -34,6 +34,10 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You just attacked! You lost your shield :(");
             user.shield = 1
         }
+        let regenpersec = calcEnchants(target).regen
+        if (regenpersec > 0) {
+            target.currenthealth = Math.min(target.currenthealth + regenpersec * calcTime(message.createdTimestamp, target.cooldowns.normal), target.health)
+        }
         functions.dmUser(target, "You have been attacked by " + user.username + "! Their id is " + id)
         let damage = 0;
         let counter = 0;
