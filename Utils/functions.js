@@ -749,6 +749,7 @@ function calcEnchants(user, defender, options) {
                     let cwords = condition.split(" ")
                     let vA = JSONoperate(user, cwords[0], "get")
                     let vB = JSONoperate(user, cwords[2], "get")
+                    let op = cwords[1];
                     if ((op == ">=" && vA >= vB) || (op == "<=" && vA <= vB) || (op == "=" && vA == vB) || (op == ">" && vA > vB) || (op == "<" && vA < vB)) {
                         for (let effect in skillData[sid].conditional[condition]) {
                             enchants[effect] += skillData[sid].conditional[condition][effect]
