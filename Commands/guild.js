@@ -494,7 +494,12 @@ module.exports = async function (message, user) {
             }
             else if (words[2].toLowerCase() == "buff") {
                 let buff = parseInt(words[3])
-                if (isNaN(buff) || guildBuffStore[buff] == undefined) { return functions.replyMessage(message, "This buff does not exist!") }
+                if (isNaN(buff)) {
+                    if (guildBuffStore[buff] == undefined || guildBuffStore.findIndex(x => x.stat == updateStat) == -1) {
+                        return functions.replyMessage(message, "Please specify a valid buff!")
+                    }
+                    buff = guildBuffStore.findIndex(x => x.stat == updateStat)
+                }
                 let buffname = guildBuffStore[buff].stat
                 let bufflevel = guild.buffs[buffname] == undefined ? 0 : guild.buffs[buffname]
                 if (bufflevel >= guildBuffStore[buff].bonus.length - 1) { return functions.replyMessage(message, "This buff is at the maximum level!") }
@@ -506,7 +511,7 @@ module.exports = async function (message, user) {
                 setJsonObj["guildbuffs." + buffname] = bufflevel + 1
                 user.guildbuffs[buffname] = bufflevel + 1
                 functions.setProp("userData", { "guild": guild._id }, { $set: setJsonObj })
-                functions.replyMessage(message, "You have successfully upgraded " + buffname + " to level " + (bufflevel + 1))
+                functions.replyMessage(message, "You have successfully upgraded `" + guildBuffStore[buff].name + "` to level " + (bufflevel + 1))
             }
         }
         else if (command == "STORE") {

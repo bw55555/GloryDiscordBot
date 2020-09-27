@@ -9,10 +9,10 @@ module.exports = async function (message, user) {
         
         await functions.setProp(userData, {}, {
             $set: {
-                "equippedSkills": {},
-                "equippedSkills.A": "None",
-                "equippedSkills.B": "None",
-                "equippedSkills.C": "None",
+                "equippedSkills": {"A": "None", "B": "None", "C": "None"},
+                //"equippedSkills.A": "None",
+                //"equippedSkills.B": "None",
+                //"equippedSkills.C": "None",
                 "statusEffects": {}
             }
         })
