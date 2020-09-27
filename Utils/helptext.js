@@ -574,7 +574,7 @@ let page13 = {
 let pages = [page1, page2, page3, page4, page5, page6, page7, page8, page9, page10, page11, page12, page13];
 
 for (let i = 0; i < pages.length; i++) {
-    pages[i].footer = {
+    pages[i].embed.footer = {
         "text": "Page " + (i + 1) + " of " + pages.length
     }
 }
