@@ -318,17 +318,12 @@ function evaluateMessage(message) {
         user.cnumbers[0] += nctlist[message.author.id]
         user.cnumbers[1] += 1
         nctlist[message.author.id] = 0;
-        if (!globalcdlist.has(message.author.id)) {
-            globalcdlist.add(message.author.id);
-            setTimeout(() => {
-                // Removes the user from the set after a minute
-                globalcdlist.delete(message.author.id);
-            }, 1000);
-        } else if (admins.indexOf(message.author.id) == -1) {
+        if (admins.indexOf(message.author.id) == -1 && functions.calcTime(ts, user.cooldowns.normal) < 1) {
             functions.replyMessage(message, 'don\'t spam commands');
             functions.deleteMessage(message);
             return; //fml
         }
+        user.cooldowns.normal = ts;
         if (user.flag == true) {
             console.log(message.author.id + "|" + message.content + "|" + ts)
         }
