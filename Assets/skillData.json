@@ -2,7 +2,10 @@
     {
         "name": "Attack+",
         "id": 0,
-        "description": "Increase attack by 40"
+        "description": "Increase attack by 40",
+        "effect": {
+          "attack":  40
+        }
     },
     {
         "name": "Defense+",

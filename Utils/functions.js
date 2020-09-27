@@ -230,7 +230,7 @@ async function validate(message, user, spot) {
 }
 function hasSkill(user, skillid, enable) {
     enable = (enable == false) ? false : true
-    if (user.skillA == skillid || user.skillB == skillid || user.skillC == skillid) return enable
+    if (user.isRaid != undefined && user.equippedSkills != undefined && Object.values(user.equippedSkills) != undefined && Object.values(user.equippedSkills).indexOf(skillid) != -1) return enable
     else return false
 }
 function getGuildBuff(user, buffname) {
@@ -564,25 +564,10 @@ function calcDamage(message, attacker, defender, initiator) {
         }
 
     }
-
-    let weapon = (attacker.isRaid != true && attacker.weapon != false) ? attacker.weapon : false
-    let dweapon = (defender.isRaid != true && defender.weapon != false) ? defender.weapon : false
-    //attacker only skills
     let piercechance = Math.random()
     let piercerate = 0
-    if (attacker.isRaid != true) {
+    if (attacker.isRaid) {
 
-        if (weapon != false && weapon.modifiers.pierce != undefined) { piercerate += weapon.modifiers.pierce }
-
-        if (hasSkill(attacker, 6, skillenable)) {
-            piercerate += 0.15;
-        }
-        if (hasSkill(attacker, 28, skillenable)) {
-            piercerate += 0.05;
-        }
-        piercerate += getGuildBuff(attacker, "pierce")
-
-    } else {
         if (attacker.name == "Godzilla") {
             piercerate += 1
         }
@@ -606,17 +591,7 @@ function calcDamage(message, attacker, defender, initiator) {
     
 
     //burn check
-    if (attacker.isRaid != true) {
-        if (weapon != false && weapon.modifiers.burn != undefined) {
-            burn += weapon.modifiers.burn
-        }
-        if (hasSkill(attacker, 36, skillenable)) {
-            burn += 4;
-        }
-        if (hasSkill(attacker, 31, skillenable)) {
-            burn += 2;
-        }
-    } else {
+    if (attacker.isRaid) {
         if (attacker.name == "Ignis") {
             burn += 5;
         }
@@ -634,21 +609,7 @@ function calcDamage(message, attacker, defender, initiator) {
             text += "Raid boss cannot be burned!\n"
         }
     }
-    let block = 0;
-    let blockchance = Math.random()
-    block += getGuildBuff(defender, "block")
-    if (defender.isRaid != true && defender.dead == false) {
-        if (dweapon != false && dweapon.modifiers.block != undefined) {
-            block += dweapon.modifiers.block
-        }
-        if (hasSkill(defender, 10, skillenable)) {
-            block += 0.15;
-        }
-        if (hasSkill(defender, 30, skillenable)) {
-            block += 0.05;
-        }
-
-    } else if (defender._id == undefined) {
+    if (defender.isRaid) {
         if (defender.name == "Baba Yaga") {
             block += 0.2
         }
@@ -656,7 +617,6 @@ function calcDamage(message, attacker, defender, initiator) {
             block += 0.2
         }
     }
-
     if (block > blockchance) {
         if (piercechance < piercerate) {
             text += defendername + " has blocked the attack, but " + attackername + " pierced though anyway!\n"
@@ -669,27 +629,6 @@ function calcDamage(message, attacker, defender, initiator) {
             }
         }
     }
-
-    
-    
-    //defender only skills
-    let revenge = 0;
-    let revengechance = Math.random()
-    if (defender.isRaid != true) {
-        if (attacker._id == initiator._id && dweapon != false && dweapon.modifiers.revenge != undefined) {
-            revenge += dweapon.modifiers.revenge;
-        }
-
-        if (hasSkill(defender, 8, skillenable)) {
-            revenge += 0.02;
-        }
-        if (hasSkill(defender, 32, skillenable)) {
-            revenge += 0.005;
-            revenge *= 2;
-        }
-        revenge += getGuildBuff(defender, "revenge")
-    }
-
     if (attacker.isRaid != true) {
         if (revengechance < revenge) {
             attacker.currenthealth = 0;
@@ -749,54 +688,27 @@ function calcDamage(message, attacker, defender, initiator) {
             }
         }
     }
-    if (attacker.isRaid != true) {
-        let lifesteal = (attacker.triangleid == 11) ? 0.15 : 0;
-        lifesteal+=getGuildBuff(attacker, "lifeSteal")
-        lifesteal+=getWeaponEnchant(attacker, "lifeSteal")
-        if (hasSkill(attacker, 3, skillenable)) {
-            lifesteal += 0.1;
-        }
-        if (hasSkill(attacker, 21, skillenable)) {
-            if (attacker.currenthealth >= attacker.health) {
-                lifesteal += 0.5;
-            }
-        }
-        if (lifesteal > 0) {
-            let stealAmount = Math.abs(Math.floor(truedamage * lifesteal))
-            if (stealAmount < 0) { stealAmount = 0 }
-            if (defender.isRaid && stealAmount > defender.maxhealth) { stealAmount = defender.maxhealth;}
-            attacker.currenthealth += stealAmount
-            text += attackername + " lifestole **" + stealAmount + "** health!\n";
-        }
+    if (lifesteal > 0) {
+        let stealAmount = Math.abs(Math.floor(truedamage * lifesteal))
+        if (stealAmount < 0) { stealAmount = 0 }
+        if (defender.isRaid && stealAmount > defender.maxhealth) { stealAmount = defender.maxhealth;}
+        attacker.currenthealth += stealAmount
+        text += attackername + " lifestole **" + stealAmount + "** health!\n";
     }
-    if (attacker.isRaid != true) {
-        if (hasSkill(attacker, 22, skillenable)) {
-            let leech = 0
-            if (defender.isRaid != true) {
-                leech = Math.floor(0.05 * defender.health);
-                if (truedamage > defender.currenthealth) {
-                    leech = 0;
-                }
-                if (truedamage < defender.currenthealth && truedamage + leech > defender.currenthealth) {
-                    leech = (defender.currenthealth - truedamage) - 1
-                }
-                truedamage += leech
-                attacker.currenthealth += leech
-                text += attackername + " leeched **" + leech + "** health!\n";
+    if (hasSkill(attacker, 22, skillenable)) {
+        let leech = 0
+        if (defender.isRaid != true) {
+            leech = Math.floor(0.05 * defender.health);
+            if (truedamage > defender.currenthealth) {
+                leech = 0;
             }
+            if (truedamage < defender.currenthealth && truedamage + leech > defender.currenthealth) {
+                leech = (defender.currenthealth - truedamage) - 1
+            }
+            truedamage += leech
+            attacker.currenthealth += leech
+            text += attackername + " leeched **" + leech + "** health!\n";
         }
-    }
-    let spikes = 0;
-    spikes += getWeaponEnchant(defender, "spikes")
-    spikes += getGuildBuff(defender, "spikes")
-    if (defender.isRaid != true) {
-        if (hasSkill(defender, 7, skillenable)) {
-            spikes += 0.5;
-        }
-        if (hasSkill(defender, 31, skillenable)) {
-            spikes += 0.2;
-        }
-        
     }
     if (spikes > 0) {
         let spiked = Math.floor(defense * spikes)
@@ -808,8 +720,46 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     return [text, truedamage, counter]
 }
-function calcEnchant(user, enchantName) {
+function calcEnchants(attacker, defender) {
+    let enchants = {};
+    enchants.attack = 0;
+    enchants.defense = 0;
+    enchants.buff = 1;
+    enchants.dbuff = 1;
+    enchants.critRate = 0;
+    enchants.critDamage = 2;
+    enchants.rage = 0;
+    enchants.sacrifice = 0;
+    enchants.lifeSteal = 0;
+    enchants.tempo = 0;
+    enchants.antitempo = 0;
+    enchants.combo = 0;
+    enchants.pierce = 0;
+    enchants.dispel = 0;
+    enchants.spikes = 0;
+    enchants.revenge = 0;
+    enchants.block = 0;
+    enchants.burn = 0;
+    for (let key in enchants) {
+        enchants[key] += getGuildBuff(attacker, key) + getWeaponEnchant(attacker, key)
+    }
 
+    if (options == undefined) { options = {} }
+    skillenable = (options.skillenable == false) ? false : true
+    confused = (options.hasConfusion == true) ? true : false
+    dispel = (options.hasDispel == true) ? true : false
+    let critRate = 0;
+    switch (attacker.triangleid) {
+        case 4:
+            enchants.critRate += 0.08;
+            enchants.critDamage += 1;
+            break;
+        case 6:
+            enchants.rage += 1;
+            break;
+        case 311:
+            enchants.sacrifice += 0.15;
+    }
 }
 function calcStats(message, user, stat, options) {
     if (options == undefined) {options = {}}
@@ -825,68 +775,7 @@ function calcStats(message, user, stat, options) {
     }
     let buff = user.trianglemod;
     let dbuff = 1;
-    let critRate = 0;
-    critRate = (user.triangleid == 4) ? 0.08 : 0;
-    let critDamage = (user.triangleid == 4) ? 3 : 2;
-    let rage = (user.triangleid == 6) ? 1 : 0;
-    let sacrifice = (user.triangleid == 311) ? 0.15 : 0;
-    let tempo = 0;
-    let antitempo = 0;
-    buff += getGuildBuff(user, "attack")
-    dbuff += getGuildBuff(user, "defense")
-    critDamage += getGuildBuff(user, "critDamage")
-    critRate+=getGuildBuff(user, "critRate")
-    tempo += getGuildBuff(user, "tempo")
-    sacrifice += getGuildBuff(user, "sacrifice")
-    rage += getGuildBuff(user, "rage")
-
-    buff += getWeaponEnchant(user, "attack")
-    dbuff += getWeaponEnchant(user, "defense")
-    critDamage += getWeaponEnchant(user, "critDamage")
-    critRate += getWeaponEnchant(user, "critRate")
-    tempo += getWeaponEnchant(user, "tempo")
-    sacrifice += getWeaponEnchant(user, "sacrifice")
-    rage += getWeaponEnchant(user, "rage")
     //if (user.skills == undefined) { user.skills = {} }
-    if (hasSkill(user, 0, skillenable)) {
-        attack += 40;
-    }
-    if (hasSkill(user, 1, skillenable)) {
-        defense += 40;
-    }
-    if (hasSkill(user, 2, skillenable)) {
-        rage += .7;
-    }
-    if (hasSkill(user, 4, skillenable)) {
-        sacrifice += 0.2;
-    }
-    if (hasSkill(user, 5, skillenable)) {
-        tempo += 1;
-    }
-    if (hasSkill(user, 9, skillenable)) {
-        critRate += 0.06;
-    }
-    if (hasSkill(user, 12, skillenable)) {
-        if (user.health <= user.currenthealth) {
-            buff += 0.5;
-            dbuff += 0.5;
-        }
-    }
-    if (hasSkill(user, 17, skillenable)) {
-        attack += 60;
-        defense -= 60;
-    }
-    if (hasSkill(user, 27, skillenable)) {
-        critRate += 0.01
-        critDamage += 1;
-    }
-    if (hasSkill(user, 29, skillenable)) {
-        rage += 0.3
-    }
-    if (hasSkill(user, 33, skillenable)) {
-        antitempo += 1;
-    }
-
     if (user.bolster == true) {
         buff += 0.2;
         dbuff += 0.2;
@@ -901,13 +790,12 @@ function calcStats(message, user, stat, options) {
             defense += user.weapon.defense + user.weapon.enhance.defense;
         }
     }
-    
-
+    let dispel = 0;
     let urspeed = user.speed
     if (urspeed > 20) {
         urspeed = 20
     }
-    if (dispel) { urspeed = 0; }
+    if (Math.random() < dispel) { urspeed = 0; }
     if (stat == "attack") {
         if (rage > 0) {
             let x = user.currenthealth / user.health
@@ -916,7 +804,6 @@ function calcStats(message, user, stat, options) {
             }
             x = Math.sqrt(x)
             buff += Math.min(rage + 1.5, (rage * -1 * (Math.log(x) + 0.15)))
-
         }
         if (sacrifice > 0) {
             buff += 5 * sacrifice
@@ -928,7 +815,7 @@ function calcStats(message, user, stat, options) {
                 text += "<@" + user._id + "> sacrificed **" + Math.floor(attack * 5 * sacrifice) + "** Health!\n";
             }
         }
-        if (hasSkill(user, 20, skillenable)) {
+        if (combo > 0) {
             critRate += 0.01 * urspeed;
             text += "<@" + user._id + "> has **" + (Math.floor(critRate * 1000) / 10) + "%** chance of hitting a critical\n"
         }
@@ -1144,9 +1031,7 @@ function checkProps(message,user) {
     if (user.cooldowns.luckyshoprefresh == undefined) user.cooldowns.luckyshoprefresh = 1;
     if (user.cooldowns.lastbreath == undefined) user.cooldowns.lastbreath = 1;
     if (user.skills == undefined) user.skills = {}
-    if (user.skillA == undefined) user.skillA = "None";
-    if (user.skillB == undefined) user.skillB = "None";
-    if (user.skillC == undefined) user.skillC = "None";
+    if (user.equippedSkills == undefined) user.equippedSkills = {}
     if (!user.consum == undefined) user.consum = {}
     if (user.quests == undefined) user.quests = [];
     if (user.currenthealth > user.health) user.currenthealth = user.health
