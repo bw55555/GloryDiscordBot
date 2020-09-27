@@ -1031,7 +1031,7 @@ function checkProps(message,user) {
     if (user.cooldowns.luckyshoprefresh == undefined) user.cooldowns.luckyshoprefresh = 1;
     if (user.cooldowns.lastbreath == undefined) user.cooldowns.lastbreath = 1;
     if (user.skills == undefined) user.skills = {}
-    if (user.equippedSkills == undefined) user.equippedSkills = {}
+    if (user.equippedSkills == undefined) user.equippedSkills = {"A":"None", "B": "None", "C": "None"}
     if (!user.consum == undefined) user.consum = {}
     if (user.quests == undefined) user.quests = [];
     if (user.currenthealth > user.health) user.currenthealth = user.health

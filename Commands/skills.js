@@ -11,6 +11,7 @@ module.exports = async function (message, user) {
     command.toUpperCase();
     words.splice(0, 2)
     if (command == "LIST") {
+        let fields = [];
         for (var i in user.equippedSkills) {
             let skillname = "No Skill " + i
             let skilltext = "None"
