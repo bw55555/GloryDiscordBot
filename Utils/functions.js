@@ -743,8 +743,8 @@ function calcEnchants(attacker, defender) {
     for (let key in enchants) {
         enchants[key] += getGuildBuff(attacker, key) + getWeaponEnchant(attacker, key)
     }
-    for (let key in user.equippedSkills) {
-        let sid = user.equippedSkills[key];
+    for (let key in attacker.equippedSkills) {
+        let sid = attacker.equippedSkills[key];
         if (sid == "None") { continue }
         for (let effect in skillData[sid].effects) {
             enchants[effect] += skillData[sid].effects[effect]
@@ -752,8 +752,8 @@ function calcEnchants(attacker, defender) {
         if (skillData[sid].conditional != undefined) {
             for (let condition in skillData[sid].conditional) {
                 let cwords = condition.split(" ")
-                let vA = JSONoperate(user, cwords[0], "get")
-                let vB = JSONoperate(user, cwords[2], "get")
+                let vA = JSONoperate(attacker, cwords[0], "get")
+                let vB = JSONoperate(attacker, cwords[2], "get")
                 if ((op == ">=" && vA >= vB) || (op == "<=" && vA <= vB) || (op == "=" && vA == vB) || (op == ">" && vA > vB) || (op == "<" && vA < vB)) {
                     for (let effect in skillData[sid].conditional[condition]) {
                         enchants[effect] += skillData[sid].conditional[condition][effect]
