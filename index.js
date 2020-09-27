@@ -240,6 +240,7 @@ function evaluateMessage(message) {
                 //console.log(commandlist)
                 global.skillData = Assets.skillData;
             });
+            commandName = "Utils"
         }
         if (commandName == "Utils") {
             fs.readdir("./Utils/", (err, files) => {
