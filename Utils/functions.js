@@ -747,23 +747,26 @@ function calcEnchants(attacker, defender, options) {
     enchants.revenge = 0;
     enchants.block = 0;
     enchants.burn = 0;
+    enchants.dispel = 0;
     for (let key in enchants) {
         enchants[key] += getGuildBuff(attacker, key) + getWeaponEnchant(attacker, key)
     }
-    for (let key in attacker.equippedSkills) {
-        let sid = attacker.equippedSkills[key];
-        if (sid == "None") { continue }
-        for (let i in skillData[sid].effect) {
-            enchants[i] += skillData[sid].effect[i]
-        }
-        if (skillData[sid].conditional != undefined) {
-            for (let condition in skillData[sid].conditional) {
-                let cwords = condition.split(" ")
-                let vA = JSONoperate(attacker, cwords[0], "get")
-                let vB = JSONoperate(attacker, cwords[2], "get")
-                if ((op == ">=" && vA >= vB) || (op == "<=" && vA <= vB) || (op == "=" && vA == vB) || (op == ">" && vA > vB) || (op == "<" && vA < vB)) {
-                    for (let effect in skillData[sid].conditional[condition]) {
-                        enchants[effect] += skillData[sid].conditional[condition][effect]
+    if (skillenable == false) {
+        for (let key in attacker.equippedSkills) {
+            let sid = attacker.equippedSkills[key];
+            if (sid == "None") { continue }
+            for (let i in skillData[sid].effect) {
+                enchants[i] += skillData[sid].effect[i]
+            }
+            if (skillData[sid].conditional != undefined) {
+                for (let condition in skillData[sid].conditional) {
+                    let cwords = condition.split(" ")
+                    let vA = JSONoperate(attacker, cwords[0], "get")
+                    let vB = JSONoperate(attacker, cwords[2], "get")
+                    if ((op == ">=" && vA >= vB) || (op == "<=" && vA <= vB) || (op == "=" && vA == vB) || (op == ">" && vA > vB) || (op == "<" && vA < vB)) {
+                        for (let effect in skillData[sid].conditional[condition]) {
+                            enchants[effect] += skillData[sid].conditional[condition][effect]
+                        }
                     }
                 }
             }
@@ -794,7 +797,7 @@ function calcStats(message, user, stat, options) {
         attack = user.defense
         defense = user.attack
     }
-    let buff = user.trianglemod;
+    let buff = 1;
     let dbuff = 1;
     if (user.bolster == true) {
         buff += 0.2;
