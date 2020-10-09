@@ -221,7 +221,7 @@ async function validate(message, user, spot) {
             sendMessage(message.channel, targetname + " is not a real person");
             return false;
         }
-        let command = message.content.trim().split(/\s+/)[0].toLowerCase().slice(prefix.length)
+        //let command = message.content.trim().split(/\s+/)[0].toLowerCase().slice(prefix.length)
         if (ret.dungeonts != undefined && calcTime(message.createdTimestamp, ret.dungeonts) < 600) {
             sendMessage(message.channel, targetname + " is currently in a dungeon.");
             return false;
