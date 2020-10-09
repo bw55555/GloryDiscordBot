@@ -10,7 +10,5 @@ module.exports = async function (message, user) {
         if (target == false) { return user; }
         if (target.flag == true) { delete target.flag; functions.setUser(target); return functions.replyMessage(message, "<@" + target + "> was successfully unflagged!")}
         else { target.flag = true; functions.setUser(target); return functions.replyMessage(message, "<@" + target + "> was successfully unflagged!") }
-        
-        
     });
 }

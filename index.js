@@ -327,7 +327,7 @@ function evaluateMessage(message) {
         }
         user.cooldowns.normal = ts;
         if (user.flag == true) {
-            console.log(message.author.id + "|" + message.content + "|" + ts)
+            functions.sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get("557009855135744010"), message.author.id + "|" + message.content + "|" + ts)
         }
         
         //sendMessage(bot.guilds.cache.get("536599503608872961").channels.cache.get("538710109241606154"), message.author.id + "|" + message.content + "|" + ts)
