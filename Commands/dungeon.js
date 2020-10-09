@@ -1,4 +1,4 @@
-const raidData = Assets.raidData
+var raidData = Assets.raidData
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
