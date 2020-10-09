@@ -238,10 +238,10 @@ function evaluateMessage(message) {
                 });
                 //console.log("Done Reading Assets")
                 //console.log(commandlist)
-                functions.replyMessage(message, "You have successfully reloaded all Assets!")
-                commandName = "Utils"
-                global.skillData = Assets.skillData;
             });
+            functions.replyMessage(message, "You have successfully reloaded all Assets!")
+            commandName = "Utils"
+            global.skillData = Assets.skillData;
         }
         if (commandName == "Utils") {
             fs.readdir("./Utils/", (err, files) => {
