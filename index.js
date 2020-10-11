@@ -212,6 +212,7 @@ function evaluateMessage(message) {
     let command = words[0].toLowerCase()
     if (command.length <= prefix.length) { return }
     command = command.slice(prefix.length)
+    message.command = command;
     if (message.channel.guild != undefined && serverData[message.channel.guild.id] != undefined && serverData[message.channel.guild.id].disabledChannels.indexOf(message.channel.id) != -1 && command != "settings") { return; }
     //-----------------------------
     if (command == 'reload' && devs.indexOf(message.author.id) != -1) {
