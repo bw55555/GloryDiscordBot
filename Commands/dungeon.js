@@ -4,7 +4,7 @@ module.exports = async function (message, user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     let command = (words.length == 1) ? "" : words[1].toLowerCase()
-    if (user.dungeonts == undefined && functions.isCD(user, ts, "crystalmines")) { return functions.replyMessage(message, "You can only enter the crystal mines once per day. ") }
+    if (user.dungeonts == undefined && functions.isCD(user, ts, "crystalmines")) { return functions.replyMessage(message, "You can enter the crystal mines in "+displayTime(ts, user.cooldowns.crystalmines)) }
     if (user.ascension < 3) { return functions.replyMessage(message, "You can only enter the crystal mines at ascension 3. ") }
     if (user.guild == "None") { return functions.replyMessage(message, "You must have a guild to enter the crystal mines. ")}
     if (command == "help") {
