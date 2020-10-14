@@ -603,8 +603,8 @@ function calcDamage(message, attacker, defender, initiator) {
             }
         }
     }
-    if (aenchants.lifesteal > 0) {
-        let stealAmount = Math.abs(Math.floor(truedamage * aenchants.lifesteal))
+    if (aenchants.lifeSteal > 0) {
+        let stealAmount = Math.abs(Math.floor(truedamage * aenchants.lifeSteal))
         if (stealAmount < 0) { stealAmount = 0 }
         if (defender.isRaid && stealAmount > defender.maxhealth) { stealAmount = defender.maxhealth;}
         attacker.currenthealth += stealAmount
@@ -653,7 +653,6 @@ function calcEnchants(user, defender, options) {
     enchants.antitempo = 0;
     enchants.combo = 0;
     enchants.pierce = 0;
-    enchants.dispel = 0;
     enchants.spikes = 0;
     enchants.revenge = 0;
     enchants.block = 0;
@@ -726,6 +725,14 @@ function calcStats(message, user, stat, options) {
     }
     attack += enchants.attack
     defense += enchants.defense
+    if (user.isRaid) {
+        if (stat == "attack") {
+            return attack
+        }
+        if (stat == "defense") {
+            return defense
+        }
+    }
     if (user.weapon != false && user.weapon != undefined) {
         if (confused) {
             attack += user.weapon.defense + user.weapon.enhance.defense;
