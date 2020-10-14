@@ -520,7 +520,7 @@ function calcDamage(message, attacker, defender, initiator) {
     let defensearr = calcStats(message, defender, "defense", doptions);
     defense = defensearr[1]; 
     text += defensearr[0];
-    if (Math.random() < enchants.evade) {
+    if (Math.random() < denchants.evade) {
         text = attackername + ", " + defendername + " has evaded the attack!\n"
         return [text, 0, 0]
     }
