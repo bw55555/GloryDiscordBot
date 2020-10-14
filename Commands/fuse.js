@@ -36,7 +36,7 @@ module.exports = async function (message, user) {
         let itemid = parseInt(item)
         let num = parseInt(words[2])
         if (words.length < 3) { num = 1 }
-        if (isNaN(num) && num > 0) { return functions.replyMessage(message, "Please select a positive number of items to fuse!") }
+        if (isNaN(num) || num > 0) { return functions.replyMessage(message, "Please select a positive number of items to fuse!") }
         if (102 <= itemid && itemid <= 106) {
             let shardcosts = [10, 50, 25, 25, 25]
             if (user.runes[0] < shardcosts[itemid - 102] * num) { return functions.replyMessage(message, "You do not have enough rune shards!") }
