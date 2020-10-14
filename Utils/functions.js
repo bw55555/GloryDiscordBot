@@ -700,6 +700,8 @@ function calcEnchants(user, defender, options) {
         case 7:
             enchants.lucky += 0.5;
             break;
+        case 11:
+            enchants.lifeSteal += 0.15;
         case 311:
             enchants.sacrifice += 0.15;
             break;
