@@ -711,6 +711,7 @@ function calcStats(message, user, stat, options) {
     let skillenable = (options.skillenable == false) ? false : true
     let enchants = (options.enchants == undefined) ? functions.calcEnchants(user, {}, options) : options.enchants
     let dispel = (options.hasDispel == true) ? true : false
+    let confused = (options.hasConfusion == true) ? true : false
     let text = ""
     let attack = user.attack
     let defense = user.defense
