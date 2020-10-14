@@ -24,7 +24,6 @@ module.exports = async function (message, user) {
                 else if (item.enchantlevel == 8 && item.numenchants <= 1) { item.modifiers[ench] += enchantData[ench].end }
                 else { item.modifiers[ench] += enchantData[ench].level }
                 item.enchantlevel += 1;
-                functions.setItem(item)
             }
             functions.setItem(item)
             functions.replyMessage(message, "You have successfully enchanted item " + words[1] + " with modifier " + words[2] + " to level " + item.enchantlevel)
