@@ -502,7 +502,7 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     let aenchants = calcEnchants(attacker, defender, aoptions)
     aoptions.enchants = aenchants;
-    let attackarr = calcStats(message, attacker, "attack", options);
+    let attackarr = calcStats(message, attacker, "attack", aoptions);
     attack = attackarr[1];
     text += attackarr[0];
     
