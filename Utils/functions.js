@@ -659,6 +659,7 @@ function calcEnchants(user, defender, options) {
     enchants.burn = 0;
     enchants.regen = 0;
     enchants.lucky = 1;
+    if (user.isRaid) { return enchants}
     for (let key in enchants) {
         enchants[key] += getGuildBuff(user, key) + getWeaponEnchant(user, key)
     }
@@ -727,10 +728,10 @@ function calcStats(message, user, stat, options) {
     defense += enchants.defense
     if (user.isRaid) {
         if (stat == "attack") {
-            return [text, attack]
+            return [text, Math.floor(enchants.buff * attack)]
         }
         if (stat == "defense") {
-            return [text, defense]
+            return [text, Math.floor(enchants.dbuff * defense)]
         }
     }
     if (user.weapon != false && user.weapon != undefined) {
