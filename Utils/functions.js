@@ -727,10 +727,10 @@ function calcStats(message, user, stat, options) {
     defense += enchants.defense
     if (user.isRaid) {
         if (stat == "attack") {
-            return attack
+            return [text, attack]
         }
         if (stat == "defense") {
-            return defense
+            return [text, defense]
         }
     }
     if (user.weapon != false && user.weapon != undefined) {
