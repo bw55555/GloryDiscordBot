@@ -603,8 +603,8 @@ function calcDamage(message, attacker, defender, initiator) {
             }
         }
     }
-    if (lifesteal > 0) {
-        let stealAmount = Math.abs(Math.floor(truedamage * lifesteal))
+    if (aenchants.lifesteal > 0) {
+        let stealAmount = Math.abs(Math.floor(truedamage * aenchants.lifesteal))
         if (stealAmount < 0) { stealAmount = 0 }
         if (defender.isRaid && stealAmount > defender.maxhealth) { stealAmount = defender.maxhealth;}
         attacker.currenthealth += stealAmount
@@ -625,8 +625,8 @@ function calcDamage(message, attacker, defender, initiator) {
             text += attackername + " leeched **" + leech + "** health!\n";
         }
     }
-    if (spikes > 0) {
-        let spiked = Math.floor(defense * spikes)
+    if (denchants.spikes > 0) {
+        let spiked = Math.floor(defense * denchants.spikes)
         if (false) { text += defendername + "'s spikes was dispelled!\n" }
         else {
             counter += spiked
