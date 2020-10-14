@@ -34,7 +34,7 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You just attacked! You lost your shield :(");
             user.shield = 1
         }
-        let regenpersec = calcEnchants(target).regen
+        let regenpersec = functions.calcEnchants(target).regen
         if (regenpersec > 0) {
             target.currenthealth = Math.min(target.currenthealth + regenpersec * calcTime(message.createdTimestamp, target.cooldowns.normal), target.health)
         }
