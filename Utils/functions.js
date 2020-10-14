@@ -230,7 +230,7 @@ async function validate(message, user, spot) {
 }
 function hasSkill(user, skillid, enable) {
     enable = (enable == false) ? false : true
-    if (user.isRaid != undefined && user.equippedSkills != undefined && Object.values(user.equippedSkills) != undefined && Object.values(user.equippedSkills).indexOf(skillid) != -1) return enable
+    if (user.isRaid == undefined && user.equippedSkills != undefined && Object.values(user.equippedSkills) != undefined && Object.values(user.equippedSkills).indexOf(skillid) != -1) return enable
     else return false
 }
 function getGuildBuff(user, buffname) {
