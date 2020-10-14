@@ -495,8 +495,7 @@ function calcDamage(message, attacker, defender, initiator) {
     let attack = 0;
     let aoptions = {};
     aoptions.skillenable = skillenable
-    let hasConfusion = defender.isRaid != true && hasSkill(defender, 23, skillenable)
-    aoptions.hasConfusion = hasConfusion
+    aoptions.hasConfusion = defender.isRaid != true && hasSkill(defender, 23, skillenable)
     if (hasSkill(defender, 37, skillenable) && attacker.speed != undefined && attacker.speed > 0) {
         aoptions.hasDispel = true;
         text += attackername + "'s speed was dispelled!\n"
@@ -506,16 +505,12 @@ function calcDamage(message, attacker, defender, initiator) {
     let attackarr = calcStats(message, attacker, "attack", options);
     attack = attackarr[1];
     text += attackarr[0];
-    if (evadechance < evaderate) {
-        text = attackername + ", " + defendername + " has evaded the attack!\n"
-        return [text, 0, 0]
-    }
+    
     let defense = 0;
 
     let doptions = {};
     doptions.skillenable = skillenable
-    let hasConfusion = attacker.isRaid != true && hasSkill(attacker, 23, skillenable)
-    doptions.hasConfusion = hasConfusion
+    doptions.hasConfusion = attacker.isRaid != true && hasSkill(attacker, 23, skillenable)
     if (hasSkill(attacker, 37, skillenable) && defender.speed != undefined && defender.speed > 0) {
         doptions.hasDispel = true; 
         text += defendername + "'s speed was dispelled!\n"
@@ -525,7 +520,10 @@ function calcDamage(message, attacker, defender, initiator) {
     let defensearr = calcStats(message, defender, "defense", doptions);
     defense = defensearr[1]; 
     text += defensearr[0];
-
+    if (Math.random() < enchants.evade) {
+        text = attackername + ", " + defendername + " has evaded the attack!\n"
+        return [text, 0, 0]
+    }
     if (attacker.isRaid != true && defender.isRaid != true) {
         if ((attacker.triangleid - defender.triangleid) % 3 == 2) {
             if (hasSkill(attacker, 13, skillenable)) {
