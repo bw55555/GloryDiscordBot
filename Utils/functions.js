@@ -707,6 +707,7 @@ function calcEnchants(user, defender, options) {
     return enchants
 }
 function calcStats(message, user, stat, options) {
+    if (user.defense == undefined) { user.defense = 0;}
     if (options == undefined) {options = {}}
     let skillenable = (options.skillenable == false) ? false : true
     let enchants = (options.enchants == undefined) ? functions.calcEnchants(user, {}, options) : options.enchants
@@ -726,14 +727,6 @@ function calcStats(message, user, stat, options) {
     }
     attack += enchants.attack
     defense += enchants.defense
-    if (user.isRaid) {
-        if (stat == "attack") {
-            return [text, Math.floor(enchants.buff * attack)]
-        }
-        if (stat == "defense") {
-            return [text, Math.floor(enchants.dbuff * defense)]
-        }
-    }
     if (user.weapon != false && user.weapon != undefined) {
         if (confused) {
             attack += user.weapon.defense + user.weapon.enhance.defense;
