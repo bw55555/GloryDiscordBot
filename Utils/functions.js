@@ -1038,6 +1038,7 @@ function checkStuff(message,user) {
         user.burn -= 1
         user.currenthealth -= burndamage
         let burntext = "You took **" + burndamage + "** from burning. (You will burn for " + user.burn + " more commands)"
+        if (user.currenthealth < 0) { user.dead = true;}
         if (user.dead) {
             burntext += " You burned to death!"
             user.dead = true
