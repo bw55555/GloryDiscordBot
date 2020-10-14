@@ -145,7 +145,7 @@
     {
         "name": "Offensive Strike",
         "id": 18,
-        "description": "Gain 20% Attack while initiating attack",
+        "description": "Gain 20% Attack",
         "effect": {
           "buff": 0.2
         }
@@ -154,7 +154,7 @@
     {
         "name": "Defensive Stance",
         "id": 19,
-        "description": "Gain 20% Defense when attacked",
+        "description": "Gain 20% Defense",
         "effect": {
           "dbuff": 0.2
         }
@@ -207,7 +207,7 @@
     {
         "name": "Chthonic",
         "id": 26,
-        "description": "You take no damage from sacrificing", 
+        "description": "You take no damage from sacrificing, but do 40% less damage from sacrifice", 
         "effect": {}
     },
     {
@@ -288,9 +288,6 @@
     {
         "name": "Dispel",
         "id": 37,
-        "description": "33% chance to ignore each of the opponent's tempo, combo, spikes, and burn.", 
-        "effect": {
-          "dispel": 0.33
-        }
+        "description": "Ignores the opponent's tempo"
     }
 ]

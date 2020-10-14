@@ -486,62 +486,46 @@ function calcDamage(message, attacker, defender, initiator) {
     let roll = Math.random()
     let burn = 0;
     let skillenable = true;
-
     if (defender.name == "Charybdis") { skillenable = false }
     if (attacker.name == "Charybdis") { skillenable = false }
     let defendername = defender.name
     if (defendername == undefined) { defendername = "<@" + defender._id + ">" }
     let attackername = attacker.name
     if (attackername == undefined) { attackername = "<@" + attacker._id + ">" }
-    let evadechance = Math.random()
-    let evaderate = 0;
-    if (defender.name == "Will-o'-the-wisp") {
-        evaderate += 0.95
+    let attack = 0;
+    let aoptions = {};
+    aoptions.skillenable = skillenable
+    let hasConfusion = defender.isRaid != true && hasSkill(defender, 23, skillenable)
+    aoptions.hasConfusion = hasConfusion
+    if (hasSkill(defender, 37, skillenable) && attacker.speed != undefined && attacker.speed > 0) {
+        aoptions.hasDispel = true;
+        text += attackername + "'s speed was dispelled!\n"
     }
-    if (defender.isRaid != true && defender.weapon != false && defender.weapon.modifiers.evade != undefined) {
-        evaderate += defender.weapon.modifiers.evade
-    }
+    let aenchants = calcEnchants(attacker, defender, aoptions)
+    aoptions.enchants = aenchants;
+    let attackarr = calcStats(message, attacker, "attack", options);
+    attack = attackarr[1];
+    text += attackarr[0];
     if (evadechance < evaderate) {
-        text = attackername + ", "+defendername + " has evaded the attack!\n"
+        text = attackername + ", " + defendername + " has evaded the attack!\n"
         return [text, 0, 0]
     }
-    let attack = 0;
-    if (attacker.isRaid != true) {
-        let options = {};
-        options.skillenable = skillenable
-        let hasConfusion = defender.isRaid != true && hasSkill(defender, 23, skillenable)
-        options.hasConfusion = hasConfusion
-        if (hasSkill(defender, 37, skillenable) && attacker.speed > 0 && Math.random() < 0.33) {
-            options.hasDispel = true;
-            text += attackername + "'s speed was dispelled!\n"
-        }
-        let attackarr = calcStats(message, attacker, "attack", options);
-        attack = attackarr[1];
-        text += attackarr[0];
-    } else {
-        attack = attacker.attack;
-        if (attacker.name == "Hell Lord") {
-            if (Math.random() < 0.1) {
-                attack = attack * 2
-                text += attackername +" just dealt critical damage!\n"
-            }
-        }
-        
-    }
     let defense = 0;
-    if (defender.isRaid != true) {
-        let options = {};
-        options.skillenable = skillenable
-        let hasConfusion = attacker.isRaid != true && hasSkill(attacker, 23, skillenable)
-        options.hasConfusion = hasConfusion
-        if (hasSkill(attacker, 37, skillenable) && defender.speed > 0 && Math.random() < 0.33) {
-            options.hasDispel = true; 
-            text += defendername + "'s speed was dispelled!\n"
-        }
-        let defensearr = calcStats(message, defender, "defense", options);
-        defense = defensearr[1]; 
-        text += defensearr[0];
+
+    let doptions = {};
+    doptions.skillenable = skillenable
+    let hasConfusion = attacker.isRaid != true && hasSkill(attacker, 23, skillenable)
+    doptions.hasConfusion = hasConfusion
+    if (hasSkill(attacker, 37, skillenable) && defender.speed != undefined && defender.speed > 0) {
+        doptions.hasDispel = true; 
+        text += defendername + "'s speed was dispelled!\n"
     }
+    let denchants = calcEnchants(defender, attacker, doptions)
+    doptions.enchants = denchants;
+    let defensearr = calcStats(message, defender, "defense", doptions);
+    defense = defensearr[1]; 
+    text += defensearr[0];
+
     if (attacker.isRaid != true && defender.isRaid != true) {
         if ((attacker.triangleid - defender.triangleid) % 3 == 2) {
             if (hasSkill(attacker, 13, skillenable)) {
@@ -550,22 +534,11 @@ function calcDamage(message, attacker, defender, initiator) {
                 attack *= 1.4
             }
         }
-
     }
     let piercechance = Math.random()
-    let piercerate = 0
-    if (attacker.isRaid) {
-
-        if (attacker.name == "Godzilla") {
-            piercerate += 1
-        }
-        if (attacker.name == "Hell Lord") {
-            piercerate += 0.1
-        }
-    }
-    if (piercechance < piercerate) {
-        if (defender._id == undefined) {
-            attack *= 1.5
+    if (piercechance < aenchants.pierce) {
+        if (defender.isRaid) {
+            attack *= 1.25
         } else {
             defense = Math.floor(defense/2)
         }
@@ -576,37 +549,18 @@ function calcDamage(message, attacker, defender, initiator) {
     }
 
     //Both?
-    
-
-    //burn check
-    if (attacker.isRaid) {
-        if (attacker.name == "Ignis") {
-            burn += 5;
-        }
-    }
-    if (defender.isRaid != true && hasSkill(defender, 37, skillenable) && Math.random() < 0.33) {
-        text += attackername + "'s burn was dispelled!\n"
-        burn = 0
-    }
-    if (burn > 0) {
+    if (aenchants.burn > 0) {
         if (defender.isRaid != true) {
             if (defender.burn == undefined) { defender.burn = 0}
-            defender.burn += burn;
+            defender.burn += aenchants.burn;
             text += defendername + " is now burning!\n"
         } else {
             text += "Raid boss cannot be burned!\n"
         }
     }
-    if (defender.isRaid) {
-        if (defender.name == "Baba Yaga") {
-            block += 0.2
-        }
-        if (defender.name == "Asmodeus") {
-            block += 0.2
-        }
-    }
-    if (block > blockchance) {
-        if (piercechance < piercerate) {
+    let blockchance = Math.random();
+    if (denchants.block > blockchance) {
+        if (piercechance < aenchants.pierce) {
             text += defendername + " has blocked the attack, but " + attackername + " pierced though anyway!\n"
         } else {
             text += defendername + " has blocked the attack!\n"
@@ -618,35 +572,10 @@ function calcDamage(message, attacker, defender, initiator) {
         }
     }
     if (attacker.isRaid != true) {
-        if (revengechance < revenge) {
+        if (Math.random() < denchants.revenge) {
             attacker.currenthealth = 0;
             text += defendername + " has avenged the attack!\n"
             //return false
-        }
-    } else {
-        if (attacker.name == "Medusa" && revengechance < 0.15) {
-            defender.currenthealth = 0;
-            text += defendername + " has been turned to stone! (And killed)\n"
-        }
-        else if (attacker.name == "Asmodeus" && revengechance < 0.1) {
-            defender.currenthealth = 0;
-            text += defendername + " has been beheaded! (And killed)\n"
-        }
-        else if (attacker.name == "Godzilla" && revengechance < 0.2) {
-            defender.currenthealth = 0;
-            text += defendername + " has been squashed! (And killed)\n"
-        }
-    }
-
-    //Percentage increases
-    if (defender.isRaid != true && attacker._id == initiator._id) {
-        if (hasSkill(defender, 19, skillenable)) {
-            defense *= 1.2;
-        }
-    }
-    if (attacker.isRaid != true && attacker._id == initiator._id) {
-        if (hasSkill(attacker, 18, skillenable)) {
-            attack *= 1.2;
         }
     }
     //console.log("Counter")
@@ -700,7 +629,7 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     if (spikes > 0) {
         let spiked = Math.floor(defense * spikes)
-        if (hasSkill(attacker, 37, skillenable) && Math.random() < 0.33) { text += defendername + "'s spikes was dispelled!\n" }
+        if (false) { text += defendername + "'s spikes was dispelled!\n" }
         else {
             counter += spiked
             text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
@@ -731,7 +660,6 @@ function calcEnchants(user, defender, options) {
     enchants.revenge = 0;
     enchants.block = 0;
     enchants.burn = 0;
-    enchants.dispel = 0;
     enchants.regen = 0;
     enchants.lucky = 1;
     for (let key in enchants) {
@@ -782,9 +710,9 @@ function calcEnchants(user, defender, options) {
 }
 function calcStats(message, user, stat, options) {
     if (options == undefined) {options = {}}
-    skillenable = (options.skillenable == false) ? false : true
-    enchants = (options.enchants == undefined) ? functions.calcEnchants(user, {}, options) : options.enchants
-    dispel = (options.hasDispel == true) ? true : false
+    let skillenable = (options.skillenable == false) ? false : true
+    let enchants = (options.enchants == undefined) ? functions.calcEnchants(user, {}, options) : options.enchants
+    let dispel = (options.hasDispel == true) ? true : false
     let text = ""
     let attack = user.attack
     let defense = user.defense
@@ -792,13 +720,13 @@ function calcStats(message, user, stat, options) {
         attack = user.defense
         defense = user.attack
     }
-    let buff = 1;
-    let dbuff = 1;
     if (user.bolster == true) {
-        buff += 0.2;
-        dbuff += 0.2;
+        enchants.buff += 0.2;
+        enchants.dbuff += 0.2;
         user.bolster = false;
     }
+    attack += enchants.attack
+    defense += enchants.defense
     if (user.weapon != false && user.weapon != undefined) {
         if (confused) {
             attack += user.weapon.defense + user.weapon.enhance.defense;
@@ -808,52 +736,52 @@ function calcStats(message, user, stat, options) {
             defense += user.weapon.defense + user.weapon.enhance.defense;
         }
     }
-    let dispel = 0;
     let urspeed = user.speed
     if (urspeed > 20) {
         urspeed = 20
     }
-    if (Math.random() < dispel) { urspeed = 0; }
+    if (options.hasDispel) { urspeed = 0; }
     if (stat == "attack") {
-        if (rage > 0) {
+        if (enchants.rage > 0) {
             let x = user.currenthealth / user.health
             if (hasSkill(user, 29, skillenable)) {
                 x = 7 * user.currenthealth / (8 * user.health)
             }
             x = Math.sqrt(x)
-            buff += Math.min(rage + 1.5, (rage * -1 * (Math.log(x) + 0.15)))
+            enchants.buff += Math.min(enchants.rage + 1.5, (enchants.rage * -1 * (Math.log(x) + 0.15)))
         }
-        if (sacrifice > 0) {
-            buff += 5 * sacrifice
+        if (enchants.sacrifice > 0) {
             if (hasSkill(user, 26, skillenable)) {
                 //user.currenthealth += Math.floor(buff * attack * sacrifice)
-                text += "<@" + user._id + "> \"sacrificed\" **" + Math.floor(attack * 5 * sacrifice) + "** Health, but mysteriously just didn't!\n";
+                enchants.buff += 3 * enchants.sacrifice
+                text += "<@" + user._id + "> \"sacrificed\" **" + Math.floor(attack * 3 * enchants.sacrifice) + "** Health, but mysteriously just didn't!\n";
             } else {
-                user.currenthealth -= Math.floor(attack * 5 * sacrifice)
-                text += "<@" + user._id + "> sacrificed **" + Math.floor(attack * 5 * sacrifice) + "** Health!\n";
+                enchants.buff += 5 * enchants.sacrifice
+                user.currenthealth -= Math.floor(attack * 5 * enchants.sacrifice)
+                text += "<@" + user._id + "> sacrificed **" + Math.floor(attack * 5 * enchants.sacrifice) + "** Health!\n";
             }
         }
-        if (combo > 0) {
-            critRate += 0.01 * urspeed;
-            text += "<@" + user._id + "> has **" + (Math.floor(critRate * 1000) / 10) + "%** chance of hitting a critical\n"
+        if (enchants.combo > 0) {
+            enchants.critRate += 0.01 * urspeed * enchants.combo;
+            text += "<@" + user._id + "> has **" + (Math.floor(enchants.critRate * 1000) / 10) + "%** chance of hitting a critical\n"
         }
         let critchance = Math.random();
-        if (critchance < critRate) {
+        if (critchance < enchants.critRate) {
             text += "<@" + user._id + "> just dealt critical damage!\n";
-            buff += critDamage - 1;
+            enchants.buff += enchants.critDamage - 1;
         }
-        if (tempo > 0) {
-            buff += ((urspeed * 0.05 * tempo));
+        if (enchants.tempo > 0) {
+            enchants.buff += ((urspeed * 0.05 * enchants.tempo));
             text += "<@" + user._id + "> has **" + urspeed + "** tempo\n";
         }
-        return [text, Math.floor(buff * attack)]
+        return [text, Math.floor(enchants.buff * attack)]
     }
     if (stat == "defense") {
-        if (antitempo > 0) {
-            dbuff += ((urspeed * 0.05 * antitempo));
+        if (enchants.antitempo > 0) {
+            enchants.dbuff += ((urspeed * 0.05 * enchants.antitempo));
             text += "<@" + user._id + "> has **" + urspeed + "** antitempo\n";
         }
-        return [text,Math.floor(dbuff * defense)]
+        return [text, Math.floor(enchants.dbuff * defense)]
     }
 }
 ///---------------
