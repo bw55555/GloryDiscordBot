@@ -28,7 +28,7 @@
         "id": 3,
         "description": "Lifesteal + 10%",
         "effect": {
-          "lifesteal": 0.1
+          "lifeSteal": 0.1
         }
     },
     {

@@ -702,6 +702,7 @@ function calcEnchants(user, defender, options) {
             break;
         case 11:
             enchants.lifeSteal += 0.15;
+            break;
         case 311:
             enchants.sacrifice += 0.15;
             break;
