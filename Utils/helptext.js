@@ -14,7 +14,7 @@ let page1 = {
         "fields": [
             {
                 "name": "help",
-                "value": "Brings up the command list"
+                "value": "Brings up the command list, but you already know that don't you."
             },
             {
                 "name": "start",
@@ -80,10 +80,6 @@ let page2 = {
                 "value": "Restores health points to max"
             },
             {
-                "name": "resurrect | res | rez",
-                "value": "Revive yourself"
-            },
-            {
                 "name": "ascend",
                 "value": "Ascend to next ascension point when you reach level 100. Check tutorial for more information."
             },
@@ -104,8 +100,8 @@ let page2 = {
                 "value": "Displays current level, xp and ascension points of the player"
             },
             {
-                "name": "inventory | inv | i",
-                "value": "Check weapons in your inventory"
+                "name": "donotdm",
+                "value": "Toggle glory dms on/off"
             }
         ]
     }
@@ -139,7 +135,7 @@ let page3 = {
                 "value": "Displays a few stats about classes"
             },
             {
-                "name": "rez [@player/id]",
+                "name": "resurrect | res | rez [@player/id]",
                 "value": "Brings back the target back to life, could be used by healers only. The target needs to 'confirm' to resurrect."
             },
             {
@@ -151,7 +147,7 @@ let page3 = {
                 "value": "Swaps subclasses between life/blood weaver. Does not consumes xp."
             },
             {
-                "name": "BOLSTER [@player/id]",
+                "name": "bolster [@player/id]",
                 "value": "Boosts selected players attack and defense, could be used by paladin only"
             },
             {
@@ -187,7 +183,7 @@ let page4 = {
             },
             {
                 "name": "bounty [@player/id] [amount]",
-                "value": "Puts bounty on the target player for the selected amount\nYou may use '!bounty top' command to display top bountied players"
+                "value": "Puts bounty on the target player for the selected amount\nYou may use `!bounty top` command to display players with highest bounty"
             },
             {
                 "name": "give [@player/id]  [amount]",
@@ -195,7 +191,7 @@ let page4 = {
             },
             {
                 "name": "explosion",
-                "value": "Deals huge damage to every person who talked in any server in presence of Glory in last 15 seconds!'15 secs before the command'.Bombs can malfunction"
+                "value": "Deals huge damage to every person who talked in any server in presence of Glory in last 15 seconds!\n`15 secs before the command`.~~Bombs can malfunction~~"
             },
             {
                 "name": "giveitem [@player/id] [weapon_id]",
@@ -204,6 +200,14 @@ let page4 = {
             {
                 "name": "givebox [@player/id] [amount]",
                 "value": "Gives a number of boxes to the other player"
+            },
+            {
+                "name": "market",
+                "value": "Check weapons put up by other players for sale"
+            },
+            {
+                "name": "sell [weapon_id] [amount]",
+                "value": "Sell a weapon in market"
             }
         ]
     }
@@ -237,8 +241,20 @@ let page5 = {
                 "value": "Attacks the boss"
             },
             {
+                "name": "er",
+                "value": "Brings up the info on the event raid"
+            },
+            {
                 "name": "eventattack | eatk",
                 "value": "Attacks the event boss when used in event-raid channel of the support server"
+            },
+            {
+                "name": "wr",
+                "value": "Check status of world boss"
+            },
+            {
+                "name": "watk",
+                "value": "Attack worldboss"
             }
         ]
     }
@@ -272,6 +288,10 @@ let page6 = {
                 "value": "Purchases selected item"
             },
             {
+                "name": "inventory | inv | i",
+                "value": "Show a list of weapons you own. Check tutorial for more information"
+            },
+            {
                 "name": "equip [id]",
                 "value": "Equips the selected weapon"
             },
@@ -280,12 +300,8 @@ let page6 = {
                 "value": "Gives info on the specified weapon"
             },
             {
-                "name": "smelt [id]",
-                "value": "Smelts the specified weapon"
-            },
-            {
-                "name": "smeltall",
-                "value": "Smelts all non equipped and nonfavorited weapons. Do help on this command to know more"
+                "name": "smelt [id/all]",
+                "value": "Smelts the specified/all weapons. Remeber to favorite your weapons before using this command. Check tutorial for more info"
             },
             {
                 "name": "favorite [weapon_id]",
@@ -341,6 +357,10 @@ let page7 = {
             {
                 "name": "invite",
                 "value": "Displays the invite link for the bot"
+            },
+            {
+                "name": "ls",
+                "values": "Opens Lucky Shop interface. The items in ls can be refreshed everyday at 00:00 UTC. To refresh ls do `!ls r`"
             }
         ]
     }
@@ -384,7 +404,7 @@ let page9 = {
         "title": "Guild commands (1st Part)",
         "color": 16312092,
         "footer": {
-            "text": "Page 9 of 12"
+            "text": "Page 9 of 14"
         },
         "thumbnail": {
             "url": "https://i.imgur.com/r39nI8f.jpg"
@@ -462,6 +482,14 @@ let page10 = {
             {
                 "name": "guild disband",
                 "value": "Deletes the guild"
+            },
+            {
+                "name": "guild buffs",
+                "value": "Check your guild buffs"
+            },
+            {
+                "name": "guild upgrade buff [id]",
+                "value": "Upgrade a particular guild buff"
             }
         ]
     }
@@ -483,6 +511,18 @@ let page11 = {
 
         "fields": [
             {
+                "name": "g summon c/u/r/e/l",
+                "value": "Summon a guild boss. To check for scrolls do `g scrolls`"
+            },
+            {
+                "name": "g ri",
+                "value": "Check stats on guild raid"
+            },
+            {
+                "name": "g ratk",
+                "value": "Attack guild raid"
+            },
+            {
                 "name": "g forge",
                 "value": "Show guild forge interface"
             },
@@ -497,6 +537,14 @@ let page11 = {
             {
                 "name": "g forge upgrade [enchant/enhance] [id]",
                 "value": "Upgrade sub-properties of guild forge enhance/enchant"
+            },
+            {
+                "name": "g update buffs | g update buff [id] [level]",
+                "value": "Update all buffs or update a buff to a particular level, where level cannot be more than max level of guild buff"
+            },
+            {
+                "name": "g store",
+                "value": "Opens guild shop."
             }
         ]
     }
@@ -516,7 +564,7 @@ let page12 = {
         "fields": [
             {
                 "name": "dungeon permit | d permit",
-                "value": "Acquire permission to enter the mines. Check tutorial for more information."
+                "value": "Acquire permission to enter the mines. Check tutorial for more information. Doing this command resets your max floor."
             },
             {
                 "name": "d start",
@@ -532,7 +580,7 @@ let page12 = {
             },
             {
                 "name": "d exit",
-                "value": "Exit the dungeon"
+                "value": "Exit the dungeon. You cannot exit if a boss is encountered"
             },
             {
                 "name": "dungeontop",
@@ -541,6 +589,10 @@ let page12 = {
             {
                 "name": "d info",
                 "value": "Shows the current floor stat"
+            },
+            {
+                "name": "d sweep",
+                "value": "Sweep your `max_floor-10` floors and enter the dungeon"
             }
         ]
     }
@@ -550,7 +602,7 @@ let page12 = {
 //PAGE 13 STARTS
 let page13 = {
     "embed": {
-        "title": "Enchants and Enhance",
+        "title": "Item Upgrading",
         "color": 16312092,
         "thumbnail": {
             "url": "https://i.imgur.com/r39nI8f.jpg"
@@ -565,18 +617,103 @@ let page13 = {
             {
                 "name": "enhance [weapon_ID] [attack/defense/random] [count]",
                 "value": "Enhance a weapon stat. You need to unequip your weapon before enhancing"
+            },
+            {
+                "name": "merge [weapon_ID] [weapon_ID_2]",
+                "value": "Merge 2 weapons together. They need to be the same rarity"
+            },
+            {
+                "name": "runes",
+                "value": "See how many runes you have. These are needed to enchant items. "
+            },
+            {
+                "name": "fuse list",
+                "value": "Opens smith's interface. Use fusion reactor to fuse runes from  rune shards."
+            },
+            {
+                "name": "fuse [item_ID] [number of items]",
+                "value": "Fuse runes from runeshards using the fusion reactor"
             }
         ]
     }
 }
 //PAGE 13 ENDS
 
-let pages = [page1, page2, page3, page4, page5, page6, page7, page8, page9, page10, page11, page12, page13];
+//PAGE 14 STARTS
+let page14 = {
+    "embed": {
+        "title": "Skills and stats",
+        "color": 16312092,
+        "thumbnail": {
+            "url": "https://i.imgur.com/r39nI8f.jpg"
+        },
+
+
+        "fields": [
+            {
+                "name": "skill[a/b/c] [skill_ID] | s[a/b/c] [skill_ID] ",
+                "value": "Choose skills. You can also enter skill name instead of ID"
+            },
+            {
+                "name": "skills | s",
+                "value": "Check equiped skills"
+            },
+            {
+                "name": "skillpoint | sp",
+                "value": "Get a skill using skillpoint. You earn 1 skill point everytime you ascend."
+            },
+            {
+                "name": "si",
+                "value": "List of skills you own"
+            },
+            {
+                "name": "skillinfo [skill_ID]",
+                "value": "See information of that particular skill. You can also use skill name instead of ID"
+            },
+            {
+                "name": "reroll [skill_ID]",
+                "value": "Reroll a skill you don't like"
+            },
+            {
+                "name": "stat",
+                "value": "Check all modifiers acting on your character"
+            }
+        ]
+    }
+}
+//PAGE 14 ENDS
+
+//PAGE 15 STARTS
+let page15 = {
+    "embed": {
+        "title": "Quests commands",
+        "color": 16312092,
+        "thumbnail": {
+            "url": "https://i.imgur.com/r39nI8f.jpg"
+        },
+
+
+        "fields": [
+            {
+                "name": "quests | q",
+                "value": "Check current quests"
+            },
+            {
+                "name": "claimquest [ID] | cq [ID]",
+                "value": "Claim quest rewards"
+            }
+        ]
+    }
+}
+//PAGE 15 ENDS
+
+let pages = [page1, page2, page3, page4, page5, page6, page7, page8, page9, page10, page11, page12, page13, page14, page15];
 
 for (let i = 0; i < pages.length; i++) {
     pages[i].embed.footer = {
         "text": "Page " + (i + 1) + " of " + pages.length
     }
 }
+
 //console.log(pages)
 module.exports = pages
