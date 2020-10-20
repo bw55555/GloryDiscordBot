@@ -207,7 +207,7 @@
     {
         "name": "Chthonic",
         "id": 26,
-        "description": "You take no damage from sacrificing, but do 40% less damage from sacrifice", 
+        "description": "You take no damage from sacrificing, but do 20% less damage from sacrifice", 
         "effect": {}
     },
     {
