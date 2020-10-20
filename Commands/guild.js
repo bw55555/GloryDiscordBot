@@ -420,13 +420,13 @@ module.exports = async function (message, user) {
             guild.raid.name = raid.name;
             guild.raid.attack = raid.attack * summonlevel * 2;
             guild.raid.currenthealth = summonlevel * raid.health * 10;
-            guild.raid.maxhealth = summonlevel * raid.health * 10;
+            guild.raid.health = summonlevel * raid.health * 10;
             guild.raid.reward = summonlevel * raid.reward * 50;
             guild.raid.crystalreward = Math.floor(summonlevel * raid.crystalreward / 2);
             guild.raid.alive = true;
             guild.raid.attacklist = {};
             guild.raid.level = summonlevel;
-            if (raid.ability != undefined) { guild.raid.ability = raid.ability; }
+            if (raid.ability != undefined) { guild.raid.ability = raid.ability; guild.raid.abilitydesc = raid.abilitydesc; }
             functions.replyMessage(message, "You have successfully summoned a " + raid.name + " at level " + summonlevel + "!")
             functions.raidInfo(message, guild.raid)
         }

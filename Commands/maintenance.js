@@ -7,13 +7,15 @@ module.exports = async function (message, user) {
     functions.MessageAwait(message.channel, id, "Are you sure you want to start maintenance?\nIf you are sure, type `confirm`", "confirm", async function (response, extraArgs) {
         let message = extraArgs[0];
         
-        await functions.setProp(userData, {}, {
+        await functions.setProp("userData", {}, {
             $set: {
                 "equippedSkills": {"A": "None", "B": "None", "C": "None"},
                 //"equippedSkills.A": "None",
                 //"equippedSkills.B": "None",
                 //"equippedSkills.C": "None",
-                "statusEffects": {}
+                "statusEffects": {},
+                "ability": "None",
+                "messageToSend": ""
             }
         })
         await functions.findObjects("guildData", {}).then(ret => {
@@ -22,6 +24,17 @@ module.exports = async function (message, user) {
                 guild.buffs.dbuff = guild.buffs.defense
                 delete guild.buffs.attack
                 delete guild.buffs.defense
+                functions.setObject("guildData", guild)
+            }
+        })
+        await functions.deleteObjects("mobData", {})
+        await functions.setProp("serverData", {}, {
+            $unset: {
+                "treant": "",
+                "kraken": "",
+                "deity": "",
+                "dragon": "",
+                "hell": ""
             }
         })
         functions.replyMessage(message, "Maintenance was completed!")

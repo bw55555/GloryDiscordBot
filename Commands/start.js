@@ -24,7 +24,7 @@ module.exports = async function (message, user) {
         triangleid: 0,
         trianglemod: 1,
         weapon: false,
-        ability: "Ability",
+        ability: "None",
         inventory: {},
         marry: "None",
         guild: "None",

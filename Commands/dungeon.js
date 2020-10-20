@@ -136,13 +136,13 @@ function nextFloor(message, dungeon, notext) {
     dungeon.raid.name = raid.name;
     dungeon.raid.attack = raid.attack * summonlevel;
     dungeon.raid.currenthealth = summonlevel * raid.health * 2;
-    dungeon.raid.maxhealth = summonlevel * raid.health * 2;
+    dungeon.raid.health = summonlevel * raid.health * 2;
     dungeon.raid.reward = summonlevel * raid.reward * 5;
     dungeon.raid.crystalreward = Math.floor(summonlevel * raid.crystalreward / 20);
     dungeon.raid.alive = true;
     dungeon.raid.attacklist = {};
     dungeon.raid.level = summonlevel;
-    if (raid.ability != undefined) { dungeon.raid.ability = raid.ability; }
+    if (raid.ability != undefined) { dungeon.raid.ability = raid.ability; dungeon.raid.abilitydesc = raid.abilitydesc; }
     if (notext == false) {
         functions.sendMessage(message.channel, "You encountered a level " + summonlevel + " " + raid.name + "!")
         functions.raidInfo(message, dungeon.raid)

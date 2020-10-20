@@ -606,7 +606,7 @@ function calcDamage(message, attacker, defender, initiator) {
     if (aenchants.lifeSteal > 0) {
         let stealAmount = Math.abs(Math.floor(truedamage * aenchants.lifeSteal))
         if (stealAmount < 0) { stealAmount = 0 }
-        if (defender.isRaid && stealAmount > defender.maxhealth) { stealAmount = defender.maxhealth;}
+        if (defender.isRaid && stealAmount > defender.health) { stealAmount = defender.health;}
         attacker.currenthealth += stealAmount
         text += attackername + " lifestole **" + stealAmount + "** health!\n";
     }
@@ -869,7 +869,7 @@ function raidInfo(message, raid) {
     }
     let abilitytext = ""
     if (raid.ability != undefined) {
-        abilitytext = "\n**Ability:** " + raid.ability
+        abilitytext = "\n**Ability:** " + raid.abilitydesc
     }
     sendMessage(message.channel, {
         embed: {
@@ -889,7 +889,7 @@ function raidInfo(message, raid) {
 }
 
 
-function summon(raid, level, minlevel, maxlevel, name, image, ability) {
+function summon(raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) {
     raid.isRaid = true;
     raid.alive = true;
     if (name != undefined) {
@@ -909,6 +909,7 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability) {
     }
     if (ability != undefined) {
         raid.ability = ability;
+        raid.abilitydesc = (abilitydesc == undefined) ? JSON.stringify(ability) : abilitydesc
     }
     let summonlevel = Math.floor((raid.minlevel) + (((raid.maxlevel) - (raid.minlevel)) * Math.random())) + 1
     if (level != undefined && !isNaN(level)) { summonlevel = level}
@@ -916,7 +917,6 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability) {
         //world boss
         raid.attack = Math.floor(summonlevel * 15);
         raid.currenthealth = summonlevel * 100 * (Math.floor(2 * summonlevel / 25) + 1);
-        raid.maxhealth = summonlevel * 100 * (Math.floor(2 * summonlevel / 25) + 1);
         raid.health = summonlevel * 5 * (Math.floor(summonlevel / 25) + 1);
         raid.reward = Math.floor(summonlevel * 5000);
         raid.level = summonlevel;
@@ -926,7 +926,6 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability) {
         if (level != undefined) { summonlevel = level }
         raid.attack = summonlevel * 10+Math.floor(summonlevel/25);
         raid.currenthealth = summonlevel * 5 * (Math.floor(summonlevel / 25) + 1);
-        raid.maxhealth = summonlevel * 5 * (Math.floor(summonlevel / 25) + 1);
         raid.health = summonlevel * 5 * (Math.floor(summonlevel / 25) + 1);
         raid.reward = summonlevel * 500;
         raid.level = summonlevel;
@@ -1199,7 +1198,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         if (type == "event" || type == "world") {
             sendMessage(bot.channels.cache.get(devData.debugChannelId), "A level "+raid.level+" "+raid.name+" was killed by " + user.username + " (ID: "+user._id+")!")
             for (var i = 0; i < keys.length; i++) {
-                if (user._id == keys[i]) { user.money += raid.attacklist[keys[i]]; user.glory += (raid.maxhealth / 100000) * (raid.damagelist[keys[i]] / raid.maxhealth);continue}
+                if (user._id == keys[i]) { user.money += raid.attacklist[keys[i]]; user.glory += (raid.health / 100000) * (raid.damagelist[keys[i]] / raid.maxhealth);continue}
                 tasks.push({
                     updateOne:
                     {
@@ -1207,7 +1206,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                         "update": {
                             $inc: {
                                 "money": raid.attacklist[keys[i]],
-                                "glory": (raid.maxhealth / 100000) * (raid.damagelist[keys[i]] / raid.maxhealth)
+                                "glory": (raid.health / 100000) * (raid.damagelist[keys[i]] / raid.health)
                             }
                         }
                     }
@@ -1348,8 +1347,8 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         user.xp += Math.floor(luckybuff * raid.reward);
         if (type != "dungeon") { text += "Rewards have been given to everyone who participated in the raid!\n" }
         if (user.currenthealth > 0 && hasSkill(user, 15)) { //soulsteal skill in raids.
-            user.currenthealth += raid.maxhealth
-            text += "Soulsteal activated. <@" + user._id + "> has stolen " + raid.maxhealth + " health. \n";
+            user.currenthealth += raid.health
+            text += "Soulsteal activated. <@" + user._id + "> has stolen " + raid.health + " health. \n";
             user.currenthealth = Math.min(user.currenthealth, user.health)
         }
         if (type == "raid") {
@@ -1389,7 +1388,7 @@ function randint(a, b) {
     return Math.floor(num) + extra;
 }
 function getRandomByDamage(raid) {
-    let damagechance = Math.random() * raid.maxhealth;
+    let damagechance = Math.random() * raid.health;
     let damagetotal = 0;
     for (var key in raid.damagelist) {
         damagetotal += raid.damagelist[key];
@@ -1708,7 +1707,7 @@ module.exports.voteItem = function (message, user, dm) { return voteItem(message
 module.exports.craftItems = function (message, owner, minrarity, maxrarity, amount, source) { return craftItems(message, owner, minrarity, maxrarity, amount, source) }
 module.exports.craftItem = function (message, owner, minrarity, maxrarity, reply, isBulk, source) { return craftItem(message, owner, minrarity, maxrarity, reply, isBulk, source) }
 module.exports.raidInfo = function (message, raid) { return raidInfo(message, raid) }
-module.exports.summon = function (raid, level, minlevel, maxlevel, name, image, ability) { return summon(raid, level, minlevel, maxlevel, name, image, ability) }
+module.exports.summon = function (raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) { return summon(raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) }
 module.exports.checkProps = function (message,user) { return checkProps(message,user) }
 module.exports.checkStuff = function (message,user) { return checkStuff(message,user) }
 module.exports.raidAttack = function (message, user, raid, type, guild) { return raidAttack(message, user, raid, type, guild) }
