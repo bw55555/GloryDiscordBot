@@ -316,6 +316,9 @@ function evaluateMessage(message) {
         if (functions.checkStuff(message, user) == false) { return}
         if (commandlist[command] == undefined) { return }
         if (user.cnumbers == undefined) { user.cnumbers = [0, 0] }
+        if (Math.random() < 0.01) {
+
+        }
         user.cnumbers[0] += nctlist[message.author.id]
         user.cnumbers[1] += 1
         nctlist[message.author.id] = 0;
@@ -326,7 +329,7 @@ function evaluateMessage(message) {
         }
         user.cooldowns.normal = ts;
         if (user.flag == true) {
-            console.log(message.author.id + "|" + message.content + "|" + ts)
+            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.flagChannelId), message.author.id + "|" + message.content + "|" + ts)
         }
         
         //sendMessage(bot.guilds.cache.get("536599503608872961").channels.cache.get("538710109241606154"), message.author.id + "|" + message.content + "|" + ts)

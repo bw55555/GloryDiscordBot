@@ -137,7 +137,7 @@
   },
   {
     "quest": "-mqid 34 -name Dragon Slayer -condition a raidAttack >= 25 -desc Kill 25 dragons -special raid.name = Dragon Boss -special raid.currenthealth <= 0  -reward xp 200000 money 200000",
-    "next": [ 35 ]
+    "next": []
   },
   {
     "quest": "-mqid 35 -name Ascend -flavortext Upgrade all attributes to level 100 and ascend(hint: Use !ascend) -condition c upgrade.current >= 100 -desc Upgrade your attack stat to level 100 -special stat = attack -condition c upgrade.current >= 100 -desc Upgrade your defense stat to level 100 -special stat = defense -condition c upgrade.current >= 100 -desc Upgrade your health stat to level 100 -special stat = health -condition c ascend >= 1 -desc Ascend once -reward consum.box 50 ",
