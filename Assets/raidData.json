@@ -926,7 +926,12 @@
       "defense": 0,
       "health": 25,
       "reward": 75,
-      "ability": "Has a 15% chance to instantly kill you. ",
+      "ability": {
+        "status": {
+          "stun": 0.15
+        }
+      },
+      "abilitydesc": "Has a 15% chance to petrify you so you cannot attack.",
       "crystalreward": 10
     },
     {

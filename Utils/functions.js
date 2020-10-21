@@ -982,7 +982,8 @@ function checkProps(message,user) {
     if (user.equippedSkills == undefined) user.equippedSkills = {"A":"None", "B": "None", "C": "None"}
     if (!user.consum == undefined) user.consum = {}
     if (user.quests == undefined) user.quests = [];
-    if (user.honorbadge == undefined) user.honorbadge = 0;
+    if (user.honor == undefined) user.honor = 0;
+    if (user.statusEffects == undefined) user.statusEffects = {};
     if (user.currenthealth > user.health) user.currenthealth = user.health
     if (user.start === false) { //when you start, your currenthealth will be to 10;
         user.currenthealth = 10;
