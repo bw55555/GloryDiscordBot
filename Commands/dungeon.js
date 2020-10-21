@@ -154,7 +154,7 @@ function leaveDungeon(message, dungeon, user, option) {
     let text = ""
     
     if (option == "timeout") { text = "You ran out of time and you were forced to leave the dungeon. "; dungeon.floor -= 1; }
-    else if (option == "death") { text = "You died in the dungeon... "; dungeon.crystals /= 2; dungeon.xp /= 2; dungeon.floor -= 1; }
+    else if (option == "death") { text = "You died in the dungeon... "; dungeon.crystals = Math.floor(dungeon.crystals/2); dungeon.xp = Math.floor(dungeon.xp/2); dungeon.floor -= 1; }
     else { text = "You have successfully left the dungeon. ";}
     dungeon.maxFloor = Math.max(dungeon.maxFloor, dungeon.floor)
     text += "Your guild earned " + dungeon.crystals + " crystals and " + dungeon.xp + " xp. "
