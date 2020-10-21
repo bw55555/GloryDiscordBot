@@ -118,11 +118,13 @@ module.exports = async function (message, user) {
             collector.on('end', (collected, reason) => {
                 if (reason == "complete") { functions.sendMessage(message.channel, "The quest was given.") }
                 else { functions.sendMessage(message.channel, "Failed to make a quest. Please try again. \nReason: " + reason) }
+                functions.logCommand(message)
             });
             return
         } else {
             functions.replyMessage(message, functions.adminQuest(message.content, target))
             functions.setUser(target)
+            functions.logCommand(message)
         }
     });
 }
