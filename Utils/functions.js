@@ -659,6 +659,12 @@ function calcEnchants(user, defender, options) {
     enchants.burn = 0;
     enchants.regen = 0;
     enchants.lucky = 1;
+    if (user.ability != undefined && user.ability != "None") {
+        for (let key in user.ability) {
+            if (enchants[key] == undefined) { enchants[key] = 0 }
+            enchants[key] += user.ability[key]
+        }
+    }
     if (user.isRaid) { return enchants}
     for (let key in enchants) {
         enchants[key] += getGuildBuff(user, key) + getWeaponEnchant(user, key)
