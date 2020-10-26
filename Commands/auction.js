@@ -40,7 +40,7 @@ module.exports = async function (message, user) {
                     if (aitem != undefined) {
                         fields.push({
                             name: "[" + aitem._id + "]: " + aitem.desc,
-                            value: "**Highest Bid**: " + aitem.current + " " + aitem.currency + " by " + aitem.bidowner,
+                            value: "**Highest Bid**: " + aitem.current + " " + aitem.currency + " by " + aitem.bidowner+"\nTime Remaining: "+functions.displayTime(aitem.time, ts),
                             inline: false
                         })
                     }
@@ -79,12 +79,12 @@ module.exports = async function (message, user) {
             }
             new functions.Paginator(message.channel, message.author, pages)
         } else if (word2 == "bid") {
-            let aid = parseInt(words[2]) - 1
+            let aid = parseInt(words[2])
             let amount = parseInt(words[3]);
             if (isNaN(aid) || aid < 0) { return functions.replyMessage(message, "Please specify a positive auction id to bid for. ") }
             let aitem = alist.find(x => x._id == aid)
             if (aitem == undefined) { return functions.replyMessage(message, "This auction item does not exist!") }
-            if (x.bidowner == "<@" + user._id + ">") { return functions.replyMessage(message, "You cannot outbid yourself :/") }
+            if (aitem.bidowner == "<@" + user._id + ">") { return functions.replyMessage(message, "You cannot outbid yourself :/") }
             if (isNaN(amount) || amount < aitem.current * 1.05) { return functions.replyMessage(message, "This bid is not high enough! it must be at least " + Math.floor(aitem.current * 1.05)) + " " + aitem.currency }
             let bidtotal = alist.filter(x => x.bidowner == "<@" + user._id + ">" && x.currency == alist.currency).reduce((p, t) => t + p.current, 0)
             if (amount + bidtotal > user[currency]) {
