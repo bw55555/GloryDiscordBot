@@ -1670,6 +1670,28 @@ function canUseCommand(message, user, cmd) {
     }
 }
 
+function extractOptions(message, inorder, ...optionnames) {
+    let words = message.content.split(/\s+/)
+    let ret = {};
+    let i = 0;
+    while (i < optionnames.length) {
+        let option = optionnames[i]
+        if (typeof option == "string") {
+            let index = words.indexOf(option)
+            if (index == -1) { i++; continue }
+            words.splice(0, index + 1)
+            let nextindex = -1
+            while (nextindex == -1) {
+                i++;
+                nextindex = (i == optionnames.length) ? words.length : words.indexOf(optionnames[i])
+            }
+            if (option.startsWith("-")) { option = option.slice(1) }
+            ret[option] = words.splice(0, nextindex).join(" ")
+        }
+    }
+    return ret;
+}
+
 module.exports.clean = function (text) { return clean(text) }
 module.exports.importObject = function (db, coll, oid) { return importObject(db, coll, oid) }
 module.exports.getUser = function (uid) { return getUser(uid) }
@@ -1731,6 +1753,7 @@ module.exports.isCD = function (user, ts, cdtype) { return isCD(user, ts, cdtype
 module.exports.secondsUntilReset = function (ts) { return secondsUntilReset(ts) }
 module.exports.JSONoperate = function (json, key, op, obj) { return JSONoperate(json, key, op, obj) }
 module.exports.adminQuest = function (message, target) { return adminQuest(message, target) }
+module.exports.extractOptions = extractOptions
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
