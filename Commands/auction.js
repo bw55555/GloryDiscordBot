@@ -87,7 +87,7 @@ module.exports = async function (message, user) {
             if (aitem.bidowner == "<@" + user._id + ">") { return functions.replyMessage(message, "You cannot outbid yourself :/") }
             if (isNaN(amount) || amount < aitem.current * 1.05) { return functions.replyMessage(message, "This bid is not high enough! it must be at least " + Math.floor(aitem.current * 1.05)) + " " + aitem.currency }
             let bidtotal = alist.filter(x => x.bidowner == "<@" + user._id + ">" && x.currency == alist.currency).reduce((p, t) => t + p.current, 0)
-            if (amount + bidtotal > user[currency]) {
+            if (amount + bidtotal > user[aitem.currency]) {
                 return functions.replyMessage(message, "You do not have enough to bid :(")
             }
             if (aitem.bidowner.startsWith("<@")) {
