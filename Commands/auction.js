@@ -40,7 +40,7 @@ module.exports = async function (message, user) {
                     if (aitem != undefined) {
                         fields.push({
                             name: "[" + aitem._id + "]: " + aitem.desc,
-                            value: "**Highest Bid**: " + aitem.current + " " + aitem.currency + " by " + aitem.bidowner+"\nTime Remaining: "+functions.displayTime(aitem.time, ts),
+                            value: "**Highest Bid**: " + aitem.current + " " + aitem.currency + " by " + aitem.bidowner+"\n**Time Remaining**: "+functions.displayTime(aitem.time, ts),
                             inline: false
                         })
                     }
@@ -93,9 +93,11 @@ module.exports = async function (message, user) {
             if (aitem.bidowner.startsWith("<@")) {
                 functions.dmUser(aitem.bidowner.slice(2, aitem.bidowner.length - 1), "Someone has outbid you on item " + aitem._id + "(" + aitem.desc + ")")
             }
+            if (ts - aitem.time < 0) { return functions.replyMessage(message, "This auction is already over!") }
             aitem.bidowner = "<@" + user._id + ">"
             aitem.current = amount;
             aitem.history.push({ "bidowner": "<@" + user._id + ">", "current": amount })
+            if (ts - aitem.time < 300000) { aitem.time = ts + 300000}
             functions.setObject("auctionData", aitem)
             functions.replyMessage(message, "You have successfully bid!")
         } else if (word2 == "sell") {
