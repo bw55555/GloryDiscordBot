@@ -119,6 +119,7 @@ module.exports = async function (message, user) {
             devData.nextAuctionId++;
             functions.setObject("devData", devData)
             functions.setObject("auctionData", aitem)
+            functions.replyMessage(message, "Item put up for auction. ")
         }
     })
 }
