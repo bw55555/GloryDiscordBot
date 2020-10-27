@@ -16,14 +16,14 @@ module.exports = async function (message, user) {
     
     return functions.getObject(coll, setId).then(target => {
         if (target == false) { return functions.replyMessage(message, "This data does not exist!"); }
-        let amount = words[3];
+        let amount = words[4];
         if (amount == undefined) { return functions.replyMessage(message, "This amount is not defined!") }
         amount = amount.replace(/\_/g, " ")
         if (!isNaN(parseInt(amount))) { amount = parseInt(amount) }
         if (amount == "true") { amount = true; }
         if (amount == "false") { amount = false; }
         if (amount == "undefined") { amount = undefined; }
-        let attribute = words[2];
+        let attribute = words[3];
         if (attribute == "_id") { return functions.replyMessage(message, "This is not allowed, don't break my bot") }
         //console.log(attribute)
         if (attribute == undefined) { return functions.replyMessage(message, "This attribute is not defined!") }
