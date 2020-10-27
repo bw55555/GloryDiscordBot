@@ -24,7 +24,7 @@ module.exports = async function (message, user) {
         return
     }
 
-    functions.findObjects("auctionData", {}).then(alist => {
+    return functions.findObjects("auctionData", {}).then(alist => {
         
         let word2 = words[1];
         if (word2 == undefined) { word2 = "" }
@@ -139,7 +139,6 @@ module.exports = async function (message, user) {
             functions.logCommand(message)
         } else if (word2 == "claim") {
             let aid = parseInt(words[2])
-            let amount = parseInt(words[3]);
             if (isNaN(aid) || aid < 0) { return functions.replyMessage(message, "Please specify a positive auction id to bid for. ") }
             let aitem = alist.find(x => x._id == aid)
             if (aitem == undefined) { return functions.replyMessage(message, "This auction item does not exist!") }

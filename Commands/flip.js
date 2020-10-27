@@ -1,17 +1,18 @@
 
 module.exports = async function (message, user) {
-  let id = message.author.id;
-  let ts = message.createdTimestamp;
-  let words = message.content.trim().split(/\s+/)
-  if (words.length == 1) {
-    if(Math.random() > 0.5){
-      functions.sendMessage(message.channel, 'It was heads!');
+    let id = message.author.id;
+    let ts = message.createdTimestamp;
+    let words = message.content.trim().split(/\s+/)
+    if (words.length == 1) {
+        if (Math.random() > 0.5) {
+            functions.sendMessage(message.channel, 'It was heads!');
+        }
+        else {
+            functions.sendMessage(message.channel, 'It was tails!');
+        }
+        return;
     }
-    else{
-      functions.sendMessage(message.channel, 'It was tails!');
-    }
-    return;
-  }
+    /*
   if (words.length < 3) {
     functions.sendMessage(message.channel, 'You are missing some arguments. !flip [heads|tails] [amount]');
     return;
@@ -40,4 +41,5 @@ module.exports = async function (message, user) {
   } else if (amount > user.money || amount <= 0) {
     functions.sendMessage(message.channel, 'You can\'t flip more than you own! (or a negative amount)');
   }
+  */
 }
