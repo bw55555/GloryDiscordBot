@@ -108,8 +108,12 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You have successfully bid!")
         } else if (word2 == "sell") {
             if (admins.indexOf(id) == -1) { return }
-            let options = functions.extractOptions(message, true, "-desc", "-price", "-currency", "-time")
+            let options = functions.extractOptions(message, true, "-desc", "-item", "-amount", "-price", "-currency", "-time")
             if (options.desc == undefined) { return functions.replyMessage(message, "Please specify a description!") }
+            if (options.item == undefined) { return functions.replyMessage(message, "Please specify an item type!") }
+            if (options.amount == undefined) { options.amount = 1 }
+            if (typeof options.amount == "string") { options.amount = parseInt(options.amount) }
+            if (isNaN(options.amount)) { return functions.replyMessage(message, "Please specify a number for the amount!")}
             options.price = parseInt(options.price)
             if (isNaN(options.price) || options.price < 0) { return functions.replyMessage(message, "Please specify a price!") }
             if (options.currency == undefined || typeof user[options.currency] != "number") { options.currency = "honor" }
@@ -122,6 +126,10 @@ module.exports = async function (message, user) {
             aitem.currency = options.currency
             aitem.time = ts + options.time
             aitem.bidowner = "None"
+            aitem.item = {
+                "type": options.item,
+                "amount": options.amount
+            }
             aitem._id = devData.nextAuctionId
             aitem.history = [];
             devData.nextAuctionId++;
