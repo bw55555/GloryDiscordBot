@@ -150,10 +150,10 @@ module.exports = async function (message, user) {
             if (type == "item") {
                 
             } else {
-                if (JSONoperate(user, type, "get") == undefined) {
+                if (functions.JSONoperate(user, type, "get") == undefined) {
                     return functions.replyMessage(message, "There was an error. Contact an admin through the support server. ");
                 }
-                if (JSONoperate(user, type, "add", aitem.item.amount) == undefined) {
+                if (functions.JSONoperate(user, type, "add", aitem.item.amount) == undefined) {
                     return functions.replyMessage(message, "There was an error. Contact an admin through the support server. ");
                 }
             }
