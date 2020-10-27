@@ -29,7 +29,7 @@ module.exports = async function (message, user) {
         let word2 = words[1];
         if (word2 == undefined) { word2 = "" }
         word2 = word2.toLowerCase();
-        let timeover = alist.filter(x.time - ts <= 0)
+        let timeover = alist.filter(x => x.time - ts <= 0)
         for (let endaitem of timeover) {
             endAuction(endaitem)
         }
