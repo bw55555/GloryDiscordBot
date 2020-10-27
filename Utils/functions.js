@@ -453,6 +453,7 @@ function calcTime(time1, time2) {
 }
 function displayTime(time1, time2) {
     let totalseconds = calcTime(time1, time2)
+    if (totalseconds < 0) { return "Done"}
     let hours = Math.floor(totalseconds / 3600)
     totalseconds -= 3600 * hours
     let minutes = Math.floor(totalseconds / 60)

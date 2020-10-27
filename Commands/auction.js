@@ -34,7 +34,7 @@ module.exports = async function (message, user) {
             endAuction(endaitem)
         }
         if (word2 == "list") {
-            alist.filter(x => x.time - ts > 0)
+            alist = alist.filter(x => x.time - ts > 0)
             let numPerPage = 5
             let pages = []
             if (alist == false || alist.length == 0) {
@@ -162,7 +162,9 @@ module.exports = async function (message, user) {
     })
 }
 async function endAuction(aitem) {
+    if (aitem.end) { return;}
     for (let i = aitem.history.length - 1; i >= 0; i--) {
+        
         let bidset = aitem.history[i];
         let id = aitem.bidowner.slice(2, -1)
         await functions.getUser(id).then(payer => {
