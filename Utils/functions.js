@@ -911,7 +911,7 @@ function customsummon(raid, options) {
     if (raid.attack == undefined) { raid.attack = 0; }
     if (raid.defense == undefined) { raid.defense = 0; }
     if (raid.health == undefined) { raid.health = 0; }
-    if (raid.currenthealth == undefined) { raid.currenthealth = raid.health; }
+    if (options.currenthealth == undefined || raid.currenthealth == undefined) { raid.currenthealth = raid.health; }
 }
 
 function summon(raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) {
