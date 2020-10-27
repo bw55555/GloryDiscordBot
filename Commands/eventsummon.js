@@ -20,6 +20,8 @@ module.exports = async function (message, user) {
         ro.reward = Math.floor(1000 * ro.level * gm * mm)
         ro.candyreward = Math.floor(ro.level / 100 * gm * mm)
         functions.customsummon(raid, ro)
+        raid._id = "ghost"
+        functions.setObject("mobData", raid)
         functions.replyMessage(message, "The ghosts were summoned...")
     } else {
         if (message.channel.id != devData.eventRaidChannel) { return; }
