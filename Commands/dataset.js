@@ -19,7 +19,7 @@ module.exports = async function (message, user) {
         let amount = words[4];
         if (amount == undefined) { return functions.replyMessage(message, "This amount is not defined!") }
         amount = amount.replace(/\_/g, " ")
-        if (!isNaN(parseInt(amount))) { amount = parseInt(amount) }
+        if (!isNaN(parseInt(amount))) { amount = parseFloat(amount) }
         if (amount == "true") { amount = true; }
         if (amount == "false") { amount = false; }
         if (amount == "undefined") { amount = undefined; }
