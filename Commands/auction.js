@@ -25,7 +25,7 @@ module.exports = async function (message, user) {
     }
 
     functions.findObjects("auctionData", {}).then(alist => {
-        if (ts - aitem.time < 0) { return functions.replyMessage(message, "This auction is not over yet!") }
+        
         let word2 = words[1];
         if (word2 == undefined) { word2 = "" }
         word2 = word2.toLowerCase();
