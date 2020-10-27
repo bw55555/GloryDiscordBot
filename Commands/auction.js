@@ -31,7 +31,7 @@ module.exports = async function (message, user) {
         word2 = word2.toLowerCase();
         let timeover = alist.filter(x => x.time - ts <= 0)
         for (let endaitem of timeover) {
-            endAuction(endaitem)
+            endAuction(endaitem, user)
         }
         if (word2 == "list") {
             alist = alist.filter(x => x.time - ts > 0)
@@ -157,29 +157,36 @@ module.exports = async function (message, user) {
                     return functions.replyMessage(message, "There was an error. Contact an admin through the support server. ");
                 }
             }
-            return functions.replyMessage(message, "You have successfully claimed your item!");
-            functions.deleteObject("auctionData", aitem._id)
+            functions.replyMessage(message, "You have successfully claimed your item!");
+            //functions.deleteObject("auctionData", aitem._id)
         }
     })
 }
-async function endAuction(aitem) {
+async function endAuction(aitem, user) {
     if (aitem.end) { return; }
     for (let i = aitem.history.length - 1; i >= 0; i--) {
         let bidset = aitem.history[i];
         let id = aitem.bidowner.slice(2, -1)
-        await functions.getUser(id).then(payer => {
-            if (payer[aitem.currency] < bidset.current) {
+        if (id == user._id) {
+            checkPayment(aitem, user)
+        } else {
+            await functions.getUser(id).then(payer => {
+                checkPayment(aitem, payer)
+                functions.setUser(payer)
                 return;
-            }
-            payer[aitem.currency] -= bidset.current
-            aitem.bidowner = "<@" + id + ">";
-            aitem.end = true;
-            functions.dmUser(payer, "You have successfully won item "+aitem._id+" ("+aitem.desc+") for "+bidset.current+" "+aitem.currency+"!" )
-            functions.setUser(payer)
-            functions.setObject("auctionData", aitem)
-            return;
-        })
-        if (aitem.end) { return; }
+            })
+            if (aitem.end) { return; }
+        }
     }
     functions.deleteObject("auctionData", aitem._id)
+}
+function checkPayment(aitem, payer) {
+    if (payer[aitem.currency] < bidset.current) {
+        return;
+    }
+    payer[aitem.currency] -= bidset.current
+    aitem.bidowner = "<@" + id + ">";
+    aitem.end = true;
+    functions.dmUser(payer, "You have successfully won item " + aitem._id + " (" + aitem.desc + ") for " + bidset.current + " " + aitem.currency + "!")
+    functions.setObject("auctionData", aitem)
 }
