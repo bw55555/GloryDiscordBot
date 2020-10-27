@@ -158,6 +158,7 @@ module.exports = async function (message, user) {
                 }
             }
             return functions.replyMessage(message, "You have successfully claimed your item!");
+            functions.deleteObject("auctionData", aitem._id)
         }
     })
 }
