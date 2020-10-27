@@ -1431,17 +1431,17 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 if (raid.ghostcurrent == raid.ghosttotal) {
                     ro.name = "Ghost King"
                     ro.level = Math.floor(200 * gm)
-                    raid.ghostmultiplier += 0.1
+                    raid.ghostmultiplier += 0.5
                     mm = 100;
                 } else if (raid.ghostcurrent % 100 == 0) {
                     ro.name = "Ghost General"
                     ro.level = Math.floor(150 * gm)
-                    raid.ghostmultiplier += 0.001
+                    raid.ghostmultiplier += 0.00505
                     mm = 10;
                 } else {
                     ro.name = "Ghost"
                     ro.level = Math.floor(100 * gm);
-                    raid.ghostmultiplier += 0.00001
+                    raid.ghostmultiplier += 0.00005
                 }
                 ro.attack = Math.floor(10 * ro.level * gm)
                 ro.health = Math.floor(50 * ro.level * gm * mm)
