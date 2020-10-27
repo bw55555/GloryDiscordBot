@@ -139,14 +139,13 @@ module.exports = async function (message, user) {
             if (aitem.end == false) { endAuction(aitem) }
             if (aitem.bidowner != "<@" + user._id + ">") { return functions.replyMessage(message, "This item is not yours to claim. ") }
             let type = aitem.item.type
-            let amount = aitem.item.amount
             if (type == "item") {
                 
             } else {
                 if (JSONoperate(user, type, "get") == undefined) {
                     return functions.replyMessage(message, "There was an error. Contact an admin through the support server. ");
                 }
-                if (JSONoperate(user, type, "add", amount) == undefined) {
+                if (JSONoperate(user, type, "add", aitem.item.amount) == undefined) {
                     return functions.replyMessage(message, "There was an error. Contact an admin through the support server. ");
                 }
             }
