@@ -871,7 +871,9 @@ function craftItem(message, owner, minrarity, maxrarity, reply, isBulk, source) 
     if (reply) sendMessage(message.channel, "<@" + owner._id + "> has recieved an item with id " + item._id + " and rarity " + item.rarity)
     return item
 }
-function raidInfo(message, raid) {
+function raidInfo(message, raid, extratext) {
+    if (extratext == undefined) { extratext = "" }
+    else { extratext = "\n"+extratext}
     let itemRewardText = ""
     if (raid.itemReward != undefined) {
         itemRewardText = "\n**Item Reward Id:** " + raid.itemReward
@@ -890,17 +892,32 @@ function raidInfo(message, raid) {
             fields: [
                 {
                     name: "Level " + raid.level + " " + raid.name,
-                    value: "**Health Remaining:** " + raid.currenthealth + "\n**Max Attack:** " + raid.attack + "\n**Reward:** " + raid.reward + " Money and XP" + itemRewardText + abilitytext
+                    value: "**Health Remaining:** " + raid.currenthealth + "\n**Max Attack:** " + raid.attack + "\n**Reward:** " + raid.reward + " Money and XP" + itemRewardText + abilitytext +extratext
                 }
             ]
         }
     });
 }
-
+function customsummon(raid, options) {
+    raid.isRaid = true;
+    raid.alive = true;
+    raid.attacklist = {};
+    raid.damagelist = {};
+    if (options == undefined) {
+        options = {}}
+    for (let key in options) {
+        raid[key] = options[key]
+    }
+    if (raid.attack == undefined) { raid.attack = 0; }
+    if (raid.defense == undefined) { raid.defense = 0; }
+    if (raid.health == undefined) { raid.health = 0; }
+}
 
 function summon(raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) {
     raid.isRaid = true;
     raid.alive = true;
+    raid.attacklist = {};
+    raid.damagelist = {};
     if (name != undefined) {
         raid.name = name;
     }
@@ -929,8 +946,6 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability, abilityde
         raid.health = summonlevel * 5 * (Math.floor(summonlevel / 25) + 1);
         raid.reward = Math.floor(summonlevel * 5000);
         raid.level = summonlevel;
-        raid.attacklist = {};
-        raid.damagelist = {};
     } else {
         if (level != undefined) { summonlevel = level }
         raid.attack = summonlevel * 10+Math.floor(summonlevel/25);
@@ -938,8 +953,6 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability, abilityde
         raid.health = summonlevel * 5 * (Math.floor(summonlevel / 25) + 1);
         raid.reward = summonlevel * 500;
         raid.level = summonlevel;
-        raid.attacklist = {};
-        raid.damagelist = {};
     }
 }
 function checkProps(message,user) {
@@ -1275,6 +1288,40 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                     rarity = 5
                 }
             }
+            if (type == "ghost") {
+                let candyrewards = {};
+                let num = randint(Math.floor(raid.candyreward), raid.candyreward)
+                while (num > 0) {
+                    let person = getRandomByDamage(raid)
+                    if (candyrewards[person] == undefined) { candyrewards[person] = 0 }
+                    candyrewards[person] += 1;
+                    num -= 1;
+                }
+                for (let person in candyrewards) {
+                    if (user._id == person) { user.candy += candyrewards[person] }
+                    else {
+                        let toSet = {};
+                        toSet["candy"] = candyrewards[person];
+                        tasks.push({
+                            updateOne:
+                            {
+                                "filter": { _id: person },
+                                "update": {
+                                    $inc: toSet
+                                }
+                            }
+                        })
+                    }
+                    text += "<@" + person + "> received: " + candyrewards[person] + " Candy" + "!\n"
+                    if (text.length > 1800) {
+                        if (type == "event") {
+                            sendMessage(erc, text)
+                        } else {
+                            sendMessage(message.channel, text)
+                        }
+                    }
+                }
+            }
             //console.log(rarity)
             let item = generateRandomItem(user, rarity, false, "raid")
             let runeshardnum = Math.floor(2 * raid.level / 5 + 8 * raid.level / 5 * Math.random())
@@ -1343,6 +1390,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                     }
                 }
             }
+            
             if (tasks != undefined && tasks.length > 0) { bulkWrite("userData", tasks) }
         } else if (type == "guild") {
             text += "Raid defeated. The player who dealt the last hit was given $" + raid.reward + " and " + raid.reward + " xp.\nThe guild was also given " + raid.reward + " xp and " + raid.crystalreward + " crystals.\n"
@@ -1371,6 +1419,37 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                     SEND_MESSAGES: false
                 }).catch(console.error);
             }, 30000)
+        }
+        if (type == "ghost") {
+            raid.ghostcurrent += 1
+            if (raid.ghostcurrent <= raid.ghosttotal) {
+                let ro = {};
+                let gm = raid.ghostmultiplier
+                let mm = 1;
+                if (raid.ghostcurrent == raid.ghosttotal) {
+                    ro.name = "Ghost King"
+                    ro.level = Math.floor(200 * gm)
+                    ro.ghostmultiplier += 0.1
+                    mm = 100;
+                } else if (raid.ghostcurrent % 100 == 0) {
+                    ro.name = "Ghost General"
+                    ro.level = Math.floor(150 * gm)
+                    ro.ghostmultiplier += 0.001
+                    mm = 10;
+                } else {
+                    ro.name = "Ghost"
+                    ro.level = Math.floor(100 * gm);
+                    ro.ghostmultiplier += 0.00001
+                }
+                ro.attack = Math.floor(10 * ro.level * gm)
+                ro.health = Math.floor(50 * ro.level * gm * mm)
+                ro.reward = Math.floor(1000 * ro.level * gm * mm)
+                ro.candyreward = Math.floor(ro.level / 100 * gm *mm)
+                
+                customsummon(raid, ro)
+                text += "There are " + (raid.ghosttotal - raid.ghostcurrent) + " ghosts left.\n"
+            }
+            
         }
     }
     if (user.currenthealth <= 0) {
@@ -1739,7 +1818,8 @@ module.exports.calcEnchants = function (attacker, defender, options) {return cal
 module.exports.voteItem = function (message, user, dm) { return voteItem(message, user, dm) }
 module.exports.craftItems = function (message, owner, minrarity, maxrarity, amount, source) { return craftItems(message, owner, minrarity, maxrarity, amount, source) }
 module.exports.craftItem = function (message, owner, minrarity, maxrarity, reply, isBulk, source) { return craftItem(message, owner, minrarity, maxrarity, reply, isBulk, source) }
-module.exports.raidInfo = function (message, raid) { return raidInfo(message, raid) }
+module.exports.raidInfo = raidInfo
+module.exports.customsummon = customsummon
 module.exports.summon = function (raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) { return summon(raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) }
 module.exports.checkProps = function (message,user) { return checkProps(message,user) }
 module.exports.checkStuff = function (message,user) { return checkStuff(message,user) }
