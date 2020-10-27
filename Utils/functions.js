@@ -1348,6 +1348,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 "Lord of the Abyss": [10000, 1, 25, 5, 10, 10, 10]
             }
             let runeprobs = cruneinfo[raid.name]
+            if (runeprobs == undefined) { runeprobs = [0,0,0,0,0,0,0]}
             let runerewards = {};
             for (let i = 0; i < runeprobs.length; i++) {
                 let num = randint(Math.floor(runeprobs[i]), runeprobs[i])
