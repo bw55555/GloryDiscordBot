@@ -1,5 +1,8 @@
 
 module.exports = async function (message, user) {
+    let id = message.author.id;
+    let ts = message.createdTimestamp;
+    let words = message.content.trim().split(/\s+/)
     //if (message.channel.id != devData.eventRaidChannel) { return;}
     if (devData.halloweenevent != undefined && ts > devData.halloweenevent.start && ts < devData.halloweenevent.end) {
         return Promise.all([functions.getObject("mobData", "ghost")]).then(ret => {
