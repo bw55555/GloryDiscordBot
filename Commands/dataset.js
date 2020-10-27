@@ -11,8 +11,11 @@ module.exports = async function (message, user) {
     let coll = words[1];
     let setId = words[2];
     if (allowedcollections.indexOf(coll) == -1) { return }
+    let options = functions.extractOptions(message, false, "-isNumber")
+    if (options.isNumber != undefined) { setId = parseInt(setId); if (isNaN(setId)) { return functions.replyMessage(message, "The id must be a number to use the -isNumber option!") } }
+    
     return functions.getObject(coll, setId).then(target => {
-        if (target == false) { return; }
+        if (target == false) { return functions.replyMessage(message, "This data does not exist!"); }
         let amount = words[3];
         if (amount == undefined) { return functions.replyMessage(message, "This amount is not defined!") }
         amount = amount.replace(/\_/g, " ")
