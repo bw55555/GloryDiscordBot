@@ -171,7 +171,7 @@ function deleteMessage(message) {
 }
 
 function dmUser(user, text) {
-    if (typeof user == string) {
+    if (typeof user == "string") {
         user = {"_id": user}}
     if (user._id == bot.id || bot.users.cache.get(user._id) == undefined) { return }
     if (user.dmmute != true) bot.users.cache.get(user._id).send(text).catch(function (err) { console.error(err) })
