@@ -163,9 +163,8 @@ module.exports = async function (message, user) {
     })
 }
 async function endAuction(aitem) {
-    if (aitem.end) { return;}
+    if (aitem.end) { return; }
     for (let i = aitem.history.length - 1; i >= 0; i--) {
-        
         let bidset = aitem.history[i];
         let id = aitem.bidowner.slice(2, -1)
         await functions.getUser(id).then(payer => {
@@ -179,6 +178,7 @@ async function endAuction(aitem) {
             functions.setUser(payer)
             return;
         })
+        if (aitem.end) { return; }
     }
     functions.deleteObject("auctionData", aitem._id)
 }
