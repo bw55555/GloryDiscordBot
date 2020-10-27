@@ -86,12 +86,12 @@ module.exports = async function (message, user) {
             if (aitem == undefined) { return functions.replyMessage(message, "This auction item does not exist!") }
             if (aitem.bidowner == "<@" + user._id + ">") { return functions.replyMessage(message, "You cannot outbid yourself :/") }
             if (isNaN(amount) || amount < aitem.current * 1.05) { return functions.replyMessage(message, "This bid is not high enough! it must be at least " + Math.floor(aitem.current * 1.05)) + " " + aitem.currency }
-            let bidtotal = alist.filter(x => x.bidowner == "<@" + user._id + ">" && x.currency == alist.currency).reduce((p, t) => t + p.current, 0)
+            let bidtotal = alist.filter(x => x.bidowner == "<@" + user._id + ">" && x.currency == aitem.currency).reduce((t, p) => t + p.current, 0)
             if (amount + bidtotal > user[aitem.currency]) {
                 return functions.replyMessage(message, "You do not have enough to bid :(")
             }
             if (aitem.bidowner.startsWith("<@")) {
-                functions.dmUser(aitem.bidowner.slice(2, aitem.bidowner.length - 1), "Someone has outbid you on item " + aitem._id + "(" + aitem.desc + ")")
+                functions.dmUser(aitem.bidowner.slice(2, aitem.bidowner.length - 1), "Someone has outbid you on item " + aitem._id + " (" + aitem.desc + ")")
             }
             if (aitem.time-ts < 0) { return functions.replyMessage(message, "This auction is already over!") }
             aitem.bidowner = "<@" + user._id + ">"
