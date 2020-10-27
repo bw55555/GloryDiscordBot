@@ -157,7 +157,7 @@ module.exports = async function (message, user) {
                 }
             }
             functions.replyMessage(message, "You have successfully claimed your item!");
-            //functions.deleteObject("auctionData", aitem._id)
+            functions.deleteObject("auctionData", aitem._id)
         }
     })
 }
