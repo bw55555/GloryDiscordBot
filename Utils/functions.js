@@ -911,6 +911,7 @@ function customsummon(raid, options) {
     if (raid.attack == undefined) { raid.attack = 0; }
     if (raid.defense == undefined) { raid.defense = 0; }
     if (raid.health == undefined) { raid.health = 0; }
+    if (raid.currenthealth == undefined) { raid.currenthealth = raid.health; }
 }
 
 function summon(raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) {
@@ -1221,7 +1222,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         if (type == "event" || type == "world") {
             sendMessage(bot.channels.cache.get(devData.debugChannelId), "A level "+raid.level+" "+raid.name+" was killed by " + user.username + " (ID: "+user._id+")!")
             for (var i = 0; i < keys.length; i++) {
-                if (user._id == keys[i]) { user.money += raid.attacklist[keys[i]]; user.glory += (raid.health / 100000) * (raid.damagelist[keys[i]] / raid.maxhealth);continue}
+                if (user._id == keys[i]) { user.money += raid.attacklist[keys[i]]; user.glory += (raid.health / 100000) * (raid.damagelist[keys[i]] / raid.health);continue}
                 tasks.push({
                     updateOne:
                     {
