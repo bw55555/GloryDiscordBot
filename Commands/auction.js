@@ -176,6 +176,7 @@ async function endAuction(aitem) {
             aitem.end = true;
             functions.dmUser(payer, "You have successfully won item "+aitem._id+" ("+aitem.desc+") for "+bidset.current+" "+aitem.currency+"!" )
             functions.setUser(payer)
+            return;
         })
     }
     functions.deleteObject("auctionData", aitem._id)
