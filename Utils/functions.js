@@ -1542,6 +1542,7 @@ function JSONoperate(json, key, op, obj) {
         curr[skey] = obj;
         return true;
     } else if (op == "add") {
+        if (typeof curr[skey] != "number") { return; }
         curr[skey] += obj;
         return true;
     }

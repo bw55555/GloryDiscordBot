@@ -25,10 +25,16 @@ module.exports = async function (message, user) {
     }
 
     functions.findObjects("auctionData", {}).then(alist => {
+        if (ts - aitem.time < 0) { return functions.replyMessage(message, "This auction is not over yet!") }
         let word2 = words[1];
         if (word2 == undefined) { word2 = "" }
         word2 = word2.toLowerCase();
+        let timeover = alist.filter(x.time - ts <= 0)
+        for (let endaitem of timeover) {
+            endAuction(endaitem)
+        }
         if (word2 == "list") {
+            alist.filter(x => x.time - ts > 0)
             let numPerPage = 5
             let pages = []
             if (alist == false || alist.length == 0) {
@@ -40,7 +46,7 @@ module.exports = async function (message, user) {
                     if (aitem != undefined) {
                         fields.push({
                             name: "[" + aitem._id + "]: " + aitem.desc,
-                            value: "**Highest Bid**: " + aitem.current + " " + aitem.currency + " by " + aitem.bidowner+"\n**Time Remaining**: "+functions.displayTime(aitem.time, ts),
+                            value: "**Highest Bid**: " + aitem.current + " " + aitem.currency + " by " + aitem.bidowner + "\n**Time Remaining**: " + functions.displayTime(aitem.time, ts),
                             inline: false
                         })
                     }
@@ -85,19 +91,19 @@ module.exports = async function (message, user) {
             let aitem = alist.find(x => x._id == aid)
             if (aitem == undefined) { return functions.replyMessage(message, "This auction item does not exist!") }
             if (aitem.bidowner == "<@" + user._id + ">") { return functions.replyMessage(message, "You cannot outbid yourself :/") }
-            if (isNaN(amount) || amount < aitem.current * 1.05) { return functions.replyMessage(message, "This bid is not high enough! it must be at least " + Math.floor(aitem.current * 1.05)) + " " + aitem.currency }
+            if (isNaN(amount) || amount < aitem.current * 1.05) { return functions.replyMessage(message, "This bid is not high enough! it must be at least " + Math.ceil(aitem.current * 1.05)) + " " + aitem.currency }
             let bidtotal = alist.filter(x => x.bidowner == "<@" + user._id + ">" && x.currency == aitem.currency).reduce((t, p) => t + p.current, 0)
             if (amount + bidtotal > user[aitem.currency]) {
-                return functions.replyMessage(message, "You do not have enough to bid :(")
+                return functions.replyMessage(message, "You do not have enough to bid :( You only have " + (user[aitem.currency] - bidtotal) + " " + aitem.currency)
             }
             if (aitem.bidowner.startsWith("<@")) {
-                functions.dmUser(aitem.bidowner.slice(2, aitem.bidowner.length - 1), "Someone has outbid you on item " + aitem._id + " (" + aitem.desc + ")")
+                functions.dmUser(aitem.bidowner.slice(2, -1), "Someone has outbid you on item " + aitem._id + " (" + aitem.desc + ")")
             }
-            if (aitem.time-ts < 0) { return functions.replyMessage(message, "This auction is already over!") }
+            if (aitem.time - ts < 0) { return functions.replyMessage(message, "This auction is already over!") }
             aitem.bidowner = "<@" + user._id + ">"
             aitem.current = amount;
             aitem.history.push({ "bidowner": "<@" + user._id + ">", "current": amount })
-            if (aitem.time-ts < 300000) { aitem.time = ts + 300000}
+            if (aitem.time - ts < 300000) { aitem.time = ts + 300000 }
             functions.setObject("auctionData", aitem)
             functions.replyMessage(message, "You have successfully bid!")
         } else if (word2 == "sell") {
@@ -122,6 +128,46 @@ module.exports = async function (message, user) {
             functions.setObject("devData", devData)
             functions.setObject("auctionData", aitem)
             functions.replyMessage(message, "Item put up for auction. ")
+            functions.logCommand(message)
+        } else if (word2 == "claim") {
+            let aid = parseInt(words[2])
+            let amount = parseInt(words[3]);
+            if (isNaN(aid) || aid < 0) { return functions.replyMessage(message, "Please specify a positive auction id to bid for. ") }
+            let aitem = alist.find(x => x._id == aid)
+            if (aitem == undefined) { return functions.replyMessage(message, "This auction item does not exist!") }
+            if (ts - aitem.time < 0) { return functions.replyMessage(message, "This auction is not over yet!") }
+            if (aitem.end == false) { endAuction(aitem) }
+            if (aitem.bidowner != "<@" + user._id + ">") { return functions.replyMessage(message, "This item is not yours to claim. ") }
+            let type = aitem.item.type
+            let amount = aitem.item.amount
+            if (type == "item") {
+                
+            } else {
+                if (JSONoperate(user, type, "get") == undefined) {
+                    return functions.replyMessage(message, "There was an error. Contact an admin through the support server. ");
+                }
+                if (JSONoperate(user, type, "add", amount) == undefined) {
+                    return functions.replyMessage(message, "There was an error. Contact an admin through the support server. ");
+                }
+            }
+            return functions.replyMessage(message, "You have successfully claimed your item!");
         }
     })
+}
+async function endAuction(aitem) {
+    for (let i = aitem.history.length - 1; i >= 0; i--) {
+        let bidset = aitem.history[i];
+        let id = aitem.bidowner.slice(2, -1)
+        await functions.getUser(id).then(payer => {
+            if (payer[aitem.currency] < bidset.current) {
+                return;
+            }
+            payer[aitem.currency] -= bidset.current
+            aitem.bidowner = "<@" + id + ">";
+            aitem.end = true;
+            functions.dmUser(payer, "You have successfully won item "+aitem._id+" ("+aitem.desc+") for "+bidset.current+" "+aitem.currency+"!" )
+            functions.setUser(payer)
+        })
+    }
+    functions.deleteObject("auctionData", aitem._id)
 }

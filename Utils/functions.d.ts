@@ -16,7 +16,7 @@ export function getObject(coll: string, oid: string | number): Promise<false | J
 export function findObjects(coll: string, query: JSON): Promise<false | Array<JSON>>
 export function findObjects(coll: string, query: JSON, projection: JSON): Promise<false | Array<JSON>>
 export function setObject(coll: string, newobj:JSON): Promise<boolean>
-export function deleteObject(coll:string, oid:JSON): Promise<boolean>
+export function deleteObject(coll:string, oid:string): Promise<boolean>
 export function setProp(coll:string, query:JSON, newvalue:JSON): Promise<boolean>
 export function bulkWrite(coll:string, tasks:Array<JSON>): Promise<boolean>
 export function deleteObjects(coll: string, filter: JSON): Promise<boolean>
