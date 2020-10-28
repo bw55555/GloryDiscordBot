@@ -633,8 +633,7 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     if (denchants.spikes > 0) {
         let spiked = Math.floor(defense * denchants.spikes)
-        if (hasSkill(defender, 40, skillenable)) { text += defendername + "'s spikes was dispelled!\n" }
-        else {
+        if (hasSkill(attacker, 40, skillenable)) { text += defendername + "'s spikes was dispelled!\n" } else {
             counter += spiked
             text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
         }
