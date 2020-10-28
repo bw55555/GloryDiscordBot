@@ -823,9 +823,12 @@ async function voteItem(message, user, dm) {
             target.glory += 0.1 + 0.1 * Math.sqrt(target.votestreak);
         }
         target.consum.box += numboxes
+        let honorget = 10 * Math.floor(target.ascension / 5);
+        if (honorget <= 0) { honorget = 1}
+        target.honor += honorget;
         completeQuest(target, "vote", {"votestreak":target.votestreak}, 1)
-        sendMessage(message.channel, "<@" + target._id + "> has been given " + numboxes + " boxes!\n" + text)
-        if (dm) dmUser(target, "Thank you for voting! You have been given " + numboxes + " boxes!\n" + text)
+        sendMessage(message.channel, "<@" + target._id + "> has been given " + numboxes + " boxes and " + honorget + " honor!\n" + text);
+        if (dm) dmUser(target, "Thank you for voting! You have been given " + numboxes + " boxes and " + honorget + " honor!\n" + text)
         setUser(target)
     })
 }
@@ -1807,8 +1810,8 @@ function antimacro(message, user) {
             if (reaction.emoji.toString() == "⚔️") {
                 getObject("userData", user._id).then(honorguy => {
                     if (honorguy.macro == undefined) { return; }
-                    let honorget = Math.floor(1 + Math.random() * 2)
-                    if (honorguy.dailyhonor + honorget > 40) { honorget = 40 - honorguy.dailyhonor }
+                    let honorget = Math.floor(1 + Math.random() * 2 * 20 * Math.floor(user.ascension / 5))
+                    if (honorguy.dailyhonor + honorget > 20 * Math.floor(user.ascension / 5)) { honorget = 20 * (1+Math.floor(user.ascension / 5)) - honorguy.dailyhonor }
                     setProp("userData", {}, { $inc: { "honor": honorget, "dailyhonor": honorget }, $unset: { "macro": ""} })
                     return replyMessage(message, "The robbers were fought off. You received " + honorget + " honor for keeping the peace.")
                 })

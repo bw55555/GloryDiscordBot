@@ -52,6 +52,7 @@ client.connect((err) => {
         global.debugGuildId = devData.debugGuildId
         global.debugChannelId = devData.debugChannelId
         global.defaultPrefix = devData.defaultPrefix
+        if (devData.antimacrochance == undefined) { devData.antimacrochance = 0.01}
         if (devData.dblenable) {
             const server = http.createServer(function (req, res) {
                 res.write("Recieved a post request");
@@ -322,13 +323,15 @@ function evaluateMessage(message) {
             functions.deleteMessage(message);
             return; //fml
         }
-        if (user.macro) {
-            functions.sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.flagChannelId), "MACRO|" + message.author.id + "|" + message.content + "|" + ts)
-        }
-        if (Math.random() < 0.01 || user.macro) {
-            functions.antimacro(message, user)
-            functions.setUser(user)
-            return;
+        if (devs.indexOf(id) == -1) {
+            if (user.macro) {
+                functions.sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.flagChannelId), "MACRO|" + message.author.id + "|" + message.content + "|" + ts)
+            }
+            if (Math.random() < devData.antimacrochance || user.macro) {
+                functions.antimacro(message, user)
+                functions.setUser(user)
+                return;
+            }
         }
         user.cnumbers[0] += nctlist[message.author.id]
         user.cnumbers[1] += 1
