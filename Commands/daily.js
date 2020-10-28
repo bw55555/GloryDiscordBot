@@ -12,7 +12,7 @@ module.exports = async function (message, user) {
     let honorget = 10 * Math.floor(user.ascension / 5);
     if (honorget <= 0) { honorget = 1 }
     user.honor += honorget;
-    functions.sendMessage(message.channel, "You received " + boxNumber + " mysterious box(es) and "+honorget + "honor!");
+    functions.sendMessage(message.channel, "You received " + boxNumber + " mysterious box(es) and "+honorget + " honor!");
     functions.completeQuest(user, "daily", {}, 1)
     user.glory += 0.05
 }

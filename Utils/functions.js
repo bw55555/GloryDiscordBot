@@ -1811,7 +1811,7 @@ function antimacro(message, user) {
                 getObject("userData", user._id).then(honorguy => {
                     if (honorguy.macro == undefined) { return; }
                     let honorget = Math.floor(1 + Math.random() * 2 * 20 * Math.floor(user.ascension / 5))
-                    if (honorguy.dailyhonor + honorget > 20 * Math.floor(user.ascension / 5)) { honorget = 20 * (1+Math.floor(user.ascension / 5)) - honorguy.dailyhonor }
+                    if (honorguy.dailyhonor + honorget > 20 * (1+Math.floor(user.ascension / 5))) { honorget = 20 * (1+Math.floor(user.ascension / 5)) - honorguy.dailyhonor }
                     setProp("userData", {}, { $inc: { "honor": honorget, "dailyhonor": honorget }, $unset: { "macro": ""} })
                     return replyMessage(message, "The robbers were fought off. You received " + honorget + " honor for keeping the peace.")
                 })
