@@ -167,10 +167,10 @@ async function endAuction(aitem, user) {
         let bidset = aitem.history[i];
         let id = aitem.bidowner.slice(2, -1)
         if (id == user._id) {
-            checkPayment(aitem, user)
+            checkPayment(aitem, bidset, user)
         } else {
             await functions.getUser(id).then(payer => {
-                checkPayment(aitem, payer)
+                checkPayment(aitem, bidset, payer)
                 functions.setUser(payer)
                 return;
             })
@@ -179,7 +179,7 @@ async function endAuction(aitem, user) {
     }
     functions.deleteObject("auctionData", aitem._id)
 }
-function checkPayment(aitem, payer) {
+function checkPayment(aitem, bidset, payer) {
     if (payer[aitem.currency] < bidset.current) {
         return;
     }
