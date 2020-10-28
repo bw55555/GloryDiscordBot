@@ -1778,13 +1778,13 @@ function extractOptions(message, inorder, ...optionnames) {
     return ret;
 }
 
-async function antimacro(message, user) {
+function antimacro(message, user) {
     
     let reacts = [":crossed_swords:", ":moneybag:", ":flag_white:", ":timer:", ":man_running:"]
     let x = replyMessage(message, "Your way was blocked by a gang of robbers. What will you do? ")
     if (x == undefined) { return; }
     user.macro = true
-    x.then(msg => {
+    x.then(async msg => {
         if (msg == undefined) { logCommand(message, "Error with macro message");return; }
         shuffle(reacts)
         if (msg.channel.type == "dm" || msg.channel.type == "group" || msg.channel.permissionsFor(bot.user) != null || msg.channel.permissionsFor(bot.user).has("ADD_REACTIONS")) {
