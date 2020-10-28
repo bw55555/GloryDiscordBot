@@ -14,19 +14,20 @@ module.exports = async function (message, user) {
         functions.deleteMessage(message);
         return;
     }
-    let earnings = Math.floor((-4 * ((Math.random() - 0.5) ** 2) + 1) * ((10*user.ascension + user.level) * 10 + 1));
-    earnings *= functions.calcLuckyBuff(user)
-    earnings = Math.floor(earnings)
-    user.xp += earnings;
-    user.money += earnings;
+    let earnings = Math.floor((-4 * ((Math.random() - 0.5) ** 2) + 1) * ((10 * user.ascension + user.level) * 10 + 1));
+    let lb = functions.calcLuckyBuff(user)
+    let moneyearnings = Math.floor(earnings * (1+(lb-1)/5))
+    let xpearnings = Math.floor(earnings * lb * 10)
+    user.xp += xpearnings;
+    user.money += moneyearnings;
     functions.setCD(user, ts, workcdseconds, "work")
     text += message.author.username + ' worked for ' + earnings + ' money and xp!'
     if (user.marry != "None") {
         await Promise.all([functions.getUser(user.marry)]).then(ret => {
             let spouse = ret[0];
             if (spouse == undefined) { return;}
-            spouse.money += earnings;
-            text += " Your spouse, " + spouse.username + ", also earned $" + earnings + "!"
+            spouse.money += moneyearnings;
+            text += " Your spouse, " + spouse.username + ", also earned $" + moneyearnings + "!"
             functions.setUser(spouse)
         })
     }

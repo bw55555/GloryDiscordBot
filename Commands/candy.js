@@ -15,7 +15,27 @@ module.exports = async function (message, user) {
     let words = message.content.trim().split(/\s+/)
     let word2 = words[1]
     if (word2 == undefined) { word2 = "" }
-    if (word2 == "store" || word2 == "shop") {
+    if (word2 == "help") {
+        let page = {
+            "embed": {
+                "color": 0x458B00,
+                "fields": [
+                    {
+                        "name": "The Candy Store",
+                        "value": "- List store items with `!candy store|shop`.\n"
+                            + "- Buy items from the shop with `!candy buy [itemid] (amount)`\n"
+                            + "- Eat candy with `!candy eat (amount)`\n"
+                    }
+                ],
+                "footer": {
+                    "text": "Items bid through the auction will not be refunded under any circumstances."
+                }
+            }
+        }
+        functions.sendMessage(message.channel, page)
+        return
+    }
+    } else if (word2 == "store" || word2 == "shop") {
         let text = "";
         let keys = Object.keys(items)
         for (let key of keys) {
