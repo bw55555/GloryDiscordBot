@@ -1802,7 +1802,7 @@ function antimacro(message, user) {
                 msg.react(reaction).catch(function (err) { errorlog(err);console.log(err) });
             }
         }
-        this.collector = msg.createReactionCollector((reaction, u) => reaction.me && u.id === user._id && u.id !== msg.author.id, { max: 1, time: 10000 });
+        this.collector = msg.createReactionCollector((reaction, u) => reaction.me && u.id === user._id && u.id !== msg.author.id, { max: 1, time: 10000, errors: ['time'] });
         this.collector.on("collect", (reaction, person) => {
             if (reaction.emoji.toString() == "⚔️") {
                 getObject("userData", user._id).then(honorguy => {
@@ -1813,14 +1813,18 @@ function antimacro(message, user) {
                     return replyMessage(message, "The robbers were fought off. You received " + honorget + " honor for keeping the peace.")
                 })
             } else if (reaction.emoji.toString() == "💰") {
-                functions.replyMessage(message, "Bribery? This is a robbery!")
+                replyMessage(message, "Bribery? This is a robbery!")
             } else if (reaction.emoji.toString() == "🏳️") {
-                functions.replyMessage(message, "Surrendering is probably a bad idea...")
+                replyMessage(message, "Surrendering is probably a bad idea...")
             } else if (reaction.emoji.toString() == "🏃‍♂️") {
-                functions.replyMessage(message, "You tried to run. But unfortunately, the robbers are faster than you.")
+                replyMessage(message, "You tried to run. But unfortunately, the robbers are faster than you.")
             }
         })
-    })
+    }).catch((err) => {
+        console.log(err)
+        //console.log(err.size())
+        replyMessage(message, "If you wait too long, the robbers will attack you!")
+    });
     
 }
 function shuffle(a) {

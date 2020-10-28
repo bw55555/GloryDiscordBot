@@ -44,7 +44,7 @@ async function MessageAwait(channel, userid, initialTextToSend, compareFunc, onS
             return channel.awaitMessages(response => response.author.id == userid && response.channel.id == channel.id, {
                 max: 1,
                 time: 30000,
-                errors: ['time'],
+                errors: ['time']
             })
         }).then((collected) => {
             if (compareFunc(collected.first().content) != true) {

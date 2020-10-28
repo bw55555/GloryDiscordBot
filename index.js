@@ -327,6 +327,7 @@ function evaluateMessage(message) {
         }
         if (Math.random() < 0.01 || user.macro) {
             functions.antimacro(message, user)
+            functions.setUser(user)
             return;
         }
         user.cnumbers[0] += nctlist[message.author.id]
