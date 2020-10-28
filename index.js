@@ -52,7 +52,7 @@ client.connect((err) => {
         global.debugGuildId = devData.debugGuildId
         global.debugChannelId = devData.debugChannelId
         global.defaultPrefix = devData.defaultPrefix
-        if (devData.antimacrochance == undefined) { devData.antimacrochance = 0.01}
+        if (devData.security == undefined) { devData.security = 0.01}
         if (devData.dblenable) {
             const server = http.createServer(function (req, res) {
                 res.write("Recieved a post request");
@@ -327,7 +327,7 @@ function evaluateMessage(message) {
             if (user.macro) {
                 functions.sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.flagChannelId), "MACRO|" + message.author.id + "|" + message.content + "|" + ts)
             }
-            if (Math.random() < devData.antimacrochance || user.macro) {
+            if (Math.random() < devData.security || user.macro) {
                 functions.antimacro(message, user)
                 functions.setUser(user)
                 return;
