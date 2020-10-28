@@ -1782,12 +1782,13 @@ function extractOptions(message, inorder, ...optionnames) {
 function antimacro(message, user) {
     
     let reacts = ["⚔️", "💰", "🏳️", "🏃‍♂️"]
+    reacts = shuffle(reacts)
     let x = replyMessage(message, "Your way was blocked by a gang of robbers. What will you do? ")
     if (x == undefined) { return; }
     user.macro = true
     x.then(async msg => {
         if (msg == undefined) { logCommand(message, "Error with macro message");return; }
-        reacts = shuffle(reacts)
+        
         if (msg.channel.type == "dm" || msg.channel.type == "group" || msg.channel.permissionsFor(bot.user) != null || msg.channel.permissionsFor(bot.user).has("ADD_REACTIONS")) {
             for (let reaction of reacts) {
                 console.log(reaction)
@@ -1797,12 +1798,12 @@ function antimacro(message, user) {
         this.collector = msg.createReactionCollector((reaction, u) => reaction.me && u.id === user._id && u.id !== msg.author.id, { max: 1, time: 10000 });
         this.collector.on("collect", (reaction, person) => {
             if (reaction.emoji.toString() == ":crossed_swords:") {
-                functions.getObject("userData", user._id).then(honorguy => {
+                getObject("userData", user._id).then(honorguy => {
                     if (honorguy.macro == undefined) { return; }
                     let honorget = Math.floor(1 + Math.random() * 2)
                     if (honorguy.dailyhonor + honorget > 40) { honorget = 40 - honorguy.dailyhonor }
                     setProp("userData", {}, { $inc: { "honor": honorget, "dailyhonor": honorget } })
-                    return functions.replyMessage(message, "The robbers were fought off. You received " + honorget + " honor for keeping the peace.")
+                    return replyMessage(message, "The robbers were fought off. You received " + honorget + " honor for keeping the peace.")
                 })
             }
         })
