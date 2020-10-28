@@ -552,12 +552,14 @@ function calcDamage(message, attacker, defender, initiator) {
 
     //Both?
     if (aenchants.burn > 0) {
-        if (defender.isRaid != true) {
-            if (defender.burn == undefined) { defender.burn = 0}
+        if (defender.isRaid) {
+            text += "Raid boss cannot be burned!\n"
+        } else if (hasSkill(defender, 40, skillenable)) {
+            text += attackername +"'s flame was dispelled!"
+        } else {
+            if (defender.burn == undefined) { defender.burn = 0 }
             defender.burn += aenchants.burn;
             text += defendername + " is now burning!\n"
-        } else {
-            text += "Raid boss cannot be burned!\n"
         }
     }
     let blockchance = Math.random();
@@ -631,7 +633,7 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     if (denchants.spikes > 0) {
         let spiked = Math.floor(defense * denchants.spikes)
-        if (false) { text += defendername + "'s spikes was dispelled!\n" }
+        if (hasSkill(defender, 40, skillenable)) { text += defendername + "'s spikes was dispelled!\n" }
         else {
             counter += spiked
             text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
