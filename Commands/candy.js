@@ -15,7 +15,7 @@ module.exports = async function (message, user) {
     let words = message.content.trim().split(/\s+/)
     let word2 = words[1]
     if (word2 == undefined) { word2 = "" }
-    if (word2 == "store") {
+    if (word2 == "store" || word2 == "shop") {
         let text = "";
         let keys = Object.keys(items)
         for (let key of keys) {
@@ -36,16 +36,16 @@ module.exports = async function (message, user) {
                 ]
             }
         });
-    } else if (word2 == "buy") {
+    } else if (word2 == "buy" || word2 == "b") {
         let itemid = words[2]
         let amount = parseInt(words[3])
         if (itemid == undefined || items[itemid] == undefined) { return functions.replyMessage(message, "Please select a valid item id!"); }
         if (words.length < 4) { amount = 1 }
-        if (isNaN(amount) && amount > 0) { return functions.replyMessage(message, "Please select a positive number of items to buy!") }
+        if (isNaN(amount) || amount < 0) { return functions.replyMessage(message, "Please select a positive number of items to buy!") }
         let type = items[itemid].type
         if (type == "ghostclass") {
             amount = 1;
-            if (user.triangleid == 2000) { return functions.replyMessage(message, "You are already a ghost!")}
+            if (user.triangleid == 2000) { return functions.replyMessage(message, "You are already a ghost!") }
             user.triangle = '<:ghostclass:771114679941595156> Ghost';
             user.triangleid = 2000;
             user.trianglemod = 1.6;
@@ -54,16 +54,31 @@ module.exports = async function (message, user) {
             amount = 1;
             functions.craftItem(message, user, 7, 7)
         } else if (type == "crystals") {
-            if (user.guild == "None") { return functions.replyMessage(message, "Since you are currently not in a guild, you cannot buy this. ")}
+            if (user.guild == "None") { return functions.replyMessage(message, "Since you are currently not in a guild, you cannot buy this. ") }
             functions.getObject("guildData", user.guild).then(guild => { guild.crystals += amount * items[itemid].amount; functions.setObject("guildData", guild) });
         } else {
             if (functions.JSONoperate(user, type, "get") == undefined) {
                 return functions.replyMessage(message, "There was an error. Contact an admin through the support server. ");
             }
-            functions.JSONoperate(user, type, "add", amount*items[itemid].amount)
+            functions.JSONoperate(user, type, "add", amount * items[itemid].amount)
         }
         user.candy -= amount * items[itemid].cost
-        functions.replyMessage(message, "You have bought "+amount+" "+items[itemid].name+" for "+(items[itemid].cost * amount)+" candy. ")
+        functions.replyMessage(message, "You have bought " + amount + " " + items[itemid].name + " for " + (items[itemid].cost * amount) + " candy. ")
+    } else if (word2 == "use" || word2 == "eat") {
+        let amount = parseInt(words[2])
+
+        if (words.length < 3) { amount = 1 }
+        if (isNaN(amount) || amount < 0) { return functions.replyMessage(message, "Please select a positive number of items to buy!") }
+        let xpforasc = 0;
+        for (let i = 1; i <= 99; i++) {
+            xpforasc += functions.checkxp({ "ascension": user.ascension, "level": i })
+        }
+        let xpgain = 0;
+        for (let i = 0; i < amount; i++) {
+            xpgain += Math.ceil(xpforasc * (0.0003 * Math.random() - 0.0001))
+        }
+        user.xp += xpgain
+        functions.replyMessage(message, "You have eaten "+amount + " candy and gained "+xpgain +" xp. ")
     } else {
         functions.replyMessage(message, "You have "+user.candy+" candy. ")
     }
