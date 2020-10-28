@@ -326,7 +326,7 @@ function evaluateMessage(message) {
             functions.sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.flagChannelId), "MACRO|" + message.author.id + "|" + message.content + "|" + ts)
         }
         if (Math.random() < 0.01 || user.macro) {
-            functions.antimacro()
+            functions.antimacro(message, user)
             return;
         }
         user.cnumbers[0] += nctlist[message.author.id]
