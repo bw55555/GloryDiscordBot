@@ -147,7 +147,7 @@ module.exports = async function (message, user) {
             if (aitem.bidowner != "<@" + user._id + ">") { return functions.replyMessage(message, "This item is not yours to claim. ") }
             let type = aitem.item.type
             if (type == "item") {
-                
+
             } else {
                 if (functions.JSONoperate(user, type, "get") == undefined) {
                     return functions.replyMessage(message, "There was an error. Contact an admin through the support server. ");
@@ -186,6 +186,17 @@ function checkPayment(aitem, payer) {
     payer[aitem.currency] -= bidset.current
     aitem.bidowner = "<@" + id + ">";
     aitem.end = true;
-    functions.dmUser(payer, "You have successfully won item " + aitem._id + " (" + aitem.desc + ") for " + bidset.current + " " + aitem.currency + "!")
+    let type = aitem.item.type
+    let text = "You have successfully won item " + aitem._id + " (" + aitem.desc + ") for " + bidset.current + " " + aitem.currency + "!\n"
+    if (type == "item") {
+
+    } else {
+        if (functions.JSONoperate(user, type, "get") == undefined) {
+            text += "There was an error. Contact an admin through the support server. ";
+        } else if (functions.JSONoperate(user, type, "add", aitem.item.amount) == undefined) {
+            text += "There was an error. Contact an admin through the support server. ";
+        }
+    }
+    functions.dmUser(payer, text)
     functions.setObject("auctionData", aitem)
 }
