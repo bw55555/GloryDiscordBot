@@ -664,6 +664,7 @@ function calcEnchants(user, defender, options) {
     enchants.burn = 0;
     enchants.regen = 0;
     enchants.lucky = 1;
+    enchants.evade = 0;
     if (user.ability != undefined && user.ability != "None") {
         for (let key in user.ability) {
             if (enchants[key] == undefined) { enchants[key] = 0 }
@@ -716,6 +717,9 @@ function calcEnchants(user, defender, options) {
             break;
         case 311:
             enchants.sacrifice += 0.15;
+            break;
+        case 2000:
+            enchants.evade += 0.05
             break;
     }
     return enchants

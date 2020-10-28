@@ -37,7 +37,7 @@ module.exports = async function (message, user) {
             }
         });
     }
-    else if (command == "A" || command == "B" || command == "C") {
+    else if (command == "A" || command == "B" || command == "C" || user.equippedSkills[command] != undefined) {
         let i = command
         var skillid = words.join(" ");
         if (words.length == 0) {
