@@ -19,6 +19,8 @@ module.exports = async function (message, user) {
         ro.health = Math.floor(50 * ro.level * gm * mm)
         ro.reward = Math.floor(1000 * ro.level * gm * mm)
         ro.candyreward = Math.floor(ro.level / 100 * gm * mm)
+        ro.ability = { "evade": 0.05 }
+        ro.abilitydesc = "5% chance to evade an attack. "
         functions.customsummon(raid, ro)
         raid._id = "ghost"
         functions.setObject("mobData", raid)

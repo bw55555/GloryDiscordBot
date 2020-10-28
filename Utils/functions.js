@@ -1436,15 +1436,22 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                     ro.level = Math.floor(200 * gm)
                     raid.ghostmultiplier += 0.5
                     mm = 100;
+                    o.ability = { "evade": 0.2 }
+                    ro.abilitydesc = "20% chance to evade an attack. "
                 } else if (raid.ghostcurrent % 100 == 0) {
                     ro.name = "Ghost General"
                     ro.level = Math.floor(150 * gm)
                     raid.ghostmultiplier += 0.00505
+                    o.ability = { "evade": 0.1 }
+                    ro.abilitydesc = "10% chance to evade an attack. "
                     mm = 10;
                 } else {
                     ro.name = "Ghost"
                     ro.level = Math.floor(100 * gm);
                     raid.ghostmultiplier += 0.00005
+                    o.ability = { "evade": 0.05 }
+                    ro.abilitydesc = "5% chance to evade an attack. "
+                    mm = 1;
                 }
                 ro.attack = Math.floor(10 * ro.level * gm)
                 ro.health = Math.floor(50 * ro.level * gm * mm)
