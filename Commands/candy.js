@@ -36,7 +36,7 @@ module.exports = async function (message, user) {
                 ]
             }
         });
-    } else if (word2 == "BUY") {
+    } else if (word2 == "buy") {
         let itemid = words[2]
         let amount = parseInt(words[3])
         if (itemid == undefined || items[itemid] == undefined) { return functions.replyMessage(message, "Please select a valid item id!"); }
