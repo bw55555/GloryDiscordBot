@@ -1802,7 +1802,7 @@ function antimacro(message, user) {
                     if (honorguy.macro == undefined) { return; }
                     let honorget = Math.floor(1 + Math.random() * 2)
                     if (honorguy.dailyhonor + honorget > 40) { honorget = 40 - honorguy.dailyhonor }
-                    setProp("userData", {}, { $inc: { "honor": honorget, "dailyhonor": honorget } })
+                    setProp("userData", {}, { $inc: { "honor": honorget, "dailyhonor": honorget }, $unset: { "macro": ""} })
                     return replyMessage(message, "The robbers were fought off. You received " + honorget + " honor for keeping the peace.")
                 })
             }
