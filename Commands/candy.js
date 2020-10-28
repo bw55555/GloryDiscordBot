@@ -1,4 +1,10 @@
-
+let storeitems = {
+    "102": { "name": "Energy Rune", "cost": "10 Rune Shards" },
+    "103": { "name": "Arcane Rune", "cost": "50 Rune Shards" },
+    "104": { "name": "Force Rune", "cost": "25 Rune Shards" },
+    "105": { "name": "Guard Rune", "cost": "25 Rune Shards" },
+    "106": { "name": "Life Rune", "cost": "25 Rune Shards" }
+}
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;

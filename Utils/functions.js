@@ -554,8 +554,8 @@ function calcDamage(message, attacker, defender, initiator) {
     if (aenchants.burn > 0) {
         if (defender.isRaid) {
             text += "Raid boss cannot be burned!\n"
-        } else if (hasSkill(defender, 40, skillenable)) {
-            text += attackername +"'s flame was dispelled!"
+        } else if (hasSkill(defender, 38, skillenable)) {
+            text += attackername +"'s flame was dispelled!\n"
         } else {
             if (defender.burn == undefined) { defender.burn = 0 }
             defender.burn += aenchants.burn;
