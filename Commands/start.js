@@ -1,4 +1,4 @@
-const mainQuestData = Assets.mainQuestData
+var mainQuestData = Assets.mainQuestData
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;

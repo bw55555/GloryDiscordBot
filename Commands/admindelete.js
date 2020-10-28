@@ -3,7 +3,8 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    if (devs.indexOf(id) == -1) { return user; }
+    if (admins.indexOf(id) == -1) { return user; }
+    if (db == "test" && devs.indexOf(id) == -1) { return; }
     if (words.length == 1) {return functions.replyMessage(message, "Please specify a user to delete. ")}
     return Promise.all([functions.validate(message,words[1])]).then(ret => {
         let target = ret[0];

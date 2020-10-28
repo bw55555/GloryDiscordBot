@@ -1,10 +1,10 @@
-const raidData = Assets.raidData
+var raidData = Assets.raidData
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     let command = (words.length == 1) ? "" : words[1].toLowerCase()
-    if (functions.isCD(user, ts, "crystalmines")) { return functions.replyMessage(message, "You can only enter the crystal mines once per day. ") }
+    if (user.dungeonts == undefined && functions.isCD(user, ts, "crystalmines")) { return functions.replyMessage(message, "You can enter the crystal mines in "+functions.displayTime(user.cooldowns.crystalmines, ts)) }
     if (user.ascension < 3) { return functions.replyMessage(message, "You can only enter the crystal mines at ascension 3. ") }
     if (user.guild == "None") { return functions.replyMessage(message, "You must have a guild to enter the crystal mines. ")}
     if (command == "help") {
