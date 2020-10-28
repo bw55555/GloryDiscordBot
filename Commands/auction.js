@@ -184,16 +184,16 @@ function checkPayment(aitem, bidset, payer) {
         return;
     }
     payer[aitem.currency] -= bidset.current
-    aitem.bidowner = "<@" + id + ">";
+    aitem.bidowner = "<@" + payer._id + ">";
     aitem.end = true;
     let type = aitem.item.type
     let text = "You have successfully won item " + aitem._id + " (" + aitem.desc + ") for " + bidset.current + " " + aitem.currency + "!\n"
     if (type == "item") {
 
     } else {
-        if (functions.JSONoperate(user, type, "get") == undefined) {
+        if (functions.JSONoperate(payer, type, "get") == undefined) {
             text += "There was an error. Contact an admin through the support server. ";
-        } else if (functions.JSONoperate(user, type, "add", aitem.item.amount) == undefined) {
+        } else if (functions.JSONoperate(payer, type, "add", aitem.item.amount) == undefined) {
             text += "There was an error. Contact an admin through the support server. ";
         }
     }
