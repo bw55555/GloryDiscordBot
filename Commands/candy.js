@@ -53,6 +53,9 @@ module.exports = async function (message, user) {
         } else if (type == "item") {
             amount = 1;
             functions.craftItem(message, user, 7, 7)
+        } else if (type == "crystals") {
+            if (user.guild == "None") { return functions.replyMessage(message, "Since you are currently not in a guild, you cannot buy this. ")}
+            functions.getObject("guildData", user.guild).then(guild => { guild.crystals += amount * items[itemid].amount; functions.setObject("guildData", guild) });
         } else {
             if (functions.JSONoperate(user, type, "get") == undefined) {
                 return functions.replyMessage(message, "There was an error. Contact an admin through the support server. ");

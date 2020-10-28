@@ -9,13 +9,13 @@ global.enchantData = {
     "rage": { "start": 0.2, "level": 0.2, "end": 0.4, "cost": [6, 3, 0, 1] },
     "burn": { "start": 2, "level": 1, "end": 3, "cost": [6, 4, 0, 0] },
     "haste": { "start": 1, "level": 1, "end": 2, "cost": [10, 0, 0, 0] },
-    "evade": { "start": 0.01, "level": 0.005, "end": 0.015, "cost": [8, 0, 2, 0] },
+    "evade": { "start": 0.01, "level": 0.01, "end": 0.02, "cost": [8, 0, 2, 0] },
     "tempo": { "start": 0.2, "level": 0.3, "end": 0.4, "cost": [8, 2, 0, 0] },
     "antitempo": { "start": 0.2, "level": 0.3, "end": 0.4, "cost": [8, 0, 2, 0] },
     "combo": { "start": 0.2, "level": 0.3, "end": 0.4, "cost": [10, 0, 0, 0] },
     "regen": { "start": 0.5, "level": 0.2, "end": 0.6, "cost": [2, 0, 0, 8] },
     "pierce": { "start": 0.02, "level": 0.02, "end": 0.04, "cost": [0, 10, 0, 0] },
-    "spikes": { "start": 0.2, "level": 0.2, "end": 0.4, "cost": [0, 5, 5, 0] },
+    "spikes": { "start": 0.1, "level": 0.1, "end": 0.2, "cost": [0, 5, 5, 0] },
     "block": { "start": 0.02, "level": 0.01, "end": 0.03, "cost": [0, 0, 10, 0] },
     "maxhp": { "start": 20.0, "level": 40.0, "end": 100.0, "cost": [0, 0, 0, 10] }
 }
