@@ -4,7 +4,7 @@ async function importObject(db1, coll, oid) {
         return r[0];
     }).catch(err => {
         console.error(err)
-        sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+        errorlog(err)
         return false
     })
 }
@@ -48,7 +48,7 @@ async function getObject(coll, oid) {
             return r[0];
         }).catch(err => {
             console.error(err)
-            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+            errorlog(err)
             return false
         })
     //})
@@ -60,7 +60,7 @@ async function findObjects(coll, query, projection) {
             return r;
         }).catch(err => {
             console.error(err)
-            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+            errorlog(err)
             return false
         })
     //})
@@ -71,7 +71,7 @@ async function setObject(coll, newobj) {
             return true;
         }).catch(function (err) {
             console.error(err)
-            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+            errorlog(err)
             return false;
         })
     //})
@@ -82,7 +82,7 @@ async function deleteObject(coll, oid) {
             return true;
         }).catch(function (err) {
             console.error(err)
-            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+            errorlog(err)
             return false;
         })
     //})
@@ -93,7 +93,7 @@ async function setProp(coll, query, newvalue) {
             return true;
         }).catch(function (err) {
             console.error(err)
-            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+            errorlog(err)
             return false;
         })
     //})
@@ -104,7 +104,7 @@ async function bulkWrite(coll, tasks) {
             return true;
         }).catch(function (err) {
             console.error(err)
-            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+            errorlog(err)
             return false;
         })
     //})
@@ -115,7 +115,7 @@ async function deleteObjects(coll, filter) {
             return true;
         }).catch(function (err) {
             console.error(err)
-            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+            errorlog(err)
             return false;
         })
     //})
@@ -145,12 +145,12 @@ function sendMessage(channel, text, override) {
                 bot.setTimeout(function () { sendMessage(channel, text, override) }, 100)
             } else {
                 console.error(err)
-                sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+                errorlog(err)
             }
             channel.retry = true;
         } else {
             console.error(err)
-            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```")
+            errorlog(err)
         }
     })
 }
@@ -433,8 +433,9 @@ function calcExtraStat(user, stat) {
 function calcLuckyBuff(user) {
     return calcEnchants(user).lucky
 }
-function errorlog(text) {
-    sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId),text)
+function errorlog(err, extratext) {
+    if (extratext == undefined) { extratext = ""}
+    sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```\n"+extratext)
 }
 function secondsUntilReset(ts) {
     let x = ts % (24 * 60 * 60 * 1000)
@@ -1789,7 +1790,7 @@ function antimacro(message, user) {
         shuffle(reacts)
         if (msg.channel.type == "dm" || msg.channel.type == "group" || msg.channel.permissionsFor(bot.user) != null || msg.channel.permissionsFor(bot.user).has("ADD_REACTIONS")) {
             for (let reaction of reacts) {
-                await msg.react(reaction).catch(function (err) { console.error(err) });
+                await msg.react(reaction).catch(function (err) { errorlog(err) });
             }
         }
         this.collector = msg.createReactionCollector((reaction, u) => reaction.me && u.id === user._id && u.id !== msg.author.id, { max: 1, time: 10000 });
@@ -1860,7 +1861,7 @@ module.exports.generateItem = function (owner, itemid, attack, defense, rarity, 
 module.exports.generateRandomItem = function (owner, rarity, isBulk, source) { return generateRandomItem(owner, rarity, isBulk, source) }
 module.exports.calcExtraStat = function (user, stat) { return calcExtraStat(user, stat) }
 module.exports.calcLuckyBuff = function (user) { return calcLuckyBuff(user) }
-module.exports.errorlog = function (text) { return errorlog(text) }
+module.exports.errorlog = errorlog
 module.exports.setCD = function (user, ts, cdsecs, cdname) { return setCD(user, ts, cdsecs, cdname) }
 module.exports.calcTime = function (time1, time2) { return calcTime(time1, time2) }
 module.exports.displayTime = function (time1, time2) { return displayTime(time1, time2) }

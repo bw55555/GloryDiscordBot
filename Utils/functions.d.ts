@@ -45,7 +45,7 @@ export function generateRandomItem(owner: JSON, rarity: number, isBulk: boolean)
 export function generateRandomItem(owner: JSON, rarity: number, isBulk: boolean, source: string): JSON
 export function calcExtraStat(user: JSON, stat: string): number
 export function calcLuckyBuff(user: JSON):number
-export function errorlog(text:string):void
+export function errorlog(err: Error, extratext:string):void
 export function setCD(user: JSON, ts:number, cdsecs:number, cdname:string):void
 export function calcTime(time1: number, time2: number): number
 export function displayTime(time1: number, time2: number): string
