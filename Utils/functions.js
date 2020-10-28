@@ -1007,6 +1007,7 @@ function checkProps(message,user) {
     if (user.quests == undefined) user.quests = [];
     if (user.honor == undefined) user.honor = 0;
     if (user.statusEffects == undefined) user.statusEffects = {};
+    if (user.candy == undefined) user.candy = 0;
     if (user.currenthealth > user.health) user.currenthealth = user.health
     if (user.start === false) { //when you start, your currenthealth will be to 10;
         user.currenthealth = 10;
