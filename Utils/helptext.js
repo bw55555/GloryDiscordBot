@@ -706,8 +706,47 @@ let page15 = {
     }
 }
 //PAGE 15 ENDS
+//PAGE 16 STARTS
+let page16 = {
+    "content": "Happy Halloween Gloryseekers! The spooky fest of Halloween has been interupted by the ghosts, kill them to earn candies and exchange them for exciting goodies from the store. \nYou can also treat yourself with candies and get more experience",
+    "embed": {
+        "title": "Halloween Event",
+        "color": 16312092,
+        "thumbnail": {
+            "url": "https://i.imgur.com/r39nI8f.jpg"
+        },
 
-let pages = [page1, page2, page3, page4, page5, page6, page7, page8, page9, page10, page11, page12, page13, page14, page15];
+
+        "fields": [
+            {
+                "name": "candy",
+                "value": "See how many candies you have collected"
+            },
+            {
+                "name": "candy store",
+                "value": "Check the candy store"
+            },
+            {
+                "name": "candy buy [ID] <amount>",
+                "value": "Buy items from candy store, Bw advises to buy ghostclass in support server"
+            },
+            {
+                "name": "candy use",
+                "value": "Use candies to gain xp. Eating candies will gice you 2% of a level to -1%"
+            },
+            {
+                "name": "er",
+                "value": "Check the current boss and ghosts left"
+            },
+            {
+                "name": "eatk",
+                "value": "Attack ghosts"
+            }
+        ]
+    }
+}
+//PAGE 16 ENDS
+let pages = [page1, page2, page3, page4, page5, page6, page7, page8, page9, page10, page11, page12, page13, page14, page15, page16];
 
 for (let i = 0; i < pages.length; i++) {
     pages[i].embed.footer = {
