@@ -1159,14 +1159,13 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
     if (counter < 0) {
         counter = 0;
     }
-    let damagereward = Math.floor(damage * Math.sqrt(raid.level) * Math.random());
-    damagereward *= 5
+    let damagereward = Math.floor(5 * damage * Math.sqrt(raid.level) * (0.5 + 0.5*Math.random()));
     if (damage > raid.currenthealth) { damage = raid.currenthealth }
     user.currenthealth = user.currenthealth - counter;
     raid.currenthealth = raid.currenthealth - damage;
     let counterstolen = Math.floor((user.money) / 5);
 
-    raid.attacklist[user._id] += Math.floor(damagereward * (1+(luckybuff-1)/5))
+    raid.attacklist[user._id] += Math.floor(damagereward/5 * (1+(luckybuff-1)/5))
     raid.damagelist[user._id] += damage;
     //user.money += damagereward;
     user.xp += Math.floor(damagereward*luckybuff);
