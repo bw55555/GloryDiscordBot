@@ -1,4 +1,4 @@
-async function importObject(db1, coll, oid) {
+﻿async function importObject(db1, coll, oid) {
     return client.db(db1).collection(coll).find({ _id: oid }).toArray().then(r => {
         if (r[0] == undefined) { return false }
         return r[0];
@@ -1781,13 +1781,13 @@ function extractOptions(message, inorder, ...optionnames) {
 
 function antimacro(message, user) {
     
-    let reacts = [":crossed_swords:", ":moneybag:", ":flag_white:", ":timer:", ":man_running:"]
+    let reacts = ["⚔️", "💰", "🏳️", "🏃‍♂️"]
     let x = replyMessage(message, "Your way was blocked by a gang of robbers. What will you do? ")
     if (x == undefined) { return; }
     user.macro = true
     x.then(async msg => {
         if (msg == undefined) { logCommand(message, "Error with macro message");return; }
-        shuffle(reacts)
+        reacts = shuffle(reacts)
         if (msg.channel.type == "dm" || msg.channel.type == "group" || msg.channel.permissionsFor(bot.user) != null || msg.channel.permissionsFor(bot.user).has("ADD_REACTIONS")) {
             for (let reaction of reacts) {
                 console.log(reaction)
