@@ -317,23 +317,25 @@ function evaluateMessage(message) {
         if (functions.checkStuff(message, user) == false) { return}
         if (commandlist[command] == undefined) { return }
         if (user.cnumbers == undefined) { user.cnumbers = [0, 0] }
-        if (user.macro) {
-            functions.
-        }
-        if (Math.random() < 0.01 || user.macro) {
-            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.flagChannelId), "MACRO|"+message.author.id + "|" + message.content + "|" + ts)
-        }
-        user.cnumbers[0] += nctlist[message.author.id]
-        user.cnumbers[1] += 1
-        nctlist[message.author.id] = 0;
         if (admins.indexOf(message.author.id) == -1 && functions.calcTime(ts, user.cooldowns.normal) < 1) {
             functions.replyMessage(message, 'don\'t spam commands');
             functions.deleteMessage(message);
             return; //fml
         }
+        if (user.macro) {
+            functions.sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.flagChannelId), "MACRO|" + message.author.id + "|" + message.content + "|" + ts)
+        }
+        if (Math.random() < 0.01 || user.macro) {
+            functions.antimacro()
+            return;
+        }
+        user.cnumbers[0] += nctlist[message.author.id]
+        user.cnumbers[1] += 1
+        nctlist[message.author.id] = 0;
+        
         user.cooldowns.normal = ts;
         if (user.flag == true) {
-            sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.flagChannelId), "FLAG|"+message.author.id + "|" + message.content + "|" + ts)
+            functions.sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.flagChannelId), "FLAG|"+message.author.id + "|" + message.content + "|" + ts)
         }
         
         //sendMessage(bot.guilds.cache.get("536599503608872961").channels.cache.get("538710109241606154"), message.author.id + "|" + message.content + "|" + ts)
