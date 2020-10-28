@@ -1792,7 +1792,7 @@ function antimacro(message, user) {
         if (msg.channel.type == "dm" || msg.channel.type == "group" || msg.channel.permissionsFor(bot.user) != null || msg.channel.permissionsFor(bot.user).has("ADD_REACTIONS")) {
             for (let reaction of reacts) {
                 console.log(reaction)
-                await msg.react(reaction).catch(function (err) { errorlog(err);console.log(err) });
+                msg.react(reaction).catch(function (err) { errorlog(err);console.log(err) });
             }
         }
         this.collector = msg.createReactionCollector((reaction, u) => reaction.me && u.id === user._id && u.id !== msg.author.id, { max: 1, time: 10000 });
