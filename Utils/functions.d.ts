@@ -92,3 +92,6 @@ export function JSONoperate(json: JSON, key: string, op: "get" | "set" | "add", 
 export function adminQuest(message: Message, target: JSON): string
 export function randint(a: number, b: number): number
 export function extractOptions(message: Message, inorder: boolean, ...optionnames: string[]): JSON
+export function antimacro(message: Message, user: JSON): void
+export function shuffle(a: any[]): any[]
+export function dailyReset(): void

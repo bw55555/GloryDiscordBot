@@ -213,6 +213,7 @@ function evaluateMessage(message) {
     if (command.length <= prefix.length) { return }
     command = command.slice(prefix.length)
     message.command = command;
+    if (message.channel.type != "dm" && message.channel.type != "group" && message.channel.permissionsFor(bot.user) != null && !message.channel.permissionsFor(bot.user).has("SEND_MESSAGES")) { return }
     if (message.channel.guild != undefined && serverData[message.channel.guild.id] != undefined && serverData[message.channel.guild.id].disabledChannels.indexOf(message.channel.id) != -1 && command != "settings") { return; }
     //-----------------------------
     if (command == 'reload' && devs.indexOf(message.author.id) != -1) {
@@ -364,21 +365,12 @@ bot.on('ready', function () {
         }
     })
     let resettimer = 86400000 - (Date.now() % 86400000)
-    async function timeReset() {
-        functions.setProp("guildData", {}, { $set: { "store": {} } })
-        functions.sendMessage(bot.channels.cache.get(devData.debugChannelId), "The guild store has been reset for all guilds!")
-        await Promise.all([functions.getObject("mobData", "world")]).then(ret => {
-            let raid = ret[0];
-            functions.summon(raid)
-            functions.sendMessage(bot.channels.cache.get(devData.debugChannelId), "World boss summoned. It is level " + raid.level + "!")
-            functions.setObject("mobData", raid);
-        })
-    }
+    
     if (dailyrefresh == null) {
         dailyrefresh = bot.setTimeout(function () {
-            timeReset()
+            functions.dailyReset()
             dailyrefresh = bot.setInterval(function () {
-                timeReset()
+                functions.dailyReset()
             }, 86400000)
         }, resettimer)
     }

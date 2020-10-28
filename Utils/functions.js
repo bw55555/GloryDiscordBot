@@ -159,7 +159,7 @@ function replyMessage(message, text, override) {
     override = (override == true) ? true : false
     if (!override && message.channel.guild != undefined && serverData[message.guild.id] != undefined && serverData[message.guild.id].disabledChannels.indexOf(message.channel.id) != -1) { return; }
     if (message.channel.type != "dm" && message.channel.type != "group" && message.channel.permissionsFor(bot.user) != null && !message.channel.permissionsFor(bot.user).has("SEND_MESSAGES")) { return }
-    sendMessage(message.channel, "<@"+message.author.id+">, "+text, override )
+    return sendMessage(message.channel, "<@"+message.author.id+">, "+text, override )
     //console.timeEnd("Message Send")
 }
 function deleteMessage(message) {
@@ -1006,6 +1006,7 @@ function checkProps(message,user) {
     if (!user.consum == undefined) user.consum = {}
     if (user.quests == undefined) user.quests = [];
     if (user.honor == undefined) user.honor = 0;
+    if (user.dailyhonor == undefined) user.dailyhonor = 0;
     if (user.statusEffects == undefined) user.statusEffects = {};
     if (user.candy == undefined) user.candy = 0;
     if (user.currenthealth > user.health) user.currenthealth = user.health
@@ -1777,6 +1778,56 @@ function extractOptions(message, inorder, ...optionnames) {
     return ret;
 }
 
+async function antimacro(message, user) {
+    
+    let reacts = [":crossed_swords:", ":moneybag:", ":flag_white:", ":timer:", ":man_running:"]
+    let x = replyMessage(message, "Your way was blocked by a gang of robbers. What will you do? ")
+    if (x == undefined) { return; }
+    user.macro = true
+    x.then(msg => {
+        if (msg == undefined) { logCommand(message, "Error with macro message");return; }
+        shuffle(reacts)
+        if (msg.channel.type == "dm" || msg.channel.type == "group" || msg.channel.permissionsFor(bot.user) != null || msg.channel.permissionsFor(bot.user).has("ADD_REACTIONS")) {
+            for (let reaction of reacts) {
+                await message.react(reaction).catch(function (err) { console.error(err) });
+            }
+        }
+        this.collector = msg.createReactionCollector((reaction, u) => reaction.me && u.id === user._id && u.id !== msg.author.id, { max: 1, time: 10000 });
+        this.collector.on("collect", (reaction, person) => {
+            if (reaction.emoji.toString() == ":crossed_swords:") {
+                functions.getObject("userData", user._id).then(honorguy => {
+                    if (honorguy.macro == undefined) { return; }
+                    let honorget = Math.floor(1 + Math.random() * 2)
+                    if (honorguy.dailyhonor + honorget > 40) { honorget = 40 - honorguy.dailyhonor }
+                    setProp("userData", {}, { $inc: { "honor": honorget, "dailyhonor": honorget } })
+                    return functions.replyMessage(message, "The robbers were fought off. You received " + honorget + " honor for keeping the peace.")
+                })
+            }
+        })
+    })
+    
+}
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+}
+async function dailyReset() {
+    setProp("guildData", {}, { $set: { "store": {} } })
+    setProp("userData", {}, { $set: {"dailyhonor": 0}})
+    sendMessage(bot.channels.cache.get(devData.debugChannelId), "The guild store has been reset for all guilds!")
+    await Promise.all([getObject("mobData", "world")]).then(ret => {
+        let raid = ret[0];
+        summon(raid)
+        sendMessage(bot.channels.cache.get(devData.debugChannelId), "World boss summoned. It is level " + raid.level + "!")
+        setObject("mobData", raid);
+    })
+}
 module.exports.clean = function (text) { return clean(text) }
 module.exports.importObject = function (db, coll, oid) { return importObject(db, coll, oid) }
 module.exports.getUser = function (uid) { return getUser(uid) }
@@ -1840,6 +1891,9 @@ module.exports.secondsUntilReset = function (ts) { return secondsUntilReset(ts) 
 module.exports.JSONoperate = function (json, key, op, obj) { return JSONoperate(json, key, op, obj) }
 module.exports.adminQuest = function (message, target) { return adminQuest(message, target) }
 module.exports.extractOptions = extractOptions
+module.exports.antimacro = antimacro
+module.exports.shuffle = shuffle
+module.exports.dailyReset = dailyReset
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {

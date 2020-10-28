@@ -17,7 +17,9 @@ module.exports = async function (message, user) {
                 "ability": "None",
                 "messageToSend": "",
                 "candy": 0,
-                "guildbuffs": {}
+                "guildbuffs": {},
+                "dailyhonor": 0,
+                "honor": 0
             }
         })
         await functions.findObjects("guildData", {}).then(ret => {
