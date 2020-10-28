@@ -28,6 +28,7 @@ module.exports = async function (message, user) {
                 guild.buffs.dbuff = guild.buffs.defense
                 delete guild.buffs.attack
                 delete guild.buffs.defense
+                functions.setProp("userData", { "_id": target._id }, { $set: { "guild": guild._id, "guildpos": "Member", "guildbuffs": guild.buffs } })
                 functions.setObject("guildData", guild)
             }
         })
