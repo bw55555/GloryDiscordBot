@@ -7,7 +7,7 @@ module.exports = async function (message, user) {
     if (words.length == 1){
         functions.replyMessage(message, 'You rolled a ' + roll + '!');
         return
-    }
+    }/*
     if (words.length < 3) {
         functions.sendMessage(message.channel, 'You are missing some arguments. `!dice [1-6] [amount]`.');
         return;
@@ -35,6 +35,9 @@ module.exports = async function (message, user) {
         functions.replyMessage(message, 'You can\'t roll more than you own! (or a negative amount)');
         return 
     }
+    if (amount > 10000000) {
+        functions.replyMessage(message, "You cannot bet more than $10m!")
+    }
     if (amount > 0) {
         if (face == roll) {
             functions.replyMessage(message, 'It was ' + roll + '! You won $' + (amount*5) + '!');
@@ -46,4 +49,5 @@ module.exports = async function (message, user) {
     } else {
         functions.replyMessage(message, "You can't bet a negative amount!");
     }
+    */
 }

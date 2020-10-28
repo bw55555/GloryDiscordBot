@@ -72,7 +72,7 @@ module.exports = async function (message, user) {
                         inline: true
                     }, {
                         name: "Account Balance <:accountbalance:542160800492683295><:materialsgem:542178396474572805>",
-                        value: target.money + " Money\n" + target.materials + " Materials",
+                        value: target.money + " Money\n" + target.materials + " Materials\n" + target.honor + " Honor",
                         inline: true
                     }, {
                         name: "Health <:nixheart:506240330916429837>",

@@ -15,9 +15,6 @@ module.exports = async function (message, user) {
         return;
     }
     let earnings = Math.floor((-4 * ((Math.random() - 0.5) ** 2) + 1) * ((10*user.ascension + user.level) * 10 + 1));
-    if (user.triangleid == 7) {
-        earnings = Math.floor(earnings * 2);
-    }
     earnings *= functions.calcLuckyBuff(user)
     earnings = Math.floor(earnings)
     user.xp += earnings;

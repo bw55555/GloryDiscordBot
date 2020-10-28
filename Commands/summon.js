@@ -6,7 +6,7 @@ module.exports = async function (message, user) {
     return Promise.all([functions.getObject("mobData", message.channel.id)]).then(ret => {
         let raid = ret[0]
         if (raid == false) {
-            if (message.channel.type == "dm" || message.channel.type == "group" || message.guild == undefined || message.guild == null || (message.guild.members.cache.filter(member => member.user.bot == false).size < 10 && devs.indexOf(id) == -1)) { return functions.replyMessage(message, "You cannot summon a raid in a server with less than 50 members!") }
+            if (message.channel.type == "dm" || message.channel.type == "group" || message.guild == undefined || message.guild == null || (message.guild.memberCount < 10 && devs.indexOf(id) == -1)) { return functions.replyMessage(message, "You cannot summon a raid in a server with less than 10 members!") }
             raid = { "_id": message.channel.id }
             let level = undefined;
             if (words.length > 1 && admins.indexOf(id) != -1) {
@@ -37,7 +37,7 @@ module.exports = async function (message, user) {
                 if (message.channel.id != 570356602843168769 && devs.indexOf(id) == -1) { return functions.replyMessage(message, "This is for the support server only!") }
                 if (serverData[message.guild.id].hell != undefined || (serverData[message.guild.id].hell == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a hell raid in this server!") }
                 else { serverData[message.guild.id].hell = message.channel.id; functions.setProp("serverData", { "_id": message.guild.id }, { $set: { "hell": message.channel.id } }) }
-                functions.summon(raid, level, 100, 200, "Hell Lord", 'https://imgur.com/MbGhMkJ.jpg', '10% chance to pierce, 10% chance to crit and deal 2x damage. ')
+                functions.summon(raid, level, 100, 200, "Hell Lord", 'https://imgur.com/MbGhMkJ.jpg', {"pierce": 0.1, "critRate": 0.1}, '10% chance to pierce, 10% chance to crit and deal 2x damage. ')
             }
             else { return functions.replyMessage(message, "Please name the channel either #treant-raid, #kraken-raid, #dragon-raid, or #deity-raid. Join the support server to access #hell-raid, a level 100-200 boss!") }
             functions.replyMessage(message, "A boss has been summoned! It is level "+ raid.level + "!");

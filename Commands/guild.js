@@ -9,8 +9,8 @@ const guildStore = [
     { "name": "Box", "price": 50000, "levels": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50], "stocks": [25, 75, 150, 250, 500, 1000, 2000, 3000, 4000, 5000, 10000] }
 ]
 global.guildBuffStore = [
-    { "name": "Attack +", "stat": "attack", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.1, 0.2, 0.4, 0.6, 1, 1.5, 2, 2.5, 3, 4], "prices": [0, 400, 1500, 10000, 50000, 150000, 500000, 1500000, 5000000, 15000000, 50000000] },
-    { "name": "Defense +", "stat": "defense", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.1, 0.2, 0.4, 0.6, 1, 1.5, 2, 2.5, 3, 4], "prices": [0, 400, 1500, 10000, 50000, 150000, 500000, 1500000, 5000000, 15000000, 50000000] },
+    { "name": "Attack +", "stat": "buff", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.1, 0.2, 0.4, 0.6, 1, 1.5, 2, 2.5, 3, 4], "prices": [0, 400, 1500, 10000, 50000, 150000, 500000, 1500000, 5000000, 15000000, 50000000] },
+    { "name": "Defense +", "stat": "dbuff", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.1, 0.2, 0.4, 0.6, 1, 1.5, 2, 2.5, 3, 4], "prices": [0, 400, 1500, 10000, 50000, 150000, 500000, 1500000, 5000000, 15000000, 50000000] },
     { "name": "CritDamage +", "stat": "critDamage", "levels": [0, 10, 40, 60, 80, 100], "bonus": [0, 0.5, 1, 2, 3, 5], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] },
     { "name": "CritRate +", "stat": "critRate", "levels": [0, 10, 40, 60, 80, 100], "bonus": [0, 0.02, 0.04, 0.06, 0.08, 0.1], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] },
     { "name": "LifeSteal +", "stat": "lifeSteal", "levels": [0, 10, 40, 60, 80, 100], "bonus": [0, 0.1, 0.2, 0.3, 0.4, 0.5], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] },
@@ -420,13 +420,13 @@ module.exports = async function (message, user) {
             guild.raid.name = raid.name;
             guild.raid.attack = raid.attack * summonlevel * 2;
             guild.raid.currenthealth = summonlevel * raid.health * 10;
-            guild.raid.maxhealth = summonlevel * raid.health * 10;
+            guild.raid.health = summonlevel * raid.health * 10;
             guild.raid.reward = summonlevel * raid.reward * 50;
             guild.raid.crystalreward = Math.floor(summonlevel * raid.crystalreward / 2);
             guild.raid.alive = true;
             guild.raid.attacklist = {};
             guild.raid.level = summonlevel;
-            if (raid.ability != undefined) { guild.raid.ability = raid.ability; }
+            if (raid.ability != undefined) { guild.raid.ability = raid.ability; guild.raid.abilitydesc = raid.abilitydesc; }
             functions.replyMessage(message, "You have successfully summoned a " + raid.name + " at level " + summonlevel + "!")
             functions.raidInfo(message, guild.raid)
         }
@@ -494,7 +494,12 @@ module.exports = async function (message, user) {
             }
             else if (words[2].toLowerCase() == "buff") {
                 let buff = parseInt(words[3])
-                if (isNaN(buff) || guildBuffStore[buff] == undefined) { return functions.replyMessage(message, "This buff does not exist!") }
+                if (isNaN(buff)) {
+                    if (guildBuffStore[buff] == undefined || guildBuffStore.findIndex(x => x.stat == updateStat) == -1) {
+                        return functions.replyMessage(message, "Please specify a valid buff!")
+                    }
+                    buff = guildBuffStore.findIndex(x => x.stat == updateStat)
+                }
                 let buffname = guildBuffStore[buff].stat
                 let bufflevel = guild.buffs[buffname] == undefined ? 0 : guild.buffs[buffname]
                 if (bufflevel >= guildBuffStore[buff].bonus.length - 1) { return functions.replyMessage(message, "This buff is at the maximum level!") }
@@ -506,7 +511,7 @@ module.exports = async function (message, user) {
                 setJsonObj["guildbuffs." + buffname] = bufflevel + 1
                 user.guildbuffs[buffname] = bufflevel + 1
                 functions.setProp("userData", { "guild": guild._id }, { $set: setJsonObj })
-                functions.replyMessage(message, "You have successfully upgraded " + buffname + " to level " + (bufflevel + 1))
+                functions.replyMessage(message, "You have successfully upgraded `" + guildBuffStore[buff].name + "` to level " + (bufflevel + 1))
             }
         }
         else if (command == "STORE") {

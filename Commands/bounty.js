@@ -1,11 +1,10 @@
 
-module.exports = function (message, user) {
+module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     if (words.length == 1) {
-        functions.replyMessage(message, "Select a person to place a bounty on or do write `!bounty top`");
-        return;
+        return functions.replyMessage(message, "Select a person to place a bounty on or do write `!bounty top`");
     }
     if (words[1].toUpperCase() == `TOP`) {
         return functions.findUsers({}, { "bounty": 1, "username": 1 }).then(arr => {

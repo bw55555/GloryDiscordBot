@@ -6,65 +6,51 @@ module.exports = async function (message, user) {
     if (devData.enable) { return functions.replyMessage(message, "You cannot do this while the bot is enabled!")}
     functions.MessageAwait(message.channel, id, "Are you sure you want to start maintenance?\nIf you are sure, type `confirm`", "confirm", async function (response, extraArgs) {
         let message = extraArgs[0];
-        await functions.setProp(mobData, {}, {
+        
+        await functions.setProp("userData", {}, {
             $set: {
-                "damagelist": []
-            }
-        })
-        await functions.setProp(itemData, {}, {
-            $set: {
-                "enchantlevel": 0,
-                "numenchants": 0,
-                "enhance": {
-                    "level": 0,
-                    "attack": 0,
-                    "defense": 0
-                }, 
-                "equip": false
-            },
-            $unset: {
-                "enhancementlevel": "",
-                "maxenhancement": "",
-                "enhancementattempts": ""
-            }
-        })
-        await functions.setProp(userData, {}, {
-            $set: {
-                "cnumbers": [0, 0],
-                "quests": [],
-                "contribution": 0,
+                "equippedSkills": {"A": "None", "B": "None", "C": "None"},
+                //"equippedSkills.A": "None",
+                //"equippedSkills.B": "None",
+                //"equippedSkills.C": "None",
+                "statusEffects": {},
+                "messageToSend": "",
+                "candy": 0,
                 "guildbuffs": {},
-                "weapon": false,
-                "shield": ts + 1000*60*60*24
-            },
-            $inc: {
-                "consum.reroll": 3,
-                "box": 100
-            }
-        })
-        await functions.setProp(guildData, {}, {
-            $set: {
-                "forge": {
-                    "level": 0,
-                    "enchant": [0, 0, 0],
-                    "enhance": [0, 0, 0],
-                    "donate": {
-                        "money": 0,
-                        "materials": 0
-                    }
-                }
+                "dailyhonor": 0,
+                "honor": 0, 
+                "maintenance": true
+            }, 
+            $unset: {
+                "skillA": "",
+                "skillB": "",
+                "skillC": "",
+                "ability": ""
             }
         })
         await functions.findObjects("guildData", {}).then(ret => {
             for (let guild of ret) {
-                let toSet = {};
-                for (let buffname in guild.buffs) {
-                    guild.buffs[buffname] = guild.buffs[buffname].level;
-                    toSet["guildbuffs."+buffname] = guild.buffs[buffname]
-                }
-                
-                functions.setProp("userData", { "guild": guild._id }, { "$set": toSet })
+                guild.buffs.buff = guild.buffs.attack
+                guild.buffs.dbuff = guild.buffs.defense
+                delete guild.buffs.attack
+                delete guild.buffs.defense
+                functions.setProp("userData", { "guild":guild._id }, { $set: { "guild": guild._id, "guildpos": "Member", "guildbuffs": guild.buffs } })
                 functions.setObject("guildData", guild)
+            }
+        })
+        await functions.setProp("itemData", { "modifiers": { $exists: false } }, { $set: { "modifiers": {}}})
+        await functions.setProp("itemData", { "modifiers.spikes": { $exists: true } }, { $mul: { "modifiers.spikes": 0.5 } })
+        await functions.setProp("itemData", { "modifiers.evade": { $exists: true } }, { $inc: { "modifiers.evade": -0.01 } })
+        await functions.setProp("itemData", { "modifiers.evade": { $exists: true } }, { $mul: { "modifiers.evade": 2 } })
+        await functions.setProp("itemData", { "modifiers.evade": { $exists: true } }, { $inc: { "modifiers.evade": 0.01 } })
+        await functions.deleteObjects("mobData", {})
+        await functions.setProp("serverData", {}, {
+            $unset: {
+                "treant": "",
+                "kraken": "",
+                "deity": "",
+                "dragon": "",
+                "hell": ""
             }
         })
         functions.replyMessage(message, "Maintenance was completed!")

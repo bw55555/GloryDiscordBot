@@ -136,13 +136,13 @@ function nextFloor(message, dungeon, notext) {
     dungeon.raid.name = raid.name;
     dungeon.raid.attack = raid.attack * summonlevel;
     dungeon.raid.currenthealth = summonlevel * raid.health * 2;
-    dungeon.raid.maxhealth = summonlevel * raid.health * 2;
+    dungeon.raid.health = summonlevel * raid.health * 2;
     dungeon.raid.reward = summonlevel * raid.reward * 5;
     dungeon.raid.crystalreward = Math.floor(summonlevel * raid.crystalreward / 20);
     dungeon.raid.alive = true;
     dungeon.raid.attacklist = {};
     dungeon.raid.level = summonlevel;
-    if (raid.ability != undefined) { dungeon.raid.ability = raid.ability; }
+    if (raid.ability != undefined) { dungeon.raid.ability = raid.ability; dungeon.raid.abilitydesc = raid.abilitydesc; }
     if (notext == false) {
         functions.sendMessage(message.channel, "You encountered a level " + summonlevel + " " + raid.name + "!")
         functions.raidInfo(message, dungeon.raid)
@@ -154,7 +154,7 @@ function leaveDungeon(message, dungeon, user, option) {
     let text = ""
     
     if (option == "timeout") { text = "You ran out of time and you were forced to leave the dungeon. "; dungeon.floor -= 1; }
-    else if (option == "death") { text = "You died in the dungeon... "; dungeon.crystals /= 2; dungeon.xp /= 2; dungeon.floor -= 1; }
+    else if (option == "death") { text = "You died in the dungeon... "; dungeon.crystals = Math.floor(dungeon.crystals/2); dungeon.xp = Math.floor(dungeon.xp/2); dungeon.floor -= 1; }
     else { text = "You have successfully left the dungeon. ";}
     dungeon.maxFloor = Math.max(dungeon.maxFloor, dungeon.floor)
     text += "Your guild earned " + dungeon.crystals + " crystals and " + dungeon.xp + " xp. "

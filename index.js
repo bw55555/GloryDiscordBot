@@ -52,6 +52,7 @@ client.connect((err) => {
         global.debugGuildId = devData.debugGuildId
         global.debugChannelId = devData.debugChannelId
         global.defaultPrefix = devData.defaultPrefix
+        if (devData.security == undefined) { devData.security = 0.01}
         if (devData.dblenable) {
             const server = http.createServer(function (req, res) {
                 res.write("Recieved a post request");
@@ -212,6 +213,8 @@ function evaluateMessage(message) {
     let command = words[0].toLowerCase()
     if (command.length <= prefix.length) { return }
     command = command.slice(prefix.length)
+    message.command = command;
+    if (message.channel.type != "dm" && message.channel.type != "group" && message.channel.permissionsFor(bot.user) != null && !message.channel.permissionsFor(bot.user).has("SEND_MESSAGES")) { return }
     if (message.channel.guild != undefined && serverData[message.channel.guild.id] != undefined && serverData[message.channel.guild.id].disabledChannels.indexOf(message.channel.id) != -1 && command != "settings") { return; }
     //-----------------------------
     if (command == 'reload' && devs.indexOf(message.author.id) != -1) {
@@ -238,10 +241,10 @@ function evaluateMessage(message) {
                 });
                 //console.log("Done Reading Assets")
                 //console.log(commandlist)
+                global.skillData = Assets.skillData;
             });
             functions.replyMessage(message, "You have successfully reloaded all Assets!")
             commandName = "Utils"
-            global.skillData = Assets.skillData;
         }
         if (commandName == "Utils") {
             fs.readdir("./Utils/", (err, files) => {
@@ -313,21 +316,30 @@ function evaluateMessage(message) {
             return;
         }
         if (functions.checkStuff(message, user) == false) { return}
-        functions.checkBurn(message, user)
-        if (functions.checkStuff(message, user) == false) { return }
         if (commandlist[command] == undefined) { return }
         if (user.cnumbers == undefined) { user.cnumbers = [0, 0] }
-        user.cnumbers[0] += nctlist[message.author.id]
-        user.cnumbers[1] += 1
-        nctlist[message.author.id] = 0;
         if (admins.indexOf(message.author.id) == -1 && functions.calcTime(ts, user.cooldowns.normal) < 1) {
             functions.replyMessage(message, 'don\'t spam commands');
             functions.deleteMessage(message);
             return; //fml
         }
+        if (devs.indexOf(id) == -1) {
+            if (user.macro) {
+                functions.sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.flagChannelId), "MACRO|" + message.author.id + "|" + message.content + "|" + ts)
+            }
+            if (Math.random() < devData.security || user.macro) {
+                functions.antimacro(message, user)
+                functions.setUser(user)
+                return;
+            }
+        }
+        user.cnumbers[0] += nctlist[message.author.id]
+        user.cnumbers[1] += 1
+        nctlist[message.author.id] = 0;
+        
         user.cooldowns.normal = ts;
         if (user.flag == true) {
-            functions.sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get("557009855135744010"), message.author.id + "|" + message.content + "|" + ts)
+            functions.sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.flagChannelId), "FLAG|"+message.author.id + "|" + message.content + "|" + ts)
         }
         
         //sendMessage(bot.guilds.cache.get("536599503608872961").channels.cache.get("538710109241606154"), message.author.id + "|" + message.content + "|" + ts)
@@ -362,21 +374,12 @@ bot.on('ready', function () {
         }
     })
     let resettimer = 86400000 - (Date.now() % 86400000)
-    async function timeReset() {
-        functions.setProp("guildData", {}, { $set: { "store": {} } })
-        functions.sendMessage(bot.channels.cache.get(devData.debugChannelId), "The guild store has been reset for all guilds!")
-        await Promise.all([functions.getObject("mobData", "world")]).then(ret => {
-            let raid = ret[0];
-            functions.summon(raid)
-            functions.sendMessage(bot.channels.cache.get(devData.debugChannelId), "World boss summoned. It is level " + raid.level + "!")
-            functions.setObject("mobData", raid);
-        })
-    }
+    
     if (dailyrefresh == null) {
         dailyrefresh = bot.setTimeout(function () {
-            timeReset()
+            functions.dailyReset()
             dailyrefresh = bot.setInterval(function () {
-                timeReset()
+                functions.dailyReset()
             }, 86400000)
         }, resettimer)
     }

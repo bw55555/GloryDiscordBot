@@ -24,7 +24,7 @@ module.exports = async function (message, user) {
         triangleid: 0,
         trianglemod: 1,
         weapon: false,
-        ability: "Ability",
+        ability: "None",
         inventory: {},
         marry: "None",
         guild: "None",
@@ -39,15 +39,16 @@ module.exports = async function (message, user) {
         glory: 0,
         burn: 0,
         contribution: 0,
+        honor: 0,
         runes: [0, 0, 0, 0, 0, 0, 0],
         cooldowns: { normal: 1, attack: 1, heal: 1, rez: 1, work: 1, bolster: 1, smeltall: 1, purchase: 1, merge: 1, daily: 1, luckyshoprefresh: 1, lastbreath: 1 },
         skills: {},
-        skillA: "None",
-        skillB: "None",
-        skillC: "None",
+        equippedSkills: {"A": "None", "B": "None", "C": "None"},
         consum: { explosion: 0, box: 0, sp: 0, phoenixfeather: 0, nametag: 0, reroll: 0 },
         quests: [],
-        cnumbers: [0,0]
+        cnumbers: [0, 0],
+        statusEffects: {},
+        candy: 0
     }
 
     user.money += 1000;
