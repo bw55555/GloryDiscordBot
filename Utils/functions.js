@@ -1790,7 +1790,7 @@ function antimacro(message, user) {
     
     let reacts = ["⚔️", "💰", "🏳️", "🏃‍♂️"]
     reacts = shuffle(reacts)
-    let x = replyMessage(message, "Your way was blocked by a gang of robbers. What will you do? ")
+    let x = replyMessage(message, "Your way was blocked by a gang of robbers. What will you do? \n ⚔️: Fight the robbers\n 💰: Bribe the robbers \n🏳️: Surrender to the robbers \n🏃‍♂️: Run away from the robbers")
     if (x == undefined) { return; }
     user.macro = true
     x.then(async msg => {
@@ -1812,6 +1812,12 @@ function antimacro(message, user) {
                     setProp("userData", {}, { $inc: { "honor": honorget, "dailyhonor": honorget }, $unset: { "macro": ""} })
                     return replyMessage(message, "The robbers were fought off. You received " + honorget + " honor for keeping the peace.")
                 })
+            } else if (reaction.emoji.toString() == "💰") {
+                functions.replyMessage(message, "Bribery? This is a robbery!")
+            } else if (reaction.emoji.toString() == "🏳️") {
+                functions.replyMessage(message, "Surrendering is probably a bad idea...")
+            } else if (reaction.emoji.toString() == "🏃‍♂️") {
+                functions.replyMessage(message, "You tried to run. But unfortunately, the robbers are faster than you.")
             }
         })
     })
