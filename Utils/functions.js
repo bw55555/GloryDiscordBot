@@ -1073,7 +1073,7 @@ function checkStuff(message,user) {
     //regen
     let regenpersec = calcEnchants(user).regen
     if (regenpersec > 0) {
-        user.currenthealth = Math.min(user.currenthealth + regenpersec* calcTime(message.createdTimestamp, user.cooldowns.normal), user.health)
+        user.currenthealth = Math.min(Math.floor(user.currenthealth + regenpersec* calcTime(message.createdTimestamp, user.cooldowns.normal)), user.health)
     }
 
     //burn

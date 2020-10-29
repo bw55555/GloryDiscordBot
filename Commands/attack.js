@@ -36,7 +36,7 @@ module.exports = async function (message, user) {
         }
         let regenpersec = functions.calcEnchants(target).regen
         if (regenpersec > 0) {
-            target.currenthealth = Math.min(target.currenthealth + regenpersec * functions.calcTime(message.createdTimestamp, target.cooldowns.normal), target.health)
+            target.currenthealth = Math.min(Math.floor(target.currenthealth + regenpersec * functions.calcTime(message.createdTimestamp, target.cooldowns.normal)), target.health)
         }
         functions.dmUser(target, "You have been attacked by " + user.username + "! Their id is " + id)
         let damage = 0;
