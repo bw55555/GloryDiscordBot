@@ -238,8 +238,6 @@ function hasSkill(user, skillid, enable) {
 }
 function getGuildBuff(user, buffname) {
     if (user.isRaid) { return 0 }
-    if (buffname == "attack") { buffname = "buff" }
-    if (buffname == "defense") {buffname = "dbuff"}
     if (user.guildbuffs != undefined && user.guildbuffs[buffname] != undefined) {
         return guildBuffStore.find(x => x.stat == buffname).bonus[user.guildbuffs[buffname]];
     }
@@ -991,7 +989,6 @@ function checkProps(message,user) {
     if (user.triangleid == undefined) user.triangleid = 0; //character's class
     if (user.trianglemod == undefined) user.trianglemod = 1.0; //character's class-based damage modifier.
     if (user.weapon == undefined) user.weapon = false;
-    if (user.ability == undefined) user.ability = "Ability";
     if (user.inventory == undefined) user.inventory = {};
     if (user.marry == undefined) user.marry = "None";
     if (user.guild == undefined) user.guild = "None";
