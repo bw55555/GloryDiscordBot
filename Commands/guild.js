@@ -327,6 +327,7 @@ module.exports = async function (message, user) {
                 }
                 if (target.guild != guild._id) {
                     functions.replyMessage(message, "You can't promote someone who's not in your guild!");
+                    return;
                 }
                 if (target.guildpos == "Member") {
                     target.guildpos = "Co-Leader"
