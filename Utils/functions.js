@@ -892,7 +892,8 @@ function raidInfo(message, raid, extratext) {
     if (raid.ability != undefined) {
         abilitytext = "\n**Ability:** " + raid.abilitydesc
     }
-    sendMessage(message.channel, {
+    
+    let toSendEmbed = {
         embed: {
             thumbnail: {
                 "url": raid.url
@@ -902,11 +903,17 @@ function raidInfo(message, raid, extratext) {
             fields: [
                 {
                     name: "Level " + raid.level + " " + raid.name,
-                    value: "**Health Remaining:** " + raid.currenthealth + "\n**Max Attack:** " + raid.attack + "\n**Reward:** " + raid.reward + " Money and XP" + itemRewardText + abilitytext +extratext
+                    value: "**Health Remaining:** " + raid.currenthealth + "\n**Max Attack:** " + raid.attack + "\n**Reward:** " + raid.reward + " Money and XP" + itemRewardText + abilitytext + extratext
                 }
             ]
         }
-    });
+    }
+    if (devData.halloweenevent != undefined && ts > devData.halloweenevent.start && ts < devData.halloweenevent.end) {
+        toSendEmbed.footer = {
+            "text": "The ghosts will leave in " + functions.displayTime(devData.halloweenevent.end, ts)
+        }
+    }
+    sendMessage(message.channel, toSendEmbed);
 }
 function customsummon(raid, options) {
     raid.isRaid = true;

@@ -13,6 +13,7 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
+    if (devData.halloweenevent == undefined || ts < devData.halloweenevent.start || ts > devData.halloweenevent.end + 2 * 24 * 60 * 60 * 1000) { return functions.replyMessage(message, "The candy shop is not open yet!") }
     let word2 = words[1]
     if (word2 == undefined) { word2 = "" }
     if (word2 == "help") {
@@ -28,13 +29,12 @@ module.exports = async function (message, user) {
                     }
                 ],
                 "footer": {
-                    "text": "Items bid through the auction will not be refunded under any circumstances."
+                    "text": "The store will close in " + functions.displayTime(devData.halloweenevent.end + 2 * 24 * 60 * 60 * 1000, ts)
                 }
             }
         }
         functions.sendMessage(message.channel, page)
         return
-    }
     } else if (word2 == "store" || word2 == "shop") {
         let text = "";
         let keys = Object.keys(items)
@@ -53,7 +53,10 @@ module.exports = async function (message, user) {
                         "value": text,
                         "inline": true
                     },
-                ]
+                ],
+                "footer": {
+                    "text": "The store will close in " + functions.displayTime(devData.halloweenevent.end + 2 * 24 * 60 * 60 * 1000, ts)
+                }
             }
         });
     } else if (word2 == "buy" || word2 == "b") {
