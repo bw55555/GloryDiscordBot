@@ -1173,10 +1173,11 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
     raid.currenthealth = raid.currenthealth - damage;
     let counterstolen = Math.floor((user.money) / 5);
 
-    raid.attacklist[user._id] += Math.floor(damagereward * (1+(luckybuff-1)/5))
+    raid.attacklist[user._id] += Math.floor(damagereward * (1+(luckybuff-1)/1)/2)
     raid.damagelist[user._id] += damage;
     //user.money += damagereward;
-    user.xp += Math.floor(damagereward*luckybuff);
+    damagereward = Math.floor(damagereward * luckybuff)
+    user.xp += damagereward;
     if (user.currenthealth > user.health) {
         user.currenthealth = user.health
     }
