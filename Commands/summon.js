@@ -1,4 +1,4 @@
-
+﻿
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
@@ -13,27 +13,27 @@ module.exports = async function (message, user) {
                 level = parseInt(words[1])
                 if (isNaN(level) || level <= 0) { return functions.replyMessage(message, "Please specify a level.") }
             }
-            if (message.channel.type != "dm" && message.channel.name == "treant-raid") {
+            if (message.channel.type != "dm" && (message.channel.name == "treant-raid" || message.channel.name == "🌲treant-forest")) {
                 if (serverData[message.guild.id].treant != undefined || (serverData[message.guild.id].treant == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a treant raid in this server!") }
                 else { serverData[message.guild.id].treant = message.channel.id; functions.setProp("serverData", { "_id": message.guild.id }, { $set: { "treant": message.channel.id } }) }
                 functions.summon(raid, level, 0, 25, "Treant Boss", 'https://i.imgur.com/1fbm4us.jpg')
             }
-            else if (message.channel.type != "dm" && message.channel.name == "kraken-raid") {
+            else if (message.channel.type != "dm" && (message.channel.name == "kraken-raid" || message.channel.name == "🐙kraken-seas")) {
                 if (serverData[message.guild.id].kraken != undefined || (serverData[message.guild.id].kraken == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a kraken raid in this server!") }
                 else { serverData[message.guild.id].kraken = message.channel.id; functions.setProp("serverData", { "_id": message.guild.id }, { $set: { "kraken": message.channel.id } }) }
                 functions.summon(raid, level, 25, 50, "Kraken Boss", 'https://i.imgur.com/mGKIsnX.jpg')
             }
-            else if (message.channel.type != "dm" && message.channel.name == "dragon-raid") {
+            else if (message.channel.type != "dm" && (message.channel.name == "dragon-raid" || message.channel.name == "🐉dragon-peaks")) {
                 if (serverData[message.guild.id].dragon != undefined || (serverData[message.guild.id].dragon == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a dragon raid in this server!") }
                 else { serverData[message.guild.id].dragon = message.channel.id; functions.setProp("serverData", { "_id": message.guild.id }, { $set: { "dragon": message.channel.id } }) }
                 functions.summon(raid, level, 50, 75, "Dragon Boss", 'https://i.imgur.com/YCdZZmT.jpg')
             }
-            else if (message.channel.type != "dm" && message.channel.name == "deity-raid") {
+            else if (message.channel.type != "dm" && (message.channel.name == "deity-raid" || message.channel.name == "🌟deity-heaven")) {
                 if (serverData[message.guild.id].deity != undefined || (serverData[message.guild.id].deity == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a deity raid in this server!") }
                 else { serverData[message.guild.id].deity = message.channel.id; functions.setProp("serverData", { "_id": message.guild.id }, { $set: { "deity": message.channel.id } }) }
                 functions.summon(raid, level, 75, 100, "Deity Boss", 'https://i.imgur.com/o842h20.jpg')
             }
-            else if (message.channel.type != "dm" && message.channel.name == "hell-raid") {
+            else if (message.channel.type != "dm" && (message.channel.name == "hell-raid" || message.channel.name == "😈demonic-hell")) {
                 if (message.channel.id != 570356602843168769 && devs.indexOf(id) == -1) { return functions.replyMessage(message, "This is for the support server only!") }
                 if (serverData[message.guild.id].hell != undefined || (serverData[message.guild.id].hell == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a hell raid in this server!") }
                 else { serverData[message.guild.id].hell = message.channel.id; functions.setProp("serverData", { "_id": message.guild.id }, { $set: { "hell": message.channel.id } }) }
