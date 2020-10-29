@@ -908,6 +908,7 @@ function raidInfo(message, raid, extratext) {
             ]
         }
     }
+    let ts = message.createdTimestamp;
     if (devData.halloweenevent != undefined && ts > devData.halloweenevent.start && ts < devData.halloweenevent.end) {
         toSendEmbed.footer = {
             "text": "The ghosts will leave in " + functions.displayTime(devData.halloweenevent.end, ts)
