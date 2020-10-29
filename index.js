@@ -326,7 +326,7 @@ function evaluateMessage(message) {
         if (user.maintenance) {
             delete user.maintenance
             functions.sendMessage(message.channel, ":arrow_up: **MAJOR GLORY UPDATES** :arrow_up: \n\n"+
-            ":x: ** Anti - macro ** - there is a 1 % chance every command for a robber gang to come after you.React : crossed_swords: to defeat the robbers and gain honor!\n"+
+            ":x: ** Anti - macro ** - there is a 1 % chance every command for a robber gang to come after you. React :crossed_swords: to defeat the robbers and gain honor!\n"+
             "Note: you cannot use commands while a robber gang is present. \n"+
             ":crystal_ball: ** Honor ** - You can get honor from defeating robbers, doing!daily, and voting for the bot. \n"+
             ":moneybag: ** Auction System ** - You can buy rare things in exchange for honor.Currently, all items are provided by admins and you cannot sell your own items. \n" +
