@@ -339,7 +339,7 @@ function evaluateMessage(message) {
             "        - `!skillinv` becomes`!s inv`\n" +
             ":coin: ** Removed Gambling ** - You may not gamble money.It has been proven time and time again that a gambling command is not good for the economy of discord bots. (At least it is true for this one) \n" +
             ":money_with_wings: ** Economy Reduction ** - You now earn around 1 / 6 as much money.On the other hand, you get around 1.3x more xp.\n" +
-            "** Note: I was forced to reset everyone's raids due to some changes in data storage. **")
+            "** Note: I was forced to reset everyone's raids and equipped skills due to some changes in data storage. **")
         }
         if (devs.indexOf(id) == -1) {
             if (user.macro) {
