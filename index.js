@@ -326,19 +326,19 @@ function evaluateMessage(message) {
         if (user.maintenance) {
             delete user.maintenance
             functions.sendMessage(message.channel, ":arrow_up: **MAJOR GLORY UPDATES** :arrow_up: \n\n"+
-            ": x: ** Anti - macro ** - there is a 1 % chance every command for a robber gang to come after you.React : crossed_swords: to defeat the robbers and gain honor!\n"+
-            "            Note: you cannot use commands while a robber gang is present. \n"+
-            ": crystal_ball: ** Honor ** - You can get honor from defeating robbers, doing!daily, and voting for the bot. \n"+
-            " :moneybag: ** Auction System ** - You can buy rare things in exchange for honor.Currently, all items are provided by admins and you cannot sell your own items. \n" +
-            "          - do `!auction list` to see all auction items \n" +
-            "                - do `!auction bid` to bid on an item.\n" +
-            "                - do `!auction help` for a detailed explanation\n" +
-            "            : newspaper2: ** Skill Modifications ** - All skill commands were merged into one command, !skill or!s\n" +
-            "                - `!sa`, `!sb`, `!sc` become`!s a`, `!s b`, `!s c`\n" +
-            "                - `!sinfo` becomes`!s info`\n" +
-            "                - `!skillinv` becomes`!s inv`\n" +
-            "            : coin: ** Removed Gambling ** - You may not gamble money.It has been proven time and time again that a gambling command is not good for the economy of discord bots. (At least it is true for this one) \n" +
-            "            : money_with_wings: ** Economy Reduction ** - You now earn around 1 / 6 as much money.On the other hand, you get around 1.3x more xp.\n" +
+            ":x: ** Anti - macro ** - there is a 1 % chance every command for a robber gang to come after you.React : crossed_swords: to defeat the robbers and gain honor!\n"+
+            "Note: you cannot use commands while a robber gang is present. \n"+
+            ":crystal_ball: ** Honor ** - You can get honor from defeating robbers, doing!daily, and voting for the bot. \n"+
+            ":moneybag: ** Auction System ** - You can buy rare things in exchange for honor.Currently, all items are provided by admins and you cannot sell your own items. \n" +
+            "        - do `!auction list` to see all auction items \n" +
+            "        - do `!auction bid` to bid on an item.\n" +
+            "        - do `!auction help` for a detailed explanation\n" +
+            ":newspaper2: ** Skill Modifications ** - All skill commands were merged into one command, !skill or!s\n" +
+            "        - `!sa`, `!sb`, `!sc` become`!s a`, `!s b`, `!s c`\n" +
+            "        - `!sinfo` becomes`!s info`\n" +
+            "        - `!skillinv` becomes`!s inv`\n" +
+            ":coin: ** Removed Gambling ** - You may not gamble money.It has been proven time and time again that a gambling command is not good for the economy of discord bots. (At least it is true for this one) \n" +
+            ":money_with_wings: ** Economy Reduction ** - You now earn around 1 / 6 as much money.On the other hand, you get around 1.3x more xp.\n" +
             "** Note: I was forced to reset everyone's raids due to some changes in data storage. **")
         }
         if (devs.indexOf(id) == -1) {
