@@ -208,6 +208,10 @@ let page4 = {
             {
                 "name": "sell [weapon_id] [amount]",
                 "value": "Sell a weapon in market"
+            },
+            {
+                "name": "auction",
+                "value": "See the auction. Do !auction help for more info"
             }
         ]
     }
@@ -650,24 +654,25 @@ let page14 = {
 
 
         "fields": [
+
             {
-                "name": "skill[a/b/c] [skill_ID] | s[a/b/c] [skill_ID] ",
-                "value": "Choose skills. You can also enter skill name instead of ID"
+                "name": "skills | skill | s",
+                "value": "The main skill command. Checks equipped skills"
             },
             {
-                "name": "skills | s",
-                "value": "Check equiped skills"
+                "name": "s [a/b/c] [skill_ID] ",
+                "value": "Choose skills. You can also enter skill name instead of ID"
             },
             {
                 "name": "skillpoint | sp",
                 "value": "Get a skill using skillpoint. You earn 1 skill point everytime you ascend."
             },
             {
-                "name": "si",
+                "name": "s i",
                 "value": "List of skills you own"
             },
             {
-                "name": "skillinfo [skill_ID]",
+                "name": "s info [skill_ID]",
                 "value": "See information of that particular skill. You can also use skill name instead of ID"
             },
             {
@@ -675,7 +680,7 @@ let page14 = {
                 "value": "Reroll a skill you don't like"
             },
             {
-                "name": "stat",
+                "name": "stats",
                 "value": "Check all modifiers acting on your character"
             }
         ]
