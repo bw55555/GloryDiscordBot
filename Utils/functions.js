@@ -260,17 +260,17 @@ function generateWeaponTemplate(owner, weapon, current, total) {
     }
     let name = ""
     if (weapon.owner == "event") {
-        name = "event"
+        name = "Event"
     } else {
-        name = bot.users.cache.get(weapon.owner).username
+        name = "<@" + weapon.owner + ">"
     }
     return {
         embed: {
-            title: "Weapon info for " + name + "\'s weapon",
+            title: "Weapon info",
             color: 0xF1C40F,
             fields: [{
                 name: "Owner:",
-                value: weapon.owner,
+                value: name+" ("+weapon.owner+")",
                 inline: false,
             }, {
                 name: "Weapon Name and ID:",
