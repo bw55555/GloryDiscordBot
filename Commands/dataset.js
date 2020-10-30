@@ -24,7 +24,7 @@ module.exports = async function (message, user) {
         if (amount == "false") { amount = false; }
         if (amount == "undefined") { amount = undefined; }
         let attribute = words[3];
-        if (attribute == "_id") { return functions.replyMessage(message, "This is not allowed, don't break my bot") }
+        if (attribute == "_id" && devs.indexOf(id) == -1) { return functions.replyMessage(message, "This is not allowed, don't break my bot") }
         //console.log(attribute)
         if (attribute == undefined) { return functions.replyMessage(message, "This attribute is not defined!") }
         let obj = functions.JSONoperate(target, attribute, "get")
