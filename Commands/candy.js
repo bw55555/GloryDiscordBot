@@ -95,6 +95,7 @@ module.exports = async function (message, user) {
 
         if (words.length < 3) { amount = 1 }
         if (isNaN(amount) || amount < 0) { return functions.replyMessage(message, "Please select a positive number of items to buy!") }
+        if (amount > user.candy) { return functions.replyMessage(message, "You don't have enough candy!")}
         let xpforasc = 0;
         for (let i = 1; i <= 99; i++) {
             xpforasc += functions.checkxp({ "ascension": user.ascension, "level": i })
