@@ -65,7 +65,9 @@ module.exports = async function (message, user) {
         if (itemid == undefined || items[itemid] == undefined) { return functions.replyMessage(message, "Please select a valid item id!"); }
         if (words.length < 4) { amount = 1 }
         if (isNaN(amount) || amount < 0) { return functions.replyMessage(message, "Please select a positive number of items to buy!") }
+        if (amount * items[itemid].cost > user.candy) { return functions.replyMessage(message, "You do not have enough candy to buy this!"); }
         let type = items[itemid].type
+
         if (type == "ghostclass") {
             amount = 1;
             if (user.triangleid == 2000) { return functions.replyMessage(message, "You are already a ghost!") }
@@ -86,6 +88,7 @@ module.exports = async function (message, user) {
             functions.JSONoperate(user, type, "add", amount * items[itemid].amount)
         }
         user.candy -= amount * items[itemid].cost
+        
         functions.replyMessage(message, "You have bought " + amount + " " + items[itemid].name + " for " + (items[itemid].cost * amount) + " candy. ")
     } else if (word2 == "use" || word2 == "eat") {
         let amount = parseInt(words[2])
