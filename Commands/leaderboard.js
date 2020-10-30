@@ -1,8 +1,8 @@
 
 module.exports = async function (message, user) {
     let id = message.author.id;
-    //let ts = message.createdTimestamp;
-    //let words = message.content.trim().split(/\s+/)
+    let ts = message.createdTimestamp;
+    let words = message.content.trim().split(/\s+/)
     let item = words[1];
     if (typeof JSONoperate(user, item, "get") != "number") {
         return functions.replyMessage(message, "This does not resolve to a number...")
