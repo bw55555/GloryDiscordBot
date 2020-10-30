@@ -27,7 +27,7 @@ module.exports = async function (message, user) {
         }
         let pages = []
         for (var i = 0; i < arr.length; i++) {
-            page.embed.fields[0].value += "**" + (i + 1) + ". " + arr[i].username + "** (ID: " + arr[i]._id + ") with **" + parseInt(arr[i][item]) + "** " + item
+            page.embed.fields[0].value += "**" + (i + 1) + ". " + arr[i].username + "** (ID: " + arr[i]._id + ") with **" + functions.JSONoperate(user, item, "get") + "** " + item
             if (i % numPerPage == numPerPage - 1) { // separate pages
                 page.embed.footer.text = (pages.length * numPerPage + 1) + "-" + (i + 1) + " out of " + arr.length //add footer to display where you are
                 pages.push(page)
