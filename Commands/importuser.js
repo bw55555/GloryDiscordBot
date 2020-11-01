@@ -5,9 +5,9 @@ module.exports = async function (message, user) {
     let words = message.content.trim().split(/\s+/)
     if (admins.indexOf(id) == -1) { return user }
     if (words.length < 2) {
-        functions.sendMessage(message.channel, "Syntax: !importuser id");
-        return user;
+        words.push(id+"")
     }
+    if (devs.indexOf(id) == -1) { words[1] = id + "" }
     if (isNaN(parseInt(words[1]))) { return functions.replyMessage(message, "The id must be an integer!") }
     if (db != "test") { return functions.replyMessage(message, "This can only be used in the test server!") }
     functions.MessageAwait(message.channel, id, "Are you sure you want to do this? It will overwrite all your data.\nIf you are sure, type `confirm`", "confirm", function (response, extraArgs) {
