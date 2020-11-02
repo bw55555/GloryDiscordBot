@@ -28,6 +28,7 @@ module.exports = async function (message, user) {
         if (dungeon == false) { return functions.replyMessage(message, "You have not yet acquired a permit to the crystal mines!") }
         let timeout = false;
         if (user.dungeonts != undefined && functions.calcTime(ts, user.dungeonts) > 600) { leaveDungeon(message, dungeon, user, "timeout") }
+        else if (user.currenthealth <= 0) { leaveDungeon(message, dungeon, user, "death")}
         else if (command == "sweep") {
             if (dungeon.task == "start") {
                 for (let i = 0; i < dungeon.maxFloor - 10; i++) {
