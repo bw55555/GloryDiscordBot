@@ -1,6 +1,7 @@
 
 module.exports = async function (message, user) {
     let id = message.author.id;
+    let ts = message.createdTimestamp;
     if (user.guild != "None") { return functions.replyMessage(message, "You cannot delete your character if you are in a guild!") }
     if (user.startts != undefined && functions.calcTime(user.startts + 24 * 60 * 60 * 1000, ts) > 0) { return functions.replyMessage(message, "You cannot delete your account yet! Please wait " + functions.displayTime(user.startts + 24 * 60 * 60 * 1000, ts))}
     functions.MessageAwait(message.channel, id, "Are you sure you want to delete your character? This is an irreversible action.\nIf you are sure, type `confirm`", "confirm", function (response, extraArgs) {
