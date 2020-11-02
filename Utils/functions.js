@@ -213,7 +213,7 @@ async function validate(message, user, spot) {
         targetname = temptarget
     }
     if (target == user._id) { return user }
-    if (user.dungeonts != undefined) {
+    if (user.dungeonts != undefined && devs.indexOf(user._id) == -1) {
         sendMessage(message.channel, "You cannot target someone else while in a dungeon!");
         return false
     }
@@ -1122,7 +1122,7 @@ function checkCommand(message, user) {
     let command = message.command
     if (aliaslist[command] != undefined) { command = aliaslist[command]}
     let dungeonbannedcommands = ["raidattack", "eventattack", "worldattack", "guild"]
-    if (user.dungeonts != undefined && dungeonbannedcommands.indexOf(command) != -1 && devs.indexOf(user._id) == -1) { return false; }
+    if (user.dungeonts != undefined && dungeonbannedcommands.indexOf(command) != -1 && devs.indexOf(user._id) == -1) { replyMessage(message, "You cannot do this in a dungeon!");return false; }
     return true; 
 }
 
