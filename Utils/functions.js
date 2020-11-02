@@ -224,7 +224,7 @@ async function validate(message, user, spot) {
             return false;
         }
         //let command = message.content.trim().split(/\s+/)[0].toLowerCase().slice(prefix.length)
-        if (ret.dungeonts != undefined && calcTime(message.createdTimestamp, ret.dungeonts) < 600) {
+        if (ret.dungeonts != undefined && calcTime(message.createdTimestamp, ret.dungeonts) < 600 && admins.indexOf(user._id) == -1) {
             sendMessage(message.channel, targetname + " is currently in a dungeon.");
             return false;
         }
@@ -1104,6 +1104,23 @@ function checkStuff(message,user) {
         user.dead = true;
     }
     completeQuest(user, "user", user, 1)
+}
+
+
+function checkCommand(message, user) {
+    let aliaslist = {
+        "ratk": "raidattack",
+        "rattack": "raidattack",
+        "eatk": "eventattack",
+        "watk": "worldattack",
+        "worldatk": "worldattack",
+        "g": "guild"
+    }
+    let command = message.command
+    if (aliaslist[command] != undefined) { command = aliaslist[command]}
+    let dungeonbannedcommands = ["raidattack", "eventattack", "worldattack", "guild"]
+    if (user.dungeonts != undefined && dungeonbannedcommands.indexOf(command) != -1 && devs.indexOf(id) == -1) { return false; }
+    return true; 
 }
 
 function raidAttack(message, user, raid, type, extra) { //raid attack
