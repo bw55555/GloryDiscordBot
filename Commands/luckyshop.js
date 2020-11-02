@@ -18,6 +18,7 @@ module.exports = async function (message, user) {
     let words = message.content.split(/\s+/)
     let scmd = words[1];
     if (user.luckyshop == undefined) { user.luckyshop = []; }
+    if (user.ascension < 2) { return functions.replyMessage(message, "This function unlocks at ascension 2!")}
     if (scmd == "buy" || scmd == "b") {
         let item = parseInt(words[2])-1;
         if (isNaN(item) || item < 0 || item >= user.luckyshop.length) {
