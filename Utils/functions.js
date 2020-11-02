@@ -1122,7 +1122,7 @@ function checkCommand(message, user) {
     let command = message.command
     if (aliaslist[command] != undefined) { command = aliaslist[command]}
     let dungeonbannedcommands = ["raidattack", "eventattack", "worldattack", "guild"]
-    if (user.dungeonts != undefined && dungeonbannedcommands.indexOf(command) != -1 && devs.indexOf(id) == -1) { return false; }
+    if (user.dungeonts != undefined && dungeonbannedcommands.indexOf(command) != -1 && devs.indexOf(user._id) == -1) { return false; }
     return true; 
 }
 
