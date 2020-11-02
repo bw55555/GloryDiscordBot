@@ -1826,7 +1826,7 @@ function extractOptions(message, inorder, ...optionnames) {
 
 async function antimacro(message, user) {
     
-    let reacts = ["⚔️", "💰", "🏳️", "🏃‍♂️"]
+    let reacts = ["<:pvpattack:549652727744167936>", "💰", "🏳️", "🏃‍♂️"]
     reacts = shuffle(reacts)
     let x = replyMessage(message, "Your way was blocked by a gang of robbers. What will you do? \n ⚔️: Fight the robbers\n 💰: Bribe the robbers \n🏳️: Surrender to the robbers \n🏃‍♂️: Run away from the robbers")
     if (x == undefined) { return; }
