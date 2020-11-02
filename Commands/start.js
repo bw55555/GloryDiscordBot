@@ -48,7 +48,8 @@ module.exports = async function (message, user) {
         quests: [],
         cnumbers: [0, 0],
         statusEffects: {},
-        candy: 0
+        candy: 0,
+        startts: ts
     }
 
     user.money += 1000;
