@@ -1051,6 +1051,9 @@ function checkStuff(message,user) {
             return false;
         }
     }
+    if (checkCommand(message, user) == false) {
+        return false;
+    }
     //user.xp += Math.floor(20 * Math.random() + 1); //whenever a message is sent, their experience increases by a random number 1-25.
     user.xp += 1 + Math.floor(Math.random() * user.level);
     let leveluptext = ""
