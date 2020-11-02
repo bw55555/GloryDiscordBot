@@ -1828,7 +1828,7 @@ async function antimacro(message, user) {
     
     let reacts = ["549652727744167936", "💰", "🏳️", "🏃‍♂️"]
     reacts = shuffle(reacts)
-    let x = replyMessage(message, "Your way was blocked by a gang of robbers. What will you do? \n ⚔️: Fight the robbers\n 💰: Bribe the robbers \n🏳️: Surrender to the robbers \n🏃‍♂️: Run away from the robbers")
+    let x = replyMessage(message, "Your way was blocked by a gang of robbers. What will you do? \n <:pvpattack:549652727744167936>: Fight the robbers\n 💰: Bribe the robbers \n🏳️: Surrender to the robbers \n🏃‍♂️: Run away from the robbers")
     if (x == undefined) { return; }
     user.macro = true
     x.then(async msg => {
@@ -1842,7 +1842,7 @@ async function antimacro(message, user) {
         }
         this.collector = msg.createReactionCollector((reaction, u) => reaction.me && u.id === user._id && u.id !== msg.author.id, { max: 1, time: 10000, errors: ['time'] });
         this.collector.on("collect", (reaction, person) => {
-            if (reaction.emoji.toString() == "549652727744167936") {
+            if (reaction.emoji.toString() == "<:pvpattack:549652727744167936>") {
                 getObject("userData", user._id).then(honorguy => {
                     if (honorguy.macro == undefined) { return; }
                     let honorget = Math.floor(1 + Math.random() * 2 * Math.floor(user.ascension / 5))
