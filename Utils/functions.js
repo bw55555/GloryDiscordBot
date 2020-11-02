@@ -1842,7 +1842,7 @@ async function antimacro(message, user) {
         }
         this.collector = msg.createReactionCollector((reaction, u) => reaction.me && u.id === user._id && u.id !== msg.author.id, { max: 1, time: 10000, errors: ['time'] });
         this.collector.on("collect", (reaction, person) => {
-            if (reaction.emoji.toString() == "⚔️") {
+            if (reaction.emoji.toString() == "549652727744167936") {
                 getObject("userData", user._id).then(honorguy => {
                     if (honorguy.macro == undefined) { return; }
                     let honorget = Math.floor(1 + Math.random() * 2 * Math.floor(user.ascension / 5))
