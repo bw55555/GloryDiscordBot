@@ -91,38 +91,42 @@ module.exports = async function (message, user) {
             functions.sendMessage(message.channel, "Choose a skill ID");
             return;
         }
-        let skillid = words.join(" ");
-        if (!isNaN(parseInt(skillid))) { skillid = parseInt(skillid) }
-        else { skillid = skillData.findIndex(item => item.name == skillid) }
-        if (isNaN(skillid)) {
-            functions.sendMessage(message.channel, "Please type an integer skill ID");
-            return;
-        }
-        if (skillid < 0 || skillid >= skillData.length) {
-            functions.sendMessage(message.channel, "Please select an existing skill ID");
-            return;
-        }
-        if (skillid == undefined) {
-            return;
-        }
-        skillname = skillData[skillid].name
-        skilltext = skillData[skillid].description
-        functions.sendMessage(message.channel, {
-            embed: {
-                color: 0x008080,
-                title: "Skill Info" + " (" + skillid + ")",
-                /*thumbnail: {
-                    "url": "https://i.imgur.com/r39nI8f.jpg"
-                },*/
-                fields: [
-                    {
-                        name: skillname,
-                        value: skilltext,
-                        inline: true
-                    }
-                ]
+        let skillid = words.join(" ").toLowerCase();
+        if (skillid == "all") {
+
+        } else {
+            if (!isNaN(parseInt(skillid))) { skillid = parseInt(skillid) }
+            else { skillid = skillData.findIndex(item => item.name.toLowerCase() == skillid) }
+            if (isNaN(skillid)) {
+                functions.sendMessage(message.channel, "Please type an integer skill ID");
+                return;
             }
-        });
+            if (skillid < 0 || skillid >= skillData.length) {
+                functions.sendMessage(message.channel, "Please select an existing skill ID");
+                return;
+            }
+            if (skillid == undefined) {
+                return;
+            }
+            skillname = skillData[skillid].name
+            skilltext = skillData[skillid].description
+            functions.sendMessage(message.channel, {
+                embed: {
+                    color: 0x008080,
+                    title: "Skill Info" + " (" + skillid + ")",
+                    /*thumbnail: {
+                        "url": "https://i.imgur.com/r39nI8f.jpg"
+                    },*/
+                    fields: [
+                        {
+                            name: skillname,
+                            value: skilltext,
+                            inline: true
+                        }
+                    ]
+                }
+            });
+        }
     } else if (command == "I" || command == "INV" || command == "INVENTORY") {
         let text = "**Your Skills**\n"
         //let skills = user.skills;
