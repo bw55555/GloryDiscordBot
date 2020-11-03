@@ -223,7 +223,7 @@ module.exports = async function (message, user) {
         }
         let skillid = words.join(" ").toLowerCase();
         if (skillid == "all") {
-            functions.createList(message, user, skillData, "All Skills", (x) => "(" + x.id + ") "+x.name , (x) => x.description)
+            functions.createPages(message, user, skillData, "All Skills", (x) => "(" + x.id + ") "+x.name , (x) => x.description)
 
         } else {
             if (!isNaN(parseInt(skillid))) { skillid = parseInt(skillid) }
