@@ -5,7 +5,7 @@ module.exports = async function (message, user) {
     let words = message.content.trim().split(/\s+/)
     personskills = user.skills
     if (user.consum.reroll <= 0) {//Checks if user has skill points
-        functions.replyMessage(message, "You have no more rerolls. Get them by buying in the shop.");
+        functions.replyMessage(message, "You have no more rerolls. ");
         return;
     }
 

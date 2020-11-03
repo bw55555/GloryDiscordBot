@@ -961,14 +961,14 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability, abilityde
         //world boss
         raid.attack = Math.floor(summonlevel * 15);
         raid.currenthealth = summonlevel * 100 * (Math.floor(2 * summonlevel / 25) + 1);
-        raid.health = summonlevel * 5 * (Math.floor(summonlevel / 25) + 1);
+        raid.health = raid.currenthealth
         raid.reward = Math.floor(summonlevel * 5000);
         raid.level = summonlevel;
     } else {
         if (level != undefined) { summonlevel = level }
         raid.attack = summonlevel * 10+Math.floor(summonlevel/25);
         raid.currenthealth = summonlevel * 5 * (Math.floor(summonlevel / 25) + 1);
-        raid.health = summonlevel * 5 * (Math.floor(summonlevel / 25) + 1);
+        raid.health = raid.currenthealth
         raid.reward = summonlevel * 500;
         raid.level = summonlevel;
     }
