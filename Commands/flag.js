@@ -9,6 +9,6 @@ module.exports = async function (message, user) {
         let target = ret[0];
         if (target == false) { return user; }
         if (target.flag == true) { delete target.flag; functions.setUser(target); return functions.replyMessage(message, "<@" + target._id + "> was successfully unflagged!")}
-        else { target.flag = true; functions.setUser(target); return functions.replyMessage(message, "<@" + target._id + "> was successfully unflagged!") }
+        else { target.flag = true; functions.setUser(target); return functions.replyMessage(message, "<@" + target._id + "> was successfully flagged!") }
     });
 }
