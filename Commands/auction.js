@@ -174,8 +174,8 @@ async function endAuction(aitem, user) {
                 functions.setUser(payer)
                 return;
             })
-            if (aitem.end) { return; }
         }
+        if (aitem.end) { return; }
     }
     functions.deleteObject("auctionData", aitem._id)
 }
