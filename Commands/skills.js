@@ -93,6 +93,7 @@ module.exports = async function (message, user) {
         }
         let skillid = words.join(" ").toLowerCase();
         if (skillid == "all") {
+            functions.Createlist(message, user, skillData, "All Skills", (x) => x.name + " ("+x.id+")", (x) => x.description)
 
         } else {
             if (!isNaN(parseInt(skillid))) { skillid = parseInt(skillid) }
