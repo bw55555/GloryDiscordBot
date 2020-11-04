@@ -104,6 +104,7 @@ module.exports = async function (message, user) {
         for (let i = 0; i < amount; i++) {
             xpgain += Math.ceil(xpforasc * (0.0003 * Math.random() - 0.0001))
         }
+        user.candy -= amount
         user.xp += xpgain
         functions.replyMessage(message, "You have eaten "+amount + " candy and gained "+xpgain +" xp. ")
     } else {
