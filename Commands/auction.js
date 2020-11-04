@@ -176,7 +176,7 @@ async function endAuction(aitem, user) {
                 return;
             })
         }
-        if (aitem.end) { return; }
+        if (aitem.end) { break; }
     }
     functions.deleteObject("auctionData", aitem._id)
 }
