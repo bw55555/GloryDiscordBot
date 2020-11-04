@@ -176,9 +176,9 @@ async function endAuction(aitem, user) {
                 return;
             })
         }
-        if (aitem.end) { break; }
+        if (aitem.end) { return functions.deleteObject("auctionData", aitem._id); }
     }
-    functions.deleteObject("auctionData", aitem._id)
+    
 }
 function checkPayment(aitem, bidset, payer) {
     if (payer[aitem.currency] < bidset.current) {
