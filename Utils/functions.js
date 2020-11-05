@@ -182,8 +182,9 @@ function logCommand(message, extratext) {
     if (message.author.bot) { return }
     if (extratext == undefined) { extratext = "" } else { extratext = "|" + extratext }
     let textlength = message.author.id + "||" + message.createdTimestamp + extratext + " ..."
-    if (message.content.length >= 1000 - textlength.length) { message.content = message.content.slice(0, 1000-textlength.length) + " ..."}
-    sendMessage(bot.guilds.cache.get(debugGuildId).channels.cache.get(debugChannelId), clean(message.author.id + "|" + message.content + "|" + message.createdTimestamp + extratext))
+    let mcontent = message.content
+    if (mcontent.length >= 1000 - textlength.length) { mcontent = mcontent.slice(0, 1000-textlength.length) + " ..."}
+    sendMessage(bot.guilds.cache.get(debugGuildId).channels.cache.get(debugChannelId), clean(message.author.id + "|" + mcontent + "|" + message.createdTimestamp + extratext))
 }
 
 async function validate(message, user, spot) {
