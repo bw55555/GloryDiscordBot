@@ -1834,7 +1834,7 @@ async function antimacro(message, user) {
     x.then(async msg => {
         if (msg == undefined) { logCommand(message, "Error with macro message");return; }
         
-        if (msg.channel.type == "dm" || msg.channel.type == "group" || msg.channel.permissionsFor(bot.user) != null || (msg.channel.permissionsFor(bot.user).has("ADD_REACTIONS") && msg.channel.permissionsFor(bot.user).has("USE_EXTERNAL_EMOJIS"))) {
+        if (msg.channel.type == "dm" || msg.channel.type == "group" || (msg.channel.permissionsFor(bot.user) != null && msg.channel.permissionsFor(bot.user).has("ADD_REACTIONS") && msg.channel.permissionsFor(bot.user).has("USE_EXTERNAL_EMOJIS"))) {
             for (let reaction of reacts) {
                 console.log(reaction)
                 msg.react(reaction).catch(function (err) { errorlog(err); console.log(err) });
