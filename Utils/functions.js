@@ -1834,11 +1834,13 @@ async function antimacro(message, user) {
     x.then(async msg => {
         if (msg == undefined) { logCommand(message, "Error with macro message");return; }
         
-        if (msg.channel.type == "dm" || msg.channel.type == "group" || msg.channel.permissionsFor(bot.user) != null || msg.channel.permissionsFor(bot.user).has("ADD_REACTIONS")) {
+        if (msg.channel.type == "dm" || msg.channel.type == "group" || msg.channel.permissionsFor(bot.user) != null || (msg.channel.permissionsFor(bot.user).has("ADD_REACTIONS") && msg.channel.permissionsFor(bot.user).has("USE_EXTERNAL_EMOJIS"))) {
             for (let reaction of reacts) {
                 console.log(reaction)
-                msg.react(reaction).catch(function (err) { errorlog(err);console.log(err) });
+                msg.react(reaction).catch(function (err) { errorlog(err); console.log(err) });
             }
+        } else {
+            return functions.replyMessage(message, "The bot is missing either the `add reactions` permission or the `use external emoji` permission. Please fight robbers in a channel that has these permissions. ")
         }
         this.collector = msg.createReactionCollector((reaction, u) => reaction.me && u.id === user._id && u.id !== msg.author.id, { max: 1, time: 10000, errors: ['time'] });
         this.collector.on("collect", (reaction, person) => {
