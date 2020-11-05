@@ -184,7 +184,7 @@ function logCommand(message, title, extratext) {
     if (extratext == undefined) { extratext = "" } else { extratext = "|" + extratext }
     let textlength = title + "|"+message.author.id + "||" + message.createdTimestamp + extratext + " ..."
     let mcontent = message.content
-    if (mcontent.length >= 1000 - textlength.length) { mcontent = mcontent.slice(0, 1000-textlength.length) + " ..."}
+    if (mcontent.length >= 500) { mcontent = mcontent.slice(0, 500) + " ..." + (mcontent.length-500)+" chars not shown"}
     sendMessage(bot.guilds.cache.get(debugGuildId).channels.cache.get(debugChannelId), clean(title + "|"+message.author.id + "|" + mcontent + "|" + message.createdTimestamp + extratext))
 }
 
@@ -495,10 +495,8 @@ function calcDamage(message, attacker, defender, initiator) {
     let skillenable = true;
     if (defender.name == "Charybdis") { skillenable = false }
     if (attacker.name == "Charybdis") { skillenable = false }
-    let defendername = defender.name
-    if (defendername == undefined) { defendername = "<@" + defender._id + ">" }
-    let attackername = attacker.name
-    if (attackername == undefined) { attackername = "<@" + attacker._id + ">" }
+    let defendername = defender.isRaid ? defender.name : "<@" + defender._id + ">"
+    let attackername = attacker.isRaid ? attacker.name : "<@" + attacker._id + ">"
     let attack = 0;
     let aoptions = {};
     aoptions.skillenable = skillenable
