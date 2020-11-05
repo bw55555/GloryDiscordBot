@@ -178,13 +178,14 @@ function dmUser(user, text) {
 }
 
 
-function logCommand(message, extratext) {
+function logCommand(message, title, extratext) {
+    if (title == undefined) { title = "LOG" }
     if (message.author.bot) { return }
     if (extratext == undefined) { extratext = "" } else { extratext = "|" + extratext }
-    let textlength = message.author.id + "||" + message.createdTimestamp + extratext + " ..."
+    let textlength = title + "|"+message.author.id + "||" + message.createdTimestamp + extratext + " ..."
     let mcontent = message.content
     if (mcontent.length >= 1000 - textlength.length) { mcontent = mcontent.slice(0, 1000-textlength.length) + " ..."}
-    sendMessage(bot.guilds.cache.get(debugGuildId).channels.cache.get(debugChannelId), clean(message.author.id + "|" + mcontent + "|" + message.createdTimestamp + extratext))
+    sendMessage(bot.guilds.cache.get(debugGuildId).channels.cache.get(debugChannelId), clean(title + "|"+message.author.id + "|" + mcontent + "|" + message.createdTimestamp + extratext))
 }
 
 async function validate(message, user, spot) {
@@ -1835,7 +1836,7 @@ async function antimacro(message, user) {
     if (x == undefined) { return; }
     user.macro = true
     x.then(async msg => {
-        if (msg == undefined) { logCommand(message, "Error with macro message");return; }
+        if (msg == undefined) { logCommand(message, undefined, "Error with macro message");return; }
         
         if (msg.channel.type == "dm" || msg.channel.type == "group" || (msg.channel.permissionsFor(bot.user) != null && msg.channel.permissionsFor(bot.user).has("ADD_REACTIONS") && msg.channel.permissionsFor(bot.user).has("USE_EXTERNAL_EMOJIS"))) {
             for (let reaction of reacts) {
@@ -1913,7 +1914,7 @@ module.exports.sendMessage = function (channel, text, override) { return sendMes
 module.exports.replyMessage = function (message, text, override) { return replyMessage(message, text, override) }
 module.exports.deleteMessage = function (message) { return deleteMessage(message) }
 module.exports.dmUser = function (user, text) { return dmUser(user, text) }
-module.exports.logCommand = function (message, extratext) { return logCommand(message, extratext) }
+module.exports.logCommand = function (message, title, extratext) { return logCommand(message, title, extratext) }
 module.exports.validate = function (message, user, spot) { return validate(message, user, spot) }
 module.exports.getGuildBuff = function (user, buffname) { return getGuildBuff(user, buffname) }
 module.exports.hasSkill = function (user, skillid, enable) { return hasSkill(user, skillid, enable) }

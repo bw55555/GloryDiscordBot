@@ -343,7 +343,7 @@ function evaluateMessage(message) {
         }
         if (devs.indexOf(id) == -1) {
             if (user.macro) {
-                functions.sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.flagChannelId), "MACRO|" + message.author.id + "|" + message.content + "|" + ts)
+                functions.logCommand(message, "MACRO")
             }
             if (Math.random() < devData.security || user.macro) {
                 functions.antimacro(message, user)
@@ -357,7 +357,7 @@ function evaluateMessage(message) {
         
         user.cooldowns.normal = ts;
         if (user.flag == true) {
-            functions.sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.flagChannelId), "FLAG|"+message.author.id + "|" + message.content + "|" + ts)
+            functions.logCommand(message, "FLAG")
         }
         
         //sendMessage(bot.guilds.cache.get("536599503608872961").channels.cache.get("538710109241606154"), message.author.id + "|" + message.content + "|" + ts)
