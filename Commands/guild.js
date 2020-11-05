@@ -719,6 +719,7 @@ module.exports = async function (message, user) {
                 }
                 updateStat = guildBuffStore.findIndex(x => x.stat == updateStat)
             }
+            if (updateStat < 0 || updateStat > guildBuffStore.length) { return functions.replyMessage(message, "This buff does not exist!")}
             updateStat = guildBuffStore[updateStat].stat
             let lvl = parseInt(words[3]);
             if (guild.buffs[updateStat] == undefined || isNaN(lvl) || lvl < 0 || lvl > guild.buffs[updateStat]) { return functions.replyMessage(message, "Please specify a valid level!") }
