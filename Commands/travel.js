@@ -7,16 +7,17 @@ module.exports = async function (message, user) {
     let word2 = words[1].toLowerCase();
     if (word2 == "city") {
         user.location = word2
+        return functions.replyMessage(message, "You have returned to the city!")
     } else if (word2 == "treant" || word2 == "kraken" || word2 == "dragon" || word2 == "deity" || word2 == "hell") {
         let key = words[2];
         if (key == undefined) { key = getRandomKey() }
         key = key.toUpperCase()
         if (key.length != 7) { return functions.replyMessage(message, "The key must have 7 characters!") }
-        if (!isChar(key)) { return functions.replyMessage(message, "The key must consist of characters A-Z or 0-9!")}
-        let newloc = word2 + "-"+key
+        if (!isChar(key)) { return functions.replyMessage(message, "The key must consist of characters A-Z or 0-9!") }
+        let newloc = word2 + "-" + key
         return functions.getObject("mobData", newloc).then(raid => {
             user.location = newloc
-            let text = "You have travelled to location "+newloc+"!\n"
+            let text = "You have travelled to location " + newloc + "!\n"
             if (raid == false) {
                 let raidnames = {
                     "treant": {
@@ -60,7 +61,9 @@ module.exports = async function (message, user) {
             }
             functions.replyMessage(message, text)
         })
-        
+
+    } else {
+        return functions.replyMessage(message, "This location does not exist!")
     }
 }
 function isChar(s) {
