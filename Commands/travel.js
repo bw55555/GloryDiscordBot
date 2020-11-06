@@ -65,7 +65,7 @@ module.exports = async function (message, user) {
 }
 function isChar(s) {
     for (let i = 0; i < s.length; i++) {
-        let x = c.charCodeAt(i)
+        let x = s.charCodeAt(i)
         if (x <= 48 || (x >= 57 && x <= 65) || x >= 90) { return false}
     }
     return true;
