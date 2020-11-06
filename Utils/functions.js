@@ -184,8 +184,10 @@ function logCommand(message, title, extratext) {
     if (extratext == undefined) { extratext = "" } else { extratext = "|" + extratext }
     let textlength = title + "|"+message.author.id + "||" + message.createdTimestamp + extratext + " ..."
     let mcontent = message.content
-    if (mcontent.length >= 500) { mcontent = mcontent.slice(0, 500) + " ..." + (mcontent.length-500)+" chars not shown"}
-    sendMessage(bot.guilds.cache.get(debugGuildId).channels.cache.get(debugChannelId), clean(title + "|"+message.author.id + "|" + mcontent + "|" + message.createdTimestamp + extratext))
+    if (mcontent.length >= 500) { mcontent = mcontent.slice(0, 500) + " ..." + (mcontent.length - 500) + " chars not shown" }
+    let cid = debugChannelId
+    if (title == "MACRO" || title == "FLAG") { cid == devData.flagChannelId}
+    sendMessage(bot.guilds.cache.get(debugGuildId).channels.cache.get(cid), clean(title + "|"+message.author.id + "|" + mcontent + "|" + message.createdTimestamp + extratext))
 }
 
 async function validate(message, user, spot) {
