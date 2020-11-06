@@ -1026,8 +1026,9 @@ function checkProps(message,user) {
     if (user.honor == undefined) user.honor = 0;
     if (user.dailyhonor == undefined) user.dailyhonor = 0;
     if (user.statusEffects == undefined) user.statusEffects = {};
-    if (user.candy == undefined) user.candy = 0;
     if (user.currenthealth > user.health) user.currenthealth = user.health
+    if (user.location == undefined) { user.location = "city"}
+
     if (user.start === false) { //when you start, your currenthealth will be to 10;
         user.currenthealth = 10;
         user.start = true;
