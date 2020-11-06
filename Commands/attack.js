@@ -72,8 +72,7 @@ module.exports = async function (message, user) {
         if (target.currenthealth > target.health) {
             target.currenthealth = target.health
         }
-
-        functions.sendMessage(message.channel, {
+        let pvpResultEmbed = {
             embed: {
                 title: '<:pvpattack:549652727744167936>' + message.author.username + " attacks " + target.username + "!",
                 color: 0xF1C40F,
@@ -87,7 +86,8 @@ module.exports = async function (message, user) {
                     }
                 ]
             }
-        });
+        }
+        let text = ""
         if (target.currenthealth <= 0 && user.currenthealth <= 0) {
             target.dead = true;
             target.currenthealth = 0;
@@ -103,14 +103,14 @@ module.exports = async function (message, user) {
             if (target.level <= 1) { target.xp = 0 }
             target.money -= stolen;
             user.money -= counterstolen;
-            functions.sendMessage(message.channel, '<@' + user._id + '> and <@' + target._id + '> was killed! Both lost 10% of their money.');
+            text += '<@' + user._id + '> and <@' + target._id + '> was killed! Both lost 10% of their money.\n';
             if (user.bounty > 0) {
-                functions.sendMessage(message.channel, '<@' + target._id + "> collected your bounty of $" + user.bounty);
+                text += '<@' + target._id + "> collected your bounty of $" + user.bounty+"\n";
                 target.money += user.bounty;
                 user.bounty = 0;
             }
             if (target.bounty > 0) {
-                functions.sendMessage(message.channel, 'You collected <@' + target._id + ">'s bounty of $" + target.bounty);
+                text += 'You collected <@' + target._id + ">'s bounty of $" + target.bounty + "\n";
                 user.money += target.bounty;
                 target.bounty = 0;
             }
@@ -122,9 +122,9 @@ module.exports = async function (message, user) {
             target.currenthealth = 0;
             target.money -= stolen;
             user.money += stolen;
-            functions.sendMessage(message.channel, '<@' + target._id + '> was killed! You stole $' + stolen + ' from their body.');
+            text += '<@' + target._id + '> was killed! You stole $' + stolen + ' from their body.\n';
             if (target.bounty > 0) {
-                functions.sendMessage(message.channel, 'You collected <@' + target._id + ">'s bounty of $" + target.bounty);
+                text += 'You collected <@' + target._id + ">'s bounty of $" + target.bounty+"\n";
                 user.money += target.bounty;
                 target.bounty = 0;
             }
@@ -145,7 +145,7 @@ module.exports = async function (message, user) {
 
             if (user.currenthealth > 0 && functions.hasSkill(user, 15)) {
                 user.currenthealth += target.health
-                functions.sendMessage(message.channel, "Soulsteal activated. <@" + user._id + "> has stolen " + target.health + " health");
+                text += "Soulsteal activated. <@" + user._id + "> has stolen " + target.health + " health\n";
                 user.currenthealth = Math.min(user.currenthealth, user.health)
             }
             functions.completeQuest(user, "kill", {"death": target}, 1)
@@ -154,9 +154,9 @@ module.exports = async function (message, user) {
             user.currenthealth = 0;
             user.money -= counterstolen;
             target.money += counterstolen;
-            functions.sendMessage(message.channel, '<@' + user._id + '> (you) were killed! <@' + target._id + '> stole $' + counterstolen + ' from your body.');
+            text += '<@' + user._id + '> (you) were killed! <@' + target._id + '> stole $' + counterstolen + ' from your body.\n';
             if (user.bounty > 0) {
-                functions.sendMessage(message.channel, '<@' + target._id + "> collected your bounty of $" + user.bounty);
+                text += '<@' + target._id + "> collected your bounty of $" + user.bounty+"\n";
                 target.money += user.bounty;
                 user.bounty = 0;
             }
@@ -176,11 +176,18 @@ module.exports = async function (message, user) {
 
             if (target.currenthealth > 0 && functions.hasSkill(target, 15)) {
                 target.currenthealth += user.health
-                functions.sendMessage(message.channel, "Soulsteal activated. <@" + target._id + "> has stolen " + user.health + " health");
+                text += "Soulsteal activated. <@" + target._id + "> has stolen " + user.health + " health\n";
                 target.currenthealth = Math.min(target.currenthealth, target.health)
             }
             functions.completeQuest(target, "kill", { "death": user }, 1)
         }
+        if (text != "") {
+            pvpResultEmbed.embed.fields.push({
+                name: "PVP Results",
+                value: text,
+            })
+        }
+        functions.sendMessage(message.channel, pvpResultEmbed);
         functions.completeQuest(user, "attack", {"target": target, "damage": damage, "counter": counter})
         functions.setCD(user, ts, 60, "attack")
         functions.setCD(user, ts, 120, "heal")

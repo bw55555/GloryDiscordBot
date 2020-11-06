@@ -1017,7 +1017,7 @@ function locationsummon(raid) {
                 "name": "Deity Boss",
                 "uri": 'https://i.imgur.com/WrEorXF.png',
                 "minlevel": 150,
-                "maxlevel": 275
+                "maxlevel": 175
             }
         ],
         "hell": [
