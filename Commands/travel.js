@@ -5,19 +5,20 @@ module.exports = async function (message, user) {
     let words = message.content.trim().split(/\s+/)
     if (words.length == 1) { return functions.replyMessage(message, "Please specify a place to travel to!") }
     let word2 = words[1].toLowerCase();
+    if (functions.isCD(user, ts, "travel")) { return functions.replyMessage(message, "The teleport network is still cooling down... Please try again in "+functions.displayTime(user.cooldowns.travel, ts))}
     if (word2 == "city") {
         user.location = word2
-        return functions.replyMessage(message, "You have returned to the city!")
+        functions.replyMessage(message, "You have returned to the city!")
     } else if (word2 == "guild") {
         user.location = word2
-        return functions.replyMessage(message, "Welcome to the guild hall!")
+        functions.replyMessage(message, "Welcome to the guild hall!")
     } else if (word2 == "world") {
         user.location = word2
-        return functions.replyMessage(message, "Welcome to the world boss!")
+        functions.replyMessage(message, "Welcome to the world boss!")
     } else if (word2 == "event") {
         user.location = word2
-        return functions.replyMessage(message, "Welcome to the event raid!")
-    } else if (word2 == "treant" || word2 == "kraken" || word2 == "dragon" || word2 == "deity" || word2 == "hell") {
+        functions.replyMessage(message, "Welcome to the event raid!")
+    } else if (word2 == "forest" || word2 == "sea" || word2 == "mountain" || word2 == "heaven" || word2 == "hell") {
         let key = words[2];
         if (key == undefined) { key = getRandomKey() }
         key = key.toUpperCase()
@@ -28,43 +29,11 @@ module.exports = async function (message, user) {
             user.location = newloc
             let text = "You have travelled to location " + newloc + "!\n"
             if (raid == false) {
-                let raidnames = {
-                    "treant": {
-                        "name": "Treant Boss",
-                        "uri": 'https://i.imgur.com/1fbm4us.jpg',
-                        "minlevel": 0,
-                        "maxlevel": 25
-                    },
-                    "kraken": {
-                        "name": "Kraken Boss",
-                        "uri": 'https://i.imgur.com/mGKIsnX.jpg',
-                        "minlevel": 25,
-                        "maxlevel": 50
-                    },
-                    "dragon": {
-                        "name": "Dragon Boss",
-                        "uri": 'https://i.imgur.com/YCdZZmT.jpg',
-                        "minlevel": 50,
-                        "maxlevel": 75
-                    },
-                    "deity": {
-                        "name": "Deity Boss",
-                        "uri": 'https://i.imgur.com/o842h20.jpg',
-                        "minlevel": 75,
-                        "maxlevel": 100
-                    },
-                    "hell": {
-                        "name": "Hell Lord",
-                        "uri": 'https://imgur.com/MbGhMkJ.jpg',
-                        "minlevel": 100,
-                        "maxlevel": 200,
-                        "ability": { "pierce": 0.1, "critRate": 0.1 },
-                        "abilitydesc": '10% chance to pierce, 10% chance to crit and deal 2x damage. '
-                    },
-                }
+                
                 raid = {}
                 raid._id = user.location
-                functions.summon(raid, undefined, raidnames[word2].minlevel, raidnames[word2].maxlevel, raidnames[word2].name, raidnames[word2].uri, raidnames[word2].ability, raidnames[word2].abilitydesc)
+                raid.location = word2
+                functions.locationsummon(raid)
                 text += "A boss has been summoned! It is level " + raid.level + "!";
                 functions.setObject("mobData", raid)
             }
@@ -73,6 +42,7 @@ module.exports = async function (message, user) {
     } else {
         return functions.replyMessage(message, "This location does not exist!")
     }
+    functions.setCD(user, ts, 30, "travel")
 }
 function isChar(s) {
     for (let i = 0; i < s.length; i++) {

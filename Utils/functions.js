@@ -938,7 +938,124 @@ function customsummon(raid, options) {
     if (raid.health == undefined) { raid.health = 0; }
     if (options.currenthealth == undefined || raid.currenthealth == undefined) { raid.currenthealth = raid.health; }
 }
-
+function locationsummon(raid) {
+    let raidsbyloc = {
+        "forest": [
+            {
+                "name": "Goblin",
+                "uri": 'https://i.imgur.com/v3KStfv.png',
+                "minlevel": 0,
+                "maxlevel": 25
+            },
+            {
+                "name": "Goblin Shaman",
+                "uri": 'https://i.imgur.com/UlYs96g.jpg',
+                "minlevel": 25,
+                "maxlevel": 50
+            },
+            {
+                "name": "Treant Boss",
+                "uri": 'https://i.imgur.com/1fbm4us.jpg',
+                "minlevel": 75,
+                "maxlevel": 100
+            }
+        ],
+        "sea": [
+            {
+                "name": "Seafolk",
+                "uri": 'https://i.imgur.com/mGKIsnX.jpg',
+                "minlevel": 25,
+                "maxlevel": 50
+            },
+            {
+                "name": "Sea Serpent",
+                "uri": 'https://i.imgur.com/6o59DWV.png',
+                "minlevel": 50,
+                "maxlevel": 75
+            },
+            {
+                "name": "Kraken Boss",
+                "uri": 'https://i.imgur.com/mGKIsnX.jpg',
+                "minlevel": 100,
+                "maxlevel": 125
+            }
+        ],
+        "mountain": [
+            {
+                "name": "Rock Golem",
+                "uri": 'https://i.imgur.com/dvB4nBG.png',
+                "minlevel": 50,
+                "maxlevel": 75
+            },
+            {
+                "name": "Troll",
+                "uri": 'https://i.imgur.com/YCdZZmT.jpg',
+                "minlevel": 75,
+                "maxlevel": 100
+            },
+            {
+                "name": "Dragon Boss",
+                "uri": 'https://i.imgur.com/YCdZZmT.jpg',
+                "minlevel": 125,
+                "maxlevel": 150
+            }
+        ],
+        "heaven": [
+            {
+                "name": "Angel",
+                "uri": 'https://i.imgur.com/lKtQMRm.png',
+                "minlevel": 75,
+                "maxlevel": 100
+            },
+            {
+                "name": "Archangel",
+                "uri": 'https://i.imgur.com/0ZIv1wa.png',
+                "minlevel": 100,
+                "maxlevel": 125
+            },
+            {
+                "name": "Deity Boss",
+                "uri": 'https://i.imgur.com/WrEorXF.png',
+                "minlevel": 150,
+                "maxlevel": 275
+            }
+        ],
+        "hell": [
+            {
+                "name": "Fiend",
+                "uri": 'https://i.imgur.com/NLlglW3.png',
+                "minlevel": 100,
+                "maxlevel": 125,
+            },
+            {
+                "name": "Archfiend",
+                "uri": 'https://i.imgur.com/jKtqikk.png',
+                "minlevel": 125,
+                "maxlevel": 150,
+            },
+            {
+                "name": "Hell Lord",
+                "uri": 'https://imgur.com/MbGhMkJ.jpg',
+                "minlevel": 175,
+                "maxlevel": 200,
+                "ability": { "pierce": 0.1, "critRate": 0.1 },
+                "abilitydesc": '10% chance to pierce, 10% chance to crit and deal 2x damage. '
+            }
+        ],
+    }
+    let loc = raid.location
+    let rng = Math.random();
+    let rnum;
+    if (rng < 0.75) {
+        rnum = 0;
+    } else if (rng < 0.95) {
+        rnum = 1;
+    } else {
+        rnum = 2;
+    }
+    let raidref = raidsbyloc[loc][rnum]
+    summon(raid, undefined, raidref.minlevel, raidref.maxlevel, raidref.name, raidref.uri, raidref.ability, raidref.abilitydesc)
+}
 function summon(raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) {
     raid.isRaid = true;
     raid.alive = true;
@@ -1211,8 +1328,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
     if (user.currenthealth > user.health) {
         user.currenthealth = user.health
     }
-
-    sendMessage(message.channel, {
+    let raidResultEmbed = {
         embed: {
             thumbnail: {
                 url: raid.url
@@ -1232,34 +1348,6 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                     value: countertext + "<@" + user._id + "> took **" + counter + "** counterdamage! You have **" + user.currenthealth + "** Health remaining!",
                 }
             ]
-        }
-    })
-    
-    if (type == "event") {
-        var erc = bot.channels.cache.get(devData.eventRaidChannel)
-        if (erc.id != message.channel.id) {
-            sendMessage(erc, {
-                embed: {
-                    thumbnail: {
-                        url: raid.url
-                    },
-                    title: user.username + " attacks a Lv." + raid.level + " " + raid.name,
-                    color: 0xF1C40F,
-                    fields: [
-                        /*{
-                            name: "Attack Results",
-                            value: '<@' + user._id + "> attacks a Lv." + raid.level + " " + raid.name + "!",
-                        },*/
-                        {
-                            name: "Attack Results",
-                            value: damagetext + raid.name + " took **" + damage + "** damage! It has **" + raid.currenthealth + "** Health remaining! You earned **" + damagereward + "** xp!",
-                        }, {
-                            name: "Counter Results",
-                            value: countertext + "<@" + user._id + "> took **" + counter + "** counterdamage! You have **" + user.currenthealth + "** Health remaining!",
-                        }
-                    ]
-                }
-            })
         }
     }
     completeQuest(user, "raidAttack", {"raid": raid, "counter": counter, "damage": damage, "reward": damagereward}, 1)
@@ -1462,7 +1550,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             user.currenthealth = Math.min(user.currenthealth, user.health)
         }
         if (type == "raid") {
-            summon(raid)
+            locationsummon(raid)
             text += "Boss automatically summoned. It is level "+raid.level+"!\n"
         }
         if (type == "event") {
@@ -1520,10 +1608,16 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         }
     }
     if (text != "") {
-        if (type == "event") {
-            sendMessage(erc, text)
-        } else {
-            sendMessage(message.channel, text)
+        raidResultEmbed.embed.fields.push({
+            name: "Raid Results",
+            value: text,
+        })
+    }
+    sendMessage(message.channel, raidResultEmbed)
+    if (type == "event") {
+        var erc = bot.channels.cache.get(devData.eventRaidChannel)
+        if (erc.id != message.channel.id) {
+            sendMessage(erc, raidResultEmbed)
         }
     }
     setCD(user, ts, attackcd * 60, "attack");
@@ -1942,6 +2036,7 @@ module.exports.craftItems = function (message, owner, minrarity, maxrarity, amou
 module.exports.craftItem = function (message, owner, minrarity, maxrarity, reply, isBulk, source) { return craftItem(message, owner, minrarity, maxrarity, reply, isBulk, source) }
 module.exports.raidInfo = raidInfo
 module.exports.customsummon = customsummon
+module.exports.locationsummon = locationsummon
 module.exports.summon = function (raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) { return summon(raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) }
 module.exports.checkProps = function (message,user) { return checkProps(message,user) }
 module.exports.checkStuff = function (message,user) { return checkStuff(message,user) }
