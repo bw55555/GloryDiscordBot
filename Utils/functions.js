@@ -943,7 +943,7 @@ function locationsummon(raid) {
         "forest": [
             {
                 "name": "Goblin",
-                "uri": 'https://i.imgur.com/v3KStfv.png',
+                "uri": 'https://i.imgur.com/Vvo98Jr.png',
                 "minlevel": 0,
                 "maxlevel": 25
             },
@@ -963,7 +963,7 @@ function locationsummon(raid) {
         "sea": [
             {
                 "name": "Seafolk",
-                "uri": 'https://i.imgur.com/mGKIsnX.jpg',
+                "uri": 'https://i.imgur.com/v3KStfv.png',
                 "minlevel": 25,
                 "maxlevel": 50
             },
@@ -988,8 +988,8 @@ function locationsummon(raid) {
                 "maxlevel": 75
             },
             {
-                "name": "Troll",
-                "uri": 'https://i.imgur.com/YCdZZmT.jpg',
+                "name": "Mountain Troll",
+                "uri": 'https://i.imgur.com/LUX24g0.png',
                 "minlevel": 75,
                 "maxlevel": 100
             },
