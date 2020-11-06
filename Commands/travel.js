@@ -13,7 +13,7 @@ module.exports = async function (message, user) {
         key = key.toUpperCase()
         if (key.length != 7) { return functions.replyMessage(message, "The key must have 7 characters!")}
         let newloc = word2 + "-"+key
-        functions.getObject("mobData", newloc).then(raid => {
+        return functions.getObject("mobData", newloc).then(raid => {
             user.location = newloc
             let text = "You have travelled to location "+newloc+"!\n"
             if (raid == false) {
