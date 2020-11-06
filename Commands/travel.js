@@ -11,9 +11,10 @@ module.exports = async function (message, user) {
         let key = words[2];
         if (key == undefined) { key = getRandomKey() }
         key = key.toUpperCase()
-        let newloc = word2 + key
+        if (key.length != 7) { return functions.replyMessage(message, "The key must have 7 characters!")}
+        let newloc = word2 + "-"+key
         functions.getObject("mobData", newloc).then(raid => {
-            user.location = word2
+            user.location = newloc
             let text = "You have travelled to location "+newloc+"!\n"
             if (raid == false) {
                 let raidnames = {
@@ -50,6 +51,8 @@ module.exports = async function (message, user) {
                         "abilitydesc": '10% chance to pierce, 10% chance to crit and deal 2x damage. '
                     },
                 }
+                raid = {}
+                raid._id = user.location
                 functions.summon(raid, undefined, raidnames[word2].minlevel, raidnames[word2].maxlevel, raidnames[word2].name, raidnames[word2].uri, raidnames[word2].ability, raidnames[word2].abilitydesc)
                 text += "A boss has been summoned! It is level " + raid.level + "!";
                 functions.setObject("mobData", raid)
@@ -66,4 +69,5 @@ function getRandomKey() {
         if (x < 65) { x -= 7 }
         key += String.fromCharCode(x)
     }
+    return key
 }
