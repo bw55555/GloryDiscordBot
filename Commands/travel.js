@@ -11,7 +11,8 @@ module.exports = async function (message, user) {
         let key = words[2];
         if (key == undefined) { key = getRandomKey() }
         key = key.toUpperCase()
-        if (key.length != 7) { return functions.replyMessage(message, "The key must have 7 characters!")}
+        if (key.length != 7) { return functions.replyMessage(message, "The key must have 7 characters!") }
+        if (!isChar(key)) { return functions.replyMessage(message, "The key must consist of characters A-Z or 0-9!")}
         let newloc = word2 + "-"+key
         return functions.getObject("mobData", newloc).then(raid => {
             user.location = newloc
@@ -61,6 +62,14 @@ module.exports = async function (message, user) {
         })
         
     }
+}
+function isChar(s) {
+    for (let i = 0; i < s.length; i++) {
+        let x = c.charCodeAt(i)
+        if (x <= 48 || (x >= 57 && x <= 65) || x >= 90) { return false}
+    }
+    return true;
+    
 }
 function getRandomKey() {
     let key = ""
