@@ -8,6 +8,15 @@ module.exports = async function (message, user) {
     if (word2 == "city") {
         user.location = word2
         return functions.replyMessage(message, "You have returned to the city!")
+    } else if (word2 == "guild") {
+        user.location = word2
+        return functions.replyMessage(message, "Welcome to the guild hall!")
+    } else if (word2 == "world") {
+        user.location = word2
+        return functions.replyMessage(message, "Welcome to the world boss!")
+    } else if (word2 == "event") {
+        user.location = word2
+        return functions.replyMessage(message, "Welcome to the event raid!")
     } else if (word2 == "treant" || word2 == "kraken" || word2 == "dragon" || word2 == "deity" || word2 == "hell") {
         let key = words[2];
         if (key == undefined) { key = getRandomKey() }
@@ -61,7 +70,6 @@ module.exports = async function (message, user) {
             }
             functions.replyMessage(message, text)
         })
-
     } else {
         return functions.replyMessage(message, "This location does not exist!")
     }
