@@ -51,6 +51,7 @@ export function setCD(user: JSON, ts:number, cdsecs:number, cdname:string):void
 export function calcTime(time1: number, time2: number): number
 export function displayTime(time1: number, time2: number): string
 export function extractTime(message: Message, timeword: string): number
+export function simulateAttack(message: Message, attacker: JSON, defender: JSON): JSON
 export function calcDamage(message: Message, attacker: JSON, defender: JSON, initiator: JSON): [string, number, number]
 export function calcEnchants(attacker: JSON): JSON
 export function calcEnchants(attacker: JSON, defender: JSON): JSON

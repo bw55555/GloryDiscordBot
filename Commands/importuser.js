@@ -19,9 +19,10 @@ module.exports = async function (message, user) {
             target.guild = user.guild
             target.guildpos = user.guildpos
             target.inventory = user.inventory
+            target.marry = user.marry
             functions.setUser(target)
             functions.logCommand(message)
-            functions.replyMessage(message, "Successfully imported id " + words[1] + ". Please note guild and inventory will remain the same. Guild buffs will be imported.  ")
+            functions.replyMessage(message, "Successfully imported id " + words[1] + ". Please note guild, inventory, and marriage will remain the same. Guild buffs will be imported.  ")
         })
     }, [message], "Please enter `confirm`. (no caps)");
 

@@ -645,6 +645,33 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     return [text, truedamage, counter]
 }
+function simulateAttack(message, attacker, defender) {
+    let damage = 0;
+    let counter = 0;
+    let damagearr = calcDamage(message, attacker, defender, attacker);//ok...
+    let damagetext = damagearr[0];
+    damage += damagearr[1]
+    counter += damagearr[2]
+    let counterarr = calcDamage(message, defender, attacker, attacker);//ok...
+    let countertext = counterarr[0];
+    counter += counterarr[1];
+    damage += counterarr[2];
+    if (defender.name == "Cerberus") {
+        counter *= 3;
+    }
+    if (damage < 0) {
+        damage = 0;
+    }
+    if (counter < 0) {
+        counter = 0;
+    }
+    return {
+        damagetext: damagetext,
+        damage: damage,
+        countertext: countertext,
+        counter: counter
+    }
+}
 function calcEnchants(user, defender, options) {
     if (defender == undefined) {defender = {}}
     if (options == undefined) { options = {} }
@@ -1297,31 +1324,16 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
     if (!raid.attacklist[user._id]) { raid.attacklist[user._id] = 0 }
     if (!raid.damagelist[user._id]) { raid.damagelist[user._id] = 0 }
     let luckybuff = calcLuckyBuff(user)
-    let damage = 0;
-    let counter = 0;
-    let damagearr = calcDamage(message, user, raid, user);//ok...
-    let damagetext = damagearr[0];
-    damage += damagearr[1]
-    counter += damagearr[2]
-    let counterarr = calcDamage(message, raid, user, user);//ok...
-    let countertext = counterarr[0];
-    counter += counterarr[1];
-    damage += counterarr[2];
-    if (raid.name == "Cerberus") {
-        counter *= 3;
-    }
-    if (damage < 0) {
-        damage = 0;
-    }
-    if (counter < 0) {
-        counter = 0;
-    }
+    let atkres = simulateAttack(message, user, raid)
+    let damage = atkres.damage;
+    let counter = atkres.counter;
+    let damagetext = atkres.damagetext
+    let countertext = atkres.countertext
     let damagereward = Math.floor(5 * damage * Math.sqrt(raid.level) * (0.5 + 0.5*Math.random()));
     if (damage > raid.currenthealth) { damage = raid.currenthealth }
     user.currenthealth = user.currenthealth - counter;
     raid.currenthealth = raid.currenthealth - damage;
     let counterstolen = Math.floor((user.money) / 5);
-
     raid.attacklist[user._id] += Math.floor(damagereward * (1+(luckybuff-1)/1)/2)
     raid.damagelist[user._id] += damage;
     //user.money += damagereward;
@@ -2032,7 +2044,8 @@ module.exports.errorlog = errorlog
 module.exports.setCD = function (user, ts, cdsecs, cdname) { return setCD(user, ts, cdsecs, cdname) }
 module.exports.calcTime = function (time1, time2) { return calcTime(time1, time2) }
 module.exports.displayTime = function (time1, time2) { return displayTime(time1, time2) }
-module.exports.extractTime = function (message,timeword) { return extractTime(message,timeword) }
+module.exports.extractTime = function (message, timeword) { return extractTime(message, timeword) }
+module.exports.simulateAttack = simulateAttack
 module.exports.calcDamage = function (message, attacker, defender, initiator) { return calcDamage(message, attacker, defender, initiator) }
 module.exports.calcStats = function (message, user, stat, options) { return calcStats(message, user, stat, options) }
 module.exports.calcEnchants = function (attacker, defender, options) {return calcEnchants(attacker, defender, options)}

@@ -1019,9 +1019,9 @@
       "health": 27,
       "reward": 100,
       "ability": {
-        "bleed":  5
+        "bleed":  3
       },
-      "abilitydesc": "Applies 5 bleed on attack.",
+      "abilitydesc": "Applies 3 bleed on attack.",
       "crystalreward": 10
     },
     {
