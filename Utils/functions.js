@@ -436,7 +436,9 @@ function calcExtraStat(user, stat) {
     return extrastat
 }
 function calcLuckyBuff(user) {
-    return calcEnchants(user).lucky
+    let lb = calcEnchants(user).lucky
+    if (devData.luckymult != undefined) { lb *= devData.luckymult}
+    return lb
 }
 function errorlog(err, extratext) {
     if (extratext == undefined) { extratext = ""}
@@ -1091,7 +1093,7 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability, abilityde
         raid.level = summonlevel;
     } else {
         if (level != undefined) { summonlevel = level }
-        raid.attack = summonlevel * 10+Math.floor(summonlevel/25);
+        raid.attack = summonlevel * (10+Math.floor(summonlevel/25));
         raid.currenthealth = summonlevel * 5 * (Math.floor(summonlevel / 25) + 1);
         raid.health = raid.currenthealth
         raid.reward = summonlevel * 500;

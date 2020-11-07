@@ -14,6 +14,6 @@ module.exports = async function (message, user) {
             user.vipclaims.rerolls = user.ascension * user.vip.extrarerolls;
             functions.replyMessage(message, "You have claimed " + rem + " rerolls.")
         }
-        
+        functions.replyMessage(message, "You don't have any rerolls left to claim!")
     }
 }
