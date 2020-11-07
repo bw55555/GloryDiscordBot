@@ -560,7 +560,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
         if (amt >= 1) {
             attacker.currenthealth = 0;
             attacker.dead = true;
-            return [attackername + " bled to death\n", 0, 0]
+            return [attackername + " bled to death...\n", 0, 0]
         }
         text += attackername + " is bleeding and will do " + Math.floor(amt * 100) + "% less damage. \n"
         attack *= (1 - amt)
@@ -570,7 +570,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
         if (amt >= 1) {
             defender.currenthealth = 0;
             defender.dead = true;
-            return [defendername + " bled to death\n", 0, 0]
+            return [defendername + " bled to death...\n", 0, 0]
         }
         text += defendername + " is bleeding and will lose " + Math.floor(amt * 100) + "% of their defense." + defendername + " has " + defender.statusEffects.bleed + " stacks of bleed.\n"
         defense *= (1 - amt)
