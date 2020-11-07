@@ -848,7 +848,7 @@ async function voteItem(message, user, dm) {
         if (calcTime(target.votestreaktime, ts) < 0) {
             text = "You lost your streak of " + target.votestreak + " :("
             target.votestreak = 0
-        } else if (calcTime(target.votestreaktime, ts) > 11 * 60 * 60 && words[2] != "override") {
+        } else if (isCD(target, ts, "vote") && words[2] != "override") {
             return sendMessage(message.channel, "It hasn't been 12 hours yet... DBL broke down :(")
         } else {
             text = "You have a streak of " + (target.votestreak + 1) + "!"
@@ -864,6 +864,7 @@ async function voteItem(message, user, dm) {
         let honorget = 10 * Math.floor(target.ascension / 5);
         if (honorget <= 0) { honorget = 1}
         target.honor += honorget;
+        setCD(target, ts, 12 * 60 * 60, "vote")
         completeQuest(target, "vote", {"votestreak":target.votestreak}, 1)
         sendMessage(message.channel, "<@" + target._id + "> has been given " + numboxes + " boxes and " + honorget + " honor!\n" + text);
         if (dm) dmUser(target, "Thank you for voting! You have been given " + numboxes + " boxes and " + honorget + " honor!\n" + text)
