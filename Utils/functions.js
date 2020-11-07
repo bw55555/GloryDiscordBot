@@ -1352,6 +1352,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
     }
     completeQuest(user, "raidAttack", {"raid": raid, "counter": counter, "damage": damage, "reward": damagereward}, 1)
     let text = ""
+    let archivetext = []
     if (raid.currenthealth <= 0) {
         raid.alive = false;
         let keys = Object.keys(raid.attacklist);
@@ -1452,12 +1453,9 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                         })
                     }
                     text += "<@" + person + "> received: " + candyrewards[person] + " Candy" + "!\n"
-                    if (text.length > 1800) {
-                        if (type == "event") {
-                            sendMessage(erc, text)
-                        } else {
-                            sendMessage(message.channel, text)
-                        }
+                    if (text.length > 1900) {
+                        archivetext.push(text)
+                        text = ""
                     }
                 }
             }
@@ -1523,11 +1521,8 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 }
                 text += personrunetext.join(", ") + "!\n"
                 if (text.length > 1800) {
-                    if (type == "event") {
-                        sendMessage(erc, text)
-                    } else {
-                        sendMessage(message.channel, text)
-                    }
+                    archivetext.push(text)
+                    text = ""
                 }
             }
             
@@ -1607,13 +1602,21 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             user.glory *= 0.999
         }
     }
-    if (text != "") {
-        raidResultEmbed.embed.fields.push({
-            name: "Raid Results",
-            value: text,
-        })
+    if (archivetext.length == 0) {
+        if (text != "") {
+            raidResultEmbed.embed.fields.push({
+                name: "Raid Results",
+                value: text,
+            })
+        }
+        sendMessage(message.channel, raidResultEmbed)
+    } else {
+        sendMessage(message.channel, raidResultEmbed)
+        for (let page of archivetext) {
+            sendMessage(message.channel, page)
+        }
     }
-    sendMessage(message.channel, raidResultEmbed)
+    
     if (type == "event") {
         var erc = bot.channels.cache.get(devData.eventRaidChannel)
         if (erc.id != message.channel.id) {
