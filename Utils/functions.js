@@ -491,7 +491,10 @@ function extractTime(message,timeword) {
     return time;
 }
 ///---------------------
-function calcDamage(message, attacker, defender, initiator) {
+function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
+    if (astatus == undefined) { astatus = {} }
+    if (dstatus == undefined) { dstatus = {} }
+    
     let text = ""
     let counter = 0;
     let roll = Math.random()
@@ -501,6 +504,8 @@ function calcDamage(message, attacker, defender, initiator) {
     if (attacker.name == "Charybdis") { skillenable = false }
     let defendername = defender.isRaid ? defender.name : "<@" + defender._id + ">"
     let attackername = attacker.isRaid ? attacker.name : "<@" + attacker._id + ">"
+    if (astatus.petrify) { return [attackername + " was petrified and cannot attack! \n", 0, 0] }
+    if (astatus.stun) { return [attackername + " was stunned and cannot attack! \n", 0, 0] }
     let attack = 0;
     let aoptions = {};
     aoptions.skillenable = skillenable
@@ -509,6 +514,7 @@ function calcDamage(message, attacker, defender, initiator) {
         aoptions.hasDispel = true;
         text += attackername + "'s speed was dispelled!\n"
     }
+    if (astatus.silence) { aoptions.silence = true; text += attackername + " was silenced"}
     let aenchants = calcEnchants(attacker, defender, aoptions)
     aoptions.enchants = aenchants;
     let attackarr = calcStats(message, attacker, "attack", aoptions);
@@ -524,11 +530,13 @@ function calcDamage(message, attacker, defender, initiator) {
         doptions.hasDispel = true; 
         text += defendername + "'s speed was dispelled!\n"
     }
+    if (dstatus.petrify) { doptions.silence = true; text += defendername + " was petrified and silenced!" }
+    else if (dstatus.silence) { doptions.silence = true; text += defendername + " was silenced!"}
     let denchants = calcEnchants(defender, attacker, doptions)
     doptions.enchants = denchants;
     let defensearr = calcStats(message, defender, "defense", doptions);
     defense = defensearr[1]; 
-    text += defensearr[0];
+    text += defensearr[0]; 
     if (Math.random() < denchants.evade) {
         text = attackername + ", " + defendername + " has evaded the attack!\n"
         return [text, 0, 0]
@@ -541,6 +549,32 @@ function calcDamage(message, attacker, defender, initiator) {
                 attack *= 1.4
             }
         }
+    }
+    if (aenchants.bleed > 0) {
+        if (defender.statusEffects.bleed == undefined) { defender.statusEffects.bleed = 0 }
+        defender.statusEffects.bleed += aenchants.bleed;
+    }
+    if (astatus.bleed != undefined) {
+        let amt = astatus.bleed * 0.02;
+        if (amt >= 1) {
+            attacker.currenthealth = 0;
+            attacker.dead = true;
+            return [attackername + " bled to death", 0, 0]
+        }
+        text += attackername + " is bleeding and will do " + Math.floor(amt * 100) + "% less damage. \n"
+        attack *= (1 - amt)
+    }
+    if (dstatus.bleed != undefined) {
+        let amt = dstatus.bleed * 0.02;
+        if (amt >= 1) {
+            defender.currenthealth = 0;
+            defender.dead = true;
+            return [defender + " bled to death", 0, 0]
+        }
+        text += defendername + " is bleeding and will lose " + Math.floor(amt * 100) + "% of their defense." + defendername + " has " + defender.statusEffects.bleed + " stacks of bleed.\n"
+        defense *= (1 - amt)
+    } else if (defender.statusEffects.bleed != undefined && defender.statusEffects.bleed > 0) {
+        text += defendername + " is starting to bleed!"+defendername+" has " + defender.statusEffects.bleed + " stacks of bleed.\n"
     }
     let piercechance = Math.random()
     if (piercechance < aenchants.pierce) {
@@ -645,14 +679,38 @@ function calcDamage(message, attacker, defender, initiator) {
     }
     return [text, truedamage, counter]
 }
+function calcStatusEffects(attacker, defender, aenchants, astatus, denchants, dstatus) {
+    if (attacker.statusEffects == undefined) {
+        attacker.statusEffects = {}
+    }
+    if (aenchants.petrify > Math.random()) { dstatus.petrify = true; }
+    if (aenchants.stun > Math.random()) { dstatus.stun = true }
+    if (aenchants.silence > Math.random()) { dstatus.silence = true }
+    if (attacker.statusEffects.bleed > 0) {
+        astatus.bleed = attacker.statusEffects.bleed
+        attacker.statusEffects.bleed -= 1;
+        if (attacker.statusEffects.bleed <= 0) { attacker.statusEffects.bleed = undefined}
+    }
+}
 function simulateAttack(message, attacker, defender) {
+    let aenchants = calcEnchants(attacker, defender)
+    let denchants = calcEnchants(defender, attacker)
+    let astatus = {};
+    let dstatus = {};
+    let defendername = defender.isRaid ? defender.name : "<@" + defender._id + ">"
+    let attackername = attacker.isRaid ? attacker.name : "<@" + attacker._id + ">"
+    calcStatusEffects(attacker, defender, aenchants, astatus, denchants, dstatus)
+    calcStatusEffects(defender, attacker, denchants, dstatus, aenchants, astatus)
+
     let damage = 0;
     let counter = 0;
-    let damagearr = calcDamage(message, attacker, defender, attacker);//ok...
+    let damagearr = calcDamage(message, attacker, defender, attacker, astatus, dstatus);//ok...
     let damagetext = damagearr[0];
     damage += damagearr[1]
     counter += damagearr[2]
-    let counterarr = calcDamage(message, defender, attacker, attacker);//ok...
+    let doptions = {};
+    if (denchants.petrify > Math.random()) { aoptions.petrify = true; }
+    let counterarr = calcDamage(message, defender, attacker, attacker, dstatus, astatus);//ok...
     let countertext = counterarr[0];
     counter += counterarr[1];
     damage += counterarr[2];
@@ -675,6 +733,7 @@ function simulateAttack(message, attacker, defender) {
 function calcEnchants(user, defender, options) {
     if (defender == undefined) {defender = {}}
     if (options == undefined) { options = {} }
+    
     skillenable = (options.skillenable === false) ? false : true
     let enchants = {};
     enchants.attack = 0;
@@ -697,6 +756,7 @@ function calcEnchants(user, defender, options) {
     enchants.regen = 0;
     enchants.lucky = 1;
     enchants.evade = 0;
+    if (options.silence) { return enchants;}
     if (user.trianglemod != undefined) { enchants.buff = user.trianglemod}
     if (user.ability != undefined && user.ability != "None") {
         for (let key in user.ability) {
@@ -2047,7 +2107,7 @@ module.exports.calcTime = function (time1, time2) { return calcTime(time1, time2
 module.exports.displayTime = function (time1, time2) { return displayTime(time1, time2) }
 module.exports.extractTime = function (message, timeword) { return extractTime(message, timeword) }
 module.exports.simulateAttack = simulateAttack
-module.exports.calcDamage = function (message, attacker, defender, initiator) { return calcDamage(message, attacker, defender, initiator) }
+module.exports.calcDamage = calcDamage
 module.exports.calcStats = function (message, user, stat, options) { return calcStats(message, user, stat, options) }
 module.exports.calcEnchants = function (attacker, defender, options) {return calcEnchants(attacker, defender, options)}
 module.exports.voteItem = function (message, user, dm) { return voteItem(message, user, dm) }

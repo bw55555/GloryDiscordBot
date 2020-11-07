@@ -39,7 +39,7 @@ module.exports = async function (message, user) {
             target.currenthealth = Math.min(Math.floor(target.currenthealth + regenpersec * functions.calcTime(message.createdTimestamp, target.cooldowns.normal)), target.health)
         }
         functions.dmUser(target, "You have been attacked by " + user.username + "! Their id is " + id)
-        let atkres = functions.simulateAttack(message, user, raid)
+        let atkres = functions.simulateAttack(message, user, target)
         let damage = atkres.damage;
         let counter = atkres.counter;
         let damagetext = atkres.damagetext

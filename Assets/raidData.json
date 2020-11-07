@@ -927,7 +927,7 @@
       "health": 25,
       "reward": 75,
       "ability": {
-        "stun": 0.15
+        "petrify": 0.15
       },
       "abilitydesc": "Has a 15% chance to petrify you so you cannot attack.",
       "crystalreward": 10
@@ -1019,9 +1019,9 @@
       "health": 27,
       "reward": 100,
       "ability": {
-        "bleed":  3
+        "bleed":  4
       },
-      "abilitydesc": "Applies 3 bleed on attack.",
+      "abilitydesc": "Applies 4 bleed on attack.",
       "crystalreward": 10
     },
     {
