@@ -1030,6 +1030,7 @@ function customsummon(raid, options) {
     if (options.currenthealth == undefined || raid.currenthealth == undefined) { raid.currenthealth = raid.health; }
 }
 function locationsummon(raid) {
+    if (raid.areabosssummon == undefined) { raid.areabosssummon = 0}
     let raidsbyloc = {
         "forest": [
             {
@@ -1137,12 +1138,15 @@ function locationsummon(raid) {
     let loc = raid.location
     let rng = Math.random();
     let rnum;
-    if (rng < 0.75) {
-        rnum = 0;
-    } else if (rng < 0.95) {
+    if (rng < 0.2) {
         rnum = 1;
-    } else {
+        raid.areabosssummon += 0.02
+    } else if (rng < 0.2 + raid.areabosssummon) {
         rnum = 2;
+        raid.areabosssummon = 0
+    } else {
+        rnum = 0;
+        raid.areabosssummon += 0.01
     }
     let raidref = raidsbyloc[loc][rnum]
     summon(raid, undefined, raidref.minlevel, raidref.maxlevel, raidref.name, raidref.uri, raidref.ability, raidref.abilitydesc)
