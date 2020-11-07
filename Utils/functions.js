@@ -450,7 +450,8 @@ function secondsUntilReset(ts) {
 }
 function setCD(user, ts, cdsecs, cdname) {
     //if (user.cooldowns[cdname] == undefined) { errorlog("Something went wrong with setCD. " + cdname + " not defined." + user._id + "|" + ts) }
-    if (calcEnchants(user).haste != undefined) { cdsecs -= parseInt(user.weapon.modifiers.haste) }
+    let hastesecs = calcEnchants(user).haste
+    if (hastesecs != undefined) { cdsecs -= parseInt(hastesecs) }
     if (cdsecs == "daily") { cdsecs = secondsUntilReset(ts) }
     if (user.cooldowns[cdname] == undefined) { user.cooldowns[cdname] = 1;}
     user.cooldowns[cdname] = Math.max(ts + cdsecs * 1000, user.cooldowns[cdname])
