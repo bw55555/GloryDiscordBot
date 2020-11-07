@@ -530,8 +530,8 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
         doptions.hasDispel = true; 
         text += defendername + "'s speed was dispelled!\n"
     }
-    if (dstatus.petrify) { doptions.silence = true; text += defendername + " was petrified and silenced!" }
-    else if (dstatus.silence) { doptions.silence = true; text += defendername + " was silenced!"}
+    if (dstatus.petrify) { doptions.silence = true; text += defendername + " was petrified and silenced! \n" }
+    else if (dstatus.silence) { doptions.silence = true; text += defendername + " was silenced! \n"}
     let denchants = calcEnchants(defender, attacker, doptions)
     doptions.enchants = denchants;
     let defensearr = calcStats(message, defender, "defense", doptions);
