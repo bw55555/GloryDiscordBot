@@ -13,7 +13,7 @@
       "maxlevel": 10
     },
     {
-      "name": "Necromancer",
+      "name": "Area Boss - Necromancer",
       "url": "https://i.imgur.com/jKyKqa2.jpg",
       "minlevel": 20,
       "maxlevel": 30
@@ -24,19 +24,19 @@
       "name": "Goblin",
       "url": "https://i.imgur.com/Vvo98Jr.png",
       "minlevel": 10,
-      "maxlevel": 20
+      "maxlevel": 25
     },
     {
       "name": "Goblin Shaman",
       "url": "https://i.imgur.com/UlYs96g.jpg",
-      "minlevel": 20,
-      "maxlevel": 30
+      "minlevel": 25,
+      "maxlevel": 40
     },
     {
-      "name": "Treant Boss",
+      "name": "Area Boss - Treant",
       "url": "https://i.imgur.com/1fbm4us.jpg",
-      "minlevel": 40,
-      "maxlevel": 50
+      "minlevel": 50,
+      "maxlevel": 75
     }
   ],
   "caves": [
@@ -53,7 +53,7 @@
       "maxlevel": 75
     },
     {
-      "name": "Troll",
+      "name": "Area Boss - Troll",
       "url": "https://i.imgur.com/LUX24g0.png",
       "minlevel": 100,
       "maxlevel": 125
@@ -73,7 +73,7 @@
       "maxlevel": 100
     },
     {
-      "name": "Kraken Boss",
+      "name": "Area Boss - Kraken",
       "url": "https://i.imgur.com/mGKIsnX.jpg",
       "minlevel": 125,
       "maxlevel": 150
@@ -93,7 +93,7 @@
       "maxlevel": 125
     },
     {
-      "name": "Frost Giant",
+      "name": "Area Boss - Frost Giant",
       "url": "https://i.imgur.com/yZ5ZuB1.jpg",
       "minlevel": 150,
       "maxlevel": 175
@@ -113,7 +113,7 @@
       "maxlevel": 150
     },
     {
-      "name": "Dragon Boss",
+      "name": "Area Boss - Dragon",
       "url": "https://i.imgur.com/YCdZZmT.jpg",
       "minlevel": 175,
       "maxlevel": 200
@@ -133,7 +133,7 @@
       "maxlevel": 200
     },
     {
-      "name": "Deity Boss",
+      "name": "Area Boss - Deity",
       "url": "https://i.imgur.com/WrEorXF.png",
       "minlevel": 225,
       "maxlevel": 250,
@@ -155,7 +155,7 @@
       "maxlevel": 250
     },
     {
-      "name": "Hell Lord",
+      "name": "Area Boss - Hell Lord",
       "url": "https://imgur.com/MbGhMkJ.jpg",
       "minlevel": 275,
       "maxlevel": 300,

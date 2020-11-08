@@ -1441,7 +1441,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             }
             //console.log(rarity)
             let item = generateRandomItem(user, rarity, false, "raid")
-            let runeshardnum = Math.floor(2 * raid.level / 5 + 8 * raid.level / 5 * Math.random())
+            let runeshardnum = Math.floor(raid.level / 5 + 4 * raid.level / 5 * Math.random())
             let floating = runeshardnum % 100;
             let extra = Math.random() * 100 > floating ? 0 : 1
             runeshardnum = Math.floor(runeshardnum / 100) + extra;
@@ -1451,11 +1451,14 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 user.runes[0] += runeshardnum
             }
             let cruneinfo = {
-                "Treant Boss": [0, 0, 0.02, 0, 0, 0, 0.015],
-                "Kraken Boss": [0, 0, 0.02, 0, 0, 0.015, 0],
-                "Dragon Boss": [0, 0, 0.02, 0, 0.015, 0, 0],
-                "Deity Boss": [0, 0, 0.02, 0.005, 0.01, 0.01, 0.01],
-                "Hell Lord": [0, 0, 0.02, 0.01, 0.02, 0.02, 0.02],
+                "Area Boss - Necromancer": [20, 0, 0.4, 0, 0, 0, 0.3],
+                "Area Boss - Treant": [40, 0, 0.4, 0, 0, 0, 0.3],
+                "Area Boss - Troll": [60, 0, 0.4, 0, 0, 0.3, 0],
+                "Area Boss - Kraken": [80, 0, 0.4, 0, 0, 0.3, 0],
+                "Area Boss - Frost Giant": [100, 0, 0.4, 0, 0.3, 0, 0],
+                "Area Boss - Dragon": [150, 0, 0.4, 0, 0.3, 0, 0],
+                "Area Boss - Deity": [200, 0, 0.4, 0.1, 0.2, 0.2, 0.2],
+                "Area Boss - Hell Lord": [250, 0, 0.2, 0.2, 0.4, 0.4, 0.4],
                 "Fallen Angel": [5000, 0.05, 0, 0, 0, 0, 0],
                 "Treant King": [2000, 0.2, 0, 0, 0, 0, 0],
                 "Leviathan": [4000, 0.4, 0, 0, 0, 0, 0],
