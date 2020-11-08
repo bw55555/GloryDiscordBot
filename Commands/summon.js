@@ -3,6 +3,7 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
+    /*
     return Promise.all([functions.getObject("mobData", message.channel.id)]).then(ret => {
         let raid = ret[0]
         if (raid == false) {
@@ -57,4 +58,5 @@ module.exports = async function (message, user) {
         functions.replyMessage(message, "A boss has been summoned! It is level " + raid.level + "!");
         functions.setObject("mobData", raid)
     })
+    */
 }

@@ -49,16 +49,10 @@ module.exports = async function (message, user) {
         if (words[1] == "-preset") {
             let raidnum = parseInt(words[2]);
             if (isNaN(raidnum) || raidnum < 0 || raidnum >= raidoptions.length) { return functions.replyMessage(message, "This preset does not exist!") }
-            raid.name = raidoptions[raidnum].name
-            raid.url = raidoptions[raidnum].url
-            raid.attack = raidoptions[raidnum].attack
-            //raid.defense = summondef;
-            raid.currenthealth = raidoptions[raidnum].health
-            raid.health = raidoptions[raidnum].health
-            raid.reward = raidoptions[raidnum].reward
-            raid.level = raidoptions[raidnum].level;
+            functions.customsummon(raidoptions[raidnum])
 
         } else if (words.length > 1) {
+            /*
             let summonlevel = parseInt(words[1])
             if (isNaN(summonlevel)) { return functions.sendMessage(message.channel, "The boss level must be an integer!") }
             let summonhp = parseInt(words[2])
@@ -77,8 +71,11 @@ module.exports = async function (message, user) {
             raid.level = summonlevel;
             raid.attacklist = {};
             raid.damagelist = {};
+            */
+            return
         } else {
             //let roll = 1 + ((Math.random() - 0.5) * 0.2);
+            /*
             let summonlevel = 200 + Math.floor(Math.random() * 100)
             raid.attack = Math.floor(summonlevel * 12);
             //raid.defense = summondef;
@@ -86,11 +83,9 @@ module.exports = async function (message, user) {
             raid.health = Math.floor(summonlevel * 50);
             raid.reward = Math.floor(summonlevel * 5000);
             raid.level = summonlevel;
+            */
+            return
         }
-        raid.alive = true;
-        raid.raid = true;
-        raid.attacklist = {};
-        raid.damagelist = {};
         if (time > 0) { functions.replyMessage(message, "Boss will be summoned in " + functions.displayTime(time, 0)) }
         bot.setTimeout(function () {
             functions.setObject("mobData", raid)

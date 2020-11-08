@@ -1023,6 +1023,7 @@ function raidInfo(message, raid, extratext) {
 function customsummon(raid, options) {
     raid.isRaid = true;
     raid.alive = true;
+    raid.statusEffects = {}
     raid.attacklist = {};
     raid.damagelist = {};
     if (options == undefined) {
@@ -1056,6 +1057,7 @@ function locationsummon(raid) {
 function summon(raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) {
     raid.isRaid = true;
     raid.alive = true;
+    raid.statusEffects = {}
     raid.attacklist = {};
     raid.damagelist = {};
     if (name != undefined) {
