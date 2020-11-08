@@ -1053,7 +1053,7 @@ function locationsummon(raid) {
         raid.areabosssummon += 0.01
     }
     let raidref = Assets.locationraidData[loc][rnum]
-    summon(raid, undefined, raidref.minlevel, raidref.maxlevel, raidref.name, raidref.uri, raidref.ability, raidref.abilitydesc)
+    summon(raid, undefined, raidref.minlevel, raidref.maxlevel, raidref.name, raidref.url, raidref.ability, raidref.abilitydesc)
 }
 function summon(raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) {
     raid.isRaid = true;
