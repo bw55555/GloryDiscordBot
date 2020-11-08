@@ -17,7 +17,7 @@ module.exports = async function (message, user) {
     let earnings = Math.floor((-4 * ((Math.random() - 0.5) ** 2) + 1) * ((10 * user.ascension + user.level) * 10 + 1));
     let lb = functions.calcLuckyBuff(user)
     let moneyearnings = Math.floor(earnings * (1+(lb-1)/5))
-    let xpearnings = Math.floor(earnings * lb * 10)
+    let xpearnings = Math.floor(earnings * lb * (user.ascension+1))
     user.xp += xpearnings;
     user.money += moneyearnings;
     functions.setCD(user, ts, workcdseconds, "work")
