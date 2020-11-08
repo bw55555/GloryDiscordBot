@@ -763,6 +763,7 @@ function calcEnchants(user, defender, options) {
     enchants.regen = 0;
     enchants.lucky = 1;
     enchants.evade = 0;
+    enchants.haste = 0;
     if (options.silence) { return enchants;}
     if (user.trianglemod != undefined) { enchants.buff = user.trianglemod}
     if (user.ability != undefined && user.ability != "None") {

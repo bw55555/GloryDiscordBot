@@ -21,7 +21,7 @@ module.exports = async function (message, user) {
     user.xp += xpearnings;
     user.money += moneyearnings;
     functions.setCD(user, ts, workcdseconds, "work")
-    text += message.author.username + ' worked for ' + earnings + ' money and xp!'
+    text += message.author.username + ' worked for ' + moneyearnings + ' money and '+xpearnings+' xp!'
     if (user.marry != "None") {
         await Promise.all([functions.getUser(user.marry)]).then(ret => {
             let spouse = ret[0];
@@ -47,7 +47,7 @@ module.exports = async function (message, user) {
             })
         }, [message, user]);
     }
-    functions.completeQuest(user, "work", {}, earnings)
+    functions.completeQuest(user, "work", {}, moneyearnings)
     user.speed = 0;
     functions.deleteMessage(message);
     functions.sendMessage(message.channel, text)
