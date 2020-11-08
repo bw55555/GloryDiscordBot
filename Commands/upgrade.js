@@ -86,8 +86,13 @@ module.exports = async function (message, user) {
             for (let i = 0; i < 3; i++) {
                 if (statsuccess[i]) {
                     let xarr = upgradeStats(numstats[i], 1, user)
-                    textarr[i] = xarr[0]
                     statsuccess[i] = xarr[1]
+                    if (statsuccess[i]) {
+                        textarr[i] = xarr[0]
+                    } else {
+                        textarr[i] += xarr[0]
+                    }
+                    
                 }
             }
         }
