@@ -84,7 +84,7 @@
     "next": [ 21 ]
   },
   {
-    "quest": "-mqid 21 -name Continous Support -condtion c vote.votestreak >= 7 -desc Have a vote streak of 7 or higher -reward honor 75",
+    "quest": "-mqid 21 -name Continous Support -condition c vote.votestreak >= 7 -desc Have a vote streak of 7 or higher -reward honor 35",
     "next": []
   },
   {
