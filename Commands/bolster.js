@@ -6,6 +6,7 @@ module.exports = async function (message, user) {
     if (user.triangleid != 9 && !functions.hasSkill(user, 11)) {
         return functions.replyMessage(message, "You can't bolster!");
     }
+    if (user.dead) { return functions.replyMessage(message, "You are currently dead. ")}
     if (functions.isCD(user, ts, "bolster")) {
         functions.deleteMessage(message);
         return functions.replyMessage(message, "You can't bolster right now. You can bolster again in " + functions.displayTime(user.cooldowns.bolster, ts));

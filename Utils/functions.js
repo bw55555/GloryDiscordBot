@@ -1027,7 +1027,8 @@ function customsummon(raid, options) {
     raid.attacklist = {};
     raid.damagelist = {};
     if (options == undefined) {
-        options = {}}
+        options = {}
+    }
     for (let key in options) {
         raid[key] = options[key]
     }
