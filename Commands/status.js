@@ -5,7 +5,7 @@ module.exports = async function (message, user) {
     let words = message.content.trim().split(/\s+/)
     //return functions.replyMessage(message,"This will be here later...")
     let text = ""
-    for (let effect of user.statusEffects) {
+    for (let effect in user.statusEffects) {
         //if (functions.calcTime(user.cooldowns[cooldowns[i]], ts) < 0) { continue }
         if (user.statusEffects[effect] > 0) {
             text += "**" + effect + "**: " + user.statusEffects[effect] + "\n"
