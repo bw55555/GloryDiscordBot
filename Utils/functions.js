@@ -1011,7 +1011,7 @@ function raidInfo(message, raid, extratext) {
         toSendEmbed.embed.footer = {
             "text": "The ghosts will leave in " + functions.displayTime(devData.halloweenevent.end, ts)
         }
-    } else {
+    } else if (raid.location != undefined) {
         toSendEmbed.embed.footer = {
             "text": "ID: "+raid._id
         }
