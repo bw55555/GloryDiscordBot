@@ -360,6 +360,6 @@ module.exports = async function (message, user) {
                 fields: fields
             }
         }
-        functions.sendMessage(message.channel, text);
+        functions.sendMessage(message.channel, toSendEmbed);
     }
 }
