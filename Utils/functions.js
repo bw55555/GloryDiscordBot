@@ -1031,110 +1031,6 @@ function customsummon(raid, options) {
 }
 function locationsummon(raid) {
     if (raid.areabosssummon == undefined) { raid.areabosssummon = 0}
-    let raidsbyloc = {
-        "forest": [
-            {
-                "name": "Goblin",
-                "uri": 'https://i.imgur.com/Vvo98Jr.png',
-                "minlevel": 0,
-                "maxlevel": 25
-            },
-            {
-                "name": "Goblin Shaman",
-                "uri": 'https://i.imgur.com/UlYs96g.jpg',
-                "minlevel": 25,
-                "maxlevel": 50
-            },
-            {
-                "name": "Treant Boss",
-                "uri": 'https://i.imgur.com/1fbm4us.jpg',
-                "minlevel": 75,
-                "maxlevel": 100
-            }
-        ],
-        "sea": [
-            {
-                "name": "Seafolk",
-                "uri": 'https://i.imgur.com/v3KStfv.png',
-                "minlevel": 25,
-                "maxlevel": 50
-            },
-            {
-                "name": "Sea Serpent",
-                "uri": 'https://i.imgur.com/6o59DWV.png',
-                "minlevel": 50,
-                "maxlevel": 75
-            },
-            {
-                "name": "Kraken Boss",
-                "uri": 'https://i.imgur.com/mGKIsnX.jpg',
-                "minlevel": 100,
-                "maxlevel": 125
-            }
-        ],
-        "mountain": [
-            {
-                "name": "Rock Golem",
-                "uri": 'https://i.imgur.com/dvB4nBG.png',
-                "minlevel": 50,
-                "maxlevel": 75
-            },
-            {
-                "name": "Mountain Troll",
-                "uri": 'https://i.imgur.com/LUX24g0.png',
-                "minlevel": 75,
-                "maxlevel": 100
-            },
-            {
-                "name": "Dragon Boss",
-                "uri": 'https://i.imgur.com/YCdZZmT.jpg',
-                "minlevel": 125,
-                "maxlevel": 150
-            }
-        ],
-        "heaven": [
-            {
-                "name": "Angel",
-                "uri": 'https://i.imgur.com/lKtQMRm.png',
-                "minlevel": 75,
-                "maxlevel": 100
-            },
-            {
-                "name": "Archangel",
-                "uri": 'https://i.imgur.com/0ZIv1wa.png',
-                "minlevel": 100,
-                "maxlevel": 125
-            },
-            {
-                "name": "Deity Boss",
-                "uri": 'https://i.imgur.com/WrEorXF.png',
-                "minlevel": 150,
-                "maxlevel": 175
-            }
-        ],
-        "hell": [
-            {
-                "name": "Fiend",
-                "uri": 'https://i.imgur.com/NLlglW3.png',
-                "minlevel": 100,
-                "maxlevel": 125,
-            },
-            {
-                "name": "Archfiend",
-                "uri": 'https://i.imgur.com/jKtqikk.png',
-                "minlevel": 125,
-                "maxlevel": 150,
-            },
-            {
-                "name": "Hell Lord",
-                "uri": 'https://imgur.com/MbGhMkJ.jpg',
-                "minlevel": 175,
-                "maxlevel": 200,
-                "ability": { "pierce": 0.1, "critRate": 0.1 },
-                "abilitydesc": '10% chance to pierce, 10% chance to crit and deal 2x damage. '
-            }
-        ],
-    }
     let loc = raid.location
     let rng = Math.random();
     let rnum;
@@ -1148,7 +1044,7 @@ function locationsummon(raid) {
         rnum = 0;
         raid.areabosssummon += 0.01
     }
-    let raidref = raidsbyloc[loc][rnum]
+    let raidref = Assets.locationraidData[loc][rnum]
     summon(raid, undefined, raidref.minlevel, raidref.maxlevel, raidref.name, raidref.uri, raidref.ability, raidref.abilitydesc)
 }
 function summon(raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) {

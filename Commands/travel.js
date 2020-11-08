@@ -6,8 +6,27 @@ module.exports = async function (message, user) {
     if (words.length == 1) { return functions.replyMessage(message, "Please specify a place to travel to!") }
     let word2 = words[1].toLowerCase();
     if (functions.isCD(user, ts, "travel")) { return functions.replyMessage(message, "The teleport network is still cooling down... Please try again in " + functions.displayTime(user.cooldowns.travel, ts)) }
-    if (user.dead) { return functions.replyMessage(message, "You cannot teleport while dead!")}
-    if (word2 == "city") {
+    if (user.dead) { return functions.replyMessage(message, "You cannot teleport while dead!") }
+    if (word2 == "list") {
+        let toSendEmbed = {
+            embed: {
+                title: "Locations",
+                color: 0xF1C40F,
+                fields: [
+                    {
+                        name: "Free Areas",
+                        value: "City: The city\nGuild: The guild raid\nWorld: The world raid\nEvent: The event raid",
+                    },
+                    {
+                        name: "Instanced Areas",
+                        value: "Graveyard: Recommended Level 5\nForest: Recommended Level 20\nCaves: Recommended Level 50\nSea: Recommended Level 75\nTundra: Recommended Level 100\nMountain: Recommended Level 125\nHeaven: Recommended Level 200\nHell: Recommended Level 250"
+                    }
+                ]
+            }
+        }
+        functions.sendMessage(message.channel,toSendEmbed )
+    }
+    else if (word2 == "city") {
         user.location = word2
         functions.replyMessage(message, "You have returned to the city!")
     } else if (word2 == "guild") {
