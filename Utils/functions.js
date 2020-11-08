@@ -708,15 +708,12 @@ function simulateAttack(message, attacker, defender) {
     let attackername = attacker.isRaid ? attacker.name : "<@" + attacker._id + ">"
     calcStatusEffects(attacker, defender, aenchants, astatus, denchants, dstatus)
     calcStatusEffects(defender, attacker, denchants, dstatus, aenchants, astatus)
-
     let damage = 0;
     let counter = 0;
     let damagearr = calcDamage(message, attacker, defender, attacker, astatus, dstatus);//ok...
     let damagetext = damagearr[0];
     damage += damagearr[1]
     counter += damagearr[2]
-    let doptions = {};
-    if (denchants.petrify > Math.random()) { aoptions.petrify = true; }
     let counterarr = calcDamage(message, defender, attacker, attacker, dstatus, astatus);//ok...
     let countertext = counterarr[0];
     counter += counterarr[1];
