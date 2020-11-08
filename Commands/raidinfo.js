@@ -6,7 +6,7 @@ module.exports = async function (message, user) {
     if (user.location == "city") { return functions.replyMessage(message, "You cannot do this in the city!") }
     if (user.location == "guild") {
         if (user.guild == "None") { return functions.replyMessage(message, "You are not in a guild!") }
-        return Promise.all([functions.getObject("guildData", guildName)]).then(ret => {
+        return Promise.all([functions.getObject("guildData", user.guild)]).then(ret => {
             let guild = ret[0];
             if (guild == undefined || guild.raid == undefined || guild.raid.alive != true) { return functions.replyMessage(message, "You don't have a raid going on!") }
             functions.raidInfo(message, guild.raid)
