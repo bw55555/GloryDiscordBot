@@ -5,11 +5,10 @@ module.exports = async function (message, user) {
     let words = message.content.trim().split(/\s+/)
     //return functions.replyMessage(message,"This will be here later...")
     let text = ""
-    let statusEffects = Object.keys(user.statusEffects)
-    for (var i = 0; i < statusEffects.length; i++) {
+    for (let effect of user.statusEffects) {
         //if (functions.calcTime(user.cooldowns[cooldowns[i]], ts) < 0) { continue }
-        if (user.statusEffects[statusEffects[i]] > 0) {
-            text += "**" + statusEffects[i] + "**: " + functions.displayTime(user.statusEffects[statusEffects[i]], Math.min(ts, user.statusEffects[statusEffects[i]])) + "\n"
+        if (user.statusEffects[effect] > 0) {
+            text += "**" + effect + "**: " + user.statusEffects[effect] + "\n"
         }
     }
     //text+="```"
