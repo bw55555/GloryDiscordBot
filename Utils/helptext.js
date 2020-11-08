@@ -100,8 +100,8 @@ let page2 = {
                 "value": "Displays current level, xp and ascension points of the player"
             },
             {
-                "name": "donotdm",
-                "value": "Toggle glory dms on/off"
+                "name": "status",
+                "value": "See status effects acting upon you"
             }
         ]
     }
@@ -221,7 +221,7 @@ let page4 = {
 //PAGE 5 STARTS
 let page5 = {
     "embed": {
-        "title": "Event And Raid commands",
+        "title": "Raid commands",
         "color": 16312092,
         "footer": {
 
@@ -233,8 +233,16 @@ let page5 = {
 
         "fields": [
             {
-                "name": "summon",
-                "value": "Summons a boss in your server for more info try doing help on it"
+                "name": "travel list",
+                "value": "Check all location you can travel to"
+            },
+            {
+                "name": "travel <location> <ID>",
+                "value": "Travel to a location. \n`ID` is optional, use it to invite/join friends while killing a raid"
+            },
+            {
+                "name": "location",
+                "value": "Check your current location"
             },
             {
                 "name": "raidinfo | rinfo | ri",
@@ -243,22 +251,6 @@ let page5 = {
             {
                 "name": "raidattack | rattack | ratk ",
                 "value": "Attacks the boss"
-            },
-            {
-                "name": "er",
-                "value": "Brings up the info on the event raid"
-            },
-            {
-                "name": "eventattack | eatk",
-                "value": "Attacks the event boss when used in event-raid channel of the support server"
-            },
-            {
-                "name": "wr",
-                "value": "Check status of world boss"
-            },
-            {
-                "name": "watk",
-                "value": "Attack worldboss"
             }
         ]
     }
@@ -327,7 +319,7 @@ let page6 = {
 //PAGE 7 STARTS 
 let page7 = {
     "embed": {
-        "title": "Gambling and misc. commands",
+        "title": "Misc. commands",
         "color": 16312092,
         "footer": {
 
@@ -338,10 +330,6 @@ let page7 = {
 
 
         "fields": [
-            {
-                "name": "flip [heads/tails] [amount]",
-                "value": "Flips a coin"
-            },
             {
                 "name": "c | consumable | consumables",
                 "value": "Displays the consumables that you have"
@@ -365,6 +353,10 @@ let page7 = {
             {
                 "name": "ls",
                 "values": "Opens Lucky Shop interface. The items in ls can be refreshed everyday at 00:00 UTC. To refresh ls do `!ls r`"
+            },
+            {
+                "name": "donotdm",
+                "value": "Toggle glory dms on/off"
             }
         ]
     }
@@ -517,14 +509,6 @@ let page11 = {
             {
                 "name": "g summon c/u/r/e/l",
                 "value": "Summon a guild boss. To check for scrolls do `g scrolls`"
-            },
-            {
-                "name": "g ri",
-                "value": "Check stats on guild raid"
-            },
-            {
-                "name": "g ratk",
-                "value": "Attack guild raid"
             },
             {
                 "name": "g forge",
@@ -712,8 +696,8 @@ let page15 = {
 }
 //PAGE 15 ENDS
 //PAGE 16 STARTS
-let page16 = {
-    "content": "Happy Halloween Gloryseekers! The spooky fest of Halloween has been interupted by the ghosts, kill them to earn candies and exchange them for exciting goodies from the store. \nYou can also treat yourself with candies and get more experience",
+/*let page16 = {
+  "content": "Happy Halloween Gloryseekers! The spooky fest of Halloween has been interupted by the ghosts, kill them to earn candies and exchange them for exciting goodies from the store. \nYou can also treat yourself with candies and get more experience",
     "embed": {
         "title": "Halloween Event",
         "color": 16312092,
@@ -727,7 +711,7 @@ let page16 = {
                 "name": "candy",
                 "value": "See how many candies you have collected"
             },
-            {
+             {
                 "name": "candy store",
                 "value": "Check the candy store"
             },
@@ -750,7 +734,7 @@ let page16 = {
         ]
     }
 }
-//PAGE 16 ENDS
+//PAGE 16 ENDS*/
 let pages = [page1, page2, page3, page4, page5, page6, page7, page8, page9, page10, page11, page12, page13, page14, page15];
 
 for (let i = 0; i < pages.length; i++) {

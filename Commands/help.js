@@ -13,7 +13,7 @@ module.exports = async function (message, user) {
         let text = "";
         let prefix = defaultPrefix
         if (message.guild != undefined) { prefix = serverData[message.guild.id].prefix }
-
+        let fields = []; //basically push things into here to get extra fields in embed. 
         if (word2 == "PROFILE" || word2 == "P") {
             //Profile text
             text += "Opens the profile\nYou can open a profile of a target player too!\nSyntax: " + prefix + "profile <target> OR " + prefix + "profile (For your own profile)"
@@ -154,25 +154,13 @@ module.exports = async function (message, user) {
             //raidinfo text
             text = "Brings up the info on the current boss!\nSyntax: " + prefix + "raidinfo\nNote: Works only in a channel with a raid boss."
         }
-        else if (word2 == "EVENTATTACK" || word2 == "EATK") {
-            //eventattack text
-            text = "Attacks the event boss when used in event-raid channel of the support server!\nSyntax: " + prefix + "eventattack\nNote: Works only in the event channel."
+        else if (word2 == "TRAVEL") {
+            //raidinfo text
+            text = "Travel to a location to fight monsters.\nSyntax:" + prefix + "travel <location> <ID>"
         }
-        else if (word2 == "ER") {
-            //eventinfo text
-            text = "Brings up the info on the current event boss!\nSyntax: " + prefix + "er"
-        }
-        else if (word2 == "WATK") {
-            //worldbossinfo text
-            text = "Attacks the world boss!\nSyntax: " + prefix + "watk"
-        }
-        else if (word2 == "WR") {
-            //worldbossinfo text
-            text = "Brings up the stats of world boss!\nSyntax: " + prefix + "wr"
-        }
-        else if (word2 == "SUMMON") {
-            //summon text
-            text = "Summons a boss in your server!\nNOTE: Your server must contain more than 50 members AND the channel must named according to the boss to be summoned\nSyntax: " + prefix + "summon"
+        else if (word2 == "STATUS") {
+            //raidinfo text
+            text = "Brings up the info on the current boss!\nSyntax: " + prefix + "raidinfo\nNote: Works only in a channel with a raid boss."
         }
         else if (word2 == "INVENTORY" || word2 == "INV" || word2 == "I") {
             //inventory text
@@ -290,10 +278,6 @@ module.exports = async function (message, user) {
                 "Update a buff to desired level. Use level 0 to turn off the buff.\n" +
                 prefix + "g s c/u/r/e/l\n" +
                 "Summon a guild boss\n" +
-                prefix + "guild ratk\n" +
-                "Attacks guild raid boss\n" +
-                prefix + "guild ri / g ri\n" +
-                "Check guild raid stats\n" +
                 prefix + "guild forge\n" +
                 "Check guild forge level\n" +
                 prefix + "guild forge donate materials/money <amount>\n" +
@@ -364,7 +348,7 @@ module.exports = async function (message, user) {
         else {
             text = word2 + " is not an existing command"
         }
-        let fields = [];
+
         fields.push({
             name: word2,
             value: text
@@ -376,6 +360,6 @@ module.exports = async function (message, user) {
                 fields: fields
             }
         }
-        functions.sendMessage(message.channel, toSendEmbed);
+        functions.sendMessage(message.channel, text);
     }
 }
