@@ -610,7 +610,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
             text += defendername + " has blocked the attack!\n"
             attack = 0;
             if (defender.isRaid != true && hasSkill(defender, 30, skillenable)) {
-                defender.bolster = true
+                defender.statusEffects.bolster = 1
                 text += defendername + " was bolstered!\n"
             }
         }
@@ -690,7 +690,12 @@ function calcStatusEffects(attacker, defender, aenchants, astatus, denchants, ds
     if (attacker.statusEffects.bleed > 0) {
         astatus.bleed = attacker.statusEffects.bleed
         attacker.statusEffects.bleed -= 1;
-        if (attacker.statusEffects.bleed <= 0) { attacker.statusEffects.bleed = undefined}
+        if (attacker.statusEffects.bleed <= 0) { attacker.statusEffects.bleed = undefined }
+    }
+    if (attacker.statusEffects.bolster > 0) {
+        astatus.bolster = true;
+        attacker.statusEffects.bolster -= 1;
+        if (attacker.statusEffects.bolster <= 0) { attacker.statusEffects.bolster = undefined }
     }
 }
 function simulateAttack(message, attacker, defender) {
@@ -823,6 +828,7 @@ function calcStats(message, user, stat, options) {
     if (options == undefined) {options = {}}
     let skillenable = (options.skillenable == false) ? false : true
     let enchants = (options.enchants == undefined) ? functions.calcEnchants(user, {}, options) : options.enchants
+    let status = options.status == undefined ? {} : options.status
     let dispel = (options.hasDispel == true) ? true : false
     let confused = (options.hasConfusion == true) ? true : false
     let text = ""
@@ -832,10 +838,9 @@ function calcStats(message, user, stat, options) {
         attack = user.defense
         defense = user.attack
     }
-    if (user.bolster == true) {
+    if (status.bolster) {
         enchants.buff += 0.2;
         enchants.dbuff += 0.2;
-        user.bolster = false;
     }
     attack += enchants.attack
     defense += enchants.defense
@@ -1111,7 +1116,6 @@ function checkProps(message,user) {
     if (user.guild == undefined) user.guild = "None";
     if (user.guildpos == undefined) user.guildpos = "None";
     if (user.guildbuffs == undefined) user.guildbuffs = {};
-    if (user.bolster == undefined) user.bolster = false;
     if (user.votestreak == undefined) user.votestreak = 0;
     if (user.shield == undefined) user.shield = ts + 24 * 1000 * 60 * 60;
     if (user.materials == undefined) user.materials = 0;

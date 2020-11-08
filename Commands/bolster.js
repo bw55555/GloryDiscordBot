@@ -11,7 +11,7 @@ module.exports = async function (message, user) {
         return functions.replyMessage(message, "You can't bolster right now. You can bolster again in " + functions.displayTime(user.cooldowns.bolster, ts));
     }
     if (words.length == 1) {
-        if (user.bolster === true) {
+        if (user.statusEffects.bolster >= 1) {
             functions.replyMessage(message, "You are already bolstered!");
             return;
         }
@@ -19,7 +19,7 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You cannot bolster yourself!");
             return
         }
-        user.bolster = true;
+        user.statusEffects.bolster = 1;
         functions.replyMessage(message, "You have bolstered yourself!");
         functions.setCD(user, ts, bolstercd * 60, "bolster")
     } else if (words.length == 2) {
@@ -28,17 +28,17 @@ module.exports = async function (message, user) {
             if (target == false) {
                 return;
             }
-            if (target.bolster === true) {
+            if (target.statusEffects.bolster >= 1) {
                 functions.replyMessage(message, "They are already bolstered!");
                 return;
             }
             if (target._id == user._id && user.triangleid != 9) { return functions.replyMessage(message, "You cannot bolster yourself!") }
-            target.bolster = true;
+            target.statusEffects.bolster = 1;
             if (target._id == user._id) {
                 functions.replyMessage(message, "You have been bolstered!");
             }
             else if (user.triangleid == 9) {
-                user.bolster = true;
+                user.statusEffects.bolster = 1;
                 functions.replyMessage(message, "You and <@" + target._id + "> have both been bolstered!");
             } else {
                 functions.replyMessage(message, "<@" + target._id + "> has been bolstered!");

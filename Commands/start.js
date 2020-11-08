@@ -28,7 +28,6 @@ module.exports = async function (message, user) {
         guild: "None",
         guildpos: "None",
         guildbuffs: {},
-        bolster: false,
         votestreak: 0,
         shield: 0,
         materials: 0,
