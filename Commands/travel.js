@@ -30,6 +30,7 @@ module.exports = async function (message, user) {
         user.location = word2
         functions.replyMessage(message, "You have returned to the city!")
     } else if (word2 == "guild") {
+        if (user.guild == "None") { return functions.replyMessage(message, "You are not in a guild!")}
         user.location = word2
         functions.replyMessage(message, "Welcome to the guild hall!")
     } else if (word2 == "world") {

@@ -431,17 +431,6 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You have successfully summoned a " + raid.name + " at level " + summonlevel + "!")
             functions.raidInfo(message, guild.raid)
         }
-        else if (command == "RAIDINFO" || command == "RI") {
-            //if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
-            if (guild.raid.alive != true) { return functions.replyMessage(message, "You don't have a raid going on!") }
-            functions.raidInfo(message, guild.raid)
-        }
-        else if (command == "RAIDATTACK" || command == "RATK") {
-            //if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
-            if (guild.raid.alive != true) { return functions.replyMessage(message, "You don't have a raid going on!") }
-            functions.raidAttack(message, user, guild.raid, "guild", guild)
-            if (guild.raid.alive == false) { guild.raid = ts + 1000 * 60 * guild.raid.level }
-        }
         else if (command == "SCROLLS") {
             let text = "Your guild has: \n"
             text += "<:Common:546173232764682241> Common Scrolls: " + guild.scrolls[0] + "\n"
