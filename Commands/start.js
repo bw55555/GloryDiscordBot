@@ -35,7 +35,6 @@ module.exports = async function (message, user) {
         ascension: 0,
         bounty: 0,
         glory: 0,
-        burn: 0,
         contribution: 0,
         honor: 0,
         runes: [0, 0, 0, 0, 0, 0, 0],

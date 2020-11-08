@@ -597,8 +597,8 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
         } else if (hasSkill(defender, 38, skillenable)) {
             text += attackername +"'s flame was dispelled!\n"
         } else {
-            if (defender.burn == undefined) { defender.burn = 0 }
-            defender.burn += aenchants.burn;
+            if (defender.statusEffects.burn == undefined) { defender.statusEffects.burn = 0 }
+            defender.statusEffects.burn += aenchants.burn;
             text += defendername + " is now burning!\n"
         }
     }
@@ -1118,7 +1118,6 @@ function checkProps(message,user) {
     if (user.ascension == undefined) user.ascension = 0;
     if (user.bounty == undefined) user.bounty = 0;
     if (user.glory == undefined) user.glory = 0;
-    if (user.burn == undefined) user.burn = 0;
     if (user.runes == undefined) user.runes = [0, 0, 0, 0, 0, 0, 0]
     while (user.runes.length < 7) { user.runes.push(0) }
     if (user.cooldowns == undefined) user.cooldowns = {}
@@ -1198,25 +1197,23 @@ function checkStuff(message,user) {
     }
 
     //burn
-    if (user.burn != undefined && user.dead == false && !isNaN(user.burn) && user.burn > 0) {
+    if (user.statusEffects.burn != undefined && user.dead == false) {
         let burndamage = Math.floor(user.health * .05)
-        user.burn -= 1
+        user.statusEffects.burn -= 1
         user.currenthealth -= burndamage
-        let burntext = "You took **" + burndamage + "** from burning. (You will burn for " + user.burn + " more commands)"
-        if (user.currenthealth < 0) { user.dead = true;}
+        let burntext = "You took **" + burndamage + "** from burning. (You will burn for " + user.statusEffects.burn + " more commands)"
+        if (user.currenthealth < 0) { user.dead = true; }
         if (user.dead) {
             burntext += " You burned to death!"
             user.dead = true
-            user.burn = 0
+            user.statusEffects.burn = undefined
             burntext += " The flames have ceased."
         }
-        if (user.burn <= 0 || user.dead == true || isNaN(user.burn)) {
-            user.burn = 0
+        if (user.statusEffects.burn <= 0 || user.dead == true || isNaN(parseInt(user.statusEffects.burn))) {
+            user.statusEffects.burn = undefined
             burntext += " The flames have ceased."
         }
         replyMessage(message, burntext)
-    } else if (isNaN(user.burn)) {
-        user.burn = 0
     }
 
     if (user.currenthealth <= 0) { //If health is 0, you are dead.
