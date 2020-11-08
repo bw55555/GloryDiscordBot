@@ -9,7 +9,7 @@ module.exports = async function (message, user) {
     for (var i = 0; i < statusEffects.length; i++) {
         //if (functions.calcTime(user.cooldowns[cooldowns[i]], ts) < 0) { continue }
         if (user.statusEffects[statusEffects[i]] > 0) {
-            text += "**" + cooldowns[i] + "**: " + functions.displayTime(user.statusEffects[statusEffects[i]], Math.min(ts, user.statusEffects[statusEffects[i]])) + "\n"
+            text += "**" + statusEffects[i] + "**: " + functions.displayTime(user.statusEffects[statusEffects[i]], Math.min(ts, user.statusEffects[statusEffects[i]])) + "\n"
         }
     }
     //text+="```"
