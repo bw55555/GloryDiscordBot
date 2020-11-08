@@ -515,7 +515,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
         aoptions.hasDispel = true;
         text += attackername + "'s speed was dispelled!\n"
     }
-    if (astatus.silence) { aoptions.silence = true; text += attackername + " was silenced\n"}
+    if (astatus.silence) { aoptions.silence = true; text += attackername + " was silenced!\n"}
     let aenchants = calcEnchants(attacker, defender, aoptions)
     aoptions.enchants = aenchants;
     aoptions.status = astatus;

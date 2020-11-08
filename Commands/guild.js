@@ -425,7 +425,7 @@ module.exports = async function (message, user) {
             ro.reward = summonlevel * raid.reward * 50;
             ro.crystalreward = Math.floor(summonlevel * raid.crystalreward / 2);
             if (raid.ability != undefined) { ro.ability = raid.ability; ro.abilitydesc = raid.abilitydesc; }
-            functions.customsummon(guild.raid, raid)
+            functions.customsummon(guild.raid, ro)
             functions.replyMessage(message, "You have successfully summoned a " + raid.name + " at level " + summonlevel + "!")
             functions.raidInfo(message, guild.raid)
         }
