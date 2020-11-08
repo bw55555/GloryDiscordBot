@@ -51,7 +51,6 @@ module.exports = async function (message, user) {
             user.speed = 0;
             let text = "You have travelled to location " + newloc + "!\n"
             if (raid == false) {
-                
                 raid = {}
                 raid._id = user.location
                 raid.location = word2
@@ -59,6 +58,7 @@ module.exports = async function (message, user) {
                 text += "A boss has been summoned! It is level " + raid.level + "!";
                 functions.setObject("mobData", raid)
             }
+            functions.completeQuest(user, "travel", {"location": word2}, 1)
             functions.setCD(user, ts, 30, "travel")
             functions.replyMessage(message, text)
         })
@@ -66,6 +66,7 @@ module.exports = async function (message, user) {
         return functions.replyMessage(message, "This location does not exist!")
     }
     user.speed = 0;
+    functions.completeQuest(user, "travel", { "location": word2 }, 1)
     functions.setCD(user, ts, 30, "travel")
 }
 function isChar(s) {

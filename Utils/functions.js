@@ -1926,7 +1926,7 @@ async function antimacro(message, user) {
                 msg.react(reaction).catch(function (err) { errorlog(err); console.log(err) });
             }
         } else {
-            return functions.replyMessage(message, "The bot is missing either the `add reactions` permission or the `use external emoji` permission. Please fight robbers in a channel that has these permissions. ")
+            return functions.replyMessage(message, "The bot is missing either the `add reactions` permission or the `use external emoji` permission. Please fight robbers in a channel that has these permissions. (or dms with the bot)")
         }
         this.collector = msg.createReactionCollector((reaction, u) => reaction.me && u.id === user._id && u.id !== msg.author.id, { max: 1, time: 10000, errors: ['time'] });
         this.collector.on("collect", (reaction, person) => {
