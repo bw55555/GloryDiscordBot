@@ -52,7 +52,7 @@
     "next": [ 13 ]
   },
   {
-    "quest": "-mqid 13 -name I shouldn't have done this  -condition a raidAttack >= 1 -desc Attack a treant and die from it (note: you will need a raid channel to do this. Use !summon if you don't have one) (hint: !ratk) -special raid.name = Treant Boss -special user.currenthealth <= 0 -reward xp 500 money 1000",
+    "quest": "-mqid 13 -name I shouldn't have done this -condition a raidAttack >= 1 -desc Die once (note: you will need a raid channel to do this. Use !summon if you don't have one) (hint: !ratk) -special user.currenthealth <= 0 -reward xp 500 money 1000",
     "next": [ 14 ]
   },
   {
