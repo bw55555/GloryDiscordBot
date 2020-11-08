@@ -24,7 +24,7 @@ module.exports = async function (message, user) {
                 ]
             }
         }
-        functions.sendMessage(message.channel,toSendEmbed )
+        return functions.sendMessage(message.channel,toSendEmbed )
     }
     else if (word2 == "city") {
         user.location = word2
