@@ -11,17 +11,19 @@ module.exports = async function (message, user) {
         return;
     }
     if (command == "permit") {
-        let dungeon = {
-            "_id": user._id,
-            "maxFloor": 0,
-            "floor": 0,
-            "raid": {},
-            "task": "start", 
-            "crystals": 0,
-            "xp": 0
-        }
-        functions.setObject("dungeonData", dungeon)
-        return functions.replyMessage(message, "You may now enter the mines. ")
+        functions.MessageAwait(message.channel, id, "Are you sure you want a dungeon permit? \n**Warning: This will reset your dungeon data if you have already entered the dungeon.**\nEnter `confirm` to continue. ", "confirm", (response, extraArgs) => {
+            let dungeon = {
+                "_id": user._id,
+                "maxFloor": 0,
+                "floor": 0,
+                "raid": {},
+                "task": "start",
+                "crystals": 0,
+                "xp": 0
+            }
+            functions.setObject("dungeonData", dungeon)
+            return functions.replyMessage(message, "You may now enter the mines. ")
+        }, [], "Enter `confirm` to acquire a permit. ")
     }
     return Promise.all([functions.getObject("dungeonData", user._id)]).then(ret => {
         let dungeon = ret[0];

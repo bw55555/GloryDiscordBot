@@ -1245,7 +1245,7 @@ function checkCommand(message, user) {
     }
     let command = message.command
     if (aliaslist[command] != undefined) { command = aliaslist[command]}
-    let dungeonbannedcommands = ["raidattack", "eventattack", "worldattack", "guild", "revive", "phoenixfeather"]
+    let dungeonbannedcommands = ["raidattack", "eventattack", "worldattack", "guild", "revive", "phoenixfeather", "travel"]
     if (user.dungeonts != undefined && dungeonbannedcommands.indexOf(command) != -1 && devs.indexOf(user._id) == -1) { replyMessage(message, "You cannot do this in a dungeon!");return false; }
     return true; 
 }
