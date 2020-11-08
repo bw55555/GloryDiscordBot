@@ -21,7 +21,7 @@ module.exports = async function (message, user) {
                     level = parseInt(words[1])
                     if (isNaN(level) || level <= 0) { return functions.replyMessage(message, "Please specify a level.") }
                 }
-                functions.summon(raid, level, 200, 300, "Fallen Angel", 'https://i.imgur.com/InedjHz.jpg')
+                functions.summon(raid, level, 200, 400, "Fallen Angel", 'https://i.imgur.com/InedjHz.jpg')
             } else if (words.length == 1) {
                 functions.summon(raid);
             } else {
