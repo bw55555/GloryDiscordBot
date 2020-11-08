@@ -75,9 +75,13 @@ module.exports = async function (message, user) {
         text += upgradeStats("health", amount, user)
     }
     else if (attributeToUpgrade == 'ALL') { //Upgrade Health
-        text += upgradeStats("attack", amount, user)
-        text += upgradeStats("defense", amount, user)
-        text += upgradeStats("health", amount, user)
+        let textarr = [];
+        for (let i = 0; i < amount; i++) {
+            textarr[0]= upgradeStats("attack", amount, user)
+            textarr[1]= upgradeStats("defense", amount, user)
+            textarr[2]= upgradeStats("health", amount, user)
+        }
+        text += textarr.join("")
     }
     else { return functions.replyMessage(message, "That is not a valid stat!") }
     functions.replyMessage(message, text)

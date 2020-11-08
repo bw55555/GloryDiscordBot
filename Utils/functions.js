@@ -1240,11 +1240,12 @@ function checkCommand(message, user) {
         "g": "guild",
         "rez": "revive",
         "res": "revive",
-        "resurrect": "revive"
+        "resurrect": "revive",
+        "feather": "phoenixfeather"
     }
     let command = message.command
     if (aliaslist[command] != undefined) { command = aliaslist[command]}
-    let dungeonbannedcommands = ["raidattack", "eventattack", "worldattack", "guild", "revive"]
+    let dungeonbannedcommands = ["raidattack", "eventattack", "worldattack", "guild", "revive", "phoenixfeather"]
     if (user.dungeonts != undefined && dungeonbannedcommands.indexOf(command) != -1 && devs.indexOf(user._id) == -1) { replyMessage(message, "You cannot do this in a dungeon!");return false; }
     return true; 
 }
