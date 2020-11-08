@@ -1392,8 +1392,8 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         }
         
         if (type != "guild" && type != "dungeon") {
-            let rarity = Math.floor(raid.level / 75) + Math.floor(Math.random() * (Math.min(raid.level, 75) / 15 - Math.floor(raid.level / 75)))
-            if (raid.level > 75 && Math.random() < (raid.level - 75) / 1000) {
+            let rarity = Math.floor(raid.level / 75) + Math.floor(Math.random() * (Math.min(2*raid.level/75, 5)- Math.floor(raid.level / 75)))
+            if (raid.level > 200 && Math.random() < (raid.level - 200) / 1000) {
                 rarity = 5
             }
 

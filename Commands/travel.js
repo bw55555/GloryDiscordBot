@@ -48,6 +48,7 @@ module.exports = async function (message, user) {
         let newloc = word2 + "-" + key
         return functions.getObject("mobData", newloc).then(raid => {
             user.location = newloc
+            user.speed = 0;
             let text = "You have travelled to location " + newloc + "!\n"
             if (raid == false) {
                 
@@ -64,6 +65,7 @@ module.exports = async function (message, user) {
     } else {
         return functions.replyMessage(message, "This location does not exist!")
     }
+    user.speed = 0;
     functions.setCD(user, ts, 30, "travel")
 }
 function isChar(s) {
