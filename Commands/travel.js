@@ -39,7 +39,7 @@ module.exports = async function (message, user) {
     } else if (word2 == "event") {
         user.location = word2
         functions.replyMessage(message, "Welcome to the event raid!")
-    } else if (word2 == "forest" || word2 == "sea" || word2 == "mountain" || word2 == "heaven" || word2 == "hell") {
+    } else if (Assets.locationraidData[word2] != undefined) {
         let key = words[2];
         if (key == undefined) { key = getRandomKey() }
         key = key.toUpperCase()
