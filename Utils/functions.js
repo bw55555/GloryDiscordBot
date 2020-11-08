@@ -518,6 +518,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
     if (astatus.silence) { aoptions.silence = true; text += attackername + " was silenced\n"}
     let aenchants = calcEnchants(attacker, defender, aoptions)
     aoptions.enchants = aenchants;
+    aoptions.status = astatus;
     let attackarr = calcStats(message, attacker, "attack", aoptions);
     attack = attackarr[1];
     text += attackarr[0];
@@ -535,6 +536,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
     else if (dstatus.silence) { doptions.silence = true; text += defendername + " was silenced! \n"}
     let denchants = calcEnchants(defender, attacker, doptions)
     doptions.enchants = denchants;
+    doptions.status = dstatus;
     let defensearr = calcStats(message, defender, "defense", doptions);
     defense = defensearr[1]; 
     text += defensearr[0]; 
@@ -610,7 +612,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
             text += defendername + " has blocked the attack!\n"
             attack = 0;
             if (defender.isRaid != true && hasSkill(defender, 30, skillenable)) {
-                defender.statusEffects.bolster = 1
+                defender.statusEffects.bolster = defender.ascension * 0.03
                 text += defendername + " was bolstered!\n"
             }
         }
@@ -693,9 +695,8 @@ function calcStatusEffects(attacker, defender, aenchants, astatus, denchants, ds
         if (attacker.statusEffects.bleed <= 0) { attacker.statusEffects.bleed = undefined }
     }
     if (attacker.statusEffects.bolster > 0) {
-        astatus.bolster = true;
-        attacker.statusEffects.bolster -= 1;
-        if (attacker.statusEffects.bolster <= 0) { attacker.statusEffects.bolster = undefined }
+        astatus.bolster = attacker.statusEffects.bolster;
+        attacker.statusEffects.bolster = undefined
     }
 }
 function simulateAttack(message, attacker, defender) {
@@ -839,8 +840,8 @@ function calcStats(message, user, stat, options) {
         defense = user.attack
     }
     if (status.bolster) {
-        enchants.buff += 0.2;
-        enchants.dbuff += 0.2;
+        enchants.buff += status.bolster;
+        enchants.dbuff += status.bolster;
     }
     attack += enchants.attack
     defense += enchants.defense
@@ -1219,9 +1220,9 @@ function checkStuff(message,user) {
         }
         replyMessage(message, burntext)
     }
-
     if (user.currenthealth <= 0) { //If health is 0, you are dead.
         user.currenthealth = 0;
+        user.statusEffects = {}
         user.dead = true;
     }
     completeQuest(user, "user", user, 1)
