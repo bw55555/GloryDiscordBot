@@ -1451,20 +1451,20 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 user.runes[0] += runeshardnum
             }
             let cruneinfo = {
-                "Area Boss - Necromancer": [20, 0, 0.4, 0, 0, 0, 0.3],
-                "Area Boss - Treant": [40, 0, 0.4, 0, 0, 0, 0.3],
-                "Area Boss - Troll": [60, 0, 0.4, 0, 0, 0.3, 0],
-                "Area Boss - Kraken": [80, 0, 0.4, 0, 0, 0.3, 0],
-                "Area Boss - Frost Giant": [100, 0, 0.4, 0, 0.3, 0, 0],
-                "Area Boss - Dragon": [150, 0, 0.4, 0, 0.3, 0, 0],
-                "Area Boss - Deity": [200, 0, 0.4, 0.1, 0.2, 0.2, 0.2],
-                "Area Boss - Hell Lord": [250, 0, 0.2, 0.2, 0.4, 0.4, 0.4],
-                "Fallen Angel": [5000, 0.05, 0, 0, 0, 0, 0],
-                "Treant King": [2000, 0.2, 0, 0, 0, 0, 0],
-                "Leviathan": [4000, 0.4, 0, 0, 0, 0, 0],
-                "Dragonlord": [6000, 0.6, 0, 0, 0, 0, 0],
-                "Godking": [8000, 0.8, 0, 0, 0, 0, 0],
-                "Lord of the Abyss": [10000, 1, 0, 0, 0, 0, 0]
+                "Area Boss - Necromancer": [5, 0, 0, 0, 0, 0, 0],
+                "Area Boss - Treant": [10, 0, 0.1, 0, 0, 0, 0],
+                "Area Boss - Troll": [20, 0, 0.15, 0, 0, 0, 0],
+                "Area Boss - Kraken": [30, 0, 0.2, 0, 0, 0, 0],
+                "Area Boss - Frost Giant": [40, 0.25, 0, 0, 0, 0, 0],
+                "Area Boss - Dragon": [50, 0, 0.3, 0, 0, 0, 0],
+                "Area Boss - Deity": [75, 0, 0.4, 0.1, 0.2, 0.2, 0.2],
+                "Area Boss - Hell Lord": [100, 0, 0.4, 0.2, 0.4, 0.4, 0.4],
+                "Fallen Angel": [2500, 0.05, 0, 0, 0, 0, 0],
+                "Treant King": [1000, 0.2, 0, 0, 0, 0, 0],
+                "Leviathan": [2000, 0.4, 0, 0, 0, 0, 0],
+                "Dragonlord": [3000, 0.6, 0, 0, 0, 0, 0],
+                "Godking": [4000, 0.8, 0, 0, 0, 0, 0],
+                "Lord of the Abyss": [5000, 1, 0, 0, 0, 0, 0]
             }
             let runeprobs = cruneinfo[raid.name]
             if (runeprobs == undefined) { runeprobs = [0,0,0,0,0,0,0]}
