@@ -24,6 +24,7 @@ module.exports = async function (message, user) {
             functions.setObject("dungeonData", dungeon)
             return functions.replyMessage(message, "You may now enter the mines. ")
         }, [], "Enter `confirm` to acquire a permit. ")
+        return 
     }
     return Promise.all([functions.getObject("dungeonData", user._id)]).then(ret => {
         let dungeon = ret[0];
