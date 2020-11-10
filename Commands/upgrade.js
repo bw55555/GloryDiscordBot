@@ -31,17 +31,21 @@ function upgradeStats(attributeToUpgrade, amount, user) {
         }
     }
     let basestat = user[attributeToUpgrade] - extrastat
+    let success = false;
     if (totalcost > 1) {
-        text += 'You spent $' + totalcost + ' increasing your ' + attributeToUpgrade + ' to ' + basestat+"\n";
+        text += 'You spent $' + totalcost + ' increasing your ' + attributeToUpgrade + ' to ' + basestat + "\n";
+        success = true;
     }
     if (levelstop == true) {
         text += 'You must be level ' + (Math.floor(basestat / attrcosts[attributeToUpgrade]) + 1) + ' to level up your ' + attributeToUpgrade + ' to ' + (basestat + attrcosts[attributeToUpgrade]) + '. You are level ' + user.level + '!' + "\n";
+        success = false;
     }
     if (moneystop == true) {
         text += 'You need $' + cost + ' to level up your ' + attributeToUpgrade + ' to ' + (basestat + attrcosts[attributeToUpgrade]) + '. You have $' + user.money + "\n";
+        success = false;
     }
     functions.completeQuest(user, "upgrade", { "stat": attributeToUpgrade, "current": parseInt(basestat / attrcosts[attributeToUpgrade]), "cost": totalcost}, amount)
-    return text;
+    return [text, success];
 }
 module.exports = async function (message, user) {
     let id = message.author.id;
@@ -66,18 +70,33 @@ module.exports = async function (message, user) {
         return;
     }
     if (attributeToUpgrade == 'ATTACK' || attributeToUpgrade == 'ATK') { //Upgrade Atk
-        text += upgradeStats("attack", amount, user)
+        text += upgradeStats("attack", amount, user)[0]
     }
     else if (attributeToUpgrade == 'DEFENSE' || attributeToUpgrade == 'DEF') { //Upgrade Def
-        text += upgradeStats("defense", amount, user)
+        text += upgradeStats("defense", amount, user)[0]
     }
     else if (attributeToUpgrade == 'HEALTH' || attributeToUpgrade == 'HP') { //Upgrade Health
-        text += upgradeStats("health", amount, user)
+        text += upgradeStats("health", amount, user)[0]
     }
     else if (attributeToUpgrade == 'ALL') { //Upgrade Health
-        text += upgradeStats("attack", amount, user)
-        text += upgradeStats("defense", amount, user)
-        text += upgradeStats("health", amount, user)
+        let textarr = ["","",""];
+        let statsuccess = [true, true, true]
+        let numstats = ["attack", "defense", "health"]
+        for (let j = 0; j < amount; j++) {
+            for (let i = 0; i < 3; i++) {
+                if (statsuccess[i]) {
+                    let xarr = upgradeStats(numstats[i], 1, user)
+                    statsuccess[i] = xarr[1]
+                    if (statsuccess[i]) {
+                        textarr[i] = xarr[0]
+                    } else {
+                        textarr[i] += xarr[0]
+                    }
+                    
+                }
+            }
+        }
+        text += textarr.join("")
     }
     else { return functions.replyMessage(message, "That is not a valid stat!") }
     functions.replyMessage(message, text)

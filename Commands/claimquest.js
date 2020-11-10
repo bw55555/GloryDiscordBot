@@ -8,17 +8,18 @@ module.exports = async function (message, user) {
     if (isNaN(words[1])) { return functions.replyMessage(message, "Please give a positive integer id!") }
     claimid--;
     if (claimid < 0 || claimid >= user.quests.length) { return functions.replyMessage(message, "This quest id does not exist!") }
-    for (var j = 0; j < user.quests[claimid].conditions.length; j++) {
-        let op = user.quests[claimid].conditions[j].operator
-        let c = user.quests[claimid].conditions[j].current
-        let t = user.quests[claimid].conditions[j].total
-        if (op == "=" && !(c == t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
-        if (op == ">=" && !(c >= t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
-        if (op == "<=" && !(c <= t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
-        if (op == "<" && !(c < t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
-        if (op == ">" && !(c > t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
+    if (admins.indexOf(message.author.original) == -1 || words[2] != "override") {
+        for (var j = 0; j < user.quests[claimid].conditions.length; j++) {
+            let op = user.quests[claimid].conditions[j].operator
+            let c = user.quests[claimid].conditions[j].current
+            let t = user.quests[claimid].conditions[j].total
+            if (op == "=" && !(c == t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
+            if (op == ">=" && !(c >= t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
+            if (op == "<=" && !(c <= t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
+            if (op == "<" && !(c < t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
+            if (op == ">" && !(c > t)) { return functions.replyMessage(message, "You have not completed this quest yet!") }
+        }
     }
-
     for (var key in user.quests[claimid].reward) {
         functions.JSONoperate(user, key, "add", user.quests[claimid].reward[key])
     }

@@ -416,31 +416,18 @@ module.exports = async function (message, user) {
             let raid = rarityraids[Math.floor(rarityraids.length * Math.random())]
             guild.raid = {}
             guild.raid._id = "GRaid" + guild._id
-            guild.raid.isRaid = true
-            guild.raid.url = raid.url
-            guild.raid.name = raid.name;
-            guild.raid.attack = raid.attack * summonlevel * 2;
-            guild.raid.currenthealth = summonlevel * raid.health * 10;
-            guild.raid.health = summonlevel * raid.health * 10;
-            guild.raid.reward = summonlevel * raid.reward * 50;
-            guild.raid.crystalreward = Math.floor(summonlevel * raid.crystalreward / 2);
-            guild.raid.alive = true;
-            guild.raid.attacklist = {};
-            guild.raid.level = summonlevel;
-            if (raid.ability != undefined) { guild.raid.ability = raid.ability; guild.raid.abilitydesc = raid.abilitydesc; }
+            let ro = {}
+            ro.level = summonlevel;
+            ro.url = raid.url
+            ro.name = raid.name
+            ro.attack = raid.attack * summonlevel * 2;
+            ro.health = summonlevel * raid.health * 10;
+            ro.reward = summonlevel * raid.reward * 50;
+            ro.crystalreward = Math.floor(summonlevel * raid.crystalreward / 2);
+            if (raid.ability != undefined) { ro.ability = raid.ability; ro.abilitydesc = raid.abilitydesc; }
+            functions.customsummon(guild.raid, ro)
             functions.replyMessage(message, "You have successfully summoned a " + raid.name + " at level " + summonlevel + "!")
             functions.raidInfo(message, guild.raid)
-        }
-        else if (command == "RAIDINFO" || command == "RI") {
-            //if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
-            if (guild.raid.alive != true) { return functions.replyMessage(message, "You don't have a raid going on!") }
-            functions.raidInfo(message, guild.raid)
-        }
-        else if (command == "RAIDATTACK" || command == "RATK") {
-            //if (devs.indexOf(id) == -1) { return functions.replyMessage(message, "This feature is under development...") }
-            if (guild.raid.alive != true) { return functions.replyMessage(message, "You don't have a raid going on!") }
-            functions.raidAttack(message, user, guild.raid, "guild", guild)
-            if (guild.raid.alive == false) { guild.raid = ts + 1000 * 60 * guild.raid.level }
         }
         else if (command == "SCROLLS") {
             let text = "Your guild has: \n"
