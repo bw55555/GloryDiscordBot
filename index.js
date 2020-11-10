@@ -325,21 +325,7 @@ function evaluateMessage(message) {
         }
         if (user.maintenance) {
             delete user.maintenance
-            functions.sendMessage(message.channel, ":arrow_up: **MAJOR GLORY UPDATES** :arrow_up: \n\n"+
-            ":x: ** Anti - macro ** - there is a 1 % chance every command for a robber gang to come after you. React :crossed_swords: to defeat the robbers and gain honor!\n"+
-            "Note: you cannot use commands while a robber gang is present. \n"+
-            ":crystal_ball: ** Honor ** - You can get honor from defeating robbers, doing!daily, and voting for the bot. \n"+
-            ":moneybag: ** Auction System ** - You can buy rare things in exchange for honor.Currently, all items are provided by admins and you cannot sell your own items. \n" +
-            "        - do `!auction list` to see all auction items \n" +
-            "        - do `!auction bid` to bid on an item.\n" +
-            "        - do `!auction help` for a detailed explanation\n" +
-            ":newspaper2: ** Skill Modifications ** - All skill commands were merged into one command, !skill or!s\n" +
-            "        - `!sa`, `!sb`, `!sc` become`!s a`, `!s b`, `!s c`\n" +
-            "        - `!sinfo` becomes`!s info`\n" +
-            "        - `!skillinv` becomes`!s inv`\n" +
-            ":coin: ** Removed Gambling ** - You may not gamble money.It has been proven time and time again that a gambling command is not good for the economy of discord bots. (At least it is true for this one) \n" +
-            ":money_with_wings: ** Economy Reduction ** - You now earn around 1 / 6 as much money.On the other hand, you get around 1.3x more xp.\n" +
-            "** Note: I was forced to reset everyone's raids and equipped skills due to some changes in data storage. **")
+            functions.sendMessage(message.channel, ":arrow_up:  **MAJOR GLORY UPDATES**  :arrow_up:\n\n:earth_americas:   **No More Channels!**\n- Raids are no longer bound to channels. \n- Do `!travel <loc>` to journey to distant lands. Proceed to battle mythical creatures with `!ratk`. \n- Join comrades by adding the *raid ID* after the location name. Do `!location` for the raid ID.  (example: `!travel <loc> <raidID>`)\n- Do `!travel list` and start your expedition! More areas will be discovered and added to the list in the future as we continue to venture into the unknown. \n\n:watch:   **Cool Downs**\n- A cool down for vote has been added (utility). \n- Travel will have a cool down of 30 seconds. \n\n:crossed_swords:   **Raid Adjustments**\n- Fixed *Asmodeus* and *Medusa*. \n- Added status Effects: \n     :small_orange_diamond: **Silence** `(No raids yet)`: no enchantments will work. This includes guild buffs, weapon enchantments, everything. \n    :small_orange_diamond: **Stun** `(No raids yet)`: You cannot attack.\n    :small_orange_diamond: **Petrify** `(Medusa Raid)`: Applies both silence and stun. (What can you do if you're turned to stone anyway?)\n    :small_orange_diamond: **Vulnerable** `(No raids yet)`: Stacks on your character. If you have *x stacks of vulnerable*, you have *2x% less BASE defense*.\n    :small_orange_diamond: **Weakness** `(No raids yet)`: Stacks on your character. If you have *x stacks of weakness*, you have *2x% less BASE attack*. \n    :small_orange_diamond: **Bleed** `(Asmodeus Raid)`: Stacks on your character. If you have *x stacks of bleed*, you have *x stacks of both vulnerable and weakness*. If you have *50 stacks of bleed*, you die.\n\n:tada: :gift:  **FEELING LUCKY!? **  :gift: :tada:\n\nIt's our glorious dev's birthday on the **11th of November**. To celebrate, everyone will have `2x lucky` from **Nov 11 UTC 0:00** to **Nov 11 UTC 23:59**.\n\nLet's continue to seek **GLORY** together.")
         }
         if (devs.indexOf(id) == -1) {
             if (user.macro) {
