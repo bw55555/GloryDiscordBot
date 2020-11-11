@@ -1462,7 +1462,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 "Area Boss - Treant": [10, 0, 0.1, 0, 0, 0, 0],
                 "Area Boss - Troll": [20, 0, 0.15, 0, 0, 0, 0],
                 "Area Boss - Kraken": [30, 0, 0.2, 0, 0, 0, 0],
-                "Area Boss - Frost Giant": [40, 0.25, 0, 0, 0, 0, 0],
+                "Area Boss - Frost Giant": [40, 0, 0.25, 0, 0, 0, 0],
                 "Area Boss - Dragon": [50, 0, 0.3, 0, 0, 0, 0],
                 "Area Boss - Deity": [75, 0, 0.4, 0.1, 0.2, 0.2, 0.2],
                 "Area Boss - Hell Lord": [100, 0, 0.4, 0.2, 0.4, 0.4, 0.4],
