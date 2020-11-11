@@ -1032,6 +1032,7 @@ function customsummon(raid, options) {
     for (let key in options) {
         raid[key] = options[key]
     }
+    if (raid.level == undefined) { raid.level = 1;}
     if (raid.attack == undefined) { raid.attack = 0; }
     if (raid.defense == undefined) { raid.defense = 0; }
     if (raid.health == undefined) { raid.health = 0; }

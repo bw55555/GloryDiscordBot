@@ -50,7 +50,7 @@ module.exports = async function (message, user) {
         if (words[1] == "-preset") {
             let raidnum = parseInt(words[2]);
             if (isNaN(raidnum) || raidnum < 0 || raidnum >= raidoptions.length) { return functions.replyMessage(message, "This preset does not exist!") }
-            functions.customsummon(raidoptions[raidnum])
+            functions.customsummon(raid, raidoptions[raidnum])
 
         } else if (words.length > 1) {
             /*
