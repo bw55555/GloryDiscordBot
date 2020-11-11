@@ -99,7 +99,7 @@ module.exports = async function (message, user) {
             return;
         }
         user.materials -= 100000 * amount
-        functions.replyMessage(message, "You successfully spent " + 100000 * amount + " materials for an Explosion! Use !explosion to cast it!")
+        functions.replyMessage(message, "You successfully spent " + 100000 * amount + " materials for "+amount+" Explosion(s)! Use !explosion to cast it!")
         user.consum.explosion += amount;
 
     }
@@ -110,7 +110,7 @@ module.exports = async function (message, user) {
             return;
         }
         user.materials -= 5000 * amount
-        functions.replyMessage(message, "You successfully spent " + 5000 * amount + " materials for a Phoenix Feather! Use `!feather` to rez yourself!")
+        functions.replyMessage(message, "You successfully spent " + 5000 * amount + " materials for "+amount+" Phoenix Feather(s)! Use `!feather` to rez yourself!")
         user.consum.phoenixfeather += amount;
     }
 
