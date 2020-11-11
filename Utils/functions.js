@@ -1024,6 +1024,8 @@ function customsummon(raid, options) {
     raid.statusEffects = {}
     raid.attacklist = {};
     raid.damagelist = {};
+    raid.ability = undefined;
+    raid.abilitydesc = undefined;
     if (options == undefined) {
         options = {}
     }
@@ -1059,6 +1061,8 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability, abilityde
     raid.statusEffects = {}
     raid.attacklist = {};
     raid.damagelist = {};
+    raid.ability = undefined;
+    raid.abilitydesc = undefined;
     if (name != undefined) {
         raid.name = name;
     }
