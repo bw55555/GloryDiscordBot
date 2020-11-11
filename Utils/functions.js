@@ -1343,9 +1343,10 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         let tasks = [];
         let luckyperson = keys[Math.floor(Math.random() * keys.length)]
         if (type == "event" || type == "world") {
-            sendMessage(bot.channels.cache.get(devData.debugChannelId), "A level "+raid.level+" "+raid.name+" was killed by " + user.username + " (ID: "+user._id+")!")
+            sendMessage(bot.channels.cache.get(devData.debugChannelId), "A level " + raid.level + " " + raid.name + " was killed by " + user.username + " (ID: " + user._id + ")!")
+            let totalglory = (raid.health / 1000000)
             for (var i = 0; i < keys.length; i++) {
-                if (user._id == keys[i]) { user.money += raid.attacklist[keys[i]]; user.glory += (raid.health / 100000) * (raid.damagelist[keys[i]] / raid.health);continue}
+                if (user._id == keys[i]) { user.money += raid.attacklist[keys[i]]; user.glory += totalglory * (raid.damagelist[keys[i]] / raid.health);continue}
                 tasks.push({
                     updateOne:
                     {
@@ -1353,7 +1354,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                         "update": {
                             $inc: {
                                 "money": raid.attacklist[keys[i]],
-                                "glory": (raid.health / 100000) * (raid.damagelist[keys[i]] / raid.health)
+                                "glory": totalglory * (raid.damagelist[keys[i]] / raid.health)
                             }
                         }
                     }
