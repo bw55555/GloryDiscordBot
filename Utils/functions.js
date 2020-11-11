@@ -1415,6 +1415,9 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                     rarity = 5
                 }
             }
+            if (raid.name == "Starmie Pinata") {
+                rarity = 7;
+            }
             if (type == "ghost") {
                 let candyrewards = {};
                 let num = randint(Math.floor(raid.candyreward), raid.candyreward)
