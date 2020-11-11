@@ -1363,24 +1363,30 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 })
             }
             user.consum.reroll += 1;
-            let key = getRandomByDamage(raid)
-            if (key == user._id) {
-                user.consum.reroll += 1;
-            } else {
-                tasks.push({
-                    updateOne:
-                    {
-                        "filter": { _id: key },
-                        "update": {
-                            $inc: {
-                                "consum.reroll": 1
+            text += "<@" + user._id + "> killed the boss and recieved a skill reroll!\n";
+            let rerollnum = 1;
+            if (raid.name == "Starmie Pinata") { rerollnum = 6;}
+            for (let inc = 0; inc < rerollnum; inc++) {
+                let key = getRandomByDamage(raid)
+                if (key == user._id) {
+                    user.consum.reroll += 1;
+                } else {
+                    tasks.push({
+                        updateOne:
+                        {
+                            "filter": { _id: key },
+                            "update": {
+                                $inc: {
+                                    "consum.reroll": 1
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
+                text += "<@" + key + "> was lucky and recieved a skill reroll!\n";
             }
-            text += "<@" + user._id + "> killed the boss and recieved a skill reroll!\n";
-            text += "<@" + key + "> was lucky and recieved a skill reroll!\n";
+            
+            
             
         } else {
             for (var i = 0; i < keys.length; i++) {
@@ -1474,7 +1480,8 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 "Leviathan": [2000, 0.4, 0, 0, 0, 0, 0],
                 "Dragonlord": [3000, 0.6, 0, 0, 0, 0, 0],
                 "Godking": [4000, 0.8, 0, 0, 0, 0, 0],
-                "Lord of the Abyss": [5000, 1, 0, 0, 0, 0, 0]
+                "Lord of the Abyss": [5000, 1, 0, 0, 0, 0, 0],
+                "Starmie Pinata": [7777, 7, 77, 7, 7, 7, 7]
             }
             let runeprobs = cruneinfo[raid.name]
             if (runeprobs == undefined) { runeprobs = [0,0,0,0,0,0,0]}
