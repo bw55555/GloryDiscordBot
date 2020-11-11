@@ -831,6 +831,7 @@ function calcStats(message, user, stat, options) {
     let dispel = (options.hasDispel == true) ? true : false
     let confused = (options.hasConfusion == true) ? true : false
     let text = ""
+    let nametext = user.isRaid ? user.name : "<@"+user._id+">"
     let attack = user.attack
     let defense = user.defense
     if (confused) {
@@ -870,32 +871,32 @@ function calcStats(message, user, stat, options) {
             if (hasSkill(user, 26, skillenable)) {
                 //user.currenthealth += Math.floor(buff * attack * sacrifice)
                 enchants.buff += 4 * enchants.sacrifice
-                text += "<@" + user._id + "> \"sacrificed\" **" + Math.floor(attack * 4 * enchants.sacrifice) + "** Health, but mysteriously just didn't!\n";
+                text += nametext + " \"sacrificed\" **" + Math.floor(attack * 4 * enchants.sacrifice) + "** Health, but mysteriously just didn't!\n";
             } else {
                 enchants.buff += 5 * enchants.sacrifice
                 user.currenthealth -= Math.floor(attack * 5 * enchants.sacrifice)
-                text += "<@" + user._id + "> sacrificed **" + Math.floor(attack * 5 * enchants.sacrifice) + "** Health!\n";
+                text += nametext + " sacrificed **" + Math.floor(attack * 5 * enchants.sacrifice) + "** Health!\n";
             }
         }
         if (enchants.combo > 0) {
             enchants.critRate += 0.01 * urspeed * enchants.combo;
-            text += "<@" + user._id + "> has **" + (Math.floor(enchants.critRate * 1000) / 10) + "%** chance of hitting a critical\n"
+            text += nametext + " has **" + (Math.floor(enchants.critRate * 1000) / 10) + "%** chance of hitting a critical\n"
         }
         let critchance = Math.random();
         if (critchance < enchants.critRate) {
-            text += "<@" + user._id + "> just dealt critical damage!\n";
+            text += nametext + " just dealt critical damage!\n";
             enchants.buff += enchants.critDamage - 1;
         }
         if (enchants.tempo > 0) {
             enchants.buff += ((urspeed * 0.05 * enchants.tempo));
-            text += "<@" + user._id + "> has **" + urspeed + "** tempo\n";
+            text += nametext + " has **" + urspeed + "** tempo\n";
         }
         return [text, Math.floor(enchants.buff * attack)]
     }
     if (stat == "defense") {
         if (enchants.antitempo > 0) {
             enchants.dbuff += ((urspeed * 0.05 * enchants.antitempo));
-            text += "<@" + user._id + "> has **" + urspeed + "** antitempo\n";
+            text += nametext + " has **" + urspeed + "** antitempo\n";
         }
         return [text, Math.floor(enchants.dbuff * defense)]
     }
