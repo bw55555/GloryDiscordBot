@@ -24,6 +24,7 @@ export function sendMessage(channel: Channel, text: string): Promise<Message>
 export function sendMessage(channel: Channel, text: string, override: boolean): Promise<Message>
 export function replyMessage(message: Message, text: string): Promise<Message>
 export function replyMessage(message: Message, text: string, override: boolean): Promise<Message>
+export function sendAsEmbed(channel: Channel, name : string, text: string): Promise<Message>
 export function deleteMessage(message: Message):void
 export function dmUser(user: JSON, text: string): void
 export function logCommand(message: Message): void

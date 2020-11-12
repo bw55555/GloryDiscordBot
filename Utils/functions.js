@@ -162,6 +162,19 @@ function replyMessage(message, text, override) {
     return sendMessage(message.channel, "<@"+message.author.id+">, "+text, override )
     //console.timeEnd("Message Send")
 }
+function sendAsEmbed(channel, name, text) {
+    return sendMessage(channel, {
+        "embed": {
+            "color": 5251510,
+            "fields": [
+                {
+                    "name": name,
+                    "value": text
+                }
+            ]
+        }
+    });
+}
 function deleteMessage(message) {
     if (message.channel.guild != undefined && serverData[message.guild.id] != undefined && serverData[message.guild.id].disabledChannels.indexOf(message.channel.id) != -1) { return; }
     if (!message.deletable) { return }
@@ -1235,7 +1248,6 @@ function checkStuff(message,user) {
     completeQuest(user, "user", user, 1)
 }
 
-
 function checkCommand(message, user) {
     let aliaslist = {
         "ratk": "raidattack",
@@ -2062,6 +2074,7 @@ module.exports.extractOptions = extractOptions
 module.exports.antimacro = antimacro
 module.exports.shuffle = shuffle
 module.exports.dailyReset = dailyReset
+module.exports.sendAsEmbed = sendAsEmbed
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
