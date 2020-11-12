@@ -919,12 +919,13 @@ async function voteItem(message, user, dm) {
     dm = dm == true ? true : false
     let ts = message.createdTimestamp
     let words = message.content.trim().split(/\s+/)
+    let keepstreak = words.indexOf("-keepstreak")
     return validate(message,user).then(target => {
         if (target == false) { return }
         let text = ""
         if (target.votestreak == undefined) { target.votestreak = 0 }
         if (target.votestreaktime == undefined) { target.votestreaktime = ts }
-        if (calcTime(target.votestreaktime, ts) < 0) {
+        if (calcTime(target.votestreaktime, ts) < 0 && keepstreak >= 0) {
             text = "You lost your streak of " + target.votestreak + " :("
             target.votestreak = 0
         } else if (isCD(target, ts, "vote") && words[2] != "override") {
@@ -1624,8 +1625,9 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         sendMessage(message.channel, raidResultEmbed)
     } else {
         sendMessage(message.channel, raidResultEmbed)
-        for (let page of archivetext) {
-            sendMessage(message.channel, page)
+        archivetext.push(text)
+        for (let textpart of archivetext) {
+            sendMessage(message.channel, textpart)
         }
     }
     
