@@ -137,6 +137,7 @@ module.exports = async function (message, user) {
             functions.setObject("devData", devData)
             functions.setObject("auctionData", aitem)
             functions.replyMessage(message, "Item put up for auction. ")
+            functions.sendAsEmbed(functions.getLogChannel("auctionChannelId"), "List - " + aitem._id, "**Description**: " + aitem.desc + "\n**Starting Bid**: " + aitem.current + " " + aitem.currency, "Auction Log")
             functions.logCommand(message)
         } else if (word2 == "claim") {
             let aid = parseInt(words[2])
@@ -176,7 +177,10 @@ async function endAuction(aitem, user) {
                 return;
             })
         }
-        if (aitem.end) { return functions.deleteObject("auctionData", aitem._id); }
+        if (aitem.end) {
+            functions.sendAsEmbed(functions.getLogChannel("auctionChannelId"), "Buy - " + aitem._id, "**Description**: " + aitem.desc + "\n**Price**: " + aitem.current + " " + aitem.currency + " by " + aitem.bidowner, "Auction Log")
+            return functions.deleteObject("auctionData", aitem._id);
+        }
     }
     
 }
@@ -187,6 +191,7 @@ function checkPayment(aitem, bidset, payer) {
     payer[aitem.currency] -= bidset.current
     aitem.bidowner = "<@" + payer._id + ">";
     aitem.end = true;
+    aitem.current = bidset.current;
     let type = aitem.item.type
     let text = "You have successfully won item " + aitem._id + " (" + aitem.desc + ") for " + bidset.current + " " + aitem.currency + "!\n"
     if (type == "item") {

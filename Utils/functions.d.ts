@@ -24,7 +24,7 @@ export function sendMessage(channel: Channel, text: string): Promise<Message>
 export function sendMessage(channel: Channel, text: string, override: boolean): Promise<Message>
 export function replyMessage(message: Message, text: string): Promise<Message>
 export function replyMessage(message: Message, text: string, override: boolean): Promise<Message>
-export function sendAsEmbed(channel: Channel, name : string, text: string): Promise<Message>
+export function sendAsEmbed(channel: Channel, name : string, text: string, title: string): Promise<Message>
 export function deleteMessage(message: Message):void
 export function dmUser(user: JSON, text: string): void
 export function logCommand(message: Message): void
@@ -46,7 +46,8 @@ export function generateRandomItem(owner: JSON, rarity: number): JSON
 export function generateRandomItem(owner: JSON, rarity: number, isBulk: boolean): JSON
 export function generateRandomItem(owner: JSON, rarity: number, isBulk: boolean, source: string): JSON
 export function calcExtraStat(user: JSON, stat: string): number
-export function calcLuckyBuff(user: JSON):number
+export function calcLuckyBuff(user: JSON): number
+export function getLogChannel(devDatavname: string): Channel
 export function errorlog(err: Error, extratext:string):void
 export function setCD(user: JSON, ts:number, cdsecs:number, cdname:string):void
 export function calcTime(time1: number, time2: number): number

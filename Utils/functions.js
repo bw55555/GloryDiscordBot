@@ -162,10 +162,11 @@ function replyMessage(message, text, override) {
     return sendMessage(message.channel, "<@"+message.author.id+">, "+text, override )
     //console.timeEnd("Message Send")
 }
-function sendAsEmbed(channel, name, text) {
+function sendAsEmbed(channel, name, text, title) {
     return sendMessage(channel, {
         "embed": {
             "color": 5251510,
+            "title": title,
             "fields": [
                 {
                     "name": name,
@@ -455,7 +456,10 @@ function calcLuckyBuff(user) {
 }
 function errorlog(err, extratext) {
     if (extratext == undefined) { extratext = ""}
-    sendMessage(bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData.errorChannelId), "```\n" + err.stack + "\n```\n"+extratext)
+    sendMessage(getLogChannel("errorChannelId"), "```\n" + err.stack + "\n```\n"+extratext)
+}
+function getLogChannel(devDatavname) {
+    return bot.guilds.cache.get(devData.debugGuildId).channels.cache.get(devData[devDatavname])
 }
 function secondsUntilReset(ts) {
     let x = ts % (24 * 60 * 60 * 1000)
@@ -2040,6 +2044,7 @@ module.exports.generateItem = function (owner, itemid, attack, defense, rarity, 
 module.exports.generateRandomItem = function (owner, rarity, isBulk, source) { return generateRandomItem(owner, rarity, isBulk, source) }
 module.exports.calcExtraStat = function (user, stat) { return calcExtraStat(user, stat) }
 module.exports.calcLuckyBuff = function (user) { return calcLuckyBuff(user) }
+module.exports.getLogChannel = getLogChannel
 module.exports.errorlog = errorlog
 module.exports.setCD = setCD
 module.exports.calcTime = function (time1, time2) { return calcTime(time1, time2) }
