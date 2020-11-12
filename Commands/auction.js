@@ -137,7 +137,7 @@ module.exports = async function (message, user) {
             functions.setObject("devData", devData)
             functions.setObject("auctionData", aitem)
             functions.replyMessage(message, "Item put up for auction. ")
-            functions.sendAsEmbed(functions.getLogChannel("auctionChannelId"), "List - " + aitem._id, "**Description**: " + aitem.desc + "\n**Starting Bid**: " + aitem.current + " " + aitem.currency, "Auction Log")
+            functions.sendAsEmbed(functions.getLogChannel("auctionChannelId"), "List - " + aitem._id, "**Description**: " + aitem.desc + "\n**Starting Bid**: " + aitem.current + " " + aitem.currency, "Auction Log").then(x => x.crosspost())
             functions.logCommand(message)
         } else if (word2 == "claim") {
             let aid = parseInt(words[2])
@@ -178,7 +178,7 @@ async function endAuction(aitem, user) {
             })
         }
         if (aitem.end) {
-            functions.sendAsEmbed(functions.getLogChannel("auctionChannelId"), "Buy - " + aitem._id, "**Description**: " + aitem.desc + "\n**Price**: " + aitem.current + " " + aitem.currency + " by " + aitem.bidowner, "Auction Log")
+            functions.sendAsEmbed(functions.getLogChannel("auctionChannelId"), "Buy - " + aitem._id, "**Description**: " + aitem.desc + "\n**Price**: " + aitem.current + " " + aitem.currency + " by " + aitem.bidowner, "Auction Log").then(x => x.crosspost())
             return functions.deleteObject("auctionData", aitem._id);
         }
     }
