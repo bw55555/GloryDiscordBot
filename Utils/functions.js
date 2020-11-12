@@ -461,11 +461,11 @@ function secondsUntilReset(ts) {
     let x = ts % (24 * 60 * 60 * 1000)
     return 24*60*60-Math.floor(x/1000)
 }
-function setCD(user, ts, cdsecs, cdname) {
+function setCD(user, ts, cdsecs, cdname, nohaste) {
     //if (user.cooldowns[cdname] == undefined) { errorlog("Something went wrong with setCD. " + cdname + " not defined." + user._id + "|" + ts) }
     let hastesecs = calcEnchants(user).haste
     if (cdsecs == "daily") { cdsecs = secondsUntilReset(ts) }
-    else if (hastesecs != undefined) { cdsecs -= parseInt(hastesecs) }
+    else if (hastesecs != undefined && applyhaste != true) { cdsecs -= parseInt(hastesecs) }
     if (user.cooldowns[cdname] == undefined || isNaN(user.cooldowns[cdname])) { user.cooldowns[cdname] = 1;}
     user.cooldowns[cdname] = Math.max(ts + cdsecs * 1000, user.cooldowns[cdname])
 }
@@ -944,7 +944,7 @@ async function voteItem(message, user, dm) {
         let honorget = 10 * Math.floor(target.ascension / 5);
         if (honorget <= 0) { honorget = 1}
         target.honor += honorget;
-        setCD(target, ts, 12 * 60 * 60, "vote")
+        setCD(target, ts, 12 * 60 * 60, "vote", true)
         completeQuest(target, "vote", {"votestreak":target.votestreak}, 1)
         sendMessage(message.channel, "<@" + target._id + "> has been given " + numboxes + " boxes and " + honorget + " honor!\n" + text);
         if (dm) dmUser(target, "Thank you for voting! You have been given " + numboxes + " boxes and " + honorget + " honor!\n" + text)
@@ -2041,7 +2041,7 @@ module.exports.generateRandomItem = function (owner, rarity, isBulk, source) { r
 module.exports.calcExtraStat = function (user, stat) { return calcExtraStat(user, stat) }
 module.exports.calcLuckyBuff = function (user) { return calcLuckyBuff(user) }
 module.exports.errorlog = errorlog
-module.exports.setCD = function (user, ts, cdsecs, cdname) { return setCD(user, ts, cdsecs, cdname) }
+module.exports.setCD = setCD
 module.exports.calcTime = function (time1, time2) { return calcTime(time1, time2) }
 module.exports.displayTime = function (time1, time2) { return displayTime(time1, time2) }
 module.exports.extractTime = function (message, timeword) { return extractTime(message, timeword) }
