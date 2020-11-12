@@ -465,7 +465,7 @@ function setCD(user, ts, cdsecs, cdname, nohaste) {
     //if (user.cooldowns[cdname] == undefined) { errorlog("Something went wrong with setCD. " + cdname + " not defined." + user._id + "|" + ts) }
     let hastesecs = calcEnchants(user).haste
     if (cdsecs == "daily") { cdsecs = secondsUntilReset(ts) }
-    else if (hastesecs != undefined && applyhaste != true) { cdsecs -= parseInt(hastesecs) }
+    else if (hastesecs != undefined && nohaste != true) { cdsecs -= parseInt(hastesecs) }
     if (user.cooldowns[cdname] == undefined || isNaN(user.cooldowns[cdname])) { user.cooldowns[cdname] = 1;}
     user.cooldowns[cdname] = Math.max(ts + cdsecs * 1000, user.cooldowns[cdname])
 }
