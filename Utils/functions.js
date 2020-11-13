@@ -811,6 +811,10 @@ function calcEnchants(user, defender, options) {
                 }
             }
         }
+        if (hasSkill(user, 32)) {
+            enchants.revenge += 0.005;
+            enchants.revenge *= 2;
+        }
     }
     enchants.lucky += Math.floor(user.glory) * 0.01;
     if (user.vip != undefined) {
