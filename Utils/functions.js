@@ -651,7 +651,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
     if (x < 0) { truedamage = 0 }
     else {
         if (defense <= 0) {
-            truedamage = x*(1 - defense / 50)
+            truedamage = Math.floor(x*(1 - defense / 50))
         }
         if (defmult * defense > x) {
             truedamage = Math.floor(x * Math.pow(1 - (Math.sqrt(defmult * defmult * defense * defense - x * x) / (defmult * defense)), (1 / 3)))
