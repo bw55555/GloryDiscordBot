@@ -647,7 +647,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
     let x = Math.floor(attack * (attackvariance * roll + 1-attackvariance));
     let defmult = 10;
     x -= defense;
-    let truedamage = x;
+    let truedamage = Math.floor(x);
     if (x < 0) { truedamage = 0 }
     else {
         if (defense <= 0) {
@@ -735,6 +735,8 @@ function simulateAttack(message, attacker, defender) {
     let countertext = counterarr[0];
     counter += counterarr[1];
     damage += counterarr[2];
+    damage = Math.floor(damage)
+    counter = Math.floor(counter)
     if (defender.name == "Cerberus") {
         counter *= 3;
     }
