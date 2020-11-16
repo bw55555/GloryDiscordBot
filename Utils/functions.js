@@ -401,7 +401,6 @@ function generateItem(owner, itemid, attack, defense, rarity, name, modifiers, i
     if (itemid == null || itemid == "" || itemid == undefined) {
         itemid = devData.nextItem;
     }
-    if (owner != "event") { owner.inventory[itemid] = itemid }
     devData.nextItem++;
     let item = {
         "owner": owner._id, "_id": itemid, "equip": false, "attack": attack, "defense": defense, "rarity": rarity, "modifiers": modifiers, "name": name, "enhance": {"level": 0, "attack": 0, "defense": 0}, "enchantlevel": 0, "numenchants": 0, "favorite": false, "merge": 0 }
@@ -1143,7 +1142,6 @@ function checkProps(message,user) {
     if (user.triangleid == undefined) user.triangleid = 0; //character's class
     if (user.trianglemod == undefined) user.trianglemod = 1.0; //character's class-based damage modifier.
     if (user.weapon == undefined) user.weapon = false;
-    if (user.inventory == undefined) user.inventory = {};
     if (user.marry == undefined) user.marry = "None";
     if (user.guild == undefined) user.guild = "None";
     if (user.guildpos == undefined) user.guildpos = "None";
@@ -1679,7 +1677,6 @@ function smeltItem(user, item, givereward, isBulk) {
         user.xp += xp
     }
     completeQuest(user, "smelt", {"item": item, "money": money, "xp":xp, "materials": materials}, 1)
-    delete user.inventory[item._id];
     if (isBulk != true) { deleteItem(item._id) }
     return [xp, money, materials]
 }

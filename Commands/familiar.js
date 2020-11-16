@@ -39,7 +39,7 @@ module.exports = async function (message, user) {
                 "fields": [
                     {
                         "name": "Name",
-                        "value": user.familiar.name + "(" + user.familiar.race + ")",
+                        "value": user.familiar.name + " (" + user.familiar.race + ")",
                         "inline": false
                     },
                     {

@@ -9,12 +9,12 @@ module.exports = async function (message, user) {
     }
     let weaponid = parseInt(words[1])
     if (isNaN(weaponid)) { return functions.replyMessage(message, "The weapon id must be an integer"); return; }
-    if (user.inventory[weaponid] != weaponid) {
-        functions.replyMessage(message, "You do not own this item!")
-        return
-    }
     return Promise.all([functions.getItem(weaponid)]).then(ret => {
         let item = ret[0]
+        if (item.owner != user._id) {
+            functions.replyMessage(message, "You do not own this item!")
+            return
+        }
         if (item._id == user.weapon._id) {
             functions.replyMessage(message, "You cannot smelt your equipped weapon!")
             return
