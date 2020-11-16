@@ -27,8 +27,42 @@ module.exports = async function (message, user) {
         return
         */
     }
-    if (word2 == "list") {
-
+    if (word2 == "profile") {
+        if (user.pet == undefined) { return functions.replyMessage(message, "You do not yet have a pet!") }
+        let levelmsg = user.familiar.level;
+        if (levelmsg == 100) { levelmsg += " (MAX LEVEL)" }
+        else { levelmsg += " (" + user.familiar.xp + "/" + checkfamiliarxp(user.familiar) + " xp to next level)"}
+        return sendMessage(message.channel, {
+            "embed": {
+                "color": 5251510,
+                "title": "Pet Profile",
+                "fields": [
+                    {
+                        "name": "Name",
+                        "value": user.familiar.name + "(" + user.familiar.race + ")",
+                        "inline": false
+                    },
+                    {
+                        "name": "Level",
+                        "value": levelmsg,
+                        "inline": true
+                    },
+                    {
+                        "name": "Stats",
+                        "value": "Health: " +user.familiar.health,
+                        "inline": false
+                    },
+                    {
+                        "name": "Traits",
+                        "value": user.familiar.traits.join(", "),
+                        "inline": false
+                    }
+                ]
+            }
+        });
     }
     
+}
+function checkfamiliarxp(familiar) {
+    return 20*(familiar.level*familiar.level)
 }
