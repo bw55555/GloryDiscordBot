@@ -11,6 +11,7 @@ module.exports = async function (message, user) {
         return;
     }
     if (command == "permit") {
+        if (user.dungeonts != undefined) { return functions.replyMessage(message, "You are currently inside the dungeon!")}
         functions.MessageAwait(message.channel, id, "Are you sure you want a dungeon permit? \n**Warning: This will reset your dungeon data if you have already entered the dungeon.**\nEnter `confirm` to continue. ", "confirm", (response, extraArgs) => {
             let dungeon = {
                 "_id": user._id,
