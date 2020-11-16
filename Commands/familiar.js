@@ -28,11 +28,11 @@ module.exports = async function (message, user) {
         */
     }
     if (word2 == "profile") {
-        if (user.pet == undefined) { return functions.replyMessage(message, "You do not yet have a pet!") }
+        if (user.familiar == undefined) { return functions.replyMessage(message, "You do not yet have a pet!") }
         let levelmsg = user.familiar.level;
         if (levelmsg == 100) { levelmsg += " (MAX LEVEL)" }
         else { levelmsg += " (" + user.familiar.xp + "/" + checkfamiliarxp(user.familiar) + " xp to next level)"}
-        return sendMessage(message.channel, {
+        return functions.sendMessage(message.channel, {
             "embed": {
                 "color": 5251510,
                 "title": "Pet Profile",
