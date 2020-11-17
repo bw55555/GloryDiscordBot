@@ -934,7 +934,7 @@ async function voteItem(message, user, dm) {
         let text = ""
         if (target.votestreak == undefined) { target.votestreak = 0 }
         if (target.votestreaktime == undefined) { target.votestreaktime = ts }
-        if (calcTime(target.votestreaktime, ts) < 0 && keepstreak >= 0) {
+        if (calcTime(target.votestreaktime, ts) < 0 && keepstreak < 0) {
             text = "You lost your streak of " + target.votestreak + " :("
             target.votestreak = 0
         } else if (isCD(target, ts, "vote") && words[2] != "override") {
