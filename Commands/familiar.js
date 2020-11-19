@@ -1,4 +1,4 @@
-
+familiarraritynumbers = ["???", "Common", "Rare", "Epic", "Legendary", "Divine"]
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
@@ -29,32 +29,34 @@ module.exports = async function (message, user) {
     }
     if (word2 == "profile") {
         if (user.familiar == undefined) { return functions.replyMessage(message, "You do not yet have a pet!") }
-        let levelmsg = user.familiar.level;
+        let familiar = user.familiar
+        let levelmsg = familiar.level + "/" + (familiar.rarity*20);
         if (levelmsg == 100) { levelmsg += " (MAX LEVEL)" }
-        else { levelmsg += " (" + user.familiar.xp + "/" + checkfamiliarxp(user.familiar) + " xp to next level)"}
+        else { levelmsg += " (" + familiar.xp + "/" + checkfamiliarxp(familiar) + " xp to next level)" }
+        let gitext = "**Name: **" + familiar.name + "\n";
+        gitext += "**Race: **" + familiar.race + "(" + familiar.element + ") (" + familiarraritynumbers[familiar.rarity] + ")\n"
+        gitext += "**Level: **" + levelmsg
+        let satext = "**health: **" + familiar.health + "\n"
+        satext += "**" + familiar.substat + ": **" + familiar[familiar.substat]
+        let traitstext = familiar.traits.join(", ")
         return functions.sendMessage(message.channel, {
             "embed": {
                 "color": 5251510,
-                "title": "Pet Profile",
+                "title": "Familiar Profile",
                 "fields": [
                     {
-                        "name": "Name",
-                        "value": user.familiar.name + " (" + user.familiar.race + ")",
+                        "name": "General Info",
+                        "value": gitext,
                         "inline": false
                     },
                     {
-                        "name": "Level",
-                        "value": levelmsg,
-                        "inline": true
-                    },
-                    {
-                        "name": "Stats",
-                        "value": "Health: " +user.familiar.health,
+                        "name": "Stats and Abilities",
+                        "value": satext,
                         "inline": false
                     },
                     {
                         "name": "Traits",
-                        "value": user.familiar.traits.join(", "),
+                        "value": traitstext,
                         "inline": false
                     }
                 ]
