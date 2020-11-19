@@ -34,11 +34,12 @@ module.exports = async function (message, user) {
         if (levelmsg == 100) { levelmsg += " (MAX LEVEL)" }
         else { levelmsg += " (" + familiar.xp + "/" + checkfamiliarxp(familiar) + " xp to next level)" }
         let gitext = "**Name: **" + familiar.name + "\n";
-        gitext += "**Race: **" + familiar.race + "(" + familiar.element + ") (" + familiarraritynumbers[familiar.rarity] + ")\n"
-        gitext += "**Level: **" + levelmsg
+        gitext += "**Race: **" + familiar.race + " (" + familiar.element + ") (" + familiarraritynumbers[familiar.rarity] + ")\n"
+        gitext += "**Level: **" + levelmsg + "\n"
         let satext = "**health: **" + familiar.health + "\n"
-        satext += "**" + familiar.substat + ": **" + familiar[familiar.substat]
+        satext += "**" + familiar.substat + ": **" + familiar[familiar.substat] + "\n"
         let traitstext = familiar.traits.join(", ")
+        if (traitstext == "") { traitstext = "No Traits"}
         return functions.sendMessage(message.channel, {
             "embed": {
                 "color": 5251510,
