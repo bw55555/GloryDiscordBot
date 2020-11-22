@@ -1,11 +1,13 @@
-{
-  "element": "Fire",
-  "race": "Phoenix",
-  "rarity": 5,
-  "health": "80-100",
-  "substat": "buff",
-  "buff": 1,
-  "rabilitydesc": "Rebirth - Revives you at full health if you die. Cooldown: 1 hour",
-  "rability": { "phoenixinnate": 1 },
-  "traits": [ "Resilient" ]
-}
+[
+  {
+    "element": "Fire",
+    "race": "Phoenix",
+    "rarity": 5,
+    "health": "80-100",
+    "substat": "buff",
+    "buff": 1,
+    "rabilitydesc": "Rebirth - Revives you at full health if you die. Cooldown: 1 hour",
+    "rability": { "phoenixinnate": 1 },
+    "traits": [ "Resilient" ]
+  }
+]
