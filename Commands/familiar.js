@@ -1,4 +1,6 @@
-familiarraritynumbers = ["???", "Common", "Rare", "Epic", "Legendary", "Divine"]
+global.familiarraritynumbers = ["???", "Common", "Rare", "Epic", "Legendary", "Divine"]
+global.familiarpersonalitytraits = ["Reckless", "Determined", "Curious", "Careless", "Lazy", "Persistent"]
+let familiarData = Assets.familiarData
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
@@ -64,7 +66,31 @@ module.exports = async function (message, user) {
             }
         });
     }
-    
+    if (word2 == "contract") {
+        let raritychances = [0, 0, 0, 0, 0, 1]
+        let contractrarity = functions.getRandomByChances(raritychances)
+        let contractlist = familiarData.filter(x => x.rarity == contractrarity)
+        let contractfamiliar = contractlist[Math.floor(Math.random() * contractlist.length)]
+        let familiar = { "_id": devData.nextFamiliarId }
+        familiar.level = 1;
+        familiar.xp = 0;
+        familiar.race = contractfamiliar.race;
+        familiar.element = contractfamiliar.element;
+        familiar.substat = contractfamiliar.substat
+        familiar[familiar.substat] = contractfamiliar[familiar.substat]
+        familiar.abilities = [];
+        familiar.abilities.push({ "ability": contractfamiliar.rability, "abilitydesc": contractfamiliar.rabilitydesc })
+        familiar.rarity = contractrarity
+        familiar.traits = contractfamiliar.traits
+        familiar.traits.push(familiarpersonalitytraits[Math.floor(Math.random() * familiarpersonalitytraits.length)])
+        let healthminmax = contractfamiliar.health.split("-")
+        familiar.health = Math.floor(Math.random() * (healthminmax[1] - healthminmax[0]) + healthminmax[0])
+        devData.nextFamiliarId++;
+        functions.setObject("devData", devData)
+        user.familiar = familiar
+        functions.setObject("familiarData", familiar)
+        functions.replyMessage(message, "You have successfully contracted a "+familiarraritynumbers[familiar.rarity] + " "+ familiar.name + " ("+familiar.element+")!")
+    }
 }
 function checkfamiliarxp(familiar) {
     return 20*(familiar.level*familiar.level)
