@@ -72,6 +72,7 @@ module.exports = async function (message, user) {
         let contractlist = familiarData.filter(x => x.rarity == contractrarity)
         let contractfamiliar = contractlist[Math.floor(Math.random() * contractlist.length)]
         let familiar = { "_id": devData.nextFamiliarId }
+        familiar.owner = user._id
         familiar.level = 1;
         familiar.xp = 0;
         familiar.race = contractfamiliar.race;
@@ -84,13 +85,14 @@ module.exports = async function (message, user) {
         familiar.traits = contractfamiliar.traits
         familiar.traits.push(familiarpersonalitytraits[Math.floor(Math.random() * familiarpersonalitytraits.length)])
         familiar.name = familiar.race
+        familiar.url = contractfamiliar.url
         let healthminmax = contractfamiliar.health.split("-")
         familiar.health = Math.floor(Math.random() * (parseInt(healthminmax[1]) - parseInt(healthminmax[0])) + parseInt(healthminmax[0]))
+        familiar.healthpotential = familiar.health
         devData.nextFamiliarId++;
         functions.setObject("devData", devData)
         user.familiar = familiar
         functions.setObject("familiarData", familiar)
-        
         functions.replyMessage(message, "You have successfully contracted a "+familiarraritynumbers[familiar.rarity] + " "+ familiar.race + " ("+familiar.element+")!")
     }
 }
