@@ -83,13 +83,15 @@ module.exports = async function (message, user) {
         familiar.rarity = contractrarity
         familiar.traits = contractfamiliar.traits
         familiar.traits.push(familiarpersonalitytraits[Math.floor(Math.random() * familiarpersonalitytraits.length)])
+        familiar.name = familiar.race
         let healthminmax = contractfamiliar.health.split("-")
         familiar.health = Math.floor(Math.random() * (healthminmax[1] - healthminmax[0]) + healthminmax[0])
         devData.nextFamiliarId++;
         functions.setObject("devData", devData)
         user.familiar = familiar
         functions.setObject("familiarData", familiar)
-        functions.replyMessage(message, "You have successfully contracted a "+familiarraritynumbers[familiar.rarity] + " "+ familiar.name + " ("+familiar.element+")!")
+        
+        functions.replyMessage(message, "You have successfully contracted a "+familiarraritynumbers[familiar.rarity] + " "+ familiar.race + " ("+familiar.element+")!")
     }
 }
 function checkfamiliarxp(familiar) {
