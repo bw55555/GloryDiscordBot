@@ -29,7 +29,7 @@ module.exports = async function (message, user) {
         return
         */
     }
-    if (word2 == "profile") {
+    if (word2 == "profile" || word2 == "p") {
         if (user.familiar == undefined) { return functions.replyMessage(message, "You do not yet have a pet!") }
         let familiar = user.familiar
         let levelmsg = familiar.level + "/" + (familiar.rarity*20);
@@ -66,7 +66,7 @@ module.exports = async function (message, user) {
             }
         });
     }
-    if (word2 == "contract") {
+    if (word2 == "contract"|| word2 == "c") {
         let raritychances = [0, 0, 0, 0, 0, 1]
         let contractrarity = functions.getRandomByChances(raritychances)
         let contractlist = familiarData.filter(x => x.rarity == contractrarity)
