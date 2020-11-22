@@ -95,6 +95,11 @@ module.exports = async function (message, user) {
         functions.setObject("familiarData", familiar)
         functions.replyMessage(message, "You have successfully contracted a "+familiarraritynumbers[familiar.rarity] + " "+ familiar.race + " ("+familiar.element+")!")
     }
+    if (word2 == "list") {
+        functions.findObjects("familiarData", { "owner": user._id }).then(familiars => {
+            functions.createPages(message, user, familiars, user.username + "'s Familiars", x => x.name + " (" + x._id + ")", x => "**Race: **" + x.race + " (" + x.element + ") (" + familiarraritynumbers[x.rarity] + ")\n**Level: **" + x.level + "\n", {"includeNumbering": true})
+        })
+    }
 }
 function checkfamiliarxp(familiar) {
     return 20*(familiar.level*familiar.level)
