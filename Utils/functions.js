@@ -1472,7 +1472,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                         })
                     }
                     text += "<@" + person + "> received: " + candyrewards[person] + " Candy" + "!\n"
-                    if (text.length > 1900) {
+                    if (text.length > 900) {
                         archivetext.push(text)
                         text = ""
                     }
@@ -1543,7 +1543,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                     personrunetext.push(currtext)                    
                 }
                 text += personrunetext.join(", ") + "!\n"
-                if (text.length > 1800) {
+                if (text.length > 900) {
                     archivetext.push(text)
                     text = ""
                 }
@@ -1636,8 +1636,12 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
     } else {
         sendMessage(message.channel, raidResultEmbed)
         archivetext.push(text)
-        for (let textpart of archivetext) {
-            sendMessage(message.channel, textpart)
+        let collatedarchivetext = archivetext.map((v, i) => i % 2 == 0 ? "" : archivetext[i - 1] + archivetext[i] )
+        if (archivetext.length % 2 == 1) {collatedarchivetext.push(archivetext[archivetext.length -1])}
+        for (let textpart of collatedarchivetext) {
+            if (textpart != "") {
+                sendMessage(message.channel, textpart)
+            }
         }
     }
     
