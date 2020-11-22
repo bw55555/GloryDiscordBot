@@ -82,7 +82,7 @@ module.exports = async function (message, user) {
         familiar.abilities = [];
         familiar.abilities.push({ "ability": contractfamiliar.rability, "abilitydesc": contractfamiliar.rabilitydesc })
         familiar.rarity = contractrarity
-        familiar.traits = contractfamiliar.traits
+        familiar.traits = contractfamiliar.traits.filter(x => true)
         familiar.traits.push(familiarpersonalitytraits[Math.floor(Math.random() * familiarpersonalitytraits.length)])
         familiar.name = familiar.race
         familiar.url = contractfamiliar.url
