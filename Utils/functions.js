@@ -1188,6 +1188,30 @@ function checkProps(message,user) {
         if (user.health > user.level * 10 + calcExtraStat(user, "health")) user.health = user.level * 10 + calcExtraStat(user, "health")
     }
 }
+function postCommandCheck(message, user) {
+    let leveluptext = ""
+    if (user.level >= 100) { user.xp = Math.min(checkxp(user), user.xp) }
+    let extratext = ""
+    while (user.xp >= checkxp(user) && user.level < 100) { //increases levels when xp>100*level
+        user.xp -= checkxp(user)
+        user.level += 1;
+        leveluptext = "You leveled up to level " + user.level + "!\n"
+        if (user.level === 5 && user.triangle == "None") {
+            extratext += "You are level 5! Use !class to get information on how to choose a **class**!\n";
+        }
+        if (user.ascension === 1 && user.level == 10) {
+            extratext += "You are level 15! Use !class to get information on how to choose a **subclass**!\n";
+        }
+    }
+    if (leveluptext != "") {
+        replyMessage(message, leveluptext + extratext)
+    }
+    if (user.currenthealth <= 0) { //If health is 0, you are dead.
+        user.currenthealth = 0;
+        user.statusEffects = {}
+        user.dead = true;
+    }
+}
 function checkStuff(message,user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
@@ -1206,24 +1230,8 @@ function checkStuff(message,user) {
     }
     //user.xp += Math.floor(20 * Math.random() + 1); //whenever a message is sent, their experience increases by a random number 1-25.
     user.xp += 1 + Math.floor(Math.random() * user.level);
-    let leveluptext = ""
-    if (user.level >= 100) { user.xp = Math.min(checkxp(user), user.xp) }
-    let extratext = ""
-    while (user.xp >= checkxp(user) && user.level < 100) { //increases levels when xp>100*level
-        user.xp -= checkxp(user)
-        user.level += 1;
-        leveluptext = "You leveled up to level " + user.level + "!\n"
-        if (user.level === 5 && user.triangle == "None") {
-            extratext +="You are level 5! Use !class to get information on how to choose a **class**!\n";
-        }
-        if (user.ascension === 1 && user.level == 10) {
-            extratext +="You are level 15! Use !class to get information on how to choose a **subclass**!\n";
-        }
-    }
-    if (leveluptext != "") {
-        replyMessage(message, leveluptext+extratext)
-    }
-
+    postCommandCheck(message, user)
+    if (user.currenthealth <= 0) { user.currenthealth = 0; user.dead = true; }
     //regen
     let regenpersec = calcEnchants(user).regen
     if (user.dead == false && regenpersec > 0) {
@@ -1236,7 +1244,7 @@ function checkStuff(message,user) {
         user.statusEffects.burn -= 1
         user.currenthealth -= burndamage
         let burntext = "You took **" + burndamage + "** from burning. (You will burn for " + user.statusEffects.burn + " more commands)"
-        if (user.currenthealth < 0) { user.dead = true; }
+        if (user.currenthealth <= 0) { user.currenthealth = 0; user.dead = true; }
         if (user.dead) {
             burntext += " You burned to death!"
             user.dead = true
@@ -2078,7 +2086,8 @@ module.exports.customsummon = customsummon
 module.exports.locationsummon = locationsummon
 module.exports.summon = function (raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) { return summon(raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) }
 module.exports.checkProps = function (message,user) { return checkProps(message,user) }
-module.exports.checkStuff = function (message,user) { return checkStuff(message,user) }
+module.exports.checkStuff = function (message, user) { return checkStuff(message, user) }
+module.exports.postCommandCheck = postCommandCheck
 module.exports.raidAttack = function (message, user, raid, type, guild) { return raidAttack(message, user, raid, type, guild) }
 module.exports.randint = function (a, b) { return randint(a, b) }
 module.exports.getRandomByDamage = function (raid) { return getRandomByDamage(raid) }
