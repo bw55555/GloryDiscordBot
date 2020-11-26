@@ -97,6 +97,7 @@ module.exports = async function (message, user) {
     }
     if (word2 == "list") {
         functions.findObjects("familiarData", { "owner": user._id }).then(familiars => {
+            if (familiars.length == 0) {return functions.replyMessage(message, "You have no familiars!")}
             functions.createPages(message, user, familiars, user.username + "'s Familiars", x => x.name + " (" + x._id + ")", x => "**Race: **" + x.race + " (" + x.element + ") (" + familiarraritynumbers[x.rarity] + ")\n**Level: **" + x.level + "\n", {"includeNumbering": true})
         })
     }
