@@ -179,7 +179,7 @@ async function endAuction(aitem, user) {
             })
         }
         if (aitem.end) {
-            functions.sendAsEmbed(functions.getLogChannel("auctionChannelId"), "Buy - " + aitem._id, "**Description**: " + aitem.desc + "\n**Price**: " + aitem.current + " " + aitem.currency + " by " + aitem.bidowner, "Auction Log").then(x => x.crosspost())
+            functions.sendAsEmbed(functions.getLogChannel("auctionChannelId"), "Buy - " + aitem._id, "**Description**: " + aitem.desc + "\n**Price**: " + aitem.current + " " + aitem.currency + " by <@" + aitem.bidowner+"> ("+aitem.bidowner+")", "Auction Log").then(x => x.crosspost())
             return functions.deleteObject("auctionData", aitem._id);
         }
     }
