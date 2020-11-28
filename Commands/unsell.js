@@ -26,6 +26,7 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You are not selling this item.")
             return
         }
+        user.inventory[item._id] = item._id //weapon added to inventory
         functions.sendMessage(message.channel, "You removed " + item.name + " (" + item._id + ") from the market.")
         delete item.price
         functions.setItem(item)

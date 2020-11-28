@@ -18,6 +18,14 @@ module.exports = async function (message, user) {
     if (removalid == undefined || personskills[removalid] == undefined) { return functions.replyMessage(message, "Please choose a valid skill that you own!") }
     if (functions.hasSkill(user, removalid)) { return functions.replyMessage(message, "You cannot reroll a skill you have equipped!") }
     let skillid = Math.floor(skillData.length * Math.random());
+    //while (user.inventory[skillid] != skillid) {
+    //    skillrecieved = Math.floor(skillData.length * Math.random);
+    //}
+
+    /*if (personskills.length == skillData.length){
+        functions.replyMessage(message, "You have all the skills already.");
+        return;
+    }*/
     delete user.skills[removalid]
     let count = 0;
     while (personskills[skillid] == skillid || skillid == removalid) {

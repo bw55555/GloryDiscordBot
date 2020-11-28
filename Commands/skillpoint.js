@@ -17,6 +17,14 @@ module.exports = async function (message, user) {
         return;
     }
     let skillid = Math.floor(skillData.length * Math.random());
+    //while (user.inventory[skillid] != skillid) {
+    //    skillrecieved = Math.floor(skillData.length * Math.random);
+    //}
+
+    /*if (personskills.length == skillData.length){
+        functions.replyMessage(message, "You have all the skills already.");
+        return;
+    }*/
 
     let count = 0;
     while (personskills[skillid] == skillid) {

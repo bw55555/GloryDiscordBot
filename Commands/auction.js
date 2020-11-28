@@ -194,7 +194,6 @@ function checkPayment(aitem, bidset, payer) {
     aitem.current = bidset.current;
     let type = aitem.item.type
     let text = "You have successfully won item " + aitem._id + " (" + aitem.desc + ") for " + bidset.current + " " + aitem.currency + "!\n"
-    aitem.bidowner = payer._id
     if (type == "item") {
 
     } else {

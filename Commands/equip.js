@@ -23,8 +23,9 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You already have this weapon equipped!")
             return
         }
-        if (item.owner != user._id) {
-            return functions.replyMessage(message, "You do not own this weapon!")
+        if (user.inventory[item._id] != item._id) {
+            functions.replyMessage(message, "You don't own this item!")
+            return
         }
         if (user.level + 10 * user.ascension < item.rarity * 10) {
             functions.replyMessage(message, "You must be at least level " + (item.rarity * 10-10*user.ascension) + " to equip this item!")

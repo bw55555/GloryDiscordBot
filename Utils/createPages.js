@@ -1,6 +1,6 @@
 var Paginator = require("./Paginator.js")
-module.exports = function createPages(message, user, arr, title, fnamefunc, fvaluefunc, options) {
-    if (options == undefined) { options = {} }
+module.exports = function createList(message, user, arr, title, fnamefunc, fvaluefunc, options) {
+    if (options == undefined) { options = {}}
     let numPerPage = options.numPerPage == undefined ? 5 : options.numPerPage
     let pages = []
     if (arr.length == 0) {
@@ -9,12 +9,8 @@ module.exports = function createPages(message, user, arr, title, fnamefunc, fval
         let fields = [];
         for (var i = 0; i < arr.length; i++) {
             if (arr[i] != undefined) {
-                let prename = ""
-                if (options.includeNumbering == true) {
-                    prename = "**" + (i + 1) + ". **"
-                }
                 fields.push({
-                    name: prename+fnamefunc(arr[i]),
+                    name: fnamefunc(arr[i]),
                     value: fvaluefunc(arr[i]),
                     inline: false,
                 })

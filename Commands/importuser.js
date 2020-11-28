@@ -18,6 +18,7 @@ module.exports = async function (message, user) {
             target.username = user.username
             target.guild = user.guild
             target.guildpos = user.guildpos
+            target.inventory = user.inventory
             target.marry = user.marry
             functions.setUser(target)
             functions.logCommand(message)

@@ -36,6 +36,11 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "Please specify an integer item ID.");
             return;
         }
+        
+        if (user.inventory[weaponid] != weaponid) {
+            functions.replyMessage(message, "You do not own this item!")
+            return
+        }
         if (weaponid == user.weapon._id) {
             functions.replyMessage(message, "You cannot give away your equipped weapon!")
             return
@@ -43,10 +48,7 @@ module.exports = async function (message, user) {
         return Promise.all([functions.getItem(weaponid)]).then(ret => {
             let item = ret[0]
             rarity = item.rarity
-            if (item.owner != user._id) {
-                functions.replyMessage(message, "You do not own this item!")
-                return
-            }
+
             if (rarity == "Unique" && admins.indexOf(user._id) == -1) {
                 functions.replyMessage(message, "You cannot trade an Unique weapon!")
                 return
@@ -55,9 +57,11 @@ module.exports = async function (message, user) {
                 functions.replyMessage(message, "You cannot trade a GLORY weapon!")
                 return
             }
+            delete user.inventory[weaponid]
+            target.inventory[weaponid] = weaponid
             item.owner = target._id
             functions.sendMessage(message.channel, "<@" + target._id + "> recieved " + item._id + " from <@" + user._id + ">");
-            //functions.setUser(target)
+            functions.setUser(target)
             functions.setItem(item)
         })
     })
