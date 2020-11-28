@@ -165,6 +165,7 @@ module.exports = async function (message, user) {
 }
 async function endAuction(aitem, user) {
     if (aitem.end) { return; }
+    if (aitem.bidowner == "None") { aitem.end = true; }
     for (let i = aitem.history.length - 1; i >= 0; i--) {
         let bidset = aitem.history[i];
         let id = aitem.bidowner.slice(2, -1)
