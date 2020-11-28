@@ -85,6 +85,8 @@ module.exports = async function (message, user) {
         }
         let text = ""
         if (target.currenthealth <= 0 && user.currenthealth <= 0) {
+            stolen = Math.floor((target.money) / 10);
+            counterstolen = Math.floor((user.money) / 10);
             target.dead = true;
             target.currenthealth = 0;
             user.dead = true;
