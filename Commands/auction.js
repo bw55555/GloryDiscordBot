@@ -29,12 +29,12 @@ module.exports = async function (message, user) {
         let word2 = words[1];
         if (word2 == undefined) { word2 = "" }
         word2 = word2.toLowerCase();
-        let timeover = alist.filter(x => x.time - ts <= 0)
+        let timeover = alist.filter(x => x.time - ts <= 0 && x.end != true)
         for (let endaitem of timeover) {
             endAuction(endaitem, user)
         }
+        alist = alist.filter(x => x.end != true)
         if (word2 == "list") {
-            alist = alist.filter(x => x.time - ts > 0)
             let numPerPage = 5
             let pages = []
             if (alist == false || alist.length == 0) {
