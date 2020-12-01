@@ -45,7 +45,6 @@ module.exports = async function (message, user) {
             user.speed = 0;
             target.speed = 0;
             target.currenthealth += heal
-            user.xp += heal
             if (!functions.hasSkill(user, 14)) {
                 user.currenthealth -= Math.floor(heal * Math.random())
             }
