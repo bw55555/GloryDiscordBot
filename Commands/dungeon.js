@@ -34,6 +34,7 @@ module.exports = async function (message, user) {
         if (user.dungeonts != undefined && functions.calcTime(ts, user.dungeonts) > 600) { leaveDungeon(message, dungeon, user, "timeout") }
         else if (user.currenthealth <= 0) { leaveDungeon(message, dungeon, user, "death")}
         else if (command == "sweep") {
+            if (user.dead) {return functions.replyMessage(message, "You cannot enter the dungeon if you are dead!")}
             if (dungeon.task == "start") {
                 for (let i = 0; i < dungeon.maxFloor - 10; i++) {
                     nextFloor(message, dungeon, true);
@@ -52,6 +53,7 @@ module.exports = async function (message, user) {
             
         }
         else if (command == "start" || command == "s") {
+            if (user.dead) { return functions.replyMessage(message, "You cannot enter the dungeon if you are dead!") }
             if (dungeon.task == "start") {
                 dungeon.ts = ts;
                 dungeon.floor = 0;
