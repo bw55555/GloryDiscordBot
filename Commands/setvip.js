@@ -27,7 +27,9 @@ module.exports = async function (message, user) {
             user.vip.extrarerolls = vipbenefits[viplevel].extrarerolls;
             user.vip.level = vipbenefits[viplevel].level;
             functions.replyMessage(message, "Your vip level was set to " + (viplevel))
-            break;
+            return;
         }
     }
+    user.vip = undefined
+    return functions.replyMessage(message, "You do not have a donator role!")
 }
