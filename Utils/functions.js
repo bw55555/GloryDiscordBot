@@ -192,16 +192,17 @@ function dmUser(user, text) {
 }
 
 
-function logCommand(message, title, extratext) {
+function logCommand(message, title, extratext, gid, cid) {
+    if (gid == undefined) { gid = debugGuildId }
+    if (cid == undefined) { cid = debugChannelId}
     if (title == undefined) { title = "LOG" }
     if (message.author.bot) { return }
     if (extratext == undefined) { extratext = "" } else { extratext = "|" + extratext }
     let textlength = title + "|"+message.author.id + "||" + message.createdTimestamp + extratext + " ..."
     let mcontent = message.content
     if (mcontent.length >= 500) { mcontent = mcontent.slice(0, 500) + " ..." + (mcontent.length - 500) + " chars not shown" }
-    let cid = debugChannelId
     if (title == "MACRO" || title == "FLAG") { cid = devData.flagChannelId }
-    sendMessage(bot.guilds.cache.get(debugGuildId).channels.cache.get(cid), clean(title + "|"+message.author.id + "|" + mcontent + "|" + message.createdTimestamp + extratext))
+    sendMessage(bot.guilds.cache.get(gid).channels.cache.get(cid), clean(title + "|"+message.author.id + "|" + mcontent + "|" + message.createdTimestamp + extratext))
 }
 
 async function validate(message, user, spot) {
@@ -1762,8 +1763,12 @@ function getModifierText(modifierlist) {
     if (modifiertext == "") { modifiertext = "None" }
     return modifiertext
 }
-function checkxp(user) {
-    return 100 + Math.floor((3 * Math.pow((10 * (user.ascension) + user.level + 1), 2)) * Math.pow(1.5, user.ascension))
+function checkxp(user, extralevels) {
+    if (extralevels == undefined || extralevels == 0) {
+        return 100 + Math.floor((3 * Math.pow((10 * (user.ascension) + user.level + 1), 2)) * Math.pow(1.5, user.ascension))
+    }
+
+    return checkxp({"level": 99 - (100 - user.level) % 100 , "ascension": user.ascension + Math.floor((user.level + 1)/101)}, extralevels - 1)+checkxp()
 }
 
 function addQuestCondition(condition, operator, description, total, extra, type) {
@@ -2052,7 +2057,7 @@ module.exports.sendMessage = function (channel, text, override) { return sendMes
 module.exports.replyMessage = function (message, text, override) { return replyMessage(message, text, override) }
 module.exports.deleteMessage = function (message) { return deleteMessage(message) }
 module.exports.dmUser = function (user, text) { return dmUser(user, text) }
-module.exports.logCommand = function (message, title, extratext) { return logCommand(message, title, extratext) }
+module.exports.logCommand = logCommand
 module.exports.validate = function (message, user, spot) { return validate(message, user, spot) }
 module.exports.getGuildBuff = function (user, buffname) { return getGuildBuff(user, buffname) }
 module.exports.hasSkill = function (user, skillid, enable) { return hasSkill(user, skillid, enable) }

@@ -28,7 +28,9 @@ export function sendAsEmbed(channel: Channel, name : string, text: string, title
 export function deleteMessage(message: Message):void
 export function dmUser(user: JSON, text: string): void
 export function logCommand(message: Message): void
+export function logCommand(message: Message, title: string): void
 export function logCommand(message: Message, title: string, extratext: string): void
+export function logCommand(message: Message, title: string, extratext: string, gid: string, cid: string): void
 export function validate(message: Message, user: string): Promise<JSON>
 export function validate(message: Message, user: string, spot: number): Promise<JSON>
 export function hasSkill(user: JSON, skillid: number): boolean
