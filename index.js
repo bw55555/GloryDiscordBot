@@ -54,7 +54,8 @@ client.connect((err) => {
         global.debugGuildId = devData.debugGuildId
         global.debugChannelId = devData.debugChannelId
         global.defaultPrefix = devData.defaultPrefix
-        if (devData.security == undefined) { devData.security = 0.01}
+        if (devData.security == undefined) { devData.security = 0.01 }
+        if (devData.commandlogChannels == undefined) {devData.commandlogChannels = []}
         if (devData.dblenable) {
             const server = http.createServer(function (req, res) {
                 res.write("Recieved a post request");
