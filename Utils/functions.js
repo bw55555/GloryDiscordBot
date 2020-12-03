@@ -1768,7 +1768,7 @@ function checkxp(user, extralevels) {
         return 100 + Math.floor((3 * Math.pow((10 * (user.ascension) + user.level + 1), 2)) * Math.pow(1.5, user.ascension))
     }
 
-    return checkxp({"level": user.level % 100 + 1 , "ascension": user.ascension + Math.floor((user.level + 1)/101)}, extralevels - 1)+checkxp()
+    return checkxp({"level": user.level % 100 + 1 , "ascension": user.ascension + Math.floor((user.level + 1)/101)}, extralevels - 1)+checkxp(user)
 }
 
 function addQuestCondition(condition, operator, description, total, extra, type) {
