@@ -402,7 +402,6 @@ function generateItem(owner, itemid, attack, defense, rarity, name, modifiers, i
     if (itemid == null || itemid == "" || itemid == undefined) {
         itemid = devData.nextItem;
     }
-    if (owner != "event") { owner.inventory[itemid] = itemid }
     devData.nextItem++;
     let item = {
         "owner": owner._id, "_id": itemid, "equip": false, "attack": attack, "defense": defense, "rarity": rarity, "modifiers": modifiers, "name": name, "enhance": {"level": 0, "attack": 0, "defense": 0}, "enchantlevel": 0, "numenchants": 0, "favorite": false, "merge": 0 }
@@ -1144,7 +1143,6 @@ function checkProps(message,user) {
     if (user.triangleid == undefined) user.triangleid = 0; //character's class
     if (user.trianglemod == undefined) user.trianglemod = 1.0; //character's class-based damage modifier.
     if (user.weapon == undefined) user.weapon = false;
-    if (user.inventory == undefined) user.inventory = {};
     if (user.marry == undefined) user.marry = "None";
     if (user.guild == undefined) user.guild = "None";
     if (user.guildpos == undefined) user.guildpos = "None";
@@ -1668,6 +1666,15 @@ function randint(a, b) {
     let extra = Math.random() < num - Math.floor(num) ? 1 : 0
     return Math.floor(num) + extra;
 }
+function getRandomByChances(arr) {
+    let s = arr.reduce((t, c) => t + c, 0)
+    let chance = Math.random() * s;
+    let curr = 0;
+    for (let i = 0; i < arr.length; i++) {
+        curr += arr[i];
+        if (curr > chance) {return i}
+    }
+}
 function getRandomByDamage(raid) {
     let damagechance = Math.random() * raid.health;
     let damagetotal = 0;
@@ -1692,7 +1699,6 @@ function smeltItem(user, item, givereward, isBulk) {
         user.xp += xp
     }
     completeQuest(user, "smelt", {"item": item, "money": money, "xp":xp, "materials": materials}, 1)
-    delete user.inventory[item._id];
     if (isBulk != true) { deleteItem(item._id) }
     return [xp, money, materials]
 }
@@ -2090,6 +2096,7 @@ module.exports.postCommandCheck = postCommandCheck
 module.exports.raidAttack = function (message, user, raid, type, guild) { return raidAttack(message, user, raid, type, guild) }
 module.exports.randint = function (a, b) { return randint(a, b) }
 module.exports.getRandomByDamage = function (raid) { return getRandomByDamage(raid) }
+module.exports.getRandomByChances = getRandomByChances
 module.exports.smeltItem = function (user, item, giveReward, isBulk) { return smeltItem(user, item, giveReward, isBulk) }
 module.exports.itemFilter = function (message, user, defaults) { return itemFilter(message, user, defaults) }
 module.exports.getModifierText = function (modifierlist) { return getModifierText(modifierlist) }

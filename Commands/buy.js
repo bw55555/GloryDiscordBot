@@ -36,7 +36,6 @@ module.exports = async function (message, user) {
                 user.money += parseInt(item.price);
             }
             item.owner = user._id //weapon ownerid transfer
-            user.inventory[item._id] = item._id //weapon added to inventory
             functions.sendMessage(message.channel, "You bought " + item._id + " for $" + item.price)
             delete item.price;
             functions.setItem(item)

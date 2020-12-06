@@ -2,23 +2,23 @@ import { Message, Channel } from "discord.js"
 export function importObject(db: string, coll: string, oid: string | number): Promise<false | JSON>
 export function clean(text: string): string
 export function getUser(uid: string | number): Promise<JSON | false>
-export function findUsers(query: JSON): Promise<Array<JSON> | false>
-export function findUsers(query: JSON, projection: JSON): Promise<Array<JSON> | false>
+export function findUsers(query: JSON): Promise<JSON[] | false>
+export function findUsers(query: JSON, projection: JSON): Promise<JSON[] | false>
 export function setUser(newuser: JSON): Promise<boolean>
 export function deleteUser(uid: string | number): Promise<boolean>
 export function getItem(iid: string | number): Promise<JSON | false>
 export function getFloorMob(iid: string | number): Promise<JSON | false>
-export function findItems(query: JSON): Promise<Array<JSON> | false>
-export function findItems(query: JSON, projection: JSON): Promise<Array<JSON>|false>
+export function findItems(query: JSON): Promise<JSON[] | false>
+export function findItems(query: JSON, projection: JSON): Promise<JSON[]|false>
 export function setItem(newitem: JSON): Promise<boolean>
 export function deleteItem(iid: string | number): Promise<boolean>
 export function getObject(coll: string, oid: string | number): Promise<false | JSON>
-export function findObjects(coll: string, query: JSON): Promise<false | Array<JSON>>
-export function findObjects(coll: string, query: JSON, projection: JSON): Promise<false | Array<JSON>>
+export function findObjects(coll: string, query: JSON): Promise<false | JSON[]>
+export function findObjects(coll: string, query: JSON, projection: JSON): Promise<false | JSON[]>
 export function setObject(coll: string, newobj:JSON): Promise<boolean>
 export function deleteObject(coll:string, oid:string): Promise<boolean>
 export function setProp(coll:string, query:JSON, newvalue:JSON): Promise<boolean>
-export function bulkWrite(coll:string, tasks:Array<JSON>): Promise<boolean>
+export function bulkWrite(coll:string, tasks:JSON[]): Promise<boolean>
 export function deleteObjects(coll: string, filter: JSON): Promise<boolean>
 export function sendMessage(channel: Channel, text: string): Promise<Message>
 export function sendMessage(channel: Channel, text: string, override: boolean): Promise<Message>
@@ -85,10 +85,11 @@ export function raidAttack(message: Message, user: JSON, raid: JSON): void
 export function raidAttack(message: Message, user: JSON, raid: JSON, type: "raid" | "world" | "event"): void
 export function raidAttack(message: Message, user: JSON, raid: JSON, type: "guild", guild: JSON): void
 export function getRandomByDamage(raid: JSON): string
-export function smeltItem(user: JSON, item: JSON): Array<number>
-export function smeltItem(user: JSON, item: JSON, giveReward: boolean): Array<number>
-export function smeltItem(user: JSON, item: JSON, giveReward: boolean, isBulk: boolean): Array<number>
-export function itemFilter(message: Message, user: JSON, defaults: JSON): Promise<boolean | Array<JSON>>
+export function getRandomByChances(arr: number[]): string
+export function smeltItem(user: JSON, item: JSON): [number, number, number]
+export function smeltItem(user: JSON, item: JSON, giveReward: boolean): [number, number, number]
+export function smeltItem(user: JSON, item: JSON, giveReward: boolean, isBulk: boolean): [number, number, number]
+export function itemFilter(message: Message, user: JSON, defaults: JSON): Promise<boolean | JSON[]>
 export function getModifierText(modifierlist: JSON): string
 export function checkxp(user: JSON): number
 export function isCD(user: JSON, ts: number, cdtype: string): boolean

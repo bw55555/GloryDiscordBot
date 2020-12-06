@@ -13,20 +13,10 @@ module.exports = async function (message, user) {
                 "maintenance": true
             }, 
             $unset: {
-                "bolster": "",
-                "burn": ""
+                "inventory":""
             }
         })
         await functions.deleteObjects("mobData", {})
-        await functions.setProp("serverData", {}, {
-            $unset: {
-                "treant": "",
-                "kraken": "",
-                "deity": "",
-                "dragon": "",
-                "hell": ""
-            }
-        })
         functions.replyMessage(message, "Maintenance was completed!")
     }, [message])
 }
