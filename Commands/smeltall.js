@@ -7,7 +7,6 @@ module.exports = async function (message, user) {
     let totalmaterials = 0
     let totalmoney = 0
     let totalxp = 0
-    if (Object.keys(user.inventory).length == 0) { return functions.sendMessage(message.channel, "There's nothing in your inventory that matches the selected filters... ") }
     functions.setCD(user, ts, smeltallcd * 60, "smeltall")
     return functions.itemFilter(message, user, { "fav": false }).then(smeltItems => {
         if (smeltItems == false) { return }

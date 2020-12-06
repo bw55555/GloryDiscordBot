@@ -5,9 +5,8 @@ module.exports = async function (message, user) {
     let words = message.content.trim().split(/\s+/)
     let pages = []
     let page = ""
-    if (Object.keys(user.inventory).length == 0) { return functions.sendMessage(message.channel, "There's nothing in your inventory that matches the selected filters... ")}
     if (words.indexOf("-detailed") == -1) {
-        functions.itemFilter(message, user, { "equip": true }, { _id: { $in: Object.keys(user.inventory) } }).then(wepsra => {
+        functions.itemFilter(message, user, { "equip": true }).then(wepsra => {
             if (wepsra == false) { return functions.sendMessage(message.channel, "There's nothing in your inventory that matches the selected filters... ") }
             let numPerPage = 5
             let pages = []
@@ -62,7 +61,7 @@ module.exports = async function (message, user) {
             new functions.Paginator(message.channel, message.author, pages)
         })
     } else {
-        functions.itemFilter(message, user, { "equip": true }, { _id: { $in: Object.keys(user.inventory) } }).then(displayItems => {
+        functions.itemFilter(message, user, { "equip": true }).then(displayItems => {
             if (displayItems == false) { return }
             if (displayItems.length == 0) { return functions.sendMessage(message.channel, "There's nothing in your inventory that matches the selected filters... ") }
             if (displayItems == false) { return }

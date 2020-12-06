@@ -7,7 +7,7 @@ module.exports = async function (message, user) {
     if (user.consum.explosion <= 0) { return functions.replyMessage(message, "You don't have any bombs left!") }
     if (user.dead) { return functions.replyMessage(message, "You can't throw a bomb while dead!") }
     if (user.money <= 10000000) { return functions.replyMessage(message, "You need $10000000 to be able to throw a bomb!") }
-    if (message.guild.id == devData.debugGuildId) { return functions.replyMessage(message, "Explosions are disabled in the support server!")}
+    if (message.guild == null || message.guild.id == devData.debugGuildId) { return functions.replyMessage(message, "Explosions are disabled in dms and the support server!")}
     let chance = Math.random();
     user.consum.explosion -= 1;
     if (chance < 0.25 && devs.indexOf(id) == -1) { user.currenthealth -= 10000; return functions.replyMessage(message, "The bomb malfunctioned and exploded in your hands... "); }

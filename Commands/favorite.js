@@ -6,9 +6,10 @@ module.exports = async function (message, user) {
     if (words.length == 1) { return functions.replyMessage(message, "Choose an item!") }
     let weaponid = parseInt(words[1])
     if (isNaN(weaponid)) { return functions.replyMessage(message, "The weapon id must be an integer"); return; }
-    if (user.inventory[weaponid] != weaponid) { return functions.replyMessage(message, "You don't own this item!") }
+    
     return Promise.all([functions.getItem(weaponid)]).then(ret => {
         let item = ret[0]
+        if (item.owner != user._id) { return functions.replyMessage(message, "You don't own this item!") }
         if (item.favorite == true) {
             item.favorite = false;
             functions.replyMessage(message, "You have successfully unfavorited the weapon with id " + weaponid)
