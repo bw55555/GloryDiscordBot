@@ -398,10 +398,6 @@ module.exports = async function (message, user) {
             }
             //if (devs.indexOf(id)==-1) {return functions.replyMessage(message, "This feature is under development...")}
             if (isNaN(guild.raid)) { return functions.replyMessage(message, "You already have a raid going on!") }
-            if (guild.raid > ts) {
-                functions.replyMessage(message, "You can next summon a raid boss in " + functions.displayTime(guild.raid, ts))
-                return;
-            }
             if (words[2] == undefined) { return functions.replyMessage(message, "Please specify a boss rarity!!!") }
             let summonrarity = words[2].toLowerCase()
             let raritytoscroll = { "0": "common", "1": "uncommon", "2": "rare", "3": "epic", "4": "legendary", "c": "common", "u": "uncommon", "r": "rare", "e": "epic", "l": "legendary" }
