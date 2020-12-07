@@ -1,4 +1,4 @@
-global.familiarraritynumbers = ["???", "Common", "Rare", "Epic", "Legendary", "Divine"]
+﻿global.familiarraritynumbers = ["???", "Common", "Rare", "Epic", "Legendary", "Divine"]
 global.familiarpersonalitytraits = ["Reckless", "Determined", "Curious", "Careless", "Lazy", "Persistent"]
 let familiarData = Assets.familiarData
 module.exports = async function (message, user) {
@@ -100,6 +100,22 @@ module.exports = async function (message, user) {
             if (familiars.length == 0) {return functions.replyMessage(message, "You have no familiars!")}
             functions.createPages(message, user, familiars, user.username + "'s Familiars", x => x.name + " (" + x._id + ")", x => "**Race: **" + x.race + " (" + x.element + ") (" + familiarraritynumbers[x.rarity] + ")\n**Level: **" + x.level + "\n", {"includeNumbering": true})
         })
+    }
+    if (word2 == "missions") {
+        let fields = []
+        for (let mission of user.missions) {
+            fields.push({
+                "name": mission.name + " ("+mission.rarity+")",
+                "value": "🕐 Time: " + functions.displayTime(mission.time, 0) + "\n⚠️Recommended Level: " + mission.level + "\n⚠️Recommended Element: " + mission.element +"\n⚠️Terrain: "+mission.terrain
+            })
+        }
+        functions.sendMessage(message.channel, {
+            "embed": {
+                //"color": 5251510,
+                "title": "",
+                "fields": fields
+            }
+        });
     }
 }
 function checkfamiliarxp(familiar) {
