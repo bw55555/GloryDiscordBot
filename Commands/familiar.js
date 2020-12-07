@@ -106,13 +106,13 @@ module.exports = async function (message, user) {
         for (let mission of user.missions) {
             fields.push({
                 "name": mission.name + " ("+mission.rarity+")",
-                "value": "🕐 Time: " + functions.displayTime(mission.time, 0) + "\n⚠️Recommended Level: " + mission.level + "\n⚠️Recommended Element: " + mission.element +"\n⚠️Terrain: "+mission.terrain
+                "value": "🕐 Time: " + functions.displayTime(mission.time, 0) + "\n⚠️Recommended Level: " + mission.level + "\n⚠️Recommended Element: " + mission.element + "\n⚠️Terrain: " + mission.terrain +"\n✅Base Success Rate: "+mission.chance+"\nRewards: "+mission.rewards
             })
         }
         functions.sendMessage(message.channel, {
             "embed": {
                 //"color": 5251510,
-                "title": "",
+                "title": "Mission List",
                 "fields": fields
             }
         });
