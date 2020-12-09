@@ -101,21 +101,65 @@ module.exports = async function (message, user) {
             functions.createPages(message, user, familiars, user.username + "'s Familiars", x => x.name + " (" + x._id + ")", x => "**Race: **" + x.race + " (" + x.element + ") (" + familiarraritynumbers[x.rarity] + ")\n**Level: **" + x.level + "\n", {"includeNumbering": true})
         })
     }
-    if (word2 == "missions") {
-        let fields = []
-        for (let mission of user.missions) {
-            fields.push({
-                "name": mission.name + " ("+mission.rarity+")",
-                "value": "🕐 Time: " + functions.displayTime(mission.time, 0) + "\n⚠️Recommended Level: " + mission.level + "\n⚠️Recommended Element: " + mission.element + "\n⚠️Terrain: " + mission.terrain +"\n✅Base Success Rate: "+mission.chance+"\nRewards: "+mission.rewards
-            })
-        }
-        functions.sendMessage(message.channel, {
-            "embed": {
-                //"color": 5251510,
-                "title": "Mission List",
-                "fields": fields
+    if (word2 == "mission") {
+        let word3 = words[2];
+        if (word3 == undefined) { word3 = "list" }
+        word3 = word3.toLowerCase()
+        if (word3 == "refresh") {
+            let nummissions = 5;
+            let elementlist = ["Fire", "Water", "Earth", "Wind"]
+            let raritylist = ["Common", "Uncommon", "Rare", "Epic", "Legendary"]
+            let raritychances = [0.36, 0.28, 0.2, 0.12, 0.04]
+            let timearr = {
+                "Common": [5*60*1000, 10*60*1000, 20*60*1000],
+                "Uncommon": [15*60*1000, 30*60*1000, 45*60*1000],
+                "Rare": [40*60*1000, 60*60*1000, 90*60*1000],
+                "Epic": [60*60*1000, 90*60*1000, 120*60*1000],
+                "Legendary": [120*60*1000, 180*60*1000, 240*60*1000]
             }
-        });
+            let terrainlist = {
+                "Fire": ["Volcano", "Lavafield", "Hell"],
+                "Water": ["River", "Ocean", "Deep Ocean"],
+                "Earth": ["Mountains", "Caves", "Underground"],
+                "Wind": ["Canyon", "Mountains", "Clouds"]
+            }
+            let chancelist = {
+                "Common": [1],
+                "Uncommon": [1],
+                "Rare": [1],
+                "Epic": [1],
+                "Legendary": [1]
+            }
+            for (let i = 0; i < nummissions; i++) {
+                let mr = functions.getRandomArrayElement(raritylist, raritychances)
+                let ele = functions.getRandomArrayElement(elementlist)
+                let mission = {
+                    "name": "Random Name",
+                    "rarity": mr,
+                    "element": ele,
+                    "time": functions.getRandomArrayElement(timearr[mr]),
+                    "level": 10 * Math.floor(10 * Math.random()),
+                    "terrain": functions.getRandomArrayElement(terrainlist[ele]),
+                    "chance": functions.getRandomArrayElement(chancelist[mr]),
+                    "rewards": "500 xp"
+                }
+            }
+        } else {
+            let fields = []
+            for (let mission of user.missions) {
+                fields.push({
+                    "name": mission.name + " (" + mission.rarity + ")",
+                    "value": "🕐 Time: " + functions.displayTime(mission.time, 0) + "\n⚠️Recommended Level: " + mission.level + "\n⚠️Recommended Element: " + mission.element + "\n⚠️Terrain: " + mission.terrain + "\n✅Base Success Rate: " + mission.chance + "\nRewards: " + mission.rewards
+                })
+            }
+            functions.sendMessage(message.channel, {
+                "embed": {
+                    //"color": 5251510,
+                    "title": "Mission List",
+                    "fields": fields
+                }
+            });
+        }
     }
 }
 function checkfamiliarxp(familiar) {

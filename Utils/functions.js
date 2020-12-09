@@ -1674,6 +1674,14 @@ function getRandomByChances(arr) {
         curr += arr[i];
         if (curr > chance) {return i}
     }
+    return arr.length-1
+}
+function getRandomArrayElement(arr, chances) {
+    if (chances == undefined || chances.length != arr.length) {
+        return arr[Math.floor(arr.length * Math.random())]
+    } else if (chances.length == arr.length) {
+        return arr[getRandomByChances(arr)]
+    }
 }
 function getRandomByDamage(raid) {
     let damagechance = Math.random() * raid.health;
@@ -2097,6 +2105,7 @@ module.exports.raidAttack = function (message, user, raid, type, guild) { return
 module.exports.randint = function (a, b) { return randint(a, b) }
 module.exports.getRandomByDamage = function (raid) { return getRandomByDamage(raid) }
 module.exports.getRandomByChances = getRandomByChances
+module.exports.getRandomArrayElement = getRandomArrayElement
 module.exports.smeltItem = function (user, item, giveReward, isBulk) { return smeltItem(user, item, giveReward, isBulk) }
 module.exports.itemFilter = function (message, user, defaults) { return itemFilter(message, user, defaults) }
 module.exports.getModifierText = function (modifierlist) { return getModifierText(modifierlist) }
