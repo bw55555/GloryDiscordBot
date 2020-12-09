@@ -1680,7 +1680,7 @@ function getRandomArrayElement(arr, chances) {
     if (chances == undefined || chances.length != arr.length) {
         return arr[Math.floor(arr.length * Math.random())]
     } else if (chances.length == arr.length) {
-        return arr[getRandomByChances(arr)]
+        return arr[getRandomByChances(chances)]
     }
 }
 function getRandomByDamage(raid) {
