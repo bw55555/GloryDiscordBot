@@ -101,11 +101,11 @@ module.exports = async function (message, user) {
             functions.createPages(message, user, familiars, user.username + "'s Familiars", x => x.name + " (" + x._id + ")", x => "**Race: **" + x.race + " (" + x.element + ") (" + familiarraritynumbers[x.rarity] + ")\n**Level: **" + x.level + "\n", {"includeNumbering": true})
         })
     }
-    if (word2 == "mission") {
+    if (word2 == "mission" || word2 == "m") {
         let word3 = words[2];
         if (word3 == undefined) { word3 = "list" }
         word3 = word3.toLowerCase()
-        if (word3 == "refresh") {
+        if (word3 == "refresh" || word3 == "r") {
             let nummissions = 5;
             let elementlist = ["Fire", "Water", "Earth", "Wind"]
             let raritylist = ["Common", "Uncommon", "Rare", "Epic", "Legendary"]
@@ -130,6 +130,7 @@ module.exports = async function (message, user) {
                 "Epic": [1],
                 "Legendary": [1]
             }
+            user.missions = []
             for (let i = 0; i < nummissions; i++) {
                 let mr = functions.getRandomArrayElement(raritylist, raritychances)
                 let ele = functions.getRandomArrayElement(elementlist)
@@ -143,7 +144,9 @@ module.exports = async function (message, user) {
                     "chance": functions.getRandomArrayElement(chancelist[mr]),
                     "rewards": "500 xp"
                 }
+                user.missions.push(mission)
             }
+            functions.replyMessage(message, "Missions Refreshed!")
         } else {
             let fields = []
             for (let mission of user.missions) {
