@@ -85,7 +85,9 @@ export function raidAttack(message: Message, user: JSON, raid: JSON): void
 export function raidAttack(message: Message, user: JSON, raid: JSON, type: "raid" | "world" | "event"): void
 export function raidAttack(message: Message, user: JSON, raid: JSON, type: "guild", guild: JSON): void
 export function getRandomByDamage(raid: JSON): string
-export function getRandomByChances(arr: number[]): string
+export function getRandomByChances(arr: number[]): number
+export function getRandomArrayElement(arr: any[]): any
+export function getRandomArrayElement(arr: any[], chances: number[]): any
 export function smeltItem(user: JSON, item: JSON): [number, number, number]
 export function smeltItem(user: JSON, item: JSON, giveReward: boolean): [number, number, number]
 export function smeltItem(user: JSON, item: JSON, giveReward: boolean, isBulk: boolean): [number, number, number]
