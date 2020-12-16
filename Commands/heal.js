@@ -17,7 +17,7 @@ module.exports = async function (message, user) {
         return Promise.all([functions.validate(message,user)]).then(ret => {
             let target = ret[0];
             if (target == false) { return }
-            let maxheal = user.health
+            
             if (user.dead === true) {
                 functions.replyMessage(message, "You can't heal others while you are a corpse! Do !resurrect");
                 return;
@@ -37,30 +37,58 @@ module.exports = async function (message, user) {
                 functions.replyMessage(message, "You just healed someone else! You lost your shield :(");
                 user.shield = 1
             }
-            let heal = Math.floor(target.health * Math.random() + (user.health / 5))
+            functions.MessageAwait(message.channel, target._id, "<@" + target._id + ">, <@" + user._id + "> would like to heal you! Type `confirm` to accept", "confirm", (response, extraArgs) => {
+                return Promise.all([functions.getUser(user._id), functions.getUser(target._id)]).then(ret => {
 
-            if (target.currenthealth + heal > target.health || functions.hasSkill(user, 14)) {
-                heal = target.health - target.currenthealth
-            }
-            user.speed = 0;
-            target.speed = 0;
-            target.currenthealth += heal
-            if (!functions.hasSkill(user, 14)) {
-                user.currenthealth -= Math.floor(heal * Math.random())
-            }
-            functions.replyMessage(message, "<@" + target._id + "> was healed for " + heal + " health!")
-            let healcd = 0;
-            if (user.triangleid == "5") {
-                healcd = 60;
-            } else {
-                healcd = 90;
-            }
-            if (functions.hasSkill(user, 34)) {
-                healcd = Math.floor(healcd/2)
-            }
-            functions.setCD(user, ts, healcd, "heal")
-            functions.setCD(user, ts, 60, "purchase")
-            functions.setUser(target)
+                    let user = ret[0];
+                    let target = ret[1];
+                    if (user.dead === true) {
+                        functions.replyMessage(message, "You can't heal others while you are a corpse! Do !resurrect");
+                        return;
+                    }
+                    if (target.dead === true) {
+                        functions.replyMessage(message, "You can't heal a corpse! Do !resurrect");
+                        return;
+                    }
+                    if (target._id == user._id) {
+                        functions.replyMessage(message, "You can't target yourself with a heal!");
+                        return;
+                    }
+                    if (target.currenthealth >= target.health) {
+                        return functions.replyMessage(message, "<@" + target._id + "> is already at full health!");
+                    }
+                    if (user.shield > ts) {
+                        functions.replyMessage(message, "You just healed someone else! You lost your shield :(");
+                        user.shield = 1
+                    }
+                    let maxheal = user.health
+                    let heal = Math.floor(target.health * Math.random() + (user.health / 5))
+
+                    if (target.currenthealth + heal > target.health || functions.hasSkill(user, 14)) {
+                        heal = target.health - target.currenthealth
+                    }
+                    user.speed = 0;
+                    target.speed = 0;
+                    target.currenthealth += heal
+                    if (!functions.hasSkill(user, 14)) {
+                        user.currenthealth -= Math.floor(heal * Math.random())
+                    }
+                    functions.replyMessage(message, "<@" + target._id + "> was healed for " + heal + " health!")
+                    let healcd = 0;
+                    if (user.triangleid == "5") {
+                        healcd = 60;
+                    } else {
+                        healcd = 90;
+                    }
+                    if (functions.hasSkill(user, 34)) {
+                        healcd = Math.floor(healcd / 2)
+                    }
+                    functions.setCD(user, ts, healcd, "heal")
+                    functions.setCD(user, ts, 60, "purchase")
+                    functions.setUser(target)
+                    functions.setUser(user)
+                })
+            }, undefined, "They didn't want to be healed... ")
         })
     } else {
 
