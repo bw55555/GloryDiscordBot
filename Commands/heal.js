@@ -33,10 +33,6 @@ module.exports = async function (message, user) {
             if (target.currenthealth >= target.health) {
                 return functions.replyMessage(message, "<@" + target._id + "> is already at full health!");
             }
-            if (user.shield > ts) {
-                functions.replyMessage(message, "You just healed someone else! You lost your shield :(");
-                user.shield = 1
-            }
             functions.MessageAwait(message.channel, target._id, "<@" + target._id + ">, <@" + user._id + "> would like to heal you! Type `confirm` to accept", "confirm", (response, extraArgs) => {
                 return Promise.all([functions.getUser(user._id), functions.getUser(target._id)]).then(ret => {
 
