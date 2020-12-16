@@ -1319,10 +1319,6 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         return;
     }
     */
-    if (user.shield > ts) {
-        replyMessage(message, "You just attacked! You lost your shield :(");
-        user.shield = 1
-    }
     if (!raid.attacklist[user._id]) { raid.attacklist[user._id] = 0 }
     if (!raid.damagelist[user._id]) { raid.damagelist[user._id] = 0 }
     let luckybuff = calcLuckyBuff(user)
