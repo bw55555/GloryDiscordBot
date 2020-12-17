@@ -44,9 +44,11 @@ module.exports = async function (message, user) {
         quests: [],
         cnumbers: [0, 0],
         statusEffects: {},
-        candy: 0,
         startts: 0,
-        location: "city"
+        location: "city",
+        missions: [],
+        bag: {},
+        guildperms: 0
     }
     user.startts = ts;
     user.money += 1000;

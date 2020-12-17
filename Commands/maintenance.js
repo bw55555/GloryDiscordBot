@@ -10,10 +10,14 @@ module.exports = async function (message, user) {
         await functions.setProp("userData", {}, {
             $set: {
                 "location": "city",
-                "maintenance": true
+                "guildperms": 0,
+                "maintenance": true,
+                "bag": {},
+                "missions": []
             }, 
             $unset: {
-                "inventory":""
+                "inventory": "",
+                "candy": ""
             }
         })
         await functions.deleteObjects("mobData", {})

@@ -1,5 +1,11 @@
 ﻿global.familiarraritynumbers = ["???", "Common", "Rare", "Epic", "Legendary", "Divine"]
-global.familiarpersonalitytraits = ["Reckless", "Determined", "Curious", "Careless", "Lazy", "Persistent"]
+global.familiarpersonalitytraits = ["Reckless", "Determined", "Curious", "Cautious", "Observant", "Persistent"]
+global.terrainstats = {
+    "Volcano": {
+        element: [0.4, -0.4, 0.2, -0.2],
+        modifiers: ["Dangerous", "Complicated", "Confusing"]
+    }
+}
 let familiarData = Assets.familiarData
 module.exports = async function (message, user) {
     let id = message.author.id;
@@ -8,6 +14,7 @@ module.exports = async function (message, user) {
     let word2 = words[1];
     if (word2 == undefined) { word2 = "" }
     word2 = word2.toLowerCase();
+    if (db != "test") {return}
     if (word2 == `help`) {
         /*
         let page = {
@@ -107,7 +114,7 @@ module.exports = async function (message, user) {
         word3 = word3.toLowerCase()
         if (word3 == "refresh" || word3 == "r") {
             let nummissions = 5;
-            let elementlist = ["Fire", "Water", "Earth", "Wind"]
+            let elementlist = ["Fire", "Wind", "Earth", "Water"]
             let raritylist = ["Common", "Uncommon", "Rare", "Epic", "Legendary"]
             let raritychances = [0.36, 0.28, 0.2, 0.12, 0.04]
             let timearr = {
@@ -117,30 +124,24 @@ module.exports = async function (message, user) {
                 "Epic": [60*60*1000, 90*60*1000, 120*60*1000],
                 "Legendary": [120*60*1000, 180*60*1000, 240*60*1000]
             }
-            let terrainlist = {
-                "Fire": ["Volcano", "Lavafield", "Hell"],
-                "Water": ["River", "Ocean", "Deep Ocean"],
-                "Earth": ["Mountains", "Caves", "Underground"],
-                "Wind": ["Canyon", "Mountains", "Clouds"]
-            }
             let chancelist = {
-                "Common": [1],
-                "Uncommon": [1],
-                "Rare": [1],
-                "Epic": [1],
-                "Legendary": [1]
+                "Common": [0.5],
+                "Uncommon": [0.4],
+                "Rare": [0.3],
+                "Epic": [0.2],
+                "Legendary": [0.1]
             }
             user.missions = []
             for (let i = 0; i < nummissions; i++) {
                 let mr = functions.getRandomArrayElement(raritylist, raritychances)
-                let ele = functions.getRandomArrayElement(elementlist)
+                let mt = functions.getRandomArrayElement(Object.keys(terrainstats))
                 let mission = {
                     "name": "Random Name",
                     "rarity": mr,
-                    "element": ele,
+                    "terrain": mt,
+                    "modifier": functions.getRandomArrayElement(terrainstats[mt].modifiers),
                     "time": functions.getRandomArrayElement(timearr[mr]),
                     "level": 10 * Math.floor(10 * Math.random()),
-                    "terrain": functions.getRandomArrayElement(terrainlist[ele]),
                     "chance": functions.getRandomArrayElement(chancelist[mr]),
                     "rewards": "500 xp"
                 }

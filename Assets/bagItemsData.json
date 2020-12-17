@@ -1,0 +1,32 @@
+{
+  "f0": {
+    "name": "Ether",
+    "sub": [ [ "S", "M", "L" ] ]
+  },
+  "f1": {
+    "name": "Essence",
+    "sub": [ [ "Fire", "Wind", "Earth", "Water" ] ]
+  },
+  "f2": {
+    "name": "Spirit Stone",
+    "sub": [ [ "Basic", "Medium", "Advanced", "Perfect" ] ]
+  },
+  "f3": {
+    "name": "Familiar Upgrade Stone",
+    "sub": [ [ "Common", "Rare", "Epic", "Legendary", "Divine" ] ]
+  },
+  "f4": {
+    "name": "Familiar Contract Scroll",
+    "sub": [
+      [ "Fire", "Wind", "Earth", "Water" ],
+      [ "Common", "Rare", "Epic", "Legendary", "Divine" ]
+    ]
+  },
+  "f5": {
+    "name": "Familiar Selection Scroll",
+    "sub": [
+      [ "Fire", "Wind", "Earth", "Water" ],
+      [ "Common", "Rare", "Epic", "Legendary", "Divine" ]
+    ]
+  }
+}
