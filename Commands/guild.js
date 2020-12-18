@@ -765,6 +765,25 @@ module.exports = async function (message, user) {
                 functions.logCommand(message)
                 return
             })
+        } else if (command == "SETPERMISSONS" || command == "SETPERMS") {
+            if (!hasPermissions(user, "setpermissions")) {
+                functions.replyMessage(message, "You do not have permission to do this!");
+                return;
+            }
+            let permissionslist = ["invite", "pay", "summon", "kick", "upgrade", "promote", "setpermissions", "resetraid"]
+            return Promise.all([functions.validate(message, user, 2)]).then(ret => {
+                if (!hasPermissions(user, "setpermissions")) {
+                    functions.replyMessage(message, "You do not have permission to do this!");
+                    return;
+                }
+                let dperm = words[3];
+                if (dperm == undefined) { return functions.replyMessage("Please specify a permission!") }
+                dperm = dperm.toLowerCase()
+                if (permissionslist.indexOf(dperm) == -1) {return functions.replyMessage(message, "This permission does not exist!")}
+                target.guildperms[dperm] = !target.guildperms[dperm]
+                functions.replyMessage(message, "Successfully set permission " + dperm + " of <@" + target._id + "> to " + target.guildperms[dperm])
+                functions.setUser(target)
+            })
         }
         else {
             functions.sendMessage(message.channel, functions.generateGuildTemplate(guild))
