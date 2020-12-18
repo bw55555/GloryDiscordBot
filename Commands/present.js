@@ -24,7 +24,7 @@ module.exports = async function (message, user) {
         if (amount > user.present) { return functions.replyMessage(message, "You don't have enough present!") }
         let xpamt = functions.checkxp({ "ascension": user.ascension, "level": 1 }, 99)
         user.present -= amount;
-        let totalpresents = {}
+        let totalpresentitems = {}
         for (let i = 0; i < amount; i++) {
             let presentitems = {
                 "xp": {
