@@ -7,7 +7,7 @@ module.exports = async function (message, user) {
     if (word2 == undefined) { word2 = "list" }
     word2 = word2.toLowerCase()
     if (word2 == "donate") {
-        let qnum = parseInt(words[2]);
+        let qnum = parseInt(words[2])-1;
         let currency = words[3];
         let amount = words[4]
         if (isNaN(qnum) || qnum < 0 || qnum >= user.quests.length) { return functions.replyMessage(message, "Specify a quest number!") }
