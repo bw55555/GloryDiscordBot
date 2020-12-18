@@ -10,7 +10,7 @@ module.exports = async function (message, user) {
         let qnum = parseInt(words[2]);
         let currency = words[3];
         let amount = words[4]
-        if (isNaN(qnum)) { return functions.replyMessage(message, "Specify a quest number!") }
+        if (isNaN(qnum) || qnum < 0 || qnum >= user.quests.length) { return functions.replyMessage(message, "Specify a quest number!") }
         let firstdonateindex = user.quests[qnum].conditions.findIndex(x=> x.condition.category.value == "donate")
         if (firstdonateindex == -1) { return functions.replyMessage(message, "This quest does not have any donation conditions!") }
         if (currency == "auto") { currency = user.quests[qnum].conditions[firstdonateindex].condition.currency.value }
@@ -20,7 +20,8 @@ module.exports = async function (message, user) {
         if (amount == "auto") { amount = Math.min(donatecondition.total - donatecondition.current, functions.JSONoperate(user, currency, "get")) }
         amount = parseInt(amount)
         if (isNaN(amount)) { return functions.replyMessage(message, "Specify an amount to donate!") }
-        if (amount > donatecondition.total - donatecondition.current) { amount = donatecondition.total - donatecondition.current}
+        if (amount > donatecondition.total - donatecondition.current) { amount = donatecondition.total - donatecondition.current }
+        if (amount < 0) {return functions.replyMessage(message, "You cannot donate a negative amount!")}
         if (functions.JSONoperate(user, currency, "get") < amount) { return functions.replyMessage(message, "You do not have enough to donate!") }
         functions.JSONoperate(user, currency, "add", -1 * amount)
 
