@@ -48,7 +48,7 @@ module.exports = async function (message, user) {
         location: "city",
         missions: [],
         bag: {},
-        guildperms: 0
+        guildperms: {}
     }
     user.startts = ts;
     user.money += 1000;
