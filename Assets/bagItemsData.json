@@ -18,15 +18,15 @@
   "f4": {
     "name": "Familiar Contract Scroll",
     "sub": [
-      [ "Fire", "Wind", "Earth", "Water" ],
-      [ "Common", "Rare", "Epic", "Legendary", "Divine" ]
+      [ "", "Fire", "Wind", "Earth", "Water" ],
+      [ "", "Common", "Rare", "Epic", "Legendary", "Divine" ]
     ]
   },
   "f5": {
     "name": "Familiar Selection Scroll",
     "sub": [
-      [ "Fire", "Wind", "Earth", "Water" ],
-      [ "Common", "Rare", "Epic", "Legendary", "Divine" ]
+      [ "", "Fire", "Wind", "Earth", "Water" ],
+      [ "", "Common", "Rare", "Epic", "Legendary", "Divine" ]
     ]
   }
 }
