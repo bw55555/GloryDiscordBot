@@ -1834,12 +1834,13 @@ function JSONoperate(json, key, op, obj) {
     }
 }
 
-function completeQuest(user, condition, extra, amount) {
+function completeQuest(user, condition, extra, amount, qnum) {
     if (amount == null || amount == undefined) { amount = 1; }
     if (condition != "user") { extra.user = user; }
     extra.category = condition;
     if (user.quests == undefined) { return;}
     for (var i = 0; i < user.quests.length; i++) {
+        if (qnum != undefined && i != qnum) {continue}
         for (var j = 0; j < user.quests[i].conditions.length; j++) {
             let setAmount = amount;
             if (user.quests[i].conditions[j].measure != "" && user.quests[i].conditions[j].measure != undefined) {
@@ -1872,6 +1873,7 @@ function completeQuest(user, condition, extra, amount) {
                 if (canClaim) { user.quests[i].conditions[j].current = Math.max(user.quests[i].conditions[j].current,setAmount); }
             }
         }
+        if (qnum == i) {break}
     }
 }
 
@@ -2107,7 +2109,7 @@ module.exports.itemFilter = function (message, user, defaults) { return itemFilt
 module.exports.getModifierText = function (modifierlist) { return getModifierText(modifierlist) }
 module.exports.checkxp = checkxp
 module.exports.makeQuest = function (user, name, flavortext, conditions, reward, mqid) { return makeQuest(user, name, flavortext, conditions, reward, mqid) }
-module.exports.completeQuest = function (user, condition, extra, amount) { return completeQuest(user, condition, extra, amount) }
+module.exports.completeQuest = completeQuest
 module.exports.addQuestCondition = function (condition, operator, description, total, extra, type) { return addQuestCondition(condition, operator, description, total, extra, type) }
 module.exports.isCD = function (user, ts, cdtype) { return isCD(user, ts, cdtype) }
 module.exports.secondsUntilReset = function (ts) { return secondsUntilReset(ts) }

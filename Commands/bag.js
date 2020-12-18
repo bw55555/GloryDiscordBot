@@ -8,7 +8,7 @@ module.exports = async function (message, user) {
         let arr = bagitem.split("_")
         let bagitemid = arr[0]
         arr.splice(0, 1)
-        itemname = bagItems[bagitemid].name + " " + arr.map((x, i) => bagItems[bagitemid].sub[i][x] == "" ? "" : "("+bagItems[bagitemid].sub[i][x]+")").join(" ")
+        itemname = bagItems[bagitemid].name + " " + arr.map((x, i) => bagItems[bagitemid].sub[i][x] == "" ? "" : "("+bagItems[bagitemid].sub[i][x]+")").filter(x=> x!="").join(" ")
         text += "**" +itemname + "**: "+user.bag[bagitem]+"\n"
     }
     functions.replyMessage(message, text)
