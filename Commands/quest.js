@@ -7,12 +7,12 @@ module.exports = async function (message, user) {
     if (word2 == undefined) { word2 = "list" }
     word2 = word2.toLowerCase()
     if (word2 == "donate") {
-        let qnum = words[2];
+        let qnum = parseInt(words[2]);
         let currency = words[3];
-        let amount = words[4]
-        if (qnum == undefined) { return functions.replyMessage(message, "Specify a quest number!") }
+        let amount = parseInt(words[4])
+        if (isNaN(qnum)) { return functions.replyMessage(message, "Specify a quest number!") }
         if (currency == undefined) { return functions.replyMessage(message, "Specify a currency! (or `auto` to automatically select a currency)") }
-        if (amount == undefined) { return functions.replyMessage(message, "Specify an amount to donate!") }
+        if (isNaN(amount)) { return functions.replyMessage(message, "Specify an amount to donate!") }
         let firstdonateindex = user.quests[qnum].conditions.findIndex(x=> x.condition.category.value == "donate")
         if (firstdonateindex == -1) { return functions.replyMessage(message, "This quest does not have any donation conditions!") }
         if (currency == "auto") { currency = user.quests[qnum].conditions[firstdonateindex].condition.currency }
