@@ -103,6 +103,7 @@ export function completeQuest(user: JSON, condition: string, extra: JSON, amount
 export function completeQuest(user: JSON, condition: string, extra: JSON, amount: number, qnum: number): void
 export function addQuestCondition(condition: string,operator:string, description: string, total: number, extra: JSON, type: "c" | "a"): JSON
 export function JSONoperate(json: JSON, key: string, op: "get" | "set" | "add", obj: string | number): any
+export function JSONoperate(json: JSON, key: string, op: "get" | "set" | "add", obj: string | number, mustexist: true|false): any
 export function adminQuest(message: Message, target: JSON): string
 export function randint(a: number, b: number): number
 export function extractOptions(message: Message, inorder: boolean, ...optionnames: string[]): JSON
