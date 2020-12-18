@@ -14,7 +14,7 @@ module.exports = async function (message, user) {
                 for (var j = 0; j < x.conditions.length; j++) {
                     text += x.conditions[j].description + " (" + x.conditions[j].current + "/" + x.conditions[j].total + ")\n"
                 }
-                let rewardtext = Object.keys(x.reward).map(x => x.reward[x] + " " + x.substring(x.lastIndexOf(".") + 1)).join(", ")
+                let rewardtext = Object.keys(x.reward).map(r => x.reward[r] + " " + r.substring(r.lastIndexOf(".") + 1)).join(", ")
                 if (rewardtext == "") { rewardtext = "No Rewards." }
                 text += "** Reward:** " + rewardtext
                 return text
@@ -50,6 +50,7 @@ module.exports = async function (message, user) {
             let exq = functions.makeQuest(undefined, "Random Name",undefined,  conditions, {"present": 1})
             exq._id = i
             delete exq.mqid
+            delete exq.flavortext
             functions.setObject("Xmasquests", exq)
         }
         functions.replyMessage(message, "Missions refreshed!")
