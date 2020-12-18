@@ -9,12 +9,12 @@ module.exports = async function (message, user) {
         functions.findObjects("Xmasquests", {}).then(quests => {
             functions.createPages(message, user, quests, "Event Quests", x => x.name, x => {
                 let text = "";
-                if (user.quests[i].flavortext != undefined && user.quests[i].flavortext != "") { text += "**Description:**\n" + user.quests[i].flavortext + "\n" }
+                if (x.flavortext != undefined && x.flavortext != "") { text += "**Description:**\n" + x.flavortext + "\n" }
                 text += "**Requirements:**\n"
-                for (var j = 0; j < user.quests[i].conditions.length; j++) {
-                    text += user.quests[i].conditions[j].description + " (" + user.quests[i].conditions[j].current + "/" + user.quests[i].conditions[j].total + ")\n"
+                for (var j = 0; j < x.conditions.length; j++) {
+                    text += x.conditions[j].description + " (" + x.conditions[j].current + "/" + x.conditions[j].total + ")\n"
                 }
-                let rewardtext = Object.keys(user.quests[i].reward).map(x => user.quests[i].reward[x] + " " + x.substring(x.lastIndexOf(".") + 1)).join(", ")
+                let rewardtext = Object.keys(x.reward).map(x => x.reward[x] + " " + x.substring(x.lastIndexOf(".") + 1)).join(", ")
                 if (rewardtext == "") { rewardtext = "No Rewards." }
                 text += "** Reward:** " + rewardtext
                 return text
