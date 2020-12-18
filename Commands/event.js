@@ -59,13 +59,16 @@ function refreshQuest(id) {
     let monsters = Object.keys(Assets.locationraidData).map(x => Assets.locationraidData[x]).reduce((t, c) => t.concat(c.map(x => x.name)), [])
     let currency = functions.getRandomArrayElement(Object.keys(currencies))
     let amt = Math.floor(Math.random() * (currencies[currency].maxincr + 1)) * currencies[currency].incr + currencies[currency].min
+    let rwd = 1;
+    if (amt >= currencies[currency].min * 2) {rwd += 1}
     let conditions = []
     conditions.push(functions.addQuestCondition("donate", "=>", "Donate " + amt + " " + currencies[currency].name, amt, { "currency": { "value": currency, "operator": "=" } }, "a"))
     let mkey = functions.getRandomArrayElement([0, 1, 2], [0.4, 0.4, 0.2]) + 3 * functions.getRandomArrayElement([0, 1, 2, 3, 4, 5, 6, 7], [0.4, 0.35, 0.3, 0.25, 0.2, 0.15, 0.1])
+    rwd += Math.floor(mkey/9)
     let mname = monsters[mkey]
     let mamt = Math.floor((1 + Math.random()) * 3 * ((mkey + 1) % 3) + 1)
     conditions.push(functions.addQuestCondition("raidAttack", "=>", "Kill " + mamt + " " + mname, mamt, { "raid.currenthealth": { "value": 0, "operator": "<=" }, "raid.name": { "value": mname, "operator": "=" } }, "a"))
-    let exq = functions.makeQuest(undefined, "Random Name", undefined, conditions, { "present": 1 })
+    let exq = functions.makeQuest(undefined, "Random Name", undefined, conditions, { "present": rwd })
     exq.event = true;
     exq._id = id
     delete exq.mqid
