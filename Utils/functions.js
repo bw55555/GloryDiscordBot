@@ -1800,6 +1800,14 @@ function addQuestCondition(condition, operator, description, total, extra, type)
 }
 
 function makeQuest(user, name, flavortext, conditions, reward, mqid) {
+    if (user == undefined) {
+        return {
+            "name": name,
+            "flavortext": flavortext,
+            "conditions": conditions,
+            "reward": reward,
+            "mqid": mqid
+        }}
     user.quests.push({
         "name": name,
         "flavortext": flavortext, 
@@ -1945,7 +1953,6 @@ function adminQuest(text, target) {
         reward[key] = value;
     }
     makeQuest(target, name, flavortext, conditions, reward, mqid);
-    setUser(target);
     return "The quest `"+name+"` was assigned! Use `!quests` to see it!"
 }
 

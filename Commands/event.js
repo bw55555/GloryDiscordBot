@@ -21,4 +21,34 @@ module.exports = async function (message, user) {
             }, {"includeNumbering": true})
         })
     }
+    if (word2 == "refresh") {
+        let currencies = {
+            "money": {
+                "name": "money",
+                "min": 100000,
+                "incr": 1000,
+                "maxincr": 200
+            }, 
+            "materials": {
+                "name": "materials",
+                "min": 1000,
+                "incr": 10,
+                "maxincr": 200
+            }, 
+            "runes.0": {
+                "name": "rune shards",
+                "min": 100,
+                "incr": 1,
+                "maxincr": 200
+            }, 
+        }
+        for (let i = 0; i <= 9; i++) {
+            let currency = functions.getRandomByChances(Object.keys(currencies))
+            let amt = Math.floor(Math.random() * (currencies[currency].maxincr+1)) * currencies[currency].incr + currencies[currency].min
+            let exq = functions.makeQuest(undefined, "Random Name", [functions.addQuestCondition("donate", "=>", "Donate " + amt + " " + currency, amt, {"currency": currency}, "a")])
+            exq._id = i
+            functions.setObject("Xmasquests", exq)
+        }
+        functions.replyMessage(message, "Missions refreshed!")
+    }
 }
