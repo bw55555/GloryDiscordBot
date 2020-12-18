@@ -19,10 +19,10 @@ module.exports = async function (message, user) {
         if (donatecondition == undefined) {return functions.replyMessage(message, "This quest does not require donating " + currency+"!")}
         if (amount == "auto") { amount = Math.min(donatecondition.total - donatecondition.current, functions.JSONoperate(user, currency, "get")) }
         amount = parseInt(amount)
-        if (isNaN(amount)) { return functions.replyMessage(message, "Specify an amount to donate!") }
+        if (isNaN(amount)) { return functions.replyMessage(message, "Specify an amount to donate! (or `auto` to automatically select the maximum posssible donation)") }
         if (amount > donatecondition.total - donatecondition.current) { amount = donatecondition.total - donatecondition.current }
         if (amount < 0) {return functions.replyMessage(message, "You cannot donate a negative amount!")}
-        if (functions.JSONoperate(user, currency, "get") < amount) { return functions.replyMessage(message, "You do not have enough to donate!") }
+        if (functions.JSONoperate(user, currency, "get") < amount) { return functions.replyMessage(message, "You do not have enough to donate! (You have " + functions.JSONoperate(user, currency, "get")+")") }
         functions.JSONoperate(user, currency, "add", -1 * amount)
 
         donatecondition.current += amount;
