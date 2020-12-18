@@ -20,13 +20,14 @@ module.exports = async function (message, user) {
         let amount = parseInt(words[2])
         if (words[2] == "all") {amount = user.present}
         if (words.length < 3) { amount = 1 }
-        if (isNaN(amount) || amount < 0) { return functions.replyMessage(message, "Please select a positive number of items to buy!") }
+        if (isNaN(amount) || amount <= 0) { return functions.replyMessage(message, "Please select a positive number of items to buy!") }
         if (amount > user.present) { return functions.replyMessage(message, "You don't have enough present!") }
         let xpamt = functions.checkxp({ "ascension": user.ascension, "level": 1 }, 99)
         user.present -= amount;
         let totalpresentitems = {}
+        let presentitems;
         for (let i = 0; i < amount; i++) {
-            let presentitems = {
+            presentitems = {
                 "xp": {
                     "chance": 50,
                     "amount": Math.floor((0.5 + Math.random()) * xpamt * 0.0001),
@@ -110,7 +111,7 @@ module.exports = async function (message, user) {
             functions.JSONoperate(user, presentitems[chosenpresent].item, "add", amount)
         }
         let presenttext = ""
-        functions.replyMessage(message, "You have opened " + amount + " presents and gained:\n" + Object.keys(presentitems).map(item => totalpresentitems[item] + " " + item).join("\n"))
+        functions.replyMessage(message, "You have opened " + amount + " presents and gained:\n" + Object.keys(totalpresentitems).map(item => presentitems[item] + " " + item).join("\n"))
     } else {
         functions.replyMessage(message, "You have " + user.present + " presents. ")
     }
