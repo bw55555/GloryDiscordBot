@@ -9,17 +9,21 @@ module.exports = async function (message, user) {
     if (word2 == "donate") {
         let qnum = parseInt(words[2]);
         let currency = words[3];
-        let amount = parseInt(words[4])
+        let amount = words[4]
         if (isNaN(qnum)) { return functions.replyMessage(message, "Specify a quest number!") }
-        if (currency == undefined) { return functions.replyMessage(message, "Specify a currency! (or `auto` to automatically select a currency)") }
-        if (isNaN(amount)) { return functions.replyMessage(message, "Specify an amount to donate!") }
         let firstdonateindex = user.quests[qnum].conditions.findIndex(x=> x.condition.category.value == "donate")
         if (firstdonateindex == -1) { return functions.replyMessage(message, "This quest does not have any donation conditions!") }
-        if (currency == "auto") { currency = user.quests[qnum].conditions[firstdonateindex].condition.currency }
-        let donatecondition = user.quests[qnum].conditions.find(x => x.condition.currency == currency)
+        if (currency == "auto") { currency = user.quests[qnum].conditions[firstdonateindex].condition.currency.value }
+        if (currency == undefined || functions.JSONoperate(user, currency, "get") == undefined) { return functions.replyMessage(message, "Specify a currency! (or `auto` to automatically select a currency)") }
+        let donatecondition = user.quests[qnum].conditions.find(x => x.condition.currency.value == currency)
+        if (donatecondition == undefined) {return functions.replyMessage(message, "This quest does not require donating " + currency+"!")}
+        if (amount == "auto") { amount = Math.min(donatecondition.total - donatecondition.current, functions.JSONoperate(user, currency, "get")) }
+        amount = parseInt(amount)
+        if (isNaN(amount)) { return functions.replyMessage(message, "Specify an amount to donate!") }
         if (amount > donatecondition.total - donatecondition.current) { amount = donatecondition.total - donatecondition.current}
         if (functions.JSONoperate(user, currency, "get") < amount) { return functions.replyMessage(message, "You do not have enough to donate!") }
-        functions.JSONoperate(user, currency, "add", -1*amount)
+        functions.JSONoperate(user, currency, "add", -1 * amount)
+
         donatecondition.current += amount;
         functions.replyMessage(message, "Successfully donated "+amount +" "+currency+"!")
     } else if (word2 == "list") {
