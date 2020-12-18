@@ -1176,7 +1176,10 @@ function checkProps(message,user) {
     if (user.statusEffects == undefined) user.statusEffects = {};
     if (user.currenthealth > user.health) user.currenthealth = user.health
     if (user.location == undefined) { user.location = "city"}
-
+    if (user.missions == undefined) { user.missions = [] }
+    if (user.present == undefined) { user.present = 0 }
+    if (user.bag == undefined) { user.bag = {} }
+    if (user.guildperms == undefined) {user.guildperms = 0}
     if (user.start === false) { //when you start, your currenthealth will be to 10;
         user.currenthealth = 10;
         user.start = true;

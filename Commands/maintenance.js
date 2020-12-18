@@ -13,7 +13,8 @@ module.exports = async function (message, user) {
                 "guildperms": 0,
                 "maintenance": true,
                 "bag": {},
-                "missions": []
+                "missions": [], 
+                "present": 0
             }, 
             $unset: {
                 "inventory": "",
