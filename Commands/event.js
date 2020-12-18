@@ -7,6 +7,7 @@ module.exports = async function (message, user) {
     if (word2 == undefined) { word2 = "quests" }
     if (word2 == "quests") {
         functions.findObjects("Xmasquests", {}).then(quests => {
+            quests.sort((a,b) => a._id - b._id)
             functions.createPages(message, user, quests, "Event Quests", x => x.name, x => {
                 let text = "";
                 if (x.flavortext != undefined && x.flavortext != "") { text += "**Description:**\n" + x.flavortext + "\n" }
