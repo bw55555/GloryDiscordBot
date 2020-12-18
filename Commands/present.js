@@ -13,7 +13,7 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    if (devData.halloweenevent == undefined || ts < devData.halloweenevent.start || ts > devData.halloweenevent.end + 2 * 24 * 60 * 60 * 1000) { return functions.replyMessage(message, "The present shop is not open yet!") }
+    //if (devData.halloweenevent == undefined || ts < devData.halloweenevent.start || ts > devData.halloweenevent.end + 2 * 24 * 60 * 60 * 1000) { return functions.replyMessage(message, "The present shop is not open yet!") }
     let word2 = words[1]
     if (word2 == undefined) { word2 = "" }
     if (word2 == "open") {
@@ -104,7 +104,7 @@ module.exports = async function (message, user) {
                 },
             }
             let presentlist = Object.keys(presentitems)
-            let chosenpresent = functions.getRandomArrayElement(presentlist, presentlist.map(x => presentlist[x].chance))
+            let chosenpresent = functions.getRandomArrayElement(presentlist, presentlist.map(x => presentitems[x].chance))
             if (totalpresentitems[chosenpresent] == undefined) { totalpresentitems[chosenpresent] = 0 }
             totalpresentitems[chosenpresent] += amount
             functions.JSONoperate(user, presentitems[chosenpresent].item, "add", amount)
