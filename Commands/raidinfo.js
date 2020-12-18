@@ -3,8 +3,10 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    if (user.location == "city") { return functions.replyMessage(message, "You cannot do this in the city!") }
-    if (user.location == "guild") {
+    let loc = user.location
+    if (words.length > 1) {loc = words[1]}
+    if (loc == "city") { return functions.replyMessage(message, "You cannot do this in the city!") }
+    if (loc == "guild") {
         if (user.guild == "None") { return functions.replyMessage(message, "You are not in a guild!") }
         return Promise.all([functions.getObject("guildData", user.guild)]).then(ret => {
             let guild = ret[0];
@@ -14,7 +16,7 @@ module.exports = async function (message, user) {
             functions.setObject("guildData", guild)
         })
     } else {
-        return Promise.all([functions.getObject("mobData", user.location)]).then(ret => {
+        return Promise.all([functions.getObject("mobData", loc)]).then(ret => {
             let raid = ret[0]
             if (raid == false) {
                 functions.sendMessage(message.channel, "There is no raid going on in this channel!");
