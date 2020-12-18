@@ -10,7 +10,7 @@ module.exports = async function (message, user) {
         await functions.setProp("userData", {}, {
             $set: {
                 "location": "city",
-                "guildperms": 0,
+                "guildperms": {},
                 "maintenance": true,
                 "bag": {},
                 "missions": [], 

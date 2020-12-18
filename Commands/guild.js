@@ -149,8 +149,8 @@ module.exports = async function (message, user) {
 
         }
         else if (command == "INVITE") {
-            if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") {
-                functions.replyMessage(message, "You must be the Leader or a Co-Leader to invite someone!");
+            if (!hasPermissions(user, "invite")) {
+                functions.replyMessage(message, "You do not have permission to do this!");
                 return;
             }
             if (guild.members.length >= Math.floor(guild.level / 2 + 20)) { return functions.replyMessage(message, "This guild is already full!") }
@@ -173,8 +173,8 @@ module.exports = async function (message, user) {
                             let user = ret[1]
                             let target = ret[0]
                             let message = extraArgs[3]
-                            if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") {
-                                functions.replyMessage(message, "You must be the Leader or a Co-Leader to invite someone!");
+                            if (!hasPermissions(user, "invite")) {
+                                functions.replyMessage(message, "You do not have permission to do this!");
                                 return;
                             }
                             if (guild.members.length >= Math.floor(guild.level / 2 + 20)) { return functions.replyMessage(message, "This guild is already full!") }
@@ -263,8 +263,8 @@ module.exports = async function (message, user) {
             //  if (guildData[guild].adminlog) { functions.dmUser(guildData[guild].leader, user.username + "(id " + id + ") deposited " + amount + " " + type + " into " + guild + "'s guild bank!") }
         }
         else if (command == "PAY" || command == "GIVE") { //I personally hate when if statements aren't written out, but it doesn't make a difference
-            if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") {//Honestly, there should be a better name for a "coleader"
-                functions.replyMessage(message, "Only Leaders and Co-Leaders can give money from the guild bank!")
+            if (!hasPermissions(user, "pay")) {
+                functions.replyMessage(message, "You do not have permission to do this!");
                 return;
             }
             return Promise.all([functions.validate(message, user, 2)]).then(ret => {
@@ -315,8 +315,8 @@ module.exports = async function (message, user) {
             })
         }
         else if (command == "PROMOTE") {
-            if (user.guildpos != "Leader") {//Honestly, there should be a better name for a "coleader"
-                functions.replyMessage(message, "Only Leaders can promote others!")
+            if (!hasPermissions(user, "promote")) {
+                functions.replyMessage(message, "You do not have permission to do this!");
                 return;
             }
             return Promise.all([functions.validate(message, user, 2)]).then(ret => {
@@ -379,6 +379,10 @@ module.exports = async function (message, user) {
                     functions.replyMessage(message, "You can't kick someone who's not in your guild!");
                     return;
                 }
+                if (!hasPermissions(user, "kick")) {
+                    functions.replyMessage(message, "You do not have permission to do this!");
+                    return;
+                }
                 if (user.guildpos == "Leader" || (user.guildpos == "Co-Leader" && target.guildpos == "Member")) {
                     functions.setProp("guildData", { "_id": guild._id }, { $pull: { "members": target._id } })
                     target.guild = "None";
@@ -392,8 +396,8 @@ module.exports = async function (message, user) {
             })
         }
         else if (command == "SUMMON" || command == "S") {
-            if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") {//Honestly, there should be a better name for a "coleader"
-                functions.replyMessage(message, "Only Leaders and Co-Leaders can summon bosses!")
+            if (!hasPermissions(user, "summon")) {
+                functions.replyMessage(message, "You do not have permission to do this!");
                 return;
             }
             //if (devs.indexOf(id)==-1) {return functions.replyMessage(message, "This feature is under development...")}
@@ -435,7 +439,10 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, text)
         }
         else if (command == "UPGRADE") {
-            if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") { return functions.replyMessage(message, "You must be a Leader or a Co-Leader to upgrade the guild!") }
+            if (!hasPermissions(user, "upgrade")) {
+                functions.replyMessage(message, "You do not have permission to do this!");
+                return;
+            }
             if (words.length == 2 || words[2].toLowerCase == "base") {
                 if (guild.level >= 100) { return functions.replyMessage(message, "Your guild is already at maximum level!") }
                 if (Math.pow(guild.level + 1, 4) > guild.xp) { return functions.replyMessage(message, "Your guild does not have enough xp!") }
@@ -610,7 +617,10 @@ module.exports = async function (message, user) {
                 user[option] -= amt;
                 functions.replyMessage(message, "You have donated " + amt + " " + option + " to the guild forge!")
             } else if (scmd == "UPGRADE") {
-                if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") { return functions.replyMessage(message, "You do not have permission to do this!") }
+                if (!hasPermissions(user, "upgrade")) {
+                    functions.replyMessage(message, "You do not have permission to do this!");
+                    return;
+                }
                 let option = words.length < 4 ? "" : words[3].toLowerCase();
                 let option2 = words.length < 5 ? -1 : parseInt(words[4])
                 if (option == "level") {
@@ -689,7 +699,10 @@ module.exports = async function (message, user) {
                 return functions.replyMessage(message, "This feature is admin only...")
             }
             else {
-                if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") { return functions.replyMessage(message, "You do not have permission to do this!") }
+                if (!hasPermissions(user, "resetraid")) {
+                    functions.replyMessage(message, "You do not have permission to do this!");
+                    return;
+                }
                 guild.raid = 1
                 functions.replyMessage(message, guild._id + " had their raid reset!");
             }
@@ -758,4 +771,11 @@ module.exports = async function (message, user) {
         }
         functions.setObject("guildData", guild)
     })
+}
+function hasPermissions(user, perm) {
+    if (user.guildpos == "Co-Leader" || user.guildpos == "Leader") {
+        return true
+    }
+    if (user.guildperms[perm] == true) { return true }
+    return false
 }
