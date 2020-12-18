@@ -6,9 +6,9 @@ module.exports = async function (message, user) {
     let text = "Your bag: "
     for (let bagitem in user.bag) {
         let arr = bagitem.split("_")
-        let itemname = arr[0]
-        arr.splice(0,1)
-        itemname += " "+arr.map(x => "("+bagItems[itemname][x]+")").join(" ")
+        let bagitemid = arr[0]
+        arr.splice(0, 1)
+        itemname = bagItems[bagitemid].name + " "+arr.map(x => x == "" ? "" : "("+bagItems[bagitemid].sub[x]+")").join(" ")
         text += "**" +itemname + "**: "+user.bag[bagitem]+"\n"
     }
     functions.replyMessage(message, text)
