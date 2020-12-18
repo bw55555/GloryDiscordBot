@@ -48,7 +48,7 @@ module.exports = async function (message, user) {
             let amt = Math.floor(Math.random() * (currencies[currency].maxincr + 1)) * currencies[currency].incr + currencies[currency].min
             let conditions = []
             conditions.push(functions.addQuestCondition("donate", "=>", "Donate " + amt + " " + currencies[currency].name, amt, { "currency": { "value": currency, "operator": "=" } }, "a"))
-            let mkey = functions.getRandomArrayElement([0,1,2], [0.4, 0.4, 0.2])+3*functions.getRandomArrayElement([0,1,2,3,4,5], [0.6, 0.5, 0.4, 0.3, 0.2, 0.1])
+            let mkey = functions.getRandomArrayElement([0,1,2], [0.4, 0.4, 0.2])+3*functions.getRandomArrayElement([0,1,2,3,4,5,6,7], [0.4, 0.35, 0.3, 0.25, 0.2, 0.15, 0.1])
             let mname = monsters[mkey]
             let mamt = Math.floor((1+Math.random())*3*((mkey+1) % 3) + 1)
             conditions.push(functions.addQuestCondition("raidAttack", "=>", "Kill " + mamt + " " + mname, mamt, { "currenthealth": { "value": 0, "operator": "<=" }, "name": { "value": mname, "operator": "=" } }, "a"))
