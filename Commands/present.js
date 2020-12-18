@@ -107,8 +107,8 @@ module.exports = async function (message, user) {
             let presentlist = Object.keys(presentitems)
             let chosenpresent = functions.getRandomArrayElement(presentlist, presentlist.map(x => presentitems[x].chance))
             if (totalpresentitems[chosenpresent] == undefined) { totalpresentitems[chosenpresent] = 0 }
-            totalpresentitems[chosenpresent] += amount
-            functions.JSONoperate(user, presentitems[chosenpresent].item, "add", amount)
+            totalpresentitems[chosenpresent] += presentitems[chosenpresent].amount
+            functions.JSONoperate(user, presentitems[chosenpresent].item, "add", presentitems[chosenpresent].amount)
         }
         let presenttext = ""
         functions.replyMessage(message, "You have opened " + amount + " presents and gained:\n" + Object.keys(totalpresentitems).map(item => totalpresentitems[item] + " " + item).join("\n"))
