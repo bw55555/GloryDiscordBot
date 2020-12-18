@@ -1820,7 +1820,8 @@ function makeQuest(user, name, flavortext, conditions, reward, mqid) {
     })
 }
 
-function JSONoperate(json, key, op, obj) {
+function JSONoperate(json, key, op, obj, mustexist) {
+    if (mustexist != false) {mustexist = true}
     if (op == undefined) { op = "get"}
     let curr = json
     let skey = key;
@@ -1829,16 +1830,18 @@ function JSONoperate(json, key, op, obj) {
         let index = skey.indexOf(".");
         let currkey = skey.substring(0, index)
         skey = skey.substring(index + 1)
-        if (skey == undefined || curr[currkey] == undefined) { return; }
+        if (skey == undefined || (mustexist && curr[currkey] == undefined)) { return; }
+        if (curr[currkey] == undefined) { curr[currkey] = {}}
         curr = curr[currkey];
     }
-    if (skey == undefined || curr[skey] == undefined) { return; }
+    if (skey == undefined || (mustexist && curr[skey] == undefined)) { return; }
     if (op == "get") {
         return curr[skey];
     } else if (op == "set") {
         curr[skey] = obj;
         return true;
     } else if (op == "add") {
+        if (curr[skey] == undefuned) {curr[skey] = 0}
         if (typeof curr[skey] != "number") { return; }
         curr[skey] += obj;
         return true;

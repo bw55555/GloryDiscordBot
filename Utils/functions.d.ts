@@ -94,6 +94,7 @@ export function smeltItem(user: JSON, item: JSON, giveReward: boolean, isBulk: b
 export function itemFilter(message: Message, user: JSON, defaults: JSON): Promise<boolean | JSON[]>
 export function getModifierText(modifierlist: JSON): string
 export function checkxp(user: JSON): number
+export function checkxp(user: JSON, extralevels: number): number
 export function isCD(user: JSON, ts: number, cdtype: string): boolean
 export function secondsUntilReset(ts: number): number
 export function makeQuest(user: JSON|undefined, name: string,flavortext: string, conditions: JSON[], reward: JSON): void

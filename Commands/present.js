@@ -22,22 +22,95 @@ module.exports = async function (message, user) {
         if (words.length < 3) { amount = 1 }
         if (isNaN(amount) || amount < 0) { return functions.replyMessage(message, "Please select a positive number of items to buy!") }
         if (amount > user.present) { return functions.replyMessage(message, "You don't have enough present!") }
-        let presentitems = {
-            "xp": {
-                "chance": 0.50
-            }
-        }
-        let xpforasc = 0;
-        for (let i = 1; i <= 99; i++) {
-            xpforasc += functions.checkxp({ "ascension": user.ascension, "level": i })
-        }
-        let xpgain = 0;
+        let xpamt = functions.checkxp({ "ascension": user.ascension, "level": 1 }, 99)
+        user.present -= amount;
+        let totalpresents = {}
         for (let i = 0; i < amount; i++) {
-            xpgain += Math.ceil(xpforasc * (0.0003 * Math.random() - 0.0001))
+            let presentitems = {
+                "xp": {
+                    "chance": 50,
+                    "amount": Math.floor((0.5 + Math.random()) * xpamt * 0.0001),
+                    "item": "xp"
+                },
+                "honor": {
+                    "chance": 12,
+                    "amount": functions.randint(5, 10),
+                    "item": "honor"
+                },
+                "box": {
+                    "chance": 20,
+                    "amount": functions.randint(5, 10),
+                    "item": "consum.box"
+                },
+                "SR weapon": {
+                    "chance": 10,
+                    "amount": 1,
+                    "item": "bag.g0_6_6"
+                },
+                "Epic weapon": {
+                    "chance": 3,
+                    "amount": 1,
+                    "item": "bag.g0_7_7"
+                },
+                "Legendary weapon": {
+                    "chance": 1,
+                    "amount": 1,
+                    "item": "bag.g0_7_7"
+                },
+                "Godly weapon": {
+                    "chance": 0.079885,
+                    "amount": 1,
+                    "item": "bag.g0_8_8"
+                },
+                "reroll": {
+                    "chance": 2,
+                    "amount": 1,
+                    "item": "consum.reroll"
+                },
+                "Familiar Invocation Contract": {
+                    "chance": 1,
+                    "amount": 1,
+                    "item": "bag.f4_0_0"
+                },
+                "Familiar Selection Contract (Common)": {
+                    "chance": 0.15,
+                    "amount": 1,
+                    "item": "bag.f5_0_1"
+                },
+                "Familiar Selection Contract (Rare)": {
+                    "chance": 0.1,
+                    "amount": 1,
+                    "item": "bag.f5_0_2"
+                },
+                "Familiar Selection Contract (Epic)": {
+                    "chance": 0.02,
+                    "amount": 1,
+                    "item": "bag.f5_0_3"
+                },
+                "Familiar Selection Contract (Legendary)": {
+                    "chance": 0.001,
+                    "amount": 1,
+                    "item": "bag.f5_0_4"
+                },
+                "Familiar Selection Contract (Divine)": {
+                    "chance": 0.000005,
+                    "amount": 1,
+                    "item": "bag.f5_0_5"
+                },
+                "Familiar Invocation Contract (Divine)": {
+                    "chance": 0.00001,
+                    "amount": 1,
+                    "item": "bag.f4_0_5"
+                },
+            }
+            let presentlist = Object.keys(presentitems)
+            let chosenpresent = functions.getRandomArrayElement(presentlist, presentlist.map(x => presentlist[x].chance))
+            if (totalpresentitems[chosenpresent] == undefined) { totalpresentitems[chosenpresent] = 0 }
+            totalpresentitems[chosenpresent] += amount
+            functions.JSONoperate(user, presentitems[chosenpresent].item, "add", amount)
         }
-        user.present -= amount
-        user.xp += xpgain
-        functions.replyMessage(message, "You have eaten " + amount + " present and gained " + xpgain + " xp. ")
+        let presenttext = ""
+        functions.replyMessage(message, "You have opened " + amount + " presents and gained:\n" + Object.keys(presentitems).map(item => totalpresentitems[item] + " " + item).join("\n"))
     } else {
         functions.replyMessage(message, "You have " + user.present + " presents. ")
     }

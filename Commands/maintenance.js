@@ -14,7 +14,8 @@ module.exports = async function (message, user) {
                 "maintenance": true,
                 "bag": {},
                 "missions": [], 
-                "present": 0
+                "present": 0,
+                "ability": {}
             }, 
             $unset: {
                 "inventory": "",
