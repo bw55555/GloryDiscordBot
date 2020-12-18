@@ -772,6 +772,15 @@ module.exports = async function (message, user) {
             }
             let permissionslist = ["invite", "pay", "summon", "kick", "upgrade", "promote", "setpermissions", "resetraid"]
             return Promise.all([functions.validate(message, user, 2)]).then(ret => {
+                let target = ret[0]
+                if (target == false) {
+                    functions.replyMessage(message, "They do not exist!");
+                    return;
+                }
+                if (target.guild != guild._id) {
+                    functions.replyMessage(message, "They are not in your guild!");
+                    return;
+                }
                 if (!hasPermissions(user, "setpermissions")) {
                     functions.replyMessage(message, "You do not have permission to do this!");
                     return;
@@ -781,7 +790,7 @@ module.exports = async function (message, user) {
                 dperm = dperm.toLowerCase()
                 if (permissionslist.indexOf(dperm) == -1) {return functions.replyMessage(message, "This permission does not exist!")}
                 target.guildperms[dperm] = !target.guildperms[dperm]
-                functions.replyMessage(message, "Successfully set permission " + dperm + " of <@" + target._id + "> to " + target.guildperms[dperm])
+                functions.replyMessage(message, "Successfully set permission `" + dperm + "` of <@" + target._id + "> to " + target.guildperms[dperm])
                 functions.setUser(target)
             })
         }
