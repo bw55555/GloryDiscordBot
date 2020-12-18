@@ -23,6 +23,7 @@ module.exports = async function (message, user) {
     for (var key in user.quests[claimid].reward) {
         functions.JSONoperate(user, key, "add", user.quests[claimid].reward[key])
     }
+    if (user.quests[claimid].event) {devData.numEventQuests += 1}
     let text = "You have completed the quest `" + user.quests[claimid].name + "`!"
     let mqid = user.quests[claimid].mqid
     user.quests.splice(claimid, 1);
