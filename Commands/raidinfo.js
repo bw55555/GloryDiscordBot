@@ -19,7 +19,7 @@ module.exports = async function (message, user) {
         return Promise.all([functions.getObject("mobData", loc)]).then(ret => {
             let raid = ret[0]
             if (raid == false) {
-                functions.sendMessage(message.channel, "There is no raid going on in this channel!");
+                functions.sendMessage(message.channel, "There is no raid going on in this location!");
                 return;
             }
             functions.raidInfo(message, raid)
