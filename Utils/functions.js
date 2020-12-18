@@ -1841,7 +1841,7 @@ function JSONoperate(json, key, op, obj, mustexist) {
         curr[skey] = obj;
         return true;
     } else if (op == "add") {
-        if (curr[skey] == undefuned) {curr[skey] = 0}
+        if (curr[skey] == undefined) {curr[skey] = 0}
         if (typeof curr[skey] != "number") { return; }
         curr[skey] += obj;
         return true;
