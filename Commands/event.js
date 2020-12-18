@@ -44,9 +44,12 @@ module.exports = async function (message, user) {
         }
         for (let i = 0; i <= 9; i++) {
             let currency = functions.getRandomArrayElement(Object.keys(currencies))
-            let amt = Math.floor(Math.random() * (currencies[currency].maxincr+1)) * currencies[currency].incr + currencies[currency].min
-            let exq = functions.makeQuest(undefined, "Random Name", [functions.addQuestCondition("donate", "=>", "Donate " + amt + " " + currency, amt, {"currency": currency}, "a")])
+            let amt = Math.floor(Math.random() * (currencies[currency].maxincr + 1)) * currencies[currency].incr + currencies[currency].min
+            let conditions = []
+            conditions.push(functions.addQuestCondition("donate", "=>", "Donate " + amt + " " + currency, amt, { "currency": currency }, "a"))
+            let exq = functions.makeQuest(undefined, "Random Name", conditions, {"present": 1})
             exq._id = i
+            delete exq.mqid
             functions.setObject("Xmasquests", exq)
         }
         functions.replyMessage(message, "Missions refreshed!")
