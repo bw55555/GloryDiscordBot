@@ -46,7 +46,7 @@ module.exports = async function (message, user) {
             let currency = functions.getRandomArrayElement(Object.keys(currencies))
             let amt = Math.floor(Math.random() * (currencies[currency].maxincr + 1)) * currencies[currency].incr + currencies[currency].min
             let conditions = []
-            conditions.push(functions.addQuestCondition("donate", "=>", "Donate " + amt + " " + currency, amt, { "currency": currency }, "a"))
+            conditions.push(functions.addQuestCondition("donate", "=>", "Donate " + amt + " " + currencies[currency].name, amt, { "currency": currency }, "a"))
             let exq = functions.makeQuest(undefined, "Random Name",undefined,  conditions, {"present": 1})
             exq._id = i
             delete exq.mqid
