@@ -20,7 +20,7 @@ module.exports = async function (message, user) {
         let amount = parseInt(words[2])
         if (words[2] == "all") {amount = user.present}
         if (words.length < 3) { amount = 1 }
-        if (isNaN(amount) || amount <= 0) { return functions.replyMessage(message, "Please select a positive number of items to buy!") }
+        if (isNaN(amount) || amount <= 0) { return functions.replyMessage(message, "Please select a positive number of presents to open!") }
         if (amount > user.present) { return functions.replyMessage(message, "You don't have enough present!") }
         let xpamt = functions.checkxp({ "ascension": user.ascension, "level": 1 }, 99)
         user.present -= amount;
