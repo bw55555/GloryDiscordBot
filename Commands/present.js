@@ -111,7 +111,7 @@ module.exports = async function (message, user) {
             functions.JSONoperate(user, presentitems[chosenpresent].item, "add", amount)
         }
         let presenttext = ""
-        functions.replyMessage(message, "You have opened " + amount + " presents and gained:\n" + Object.keys(totalpresentitems).map(item => presentitems[item] + " " + item).join("\n"))
+        functions.replyMessage(message, "You have opened " + amount + " presents and gained:\n" + Object.keys(totalpresentitems).map(item => totalpresentitems[item] + " " + item).join("\n"))
     } else {
         functions.replyMessage(message, "You have " + user.present + " presents. ")
     }
