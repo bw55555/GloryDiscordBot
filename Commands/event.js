@@ -43,7 +43,7 @@ module.exports = async function (message, user) {
             }, 
         }
         for (let i = 0; i <= 9; i++) {
-            let currency = functions.getRandomByChances(Object.keys(currencies))
+            let currency = functions.getRandomArrayElement(Object.keys(currencies))
             let amt = Math.floor(Math.random() * (currencies[currency].maxincr+1)) * currencies[currency].incr + currencies[currency].min
             let exq = functions.makeQuest(undefined, "Random Name", [functions.addQuestCondition("donate", "=>", "Donate " + amt + " " + currency, amt, {"currency": currency}, "a")])
             exq._id = i
