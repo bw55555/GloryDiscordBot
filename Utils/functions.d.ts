@@ -96,8 +96,8 @@ export function getModifierText(modifierlist: JSON): string
 export function checkxp(user: JSON): number
 export function isCD(user: JSON, ts: number, cdtype: string): boolean
 export function secondsUntilReset(ts: number): number
-export function makeQuest(user: JSON|undefined, name: string, conditions: JSON[], reward: JSON): void
-export function makeQuest(user: JSON|undefined, name: string, conditions: JSON[], reward: JSON, mqid: number): void
+export function makeQuest(user: JSON|undefined, name: string,flavortext: string, conditions: JSON[], reward: JSON): void
+export function makeQuest(user: JSON|undefined, name: string, flavortext: string, conditions: JSON[], reward: JSON, mqid: number): void
 export function completeQuest(user: JSON, condition: string, extra: JSON, amount: number): void
 export function completeQuest(user: JSON, condition: string, extra: JSON, amount: number, qnum: number): void
 export function addQuestCondition(condition: string,operator:string, description: string, total: number, extra: JSON, type: "c" | "a"): JSON

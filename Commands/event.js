@@ -47,7 +47,7 @@ module.exports = async function (message, user) {
             let amt = Math.floor(Math.random() * (currencies[currency].maxincr + 1)) * currencies[currency].incr + currencies[currency].min
             let conditions = []
             conditions.push(functions.addQuestCondition("donate", "=>", "Donate " + amt + " " + currency, amt, { "currency": currency }, "a"))
-            let exq = functions.makeQuest(undefined, "Random Name", conditions, {"present": 1})
+            let exq = functions.makeQuest(undefined, "Random Name",undefined,  conditions, {"present": 1})
             exq._id = i
             delete exq.mqid
             functions.setObject("Xmasquests", exq)
