@@ -48,6 +48,9 @@ global.guildForgePrices = {
         { "name": "Rate Up", "bonus": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9], "prices": [0, 20000, 60000, 120000, 200000, 300000, 420000, 560000, 720000, 9000000] }
     ]
 }
+
+let guildpermissionslist = ["summon", "invite", "pay", "upgrade", "resetraid", "kick", "setpermissions"]
+
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
@@ -770,7 +773,7 @@ module.exports = async function (message, user) {
                 functions.replyMessage(message, "You do not have permission to do this!");
                 return;
             }
-            let permissionslist = ["invite", "pay", "summon", "kick", "upgrade", "promote", "setpermissions", "resetraid"]
+
             return Promise.all([functions.validate(message, user, 2)]).then(ret => {
                 let target = ret[0]
                 if (target == false) {
@@ -788,9 +791,23 @@ module.exports = async function (message, user) {
                 let dperm = words[3];
                 if (dperm == undefined) { return functions.replyMessage("Please specify a permission!") }
                 dperm = dperm.toLowerCase()
-                if (permissionslist.indexOf(dperm) == -1) {return functions.replyMessage(message, "This permission does not exist!")}
+                if (guildpermissionslist.indexOf(dperm) == -1) {return functions.replyMessage(message, "This permission does not exist!")}
                 target.guildperms[dperm] = !target.guildperms[dperm]
                 functions.replyMessage(message, "Successfully set permission `" + dperm + "` of <@" + target._id + "> to " + target.guildperms[dperm])
+                functions.setUser(target)
+            })
+        } else if (command == "VIEWPERMISSONS" || command == "VIEWPERMS") {
+            return Promise.all([functions.validate(message, user, 2)]).then(ret => {
+                let target = ret[0]
+                if (target == false) {
+                    functions.replyMessage(message, "They do not exist!");
+                    return;
+                }
+                if (target.guild != guild._id) {
+                    functions.replyMessage(message, "They are not in your guild!");
+                    return;
+                }
+                functions.replyMessage(message, "<@"+target._id+">'s permissions: \n" + guildpermissionslist.map(x => "`"+x+"`: "+!(!user.guildperms)).join("\n"))
                 functions.setUser(target)
             })
         }
