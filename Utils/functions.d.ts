@@ -33,6 +33,7 @@ export function logCommand(message: Message, title: string, extratext: string): 
 export function logCommand(message: Message, title: string, extratext: string, gid: string, cid: string): void
 export function validate(message: Message, user: string): Promise<JSON>
 export function validate(message: Message, user: string, spot: number): Promise<JSON>
+export function validate(message: Message, user: string, spot: number, userdefault: boolean): Promise<JSON>
 export function hasSkill(user: JSON, skillid: number): boolean
 export function hasSkill(user: JSON, skillid: number, enable: boolean): boolean
 export function getGuildBuff(user: JSON, buffname: string): number
