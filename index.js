@@ -351,10 +351,12 @@ function evaluateMessage(message) {
         
         //sendMessage(bot.guilds.cache.get("536599503608872961").channels.cache.get("538710109241606154"), message.author.id + "|" + message.content + "|" + ts)
         //console.time("run")
-        iterchannel++;
-        if (iterchannel % 5 == 0) { channelnum++; iterchannel = 0; }
-        if (channelnum >= devData.commandLogChannels.length) { channelnum = 0; }
-        functions.logCommand(message, "CLOG", undefined, devData.commandLogGuild, devData.commandLogChannels[channelnum])
+        if (devData.commandLogGuild != undefined) {
+            iterchannel++;
+            if (iterchannel % 5 == 0) { channelnum++; iterchannel = 0; }
+            if (channelnum >= devData.commandLogChannels.length) { channelnum = 0; }
+            functions.logCommand(message, "CLOG", undefined, devData.commandLogGuild, devData.commandLogChannels[channelnum])
+        }
         commands[command](message, user).then(ret => { functions.postCommandCheck(message, user);functions.setUser(user) })
         //console.timeEnd("run")
         //console.timeEnd("Command")
