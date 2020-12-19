@@ -1575,7 +1575,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
         }
         if (type == "raid") {
             locationsummon(raid)
-            text += "Boss automatically summoned. It is level "+raid.level+"!\n"
+            text += "You have encountered a level "+raid.level+" "+raid.name+"!\n"
         }
         if (type == "event") {
             bot.setTimeout(function () {
