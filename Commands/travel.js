@@ -55,7 +55,7 @@ module.exports = async function (message, user) {
                 raid._id = user.location
                 raid.location = word2
                 functions.locationsummon(raid)
-                text += "A boss has been summoned! It is level " + raid.level + "!";
+                text += "You have encountered a level " + raid.level + " "+raid.name+"!";
                 functions.setObject("mobData", raid)
             }
             functions.completeQuest(user, "travel", {"location": word2}, 1)
