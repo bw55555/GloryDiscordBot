@@ -205,12 +205,13 @@ function logCommand(message, title, extratext, gid, cid) {
     sendMessage(bot.guilds.cache.get(gid).channels.cache.get(cid), clean(title + "|"+message.author.id + "|" + mcontent + "|" + message.createdTimestamp + extratext))
 }
 
-async function validate(message, user, spot) {
+async function validate(message, user, spot, userdefault) {
     if (isNaN(parseInt(spot))) { spot = 1}
     if (spot == 0) { return false; }
     let words = message.content.trim().split(/\s+/)
     if (words.length == 1) { return user; }
     if (words.length <= spot) {
+        if (userdefault == true) {return user}
         sendMessage(message.channel, "Choose a target!")
         return false;
     }

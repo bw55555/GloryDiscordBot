@@ -797,7 +797,7 @@ module.exports = async function (message, user) {
                 functions.setUser(target)
             })
         } else if (command == "VIEWPERMISSONS" || command == "VIEWPERMS") {
-            return Promise.all([functions.validate(message, user, 2)]).then(ret => {
+            return Promise.all([functions.validate(message, user, 2, true)]).then(ret => {
                 let target = ret[0]
                 if (target == false) {
                     functions.replyMessage(message, "They do not exist!");
