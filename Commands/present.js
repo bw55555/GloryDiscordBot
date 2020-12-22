@@ -1,14 +1,3 @@
-let items = {
-    "1": { "name": "Ghost Class", "cost": 300, "type": "ghostclass" },
-    "2": { "name": "Legendary Item", "cost": 2000, "type": "item", "amount": 1 },
-    "3": { "name": "Wisdom Rune", "cost": 1000, "type": "runes.1", "amount": 1 },
-    "4": { "name": "Rune Shards(10)", "cost": 1, "type": "runes.0", "amount": 10 },
-    "5": { "name": "Reroll", "cost": 100, "type": "consum.reroll", "amount": 1 },
-    "6": { "name": "Crystals(10)", "cost": 1, "amount": 10, "type": "crystals" },
-    "7": { "name": "Boxes(10)", "cost": 1, "type": "consum.box", "amount": 10 },
-    "8": { "name": "Honor(3)", "cost": 1, "amount": 3, "type": "honor" },
-    "9": { "name": "Money(500k)", "cost": 1, "type": "money", "amount": 500000 }
-}
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
@@ -43,22 +32,22 @@ module.exports = async function (message, user) {
                     "amount": functions.randint(5, 10),
                     "item": "consum.box"
                 },
-                "SR weapon": {
+                "SR weapon box": {
                     "chance": 10,
                     "amount": 1,
                     "item": "bag.g0_6_6"
                 },
-                "Epic weapon": {
+                "Epic weapon box": {
                     "chance": 3,
                     "amount": 1,
                     "item": "bag.g0_7_7"
                 },
-                "Legendary weapon": {
+                "Legendary weapon box": {
                     "chance": 1,
                     "amount": 1,
                     "item": "bag.g0_7_7"
                 },
-                "Godly weapon": {
+                "Godly weapon box": {
                     "chance": 0.079885,
                     "amount": 1,
                     "item": "bag.g0_8_8"

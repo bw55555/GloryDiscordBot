@@ -6,6 +6,13 @@ module.exports = async function (message, user) {
     if (devData.christmasevent == undefined || ts < devData.christmasevent.start || ts > devData.christmasevent.end + 2 * 24 * 60 * 60 * 1000) { return functions.replyMessage(message, "The quest board is not currently open!") }
     let word2 = words[1]
     if (word2 == undefined) { word2 = "quests" }
+    if (ts > devData.christmasevent.refresh) {
+        devData.christmasevent.refresh += 30 * 60 * 1000;
+        for (let i = 0; i < NUM_QUESTS; i++) {
+            refreshQuest(i)
+        }
+        functions.replyMessage(message, "Quests refreshed!")
+    }
     if (word2 == "quests") {
         functions.findObjects("Xmasquests", {}).then(quests => {
             quests.sort((a,b) => a._id - b._id)
@@ -24,6 +31,7 @@ module.exports = async function (message, user) {
         })
     }
     if (word2 == "refresh") {
+        if (admins.indexOf(id) == -1) {return functions.replyMessage(message, "You do not have permission to do this!")}
         for (let i = 0; i < NUM_QUESTS; i++) {
             refreshQuest(i)
         }
@@ -69,7 +77,7 @@ function refreshQuest(id) {
     let mname = monsters[mkey]
     let mamt = Math.floor((1 + Math.random()) * 3 * ((mkey + 1) % 3) + 1)
     conditions.push(functions.addQuestCondition("raidAttack", "=>", "Kill " + mamt + " " + mname, mamt, { "raid.currenthealth": { "value": 0, "operator": "<=" }, "raid.name": { "value": mname, "operator": "=" } }, "a"))
-    let exq = functions.makeQuest(undefined, "Random Name", undefined, conditions, { "present": rwd })
+    let exq = functions.makeQuest(undefined, "Help us Decorate!", undefined, conditions, { "present": rwd })
     exq.event = true;
     exq._id = id
     delete exq.mqid
