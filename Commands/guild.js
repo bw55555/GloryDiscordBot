@@ -807,7 +807,7 @@ module.exports = async function (message, user) {
                     functions.replyMessage(message, "They are not in your guild!");
                     return;
                 }
-                functions.sendMessage(message.channel, "<@"+target._id+">'s permissions: \n" + guildpermissionslist.map(x => "`"+x+"`: "+!(!target.guildperms[x])).join("\n"))
+                functions.sendMessage(message.channel, "<@"+target._id+">'s permissions: \n" + guildpermissionslist.map(x => "`"+x+"`: "+hasPermissions(target, x)).join("\n"))
             })
         }
         else {
