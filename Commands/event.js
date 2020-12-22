@@ -3,6 +3,7 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
+    if (devData.christmasevent == undefined || ts < devData.christmasevent.start || ts > devData.christmasevent.end + 2 * 24 * 60 * 60 * 1000) { return functions.replyMessage(message, "The quest board is not currently open!") }
     let word2 = words[1]
     if (word2 == undefined) { word2 = "quests" }
     if (word2 == "quests") {
