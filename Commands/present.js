@@ -45,12 +45,12 @@ module.exports = async function (message, user) {
                 "Legendary weapon box": {
                     "chance": 1,
                     "amount": 1,
-                    "item": "bag.g0_7_7"
+                    "item": "bag.g0_8_8"
                 },
                 "Godly weapon box": {
                     "chance": 0.079885,
                     "amount": 1,
-                    "item": "bag.g0_8_8"
+                    "item": "bag.g0_9_9"
                 },
                 "reroll": {
                     "chance": 2,
