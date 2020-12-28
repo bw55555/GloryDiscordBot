@@ -111,4 +111,4 @@ export function extractOptions(message: Message, inorder: boolean, ...optionname
 export function antimacro(message: Message, user: JSON): void
 export function shuffle(a: any[]): any[]
 export function dailyReset(): void
-export function isGameEvent(ename: string, extratime: number): boolean
+export function isGameEvent(ename: string, second: string): boolean

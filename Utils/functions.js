@@ -452,7 +452,7 @@ function calcExtraStat(user, stat) {
 }
 function calcLuckyBuff(user) {
     let lb = calcEnchants(user).lucky
-    if (isGameEvent("starevent", 2*24*60*60*1000)) {lb += user.luckycoin*0.002}
+    if (isGameEvent("starevent", "lucky")) {lb += user.luckycoin*0.002}
     if (devData.luckymult != undefined) { lb *= devData.luckymult}
     return lb
 }
@@ -2107,8 +2107,9 @@ async function dailyReset() {
         setObject("mobData", raid);
     })
 }
-function isGameEvent(ename) {
-    return devData[ename] != undefined && devData[ename].ongoing
+function isGameEvent(ename, second) {
+    if (second == undefined) {second = "ongoing"}
+    return ename != undefined && devData[ename] != undefined && devData[ename][second]
 }
 module.exports.clean = clean
 module.exports.importObject = importObject

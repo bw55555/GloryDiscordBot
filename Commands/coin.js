@@ -13,7 +13,7 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    if (functions.isGameEvent("starevent", 3 * 24 * 60 * 60 * 1000)) { return functions.replyMessage(message, "The lucky coin exchange is not open yet!") }
+    if (functions.isGameEvent("starevent", "shop")) { return functions.replyMessage(message, "The lucky coin exchange is not open yet!") }
     let word2 = words[1]
     if (word2 == undefined) { word2 = "" }
     if (word2 == "help") {
@@ -26,10 +26,10 @@ module.exports = async function (message, user) {
                         "value": "- List store items with `!coin store|shop`.\n"
                             + "- Buy items from the shop with `!coin buy [itemid] (amount)`\n"
                     }
-                ],
-                "footer": {
-                    "text": "The store will close in " + functions.displayTime(devData.starevent.end + 2 * 24 * 60 * 60 * 1000, ts)
-                }
+                ]//,
+                //"footer": {
+                //    "text": "The store will close in " + functions.displayTime(devData.starevent.end + 2 * 24 * 60 * 60 * 1000, ts)
+                //}
             }
         }
         functions.sendMessage(message.channel, page)
@@ -109,6 +109,6 @@ module.exports = async function (message, user) {
         functions.replyMessage(message, "You have eaten "+amount + " coins and gained "+xpgain +" xp. ")
         */
     } else {
-        functions.replyMessage(message, "You have "+user.lcukycoin+" lucky coins. ")
+        functions.replyMessage(message, "You have "+user.luckycoin+" lucky coins. ")
     }
 }
