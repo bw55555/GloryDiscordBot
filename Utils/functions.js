@@ -2107,10 +2107,8 @@ async function dailyReset() {
         setObject("mobData", raid);
     })
 }
-function isGameEvent(ename, extratime) {
-    extratime = parseInt(extratime)
-    if (isNaN(extratime)) { extratime = 0;}
-    return devData != undefined && ts > devData[ename].start && ts < devData[ename].end + extratime
+function isGameEvent(ename) {
+    return devData[ename] != undefined && devData[ename].ongoing
 }
 module.exports.clean = clean
 module.exports.importObject = importObject
