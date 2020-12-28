@@ -13,7 +13,7 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    if (functions.isGameEvent("starevent", "shop")) { return functions.replyMessage(message, "The lucky coin exchange is not open yet!") }
+    if (!functions.isGameEvent("starevent", "store")) { return functions.replyMessage(message, "The lucky coin exchange is not open yet!") }
     let word2 = words[1]
     if (word2 == undefined) { word2 = "" }
     if (word2 == "help") {
@@ -52,10 +52,10 @@ module.exports = async function (message, user) {
                         "value": text,
                         "inline": true
                     },
-                ],
-                "footer": {
-                    "text": "The store will close in " + functions.displayTime(devData.halloweenevent.end + 2 * 24 * 60 * 60 * 1000, ts)
-                }
+                ]//,
+                //"footer": {
+                //    "text": "The store will close in " + functions.displayTime(devData.halloweenevent.end + 2 * 24 * 60 * 60 * 1000, ts)
+                //}
             }
         });
     } else if (word2 == "buy" || word2 == "b") {

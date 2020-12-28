@@ -1034,11 +1034,14 @@ function raidInfo(message, raid, extratext) {
         }
     }
     let ts = message.createdTimestamp;
+    /*
     if (devData.halloweenevent != undefined && ts > devData.halloweenevent.start && ts < devData.halloweenevent.end) {
         toSendEmbed.embed.footer = {
             "text": "The ghosts will leave in " + functions.displayTime(devData.halloweenevent.end, ts)
         }
-    } else if (raid.location != undefined) {
+    } 
+    */
+    if (raid.location != undefined) {
         toSendEmbed.embed.footer = {
             "text": "ID: "+raid._id
         }
@@ -1084,10 +1087,10 @@ function locationsummon(raid) {
     let raidref = Assets.locationraidData[loc][rnum]
     if (Math.random() < devData.starevent.starchance && isGameEvent("starevent")) {
         if (rnum == 2) {
-            summon(raid, undefined, raidref.minlevel, raidref.maxlevel, "Star Lord", raidref.url, {}, {})
+            summon(raid, undefined, raidref.minlevel, raidref.maxlevel, "Star Lord", raidref.url)
             raid.stareventmob = true
         } else {
-            summon(raid, undefined, raidref.minlevel, raidref.maxlevel, "Star Beast", "https://cdn.discordapp.com/attachments/547415056065757194/792922164700512316/images_2_1.jpeg", {}, {})
+            summon(raid, undefined, raidref.minlevel, raidref.maxlevel, "Star Beast", "https://cdn.discordapp.com/attachments/547415056065757194/792922164700512316/images_2_1.jpeg")
             raid.stareventmob = true
         }
         return 
@@ -1469,9 +1472,9 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             }
             if (raid.stareventmob) {
                 let lcrewards = {}
-                let lcamt = raid.level / 100
+                let lcamt = raid.level / 50
                 if (raid.name == "Star Lord") { lcamt *= 2 }
-                let num = randint(Math.floor(lcamt), lcamt)
+                let num = randint(lcamt, lcamt*2)
                 while (num > 0) {
                     let person = getRandomByDamage(raid)
                     if (lcrewards[person] == undefined) { lcrewards[person] = 0 }
