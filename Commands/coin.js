@@ -1,13 +1,13 @@
 let items = {
-    "1": { "name": "Celestial Class", "cost": 750, "type": "starclass" },
-    "2": { "name": "Legendary Item", "cost": 2000, "type": "item", "amount": 1 },
-    "3": { "name": "Wisdom Rune", "cost": 1000, "type": "runes.1", "amount": 1 },
-    "4": { "name": "Rune Shards(2)", "cost": 1, "type": "runes.0", "amount": 2 },
-    "5": { "name": "Reroll", "cost": 500, "type": "consum.reroll", "amount": 1 },
-    "6": { "name": "Crystals(2)", "cost": 1, "amount": 2, "type": "crystals" },
-    "7": { "name": "Boxes(2)", "cost": 1, "type": "consum.box", "amount": 2 },
+    "1": { "name": "Celestial Class", "cost": 300, "type": "starclass" },
+    "2": { "name": "Legendary Item", "cost": 500, "type": "item", "amount": 1 },
+    "3": { "name": "Wisdom Rune", "cost": 200, "type": "runes.1", "amount": 1 },
+    "4": { "name": "Rune Shards(10)", "cost": 1, "type": "runes.0", "amount": 10 },
+    "5": { "name": "Reroll", "cost": 100, "type": "consum.reroll", "amount": 1 },
+    "6": { "name": "Crystals(10)", "cost": 1, "amount": 10, "type": "crystals" },
+    "7": { "name": "Boxes(10)", "cost": 1, "type": "consum.box", "amount": 10 },
     "8": { "name": "Honor(3)", "cost": 5, "amount": 3, "type": "honor" },
-    "9": { "name": "Money(100k)", "cost": 1, "type": "money", "amount": 100000 }
+    "9": { "name": "Money(500k)", "cost": 1, "type": "money", "amount": 500000 }
 }
 module.exports = async function (message, user) {
     let id = message.author.id;

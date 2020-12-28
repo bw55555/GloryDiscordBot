@@ -452,7 +452,7 @@ function calcExtraStat(user, stat) {
 }
 function calcLuckyBuff(user) {
     let lb = calcEnchants(user).lucky
-    if (isGameEvent("starevent", "lucky")) {lb += user.luckycoin*0.002}
+    if (isGameEvent("starevent", "lucky")) {lb += user.luckycoin*0.01}
     if (devData.luckymult != undefined) { lb *= devData.luckymult}
     return lb
 }
