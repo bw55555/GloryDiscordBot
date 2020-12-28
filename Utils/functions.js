@@ -844,6 +844,11 @@ function calcEnchants(user, defender, options) {
         case 2000:
             enchants.evade += 0.05
             break;
+        case 2001:
+            enchants.attack += 30
+            enchants.defense += 30
+            enchants.regen += 3
+            break;
     }
     return enchants
 }
@@ -1474,7 +1479,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 let lcrewards = {}
                 let lcamt = raid.level / 50
                 if (raid.name == "Star Lord") { lcamt *= 2 }
-                let num = randint(lcamt, lcamt*2)
+                let num = randint(Math.floor(lcamt), lcamt)
                 while (num > 0) {
                     let person = getRandomByDamage(raid)
                     if (lcrewards[person] == undefined) { lcrewards[person] = 0 }

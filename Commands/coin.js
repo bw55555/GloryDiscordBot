@@ -1,13 +1,13 @@
 let items = {
-    "1": { "name": "Ghost Class", "cost": 300, "type": "ghostclass" },
+    "1": { "name": "Celestial Class", "cost": 750, "type": "starclass" },
     "2": { "name": "Legendary Item", "cost": 2000, "type": "item", "amount": 1 },
     "3": { "name": "Wisdom Rune", "cost": 1000, "type": "runes.1", "amount": 1 },
-    "4": { "name": "Rune Shards(10)", "cost": 1, "type": "runes.0", "amount": 10 },
-    "5": { "name": "Reroll", "cost": 100, "type": "consum.reroll", "amount": 1 },
-    "6": { "name": "Crystals(10)", "cost": 1, "amount": 10, "type": "crystals" },
-    "7": { "name": "Boxes(10)", "cost": 1, "type": "consum.box", "amount": 10 },
-    "8": { "name": "Honor(3)", "cost": 1, "amount": 3, "type": "honor" },
-    "9": { "name": "Money(500k)", "cost": 1, "type": "money", "amount": 500000 }
+    "4": { "name": "Rune Shards(1)", "cost": 1, "type": "runes.0", "amount": 10 },
+    "5": { "name": "Reroll", "cost": 500, "type": "consum.reroll", "amount": 1 },
+    "6": { "name": "Crystals(1)", "cost": 1, "amount": 1, "type": "crystals" },
+    "7": { "name": "Box(1)", "cost": 1, "type": "consum.box", "amount": 11 },
+    "8": { "name": "Honor(3)", "cost": 5, "amount": 3, "type": "honor" },
+    "9": { "name": "Money(50k)", "cost": 1, "type": "money", "amount": 50000 }
 }
 module.exports = async function (message, user) {
     let id = message.author.id;
@@ -74,6 +74,13 @@ module.exports = async function (message, user) {
             user.triangleid = 2000;
             user.trianglemod = 1.6;
             user.boughtghost = true;
+        } else if (type == "starclass") {
+            amount = 1;
+            if (user.triangleid == 2001) { return functions.replyMessage(message, "You are already a celestial!") }
+            user.triangle = '<:warrior:542061062405750795> Celestial';
+            user.triangleid = 2001;
+            user.trianglemod = 1.6;
+            user.boughtstar = true;
         } else if (type == "item") {
             amount = 1;
             functions.craftItem(message, user, 7, 7)
