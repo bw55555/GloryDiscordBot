@@ -9,20 +9,10 @@ module.exports = async function (message, user) {
         
         await functions.setProp("userData", {}, {
             $set: {
-                "location": "city",
-                "guildperms": {},
-                "maintenance": true,
-                "bag": {},
-                "missions": [], 
-                "present": 0,
-                "ability": {}
-            }, 
-            $unset: {
-                "inventory": "",
-                "candy": ""
+                "luckycoin": 0
             }
         })
-        await functions.deleteObjects("mobData", {})
+        //await functions.deleteObjects("mobData", {})
         functions.replyMessage(message, "Maintenance was completed!")
     }, [message])
 }

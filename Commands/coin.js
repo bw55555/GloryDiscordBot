@@ -13,7 +13,7 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    if (devData.halloweenevent == undefined || ts < devData.halloweenevent.start || ts > devData.halloweenevent.end + 2 * 24 * 60 * 60 * 1000) { return functions.replyMessage(message, "The candy shop is not open yet!") }
+    if (functions.isGameEvent("starevent", 3 * 24 * 60 * 60 * 1000)) { return functions.replyMessage(message, "The lucky coin exchange is not open yet!") }
     let word2 = words[1]
     if (word2 == undefined) { word2 = "" }
     if (word2 == "help") {
@@ -22,14 +22,13 @@ module.exports = async function (message, user) {
                 "color": 0x458B00,
                 "fields": [
                     {
-                        "name": "The Candy Store",
-                        "value": "- List store items with `!candy store|shop`.\n"
-                            + "- Buy items from the shop with `!candy buy [itemid] (amount)`\n"
-                            + "- Eat candy with `!candy eat (amount)`\n"
+                        "name": "Lucky Coin Exchange",
+                        "value": "- List store items with `!coin store|shop`.\n"
+                            + "- Buy items from the shop with `!coin buy [itemid] (amount)`\n"
                     }
                 ],
                 "footer": {
-                    "text": "The store will close in " + functions.displayTime(devData.halloweenevent.end + 2 * 24 * 60 * 60 * 1000, ts)
+                    "text": "The store will close in " + functions.displayTime(devData.starevent.end + 2 * 24 * 60 * 60 * 1000, ts)
                 }
             }
         }
@@ -43,8 +42,8 @@ module.exports = async function (message, user) {
         }
         return functions.sendMessage(message.channel, {
             "embed": {
-                "title": "The Candy Store",
-                "description": "Welcome to the candy store!\nUse `!candy buy [ID_of_Item] [number of items]` to buy items!\n",
+                "title": "Lucky Coin Exchange",
+                "description": "Welcome to the lucky coin exchange!\nUse `!coin buy [ID_of_Item] [number of items]` to buy items!\n",
                 "color": 13498074,
 
                 "fields": [
@@ -65,7 +64,7 @@ module.exports = async function (message, user) {
         if (itemid == undefined || items[itemid] == undefined) { return functions.replyMessage(message, "Please select a valid item id!"); }
         if (words.length < 4) { amount = 1 }
         if (isNaN(amount) || amount < 0) { return functions.replyMessage(message, "Please select a positive number of items to buy!") }
-        if (amount * items[itemid].cost > user.candy) { return functions.replyMessage(message, "You do not have enough candy to buy this!"); }
+        if (amount * items[itemid].cost > user.luckycoin) { return functions.replyMessage(message, "You do not have enough lucky coins to buy this!"); }
         let type = items[itemid].type
 
         if (type == "ghostclass") {
@@ -87,15 +86,16 @@ module.exports = async function (message, user) {
             }
             functions.JSONoperate(user, type, "add", amount * items[itemid].amount)
         }
-        user.candy -= amount * items[itemid].cost
-        
-        functions.replyMessage(message, "You have bought " + amount + " " + items[itemid].name + " for " + (items[itemid].cost * amount) + " candy. ")
+        user.luckycoin -= amount * items[itemid].cost
+
+        functions.replyMessage(message, "You have bought " + amount + " " + items[itemid].name + " for " + (items[itemid].cost * amount) + " lucky coins. ")
+    /*
     } else if (word2 == "use" || word2 == "eat") {
         let amount = parseInt(words[2])
 
         if (words.length < 3) { amount = 1 }
         if (isNaN(amount) || amount < 0) { return functions.replyMessage(message, "Please select a positive number of items to buy!") }
-        if (amount > user.candy) { return functions.replyMessage(message, "You don't have enough candy!")}
+        if (amount > user.luckycoin) { return functions.replyMessage(message, "You don't have enough lucky coins!")}
         let xpforasc = 0;
         for (let i = 1; i <= 99; i++) {
             xpforasc += functions.checkxp({ "ascension": user.ascension, "level": i })
@@ -104,10 +104,11 @@ module.exports = async function (message, user) {
         for (let i = 0; i < amount; i++) {
             xpgain += Math.ceil(xpforasc * (0.0003 * Math.random() - 0.0001))
         }
-        user.candy -= amount
+        user.luckycoin -= amount
         user.xp += xpgain
-        functions.replyMessage(message, "You have eaten "+amount + " candy and gained "+xpgain +" xp. ")
+        functions.replyMessage(message, "You have eaten "+amount + " coins and gained "+xpgain +" xp. ")
+        */
     } else {
-        functions.replyMessage(message, "You have "+user.candy+" candy. ")
+        functions.replyMessage(message, "You have "+user.lcukycoin+" lucky coins. ")
     }
 }

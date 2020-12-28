@@ -452,6 +452,7 @@ function calcExtraStat(user, stat) {
 }
 function calcLuckyBuff(user) {
     let lb = calcEnchants(user).lucky
+    if (isGameEvent("starevent", 2*24*60*60*1000)) {lb += user.luckycoin*0.002}
     if (devData.luckymult != undefined) { lb *= devData.luckymult}
     return lb
 }
@@ -1069,6 +1070,7 @@ function locationsummon(raid) {
     let loc = raid.location
     let rng = Math.random();
     let rnum;
+    
     if (rng < 0.2) {
         rnum = 1;
         raid.areabosssummon += 0.02
@@ -1080,6 +1082,16 @@ function locationsummon(raid) {
         raid.areabosssummon += 0.01
     }
     let raidref = Assets.locationraidData[loc][rnum]
+    if (Math.random() < devData.starevent.starchance && isGameEvent("starevent")) {
+        if (rnum == 2) {
+            summon(raid, undefined, raidref.minlevel, raidref.maxlevel, "Star Lord", raidref.url, {}, {})
+            raid.stareventmob = true
+        } else {
+            summon(raid, undefined, raidref.minlevel, raidref.maxlevel, "Star Beast", "https://cdn.discordapp.com/attachments/547415056065757194/792922164700512316/images_2_1.jpeg", {}, {})
+            raid.stareventmob = true
+        }
+        return 
+    }
     summon(raid, undefined, raidref.minlevel, raidref.maxlevel, raidref.name, raidref.url, raidref.ability, raidref.abilitydesc)
 }
 function summon(raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) {
@@ -1180,7 +1192,8 @@ function checkProps(message,user) {
     if (user.missions == undefined) { user.missions = [] }
     if (user.present == undefined) { user.present = 0 }
     if (user.bag == undefined) { user.bag = {} }
-    if (user.guildperms == undefined) {user.guildperms = {}}
+    if (user.guildperms == undefined) { user.guildperms = {} }
+    if (user.luckycoin == undefined) {user.luckycoin = 0}
     if (user.start === false) { //when you start, your currenthealth will be to 10;
         user.currenthealth = 10;
         user.start = true;
@@ -1453,6 +1466,39 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             }
             if (raid.name == "Starmie Pinata") {
                 rarity = 7;
+            }
+            if (raid.stareventmob) {
+                let lcrewards = {}
+                let lcamt = raid.level / 100
+                if (raid.name == "Star Lord") { lcamt *= 2 }
+                let num = randint(Math.floor(lcamt), lcamt)
+                while (num > 0) {
+                    let person = getRandomByDamage(raid)
+                    if (lcrewards[person] == undefined) { lcrewards[person] = 0 }
+                    lcrewards[person] += 1;
+                    num -= 1;
+                }
+                for (let person in lcrewards) {
+                    if (user._id == person) { user.luckycoin += lcrewards[person] }
+                    else {
+                        let toSet = {};
+                        toSet["luckycoin"] = lcrewards[person];
+                        tasks.push({
+                            updateOne:
+                            {
+                                "filter": { _id: person },
+                                "update": {
+                                    $inc: toSet
+                                }
+                            }
+                        })
+                    }
+                    text += "<@" + person + "> received: " + lcrewards[person] + " Lucky Coin(s)" + "!\n"
+                    if (text.length > 900) {
+                        archivetext.push(text)
+                        text = ""
+                    }
+                }
             }
             if (type == "ghost") {
                 let candyrewards = {};
@@ -2061,6 +2107,11 @@ async function dailyReset() {
         setObject("mobData", raid);
     })
 }
+function isGameEvent(ename, extratime) {
+    extratime = parseInt(extratime)
+    if (isNaN(extratime)) { extratime = 0;}
+    return devData != undefined && ts > devData[ename].start && ts < devData[ename].end + extratime
+}
 module.exports.clean = clean
 module.exports.importObject = importObject
 module.exports.getUser = getUser
@@ -2134,6 +2185,7 @@ module.exports.antimacro = antimacro
 module.exports.shuffle = shuffle
 module.exports.dailyReset = dailyReset
 module.exports.sendAsEmbed = sendAsEmbed
+module.exports.isGameEvent = isGameEvent
 fs.readdir("./Utils/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
