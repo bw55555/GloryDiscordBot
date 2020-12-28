@@ -1087,7 +1087,7 @@ function locationsummon(raid) {
     let raidref = Assets.locationraidData[loc][rnum]
     if (Math.random() < devData.starevent.starchance && isGameEvent("starevent")) {
         if (rnum == 2) {
-            summon(raid, undefined, raidref.minlevel, raidref.maxlevel, "Star Lord", raidref.url)
+            summon(raid, undefined, raidref.minlevel, raidref.maxlevel, "Star Lord", "https://cdn.discordapp.com/attachments/744331762146082837/793249129592913931/61bb291900bcb0d35b083323617bab51.jpg")
             raid.stareventmob = true
         } else {
             summon(raid, undefined, raidref.minlevel, raidref.maxlevel, "Star Beast", "https://cdn.discordapp.com/attachments/547415056065757194/792922164700512316/images_2_1.jpeg")
