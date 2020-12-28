@@ -452,7 +452,7 @@ function calcExtraStat(user, stat) {
 }
 function calcLuckyBuff(user) {
     let lb = calcEnchants(user).lucky
-    if (isGameEvent("starevent", "lucky")) {lb += user.luckycoin*0.01}
+    if (isGameEvent("starevent", "lucky")) {lb += user.luckycointotal*0.01}
     if (devData.luckymult != undefined) { lb *= devData.luckymult}
     return lb
 }
@@ -1201,7 +1201,8 @@ function checkProps(message,user) {
     if (user.present == undefined) { user.present = 0 }
     if (user.bag == undefined) { user.bag = {} }
     if (user.guildperms == undefined) { user.guildperms = {} }
-    if (user.luckycoin == undefined) {user.luckycoin = 0}
+    if (user.luckycoin == undefined) { user.luckycoin = 0 }
+    if (user.luckycointotal == undefined) { user.luckycointotal = 0 }
     if (user.start === false) { //when you start, your currenthealth will be to 10;
         user.currenthealth = 10;
         user.start = true;
@@ -1487,10 +1488,11 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                     num -= 1;
                 }
                 for (let person in lcrewards) {
-                    if (user._id == person) { user.luckycoin += lcrewards[person] }
+                    if (user._id == person) { user.luckycoin += lcrewards[person]; user.luckycointotal += lcrewards[person] }
                     else {
                         let toSet = {};
                         toSet["luckycoin"] = lcrewards[person];
+                        toSet["luckycointotal"] = lcrewards[person];
                         tasks.push({
                             updateOne:
                             {
