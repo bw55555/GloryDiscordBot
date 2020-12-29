@@ -1110,6 +1110,7 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability, abilityde
     raid.damagelist = {};
     raid.ability = undefined;
     raid.abilitydesc = undefined;
+    raid.stareventmob = undefined
     if (name != undefined) {
         raid.name = name;
     }
