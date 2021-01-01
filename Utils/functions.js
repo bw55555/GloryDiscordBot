@@ -1477,7 +1477,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
             if (raid.name == "Starmie Pinata") {
                 rarity = 7;
             }
-            if (raid.stareventmob) {
+            if (raid.stareventmob || raid.name == "Star Queen") {
                 let lcrewards = {}
                 let lcamt = raid.level / 50
                 if (raid.name == "Star Lord") { lcamt *= 2 }
