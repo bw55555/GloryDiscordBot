@@ -1481,6 +1481,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 let lcrewards = {}
                 let lcamt = raid.level / 50
                 if (raid.name == "Star Lord") { lcamt *= 2 }
+                if (raid.name == "Star Queen") { lcamt = 600 }
                 let num = randint(Math.floor(lcamt), lcamt)
                 while (num > 0) {
                     let person = getRandomByDamage(raid)
@@ -1568,7 +1569,8 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                 "Dragonlord": [3000, 0.6, 0, 0, 0, 0, 0],
                 "Godking": [4000, 0.8, 0, 0, 0, 0, 0],
                 "Lord of the Abyss": [5000, 1, 0, 0, 0, 0, 0],
-                "Starmie Pinata": [7777, 7, 77, 7, 7, 7, 7]
+                "Starmie Pinata": [7777, 7, 77, 7, 7, 7, 7],
+                "Star Queen": [3000, 1, 0, 0, 0, 0, 0]
             }
             let runeprobs = cruneinfo[raid.name]
             if (runeprobs == undefined) { runeprobs = [0,0,0,0,0,0,0]}
