@@ -77,7 +77,7 @@ module.exports = async function (message, user) {
         } else if (type == "starclass") {
             amount = 1;
             if (user.triangleid == 2001) { return functions.replyMessage(message, "You are already a celestial!") }
-            user.triangle = '<:warrior:542061062405750795> Celestial';
+            user.triangle = '<:celestial:794717884462792734> Celestial';
             user.triangleid = 2001;
             user.trianglemod = 1.6;
             user.boughtstar = true;
