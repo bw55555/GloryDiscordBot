@@ -1002,6 +1002,7 @@ function craftItem(message, owner, minrarity, maxrarity, reply, isBulk, source) 
     if (source == undefined) { source = "craft"}
     reply = (reply == false) ? false : true
     let item;
+    if (maxrarity == -1) {maxrarity = minrarity}
     if (minrarity == -1 || maxrarity == -1 || minrarity == undefined || maxrarity == undefined) {
         item = generateRandomItem(owner,undefined,isBulk, source)
     } else {
