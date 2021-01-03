@@ -13,10 +13,11 @@ module.exports = async function (message, user) {
         functions.replyMessage(message, text)
     } else if (word2 == "use") {
         let itemid = words[2];
-        let amount = parseInt(words[3])
-        if (words[3] == undefined) { amount = 1 }
         if (displayBagItem(itemid) == undefined) { return functions.replyMessage(message, "This item does not exist!") }
         if (user.bag[itemid] == undefined) { return functions.replyMessage(message, "You do not have any " + displayBagItem(itemid) + "!") }
+        let amount = parseInt(words[3])
+        if (words[3] == undefined) { amount = 1 }
+        else if (words[3] == "all") {amount = user.bag[itemid]}
         if (isNaN(amount) || amount < 0 || amount > 10000) {return functions.replyMessage(message, "Please specify an amount between 1 and 10000. ")}
         let arr = itemid.split("_")
         let gid = arr[0]

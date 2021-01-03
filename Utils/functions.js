@@ -1007,7 +1007,7 @@ function craftItem(message, owner, minrarity, maxrarity, reply, isBulk, source) 
         item = generateRandomItem(owner,undefined,isBulk, source)
     } else {
         let chances = [100000, 333333, 333333, 183334, 49000, 900, 90, 10]
-        rarity = functions.getRandomByChances(chances.split(minrarity, maxrarity-minrarity))+minrarity
+        rarity = functions.getRandomByChances(chances.splice(minrarity, maxrarity-minrarity))+minrarity
         item = generateRandomItem(owner, rarity, isBulk, source)
     }
     if (reply) sendMessage(message.channel, "<@" + owner._id + "> has recieved an item with id " + item._id + " and rarity " + item.rarity)
