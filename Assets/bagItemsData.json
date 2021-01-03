@@ -32,8 +32,8 @@
   "g0": {
     "name": "Box",
     "sub": [
-      [ "", "Useless", "Normal", "Common", "Uncommon", "Rare", "Super Rare", "Epic", "Legendary", "Godly", "Mythical" ],
-      [ "", "Useless", "Normal", "Common", "Uncommon", "Rare", "Super Rare", "Epic", "Legendary", "Godly", "Mythical" ]
+      [ "Useless", "Normal", "Common", "Uncommon", "Rare", "Super Rare", "Epic", "Legendary", "Godly", "Mythical" ],
+      [ "Useless", "Normal", "Common", "Uncommon", "Rare", "Super Rare", "Epic", "Legendary", "Godly", "Mythical" ]
     ]
   }
 }

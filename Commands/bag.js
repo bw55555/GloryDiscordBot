@@ -14,16 +14,18 @@ module.exports = async function (message, user) {
     } else if (word2 == "use") {
         let itemid = words[2];
         let amount = parseInt(words[3])
-        if (amount == undefined) { amount = 1 }
+        if (words[3] == undefined) { amount = 1 }
         if (displayBagItem(itemid) == undefined) { return functions.replyMessage(message, "This item does not exist!") }
         if (user.bag[itemid] == undefined) { return functions.replyMessage(message, "You do not have any " + displayBagItem(itemid) + "!") }
         if (isNaN(amount) || amount < 0 || amount > 10000) {return functions.replyMessage(message, "Please specify an amount between 1 and 10000. ")}
         let arr = itemid.split("_")
         let gid = arr[0]
-        user.bag[itemid] -= amount;
+        user.bag[itemid] -= amount; 
         if (gid == "g0") {
             let text = "You opened " + amount + " boxes and got:\n"
-            text += functions.craftItems(message, user, parseInt(arr[1]) - 1, parseInt(arr[2]) - 1, amount, "box")
+            if (arr[2] == undefined) { arr[2] = 7 }
+            if (arr[1] == undefined) {arr[1] = -1}
+            text += functions.craftItems(message, user, parseInt(arr[1]), parseInt(arr[2]), amount, "box")
             if (amount != 1) { functions.replyMessage(message, text) }
         }
     }
