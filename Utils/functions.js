@@ -864,7 +864,7 @@ function calcStats(message, user, stat, options) {
     let nametext = user.isRaid ? user.name : "<@"+user._id+">"
     let attack = user.attack
     let defense = user.defense
-    if (confused) {
+    if (user.isRaid != true && confused) {
         attack = user.defense
         defense = user.attack
     }
