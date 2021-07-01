@@ -37,12 +37,12 @@ module.exports = async function (message, user) {
         let raid = { "_id": "event" };
         raid.isRaid = true
         let raidoptions = [
-            { "name": "Treant King", "url": "https://i.imgur.com/1zjU5kt.jpeg", "level": 100, "health": 1000000, "attack": 1000, "reward": 20000000 },
-            { "name": "Leviathan", "url": "https://i.imgur.com/x6QeL4U.jpg", "level": 150, "health": 1500000, "attack": 1500, "reward": 30000000 },
-            { "name": "Dragonlord", "url": "https://i.imgur.com/cMile7I.png", "level": 200, "health": 2000000, "attack": 2000, "reward": 40000000 },
-            { "name": "Godking", "url": "https://i.imgur.com/ENTCcfx.jpg", "level": 250, "health": 2500000, "attack": 2500, "reward": 50000000 },
-            { "name": "Lord of the Abyss", "url": "https://i.imgur.com/Mhu1t7M.png", "level": 300, "health": 3000000, "attack": 3000, "reward": 60000000 },
-            { "name": "Star Queen", "url": "https://cdn.discordapp.com/attachments/547415056065757194/792921517133529098/images.jpeg", "level": 400, "health": 4000000, "attack": 4000, "reward": 80000000, "ability": {"vulnerable": 3}, "abilitydesc": "Applies 3 vulnerable on attack. "},
+            { "name": "Treant King", "url": "https://i.imgur.com/1zjU5kt.jpeg", "level": 100, "health": 1000000, "attack": 1000 * (1+100/400), "reward": 20000000 },
+            { "name": "Leviathan", "url": "https://i.imgur.com/x6QeL4U.jpg", "level": 150, "health": 1500000, "attack": 1500 * (1 + 150 / 400), "reward": 32000000 },
+            { "name": "Dragonlord", "url": "https://i.imgur.com/cMile7I.png", "level": 200, "health": 2000000, "attack": 2000*(1+200/400), "reward": 50000000 },
+            { "name": "Godking", "url": "https://i.imgur.com/ENTCcfx.jpg", "level": 250, "health": 2500000, "attack": 2500 * (1 + 250 / 400), "reward": 720000000 },
+            { "name": "Lord of the Abyss", "url": "https://i.imgur.com/Mhu1t7M.png", "level": 300, "health": 3000000, "attack": 3000 * (1+300/400), "reward": 100000000 },
+            { "name": "Star Queen", "url": "https://cdn.discordapp.com/attachments/547415056065757194/792921517133529098/images.jpeg", "level": 400, "health": 4000000, "attack": 4000*(1+400/400), "reward": 150000000, "ability": {"vulnerable": 3}, "abilitydesc": "Applies 3 vulnerable on attack. "},
             { "name": "Starmie Pinata", "url": "https://cdn.discordapp.com/attachments/744331762146082837/775925715442729010/image0-9.png", "level": 77, "health": 7777777, "attack": 777, "reward": 77777777, "ability": { "stun": 0.07, "silence": 0.07, "critRate": 0.07, "critDamage": 6, "pierce": 0.07, "block": 0.07, "evade": 0.07 }, "abilitydesc": "7% chance to stun, 7% chance to silence, 7% chance to deal a critical and do 7 times the damage, 7% chance to pierce, 7% chance to block, 7% chance to evade" },
             { "name": "Goku Pinata", "url": "https://cdn.discordapp.com/attachments/722206616769790003/789597232424812544/image0.png", "level": 222, "health": 2500000, "attack": 1234, "reward": 66666666 }
         ]
@@ -51,6 +51,7 @@ module.exports = async function (message, user) {
         raid.url = raidoptions[raidnum].url
         if (words[1] == "-preset") {
             let raidnum = parseInt(words[2]);
+            if (words[2] == "random") {raidnum = Math.floor(Math.random()*(raidoptions.length-2))}
             if (isNaN(raidnum) || raidnum < 0 || raidnum >= raidoptions.length) { return functions.replyMessage(message, "This preset does not exist!") }
             functions.customsummon(raid, raidoptions[raidnum])
 
