@@ -20,11 +20,14 @@ module.exports = async function (message, user) {
         if (!validateBagItem(itemid)) { return functions.replyMessage(message, "This item does not exist!") }
         if (user.bag[itemid] == undefined) { return functions.replyMessage(message, "You do not have any " + displayBagItem(itemid) + "!") }
         if (isNaN(amount) || amount < 0 || amount > 10000) {return functions.replyMessage(message, "Please specify an amount between 1 and 10000. ")}
-        user.bag[itemid] -= amount;
+        if (user.bag[itemid] < amount) { return functions.replyMessage(message, "You do not have enough " + displayBagItem(itemid) + "! You only have " + user.bag[itemid])}
+        
+        
         if (gid == "g0") {
             let text = "You opened " + amount + " boxes and got:\n"
             text += functions.craftItems(message, user, parseInt(arr[0]) - 1, parseInt(arr[1]) - 1, amount, "box")
             if (amount != 1) { functions.replyMessage(message, text) }
+            user.bag[itemid] -= amount;
         }
     }
 }
