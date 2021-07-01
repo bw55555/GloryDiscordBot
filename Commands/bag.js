@@ -8,7 +8,7 @@ module.exports = async function (message, user) {
         let text = "Your bag: \n"
         for (let bagitem in user.bag) {
             itemname = displayBagItem(bagitem)
-            text += "**" + itemname + "**("+bagitem+"): " + user.bag[bagitem] + "\n"
+            text += bagitem +" - **" + itemname + "**: " + user.bag[bagitem] + "\n"
         }
         functions.replyMessage(message, text)
     } else if (word2 == "use") {
