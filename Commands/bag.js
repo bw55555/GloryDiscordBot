@@ -8,13 +8,13 @@ module.exports = async function (message, user) {
         let text = "Your bag: \n"
         for (let bagitem in user.bag) {
             itemname = displayBagItem(bagitem)
-            text += "**" + itemname + "**: " + user.bag[bagitem] + "\n"
+            text += "**" + itemname + "**("+bagitem+"): " + user.bag[bagitem] + "\n"
         }
         functions.replyMessage(message, text)
     } else if (word2 == "use") {
         let itemid = words[2];
         let amount = parseInt(words[3])
-        if (amount == undefined) { amount = 1 }
+        if (isNaN(amount)) { amount = 1 }
         let arr = itemid.split("_")
         let gid = arr.splice(0, 1)
         if (!validateBagItem(itemid)) { return functions.replyMessage(message, "This item does not exist!") }
