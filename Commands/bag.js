@@ -17,7 +17,7 @@ module.exports = async function (message, user) {
         if (amount == undefined) { amount = 1 }
         let arr = itemid.split("_")
         let gid = arr.splice(0, 1)
-        if (!validateBagItem(itemid) == false) { return functions.replyMessage(message, "This item does not exist!") }
+        if (!validateBagItem(itemid)) { return functions.replyMessage(message, "This item does not exist!") }
         if (user.bag[itemid] == undefined) { return functions.replyMessage(message, "You do not have any " + displayBagItem(itemid) + "!") }
         if (isNaN(amount) || amount < 0 || amount > 10000) {return functions.replyMessage(message, "Please specify an amount between 1 and 10000. ")}
         user.bag[itemid] -= amount;
