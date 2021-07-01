@@ -17,8 +17,7 @@ module.exports = async function (message, user) {
         if (amount == undefined) { amount = 1 }
         let arr = itemid.split("_")
         let gid = arr.splice(0, 1)
-        let itemidjson = gid + ".sub."+arr.join(".")
-        if (itemid == undefined || functions.JSONoperate(bagItems, itemidjson, "get") == undefined) { return functions.replyMessage(message, "This item does not exist!") }
+        if (!validateBagItem(itemid) == false) { return functions.replyMessage(message, "This item does not exist!") }
         if (user.bag[itemid] == undefined) { return functions.replyMessage(message, "You do not have any " + displayBagItem(itemid) + "!") }
         if (isNaN(amount) || amount < 0 || amount > 10000) {return functions.replyMessage(message, "Please specify an amount between 1 and 10000. ")}
         user.bag[itemid] -= amount;
@@ -34,4 +33,15 @@ function displayBagItem(bagitem) {
     let bagitemid = arr[0]
     arr.splice(0, 1)
     return bagItems[bagitemid].name + " " + arr.map((x, i) => bagItems[bagitemid].sub[i][x] == "" ? "" : "(" + bagItems[bagitemid].sub[i][x] + ")").filter(x => x != "").join(" ")
+}
+function validateBagItem(itemid) {
+    if (itemid == undefined) {return false}
+    let arr = itemid.split("_")
+    let gid = arr.splice(0, 1)
+    if (bagItems[gid] == undefined) { return false }
+    let sub = bagItems[gid].sub
+    for (let i = 0; i < arr.length; i++) {
+        if (sub[i] == undefined || arr[i] == undefined || sub[i][arr[i]] == undefined) {return false}
+    }
+    return true
 }
