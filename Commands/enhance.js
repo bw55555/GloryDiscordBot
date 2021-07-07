@@ -104,7 +104,7 @@ module.exports = async function (message, user) {
                         if (ret.text != undefined) { text += ret.text; break }
                         if (ret.cost != undefined) { totalcost += cost }
                     }
-                    text = "You spent " + i + "attempts and a total of $ " + totalcost + " to enhance your weapon to level " + item.enhance.level + "!\n" + text;
+                    text = "You spent " + i + " attempts and a total of $" + totalcost + " to enhance your weapon to level " + item.enhance.level + "!\n" + text;
                     functions.replyMessage(message, text);
                     functions.setUser(user);
                     functions.setItem(item);
