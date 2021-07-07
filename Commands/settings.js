@@ -4,8 +4,8 @@ module.exports = async function (message, user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     let word2 = words[1]
+    if (message.channel.type == "dm" || message.guild == undefined) { return }
     if (message.guild.member(id).hasPermission("MANAGE_GUILD") == false && admins.indexOf(id) == -1) { return functions.replyMessage(message, "You must have the permission Manage Server to change the bot's settings!") }
-    if (message.channel.type == "dm") { return }
     if (word2 == "prefix") {
         if (words[2] == undefined || words[2] == "") { return functions.replyMessage(message, "You cannot set the prefix to undefined!") }
         serverData[message.guild.id].prefix = words[2]

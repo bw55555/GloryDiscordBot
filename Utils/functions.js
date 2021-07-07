@@ -1141,10 +1141,10 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability, abilityde
         raid.level = summonlevel;
     } else {
         if (level != undefined) { summonlevel = level }
-        raid.attack = summonlevel * (10+Math.floor(summonlevel/25));
-        raid.currenthealth = summonlevel * 5 * (Math.floor(summonlevel / 25) + 1);
+        raid.attack = summonlevel * (15+Math.floor(summonlevel/25));
+        raid.currenthealth = summonlevel * 10 * (Math.floor(summonlevel / 25) + 1);
         raid.health = raid.currenthealth
-        raid.reward = summonlevel * Math.pow(Math.floor(summonlevel/50)+1, 2) * 100;
+        raid.reward = summonlevel * Math.pow(Math.floor(summonlevel/50)+1, 2) * 200;
         raid.level = summonlevel;
     }
 }
@@ -1466,9 +1466,10 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
 
             if (type == "event" || type == "world") {
                 let roll = Math.random()
-                if (roll > 0.9) {
+                if (type == "world") {roll = roll - 0.25}
+                if (roll > 1 - Math.floor(raid.level/500)) {
                     rarity = 7
-                } else if (roll > 0.7) {
+                } else if (roll > 1 - Math.floor(raid.level / 500) - Math.floor(raid.level/400)) {
                     rarity = 6
                 } else {
                     rarity = 5
