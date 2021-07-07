@@ -49,7 +49,7 @@ module.exports = async function (message, user) {
         if (stat == "attack" || stat == "defense") { cost *= 2 }
         let extratext = "? It will cost you $" + cost + ".You have a success rate of " + successrate + "%"
         if (num > 1) { extratext = " " + num + " times? You have a success rate of " + successrate + "%" }
-
+        if (enhanceToLevel) { extratext = " to level "+num+"? You have a success rate of " + successrate + "%"}
         functions.MessageAwait(message.channel, id, "Are you sure you want to enhance your weapon" +extratext+ "\nIf you are sure, type `confirm`", "confirm", function (response, extraArgs) {
             Promise.all([functions.getUser(id), functions.getItem(weaponid)]).then(ret => {
                 let user = ret[0];
@@ -91,7 +91,7 @@ module.exports = async function (message, user) {
                         if (ret.text != undefined) { text += ret.text; break }
                         if (ret.cost != undefined) { totalcost += cost }
                     }
-                    text = "You spent "+i +"attempts and a total of $" + totalcost + "to enhance your weapon to level " + item.enhance.level + "!\n" + text;
+                    text = "You spent "+i +" attempts and a total of $" + totalcost + " to enhance your weapon to level " + item.enhance.level + "!\n" + text;
                     functions.replyMessage(message, text);
                     functions.setUser(user);
                     functions.setItem(item);
@@ -104,7 +104,7 @@ module.exports = async function (message, user) {
                         if (ret.text != undefined) { text += ret.text; break }
                         if (ret.cost != undefined) { totalcost += cost }
                     }
-                    text = "You spent " + i + "attempts and a total of $" + totalcost + "to enhance your weapon to level " + item.enhance.level + "!\n" + text;
+                    text = "You spent " + i + "attempts and a total of $ " + totalcost + " to enhance your weapon to level " + item.enhance.level + "!\n" + text;
                     functions.replyMessage(message, text);
                     functions.setUser(user);
                     functions.setItem(item);
