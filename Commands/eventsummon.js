@@ -27,12 +27,12 @@ module.exports = async function (message, user) {
         functions.replyMessage(message, "The ghosts were summoned...")
     } else {
         if (message.channel.id != devData.eventRaidChannel) { return; }
+        let options = functions.extractOptions(message, false, "-preset", "-time")
         let time = 0;
-        if (words[1] == "-time") {
-            if (words[2] == "random") { words[2] = Math.floor(Math.random() * 24) + "h" + Math.floor(Math.random() * 60) + "m" + Math.floor(Math.random() * 60) + "s" }
-            time = functions.extractTime(message, words[2])
-            if (time === false) { return }
-            words.splice(1, 2)
+        if (options.time != undefined) {
+            if (options.time == "random") { options.time = Math.floor(Math.random() * 24) + "h" + Math.floor(Math.random() * 60) + "m" + Math.floor(Math.random() * 60) + "s" }
+            time = functions.extractTime(message, options.time)
+            if (time === false) { return functions.replyMessage(message, "This time is not valid!")}
         }
         let raid = { "_id": "event" };
         raid.isRaid = true
@@ -49,9 +49,9 @@ module.exports = async function (message, user) {
         let raidnum = 4;
         raid.name = raidoptions[raidnum].name
         raid.url = raidoptions[raidnum].url
-        if (words[1] == "-preset") {
-            let raidnum = parseInt(words[2]);
-            if (words[2] == "random") {raidnum = Math.floor(Math.random()*(raidoptions.length-2))}
+        if (options.preset != undefined) {
+            let raidnum = parseInt(options.preset);
+            if (options.preset == "random") {raidnum = Math.floor(Math.random()*(raidoptions.length-2))}
             if (isNaN(raidnum) || raidnum < 0 || raidnum >= raidoptions.length) { return functions.replyMessage(message, "This preset does not exist!") }
             functions.customsummon(raid, raidoptions[raidnum])
 

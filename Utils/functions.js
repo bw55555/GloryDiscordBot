@@ -2035,28 +2035,158 @@ function canUseCommand(message, user, cmd) {
     }
 }
 
+function extractOptionsAdvanced(message, inorder, ...optionnames) {
+    //notes: options must be different. Repeated options should be in an array, like [optionname]
+    let words = message.content.split(/\s+/)
+    let optioncopy = JSON.parse(JSON.stringify(optionnames))
+    if (inorder) {
+        return extractWordsInOrder(words, optioncopy, false)
+    } else {
+        let i = 0
+        let ret = {}
+        let currIndex = -1;
+        let currOption = undefined;
+        while (i < words.length) {
+            let x = searchNestedArray(optioncopy, words[i])
+            if (x != -1) {
+                if (currIndex != -1) {
+                    if (typeof currOption == "object") {
+                        if (ret[currOption[0]] == undefined) { ret[currOption[0]] = [] }
+                        ret[currOption[0]].push(words.slice(currIndex + 1, i).join(" "))
+                    } else {
+                        ret[currOption] = words.slice(currIndex + 1, i).join(" ")
+                    }
+                }
+                currOption = optioncopy[x];
+                currIndex = i;
+                if (typeof optioncopy[x] == "string") {
+                    optioncopy.splice(x, 1)
+                }
+            }
+            i++
+        }
+        if (currIndex != -1) {
+            if (typeof currOption == "object") {
+                if (ret[currOption[0]] == undefined) { ret[currOption[0]] = [] }
+                ret[currOption[0]].push(words.slice(currIndex + 1, i).join(" "))
+            } else {
+                ret[currOption] = words.slice(currIndex + 1, i).join(" ")
+            }
+        }
+        return ret
+    }
+}
+
+function extractWordsInOrder(words, options, canRepeat) {
+    if (canRepeat != true) { canRepeat = false; }
+    if (typeof options == "string") { return words.slice(1, words.length).join(" ") }
+    let ret = []
+    let final = []
+    for (let i = 0; i < options.length; i++) {
+        ret.push(undefined)
+    }
+    let i = 0;
+    let currOption = -1;
+    let currIndex = -1;
+    while (i < words.length) {
+        let x = searchNestedArray(options, words[i])
+        let xRepeat = 0;
+        if (typeof options[x] == "object") { xRepeat = 1 }
+        //console.log(i, currIndex, x, currOption, words, words.length)
+        if (x > currOption) {
+            if (currOption != -1) {
+                ret[currOption] = extractWordsInOrder(words.slice(currIndex, i), options[currOption], true)
+            }
+            currOption = x;
+            currIndex = i;
+        } else if (canRepeat && x > -1 && x <= currOption - xRepeat) {
+            if (currOption != -1) {
+                ret[currOption] = extractWordsInOrder(words.slice(currIndex, i), options[currOption], true)
+            }
+            currOption = x;
+            currIndex = i;
+            final.push(ret)
+            ret = []
+            for (let i = 0; i < options.length; i++) {
+                ret.push(undefined)
+            }
+        }
+        i++
+    }
+    if (currOption != -1) {
+        //console.log("Ran", i, currIndex, words.slice(currIndex, i).join(" "))
+        ret[currOption] = extractWordsInOrder(words.slice(currIndex, i), options[currOption], true)
+        if (canRepeat) { final.push(ret) }
+    }
+    if (final.length > 0) { return final }
+    return ret
+}
+function searchNestedArray(nestedArray, value) {
+    if (nestedArray == value) { return 0 }
+    if (typeof nestedArray != "object" || nestedArray.length == undefined) { return -1 }
+    for (let i = 0; i < nestedArray.length; i++) {
+        if (nestedArray[i] == value) { return i }
+        let x = searchNestedArray(nestedArray[i], value)
+        if (x != -1) { return i }
+    }
+    return -1
+}
 function extractOptions(message, inorder, ...optionnames) {
     let words = message.content.split(/\s+/)
     let ret = {};
     let i = 0;
-    while (i < optionnames.length) {
-        let option = optionnames[i]
-        if (typeof option == "string") {
-            let index = words.indexOf(option)
-            if (index == -1) { i++; continue }
-            words.splice(0, index + 1)
-            let nextindex = -1
-            while (nextindex == -1) {
-                i++;
-                nextindex = (i == optionnames.length) ? words.length : words.indexOf(optionnames[i])
+    if (inorder) {
+        while (i < optionnames.length) {
+            let option = optionnames[i]
+            if (typeof option == "string") {
+                let index = words.indexOf(option)
+                if (index == -1) { i++; continue }
+                words.splice(0, index + 1)
+                let nextindex = -1
+                while (nextindex == -1) {
+                    i++;
+                    nextindex = (i == optionnames.length) ? words.length : words.indexOf(optionnames[i])
+                }
+                if (option.startsWith("-")) { option = option.slice(1) }
+                ret[option] = words.splice(0, nextindex).join(" ")
             }
-            if (option.startsWith("-")) { option = option.slice(1) }
-            ret[option] = words.splice(0, nextindex).join(" ")
+        }
+    } else {
+        let optioncopy = JSON.parse(JSON.stringify(optionnames))
+        let currIndex = -1;
+        let currOption = undefined;
+        while (i < words.length) {
+            let x = searchNestedArray(optioncopy, words[i])
+            if (x != -1) {
+                if (currIndex != -1) {
+                    if (typeof currOption == "object") {
+                        if (currOption[0].startsWith("-")) { currOption[0] = currOption[0].slice(1) }
+                        if (ret[currOption[0]] == undefined) { ret[currOption[0]] = [] }
+                        ret[currOption[0]].push(words.slice(currIndex + 1, i).join(" "))
+                    } else {
+                        if (currOption.startsWith("-")) { currOption = currOption.slice(1) }
+                        ret[currOption] = words.slice(currIndex + 1, i).join(" ")
+                    }
+                }
+                currOption = optioncopy[x];
+                currIndex = i;
+                if (typeof optioncopy[x] == "string") {
+                    optioncopy.splice(x, 1)
+                }
+            }
+            i++
+        }
+        if (currIndex != -1) {
+            if (typeof currOption == "object") {
+                if (ret[currOption[0]] == undefined) { ret[currOption[0]] = [] }
+                ret[currOption[0]].push(words.slice(currIndex + 1, i).join(" "))
+            } else {
+                ret[currOption] = words.slice(currIndex + 1, i).join(" ")
+            }
         }
     }
     return ret;
 }
-
 async function antimacro(message, user) {
     
     let reacts = ["549652727744167936", "💰", "🏳️", "🏃‍♂️"]
@@ -2194,6 +2324,8 @@ module.exports.secondsUntilReset = secondsUntilReset
 module.exports.JSONoperate = JSONoperate
 module.exports.adminQuest = adminQuest
 module.exports.extractOptions = extractOptions
+module.exports.extractOptionsAdvanced = extractOptionsAdvanced
+module.exports.searchNestedArray = searchNestedArray
 module.exports.antimacro = antimacro
 module.exports.shuffle = shuffle
 module.exports.dailyReset = dailyReset
