@@ -2156,17 +2156,11 @@ function extractOptions(message, inorder, ...optionnames) {
         let currIndex = -1;
         let currOption = undefined;
         while (i < words.length) {
-            let x = searchNestedArray(optioncopy, words[i])
+            let x = optioncopy.indexOf(words[i])
             if (x != -1) {
                 if (currIndex != -1) {
-                    if (typeof currOption == "object") {
-                        if (currOption[0].startsWith("-")) { currOption[0] = currOption[0].slice(1) }
-                        if (ret[currOption[0]] == undefined) { ret[currOption[0]] = [] }
-                        ret[currOption[0]].push(words.slice(currIndex + 1, i).join(" "))
-                    } else {
-                        if (currOption.startsWith("-")) { currOption = currOption.slice(1) }
-                        ret[currOption] = words.slice(currIndex + 1, i).join(" ")
-                    }
+                    if (currOption.startsWith("-")) { currOption = currOption.slice(1) }
+                    ret[currOption] = words.slice(currIndex + 1, i).join(" ")
                 }
                 currOption = optioncopy[x];
                 currIndex = i;
@@ -2177,12 +2171,8 @@ function extractOptions(message, inorder, ...optionnames) {
             i++
         }
         if (currIndex != -1) {
-            if (typeof currOption == "object") {
-                if (ret[currOption[0]] == undefined) { ret[currOption[0]] = [] }
-                ret[currOption[0]].push(words.slice(currIndex + 1, i).join(" "))
-            } else {
-                ret[currOption] = words.slice(currIndex + 1, i).join(" ")
-            }
+            if (currOption.startsWith("-")) { currOption = currOption.slice(1) }
+            ret[currOption] = words.slice(currIndex + 1, i).join(" ")
         }
     }
     return ret;
