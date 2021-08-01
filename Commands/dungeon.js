@@ -88,7 +88,7 @@ module.exports = async function (message, user) {
             else if (!dungeon.raid.alive) {dungeon.task = "next" }
         } else if (command == "info" || command == "view" || command == "i") {
             if (dungeon.task == "raid") {
-                return functions.raidInfo(message, dungeon.raid, "Total Rewards: "+dungeon.xp + " xp, "+dungeon.crystals +" crystals","Current Floor: "+dungeon.floor)
+                return functions.raidInfo(message, dungeon.raid, "**Total Rewards**: "+dungeon.xp + " xp, "+dungeon.crystals +" crystals","Current Floor: "+dungeon.floor)
             } else if (dungeon.task == "next") {
                 return functions.sendMessage(message.channel, {
                     embed: {
@@ -163,7 +163,7 @@ function nextFloor(message, dungeon, notext) {
     if (raid.ability != undefined) { dungeon.raid.ability = raid.ability; dungeon.raid.abilitydesc = raid.abilitydesc; }
     if (notext == false) {
         functions.sendMessage(message.channel, "You encountered a level " + summonlevel + " " + raid.name + "!")
-        functions.raidInfo(message, dungeon.raid)
+        functions.raidInfo(message, dungeon.raid, "**Total Rewards**: " + dungeon.xp + " xp, " + dungeon.crystals + " crystals", "Current Floor: " + dungeon.floor)
     }
 }
 
