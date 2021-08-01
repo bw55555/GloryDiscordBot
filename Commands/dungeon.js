@@ -36,7 +36,9 @@ module.exports = async function (message, user) {
         else if (command == "sweep") {
             if (user.dead) {return functions.replyMessage(message, "You cannot enter the dungeon if you are dead!")}
             if (dungeon.task == "start") {
-                for (let i = 0; i < dungeon.maxFloor - 10; i++) {
+                let startfloor = parseInt(words[2]);
+                if (isNaN(startfloor) || startfloor > words[2]) {startfloor = dungeon.maxFloor - 10}
+                for (let i = 0; i < startfloor; i++) {
                     nextFloor(message, dungeon, true);
                     dungeon.xp += dungeon.raid.reward;
                     dungeon.crystals += dungeon.raid.crystalreward;
@@ -45,7 +47,7 @@ module.exports = async function (message, user) {
                 user.dungeonts = ts;
                 user.statusEffects = {};
                 user.speed = 0;
-                functions.sendMessage(message.channel, "You have swept floors 1 - " + (dungeon.maxFloor - 10) + " of the crystal mines for " + dungeon.xp + " guild xp and " + dungeon.crystals + " crystals. Use `!d next` to keep exploring or `!d exit` to leave. ")
+                functions.sendMessage(message.channel, "You have swept floors 1 - " + (startfloor) + " of the crystal mines for " + dungeon.xp + " guild xp and " + dungeon.crystals + " crystals. Use `!d next` to keep exploring or `!d exit` to leave. ")
                 dungeon.task = "next"
             } else {
                 functions.replyMessage(message, "You are already in the crystal mines!")
