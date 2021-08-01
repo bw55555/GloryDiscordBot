@@ -35,6 +35,7 @@ global.partyData = "partyData"
 global.dailyrefresh = null;
 global.talkedRecently = {};
 global.nctlist = {};
+global.msperday = 24*60*60*1000
 const TOKEN = config.token;//woah woah woah woah whatcha
 let channelnum = 0;
 let iterchannel = 0;

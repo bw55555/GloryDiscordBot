@@ -7,7 +7,7 @@ module.exports = async function (message, user) {
     let word2 = words[1]
     if (word2 == undefined) { word2 = "quests" }
     if (ts > devData.questevent.refresh) {
-        devData.questevent.refresh += 30 * 60 * 1000;
+        devData.questevent.refresh = ts - (ts % 30 * 60 * 1000) + 30 * 60* 60* 1000;
         for (let i = 0; i < NUM_QUESTS; i++) {
             refreshQuest(i)
         }
@@ -15,6 +15,12 @@ module.exports = async function (message, user) {
     }
     if (word2 == "quests") {
         functions.findObjects("eventQuests", {}).then(quests => {
+            if (quests.length == 0) {
+                for (let i = 0; i < NUM_QUESTS; i++) {
+                    refreshQuest(i)
+                }
+                functions.replyMessage(message, "Quests refreshed!")
+            }
             quests.sort((a,b) => a._id - b._id)
             functions.createPages(message, user, quests, "Event Quests", x => x.name, x => {
                 let text = "";
