@@ -69,47 +69,50 @@ client.connect((err) => {
 })
 var commands = {}
 var commandlist = {}
-fs.readdir("./Commands/", (err, files) => {
-    if (err) return console.error(err);
-    console.log("Reading Commands")
-    files.forEach(file => {
-        //console.log(file)
-        // If the file is not a JS file, ignore it (thanks, Apple)
-        if (!file.endsWith(".js")) { return };
-        // Load the event file itself
-        let commandname = file.split(".")[0];
-        //console.log(commandname)
-        commands[commandname] = require(`./Commands/${file}`);
-        commandlist[commandname] = "exists"
-        // Get just the event name from the file name
-        delete require.cache[require.resolve(`./Commands/${file}`)];
-
-    });
-    console.log("Done Reading Commands")
-    //console.log(commandlist)
-});
 global.Assets = {}
 global.assetList = {}
-fs.readdir("./Assets/", (err, files) => {
-    if (err) return console.error(err);
-    console.log("Reading Assets")
-    files.forEach(file => {
-        //console.log(file)
-        // If the file is not a JS file, ignore it (thanks, Apple)
-        if (!file.endsWith(".json")) { return };
-        // Load the event file itself
-        let assetname = file.split(".")[0];
-        //console.log(commandname)
-        Assets[assetname] = require(`./Assets/${file}`);
-        assetList[assetname] = "exists"
-        // Get just the event name from the file name
-        delete require.cache[require.resolve(`./Assets/${file}`)];
+async function loadFiles() {
+    await fs.readdir("./Assets/", (err, files) => {
+        if (err) return console.error(err);
+        console.log("Reading Assets")
+        files.forEach(file => {
+            //console.log(file)
+            // If the file is not a JS file, ignore it (thanks, Apple)
+            if (!file.endsWith(".json")) { return };
+            // Load the event file itself
+            let assetname = file.split(".")[0];
+            //console.log(commandname)
+            Assets[assetname] = require(`./Assets/${file}`);
+            assetList[assetname] = "exists"
+            // Get just the event name from the file name
+            delete require.cache[require.resolve(`./Assets/${file}`)];
 
+        });
+        console.log("Done Reading Assets")
+        global.skillData = Assets.skillData;
+        //console.log(commandlist)
     });
-    console.log("Done Reading Assets")
-    global.skillData = Assets.skillData;
-    //console.log(commandlist)
-});
+    await fs.readdir("./Commands/", (err, files) => {
+        if (err) return console.error(err);
+        console.log("Reading Commands")
+        files.forEach(file => {
+            //console.log(file)
+            // If the file is not a JS file, ignore it (thanks, Apple)
+            if (!file.endsWith(".js")) { return };
+            // Load the event file itself
+            let commandname = file.split(".")[0];
+            //console.log(commandname)
+            commands[commandname] = require(`./Commands/${file}`);
+            commandlist[commandname] = "exists"
+            // Get just the event name from the file name
+            delete require.cache[require.resolve(`./Commands/${file}`)];
+
+        });
+        console.log("Done Reading Commands")
+        //console.log(commandlist)
+    });
+}
+loadFiles()
 function addServer(guild) {
     if (serverData[guild.id] == undefined) { serverData[guild.id] = {} }
     serverData[guild.id]._id = guild.id
