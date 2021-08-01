@@ -331,7 +331,8 @@ function evaluateMessage(message) {
         }
         if (user.maintenance) {
             delete user.maintenance
-            functions.sendMessage(message.channel, ":arrow_up:  ** GLORY UPDATES**  :arrow_up:\n\n :bank: ** Guild Expansion ** :bank:\n- The guild now has specific permissions or roles that you can assign to your guild members!\n- These roles include : \"summon\", \"invite\", \"pay\", \"upgrade\", \"resetraid\", \"kick\", and \"setpermissions\"\n- Do`!guild viewperms @user` to see your permissions.\n- Do` !guild setperms @user permission` to toggle their permissions. \n\n:christmas_tree: ** Glory Christmas Update ** :christmas_tree:\nHo, ho ho, raider.Welcome to the Christmas Event! This lasts 3 days.\nThe residents of Glory city need your help decorating the Christmas tree, and have many presents to give to adventurers willing to help. \nThey have set up a quest board with requests, and will be thankful if you helped!\n    `!event` - Shows you what quests are available to earn presents. Quests will automatically refresh every half an hour. \n    `!event accept quest#` - Accepts a quest. You can accept at most 3 quests at a time. \n    `!quest` - Shows what quests you have\n    `!quest donate quest# currency amount` - donates the `amount` of specified `currency` to the selected `quest#`. Both currency and amount can be replaced with `auto` to automatically select the currency and/or amount.\n    `!cq #` - Claims the reward from the selected quest once completed.\n    `!present ` - See how many presents you have\n    `!present open #` - Opens a certain amount of presents")        }
+            if (devData.maintenancetext != undefined && devData.maintenancetext != "") {
+                functions.sendMessage(message.channel, devData.maintenancetext)            }        }
         if (devs.indexOf(id) == -1) {
             if (user.macro) {
                 functions.logCommand(message, "MACRO")
