@@ -135,7 +135,7 @@ function evaluateMessage(message) {
     if (message.channel.type != "dm" && serverData[message.guild.id] == undefined) {
         addServer(message.guild)
     }
-    message.content = message.content.trim().split(/\s+/).join(" ")
+    message.content = message.content.trim()//.split(/\s+/).join(" ")
 
     let prefix = (message.channel.type == "dm") ? defaultPrefix : serverData[message.guild.id].prefix;
     if (message.content.startsWith("<@" + bot.user.id + ">")) prefix = "<@" + bot.user.id +">"
