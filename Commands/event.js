@@ -3,18 +3,18 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    if (devData.christmasevent == undefined || ts < devData.christmasevent.start || ts > devData.christmasevent.end + 2 * 24 * 60 * 60 * 1000) { return functions.replyMessage(message, "The quest board is not currently open!") }
+    if (devData.questevent == undefined || ts < devData.questevent.start || ts > devData.questevent.end + 2 * 24 * 60 * 60 * 1000) { return functions.replyMessage(message, "The quest board is not currently open!") }
     let word2 = words[1]
     if (word2 == undefined) { word2 = "quests" }
-    if (ts > devData.christmasevent.refresh) {
-        devData.christmasevent.refresh += 30 * 60 * 1000;
+    if (ts > devData.questevent.refresh) {
+        devData.questevent.refresh += 30 * 60 * 1000;
         for (let i = 0; i < NUM_QUESTS; i++) {
             refreshQuest(i)
         }
         functions.replyMessage(message, "Quests refreshed!")
     }
     if (word2 == "quests") {
-        functions.findObjects("Xmasquests", {}).then(quests => {
+        functions.findObjects("eventQuests", {}).then(quests => {
             quests.sort((a,b) => a._id - b._id)
             functions.createPages(message, user, quests, "Event Quests", x => x.name, x => {
                 let text = "";
@@ -41,7 +41,7 @@ module.exports = async function (message, user) {
         let qnum = parseInt(words[2]) - 1
         if (isNaN(qnum) || qnum < 0 || qnum >= NUM_QUESTS) { return functions.replyMessage(message, "This quest does not exist!") }
         if (user.quests.filter(x => x.event == true).length >= 3) { return functions.replyMessage(message, "You have already accepted 3 quests!") }
-        return functions.getObject("Xmasquests", qnum).then(q => { user.quests.push(q); refreshQuest(q._id); functions.replyMessage(message, "Accepted a quest: " +q.name) }) 
+        return functions.getObject("eventQuests", qnum).then(q => { user.quests.push(q); refreshQuest(q._id); functions.replyMessage(message, "Accepted a quest: " +q.name) }) 
     }
 }
 function refreshQuest(id) {
@@ -77,10 +77,10 @@ function refreshQuest(id) {
     let mname = monsters[mkey]
     let mamt = Math.floor((1 + Math.random()) * 3 * ((mkey + 1) % 3) + 1)
     conditions.push(functions.addQuestCondition("raidAttack", ">=", "Kill " + mamt + " " + mname, mamt, { "raid.currenthealth": { "value": 0, "operator": "<=" }, "raid.name": { "value": mname, "operator": "=" } }, "a"))
-    let exq = functions.makeQuest(undefined, "Help us Decorate!", undefined, conditions, { "present": rwd })
+    let exq = functions.makeQuest(undefined, "Help the City!", undefined, conditions, { "present": rwd })
     exq.event = true;
     exq._id = id
     delete exq.mqid
     delete exq.flavortext
-    functions.setObject("Xmasquests", exq)
+    functions.setObject("eventQuests", exq)
 }

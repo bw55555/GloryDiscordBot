@@ -38,32 +38,38 @@ module.exports = async function (message, user) {
                     "item": "bag.g0_6_6"
                 },
                 "Epic weapon box": {
-                    "chance": 3,
+                    "chance": 4,
                     "amount": 1,
                     "item": "bag.g0_7_7"
                 },
                 "Legendary weapon box": {
-                    "chance": 1,
+                    "chance": 1.5,
                     "amount": 1,
                     "item": "bag.g0_8_8"
                 },
                 "Godly weapon box": {
-                    "chance": 0.079885,
+                    "chance": 0.09,//0.098985,
                     "amount": 1,
                     "item": "bag.g0_9_9"
                 },
-                "reroll": {
-                    "chance": 2,
+                "Reroll": {
+                    "chance": 2.4,
                     "amount": 1,
                     "item": "consum.reroll"
                 },
+                "Skill point": {
+                    "chance": 0.01,
+                    "amount": 1,
+                    "item": "consum.sp"
+                }
+                /*
                 "Familiar Invocation Contract": {
-                    "chance": 1,
+                    "chance": 1.5,
                     "amount": 1,
                     "item": "bag.f4_0_0"
                 },
                 "Familiar Selection Contract (Common)": {
-                    "chance": 0.15,
+                    "chance": 0.3,
                     "amount": 1,
                     "item": "bag.f5_0_1"
                 },
@@ -91,7 +97,8 @@ module.exports = async function (message, user) {
                     "chance": 0.00001,
                     "amount": 1,
                     "item": "bag.f4_0_5"
-                },
+                }
+                */
             }
             let presentlist = Object.keys(presentitems)
             let chosenpresent = functions.getRandomArrayElement(presentlist, presentlist.map(x => presentitems[x].chance))
