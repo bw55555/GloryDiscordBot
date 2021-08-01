@@ -72,7 +72,9 @@ export function craftItem(message: Message, owner: JSON, minrarity: number, maxr
 export function craftItem(message: Message, owner: JSON, minrarity: number, maxrarity: number, reply: boolean): JSON
 export function craftItem(message: Message, owner: JSON, minrarity: number, maxrarity: number, reply: boolean, isBulk: boolean): JSON
 export function craftItem(message: Message, owner: JSON, minrarity: number, maxrarity: number, reply: boolean, isBulk: boolean, source: "box" | "craft"): JSON
+export function raidInfo(message: Message, raid: JSON): void
 export function raidInfo(message: Message, raid: JSON, extratext: string): void
+export function raidInfo(message: Message, raid: JSON, extratext: string, footer: string): void
 export function customsummon(raid: JSON, options: JSON): void
 export function locationsummon(raid: JSON): void
 export function summon(raid: JSON): void

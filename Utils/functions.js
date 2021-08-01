@@ -1037,7 +1037,7 @@ function craftItem(message, owner, minrarity, maxrarity, reply, isBulk, source) 
     if (reply) sendMessage(message.channel, "<@" + owner._id + "> has recieved an item with id " + item._id + " and rarity " + item.rarity)
     return item
 }
-function raidInfo(message, raid, extratext) {
+function raidInfo(message, raid, extratext, footer) {
     if (extratext == undefined) { extratext = "" }
     else { extratext = "\n"+extratext}
     let itemRewardText = ""
@@ -1072,7 +1072,9 @@ function raidInfo(message, raid, extratext) {
         }
     } 
     */
-    if (raid.location != undefined) {
+    if (footer != undefined) {
+        toSendEmbed.embed.footer = { text: footer }
+    } else if (raid.location != undefined) {
         toSendEmbed.embed.footer = {
             "text": "ID: "+raid._id
         }

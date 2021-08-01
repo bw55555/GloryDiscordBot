@@ -4,7 +4,6 @@ module.exports = async function (message, user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     let command = (words.length == 1) ? "" : words[1].toLowerCase()
-    if (user.dungeonts == undefined && functions.isCD(user, ts, "crystalmines")) { return functions.replyMessage(message, "You can enter the crystal mines in "+functions.displayTime(user.cooldowns.crystalmines, ts)) }
     if (user.ascension < 3) { return functions.replyMessage(message, "You can only enter the crystal mines at ascension 3. ") }
     if (user.guild == "None") { return functions.replyMessage(message, "You must have a guild to enter the crystal mines. ")}
     if (command == "help") {
@@ -31,9 +30,10 @@ module.exports = async function (message, user) {
         let dungeon = ret[0];
         if (dungeon == false) { return functions.replyMessage(message, "You have not yet acquired a permit to the crystal mines!") }
         let timeout = false;
-        if (user.dungeonts != undefined && functions.calcTime(ts, user.dungeonts) > 600) { leaveDungeon(message, dungeon, user, "timeout") }
+        if (!functions.isCD(user, ts, "crystalmines") && user.dungeonts != undefined && functions.calcTime(ts, user.dungeonts) > 600) { leaveDungeon(message, dungeon, user, "timeout") }
         else if (user.currenthealth <= 0) { leaveDungeon(message, dungeon, user, "death")}
         else if (command == "sweep") {
+            if (user.dungeonts == undefined && functions.isCD(user, ts, "crystalmines")) { return functions.replyMessage(message, "You can enter the crystal mines in " + functions.displayTime(user.cooldowns.crystalmines, ts)) }
             if (user.dead) {return functions.replyMessage(message, "You cannot enter the dungeon if you are dead!")}
             if (dungeon.task == "start") {
                 let startfloor = parseInt(words[2]);
@@ -57,6 +57,7 @@ module.exports = async function (message, user) {
             
         }
         else if (command == "start" || command == "s") {
+            if (user.dungeonts == undefined && functions.isCD(user, ts, "crystalmines")) { return functions.replyMessage(message, "You can enter the crystal mines in " + functions.displayTime(user.cooldowns.crystalmines, ts)) }
             if (user.dead) { return functions.replyMessage(message, "You cannot enter the dungeon if you are dead!") }
             if (dungeon.task == "start") {
                 dungeon.ts = ts;
@@ -87,7 +88,7 @@ module.exports = async function (message, user) {
             else if (!dungeon.raid.alive) {dungeon.task = "next" }
         } else if (command == "info" || command == "view" || command == "i") {
             if (dungeon.task == "raid") {
-                return functions.raidInfo(message, dungeon.raid)
+                return functions.raidInfo(message, dungeon.raid, "Total Rewards: "+dungeon.xp + " xp, "+dungeon.crystals +" crystals","Current Floor: "+dungeon.floor)
             } else if (dungeon.task == "next") {
                 return functions.sendMessage(message.channel, {
                     embed: {
@@ -101,7 +102,10 @@ module.exports = async function (message, user) {
                     }
                 })
             } else {
-                return functions.replyMessage(message, "You cannot do this right now!")
+                let text = "```\n"
+                text += "Max Floor: " + dungeon.maxFloor + "\n";
+                text += "```"
+                return functions.replyMessage(message, text)
             }
         } else if (command == "next") {
             if (dungeon.task == "next") {
