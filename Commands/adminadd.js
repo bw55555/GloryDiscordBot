@@ -11,13 +11,8 @@ module.exports = async function (message, user) {
     return Promise.all([functions.validate(message, user)]).then(ret => {
         let target = ret[0];
         if (target == false) { return user; }
-        let amount = words[3];
-        if (amount == undefined) { return functions.replyMessage(message, "This amount is not defined!") }
-        amount = amount.replace(/\_/g, " ")
-        if (!isNaN(parseInt(amount))) { amount = parseInt(amount) }
-        if (amount == "true") { amount = true; }
-        if (amount == "false") { amount = false; }
-        if (amount == "undefined") { amount = undefined; }
+        let amount = parseInt(words[3]);
+        if (isNaN(amount)) { return functions.replyMessage(message, "This amount is not defined!") }
         let attribute = words[2];
         if (attribute == "_id") { return functions.replyMessage(message, "This is not allowed, don't break my bot") }
         //console.log(attribute)
