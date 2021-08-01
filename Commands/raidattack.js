@@ -2,6 +2,7 @@
 module.exports = async function (message, user) {
     let ts = message.createdTimestamp
     if (user.location == "city") { return functions.replyMessage(message, "You cannot do this in the city!") }
+    if (user.dungeonts != undefined) {return functions.replyMessage(message, "You cannot do this while in the dungeon!")}
     if (user.location == "guild") {
         if (user.guild == "None") { return functions.replyMessage(message, "You are not in a guild!") }
         return Promise.all([functions.getObject("guildData", user.guild)]).then(ret => {

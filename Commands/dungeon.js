@@ -37,7 +37,9 @@ module.exports = async function (message, user) {
             if (user.dead) {return functions.replyMessage(message, "You cannot enter the dungeon if you are dead!")}
             if (dungeon.task == "start") {
                 let startfloor = parseInt(words[2]);
-                if (isNaN(startfloor) || startfloor > words[2]) {startfloor = dungeon.maxFloor - 10}
+                if (isNaN(startfloor) || startfloor > words[2]) { startfloor = dungeon.maxFloor - 10 }
+                if (dungeon.maxFloor < 10) {return functions.replyMessage(message, "Sweeping is unlocked at floor 10.")}
+                if (startfloor < 1) {return functions.replyMessage(message, "You cannot sweep below floor 1!")}
                 for (let i = 0; i < startfloor; i++) {
                     nextFloor(message, dungeon, true);
                     dungeon.xp += dungeon.raid.reward;
