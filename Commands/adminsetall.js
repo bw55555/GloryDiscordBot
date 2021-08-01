@@ -4,8 +4,8 @@ module.exports = async function (message, user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     if (admins.indexOf(id) == -1) { return user }
-    if (words.length < 4) {
-        functions.sendMessage(message.channel, "Syntax: !adminadd user attribute value");
+    if (words.length < 3) {
+        functions.sendMessage(message.channel, "Syntax: !adminsetall attribute value");
         return user;
     }
     let amount = words[2];

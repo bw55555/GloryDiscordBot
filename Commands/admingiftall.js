@@ -4,8 +4,8 @@ module.exports = async function (message, user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     if (admins.indexOf(id) == -1) { return user }
-    if (words.length < 4) {
-        functions.sendMessage(message.channel, "Syntax: !adminadd user attribute value");
+    if (words.length < 3) {
+        functions.sendMessage(message.channel, "Syntax: !admingiftall attribute value");
         return user;
     }
     let amount = parseInt(words[2]);
@@ -19,7 +19,6 @@ module.exports = async function (message, user) {
     if (typeof obj != "number") { return functions.replyMessage(message, "This selection is not a number!") }
     let toSet = { "$inc": {} }
     toSet["$inc"][attribute] = amount
-    functions.JSONoperate(user, attribute, "add", amount)
     functions.setProp("userData", {}, toSet)
     functions.replyMessage(message, "Gave everyone "+amount +" "+ attribute +"!")
     return user
