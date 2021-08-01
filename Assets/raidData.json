@@ -941,7 +941,7 @@
       "health": 27,
       "reward": 75,
       "ability": {
-        "multiattack":  3
+        "multiattack": 3
       },
       "abilitydesc": "Can attack between 1 and 3 times. ",
       "crystalreward": 10
@@ -955,7 +955,7 @@
       "health": 30,
       "reward": 75,
       "ability": {
-        "burn":  3
+        "burn": 3
       },
       "abilitydesc": "Applies burn for 3 commands. ",
       "crystalreward": 10
@@ -1006,7 +1006,7 @@
       "defense": 0,
       "health": 2,
       "reward": 100,
-      "ability":  {"evade":  0.95},
+      "ability": { "evade": 0.95 },
       "abilitydesc": "95% chance to evade the attack and cancel it.",
       "crystalreward": 10
     },
@@ -1019,22 +1019,24 @@
       "health": 27,
       "reward": 100,
       "ability": {
-        "bleed":  4
+        "bleed": 4
       },
       "abilitydesc": "Applies 4 bleed on attack.",
       "crystalreward": 10
-    },
+    }
+  ],
+  "mythical": [
     {
       "name": "Godzilla",
       "url": "https://i.imgur.com/cgMFr9Q.jpg",
-      "rarity": "Legendary",
+      "rarity": "Mythical",
       "attack": 18,
       "defense": 0,
       "health": 35,
-      "reward": 150,
-      "ability": {"pierce":  1},
+      "reward": 200,
+      "ability": { "pierce": 1 },
       "abilitydesc": "100% chance to pierce the opponent's defense. ",
-      "crystalreward": 10
+      "crystalreward": 25
     }
   ]
 }

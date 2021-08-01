@@ -1,12 +1,13 @@
 ﻿var raidData = Assets.raidData
 
 const guildStore = [
-    { "name": "Common Scroll", "price": 50000, "levels": [0, 10, 20, 30, 40], "stocks": [1, 1, 1, 1, 1] },
-    { "name": "Uncommon Scroll", "price": 250000, "levels": [10, 20, 30, 40], "stocks": [1, 1, 1, 1] },
-    { "name": "Rare Scroll", "price": 1000000, "levels": [20, 30, 40], "stocks": [1, 1, 1] },
-    { "name": "Epic Scroll", "price": 2500000, "levels": [30, 40], "stocks": [1, 1] },
-    { "name": "Legendary Scroll", "price": 5000000, "levels": [40], "stocks": [1] },
-    { "name": "Box", "price": 50000, "levels": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50], "stocks": [25, 75, 150, 250, 500, 1000, 2000, 3000, 4000, 5000, 10000] }
+    { "name": "Common Scroll", "type": "guild", "item": "scrolls.0", "price": 50000, "levels": [0, 10, 20, 30, 40, 50], "stocks": [1, 1, 1, 1, 1, 1] },
+    { "name": "Uncommon Scroll", "type": "guild", "item": "scrolls.1", "price": 250000, "levels": [10, 20, 30, 40, 50], "stocks": [1, 1, 1, 1, 1] },
+    { "name": "Rare Scroll", "type": "guild", "item": "scrolls.2", "price": 1000000, "levels": [20, 30, 40, 50], "stocks": [1, 1, 1, 1] },
+    { "name": "Epic Scroll", "type": "guild", "item": "scrolls.3", "price": 2500000, "levels": [30, 40, 50], "stocks": [1, 1, 1] },
+    { "name": "Legendary Scroll", "type": "guild", "item": "scrolls.4", "price": 5000000, "levels": [40, 50], "stocks": [1, 1] },
+    { "name": "Mythical Scroll", "type": "guild", "item": "scrolls.5", "price": 5000000, "levels": [50], "stocks": [1] },
+    { "name": "Box", "type": "individual", "item": "consum.box", "price": 50000, "levels": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70], "stocks": [25, 75, 150, 250, 500, 1000, 2000, 3000, 4000, 5000, 10000, 15000, 20000, 30000, 40000] }
 ]
 global.guildBuffStore = [
     { "name": "Attack +", "stat": "buff", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.1, 0.2, 0.4, 0.6, 1, 1.5, 2, 2.5, 3, 4], "prices": [0, 400, 1500, 10000, 50000, 150000, 500000, 1500000, 5000000, 15000000, 50000000] },
@@ -107,7 +108,7 @@ module.exports = async function (message, user) {
                 guild.members = [];
                 guild.members.push(id);
                 guild.xp = 0;
-                guild.scrolls = [0, 0, 0, 0, 0];
+                guild.scrolls = [0, 0, 0, 0, 0, 0];
                 guild.raid = false;
                 guild.adminlog = false;
                 guild.store = {};
@@ -133,6 +134,7 @@ module.exports = async function (message, user) {
     //user must have a guild here
     return Promise.all([functions.getObject("guildData", guildName)]).then(ret => {
         let guild = ret[0]
+        if (guild.scrolls.length != 6) {guild.scrolls.push(0)}
         while (guild.level * 200000 + 800000 > guild.bankmax) {
             guild.bankmax += 200000
             guild.materialmax += 200000
@@ -407,13 +409,13 @@ module.exports = async function (message, user) {
             if (isNaN(guild.raid)) { return functions.replyMessage(message, "You already have a raid going on!") }
             if (words[2] == undefined) { return functions.replyMessage(message, "Please specify a boss rarity!!!") }
             let summonrarity = words[2].toLowerCase()
-            let raritytoscroll = { "0": "common", "1": "uncommon", "2": "rare", "3": "epic", "4": "legendary", "c": "common", "u": "uncommon", "r": "rare", "e": "epic", "l": "legendary" }
+            let raritytoscroll = { "0": "common", "1": "uncommon", "2": "rare", "3": "epic", "4": "legendary", "5": "mythical", "c": "common", "u": "uncommon", "r": "rare", "e": "epic", "l": "legendary", "m": "mythical" }
             if (raritytoscroll[summonrarity] != undefined) { summonrarity = raritytoscroll[summonrarity] }
-            let scrollrarities = { "common": 0, "uncommon": 1, "rare": 2, "epic": 3, "legendary": 4 }
+            let scrollrarities = { "common": 0, "uncommon": 1, "rare": 2, "epic": 3, "legendary": 4, "mythical": 5 }
             if (summonrarity == undefined || summonrarity == "" || scrollrarities[summonrarity] == undefined) { return functions.replyMessage(message, "That rarity does not exist! See " + serverData[message.guild.id].prefix + "guild scrolls for a list of available rarities.") }
             if (guild.scrolls[scrollrarities[summonrarity]] < 1) { return functions.replyMessage(message, "Your guild does not have enough scrolls!") }
             guild.scrolls[scrollrarities[summonrarity]] -= 1
-            let raritylevels = [0, 25, 75, 100, 125, 150]
+            let raritylevels = [0, 25, 75, 100, 125, 150, 200]
             let summonlevel = Math.floor(Math.random() * (raritylevels[scrollrarities[summonrarity] + 1] - raritylevels[scrollrarities[summonrarity]]) + 1 + raritylevels[scrollrarities[summonrarity]])
             let rarityraids = raidData[summonrarity]
             let raid = rarityraids[Math.floor(rarityraids.length * Math.random())]
@@ -438,7 +440,8 @@ module.exports = async function (message, user) {
             text += "<:Uncommon:546173232542384168> Uncommon Scrolls: " + guild.scrolls[1] + "\n"
             text += "<:Rare:546173232802299904> Rare Scrolls: " + guild.scrolls[2] + "\n"
             text += "<:Epic:546173232773070848> Epic Scrolls: " + guild.scrolls[3] + "\n"
-            text += "<:Legendary:546170457548783627> Legendary Scrolls: " + guild.scrolls[4]
+            text += "<:Legendary:546170457548783627> Legendary Scrolls: " + guild.scrolls[4] +"\n"
+            text += "<:Legendary:546170457548783627> Mythical Scrolls: " + guild.scrolls[5]
             functions.replyMessage(message, text)
         }
         else if (command == "UPGRADE") {
@@ -557,8 +560,11 @@ module.exports = async function (message, user) {
             if (user.money < guildStore[item].price * amount) { return functions.replyMessage(message, "You don't have enough money to buy this item!") }
             guild.store[item] += amount
             user.money -= guildStore[item].price * amount
-            if (item >= 0 && item <= 4) { guild.scrolls[item] += amount }
-            if (item == 5) { user.consum.box += amount }
+            if (guildStore[item].type == "guild") {
+                functions.JSONoperate(guild, guildStore[item].item, "add", amount)
+            } else if (guildStore[item].type == "individual") {
+                functions.JSONoperate(user, guildStore[item].item, "add", amount)
+            }
             functions.replyMessage(message, "You have successfully bought " + amount + " " + guildStore[item].name + " for $" + guildStore[item].price * amount)
         }
         else if (command == "RESET") {

@@ -672,8 +672,9 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
         }
     }
     if (aenchants.lifeSteal > 0) {
+        if (hasSkill(attacker, 44, skillenable) && attacker.currenthealth < 0.1 * attacker.health) { aenchants.lifeSteal *= 1.5 }
         let stealAmount = Math.abs(Math.floor(truedamage * aenchants.lifeSteal))
-        if (hasSkill(attacker, 44, skillenable) && attacker.currenthealth < 0.1 * attacker.health) { stealAmount*=1.5 }
+        
         if (stealAmount < 0) { stealAmount = 0 }
         if (defender.isRaid && stealAmount > defender.health) { stealAmount = defender.health;}
         attacker.currenthealth += stealAmount
@@ -695,14 +696,13 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
         }
     }
     if (denchants.spikes > 0) {
-        let spiked = Math.floor(defense * denchants.spikes)
+        let spiked = Math.floor(defense * denchants.spikes * Math.max(0, 1 - aenchants.resistance))
         if (hasSkill(attacker, 40, skillenable)) { text += defendername + "'s spikes was dispelled!\n" } else {
             counter += spiked
             text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
         }
     }
-    truedamage *= Math.max(0, 1 - denchants.resistance)
-    counter *= Math.max(0, 1 - aenchants.resistance)
+    truedamage *= Math.max(0, 1 - denchants.resistance) 
     return [text, truedamage, counter]
 }
 function calcStatusEffects(attacker, defender, aenchants, astatus, denchants, dstatus) {

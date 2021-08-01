@@ -72,8 +72,8 @@ module.exports = async function (message, user) {
                         user.currenthealth -= healdmg;
                         text += "It cost you "+ healdmg+" health. "
                     }
-                    if (hasSkill(user, 41)) { text += "\nTheir status effects were purified!"; target.statusEffects = {} }
-                    if (functions.isCD(user, ts, "savestate") && hasSkill(user, 42)) { text += "\nYou have kept your tempo!"; functions.setCD(user, ts, 180, "savestate") }
+                    if (functions.hasSkill(user, 41)) { text += "\nTheir status effects were purified!"; target.statusEffects = {} }
+                    if (functions.isCD(user, ts, "savestate") && functions.hasSkill(user, 42)) { text += "\nYou have kept your tempo!"; functions.setCD(user, ts, 180, "savestate") }
                     else { user.speed = 0; }
                     functions.replyMessage(message, text)
                     let healcd = 0;
@@ -107,8 +107,8 @@ module.exports = async function (message, user) {
         user.currenthealth += heal;
         let text = "You healed for " + heal + " health!"
         if (!functions.hasSkill(user, 14)) { text += "It cost you $" + (heal * 5) }
-        if (hasSkill(user, 41)) { text += "\nYour status effects were purified!"; user.statusEffects = {} }
-        if (functions.isCD(user, ts, "savestate") && hasSkill(user, 42)) { text += "\nYou have kept your tempo!"; functions.setCD(user, ts, 180, "savestate") }
+        if (functions.hasSkill(user, 41)) { text += "\nYour status effects were purified!"; user.statusEffects = {} }
+        if (functions.isCD(user, ts, "savestate") && functions.hasSkill(user, 42)) { text += "\nYou have kept your tempo!"; functions.setCD(user, ts, 180, "savestate") }
         else { user.speed = 0; }
         if (heal == 0) {
             functions.replyMessage(message, "(You don't have any money. You can't heal!)");

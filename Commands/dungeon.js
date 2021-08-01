@@ -122,15 +122,18 @@ module.exports = async function (message, user) {
 function nextFloor(message, dungeon, notext) {
     if (notext != true) { notext = false;}
     dungeon.floor += 1;
-    let base = Math.floor(dungeon.floor / 25)
+    let base = Math.floor(dungeon.floor / 50)
     if (base > 2) { base = 2 }
-    if (dungeon.floor % 10 == 0) {
+    if (dungeon.floor % 50 == 0) {
+        base += 3;
+    }
+    else if (dungeon.floor % 10 == 0) {
         base += 2;
     }
     else if (dungeon.floor % 10 >= 5) {
         base += 1;
     }
-    let raritytoscroll = { "0": "common", "1": "uncommon", "2": "rare", "3": "epic", "4": "legendary", "c": "common", "u": "uncommon", "r": "rare", "e": "epic", "l": "legendary" }
+    let raritytoscroll = { "0": "common", "1": "uncommon", "2": "rare", "3": "epic", "4": "legendary", "5": "mythical", "c": "common", "u": "uncommon", "r": "rare", "e": "epic", "l": "legendary", "m": "mythical" }
     let summonrarity = raritytoscroll[base];
     let summonlevel = 3*dungeon.floor+30
     let rarityraids = raidData[summonrarity]
