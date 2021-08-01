@@ -66,7 +66,7 @@ module.exports = async function (message, user) {
                     }
                     target.speed = 0;
                     target.currenthealth += heal
-                    let text = "You healed <@" + target._id + "> for " + heal + " health!"
+                    text += "You healed <@" + target._id + "> for " + heal + " health!"
                     if (!functions.hasSkill(user, 14)) {
                         let healdmg = Math.floor(heal * Math.random());
                         user.currenthealth -= healdmg;
