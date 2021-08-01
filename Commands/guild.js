@@ -426,7 +426,7 @@ module.exports = async function (message, user) {
             ro.url = raid.url
             ro.name = raid.name
             ro.attack = raid.attack * summonlevel * 2;
-            ro.health = summonlevel * raid.health * 10;
+            ro.health = summonlevel * raid.health * 10 * (1+Math.floor(summonlevel/50);
             ro.reward = summonlevel * raid.reward * 50;
             ro.crystalreward = Math.floor(summonlevel * raid.crystalreward / 2);
             if (raid.ability != undefined) { ro.ability = raid.ability; ro.abilitydesc = raid.abilitydesc; }
