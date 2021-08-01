@@ -1037,6 +1037,56 @@
       "ability": { "pierce": 1 },
       "abilitydesc": "100% chance to pierce the opponent's defense. ",
       "crystalreward": 25
+    },
+    {
+      "name": "Athena, Goddess of Wisdom",
+      "url": "https://i.imgur.com/OKfNnVV.jpg",
+      "rarity": "Mythical",
+      "attack": 16,
+      "defense": 0,
+      "health": 30,
+      "reward": 200,
+      "ability": { "silence": 1 },
+      "abilitydesc": "100% chance to silence the opponent. ",
+      "crystalreward": 25
+    },
+    {
+      "name": "Lucifer, Demon Prince of Pride",
+      "url": "https://i.imgur.com/SlLWA1M.png",
+      "rarity": "Mythical",
+      "attack": 35,
+      "defense": 0,
+      "health": 40,
+      "reward": 200,
+      "crystalreward": 25
+    },
+    {
+      "name": "Michael, Archangel of War",
+      "url": "https://i.imgur.com/2ujqpDk.png",
+      "rarity": "Mythical",
+      "attack": 30,
+      "defense": 0,
+      "health": 30,
+      "reward": 200,
+      "ability": {
+        "pierce": 0.2,
+        "critRate": 0.2,
+        "block": 0.1
+      },
+      "abilitydesc":  "20% chance to pierce, 20% chance to deal a critical hit and do 2x damage, 10% chance to block. ",
+      "crystalreward": 25
+    },
+    {
+      "name": "Sun Wukong, Great Sage Heaven's Equal",
+      "url": "https://i.imgur.com/lHPg9Cl.png",
+      "rarity": "Mythical",
+      "attack": 25,
+      "defense": 0,
+      "health": 28,
+      "reward": 200,
+      "ability": { "rage": 1 },
+      "abilitydesc": "Deals more damage as he loses health (1 rage)",
+      "crystalreward": 25
     }
   ]
 }

@@ -778,7 +778,7 @@ function calcEnchants(user, defender, options) {
         { name: 'buff', default: 1 },
         { name: 'dbuff', default: 1 },
         { name: 'critRate', default: 0 },
-        { name: 'critDamage', default: 0 },
+        { name: 'critDamage', default: 2 },
         { name: 'rage', default: 0 },
         { name: 'sacrifice', default: 0 },
         { name: 'lifeSteal', default: 0 },
