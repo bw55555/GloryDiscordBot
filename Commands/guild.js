@@ -6,7 +6,7 @@ const guildStore = [
     { "name": "Rare Scroll", "type": "guild", "item": "scrolls.2", "price": 1000000, "levels": [20, 30, 40, 50], "stocks": [1, 1, 1, 1] },
     { "name": "Epic Scroll", "type": "guild", "item": "scrolls.3", "price": 2500000, "levels": [30, 40, 50], "stocks": [1, 1, 1] },
     { "name": "Legendary Scroll", "type": "guild", "item": "scrolls.4", "price": 5000000, "levels": [40, 50], "stocks": [1, 1] },
-    { "name": "Mythical Scroll", "type": "guild", "item": "scrolls.5", "price": 5000000, "levels": [50], "stocks": [1] },
+    { "name": "Mythical Scroll", "type": "guild", "item": "scrolls.5", "price": 20000000, "levels": [50], "stocks": [1] },
     { "name": "Box", "type": "individual", "item": "consum.box", "price": 50000, "levels": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70], "stocks": [25, 75, 150, 250, 500, 1000, 2000, 3000, 4000, 5000, 10000, 15000, 20000, 30000, 40000] }
 ]
 global.guildBuffStore = [
@@ -441,7 +441,7 @@ module.exports = async function (message, user) {
             text += "<:Rare:546173232802299904> Rare Scrolls: " + guild.scrolls[2] + "\n"
             text += "<:Epic:546173232773070848> Epic Scrolls: " + guild.scrolls[3] + "\n"
             text += "<:Legendary:546170457548783627> Legendary Scrolls: " + guild.scrolls[4] +"\n"
-            text += "<:Legendary:546170457548783627> Mythical Scrolls: " + guild.scrolls[5]
+            text += "<:Mythical:871219481425375283> Mythical Scrolls: " + guild.scrolls[5]
             functions.replyMessage(message, text)
         }
         else if (command == "UPGRADE") {

@@ -647,7 +647,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
     let attackvariance = 0.4;
     attackvariance -= getWeaponEnchant(attacker, "attackvariance")
     let x = Math.floor(attack * (attackvariance * roll + 1-attackvariance));
-    let defmult = 10;
+    let defmult = 0;
     if (denchants.defmult != undefined) {defmult += denchants.defmult}
     x -= defense;
     let truedamage = Math.floor(x);
@@ -801,7 +801,7 @@ function calcEnchants(user, defender, options) {
         { name: 'stun', default: 0 },
         { name: 'petrify', default: 0 },
         { name: 'resistance', default: 0 },
-        { name: 'defmult', default: 0 }
+        { name: 'defmult', default: 10 }
     ]
     let enchants = {};
     for (let mod of possibleModifiers) {
