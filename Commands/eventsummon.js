@@ -50,9 +50,9 @@ module.exports = async function (message, user) {
         raid.name = raidoptions[raidnum].name
         raid.url = raidoptions[raidnum].url
         if (options.preset != undefined) {
-            let raidnum = parseInt(options.preset);
-            if (options.preset == "random") {raidnum = Math.floor(Math.random()*(raidoptions.length-2))}
-            if (isNaN(raidnum) || raidnum < 0 || raidnum >= raidoptions.length) { return functions.replyMessage(message, "This preset does not exist!") }
+            raidnum = parseInt(options.preset);
+            if (options.preset == "random") {raidnum = Math.floor(Math.random()*5)}
+            if (isNaN(raidnum) || raidnum < 0 || raidnum > raidoptions.length) { return functions.replyMessage(message, "This preset does not exist!") }
             functions.customsummon(raid, raidoptions[raidnum])
 
         } else if (words.length > 1) {

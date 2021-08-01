@@ -303,7 +303,7 @@
     "id": 39,
     "description": "Evade +3%",
     "effect": {
-      "evade":  0.03
+      "evade": 0.03
     }
   },
   {
@@ -313,6 +313,51 @@
     "antieffect": {
       "spikes": null
     }
+  },
+  {
+    "name": "Purify",
+    "id": 41,
+    "description": "When healing, removes all status effects"
+  },
+  {
+    "name": "Save State",
+    "id": 42,
+    "description": "Keeps your tempo while healing or travelling. Has a 3 minute cooldown. "
+  },
+  {
+    "name": "Haste",
+    "id": 43,
+    "description": "Haste +2",
+    "effect": {
+      "haste": 2
+    }
+  },
+  {
+    "name": "Last Stand",
+    "id": 44,
+    "description": "When under 10% hp, the effect of lifesteal is increased by 50%"
+  },
+  {
+    "name": "Blood Sacrifice",
+    "id": 45,
+    "description": "When at full hp, the effect of sacrifice is increased by 50%"
+  },
+  {
+    "name": "Iron Skin",
+    "id": 46,
+    "description": "Reduces all incoming damage by 20%",
+    "effect": { "resistance": 0.2 }
+  },
+  {
+    "name": "Strengthened Shield",
+    "id": 47,
+    "description": "Increases your defensive multiplier by 5",
+    "effect": { "defmult": 5 }
+  },
+  {
+    "name": "Swift Strike",
+    "id": 48,
+    "description": "If you kill your enemy, you do not take damage. "
   }
 
 ]

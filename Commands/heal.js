@@ -53,8 +53,9 @@ module.exports = async function (message, user) {
                     if (target.currenthealth >= target.health) {
                         return functions.replyMessage(message, "<@" + target._id + "> is already at full health!");
                     }
+                    let text = ""
                     if (user.shield > ts) {
-                        functions.replyMessage(message, "You just healed someone else! You lost your shield :(");
+                        text += "You just healed someone else! You lost your shield :(\n";
                         user.shield = 1
                     }
                     let maxheal = user.health
@@ -63,13 +64,18 @@ module.exports = async function (message, user) {
                     if (target.currenthealth + heal > target.health || functions.hasSkill(user, 14)) {
                         heal = target.health - target.currenthealth
                     }
-                    user.speed = 0;
                     target.speed = 0;
                     target.currenthealth += heal
+                    let text = "You healed <@" + target._id + "> for " + heal + " health!"
                     if (!functions.hasSkill(user, 14)) {
-                        user.currenthealth -= Math.floor(heal * Math.random())
+                        let healdmg = Math.floor(heal * Math.random());
+                        user.currenthealth -= healdmg;
+                        text += "It cost you "+ healdmg+" health. "
                     }
-                    functions.replyMessage(message, "<@" + target._id + "> was healed for " + heal + " health!")
+                    if (hasSkill(user, 41)) { text += "\nTheir status effects were purified!"; target.statusEffects = {} }
+                    if (functions.isCD(user, ts, "savestate") && hasSkill(user, 42)) { text += "\nYou have kept your tempo!"; functions.setCD(user, ts, 180, "savestate") }
+                    else { user.speed = 0; }
+                    functions.replyMessage(message, text)
                     let healcd = 0;
                     if (user.triangleid == "5") {
                         healcd = 60;
@@ -87,7 +93,7 @@ module.exports = async function (message, user) {
             }, undefined, "They didn't want to be healed... ")
         })
     } else {
-
+        
         if (user.health <= user.currenthealth) {
             return functions.replyMessage(message, "You are already at full health!");
         }
@@ -99,18 +105,18 @@ module.exports = async function (message, user) {
             user.money -= (heal * 5);
         }
         user.currenthealth += heal;
-
+        let text = "You healed for " + heal + " health!"
+        if (!functions.hasSkill(user, 14)) { text += "It cost you $" + (heal * 5) }
+        if (hasSkill(user, 41)) { text += "\nYour status effects were purified!"; user.statusEffects = {} }
+        if (functions.isCD(user, ts, "savestate") && hasSkill(user, 42)) { text += "\nYou have kept your tempo!"; functions.setCD(user, ts, 180, "savestate") }
+        else { user.speed = 0; }
         if (heal == 0) {
             functions.replyMessage(message, "(You don't have any money. You can't heal!)");
             return;
         }
-        if (!functions.hasSkill(user, 14)) {
-            functions.replyMessage(message, "You healed for " + heal + " Health! It cost you $" + (heal * 5));
-        }
-        else {
-            functions.replyMessage(message, "You healed for " + heal + " Health!");
-        }
-        user.speed = 0;
+        functions.replyMessage(message, text);
+        
+
         let healcd = 0;
         if (user.triangleid == "5") {
             healcd = 60;

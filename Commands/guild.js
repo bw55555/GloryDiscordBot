@@ -713,12 +713,10 @@ module.exports = async function (message, user) {
         else if (command == "UPDATEBUFF") {
             let updateStat = words[2]
             if (isNaN(parseInt(updateStat))) {
-                if (guildBuffStore.findIndex(x => x.stat == updateStat) == -1) {
-                    return functions.replyMessage(message, "Please specify a valid buff!")
-                }
                 updateStat = guildBuffStore.findIndex(x => x.stat == updateStat)
             }
-            if (updateStat < 0 || updateStat > guildBuffStore.length) { return functions.replyMessage(message, "This buff does not exist!")}
+            updateStat = parseInt(updateStat)
+            if (updateStat < 0 || updateStat > guildBuffStore.length || guildBuffStore[updateStat] == undefined) { return functions.replyMessage(message, "This buff does not exist!")}
             updateStat = guildBuffStore[updateStat].stat
             let lvl = parseInt(words[3]);
             if (guild.buffs[updateStat] == undefined || isNaN(lvl) || lvl < 0 || lvl > guild.buffs[updateStat]) { return functions.replyMessage(message, "Please specify a valid level!") }

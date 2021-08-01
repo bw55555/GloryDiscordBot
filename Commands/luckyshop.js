@@ -1,15 +1,15 @@
 let storeitems = [
     { "type": "boxes", "min": 10, "max": 200, "price": 50000, "chance": 1000000 },
     { "type": "reroll", "min": 1, "max": 1, "price": 20000000, "chance": 10000 },
-    { "type": "skill point", "min": 1, "max": 1, "price": 500000000, "chance":1 },
+    { "type": "skill point", "min": 1, "max": 1, "price": 500000000, "chance":200 },
     { "type": "materials", "min": 1000, "max": 20000, "price": 600, "chance": 500000 },
     { "type": "crystals", "min": 100, "max": 1000, "price": 50000, "chance": 100000 },
-    { "type": "Arcane rune", "min": 1, "max": 10, "price": 10000000, "chance": 2000 },
-    { "type": "Force rune", "min": 1, "max": 10, "price": 5000000, "chance": 5000 },
-    { "type": "Guard rune", "min": 1, "max": 10, "price": 5000000, "chance": 5000 },
-    { "type": "Life rune", "min": 1, "max": 10, "price": 5000000, "chance": 5000 },
-    { "type": "Energy rune", "min": 1, "max": 10, "price": 2000000, "chance": 10000 },
-    { "type": "Wisdom rune", "min": 1, "max": 10, "price": 200000000, "chance": 5 },
+    { "type": "Arcane rune", "min": 1, "max": 10, "price": 10000000, "chance": 10000 },
+    { "type": "Force rune", "min": 1, "max": 10, "price": 5000000, "chance": 20000 },
+    { "type": "Guard rune", "min": 1, "max": 10, "price": 5000000, "chance": 20000 },
+    { "type": "Life rune", "min": 1, "max": 10, "price": 5000000, "chance": 20000 },
+    { "type": "Energy rune", "min": 1, "max": 10, "price": 2000000, "chance": 50000 },
+    { "type": "Wisdom rune", "min": 1, "max": 3, "price": 100000000, "chance": 2000 },
     { "type": "Rune shard", "min": 25, "max":150, "price": 200000, "chance": 200000 }
 ]
 module.exports = async function (message, user) {

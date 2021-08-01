@@ -648,6 +648,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
     attackvariance -= getWeaponEnchant(attacker, "attackvariance")
     let x = Math.floor(attack * (attackvariance * roll + 1-attackvariance));
     let defmult = 10;
+    if (denchants.defmult != undefined) {defmult += denchants.defmult}
     x -= defense;
     let truedamage = Math.floor(x);
     if (x < 0) { truedamage = 0 }
@@ -672,6 +673,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
     }
     if (aenchants.lifeSteal > 0) {
         let stealAmount = Math.abs(Math.floor(truedamage * aenchants.lifeSteal))
+        if (hasSkill(attacker, 44, skillenable) && attacker.currenthealth < 0.1 * attacker.health) { stealAmount*=1.5 }
         if (stealAmount < 0) { stealAmount = 0 }
         if (defender.isRaid && stealAmount > defender.health) { stealAmount = defender.health;}
         attacker.currenthealth += stealAmount
@@ -699,6 +701,8 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
             text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
         }
     }
+    truedamage *= Math.max(0, 1 - denchants.resistance)
+    counter *= Math.max(0, 1 - aenchants.resistance)
     return [text, truedamage, counter]
 }
 function calcStatusEffects(attacker, defender, aenchants, astatus, denchants, dstatus) {
@@ -739,9 +743,17 @@ function simulateAttack(message, attacker, defender) {
     damage += counterarr[2];
     damage = Math.floor(damage)
     counter = Math.floor(counter)
+    let skillenable = true;
+    if (defender.name == "Charybdis") { skillenable = false }
+    if (attacker.name == "Charybdis") { skillenable = false }
     if (defender.name == "Cerberus") {
         counter *= 3;
     }
+    let attackerkill = hasSkill(attacker, 48, skillenable) && defender.currenthealth - damage <= 0
+    let defenderkill = hasSkill(defender, 48, skillenable) && attacker.currenthealth - counter <= 0
+    if (attackerkill && defenderkill) {}
+    else if (attackerkill) { damagetext += "Swift Strike was activated! "+attackername+" is immune to damage! ";counter = 0}
+    else if (defenderkill) { countertext += "Swift Strike was activated! "+defendername+" is immune to damage! "; damage = 0}
     if (damage < 0) {
         damage = 0;
     }
@@ -760,28 +772,41 @@ function calcEnchants(user, defender, options) {
     if (options == undefined) { options = {} }
     
     skillenable = (options.skillenable === false) ? false : true
+    let possibleModifiers = [
+        { name: 'attack', default: 0 },
+        { name: 'defense', default: 0 },
+        { name: 'buff', default: 1 },
+        { name: 'dbuff', default: 1 },
+        { name: 'critRate', default: 0 },
+        { name: 'critDamage', default: 0 },
+        { name: 'rage', default: 0 },
+        { name: 'sacrifice', default: 0 },
+        { name: 'lifeSteal', default: 0 },
+        { name: 'tempo', default: 0 },
+        { name: 'antitempo', default: 0 },
+        { name: 'combo', default: 0 },
+        { name: 'pierce', default: 0 },
+        { name: 'block', default: 0 },
+        { name: 'spikes', default: 0 },
+        { name: 'revenge', default: 0 },
+        { name: 'burn', default: 0 },
+        { name: 'regen', default: 0 },
+        { name: 'lucky', default: 1 },
+        { name: 'haste', default: 0 },
+        { name: 'evade', default: 0 },
+        { name: 'bleed', default: 0 },
+        { name: 'silence', default: 0 },
+        { name: 'vulnerable', default: 0 },
+        { name: 'weakness', default: 0 },
+        { name: 'stun', default: 0 },
+        { name: 'petrify', default: 0 },
+        { name: 'resistance', default: 0 },
+        { name: 'defmult', default: 0 }
+    ]
     let enchants = {};
-    enchants.attack = 0;
-    enchants.defense = 0;
-    enchants.buff = 1;
-    enchants.dbuff = 1;
-    enchants.critRate = 0;
-    enchants.critDamage = 2;
-    enchants.rage = 0;
-    enchants.sacrifice = 0;
-    enchants.lifeSteal = 0;
-    enchants.tempo = 0;
-    enchants.antitempo = 0;
-    enchants.combo = 0;
-    enchants.pierce = 0;
-    enchants.spikes = 0;
-    enchants.revenge = 0;
-    enchants.block = 0;
-    enchants.burn = 0;
-    enchants.regen = 0;
-    enchants.lucky = 1;
-    enchants.evade = 0;
-    enchants.haste = 0;
+    for (let mod of possibleModifiers) {
+        enchants[mod.name] = mod.default
+    }
     if (options.silence) { return enchants;}
     if (user.trianglemod != undefined) { enchants.buff = user.trianglemod}
     if (user.ability != undefined && user.ability != "None") {
@@ -898,6 +923,7 @@ function calcStats(message, user, stat, options) {
             enchants.buff += Math.min(enchants.rage + 1.5, (enchants.rage * -1 * (Math.log(x) + 0.15)))
         }
         if (enchants.sacrifice > 0) {
+            if (hasSkill(user, 45, skillenable) && user.health <= user.currenthealth) {enchants.sacrifice *= 1.5}
             if (hasSkill(user, 26, skillenable)) {
                 //user.currenthealth += Math.floor(buff * attack * sacrifice)
                 enchants.buff += 4 * enchants.sacrifice

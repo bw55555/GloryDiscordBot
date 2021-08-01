@@ -48,7 +48,7 @@ module.exports = async function (message, user) {
         let newloc = word2 + "-" + key
         return functions.getObject("mobData", newloc).then(raid => {
             user.location = newloc
-            user.speed = 0;
+            
             let text = "You have travelled to location " + newloc + "!\n"
             if (raid == false) {
                 raid = {}
@@ -60,6 +60,8 @@ module.exports = async function (message, user) {
             }
             functions.completeQuest(user, "travel", {"location": word2}, 1)
             functions.setCD(user, ts, 30, "travel")
+            if (functions.isCD(user, ts, "savestate") && hasSkill(user, 42)) { text += "\nYou have kept your tempo!"; functions.setCD(user, ts, 180, "savestate") }
+            else { user.speed = 0; }
             functions.replyMessage(message, text)
         })
     } else {
