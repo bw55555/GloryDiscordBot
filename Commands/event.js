@@ -6,6 +6,9 @@ module.exports = async function (message, user) {
     if (devData.questevent == undefined || ts < devData.questevent.start || ts > devData.questevent.end + 2 * 24 * 60 * 60 * 1000) { return functions.replyMessage(message, "The quest board is not currently open!") }
     let word2 = words[1]
     if (word2 == undefined) { word2 = "quests" }
+    if (word2 == "help") {
+        return functions.replyMessage(message, ":gift: **Quest Event** :gift: \nThe residents of Glory city need your help, and have many presents to give to willing adventurers. \nThey have set up a quest board with requests, and will be thankful if you helped! \n`!event` - Shows you what quests are available to earn presents. Quests will automatically refresh every half an hour\n`!event accept quest#` - Accepts a quest. You can accept at most 3 quests at a time\n`!quest` - Shows what quests you have\n`!quest donate quest# currency amount` - donates the amount of specified currency to the selected quest#. Both currency and amount can be replaced with auto to automatically select the currency and / or amount\n`!cq #` - Claims the reward from the selected quest once completed\n`!present` - See how many presents you have\n`!present open #` - Opens a certain amount of presents")
+    }
     if (ts > devData.questevent.refresh) {
         devData.questevent.refresh = ts - (ts % 30 * 60 * 1000) + 30 * 60* 60* 1000;
         for (let i = 0; i < NUM_QUESTS; i++) {
