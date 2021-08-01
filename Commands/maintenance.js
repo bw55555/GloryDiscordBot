@@ -9,7 +9,10 @@ module.exports = async function (message, user) {
         
         await functions.setProp("userData", {}, {
             $set: {
-                "luckycoin": 0
+                "maintenance": true
+            },
+            $inc: {
+                "consum.box": 500
             }
         })
         //await functions.deleteObjects("mobData", {})
