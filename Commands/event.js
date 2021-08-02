@@ -105,6 +105,7 @@ function refreshQuest(id, massrefresh) {
     if (mamt > 10) {rwd += 1}
     mamt += 1 + (2 - mrar) * (2 - mrar)
     mamt = Math.max(1, mamt)
+    if (mamt > 20) {rwd += 1}
     rwd = Math.max(Math.floor(rwd),1)
     
     conditions.push(functions.addQuestCondition("raidAttack", ">=", "Kill " + mamt + " " + mname, mamt, { "raid.currenthealth": { "value": 0, "operator": "<=" }, "raid.name": { "value": mname, "operator": "=" } }, "a"))
