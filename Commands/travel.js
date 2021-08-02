@@ -7,6 +7,7 @@ module.exports = async function (message, user) {
     let word2 = words[1].toLowerCase();
     if (functions.isCD(user, ts, "travel")) { return functions.replyMessage(message, "The teleport network is still cooling down... Please try again in " + functions.displayTime(user.cooldowns.travel, ts)) }
     if (user.dead) { return functions.replyMessage(message, "You cannot teleport while dead!") }
+    let text = ""
     if (word2 == "list") {
         let toSendEmbed = {
             embed: {
@@ -28,17 +29,17 @@ module.exports = async function (message, user) {
     }
     else if (word2 == "city") {
         user.location = word2
-        functions.replyMessage(message, "You have returned to the city!")
+        text += "You have returned to the city!"
     } else if (word2 == "guild") {
         if (user.guild == "None") { return functions.replyMessage(message, "You are not in a guild!")}
         user.location = word2
-        functions.replyMessage(message, "Welcome to the guild hall!")
+        text += "Welcome to the guild hall!"
     } else if (word2 == "world") {
         user.location = word2
-        functions.replyMessage(message, "Welcome to the world boss!")
+        text += "Welcome to the world boss!"
     } else if (word2 == "event") {
         user.location = word2
-        functions.replyMessage(message, "Welcome to the event raid!")
+        text += "Welcome to the event raid!"
     } else if (Assets.locationraidData[word2] != undefined) {
         let key = words[2];
         if (key == undefined) { key = getRandomKey() }
@@ -61,13 +62,14 @@ module.exports = async function (message, user) {
             functions.completeQuest(user, "travel", {"location": word2}, 1)
             functions.setCD(user, ts, 30, "travel")
             if (!functions.isCD(user, ts, "savestate") && functions.hasSkill(user, 42)) { text += "\nYou have kept your tempo!"; functions.setCD(user, ts, 180, "savestate") }
-            else { user.speed = 0; }
             functions.replyMessage(message, text)
         })
     } else {
         return functions.replyMessage(message, "This location does not exist!")
     }
-    user.speed = 0;
+    if (!functions.isCD(user, ts, "savestate") && functions.hasSkill(user, 42)) { text += "\nYou have kept your tempo!"; functions.setCD(user, ts, 180, "savestate") }
+    else { user.speed = 0; }
+    if (text != "") {functions.replyMessage(message, text)}
     functions.completeQuest(user, "travel", { "location": word2 }, 1)
     functions.setCD(user, ts, 30, "travel")
 }
