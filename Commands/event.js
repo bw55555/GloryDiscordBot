@@ -75,7 +75,7 @@ let currencies = {
 function refreshQuests() {
     let tasks = []
     for (let i = 0; i < NUM_QUESTS; i++) {
-        let q = refreshQuest(i)
+        let q = refreshQuest(i, true)
         tasks.push({
             replaceOne:
             {
@@ -89,7 +89,7 @@ function refreshQuests() {
     functions.bulkWrite("eventQuests",tasks)
     
 }
-function refreshQuest(id) {
+function refreshQuest(id, massrefresh) {
     let currency = functions.getRandomArrayElement(Object.keys(currencies))
     let amt = Math.floor(Math.random() * (currencies[currency].maxincr + 1)) * currencies[currency].incr + currencies[currency].min
     let rwd = amt / (2 * currencies[currency].min);
@@ -109,5 +109,6 @@ function refreshQuest(id) {
     exq._id = id
     delete exq.mqid
     delete exq.flavortext
+    if (massrefresh != true) {functions.setObject("eventQuests", exq)}
     return exq
 }
