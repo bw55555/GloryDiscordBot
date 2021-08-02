@@ -15,6 +15,7 @@ module.exports = async function (message, user) {
         for (let i = 0; i < NUM_QUESTS; i++) {
             refreshQuest(i)
         }
+        functions.setObject("devData", devData)
         functions.replyMessage(message, "Quests refreshed!")
     }
     if (word2 == "quests") {
@@ -41,10 +42,12 @@ module.exports = async function (message, user) {
         })
     }
     if (word2 == "refresh") {
+        devData.questevent.refresh = ts - (ts % refreshtime) + refreshtime;
         if (admins.indexOf(id) == -1) {return functions.replyMessage(message, "You do not have permission to do this!")}
         for (let i = 0; i < NUM_QUESTS; i++) {
             refreshQuest(i)
         }
+        functions.setObject("devData", devData)
         functions.replyMessage(message, "Missions refreshed!")
     }
     if (word2 == "accept") {
@@ -70,24 +73,25 @@ function refreshQuest(id) {
         },
         "runes.0": {
             "name": "rune shards",
-            "min": 50,
+            "min": 25,
             "incr": 1,
-            "maxincr": 100
+            "maxincr": 50
         },
     }
     let monsters = Object.keys(Assets.locationraidData).map(x => Assets.locationraidData[x]).reduce((t, c) => t.concat(c.map(x => x.name)), [])
     let currency = functions.getRandomArrayElement(Object.keys(currencies))
     let amt = Math.floor(Math.random() * (currencies[currency].maxincr + 1)) * currencies[currency].incr + currencies[currency].min
     let rwd = 1;
-    if (amt >= currencies[currency].min * 2) {rwd += 1}
+    rwd += amt/(2*currencies[currency].min)
     let conditions = []
     conditions.push(functions.addQuestCondition("donate", ">=", "Donate " + amt + " " + currencies[currency].name, amt, { "currency": { "value": currency, "operator": "=" } }, "a"))
     let mloc = functions.getRandomArrayElement([0, 1, 2, 3, 4, 5, 6, 7], [0.05, 0.1, 0.15, 0.2, 0.2, 0.15, 0.1, 0.05])
-    let mrar = functions.getRandomArrayElement([0, 1, 2], [0.4, 0.4, 0.2])
-    let mkey = 3 * mloc + mrar
-    rwd += Math.floor(mkey/9)
+    let mrar = functions.getRandomArrayElement([0, 1, 2], [0.45, 0.35, 0.2])
     let mname = monsters[mkey]
-    let mamt = Math.floor(((9 - (mrar + 1) * (mrar + 1)) * 2 - mloc) * 3 / (mrar+1) * Math.random()) + Math.floor((mloc + 1) / 4) 
+    //let mamt = Math.max(0,Math.floor(((9 - (mrar + 1) * (mrar + 1)) * 2 - mloc) * 3 / (mrar+1) * Math.random())) + Math.floor((mloc + 1) / 4)+1 
+    let mamt = 0
+    rwd += Math.ceil(mloc / 3) - 1+mrar/2
+    mamt = Math.floor(((8-mloc)/Math.pow(2, mrar) * (3-mrar)-1)*Math.random() + 1*(3-mrar))
     conditions.push(functions.addQuestCondition("raidAttack", ">=", "Kill " + mamt + " " + mname, mamt, { "raid.currenthealth": { "value": 0, "operator": "<=" }, "raid.name": { "value": mname, "operator": "=" } }, "a"))
     let exq = functions.makeQuest(undefined, "Help the City!", undefined, conditions, { "present": rwd })
     exq.event = true;
