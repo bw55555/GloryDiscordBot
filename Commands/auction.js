@@ -160,6 +160,32 @@ module.exports = async function (message, user) {
             }
             functions.replyMessage(message, "You have successfully claimed your item!");
             functions.deleteObject("auctionData", aitem._id)
+        } else if (word2 == "edit") {
+            if (admins.indexOf(id) == -1) {return}
+            let aid = parseInt(words[2])
+            if (isNaN(aid) || aid < 0) { return functions.replyMessage(message, "Please specify a positive auction id to extend. ") }
+            let aitem = alist.find(x => x._id == aid)
+            if (aitem == undefined) { return functions.replyMessage(message, "This auction item does not exist!") }
+            if (ts - aitem.time > 0) { return functions.replyMessage(message, "This auction is already over!") }
+            let options = functions.extractOptions(message, true, "-desc", "-item", "-amount", "-time")
+            if (options.time != undefined) {
+                options.time = functions.extractTime(message, options.time)
+                if (options.time == false) { return }
+                aitem.time = ts + options.time
+            }
+            if (options.desc != undefined) { aitem.desc = options.desc }
+            if (options.item != undefined) {
+                aitem.item.type = options.item
+            }
+            if (options.amount != undefined) {
+                options.amount = parseInt(options.amount)
+                if (isNaN(options.amount)) { return functions.replyMessage(message, "Please specify a number for the amount!") }
+                aitem.item.amount = options.amount
+            }
+            functions.setObject("auctionData", aitem)
+            functions.replyMessage(message, "Edited auction item "+aid)
+            
+            
         }
     })
 }
