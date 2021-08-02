@@ -81,8 +81,7 @@ function refreshQuest(id) {
     let monsters = Object.keys(Assets.locationraidData).map(x => Assets.locationraidData[x]).reduce((t, c) => t.concat(c.map(x => x.name)), [])
     let currency = functions.getRandomArrayElement(Object.keys(currencies))
     let amt = Math.floor(Math.random() * (currencies[currency].maxincr + 1)) * currencies[currency].incr + currencies[currency].min
-    let rwd = 1;
-    rwd += amt/(2*currencies[currency].min)
+    let rwd = amt / (2 * currencies[currency].min);
     let conditions = []
     conditions.push(functions.addQuestCondition("donate", ">=", "Donate " + amt + " " + currencies[currency].name, amt, { "currency": { "value": currency, "operator": "=" } }, "a"))
     let mloc = functions.getRandomArrayElement([0, 1, 2, 3, 4, 5, 6, 7], [0.05, 0.1, 0.15, 0.2, 0.2, 0.15, 0.1, 0.05])
@@ -90,7 +89,8 @@ function refreshQuest(id) {
     let mname = monsters[mloc * 3 + mrar]
     //let mamt = Math.max(0,Math.floor(((9 - (mrar + 1) * (mrar + 1)) * 2 - mloc) * 3 / (mrar+1) * Math.random())) + Math.floor((mloc + 1) / 4)+1 
     let mamt = 0
-    rwd += Math.ceil(mloc / 3) - 1+mrar/2
+    rwd += Math.ceil(mloc / 2)/2 + mrar / 2
+    rwd = Math.floor(rwd)
     mamt = Math.floor(((8-mloc)/Math.pow(2, mrar) * (3-mrar)-1)*Math.random() + 1*(3-mrar))
     conditions.push(functions.addQuestCondition("raidAttack", ">=", "Kill " + mamt + " " + mname, mamt, { "raid.currenthealth": { "value": 0, "operator": "<=" }, "raid.name": { "value": mname, "operator": "=" } }, "a"))
     let exq = functions.makeQuest(undefined, "Help the City!", undefined, conditions, { "present": rwd })
