@@ -99,10 +99,13 @@ function refreshQuest(id, massrefresh) {
     let mrar = functions.getRandomArrayElement([0, 1, 2], [0.45, 0.35, 0.2])
     let mname = monsters[mloc * 3 + mrar]
     //let mamt = Math.max(0,Math.floor(((9 - (mrar + 1) * (mrar + 1)) * 2 - mloc) * 3 / (mrar+1) * Math.random())) + Math.floor((mloc + 1) / 4)+1 
-    let mamt = 0
-    rwd += Math.ceil(mloc / 2)/2 + mrar / 2
-    rwd = Math.floor(rwd)
-    mamt = Math.max(1,Math.floor(((8-mloc)/Math.pow(2, mrar) * (3-mrar))*Math.random() + 1 + (2-mrar)*(3-mrar)))
+    let mamt = Math.floor(((8 - mloc) / Math.pow(2, mrar) * (3 - mrar)) * Math.random())
+    rwd += Math.ceil(mloc / 2) / 2 + mrar / 2
+    if (mamt > 10) {rwd += 1}
+    mamt += 1 + (2 - mrar) * (2 - mrar)
+    mamt = Math.max(1, mamt)
+    rwd = Math.max(Math.floor(rwd),1)
+    
     conditions.push(functions.addQuestCondition("raidAttack", ">=", "Kill " + mamt + " " + mname, mamt, { "raid.currenthealth": { "value": 0, "operator": "<=" }, "raid.name": { "value": mname, "operator": "=" } }, "a"))
     let exq = functions.makeQuest(undefined, "Help the City!", undefined, conditions, { "present": rwd })
     exq.event = true;
