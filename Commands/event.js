@@ -91,7 +91,7 @@ function refreshQuest(id) {
     let mamt = 0
     rwd += Math.ceil(mloc / 2)/2 + mrar / 2
     rwd = Math.floor(rwd)
-    mamt = Math.floor(((8-mloc)/Math.pow(2, mrar) * (3-mrar))*Math.random() + 1 + (2-mrar)*(3-mrar))
+    mamt = Math.max(1,Math.floor(((8-mloc)/Math.pow(2, mrar) * (3-mrar))*Math.random() + 1 + (2-mrar)*(3-mrar)))
     conditions.push(functions.addQuestCondition("raidAttack", ">=", "Kill " + mamt + " " + mname, mamt, { "raid.currenthealth": { "value": 0, "operator": "<=" }, "raid.name": { "value": mname, "operator": "=" } }, "a"))
     let exq = functions.makeQuest(undefined, "Help the City!", undefined, conditions, { "present": rwd })
     exq.event = true;
