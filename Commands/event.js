@@ -57,28 +57,28 @@ module.exports = async function (message, user) {
         return functions.getObject("eventQuests", qnum).then(q => { user.quests.push(q); refreshQuest(q._id); functions.replyMessage(message, "Accepted a quest: " +q.name) }) 
     }
 }
+let monsters = Object.keys(Assets.locationraidData).map(x => Assets.locationraidData[x]).reduce((t, c) => t.concat(c.map(x => x.name)), [])
+let currencies = {
+    "money": {
+        "name": "money",
+        "min": 100000,
+        "incr": 1000,
+        "maxincr": 200
+    },
+    "materials": {
+        "name": "materials",
+        "min": 1000,
+        "incr": 10,
+        "maxincr": 200
+    },
+    "runes.0": {
+        "name": "rune shards",
+        "min": 25,
+        "incr": 1,
+        "maxincr": 50
+    },
+}
 function refreshQuest(id) {
-    let currencies = {
-        "money": {
-            "name": "money",
-            "min": 100000,
-            "incr": 1000,
-            "maxincr": 200
-        },
-        "materials": {
-            "name": "materials",
-            "min": 1000,
-            "incr": 10,
-            "maxincr": 200
-        },
-        "runes.0": {
-            "name": "rune shards",
-            "min": 25,
-            "incr": 1,
-            "maxincr": 50
-        },
-    }
-    let monsters = Object.keys(Assets.locationraidData).map(x => Assets.locationraidData[x]).reduce((t, c) => t.concat(c.map(x => x.name)), [])
     let currency = functions.getRandomArrayElement(Object.keys(currencies))
     let amt = Math.floor(Math.random() * (currencies[currency].maxincr + 1)) * currencies[currency].incr + currencies[currency].min
     let rwd = amt / (2 * currencies[currency].min);
