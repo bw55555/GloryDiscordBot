@@ -12,18 +12,14 @@ module.exports = async function (message, user) {
     }
     if (ts > devData.questevent.refresh) {
         devData.questevent.refresh = ts - (ts % refreshtime) + refreshtime;
-        for (let i = 0; i < NUM_QUESTS; i++) {
-            refreshQuest(i)
-        }
+        refreshQuests()
         functions.setObject("devData", devData)
         functions.replyMessage(message, "Quests refreshed!")
     }
     if (word2 == "quests") {
         functions.findObjects("eventQuests", {}).then(quests => {
             if (quests.length == 0) {
-                for (let i = 0; i < NUM_QUESTS; i++) {
-                    refreshQuest(i)
-                }
+                
                 functions.replyMessage(message, "Quests refreshed!")
             }
             quests.sort((a,b) => a._id - b._id)
@@ -44,9 +40,7 @@ module.exports = async function (message, user) {
     if (word2 == "refresh") {
         devData.questevent.refresh = ts - (ts % refreshtime) + refreshtime;
         if (admins.indexOf(id) == -1) {return functions.replyMessage(message, "You do not have permission to do this!")}
-        for (let i = 0; i < NUM_QUESTS; i++) {
-            refreshQuest(i)
-        }
+        refreshQuests()
         functions.setObject("devData", devData)
         functions.replyMessage(message, "Missions refreshed!")
     }
@@ -78,6 +72,23 @@ let currencies = {
         "maxincr": 50
     },
 }
+function refreshQuests() {
+    let tasks = []
+    for (let i = 0; i < NUM_QUESTS; i++) {
+        let q = refreshQuest(i)
+        tasks.push({
+            replaceOne:
+            {
+                "filter": { _id: q._id },
+                "replacement": q,
+                "upsert": true
+            }
+        })
+        
+    }
+    functions.bulkWrite("eventQuests",tasks)
+    
+}
 function refreshQuest(id) {
     let currency = functions.getRandomArrayElement(Object.keys(currencies))
     let amt = Math.floor(Math.random() * (currencies[currency].maxincr + 1)) * currencies[currency].incr + currencies[currency].min
@@ -98,5 +109,5 @@ function refreshQuest(id) {
     exq._id = id
     delete exq.mqid
     delete exq.flavortext
-    functions.setObject("eventQuests", exq)
+    return exq
 }
