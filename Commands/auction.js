@@ -27,7 +27,7 @@ module.exports = async function (message, user) {
     return functions.findObjects("auctionData", {}).then(alist => {
         
         let word2 = words[1];
-        if (word2 == undefined) { word2 = "" }
+        if (word2 == undefined) { word2 = "list" }
         word2 = word2.toLowerCase();
         let timeover = alist.filter(x => x.time - ts <= 0 && x.end != true)
         for (let endaitem of timeover) {
