@@ -87,7 +87,7 @@ function refreshQuest(id) {
     conditions.push(functions.addQuestCondition("donate", ">=", "Donate " + amt + " " + currencies[currency].name, amt, { "currency": { "value": currency, "operator": "=" } }, "a"))
     let mloc = functions.getRandomArrayElement([0, 1, 2, 3, 4, 5, 6, 7], [0.05, 0.1, 0.15, 0.2, 0.2, 0.15, 0.1, 0.05])
     let mrar = functions.getRandomArrayElement([0, 1, 2], [0.45, 0.35, 0.2])
-    let mname = monsters[mkey]
+    let mname = monsters[mloc * 3 + mrar]
     //let mamt = Math.max(0,Math.floor(((9 - (mrar + 1) * (mrar + 1)) * 2 - mloc) * 3 / (mrar+1) * Math.random())) + Math.floor((mloc + 1) / 4)+1 
     let mamt = 0
     rwd += Math.ceil(mloc / 3) - 1+mrar/2
