@@ -99,7 +99,8 @@ function refreshQuest(id, massrefresh) {
     let mrar = functions.getRandomArrayElement([0, 1, 2], [0.45, 0.35, 0.2])
     let mname = monsters[mloc * 3 + mrar]
     //let mamt = Math.max(0,Math.floor(((9 - (mrar + 1) * (mrar + 1)) * 2 - mloc) * 3 / (mrar+1) * Math.random())) + Math.floor((mloc + 1) / 4)+1 
-    let mamt = Math.floor(((8 - mloc) / Math.pow(2, mrar) * (3 - mrar)) * Math.random())
+    let mamt = (8 - mloc) / Math.pow(2, mrar) * (3 - mrar)
+    mamt = Math.floor(mamt * 0.25 + 0.8 * Math.random() * mamt)
     rwd += Math.ceil(mloc / 2) / 2 + mrar / 2
     if (mamt > 10) {rwd += 1}
     mamt += 1 + (2 - mrar) * (2 - mrar)
