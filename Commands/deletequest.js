@@ -3,7 +3,7 @@ module.exports = async function (message, user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     if (words.length == 2) {
-        let qnum = parseInt(words[2]);
+        let qnum = parseInt(words[1]);
         if (isNaN(qnum) || qnum < 1 || qnum > user.quests.length) {
             return functions.replyMessage(message, "This quest number is not defined!")
         }
