@@ -1102,23 +1102,23 @@ function customsummon(raid, options) {
     if (options.currenthealth == undefined || raid.currenthealth == undefined) { raid.currenthealth = raid.health; }
 }
 function locationsummon(raid) {
-    if (raid.raidnum == undefined) { raid.elitesummon = 0 }
+    if (raid.elitesummon == undefined) { raid.elitesummon = 0 }
     if (raid.areabosssummon == undefined) { raid.areabosssummon = 0 }
     let loc = raid.location
     let rng = Math.random();
     let rnum;
     
-    if (rng < 0.2 + raid.raidnum) {
+    if (rng < 0.2 + raid.elitesummon) {
         rnum = 1;
-        raid.raidnum = 0
+        raid.elitesummon = 0
         raid.areabosssummon += 0.02
-    } else if (rng < 0.2 + raid.raidnum + raid.areabosssummon) {
+    } else if (rng < 0.2 + raid.elitesummon + raid.areabosssummon) {
         rnum = 2;
-        raid.raidnum = 0
+        raid.elitesummon = 0
         raid.areabosssummon = 0
     } else {
         rnum = 0;
-        raid.raidnum += 0.1
+        raid.elitesummon += 0.1
         raid.areabosssummon += 0.01
     }
     let raidref = Assets.locationraidData[loc][rnum]
