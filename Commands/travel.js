@@ -61,14 +61,13 @@ module.exports = async function (message, user) {
             }
             functions.completeQuest(user, "travel", {"location": word2}, 1)
             functions.setCD(user, ts, 30, "travel")
-            if (!functions.isCD(user, ts, "savestate") && functions.hasSkill(user, 42)) { text += "\nYou have kept your tempo!"; functions.setCD(user, ts, 180, "savestate") }
+            if (!functions.isCD(user, ts, "savestate") && functions.hasSkill(user, 42)) { text += "\nYou have kept your tempo!"; functions.setCD(user, ts, 180, "savestate") } else { user.speed = 0; }
             functions.replyMessage(message, text)
         })
     } else {
         return functions.replyMessage(message, "This location does not exist!")
     }
-    if (!functions.isCD(user, ts, "savestate") && functions.hasSkill(user, 42)) { text += "\nYou have kept your tempo!"; functions.setCD(user, ts, 180, "savestate") }
-    else { user.speed = 0; }
+    if (!functions.isCD(user, ts, "savestate") && functions.hasSkill(user, 42)) { text += "\nYou have kept your tempo!"; functions.setCD(user, ts, 180, "savestate") } else { user.speed = 0; }
     if (text != "") {functions.replyMessage(message, text)}
     functions.completeQuest(user, "travel", { "location": word2 }, 1)
     functions.setCD(user, ts, 30, "travel")
