@@ -109,7 +109,7 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You have successfully bid!")
         } else if (word2 == "sell") {
             if (admins.indexOf(id) == -1) { return }
-            let options = functions.extractOptions(message, true, "-desc", "-item", "-amount", "-price", "-currency", "-time")
+            let options = functions.extractOptions(message, false, "-desc", "-item", "-amount", "-price", "-currency", "-time")
             if (options.desc == undefined) { return functions.replyMessage(message, "Please specify a description!") }
             if (options.item == undefined) { return functions.replyMessage(message, "Please specify an item type!") }
             if (options.amount == undefined) { options.amount = 1 }

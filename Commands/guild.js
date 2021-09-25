@@ -7,7 +7,8 @@ const guildStore = [
     { "name": "Epic Scroll", "type": "guild", "item": "scrolls.3", "price": 2500000, "levels": [30, 40, 50], "stocks": [1, 1, 1] },
     { "name": "Legendary Scroll", "type": "guild", "item": "scrolls.4", "price": 5000000, "levels": [40, 50], "stocks": [1, 1] },
     { "name": "Mythical Scroll", "type": "guild", "item": "scrolls.5", "price": 20000000, "levels": [50], "stocks": [1] },
-    { "name": "Box", "type": "individual", "item": "consum.box", "price": 50000, "levels": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70], "stocks": [25, 75, 150, 250, 500, 1000, 2000, 3000, 4000, 5000, 10000, 15000, 20000, 30000, 40000] }
+    { "name": "Box", "type": "individual", "item": "consum.box", "price": 50000, "levels": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70], "stocks": [25, 75, 150, 250, 500, 1000, 2000, 3000, 4000, 5000, 10000, 15000, 20000, 30000, 40000] },
+    //{ "name": "Reroll", "type": "individual", "item": "consum.box", "price": 20000000, "levels": [50, 100], "stocks": [1, 2] }
 ]
 global.guildBuffStore = [
     { "name": "Attack +", "stat": "buff", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.1, 0.2, 0.4, 0.6, 1, 1.5, 2, 2.5, 3, 4], "prices": [0, 400, 1500, 10000, 50000, 150000, 500000, 1500000, 5000000, 15000000, 50000000] },
@@ -730,7 +731,7 @@ module.exports = async function (message, user) {
             user.guildbuffs[updateStat] = lvl;
             functions.replyMessage(message, "You set your " + updateStat + " buff to level " + lvl + "!");
         }
-        else if (command == "UPDATEBUFFS") {
+        else if (command == "RESETBUFFS") {
             user.guildbuffs = guild.buffs;
             functions.replyMessage(message, "You updated your buffs!");
         }

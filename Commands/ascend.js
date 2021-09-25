@@ -5,7 +5,7 @@ module.exports = async function (message, user) {
     let words = message.content.split(/\s+/)
     //if (admins.indexOf(id) == -1) { return }
     if (user.level != 100) { return functions.replyMessage(message, "You must be level 100 to ascend!") }
-    if (user.attack - functions.calcExtraStat(user, "attack") < 100 || user.defense - functions.calcExtraStat(user, "defense") < 100 || user.health - functions.calcExtraStat(user, "health") < 1000) { return functions.replyMessage(message, "You must have lvl 100 stats to ascend!") }
+    if (user.baseattack - 10 * user.ascension < 100 || user.basedefense - 10 * user.ascension < 100 || user.basehealth - 100 * user.ascension < 1000) { return functions.replyMessage(message, "You must have lvl 100 stats to ascend!") }
     if (user.weapon != false) { return functions.replyMessage(message, "You must unequip your weapon to ascend!") }
     functions.MessageAwait(message.channel, id, "Are you sure you want to Ascend? You will be set back to level 1 and leveling will become 1.5 times as hard!\nIf you are sure, type `confirm`", "confirm", function (response, extraArgs) {
         functions.getUser(id).then(user => {
@@ -13,7 +13,7 @@ module.exports = async function (message, user) {
             if (user.level != 100) {
                 return functions.replyMessage(message, "You are not level 100 yet!");
             }
-            if (user.attack - functions.calcExtraStat(user, "attack") < 100 || user.defense - functions.calcExtraStat(user, "defense") < 100 && user.health - functions.calcExtraStat(user, "health") < 1000) { return functions.replyMessage(message, "You must have lvl 100 stats to ascend!") }
+            if (user.baseattack - 10 * user.ascension < 100 || user.basedefense - 10 * user.ascension < 100 || user.basehealth - 100 * user.ascension < 1000) { return functions.replyMessage(message, "You must have lvl 100 stats to ascend!") }
             if (user.weapon != false) { return functions.replyMessage(message, "You must unequip your weapon to ascend!") }
             user.level = 1;
             user.attack = (user.ascension + 1) * 10;

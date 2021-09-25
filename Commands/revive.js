@@ -8,14 +8,14 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You're not dead. Why do you need to rez?");
             return;
         }
-        if (user.health - 10 >= functions.calcExtraStat(user, "health") && user.health > 10) { //debuffs stats if they are above a certain level
-            user.health -= 10;
+        if (user.basehealth - 10 >= user.ascension * 100 && user.basehealth > 10) { //debuffs stats if they are above a certain level
+            user.basehealth -= 10;
         }
-        if (user.attack - 1 >= functions.calcExtraStat(user, "attack") && user.attack >= 1) {
-            user.attack -= 1;
+        if (user.baseattack - 1 >= user.ascension * 10 && user.baseattack >= 1) {
+            user.baseattack -= 1;
         }
-        if (user.defense - 1 >= functions.calcExtraStat(user, "defense") && user.defense >= 1) {
-            user.defense -= 1;
+        if (user.basedefense - 1 >= user.ascension * 10 && user.basedefense >= 1) {
+            user.basedefense -= 1;
         }
         user.speed = 0;
         let xplost = Math.floor(functions.checkxp(user) / 10)

@@ -23,14 +23,14 @@ module.exports = async function (message, user) {
             else if (triangle == 1) { Archers += 1 }
             else if (triangle == 2) { Mages += 1 }
             else if (triangle == 3) { Warriors += 1 }
-            else if (triangle == 4) { Assassins += 1 }
-            else if (triangle == 7) { Merchants += 1 }
-            else if (triangle == 5) { Healers += 1 }
-            else if (triangle == 8) { Oracles += 1 }
-            else if (triangle == 11) { LWeavers += 1 }
-            else if (triangle == 311) { BWeavers += 1 }
-            else if (triangle == 6) { Berserkers += 1 }
-            else if (triangle == 9) { Paladins += 1 }
+            else if (triangle % 30 == 4) { Assassins += 1 }
+            else if (triangle % 30 == 7) { Merchants += 1 }
+            else if (triangle % 30 == 5) { Healers += 1 }
+            else if (triangle % 30 == 8) { Oracles += 1 }
+            else if (triangle % 30 == 11) { LWeavers += 1 }
+            else if (triangle % 30 == 14) { BWeavers += 1 }
+            else if (triangle % 30 == 6) { Berserkers += 1 }
+            else if (triangle % 30 == 9) { Paladins += 1 }
             totalclasses += 1;
         }
         //closes if statements
