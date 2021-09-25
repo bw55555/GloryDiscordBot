@@ -730,7 +730,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
     if (denchants.reflect > 0) {
         let reflectdmg = Math.floor(truedamage * denchants.reflect)
         counter += reflectdmg
-        text += attackername + " has been damaged for " + reflect + " health due to damage reflection!\n"
+        text += attackername + " has been damaged for " + reflectdmg + " health due to damage reflection!\n"
     }
     counter *= Math.max(0, 1 - aenchants.resistance)
     return [text, truedamage, counter]
