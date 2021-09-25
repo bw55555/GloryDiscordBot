@@ -1255,6 +1255,9 @@ function checkProps(message,user) {
         user.baseattack = Math.min(user.baseattack, calcBaseStat(user, "attack")) //prevents overleveling
         user.basedefense = Math.min(user.basedefense, calcBaseStat(user, "defense"))
         user.basehealth = Math.min(user.basehealth, calcBaseStat(user, "health"))
+        if (user.baseattack < user.ascension * 10) { user.baseattack = calcBaseStat(user, "attack") }
+        if (user.basedefense < user.ascension * 10) { user.basedefense = calcBaseStat(user, "defense") }
+        if (user.basehealth < user.ascension * 100) { user.basehealth = calcBaseStat(user, "health") }
         user.attack = user.baseattack + calcExtraStat(user, "attack")
         user.defense = user.basedefense + calcExtraStat(user, "defense")
         user.health = user.basehealth + calcExtraStat(user, "health")
