@@ -1030,7 +1030,7 @@
       "name": "Godzilla, King of Monsters",
       "url": "https://i.imgur.com/cgMFr9Q.jpg",
       "rarity": "Mythical",
-      "attack": 18,
+      "attack": 16,
       "defense": 0,
       "health": 35,
       "reward": 200,
@@ -1042,9 +1042,9 @@
       "name": "Athena, Goddess of Wisdom",
       "url": "https://i.imgur.com/OKfNnVV.jpg",
       "rarity": "Mythical",
-      "attack": 16,
+      "attack": 14,
       "defense": 0,
-      "health": 30,
+      "health": 26,
       "reward": 200,
       "ability": { "silence": 1 },
       "abilitydesc": "100% chance to silence the opponent. ",
@@ -1054,10 +1054,12 @@
       "name": "Lucifer, Sin of Pride",
       "url": "https://i.imgur.com/SlLWA1M.png",
       "rarity": "Mythical",
-      "attack": 25,
+      "attack": 18,
       "defense": 0,
-      "health": 40,
+      "health": 32,
       "reward": 200,
+      "ability": { "reflect": 1 },
+      "abilitydesc": "Reflects 100% of direct damage dealt.",
       "crystalreward": 25
     },
     {
@@ -1067,13 +1069,13 @@
       "attack": 22,
       "defense": 0,
       "health": 25,
-      "reward": 200,
+      "reward": 500,
       "ability": {
-        "pierce": 0.2,
+        "pierce": 0.15,
         "critRate": 0.2,
         "block": 0.1
       },
-      "abilitydesc":  "20% chance to pierce, 20% chance to deal a critical hit and do 2x damage, 10% chance to block. ",
+      "abilitydesc":  "15% chance to pierce, 20% chance to deal a critical hit and do 2x damage, 10% chance to block. ",
       "crystalreward": 25
     },
     {
@@ -1083,7 +1085,7 @@
       "attack": 20,
       "defense": 0,
       "health": 28,
-      "reward": 200,
+      "reward": 500,
       "ability": { "rage": 1 },
       "abilitydesc": "Deals more damage as he loses health (1 rage)",
       "crystalreward": 25

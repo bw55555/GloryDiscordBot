@@ -113,6 +113,17 @@ module.exports = async function (message, user) {
         user.triangleid = 9;
         user.trianglemod = 1.4;
         functions.replyMessage(message, 'You are now a Paladin!');
+    } else if (classpick === "ADVANCE") {
+        if (user.ascension < 3) {
+            functions.replyMessage(message, "You must be ascension 3 to class advance!");
+            return;
+        }
+        if (user.triangleid < 3 || user.triangleid > 14) { return functions.replyMessage(message, "This class cannot advance!")}
+        user.triangleid += 300
+        user.trianglemod = 1.6
+        let classnames = { 304: "Ninja", 305: "Priest", 306: "Beast", 307: "Landlord", 308: "Seer", 309: "Templar", 311: "Vampire", 314: "Vampire" }
+        user.triangle = classnames[user.triangle]
+        functions.replyMessage(message, 'You have class advanced!');
     } else {
         functions.replyMessage(message, 'That is not an available class!');
         return

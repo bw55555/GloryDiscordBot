@@ -238,7 +238,7 @@
   {
     "name": "Aegis",
     "id": 30,
-    "description": "Block +5%; Whenever you block an attack, you become bolstered",
+    "description": "Block +5%; Whenever you block or guard an attack, you become bolstered",
     "effect": {}
   },
   {

@@ -36,6 +36,57 @@ global.dailyrefresh = null;
 global.talkedRecently = {};
 global.nctlist = {};
 global.msperday = 24 * 60 * 60 * 1000;
+global.templateUser = {
+    money: 0,
+    health: 10,
+    currenthealth: 10,
+    xp: 0,
+    level: 1,
+    attack: 1,
+    defense: 1,
+    basehealth: 1,
+    baseattack: 1,
+    basedefense: 1,
+    speed: 0,
+    dead: false,
+    start: false,
+    triangle: "None",
+    triangleid: 0,
+    trianglemod: 1,
+    weapon: false,
+    ability: {},
+    inventory: {},
+    marry: "None",
+    guild: "None",
+    guildpos: "None",
+    guildbuffs: {},
+    votestreak: 0,
+    shield: 0,
+    materials: 0,
+    ascension: 0,
+    bounty: 0,
+    glory: 0,
+    contribution: 0,
+    votestreak: 0,
+    honor: 0,
+    dailyhonor: 0,
+    runes: [0, 0, 0, 0, 0, 0, 0],
+    cooldowns: {},
+    skills: {},
+    equippedSkills: { "A": "None", "B": "None", "C": "None" },
+    consum: { explosion: 0, box: 0, sp: 0, phoenixfeather: 0, nametag: 0, reroll: 0 },
+    quests: [],
+    cnumbers: [0, 0],
+    statusEffects: {},
+    startts: 0,
+    location: "city",
+    missions: [],
+    bag: {},
+    guildperms: {},
+    present: 0,
+    luckycoin: 0,
+    luckycointotal: 0
+}
 const TOKEN = config.token;//woah woah woah woah whatcha
 let channelnum = 0;
 let iterchannel = 0;
@@ -333,7 +384,9 @@ function evaluateMessage(message) {
         if (user.maintenance) {
             delete user.maintenance
             if (devData.maintenancetext != undefined && devData.maintenancetext != "") {
-                functions.sendMessage(message.channel, devData.maintenancetext)            }        }
+                functions.sendMessage(message.channel, devData.maintenancetext)
+            }
+        }
         if (devs.indexOf(id) == -1) {
             if (user.macro) {
                 functions.logCommand(message, "MACRO")

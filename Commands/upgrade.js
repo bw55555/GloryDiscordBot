@@ -3,11 +3,11 @@ function upgradeStats(attributeToUpgrade, amount, user) {
     let cost = 0;
     let totalcost = 0
     //console.log(user[attributeToUpgrade])
-    let attrcosts = { "attack": 1, "defense": 1, "health": 10 }
+    let attrcosts = { "baseattack": 1, "basedefense": 1, "basehealth": 10 }
     let levelstop = false;
     let moneystop = false;
     let text = ""
-    let extrastat = functions.calcExtraStat(user, attributeToUpgrade)
+    let extrastat = attrcosts[attributeToUpgrade] * user.ascension * 10
     while (amount > 0) {
         let basestat = user[attributeToUpgrade] - extrastat
         if (basestat < 0) {
@@ -44,7 +44,7 @@ function upgradeStats(attributeToUpgrade, amount, user) {
         text += 'You need $' + cost + ' to level up your ' + attributeToUpgrade + ' to ' + (basestat + attrcosts[attributeToUpgrade]) + '. You have $' + user.money + "\n";
         success = false;
     }
-    functions.completeQuest(user, "upgrade", { "stat": attributeToUpgrade, "current": parseInt(basestat / attrcosts[attributeToUpgrade]), "cost": totalcost}, amount)
+    functions.completeQuest(user, "upgrade", { "stat": attributeToUpgrade.slice(4), "current": parseInt(basestat / attrcosts[attributeToUpgrade]), "cost": totalcost}, amount)
     return [text, success];
 }
 module.exports = async function (message, user) {
@@ -70,13 +70,13 @@ module.exports = async function (message, user) {
         return;
     }
     if (attributeToUpgrade == 'ATTACK' || attributeToUpgrade == 'ATK') { //Upgrade Atk
-        text += upgradeStats("attack", amount, user)[0]
+        text += upgradeStats("baseattack", amount, user)[0]
     }
     else if (attributeToUpgrade == 'DEFENSE' || attributeToUpgrade == 'DEF') { //Upgrade Def
-        text += upgradeStats("defense", amount, user)[0]
+        text += upgradeStats("basedefense", amount, user)[0]
     }
     else if (attributeToUpgrade == 'HEALTH' || attributeToUpgrade == 'HP') { //Upgrade Health
-        text += upgradeStats("health", amount, user)[0]
+        text += upgradeStats("basehealth", amount, user)[0]
     }
     else if (attributeToUpgrade == 'ALL') { //Upgrade Health
         let textarr = ["","",""];

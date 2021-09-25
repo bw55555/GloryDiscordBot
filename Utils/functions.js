@@ -442,13 +442,17 @@ function generateRandomItem(owner, rarity, isBulk, source) {
     let item = generateItem(owner, null, attack, defense, rarity, undefined, undefined, isBulk, source)
     return item
 }
+function calcBaseStat(user, stat) {
+    const statlevels = { "health": 10, "attack": 1, "defense": 1 }
+    return (user.level+10*user.ascension) * statlevels[stat]
+}
 function calcExtraStat(user, stat) {
-    const statlevels = { "health": 100, "attack": 10, "defense": 10 }
-    let extrastat = user.ascension * statlevels[stat]
+    let extrastat = 0
     if (stat == "health") {
         if (user.weapon != false && user.weapon != undefined && user.weapon.modifiers.maxhp != undefined) extrastat += user.weapon.modifiers.maxhp
+        if (user.triangleid % 3000 == 305) { extrastat += user.basehealth * 0.25}
     }
-    return extrastat
+    return Math.floor(extrastat)
 }
 function calcLuckyBuff(user) {
     let lb = calcEnchants(user).lucky
@@ -624,12 +628,25 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
         }
     }
     let blockchance = Math.random();
+    let guardchance = Math.random();
     if (denchants.block > blockchance) {
         if (piercechance < aenchants.pierce) {
             text += defendername + " has blocked the attack, but " + attackername + " pierced though anyway!\n"
         } else {
             text += defendername + " has blocked the attack!\n"
             attack = 0;
+            if (defender.isRaid != true && hasSkill(defender, 30, skillenable)) {
+                defender.statusEffects.bolster = defender.ascension * 0.03
+                text += defendername + " was bolstered!\n"
+            }
+        }
+    }
+    else if (denchants.guard > guardchance) {
+        if (piercechance < aenchants.pierce) {
+            text += defendername + " defended itself, but " + attackername + " pierced though anyway!\n"
+        } else {
+            text += defendername + " has defended itself!\n"
+            attack = Math.floor(attack/2)
             if (defender.isRaid != true && hasSkill(defender, 30, skillenable)) {
                 defender.statusEffects.bolster = defender.ascension * 0.03
                 text += defendername + " was bolstered!\n"
@@ -662,15 +679,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
     }
     //Last Breath Check
     
-    if (defender.isRaid != true) {
-        if (hasSkill(defender, 25, skillenable) && !isCD(defender, message.createdTimestamp, "lastbreath")) {
-            if (truedamage > defender.currenthealth && defender.currenthealth * 2 > defender.health) {
-                defender.currenthealth = truedamage + 1
-                text += defendername + " has activated Last Breath!\n"
-                setCD(defender, message.createdTimestamp, 180, "lastbreath");
-            }
-        }
-    }
+    
     if (aenchants.lifeSteal > 0) {
         if (hasSkill(attacker, 44, skillenable) && attacker.currenthealth < 0.1 * attacker.health) { aenchants.lifeSteal *= 1.5 }
         let stealAmount = Math.abs(Math.floor(truedamage * aenchants.lifeSteal))
@@ -695,14 +704,35 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
             text += attackername + " leeched **" + leech + "** health!\n";
         }
     }
+    truedamage *= Math.max(0, 1 - denchants.resistance)
+    if (denchants.survive != undefined) {
+        if (truedamage > defender.currenthealth) {
+            defender.currenthealth = truedamage + 1
+            text += defendername + " has survived on their dying breath!\n"
+        }
+    }
+    if (defender.isRaid != true) {
+        if (hasSkill(defender, 25, skillenable) && !isCD(defender, message.createdTimestamp, "lastbreath")) {
+            if (truedamage > defender.currenthealth && defender.currenthealth * 2 > defender.health) {
+                defender.currenthealth = truedamage + 1
+                text += defendername + " has activated Last Breath!\n"
+                setCD(defender, message.createdTimestamp, 180, "lastbreath");
+            }
+        }
+    }
     if (denchants.spikes > 0) {
-        let spiked = Math.floor(defense * denchants.spikes * Math.max(0, 1 - aenchants.resistance))
+        let spiked = Math.floor(defense * denchants.spikes)
         if (hasSkill(attacker, 40, skillenable)) { text += defendername + "'s spikes was dispelled!\n" } else {
             counter += spiked
             text += attackername + " has been damaged for " + spiked + " health due to spikes!\n"
         }
     }
-    truedamage *= Math.max(0, 1 - denchants.resistance) 
+    if (denchants.reflect > 0) {
+        let reflectdmg = Math.floor(truedamage * denchants.reflect)
+        counter += reflectdmg
+        text += attackername + " has been damaged for " + reflect + " health due to damage reflection!\n"
+    }
+    counter *= Math.max(0, 1 - aenchants.resistance)
     return [text, truedamage, counter]
 }
 function calcStatusEffects(attacker, defender, aenchants, astatus, denchants, dstatus) {
@@ -807,8 +837,59 @@ function calcEnchants(user, defender, options) {
     for (let mod of possibleModifiers) {
         enchants[mod.name] = mod.default
     }
-    if (options.silence) { return enchants;}
-    if (user.trianglemod != undefined) { enchants.buff = user.trianglemod}
+    if (user.trianglemod != undefined) { enchants.buff = user.trianglemod }
+    if (options.silence) { return enchants; }
+    let cid = user.triangleid;
+    if (cid % 3000 == 308) {
+        enchants.critRate += 0.01
+        enchants.revenge += 0.01
+        enchants.evade += 0.01
+        enchants.pierce += 0.01
+        enchants.block += 0.01
+    }
+    if (cid % 3000 == 304) {
+        enchants.evade += 0.05
+        enchants.critDamage += 0.5
+    }
+    if (cid % 3000 == 307) {
+        enchants.lucky += 1.5
+    }
+    if (cid % 3000 == 311) {
+        enchants.pierce += 0.08
+        enchants.buff += 0.2
+    }
+    if (cid % 3000 == 314) {
+        enchants.pierce += 0.08
+        enchants.buff += 0.2
+    }
+    if (cid % 3000 == 309) {
+        enchants.guard += 0.25
+        enchants.dbuff += 0.2
+    }
+    if (cid % 30 == 4) {
+        enchants.critRate += 0.08;
+        enchants.critDamage += 1;
+    }
+    if (cid % 30 == 6) {
+        enchants.rage += 1;
+    }
+    if (cid % 30 == 7) {
+        enchants.lucky += 0.5;
+    }
+    if (cid % 30 == 11) {
+        enchants.lifeSteal += 0.15;
+    }
+    if (cid % 30 == 14) {
+        enchants.sacrifice += 0.15;
+    }
+    if (cid == 2000) {
+        enchants.evade += 0.05
+    }
+    if (cid == 2001) {
+        enchants.attack += 30
+        enchants.defense += 30
+        enchants.regen += 3
+    }
     if (user.ability != undefined && user.ability != "None") {
         for (let key in user.ability) {
             if (enchants[key] == undefined) { enchants[key] = 0 }
@@ -848,32 +929,6 @@ function calcEnchants(user, defender, options) {
     enchants.lucky += Math.floor(user.glory) * 0.01;
     if (user.vip != undefined) {
         enchants.lucky += user.vip.lucky;
-    }
-    switch (user.triangleid) {
-        case 4:
-            enchants.critRate += 0.08;
-            enchants.critDamage += 1;
-            break;
-        case 6:
-            enchants.rage += 1;
-            break;
-        case 7:
-            enchants.lucky += 0.5;
-            break;
-        case 11:
-            enchants.lifeSteal += 0.15;
-            break;
-        case 311:
-            enchants.sacrifice += 0.15;
-            break;
-        case 2000:
-            enchants.evade += 0.05
-            break;
-        case 2001:
-            enchants.attack += 30
-            enchants.defense += 30
-            enchants.regen += 3
-            break;
     }
     return enchants
 }
@@ -1183,69 +1238,26 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability, abilityde
 function checkProps(message,user) {
     let ts = message.createdTimestamp;
     if (user.username != message.author.username) user.username = message.author.username; //Creates object with name as username
-    if (user.money == undefined) user.money = 0; //gives money object
-    if (user.health == undefined) user.health = 10; //Health
-    if (user.currenthealth == undefined) user.currenthealth = 0; //Health
-    if (user.xp == undefined) user.xp = 0; //XP
-    if (user.level == undefined) user.level = 1; //XP
-    if (user.attack == undefined) user.attack = 0; //character's attack
-    if (user.defense == undefined) user.defense = 0; //character's defense
-    if (user.speed == undefined) user.speed = 0; //character's speed
-    if (user.dead == undefined) user.dead = false; //character's status (alive/dead)
-    if (user.start == undefined) user.start = false; //character's speed
-    if (user.triangle == undefined) user.triangle = "None"; //character's class
-    if (user.triangleid == undefined) user.triangleid = 0; //character's class
-    if (user.trianglemod == undefined) user.trianglemod = 1.0; //character's class-based damage modifier.
-    if (user.weapon == undefined) user.weapon = false;
-    if (user.marry == undefined) user.marry = "None";
-    if (user.guild == undefined) user.guild = "None";
-    if (user.guildpos == undefined) user.guildpos = "None";
-    if (user.guildbuffs == undefined) user.guildbuffs = {};
-    if (user.votestreak == undefined) user.votestreak = 0;
-    if (user.shield == undefined) user.shield = ts + 24 * 1000 * 60 * 60;
-    if (user.materials == undefined) user.materials = 0;
-    if (user.ascension == undefined) user.ascension = 0;
-    if (user.bounty == undefined) user.bounty = 0;
-    if (user.glory == undefined) user.glory = 0;
-    if (user.runes == undefined) user.runes = [0, 0, 0, 0, 0, 0, 0]
+
+    for (let k in templateUser) {
+        if (user[k] == undefined) {user[k] = templateUser[k]}
+    }
+
     while (user.runes.length < 7) { user.runes.push(0) }
-    if (user.cooldowns == undefined) user.cooldowns = {}
-    if (user.cooldowns.attack == undefined) user.cooldowns.attack = 1;
-    if (user.cooldowns.heal == undefined) user.cooldowns.heal = 1;
-    if (user.cooldowns.rez == undefined) user.cooldowns.rez = 1;
-    if (user.cooldowns.work == undefined) user.cooldowns.work = 1;
-    if (user.cooldowns.bolster == undefined) user.cooldowns.bolster = 1;
-    if (user.cooldowns.smeltall == undefined) user.cooldowns.smeltall = 1;
-    if (user.cooldowns.purchase == undefined) user.cooldowns.purchase = 1;
-    if (user.cooldowns.merge == undefined) user.cooldowns.merge = 1;
-    if (user.cooldowns.daily == undefined) user.cooldowns.daily = 1;
-    if (user.cooldowns.luckyshoprefresh == undefined) user.cooldowns.luckyshoprefresh = 1;
-    if (user.cooldowns.lastbreath == undefined) user.cooldowns.lastbreath = 1;
-    if (user.skills == undefined) user.skills = {}
-    if (user.equippedSkills == undefined) user.equippedSkills = {"A":"None", "B": "None", "C": "None"}
-    if (!user.consum == undefined) user.consum = {}
-    if (user.quests == undefined) user.quests = [];
-    if (user.honor == undefined) user.honor = 0;
-    if (user.dailyhonor == undefined) user.dailyhonor = 0;
-    if (user.statusEffects == undefined) user.statusEffects = {};
-    if (user.currenthealth > user.health) user.currenthealth = user.health
-    if (user.location == undefined) { user.location = "city"}
-    if (user.missions == undefined) { user.missions = [] }
-    if (user.present == undefined) { user.present = 0 }
-    if (user.bag == undefined) { user.bag = {} }
-    if (user.guildperms == undefined) { user.guildperms = {} }
-    if (user.luckycoin == undefined) { user.luckycoin = 0 }
-    if (user.luckycointotal == undefined) { user.luckycointotal = 0 }
+    
     if (user.start === false) { //when you start, your currenthealth will be to 10;
         user.currenthealth = 10;
         user.start = true;
     }
+    if (user.currenthealth > user.health) user.currenthealth = user.health
+
     if (admins.indexOf(user._id) == -1) {
-        if (user.attack > user.level + calcExtraStat(user, "attack")) user.attack = user.level + calcExtraStat(user, "attack"); //prevents overleveling
-        if (user.defense > user.level + calcExtraStat(user, "defense")) user.defense = user.level + calcExtraStat(user, "defense")
-        //extrahp = (user.weapon != false && user.weapon.modifiers.maxhp != undefined) ? user.weapon.modifiers.maxhp : 0
-        // if (user.health > user.level * 10 + extrahp) user.health = user.level * 10;
-        if (user.health > user.level * 10 + calcExtraStat(user, "health")) user.health = user.level * 10 + calcExtraStat(user, "health")
+        user.baseattack = Math.min(user.baseattack, calcBaseStat(user, "attack")) //prevents overleveling
+        user.basedefense = Math.min(user.basedefense, calcBaseStat(user, "defense"))
+        user.basehealth = Math.min(user.basehealth, calcBaseStat(user, "health"))
+        user.attack = user.baseattack + calcExtraStat(user, "attack")
+        user.defense = user.basedefense + calcExtraStat(user, "defense")
+        user.health = user.basehealth + calcExtraStat(user, "health")
     }
 }
 function postCommandCheck(message, user) {
@@ -1323,6 +1335,7 @@ function checkStuff(message,user) {
         user.dead = true;
     }
     completeQuest(user, "user", user, 1)
+    checkProps(message, user)
 }
 
 function checkCommand(message, user) {
@@ -2307,6 +2320,7 @@ module.exports.generateWeaponTemplate = generateWeaponTemplate
 module.exports.generateGuildTemplate = generateGuildTemplate
 module.exports.generateItem = generateItem
 module.exports.generateRandomItem = generateRandomItem
+module.exports.calcBaseStat = calcBaseStat
 module.exports.calcExtraStat = calcExtraStat
 module.exports.calcLuckyBuff = calcLuckyBuff
 module.exports.getLogChannel = getLogChannel
