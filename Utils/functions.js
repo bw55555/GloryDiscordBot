@@ -1242,12 +1242,12 @@ function checkProps(message,user) {
     for (let k in templateUser) {
         if (user[k] == undefined) {
             user[k] = templateUser[k]
-            errorlog("attribute " + k + " is not defined for user " + user._id)
+            errorlog({ stack: "" },"attribute " + k + " is not defined for user " + user._id)
             user.flag = true
         }
         if (typeof templateUser[k] == "number" && isNaN(user[k])) {
             user[k] = templateUser[k]
-            errorlog("attribute " + k + " is not defined for user " + user._id)
+            errorlog({ stack: "" },"attribute " + k + " is not defined for user " + user._id)
             user.flag = true
         }
     }
