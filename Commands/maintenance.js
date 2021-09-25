@@ -19,22 +19,22 @@ module.exports = async function (message, user) {
         */
         functions.findUsers({}).then(res => {
             let tasks = []
-            for (let user in res) {
+            for (let thisuser of res) {
                 tasks.push({
                     updateOne:
                     {
-                        "filter": { _id: user._id },
+                        "filter": { _id: thisuser._id },
                         "update": {
                             $set: {
-                                "basehealth": user.health - functions.calcExtraStat(user, "health"),
-                                "baseattack": user.attack,
-                                "basedefense": user.defense
+                                "basehealth": thisuser.health - functions.calcExtraStat(thisuser, "health"),
+                                "baseattack": thisuser.attack,
+                                "basedefense": thisuser.defense
                             }
                         }
                     }
                 })
             }
-            functions.bulkWrite(userData, tasks)
+            functions.bulkWrite("userData", tasks)
         })
         functions.replyMessage(message, "Maintenance was completed!")
     }, [message])
