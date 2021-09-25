@@ -8,6 +8,7 @@ function upgradeStats(attributeToUpgrade, amount, user) {
     let moneystop = false;
     let text = ""
     let extrastat = attrcosts[attributeToUpgrade] * user.ascension * 10
+    let displayAttr = attributeToUpgrade.slice(4)
     while (amount > 0) {
         let basestat = user[attributeToUpgrade] - extrastat
         if (basestat < 0) {
@@ -33,18 +34,18 @@ function upgradeStats(attributeToUpgrade, amount, user) {
     let basestat = user[attributeToUpgrade] - extrastat
     let success = false;
     if (totalcost > 1) {
-        text += 'You spent $' + totalcost + ' increasing your ' + attributeToUpgrade + ' to ' + basestat + "\n";
+        text += 'You spent $' + totalcost + ' increasing your ' + displayAttr + ' to ' + basestat + "\n";
         success = true;
     }
     if (levelstop == true) {
-        text += 'You must be level ' + (Math.floor(basestat / attrcosts[attributeToUpgrade]) + 1) + ' to level up your ' + attributeToUpgrade + ' to ' + (basestat + attrcosts[attributeToUpgrade]) + '. You are level ' + user.level + '!' + "\n";
+        text += 'You must be level ' + (Math.floor(basestat / attrcosts[attributeToUpgrade]) + 1) + ' to level up your ' + displayAttr + ' to ' + (basestat + attrcosts[attributeToUpgrade]) + '. You are level ' + user.level + '!' + "\n";
         success = false;
     }
     if (moneystop == true) {
-        text += 'You need $' + cost + ' to level up your ' + attributeToUpgrade + ' to ' + (basestat + attrcosts[attributeToUpgrade]) + '. You have $' + user.money + "\n";
+        text += 'You need $' + cost + ' to level up your ' + displayAttr + ' to ' + (basestat + attrcosts[attributeToUpgrade]) + '. You have $' + user.money + "\n";
         success = false;
     }
-    functions.completeQuest(user, "upgrade", { "stat": attributeToUpgrade.slice(4), "current": parseInt(basestat / attrcosts[attributeToUpgrade]), "cost": totalcost}, amount)
+    functions.completeQuest(user, "upgrade", { "stat": displayAttr, "current": parseInt(basestat / attrcosts[attributeToUpgrade]), "cost": totalcost}, amount)
     return [text, success];
 }
 module.exports = async function (message, user) {
@@ -81,7 +82,7 @@ module.exports = async function (message, user) {
     else if (attributeToUpgrade == 'ALL') { //Upgrade Health
         let textarr = ["","",""];
         let statsuccess = [true, true, true]
-        let numstats = ["attack", "defense", "health"]
+        let numstats = ["baseattack", "basedefense", "basehealth"]
         for (let j = 0; j < amount; j++) {
             for (let i = 0; i < 3; i++) {
                 if (statsuccess[i]) {
