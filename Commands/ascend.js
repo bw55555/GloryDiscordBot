@@ -16,9 +16,12 @@ module.exports = async function (message, user) {
             if (user.baseattack - 10 * user.ascension < 100 || user.basedefense - 10 * user.ascension < 100 || user.basehealth - 100 * user.ascension < 1000) { return functions.replyMessage(message, "You must have lvl 100 stats to ascend!") }
             if (user.weapon != false) { return functions.replyMessage(message, "You must unequip your weapon to ascend!") }
             user.level = 1;
-            user.attack = (user.ascension + 1) * 10;
-            user.defense = (user.ascension + 1) * 10;
-            user.health = (user.ascension + 1) * 100;
+            user.baseattack = (user.ascension + 1) * 10;
+            user.basedefense = (user.ascension + 1) * 10;
+            user.basehealth = (user.ascension + 1) * 100;
+            user.attack = user.baseattack + functions.calcExtraStat(user, "attack")
+            user.defense = user.baseattack + functions.calcExtraStat(user, "defense")
+            user.health = user.baseattack + functions.calcExtraStat(user, "health")
             user.xp = 0;
             user.weapon = false;
             user.currenthealth = (user.ascension + 1) * 100;
