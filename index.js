@@ -44,7 +44,7 @@ global.templateUser = {
     level: 1,
     attack: 1,
     defense: 1,
-    basehealth: 1,
+    basehealth: 10,
     baseattack: 1,
     basedefense: 1,
     speed: 0,

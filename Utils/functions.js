@@ -1259,7 +1259,6 @@ function checkProps(message,user) {
         user.start = true;
     }
     if (user.currenthealth > user.health) user.currenthealth = user.health
-
     if (admins.indexOf(user._id) == -1) {
         user.baseattack = Math.min(user.baseattack, calcBaseStat(user, "attack")) //prevents overleveling
         user.basedefense = Math.min(user.basedefense, calcBaseStat(user, "defense"))
@@ -1267,10 +1266,18 @@ function checkProps(message,user) {
         if (user.baseattack < user.ascension * 10) { user.baseattack = calcBaseStat(user, "attack") }
         if (user.basedefense < user.ascension * 10) { user.basedefense = calcBaseStat(user, "defense") }
         if (user.basehealth < user.ascension * 100) { user.basehealth = calcBaseStat(user, "health") }
-        user.attack = user.baseattack + calcExtraStat(user, "attack")
-        user.defense = user.basedefense + calcExtraStat(user, "defense")
-        user.health = user.basehealth + calcExtraStat(user, "health")
+        user.attack = Math.max(user.baseattack + calcExtraStat(user, "attack"), user.attack)
+        user.defense = Math.max(user.basedefense + calcExtraStat(user, "defense"), user.defense)
+        user.health = Math.max(user.basehealth + calcExtraStat(user, "health"), user.health)
+    } else {
+        if (user.baseattack < user.ascension * 10) { user.baseattack = calcBaseStat(user, "attack") }
+        if (user.basedefense < user.ascension * 10) { user.basedefense = calcBaseStat(user, "defense") }
+        if (user.basehealth < user.ascension * 100) { user.basehealth = calcBaseStat(user, "health") }
+        user.attack = Math.max(user.baseattack + calcExtraStat(user, "attack"), user.attack)
+        user.defense = Math.max(user.basedefense + calcExtraStat(user, "defense"), user.defense)
+        user.health = Math.max(user.basehealth + calcExtraStat(user, "health"), user.health)
     }
+    
 }
 function postCommandCheck(message, user) {
     let leveluptext = ""
