@@ -25,11 +25,11 @@ module.exports = async function (message, user) {
                         "basehealth": thisuser.health - functions.calcExtraStat(thisuser, "health"),
                         "baseattack": thisuser.attack,
                         "basedefense": thisuser.defense,
-                        "eventclass": {}
+                        "eventClasses": {}
                     }
                 }
-                if (user.boughtghost) { toSet.$set.eventclass.ghost = true; }
-                if (user.boughtstar) { toSet.$set.eventclass.celestial = true; }
+                if (user.boughtghost) { toSet.$set.eventClasses.ghost = true; }
+                if (user.boughtstar) { toSet.$set.eventClasses.celestial = true; }
                 tasks.push({
                     updateOne:
                     {
