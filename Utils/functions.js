@@ -875,6 +875,9 @@ function calcEnchants(user, defender, options) {
         enchants.evade += 0.05
         enchants.critDamage += 0.5
     }
+    if (cid % 3000 == 306) {
+        enchants.survive += 0.2
+    }
     if (cid % 3000 == 307) {
         enchants.lucky += 1.5
     }
