@@ -118,20 +118,24 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You must be ascension 3 to class advance!");
             return;
         }
-        if (user.triangleid < 3 || user.triangleid > 14) { return functions.replyMessage(message, "This class cannot advance!")}
+        let classnames = { 304: "Ninja", 305: "Priest", 306: "Beast", 307: "Landlord", 308: "Seer", 309: "Templar", 311: "Vampire", 314: "Vampire" }
+        if (classnames[user.triangleid + 300] == undefined) { return functions.replyMessage(message, "This class cannot advance!")}
         user.triangleid += 300
         user.trianglemod = 1.6
-        let classnames = { 304: "Ninja", 305: "Priest", 306: "Beast", 307: "Landlord", 308: "Seer", 309: "Templar", 311: "Vampire", 314: "Vampire" }
         user.triangle = classnames[user.triangle]
-        functions.replyMessage(message, 'You have class advanced!');
-    } else if (classpick == "GHOST" && user.eventClass != undefined && user.eventClass.ghost == true) {
+        functions.replyMessage(message, 'You have class advanced to a '+classnames[user.triangleid]+"!");
+    } else if (classpick == "GHOST") {
+        if (user.eventClass == undefined || user.eventClass.ghost != true) {return functions.replyMessage(message, "You do not own this class!")}
         user.triangle = '<:ghostclass:771114679941595156> Ghost';
         user.triangleid = 2000;
         user.trianglemod = 1.6;
-    } else if (classpick == "CELESTIAL" && user.eventClass != undefined && user.eventClass.celestial == true) {
+        functions.replyMessage(message, 'You are now a ghost!');
+    } else if (classpick == "CELESTIAL") {
+        if (user.eventClass == undefined || user.eventClass.celestial != true) { return functions.replyMessage(message, "You do not own this class!") }
         user.triangle = '<:celestial:794717884462792734> Celestial';
         user.triangleid = 2001;
         user.trianglemod = 1.6;
+        functions.replyMessage(message, 'You are now a celestial!');
     }
     else {
         functions.replyMessage(message, 'That is not an available class!');
