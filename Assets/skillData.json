@@ -358,6 +358,55 @@
     "name": "Swift Strike",
     "id": 48,
     "description": "If you kill your enemy, you do not take damage. "
+  },
+  {
+    "name": "Precision",
+    "id": 49,
+    "description": "Reduce the effect of randomness on your attacks",
+    "effect": { "attackvariance": 0.2 }
+  },
+  {
+    "name": "Volatile",
+    "id": 50,
+    "description": "Increase the effect of randomness on your attacks",
+    "effect": { "attackvariance": -0.2 }
+  },
+  {
+    "name": "Mirror",
+    "id": 51,
+    "description": "Reflect 10% of direct damage taken.",
+    "effect": { "reflect": 0.1 }
+  },
+  {
+    "name": "Guard",
+    "id": 52,
+    "description": "20% chance to guard an attack and take 50% less damage",
+    "effect": { "guard": 0.2 }
+  },
+  {
+    "name": "Battle Awareness",
+    "id": 53,
+    "description": "30% chance to be immune to crit.",
+    "resistance": { "crit": 0.3 }
+  },
+  {
+    "name": "Willpower",
+    "id": 54,
+    "description": "20% chance to be immune to stun, silence, and petrify.",
+    "resistance": {
+      "silence": 0.2,
+      "stun": 0.2,
+      "petrify": 0.2
+    }
+  },
+  {
+    "name": "Overload",
+    "id": 55,
+    "description": "buff + 1, dbuff -0.8",
+    "effect": {
+      "buff": 1,
+      "dbuff": -0.8
+    }
   }
 
 ]

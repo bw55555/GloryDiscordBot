@@ -538,27 +538,32 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
         aoptions.hasDispel = true;
         text += attackername + "'s speed was dispelled!\n"
     }
-    if (astatus.silence) { aoptions.silence = true; text += attackername + " was silenced!\n"}
-    let aenchants = calcEnchants(attacker, defender, aoptions)
-    aoptions.enchants = aenchants;
-    aoptions.status = astatus;
-    let attackarr = calcStats(message, attacker, "attack", aoptions);
-    attack = attackarr[1];
-    text += attackarr[0];
-    
-    let defense = 0;
+    if (astatus.silence) { aoptions.silence = true; text += attackername + " was silenced!\n" }
 
     let doptions = {};
     doptions.skillenable = skillenable
     doptions.hasConfusion = attacker.isRaid != true && hasSkill(attacker, 23, skillenable)
     if (hasSkill(attacker, 37, skillenable) && defender.speed != undefined && defender.speed > 0) {
-        doptions.hasDispel = true; 
+        doptions.hasDispel = true;
         text += defendername + "'s speed was dispelled!\n"
     }
     if (dstatus.petrify) { doptions.silence = true; text += defendername + " was petrified and silenced! \n" }
-    else if (dstatus.silence) { doptions.silence = true; text += defendername + " was silenced! \n"}
+    else if (dstatus.silence) { doptions.silence = true; text += defendername + " was silenced! \n" }
+
+    let aenchants = calcEnchants(attacker, defender, aoptions)
     let denchants = calcEnchants(defender, attacker, doptions)
+
+
+    aoptions.enchants = aenchants;
+    aoptions.status = astatus;
+    aoptions.denchants = denchants
+    let attackarr = calcStats(message, attacker, "attack", aoptions);
+    attack = attackarr[1];
+    text += attackarr[0];
+    
+    let defense = 0;
     doptions.enchants = denchants;
+    doptions.denchants = aenchants;
     doptions.status = dstatus;
     let defensearr = calcStats(message, defender, "defense", doptions);
     defense = defensearr[1]; 
@@ -590,6 +595,11 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
         text += attackername + " is bleeding and will do " + Math.floor(amt * 100) + "% less damage. \n"
         attack *= (1 - amt)
     }
+    if (astatus.poison != undefined) {
+        let amt = astatus.poison
+        text += attackername + " is poisoned for " + amt + " damage!\n"
+        counter += amt;
+    }
     if (dstatus.bleed != undefined) {
         let amt = dstatus.bleed * 0.02;
         if (amt >= 1) {
@@ -603,7 +613,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
         text += defendername + " is starting to bleed!"+defendername+" has " + defender.statusEffects.bleed + " stacks of bleed.\n"
     }
     let piercechance = Math.random()
-    if (piercechance < aenchants.pierce) {
+    if (piercechance < aenchants.pierce * (1 - denchants.pierceResist)) {
         if (defender.isRaid) {
             attack *= 1.25
         } else {
@@ -739,13 +749,18 @@ function calcStatusEffects(attacker, defender, aenchants, astatus, denchants, ds
     if (attacker.statusEffects == undefined) {
         attacker.statusEffects = {}
     }
-    if (aenchants.petrify > Math.random()) { dstatus.petrify = true; }
-    if (aenchants.stun > Math.random()) { dstatus.stun = true }
-    if (aenchants.silence > Math.random()) { dstatus.silence = true }
+    if (aenchants.petrify * (1 - denchants.petrifyResist) > Math.random()) { dstatus.petrify = true; }
+    if (aenchants.stun * (1-denchants.stunResist)> Math.random()) { dstatus.stun = true }
+    if (aenchants.silence * (1 - denchants.silenceResist)> Math.random()) { dstatus.silence = true }
     if (attacker.statusEffects.bleed > 0) {
         astatus.bleed = attacker.statusEffects.bleed
         attacker.statusEffects.bleed -= 1;
         if (attacker.statusEffects.bleed <= 0) { attacker.statusEffects.bleed = undefined }
+    }
+    if (attacker.statusEffects.poison > 0) {
+        astatus.poison = Math.ceil(attacker.statusEffects.poison/2)
+        attacker.statusEffects.poison -= astatus.poison;
+        if (attacker.statusEffects.poison <= 0) { attacker.statusEffects.poison = undefined }
     }
     if (attacker.statusEffects.bolster > 0) {
         astatus.bolster = attacker.statusEffects.bolster;
@@ -831,14 +846,23 @@ function calcEnchants(user, defender, options) {
         { name: 'stun', default: 0 },
         { name: 'petrify', default: 0 },
         { name: 'resistance', default: 0 },
-        { name: 'defmult', default: 10 }
+        { name: 'defmult', default: 10 },
+        { name: 'guard', default: 0 },
+        { name: 'reflect', default: 0 },
+        { name: 'poison', default: 0 },
+        { name: 'critResist', default: 0 },
+        { name: 'pierceResist', default: 0 },
+        { name: 'silenceResist', default: 0 },
+        { name: 'stunResist', default: 0 },
+        { name: 'petrifyResist', default: 0 }
+
     ]
     let enchants = {};
     for (let mod of possibleModifiers) {
         enchants[mod.name] = mod.default
     }
     if (user.trianglemod != undefined) { enchants.buff = user.trianglemod }
-    if (options.silence) { return enchants; }
+    
     let cid = user.triangleid;
     if (cid % 3000 == 308) {
         enchants.critRate += 0.01
@@ -896,6 +920,31 @@ function calcEnchants(user, defender, options) {
             enchants[key] += user.ability[key]
         }
     }
+    if (skillenable == true) {
+        for (let key in user.equippedSkills) {
+            let sid = user.equippedSkills[key];
+            if (sid == "None") { continue }
+            for (let i in skillData[sid].resistance) {
+                enchants[i + "Resist"] += skillData[sid].resistance[i]
+            }
+            if (skillData[sid].conditionalResistance != undefined) {
+                for (let condition in skillData[sid].conditionalResistance) {
+                    let cwords = condition.split(" ")
+                    let vA = JSONoperate(user, cwords[0], "get")
+                    let vB = JSONoperate(user, cwords[2], "get")
+                    let op = cwords[1];
+                    if ((op == ">=" && vA >= vB) || (op == "<=" && vA <= vB) || (op == "=" && vA == vB) || (op == ">" && vA > vB) || (op == "<" && vA < vB)) {
+                        for (let effect in skillData[sid].conditionalResistance[condition]) {
+                            enchants[effect+"Resist"] += skillData[sid].conditionalResistance[condition][effect]
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (options.silence) { return enchants; }
+
     if (user.isRaid) { return enchants}
     for (let key in enchants) {
         enchants[key] += getGuildBuff(user, key) + getWeaponEnchant(user, key)
@@ -940,6 +989,7 @@ function calcStats(message, user, stat, options) {
     let status = options.status == undefined ? {} : options.status
     let dispel = (options.hasDispel == true) ? true : false
     let confused = (options.hasConfusion == true) ? true : false
+    let denchants = (options.denchants == undefined) ? undefined : options.denchants
     let text = ""
     let nametext = user.isRaid ? user.name : "<@"+user._id+">"
     let attack = user.attack
@@ -994,7 +1044,8 @@ function calcStats(message, user, stat, options) {
             text += nametext + " has **" + (Math.floor(enchants.critRate * 1000) / 10) + "%** chance of hitting a critical\n"
         }
         let critchance = Math.random();
-        if (critchance < enchants.critRate) {
+        let dcritRes = denchants == undefined ? 1 : 1 - denchants.critResist
+        if (critchance < enchants.critRate * dcritRes) {
             text += nametext + " just dealt critical damage!\n";
             enchants.buff += enchants.critDamage - 1;
         }
