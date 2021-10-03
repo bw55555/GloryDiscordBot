@@ -85,7 +85,8 @@ global.templateUser = {
     guildperms: {},
     present: 0,
     luckycoin: 0,
-    luckycointotal: 0
+    luckycointotal: 0,
+    eventClasses: {}
 }
 const TOKEN = config.token;//woah woah woah woah whatcha
 let channelnum = 0;

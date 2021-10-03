@@ -20,17 +20,21 @@ module.exports = async function (message, user) {
         functions.findUsers({}).then(res => {
             let tasks = []
             for (let thisuser of res) {
+                let toSet = {
+                    $set: {
+                        "basehealth": thisuser.health - functions.calcExtraStat(thisuser, "health"),
+                        "baseattack": thisuser.attack,
+                        "basedefense": thisuser.defense,
+                        "eventclass": {}
+                    }
+                }
+                if (user.boughtghost) { toSet.$set.eventclass.ghost = true; }
+                if (user.boughtstar) { toSet.$set.eventclass.celestial = true; }
                 tasks.push({
                     updateOne:
                     {
                         "filter": { _id: thisuser._id },
-                        "update": {
-                            $set: {
-                                "basehealth": thisuser.health - functions.calcExtraStat(thisuser, "health"),
-                                "baseattack": thisuser.attack,
-                                "basedefense": thisuser.defense
-                            }
-                        }
+                        "update": toSet
                     }
                 })
             }

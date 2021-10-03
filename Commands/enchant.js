@@ -10,7 +10,7 @@ global.allowedmodifiers = [
     'resistance', 'defmult', 'guard',
     'reflect', 'poison', 'critResist',
     'pierceResist', 'silenceResist', 'stunResist',
-    'petrifyResist'
+    'petrifyResist', 'survive'
 ]
 global.enchantData = {
     "critRate": { "start": 0.01, "level": 0.01, "end": 0.02, "cost": [6, 4, 0, 0] },

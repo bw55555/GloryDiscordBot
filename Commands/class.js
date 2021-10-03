@@ -124,7 +124,16 @@ module.exports = async function (message, user) {
         let classnames = { 304: "Ninja", 305: "Priest", 306: "Beast", 307: "Landlord", 308: "Seer", 309: "Templar", 311: "Vampire", 314: "Vampire" }
         user.triangle = classnames[user.triangle]
         functions.replyMessage(message, 'You have class advanced!');
-    } else {
+    } else if (classpick == "GHOST" && user.eventClass != undefined && user.eventClass.ghost == true) {
+        user.triangle = '<:ghostclass:771114679941595156> Ghost';
+        user.triangleid = 2000;
+        user.trianglemod = 1.6;
+    } else if (classpick == "CELESTIAL" && user.eventClass != undefined && user.eventClass.celestial == true) {
+        user.triangle = '<:celestial:794717884462792734> Celestial';
+        user.triangleid = 2001;
+        user.trianglemod = 1.6;
+    }
+    else {
         functions.replyMessage(message, 'That is not an available class!');
         return
     }

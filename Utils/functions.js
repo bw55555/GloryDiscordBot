@@ -665,8 +665,8 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
     }
     if (attacker.isRaid != true) {
         if (Math.random() < denchants.revenge) {
-            attacker.currenthealth = 0;
-            text += defendername + " has avenged the attack!\n"
+            counter += attacker.currenthealth * 2
+            text += defendername + " has avenged the attack for "+counter+" damage!\n"
             //return false
         }
     }
@@ -850,6 +850,7 @@ function calcEnchants(user, defender, options) {
         { name: 'guard', default: 0 },
         { name: 'reflect', default: 0 },
         { name: 'poison', default: 0 },
+        { name: 'survive', default: 0 },
         { name: 'critResist', default: 0 },
         { name: 'pierceResist', default: 0 },
         { name: 'silenceResist', default: 0 },
@@ -1043,7 +1044,7 @@ function calcStats(message, user, stat, options) {
             text += nametext + " has **" + (Math.floor(enchants.critRate * 1000) / 10) + "%** chance of hitting a critical\n"
         }
         let critchance = Math.random();
-        let dcritRes = denchants == undefined ? 1 : 1 - denchants.critResist
+        let dcritRes = (denchants == undefined || denchants.critResist == undefined) ? 1 : 1 - denchants.critResist
         if (critchance < enchants.critRate * dcritRes) {
             text += nametext + " just dealt critical damage!\n";
             enchants.buff += enchants.critDamage - 1;
