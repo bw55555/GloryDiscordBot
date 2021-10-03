@@ -3,7 +3,7 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    if (user.triangleid != 8) { return functions.replyMessage(message, "You must be an Oracle to use this command!") }
+    if (user.triangleid % 300 != 8) { return functions.replyMessage(message, "You must be an Oracle to use this command!") }
     let truth = Math.random();
     if (truth > 0.50) {
         functions.replyMessage(message, 'Your next flip has a 50% chance of being heads');

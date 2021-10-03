@@ -12,7 +12,7 @@ module.exports = async function (message, user) {
         return;
     }
     if (words.length > 1) {
-        if (user.triangleid != "5") {return functions.replyMessage(message, "Non-healers cannot heal others.") }
+        if (user.triangleid % 300 != 5) {return functions.replyMessage(message, "Non-healers cannot heal others.") }
 
         return Promise.all([functions.validate(message,user)]).then(ret => {
             let target = ret[0];
@@ -77,7 +77,7 @@ module.exports = async function (message, user) {
                     else { user.speed = 0; }
                     functions.replyMessage(message, text)
                     let healcd = 0;
-                    if (user.triangleid == "5") {
+                    if (user.triangleid % 300 == 5) {
                         healcd = 60;
                     } else {
                         healcd = 90;
@@ -118,7 +118,7 @@ module.exports = async function (message, user) {
         
 
         let healcd = 0;
-        if (user.triangleid == "5") {
+        if (user.triangleid % 300 == 5) {
             healcd = 60;
         } else {
             healcd = 90;

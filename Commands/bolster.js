@@ -3,7 +3,7 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    if (user.triangleid != 9 && !functions.hasSkill(user, 11)) {
+    if (user.triangleid % 300 != 9 && !functions.hasSkill(user, 11)) {
         return functions.replyMessage(message, "You can't bolster!");
     }
     if (user.dead) { return functions.replyMessage(message, "You are currently dead. ")}
@@ -16,7 +16,7 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You are already bolstered!");
             return;
         }
-        if (user.triangleid != 9) {
+        if (user.triangleid % 300 != 9) {
             functions.replyMessage(message, "You cannot bolster yourself!");
             return
         }
@@ -33,12 +33,12 @@ module.exports = async function (message, user) {
                 functions.replyMessage(message, "They are already bolstered!");
                 return;
             }
-            if (target._id == user._id && user.triangleid != 9) { return functions.replyMessage(message, "You cannot bolster yourself!") }
+            if (target._id == user._id && user.triangleid % 300 != 9) { return functions.replyMessage(message, "You cannot bolster yourself!") }
             target.statusEffects.bolster = user.ascension * 0.03;
             if (target._id == user._id) {
                 functions.replyMessage(message, "You have been bolstered!");
             }
-            else if (user.triangleid == 9) {
+            else if (user.triangleid % 300 == 9) {
                 user.statusEffects.bolster = user.ascension * 0.03;
                 functions.replyMessage(message, "You and <@" + target._id + "> have both been bolstered!");
             } else {
