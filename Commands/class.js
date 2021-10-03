@@ -122,7 +122,7 @@ module.exports = async function (message, user) {
         if (classnames[user.triangleid + 300] == undefined) { return functions.replyMessage(message, "This class cannot advance!")}
         user.triangleid += 300
         user.trianglemod = 1.6
-        user.triangle = classnames[user.triangle]
+        user.triangle = classnames[user.triangleid]
         functions.replyMessage(message, 'You have class advanced to a '+classnames[user.triangleid]+"!");
     } else if (classpick == "GHOST") {
         if (user.eventClass == undefined || user.eventClass.ghost != true) {return functions.replyMessage(message, "You do not own this class!")}
