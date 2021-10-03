@@ -1,4 +1,17 @@
-global.allowedmodifiers = ["critRate", "critDamage", "block", "lifeSteal", "pierce", "lucky", "spikes", "revenge", "rage", "sacrifice", "maxhp", "tempo", "burn", "haste", "evade", "regen", "attackvariance", "antitempo", "combo"]
+global.allowedmodifiers = [
+    'attack', 'defense', 'buff',
+    'dbuff', 'critRate', 'critDamage',
+    'rage', 'sacrifice', 'lifeSteal',
+    'tempo', 'antitempo', 'combo',
+    'pierce', 'block', 'spikes',
+    'revenge', 'burn', 'regen',
+    'lucky', 'haste', 'evade',
+    'silence', 'stun', 'petrify',
+    'resistance', 'defmult', 'guard',
+    'reflect', 'poison', 'critResist',
+    'pierceResist', 'silenceResist', 'stunResist',
+    'petrifyResist'
+]
 global.enchantData = {
     "critRate": { "start": 0.01, "level": 0.01, "end": 0.02, "cost": [6, 4, 0, 0] },
     "critDamage": { "start": 0.4, "level": 0.3, "end": 0.5, "cost": [7, 3, 0, 0] },
