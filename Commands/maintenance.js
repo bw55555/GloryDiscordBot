@@ -22,9 +22,9 @@ module.exports = async function (message, user) {
             for (let thisuser of res) {
                 let toSet = {
                     $set: {
-                        "basehealth": thisuser.health - functions.calcExtraStat(thisuser, "health"),
-                        "baseattack": thisuser.attack,
-                        "basedefense": thisuser.defense,
+                        "basehealth": 10 * (thisuser.level + thisuser.ascension * 10),
+                        "baseattack": thisuser.level + thisuser.ascension * 10,
+                        "basedefense": thisuser.level + thisuser.ascension * 10,
                         "eventClasses": {}
                     }
                 }

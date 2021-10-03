@@ -715,7 +715,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
         }
     }
     truedamage *= Math.max(0, 1 - denchants.resistance)
-    if (denchants.survive != undefined) {
+    if (denchants.survive != undefined && denchants.survive > Math.random()) {
         if (truedamage > defender.currenthealth) {
             defender.currenthealth = truedamage + 1
             text += defendername + " has survived on their dying breath!\n"
