@@ -86,7 +86,7 @@ global.templateUser = {
     present: 0,
     luckycoin: 0,
     luckycointotal: 0,
-    eventClasses: {}
+    eventClass: {}
 }
 const TOKEN = config.token;//woah woah woah woah whatcha
 let channelnum = 0;

@@ -25,11 +25,11 @@ module.exports = async function (message, user) {
                         "basehealth": 10 * (thisuser.level + thisuser.ascension * 10),
                         "baseattack": thisuser.level + thisuser.ascension * 10,
                         "basedefense": thisuser.level + thisuser.ascension * 10,
-                        "eventClasses": {}
+                        "eventClass": {}
                     }
                 }
-                if (user.boughtghost) { toSet.$set.eventClasses.ghost = true; }
-                if (user.boughtstar) { toSet.$set.eventClasses.celestial = true; }
+                if (user.boughtghost) { toSet.$set.eventClass.ghost = true; }
+                if (user.boughtstar) { toSet.$set.eventClass.celestial = true; }
                 tasks.push({
                     updateOne:
                     {
