@@ -855,7 +855,8 @@ function calcEnchants(user, defender, options) {
         { name: 'pierceResist', default: 0 },
         { name: 'silenceResist', default: 0 },
         { name: 'stunResist', default: 0 },
-        { name: 'petrifyResist', default: 0 }
+        { name: 'petrifyResist', default: 0 },
+        { name: 'attackvariance', default: 0 }
     ]
     let enchants = {};
     for (let mod of possibleModifiers) {
