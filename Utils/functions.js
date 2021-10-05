@@ -672,7 +672,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
     }
     //console.log("Counter")
     let attackvariance = 0.4;
-    attackvariance -= getWeaponEnchant(attacker, "attackvariance")
+    attackvariance -= aenchants.attackvariance
     let x = Math.floor(attack * (attackvariance * roll + 1-attackvariance));
     let defmult = 0;
     if (denchants.defmult != undefined) {defmult += denchants.defmult}
