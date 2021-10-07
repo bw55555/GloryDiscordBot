@@ -3,60 +3,60 @@ module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
-    /*
-    return Promise.all([functions.getObject("mobData", message.channel.id)]).then(ret => {
-        let raid = ret[0]
-        if (raid == false) {
-            if (message.channel.type == "dm" || message.channel.type == "group" || message.guild == undefined || message.guild == null || (message.guild.memberCount < 10 && devs.indexOf(id) == -1)) { return functions.replyMessage(message, "You cannot summon a raid in a server with less than 10 members!") }
-            raid = { "_id": message.channel.id }
-            let level = undefined;
-            if (words.length > 1 && admins.indexOf(id) != -1) {
-                level = parseInt(words[1])
-                if (isNaN(level) || level <= 0) { return functions.replyMessage(message, "Please specify a level.") }
+    if (admins.indexOf(id) != -1) {
+        if (words[1] != undefined && words[1].toLowerCase() == "help") {
+            return functions.sendMessage(message, "-name [Name] -level [Level] -attack [Attack] -defense [Defense] -health [Health] -reward [Reward] -ability [Ability] -abilitydesc [Desc]"])
+        }
+        if (user.location == "city" || user.location == "guild") {return functions.replyMessage(message, "You cannot do this here!")}
+        return Promise.all([functions.getObject("mobData", user.location)]).then(ret => {
+            let raid = ret[0]
+            if (raid == false) {
+                functions.deleteMessage(message);
+                functions.replyMessage(message, "There is no raid where you are!");
+                return;
             }
-            if (message.channel.type != "dm" && (message.channel.name == "treant-raid" || message.channel.name == "🌲treant-forest")) {
-                if (serverData[message.guild.id].treant != undefined || (serverData[message.guild.id].treant == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a treant raid in this server!") }
-                else { serverData[message.guild.id].treant = message.channel.id; functions.setProp("serverData", { "_id": message.guild.id }, { $set: { "treant": message.channel.id } }) }
-                functions.summon(raid, level, 0, 25, "Treant Boss", 'https://i.imgur.com/1fbm4us.jpg')
+            let generalLoc = user.location.split("-")[0]
+            let defaults = {}
+            if (generalLoc == "arena") {
+                defaults = Assets.locationraidData[generalLoc][0]
+                defaults.level = 1
+                defaults.attack = defaults.level
+                defaults.health = 999999999
+                defaults.reward = 0
             }
-            else if (message.channel.type != "dm" && (message.channel.name == "kraken-raid" || message.channel.name == "🐙kraken-seas")) {
-                if (serverData[message.guild.id].kraken != undefined || (serverData[message.guild.id].kraken == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a kraken raid in this server!") }
-                else { serverData[message.guild.id].kraken = message.channel.id; functions.setProp("serverData", { "_id": message.guild.id }, { $set: { "kraken": message.channel.id } }) }
-                functions.summon(raid, level, 25, 50, "Kraken Boss", 'https://i.imgur.com/mGKIsnX.jpg')
+            else if (Assets.locationraidData[generalLoc] != undefined) {
+                defaults = Assets.locationraidData[generalLoc][0]
+                let summonlevel = Math.floor((defaults.minlevel) + (((defaults.maxlevel) - (defaults.minlevel)) * Math.random())) + 1
+                defaults.attack = Math.floor(summonlevel * 15);
+                defaults.health = summonlevel * 100 * (Math.floor(2 * summonlevel / 25) + 1);
+                defaults.reward = Math.floor(summonlevel * 5000);
+                defaults.level = summonlevel;
             }
-            else if (message.channel.type != "dm" && (message.channel.name == "dragon-raid" || message.channel.name == "🐉dragon-peaks")) {
-                if (serverData[message.guild.id].dragon != undefined || (serverData[message.guild.id].dragon == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a dragon raid in this server!") }
-                else { serverData[message.guild.id].dragon = message.channel.id; functions.setProp("serverData", { "_id": message.guild.id }, { $set: { "dragon": message.channel.id } }) }
-                functions.summon(raid, level, 50, 75, "Dragon Boss", 'https://i.imgur.com/YCdZZmT.jpg')
+            let wordoptions = functions.extractOptions(message, false, ["-name", "-level", "-attack", "-defense", "-health", "-reward", "-ability", "-abilitydesc"])
+            if (wordoptions.name == undefined) { wordoptions.name = defaults.name }
+            if (wordoptions.level == undefined) { return functions.replyMessage(message, "Please specify a name!") }
+            if (wordoptions.level == undefined) { wordoptions.level = defaults.level }
+            if (wordoptions.level == undefined) {return functions.replyMessage(message, "Please specify a level!")}
+            if (wordoptions.attack == undefined) { wordoptions.attack = defaults.attack }
+            if (wordoptions.health == undefined) { wordoptions.health = defaults.health }
+            if (wordoptions.reward == undefined) { wordoptions.reward = defaults.reward }
+            if (wordoptions.ability != undefined) {
+                wordoptions.ability = functions.extractOptions(message, false, allowedmodifiers)
+                for (let modname of wordoptions.ability) {
+                    wordoptions.ability[modname] = parseFloat(wordoptions.ability[modname])
+                    if (isNaN(wordoptions.ability[modname])) {return functions.replyMessage(message, "The value of modifier "+modname + " is not a float!")}
+                }
             }
-            else if (message.channel.type != "dm" && (message.channel.name == "deity-raid" || message.channel.name == "🌟deity-heaven")) {
-                if (serverData[message.guild.id].deity != undefined || (serverData[message.guild.id].deity == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a deity raid in this server!") }
-                else { serverData[message.guild.id].deity = message.channel.id; functions.setProp("serverData", { "_id": message.guild.id }, { $set: { "deity": message.channel.id } }) }
-                functions.summon(raid, level, 75, 100, "Deity Boss", 'https://i.imgur.com/o842h20.jpg')
+            if (wordoptions.ability == undefined) {
+                wordoptions.ability = defaults.ability
+                wordoptions.abilitydesc = defaults.abilitydesc
             }
-            else if (message.channel.type != "dm" && (message.channel.name == "hell-raid" || message.channel.name == "😈demonic-hell")) {
-                if (message.channel.id != 570356602843168769 && devs.indexOf(id) == -1) { return functions.replyMessage(message, "This is for the support server only!") }
-                if (serverData[message.guild.id].hell != undefined || (serverData[message.guild.id].hell == message.channel.id && admins.indexOf(id) == -1)) { return functions.replyMessage(message, "You already have a hell raid in this server!") }
-                else { serverData[message.guild.id].hell = message.channel.id; functions.setProp("serverData", { "_id": message.guild.id }, { $set: { "hell": message.channel.id } }) }
-                functions.summon(raid, level, 100, 200, "Hell Lord", 'https://imgur.com/MbGhMkJ.jpg', {"pierce": 0.1, "critRate": 0.1}, '10% chance to pierce, 10% chance to crit and deal 2x damage. ')
-            }
-            else { return functions.replyMessage(message, "Please name the channel either #treant-raid, #kraken-raid, #dragon-raid, or #deity-raid. Join the support server to access #hell-raid, a level 100-200 boss!") }
-            functions.replyMessage(message, "A boss has been summoned! It is level "+ raid.level + "!");
+
+            if (wordoptions.abilitydesc == undefined && wordoptions.ability != undefined) { wordoptions.abilitydesc = JSON.stringify(wordoptions.ability) }
+
+            functions.customsummon(raid, wordoptions)
+            functions.replyMessage(message, "You have summoned a level " + raid.level + " " + raid.name + "!\n")
             functions.setObject("mobData", raid)
-            return;
-        }
-        if (admins.indexOf(id) == -1) { return functions.replyMessage(message, "You already have a raid in this channel!"); }
-        if (words.length == 1) { functions.summon(raid) }
-        else {
-            let level = undefined
-            if (words.length > 1 && admins.indexOf(id) != -1) {
-                level = parseInt(words[1])
-                if (isNaN(level) || level <= 0) { return functions.replyMessage(message, "Please specify a level.") }
-            } 
-            functions.summon(raid, level)
-        }
-        functions.replyMessage(message, "A boss has been summoned! It is level " + raid.level + "!");
-        functions.setObject("mobData", raid)
-    })
-    */
+        })
+    }
 }

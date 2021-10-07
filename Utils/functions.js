@@ -856,7 +856,8 @@ function calcEnchants(user, defender, options) {
         { name: 'silenceResist', default: 0 },
         { name: 'stunResist', default: 0 },
         { name: 'petrifyResist', default: 0 },
-        { name: 'attackvariance', default: 0 }
+        { name: 'attackvariance', default: 0 }, 
+        { name: 'maxhp', default: 0}
     ]
     let enchants = {};
     for (let mod of possibleModifiers) {
@@ -1199,6 +1200,7 @@ function customsummon(raid, options) {
     raid.damagelist = {};
     raid.ability = undefined;
     raid.abilitydesc = undefined;
+    raid.stareventmob = undefined
     if (options == undefined) {
         options = {}
     }
@@ -1217,7 +1219,18 @@ function locationsummon(raid) {
     let loc = raid.location
     let rng = Math.random();
     let rnum;
-    
+    if (raid.location == "arena") {
+        let raidref = Assets.locationraidData[loc][0]
+        let ro = {}
+        ro.level = 1
+        ro.url = raidref.url
+        ro.attack = ro.level
+        ro.health = 999999999
+        ro.currenthealth = 999999999
+        ro.reward = 0
+        customsummon(raid, ro)
+        return
+    }
     if (rng < 0.2 + raid.elitesummon) {
         rnum = 1;
         raid.elitesummon = 0
@@ -1245,49 +1258,43 @@ function locationsummon(raid) {
     summon(raid, undefined, raidref.minlevel, raidref.maxlevel, raidref.name, raidref.url, raidref.ability, raidref.abilitydesc)
 }
 function summon(raid, level, minlevel, maxlevel, name, image, ability, abilitydesc) {
-    raid.isRaid = true;
-    raid.alive = true;
-    raid.statusEffects = {}
-    raid.attacklist = {};
-    raid.damagelist = {};
-    raid.ability = undefined;
-    raid.abilitydesc = undefined;
-    raid.stareventmob = undefined
+    let ro = {}
     if (name != undefined) {
-        raid.name = name;
+        ro.name = name;
     }
     if (minlevel != undefined) {
-        raid.minlevel = minlevel;
+        ro.minlevel = minlevel;
     }
     if (maxlevel != undefined) {
-        raid.maxlevel = maxlevel;
+        ro.maxlevel = maxlevel;
     }
     if (image != undefined) {
-        raid.url = image;
+        ro.url = image;
         if (image == -1) {
             raid.url = 'https://i.imgur.com/NsBoS0u.jpg';
         }
     }
     if (ability != undefined) {
-        raid.ability = ability;
-        raid.abilitydesc = (abilitydesc == undefined) ? JSON.stringify(ability) : abilitydesc
+        ro.ability = ability;
+        ro.abilitydesc = (abilitydesc == undefined) ? JSON.stringify(ability) : abilitydesc
     }
-    let summonlevel = Math.floor((raid.minlevel) + (((raid.maxlevel) - (raid.minlevel)) * Math.random())) + 1
+    let summonlevel = Math.floor((ro.minlevel) + (((ro.maxlevel) - (ro.minlevel)) * Math.random())) + 1
     if (level != undefined && !isNaN(level)) { summonlevel = level}
     if (raid._id == "world") { 
-        //world boss
-        raid.attack = Math.floor(summonlevel * 15);
-        raid.currenthealth = summonlevel * 100 * (Math.floor(2 * summonlevel / 25) + 1);
-        raid.health = raid.currenthealth
-        raid.reward = Math.floor(summonlevel * 5000);
-        raid.level = summonlevel;
+        //world 
+        ro.attack = Math.floor(summonlevel * 15);
+        ro.currenthealth = summonlevel * 100 * (Math.floor(2 * summonlevel / 25) + 1);
+        ro.health = raid.currenthealth
+        ro.reward = Math.floor(summonlevel * 5000);
+        ro.level = summonlevel;
+        customsummon(raid, ro)
     } else {
-        if (level != undefined) { summonlevel = level }
-        raid.attack = summonlevel * (15+Math.floor(summonlevel/25));
-        raid.currenthealth = summonlevel * 10 * (Math.floor(summonlevel / 25) + 1);
-        raid.health = raid.currenthealth
-        raid.reward = summonlevel * Math.pow(Math.floor(summonlevel/50)+1, 2) * 200;
-        raid.level = summonlevel;
+        ro.attack = summonlevel * (15+Math.floor(summonlevel/25));
+        ro.currenthealth = summonlevel * 10 * (Math.floor(summonlevel / 25) + 1);
+        ro.health = raid.currenthealth
+        ro.reward = summonlevel * Math.pow(Math.floor(summonlevel/50)+1, 2) * 200;
+        ro.level = summonlevel;
+        customsummon(raid, ro)
     }
 }
 function checkProps(message,user) {
