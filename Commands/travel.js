@@ -20,7 +20,7 @@ module.exports = async function (message, user) {
                     },
                     {
                         name: "Instanced Areas",
-                        value: "Graveyard: Recommended Level 5\nForest: Recommended Level 25\nCaves: Recommended Level 50\nSea: Recommended Level 75\nTundra: Recommended Level 100\nMountain: Recommended Level 125\nHeaven: Recommended Level 200\nHell: Recommended Level 250"
+                        value: "Graveyard: Recommended Level 5\nForest: Recommended Level 25\nCaves: Recommended Level 50\nSea: Recommended Level 75\nTundra: Recommended Level 100\nMountain: Recommended Level 125\nHeaven: Recommended Level 200\nHell: Recommended Level 250\nArena: Custom Level"
                     }
                 ]
             }

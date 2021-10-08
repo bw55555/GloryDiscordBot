@@ -171,7 +171,7 @@
       "name": "Dummy",
       "url": "https://cdn.discordapp.com/attachments/531858145480540170/895698758107562014/images.png",
       "minlevel": 1,
-      "maxlevel": 20000,
+      "maxlevel": 10000,
       "ability": { "attackvariance": 0.4 },
       "abilitydesc": "His attacks are not affected by randomness."
     }
