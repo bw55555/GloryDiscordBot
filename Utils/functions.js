@@ -2261,7 +2261,8 @@ function searchNestedArray(nestedArray, value) {
     return -1
 }
 function extractOptions(message, inorder, optionnames) {
-    let words = message.content.split(/\s+/)
+    let contentString = message.content == undefined ? message : message.content
+    let words = contentString.split(/\s+/)
     let ret = {};
     let i = 0;
     if (inorder) {
