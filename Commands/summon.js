@@ -27,14 +27,13 @@ module.exports = async function (message, user) {
             }
 
             let wordoptions = functions.extractOptions(message, false, ["-name", "-level", "-attack", "-defense", "-health", "-reward", "-ability", "-abilitydesc"])
-            functions.sendMessage(message.channel, JSON.stringify(wordoptions))
             if (wordoptions.name == undefined) { wordoptions.name = defaults.name }
             if (wordoptions.name == undefined) { return functions.replyMessage(message, "Please specify a name!") }
             if (wordoptions.level == undefined) { wordoptions.level = defaults.level }
             if (wordoptions.level == undefined) { return functions.replyMessage(message, "Please specify a level!") }
 
             if (generalLoc == "arena") {
-                defaults.attack = defaults.level
+                defaults.attack = wordoptions.level
                 defaults.health = 999999999
                 defaults.reward = 0
             } else if (Assets.locationraidData[generalLoc] != undefined) {
