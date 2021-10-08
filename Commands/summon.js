@@ -43,14 +43,6 @@ module.exports = async function (message, user) {
                 defaults.reward = Math.floor(defaults.level * 5000);
             }
 
-            
-            
-            let wordoptions = functions.extractOptions(message, false, ["-name", "-level", "-attack", "-defense", "-health", "-reward", "-ability", "-abilitydesc"])
-            functions.sendMessage(message.channel, JSON.stringify(wordoptions))
-            if (wordoptions.name == undefined) { wordoptions.name = defaults.name }
-            if (wordoptions.name == undefined) { return functions.replyMessage(message, "Please specify a name!") }
-            if (wordoptions.level == undefined) { wordoptions.level = defaults.level }
-            if (wordoptions.level == undefined) {return functions.replyMessage(message, "Please specify a level!")}
             if (wordoptions.attack == undefined) { wordoptions.attack = defaults.attack }
             if (wordoptions.health == undefined) { wordoptions.health = defaults.health }
             if (wordoptions.reward == undefined) { wordoptions.reward = defaults.reward }
