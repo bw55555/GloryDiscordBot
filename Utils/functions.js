@@ -670,6 +670,11 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
             //return false
         }
     }
+
+    if (aenchants.poison > 0) {
+        if (defender.statusEffects.poison == undefined) { defender.statusEffects.poison = 0 }
+        defender.statusEffects.poison += aenchants.poison * attack;
+    }
     //console.log("Counter")
     let attackvariance = 0.4;
     attackvariance -= aenchants.attackvariance

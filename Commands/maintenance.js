@@ -28,8 +28,8 @@ module.exports = async function (message, user) {
                         "eventClass": {}
                     }
                 }
-                if (user.boughtghost) { toSet.$set.eventClass.ghost = true; }
-                if (user.boughtstar) { toSet.$set.eventClass.celestial = true; }
+                if (user.boughtghost || user.triangleid == 2000) { toSet.$set.eventClass.ghost = true; }
+                if (user.boughtstar || user.triangleid == 2001) { toSet.$set.eventClass.celestial = true; }
                 tasks.push({
                     updateOne:
                     {
