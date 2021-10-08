@@ -12,7 +12,7 @@ module.exports = async function (message, user) {
     if (words.length > 1) {
         let word2 = words[1].toLowerCase();
         let text = "";
-        let prefix = defaultPrefix
+        let prefix = devData.defaultPrefix
         if (message.guild != undefined) { prefix = serverData[message.guild.id].prefix }
         if (word2 == "abox" || word2 == "adminbox") {
             text += "```Gives a person boxes!\nSyntax: " + prefix + word2 + " <target> <amount> ```"

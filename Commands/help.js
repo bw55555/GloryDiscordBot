@@ -11,7 +11,7 @@ module.exports = async function (message, user) {
     if (words.length > 1) {
         let word2 = words[1].toUpperCase();
         let text = "";
-        let prefix = defaultPrefix
+        let prefix = devData.defaultPrefix
         if (message.guild != undefined) { prefix = serverData[message.guild.id].prefix }
         let fields = []; //basically push things into here to get extra fields in embed. 
         let title = "Help"

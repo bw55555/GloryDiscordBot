@@ -14,80 +14,12 @@ const http = require('http');
 const DBL = require('dblapi.js');
 //global.runeNames in runes.js, global.guildForgePrices in guild.js
 global.functions = require(`./Utils/functions.js`)
+require(`./Utils/globalvars.js`)
 global.bot = new Discord.Client();
 global.ready = false
 global.botOnline = true
 global.waitList = {}
-global.rarities = { "0": "Useless", "1": "Normal", "2": "Common", "3": "Uncommon", "4": "Rare", "5": "Super Rare", "6": "Epic", "7": "Legendary", "8": "Godly", "9": "GLORY", "Unique": "Unique" }
-global.raritystats = [5, 10, 15, 25, 40, 60, 100, 150, 200, 500]
-global.cdseconds = 1.5;
-global.attackcd = 0.35;
-global.rezcd = 1;
-global.workcdseconds = 10;
-global.smeltallcd = 1;
-global.bolstercd = 1; //every 2 minute, you can do !bolster on another player or yourself. That adds 100 to their currenthealth regardless of max health.
-global.userData = "userData"//JSON.parse(fs.readFileSync('Storage/userData.json', 'utf8'));
-global.itemData = "itemData"//JSON.parse(fs.readFileSync('Storage/itemData.json', 'utf8'));
-global.mobData = "mobData"//JSON.parse(fs.readFileSync('Storage/mobData.json', 'utf8'));
-global.guildData = "guildData"//JSON.parse(fs.readFileSync('Storage/guildData.json', 'utf8'));
-global.questData = "questData"//JSON.parse(fs.readFileSync('Storage/questData.json', 'utf8'));
-global.partyData = "partyData"
-global.dailyrefresh = null;
-global.talkedRecently = {};
-global.nctlist = {};
-global.msperday = 24 * 60 * 60 * 1000;
-global.templateUser = {
-    money: 0,
-    health: 10,
-    currenthealth: 10,
-    xp: 0,
-    level: 1,
-    attack: 1,
-    defense: 1,
-    basehealth: 10,
-    baseattack: 1,
-    basedefense: 1,
-    speed: 0,
-    dead: false,
-    start: false,
-    triangle: "None",
-    triangleid: 0,
-    trianglemod: 1,
-    weapon: false,
-    ability: {},
-    inventory: {},
-    marry: "None",
-    guild: "None",
-    guildpos: "None",
-    guildbuffs: {},
-    votestreak: 0,
-    shield: 0,
-    materials: 0,
-    ascension: 0,
-    bounty: 0,
-    glory: 0,
-    contribution: 0,
-    votestreak: 0,
-    honor: 0,
-    dailyhonor: 0,
-    runes: [0, 0, 0, 0, 0, 0, 0],
-    cooldowns: {},
-    skills: {},
-    equippedSkills: { "A": "None", "B": "None", "C": "None" },
-    consum: { explosion: 0, box: 0, sp: 0, phoenixfeather: 0, nametag: 0, reroll: 0 },
-    quests: [],
-    cnumbers: [0, 0],
-    statusEffects: {},
-    startts: 0,
-    location: "city",
-    missions: [],
-    bag: {},
-    guildperms: {},
-    present: 0,
-    luckycoin: 0,
-    luckycointotal: 0,
-    eventClass: {}
-}
+
 const TOKEN = config.token;//woah woah woah woah whatcha
 let channelnum = 0;
 let iterchannel = 0;
@@ -106,7 +38,6 @@ client.connect((err) => {
         global.devs = devData.devs
         global.debugGuildId = devData.debugGuildId
         global.debugChannelId = devData.debugChannelId
-        global.defaultPrefix = devData.defaultPrefix
         if (devData.security == undefined) { devData.security = 0.01 }
         if (devData.commandLogChannels == undefined) {devData.commandLogChannels = []}
         if (devData.dblenable) {
@@ -123,7 +54,7 @@ client.connect((err) => {
 var commands = {}
 var commandlist = {}
 global.Assets = {}
-global.assetList = {}
+var assetList = {}
 async function loadFiles() {
     await fs.readdir("./Assets/", (err, files) => {
         if (err) return console.error(err);
@@ -169,7 +100,7 @@ loadFiles()
 function addServer(guild) {
     if (serverData[guild.id] == undefined) { serverData[guild.id] = {} }
     serverData[guild.id]._id = guild.id
-    serverData[guild.id].prefix = defaultPrefix
+    serverData[guild.id].prefix = devData.defaultPrefix
     serverData[guild.id].disabledChannels = []
     functions.setObject("serverData", serverData[guild.id])
 }
@@ -190,7 +121,7 @@ function evaluateMessage(message) {
     }
     message.content = message.content.trim()//.split(/\s+/).join(" ")
 
-    let prefix = (message.channel.type == "dm") ? defaultPrefix : serverData[message.guild.id].prefix;
+    let prefix = (message.channel.type == "dm") ? devData.defaultPrefix : serverData[message.guild.id].prefix;
     if (message.content.startsWith("<@" + bot.user.id + ">")) prefix = "<@" + bot.user.id +">"
     if (message.content.startsWith("<@!" + bot.user.id + ">")) prefix = "<@!" + bot.user.id +">"
     if (message.content.startsWith("<@" + bot.user.id +"> ")) {
@@ -428,7 +359,7 @@ bot.on("message", message => {
 bot.on('ready', function () {
     console.log("GLORY ONLINE!");
     ready = true
-    bot.user.setActivity(global.defaultPrefix + 'help', { type: 'PLAYING' });
+    bot.user.setActivity(devData.defaultPrefix + 'help', { type: 'PLAYING' });
     functions.sendMessage(bot.guilds.cache.get(debugGuildId).channels.cache.get(debugChannelId), {
         embed: {
             color: 0x00ffff,

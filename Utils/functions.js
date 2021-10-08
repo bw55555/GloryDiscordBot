@@ -816,49 +816,7 @@ function calcEnchants(user, defender, options) {
     if (defender == undefined) {defender = {}}
     if (options == undefined) { options = {} }
     
-    skillenable = (options.skillenable === false) ? false : true
-    let possibleModifiers = [
-        { name: 'attack', default: 0 },
-        { name: 'defense', default: 0 },
-        { name: 'buff', default: 1 },
-        { name: 'dbuff', default: 1 },
-        { name: 'critRate', default: 0 },
-        { name: 'critDamage', default: 2 },
-        { name: 'rage', default: 0 },
-        { name: 'sacrifice', default: 0 },
-        { name: 'lifeSteal', default: 0 },
-        { name: 'tempo', default: 0 },
-        { name: 'antitempo', default: 0 },
-        { name: 'combo', default: 0 },
-        { name: 'pierce', default: 0 },
-        { name: 'block', default: 0 },
-        { name: 'spikes', default: 0 },
-        { name: 'revenge', default: 0 },
-        { name: 'burn', default: 0 },
-        { name: 'regen', default: 0 },
-        { name: 'lucky', default: 1 },
-        { name: 'haste', default: 0 },
-        { name: 'evade', default: 0 },
-        { name: 'bleed', default: 0 },
-        { name: 'silence', default: 0 },
-        { name: 'vulnerable', default: 0 },
-        { name: 'weakness', default: 0 },
-        { name: 'stun', default: 0 },
-        { name: 'petrify', default: 0 },
-        { name: 'resistance', default: 0 },
-        { name: 'defmult', default: 10 },
-        { name: 'guard', default: 0 },
-        { name: 'reflect', default: 0 },
-        { name: 'poison', default: 0 },
-        { name: 'survive', default: 0 },
-        { name: 'critResist', default: 0 },
-        { name: 'pierceResist', default: 0 },
-        { name: 'silenceResist', default: 0 },
-        { name: 'stunResist', default: 0 },
-        { name: 'petrifyResist', default: 0 },
-        { name: 'attackvariance', default: 0 }, 
-        { name: 'maxhp', default: 0}
-    ]
+    let skillenable = (options.skillenable === false) ? false : true
     let enchants = {};
     for (let mod of possibleModifiers) {
         enchants[mod.name] = mod.default

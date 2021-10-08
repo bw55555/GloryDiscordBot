@@ -1,4 +1,4 @@
-global.allowedcollections = ["userData", "itemData", "guildData", "auctionData", "dungeonData", "mobData"]
+
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;

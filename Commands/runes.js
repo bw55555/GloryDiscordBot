@@ -1,4 +1,3 @@
-global.runeNames = ["Rune Shard", "Wisdom Rune", "Energy Rune", "Arcane Rune", "Force Rune", "Guard Rune", "Life Rune"]
 module.exports = async function (message, user) {
     let id = message.author.id;
     let ts = message.createdTimestamp;

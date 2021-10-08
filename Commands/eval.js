@@ -4,7 +4,7 @@ module.exports = async function (message, user) {
   let ts = message.createdTimestamp;
   let words = message.content.trim().split(/\s+/)
   if (devs.indexOf(id) == -1) return;
-  let prefix = global.defaultPrefix
+  let prefix = devData.defaultPrefix
   //console.log(message.channel.type)
   if (message.channel.type != "dm" && message.channel.type != "group") {prefix = serverData[message.guild.id].prefix}
   try {

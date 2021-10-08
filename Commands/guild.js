@@ -1,57 +1,6 @@
 ﻿var raidData = Assets.raidData
 
-const guildStore = [
-    { "name": "Common Scroll", "type": "guild", "item": "scrolls.0", "price": 50000, "levels": [0, 10, 20, 30, 40, 50], "stocks": [1, 1, 1, 1, 1, 1] },
-    { "name": "Uncommon Scroll", "type": "guild", "item": "scrolls.1", "price": 250000, "levels": [10, 20, 30, 40, 50], "stocks": [1, 1, 1, 1, 1] },
-    { "name": "Rare Scroll", "type": "guild", "item": "scrolls.2", "price": 1000000, "levels": [20, 30, 40, 50], "stocks": [1, 1, 1, 1] },
-    { "name": "Epic Scroll", "type": "guild", "item": "scrolls.3", "price": 2500000, "levels": [30, 40, 50], "stocks": [1, 1, 1] },
-    { "name": "Legendary Scroll", "type": "guild", "item": "scrolls.4", "price": 5000000, "levels": [40, 50], "stocks": [1, 1] },
-    { "name": "Mythical Scroll", "type": "guild", "item": "scrolls.5", "price": 20000000, "levels": [50], "stocks": [1] },
-    { "name": "Box", "type": "individual", "item": "consum.box", "price": 50000, "levels": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70], "stocks": [25, 75, 150, 250, 500, 1000, 2000, 3000, 4000, 5000, 10000, 15000, 20000, 30000, 40000] },
-    //{ "name": "Reroll", "type": "individual", "item": "consum.box", "price": 20000000, "levels": [50, 100], "stocks": [1, 2] }
-]
-global.guildBuffStore = [
-    { "name": "Attack +", "stat": "buff", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.1, 0.2, 0.4, 0.6, 1, 1.5, 2, 2.5, 3, 4], "prices": [0, 400, 1500, 10000, 50000, 150000, 500000, 1500000, 5000000, 15000000, 50000000] },
-    { "name": "Defense +", "stat": "dbuff", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.1, 0.2, 0.4, 0.6, 1, 1.5, 2, 2.5, 3, 4], "prices": [0, 400, 1500, 10000, 50000, 150000, 500000, 1500000, 5000000, 15000000, 50000000] },
-    { "name": "CritDamage +", "stat": "critDamage", "levels": [0, 10, 40, 60, 80, 100], "bonus": [0, 0.5, 1, 2, 3, 5], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] },
-    { "name": "CritRate +", "stat": "critRate", "levels": [0, 10, 40, 60, 80, 100], "bonus": [0, 0.02, 0.04, 0.06, 0.08, 0.1], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] },
-    { "name": "LifeSteal +", "stat": "lifeSteal", "levels": [0, 10, 40, 60, 80, 100], "bonus": [0, 0.1, 0.2, 0.3, 0.4, 0.5], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] },
-    { "name": "Spikes +", "stat": "spikes", "levels": [0, 10, 40, 60, 80, 100], "bonus": [0, 0.2, 0.4, 0.6, 0.8, 1], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] },
-    { "name": "Block +", "stat": "block", "levels": [0, 10, 40, 60, 80, 100], "bonus": [0, 0.02, 0.05, 0.1, 0.15, 0.2], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] },
-    { "name": "Tempo +", "stat": "tempo", "levels": [0, 10, 40, 60, 80, 100], "bonus": [0, 0.5, 1, 1.5, 2, 2.5], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] },
-    { "name": "Sacrifice +", "stat": "sacrifice", "levels": [0, 10, 40, 60, 80, 100], "bonus": [0, 0.1, 0.2, 0.3, 0.4, 0.5], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] },
-    { "name": "Lucky +", "stat": "lucky", "levels": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "bonus": [0, 0.1, 0.2, 0.3, 0.5, 0.8, 1.3, 2.1, 3.4, 5.5, 8.9], "prices": [0, 1000, 5000, 25000, 100000, 300000, 1000000, 3000000, 10000000, 30000000, 100000000] },
-    { "name": "Revenge +", "stat": "revenge", "levels": [0, 30, 60, 90, 100], "bonus": [0, 0.01, 0.02, 0.03, 0.05], "prices": [0, 100000, 3000000, 90000000, 100000000] },
-    { "name": "Rage +", "stat": "rage", "levels": [0, 10, 40, 60, 80, 100], "bonus": [0, 0.2, 0.4, 0.6, 0.8, 1], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] },
-    { "name": "Pierce +", "stat": "pierce", "levels": [0, 10, 40, 60, 80, 100], "bonus": [0, 0.01, 0.03, 0.06, 0.10, 0.15], "prices": [0, 5000, 100000, 1000000, 10000000, 100000000] }
-]
-
-global.guildForgePrices = {
-    "level": [
-        { "money": 0, "materials": 0, "guildlevel": 0},
-        { "money": 100000000, "materials": 1000000, "guildlevel": 20 },
-        { "money": 150000000, "materials": 1500000, "guildlevel": 25 },
-        { "money": 250000000, "materials": 2500000, "guildlevel": 30 },
-        { "money": 500000000, "materials": 5000000, "guildlevel": 35 },
-        { "money": 750000000, "materials": 7500000, "guildlevel": 40 },
-        { "money": 1000000000, "materials": 10000000, "guildlevel": 45 },
-        { "money": 2000000000, "materials": 20000000, "guildlevel": 50 },
-        { "money": 5000000000, "materials": 50000000, "guildlevel": 55 },
-        { "money": 10000000000, "materials": 100000000, "guildlevel": 60 }
-    ], 
-    "enchant": [
-        { "name": "Max Level", "bonus": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "prices": [0,20000,50000,100000,200000, 500000, 1000000, 2000000, 5000000, 10000000] },
-        { "name": "Cost Down", "bonus": [0, 0.6, 0.8, 0.90, 0.96, 0.98, 0.99, 0.996, 0.998, 0.999], "prices": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000] },
-        { "name": "Rate Up", "bonus": [0, 0.01, 0.02, 0.04, 0.08, 0.14, 0.22, 0.32, 0.44, 0.58], "prices": [0, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000]}
-    ],
-    "enhance": [
-        { "name": "Max Level", "bonus": [0, 20, 50, 100, 150, 200, 300, 450, 700, 1024], "prices": [0, 1000, 2000, 4000, 8000, 20000, 50000, 100000, 200000, 500000] },
-        { "name": "Cost Down", "bonus": [0, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.98, 0.995, 0.999], "prices": [0, 1000, 5000, 20000, 50000, 200000, 500000, 2000000, 5000000, 10000000] },
-        { "name": "Rate Up", "bonus": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9], "prices": [0, 20000, 60000, 120000, 200000, 300000, 420000, 560000, 720000, 9000000] }
-    ]
-}
-
-let guildpermissionslist = ["summon", "invite", "pay", "upgrade", "resetraid", "kick", "setpermissions"]
+const guildpermissionslist = ["summon", "invite", "pay", "upgrade", "resetraid", "kick", "setpermissions"]
 
 module.exports = async function (message, user) {
     let id = message.author.id;
