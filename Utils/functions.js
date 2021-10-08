@@ -1164,6 +1164,7 @@ function customsummon(raid, options) {
     raid.ability = undefined;
     raid.abilitydesc = undefined;
     raid.stareventmob = undefined
+    raid.defense = 0;
     if (options == undefined) {
         options = {}
     }
