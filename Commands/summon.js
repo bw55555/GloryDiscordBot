@@ -33,7 +33,7 @@ module.exports = async function (message, user) {
                 defaults.level = summonlevel;
             }
             let wordoptions = functions.extractOptions(message, false, ["-name", "-level", "-attack", "-defense", "-health", "-reward", "-ability", "-abilitydesc"])
-            functions.sendMessage(message, JSON.stringify(wordoptions))
+            functions.sendMessage(channel, JSON.stringify(wordoptions))
             if (wordoptions.name == undefined) { wordoptions.name = defaults.name }
             if (wordoptions.name == undefined) { return functions.replyMessage(message, "Please specify a name!") }
             if (wordoptions.level == undefined) { wordoptions.level = defaults.level }
