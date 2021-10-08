@@ -27,7 +27,7 @@ module.exports = async function (message, user) {
         functions.replyMessage(message, "The ghosts were summoned...")
     } else {
         if (message.channel.id != devData.eventRaidChannel) { return; }
-        let options = functions.extractOptions(message, false, "-preset", "-time")
+        let options = functions.extractOptions(message, false, ["-preset", "-time"])
         let time = 0;
         if (options.time != undefined) {
             if (options.time == "random") { options.time = Math.floor(Math.random() * 24) + "h" + Math.floor(Math.random() * 60) + "m" + Math.floor(Math.random() * 60) + "s" }

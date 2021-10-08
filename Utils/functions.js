@@ -2164,7 +2164,7 @@ function canUseCommand(message, user, cmd) {
     }
 }
 
-function extractOptionsAdvanced(message, inorder, ...optionnames) {
+function extractOptionsAdvanced(message, inorder, optionnames) {
     //notes: options must be different. Repeated options should be in an array, like [optionname]
     let words = message.content.split(/\s+/)
     let optioncopy = JSON.parse(JSON.stringify(optionnames))
@@ -2260,7 +2260,7 @@ function searchNestedArray(nestedArray, value) {
     }
     return -1
 }
-function extractOptions(message, inorder, ...optionnames) {
+function extractOptions(message, inorder, optionnames) {
     let words = message.content.split(/\s+/)
     let ret = {};
     let i = 0;

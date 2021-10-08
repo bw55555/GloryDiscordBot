@@ -11,7 +11,7 @@ module.exports = async function (message, user) {
     let coll = words[1];
     let setId = words[2];
     if (allowedcollections.indexOf(coll) == -1) { return }
-    let options = functions.extractOptions(message, false, "-isNumber")
+    let options = functions.extractOptions(message, false, ["-isNumber"])
     if (options.isNumber != undefined) { setId = parseInt(setId); if (isNaN(setId)) { return functions.replyMessage(message, "The id must be a number to use the -isNumber option!") } }
     
     return functions.getObject(coll, setId).then(target => {
