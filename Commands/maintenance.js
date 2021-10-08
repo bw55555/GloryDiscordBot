@@ -20,12 +20,17 @@ module.exports = async function (message, user) {
         functions.findUsers({}).then(res => {
             let tasks = []
             for (let thisuser of res) {
+                let gloryinc = 20 * user.ascension - 15 - 10 - 5
+                if (user.ascension <= 3) {gloryinc = Math.floor(5*(user.ascension)* (user.ascension+1)/2) }
                 let toSet = {
                     $set: {
                         "basehealth": 10 * (thisuser.level + thisuser.ascension * 10),
                         "baseattack": thisuser.level + thisuser.ascension * 10,
                         "basedefense": thisuser.level + thisuser.ascension * 10,
                         "eventClass": {}
+                    },
+                    $inc: {
+                        "glory": gloryinc
                     }
                 }
                 if (user.boughtghost || user.triangleid == 2000) { toSet.$set.eventClass.ghost = true; }

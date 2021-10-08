@@ -697,13 +697,14 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
     
     if (aenchants.lifeSteal > 0) {
         if (hasSkill(attacker, 44, skillenable) && attacker.currenthealth < 0.1 * attacker.health) { aenchants.lifeSteal *= 1.5 }
-        let stealAmount = Math.abs(Math.floor(truedamage * aenchants.lifeSteal))
+        let stealAmount = Math.floor(truedamage * aenchants.lifeSteal)
         
         if (stealAmount < 0) { stealAmount = 0 }
         if (defender.isRaid && stealAmount > defender.health) { stealAmount = defender.health;}
         attacker.currenthealth += stealAmount
         text += attackername + " lifestole **" + stealAmount + "** health!\n";
     }
+
     if (hasSkill(attacker, 22, skillenable)) {
         let leech = 0
         if (defender.isRaid != true) {
@@ -1250,15 +1251,13 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability, abilityde
     if (raid._id == "world") { 
         //world 
         ro.attack = Math.floor(summonlevel * 15);
-        ro.currenthealth = summonlevel * 100 * (Math.floor(2 * summonlevel / 25) + 1);
-        ro.health = raid.currenthealth
+        ro.health = summonlevel * 100 * (Math.floor(2 * summonlevel / 25) + 1);
         ro.reward = Math.floor(summonlevel * 5000);
         ro.level = summonlevel;
         customsummon(raid, ro)
     } else {
         ro.attack = summonlevel * (15+Math.floor(summonlevel/25));
-        ro.currenthealth = summonlevel * 10 * (Math.floor(summonlevel / 25) + 1);
-        ro.health = raid.currenthealth
+        ro.health = summonlevel * 10 * (Math.floor(summonlevel / 25) + 1);
         ro.reward = summonlevel * Math.pow(Math.floor(summonlevel/50)+1, 2) * 200;
         ro.level = summonlevel;
         customsummon(raid, ro)
