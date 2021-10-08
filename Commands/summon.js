@@ -20,18 +20,31 @@ module.exports = async function (message, user) {
             if (generalLoc == "arena") {
                 defaults = Assets.locationraidData[generalLoc][0]
                 defaults.level = 1
+                
+            } else if (Assets.locationraidData[generalLoc] != undefined) {
+                defaults = Assets.locationraidData[generalLoc][0]
+                defaults.level = Math.floor((defaults.minlevel) + (((defaults.maxlevel) - (defaults.minlevel)) * Math.random())) + 1
+            }
+
+            let wordoptions = functions.extractOptions(message, false, ["-name", "-level", "-attack", "-defense", "-health", "-reward", "-ability", "-abilitydesc"])
+            functions.sendMessage(message.channel, JSON.stringify(wordoptions))
+            if (wordoptions.name == undefined) { wordoptions.name = defaults.name }
+            if (wordoptions.name == undefined) { return functions.replyMessage(message, "Please specify a name!") }
+            if (wordoptions.level == undefined) { wordoptions.level = defaults.level }
+            if (wordoptions.level == undefined) { return functions.replyMessage(message, "Please specify a level!") }
+
+            if (generalLoc == "arena") {
                 defaults.attack = defaults.level
                 defaults.health = 999999999
                 defaults.reward = 0
+            } else if (Assets.locationraidData[generalLoc] != undefined) {
+                defaults.attack = Math.floor(defaults.level * 15);
+                defaults.health = defaults.level * 100 * (Math.floor(2 * defaults.level / 25) + 1);
+                defaults.reward = Math.floor(defaults.level * 5000);
             }
-            else if (Assets.locationraidData[generalLoc] != undefined) {
-                defaults = Assets.locationraidData[generalLoc][0]
-                let summonlevel = Math.floor((defaults.minlevel) + (((defaults.maxlevel) - (defaults.minlevel)) * Math.random())) + 1
-                defaults.attack = Math.floor(summonlevel * 15);
-                defaults.health = summonlevel * 100 * (Math.floor(2 * summonlevel / 25) + 1);
-                defaults.reward = Math.floor(summonlevel * 5000);
-                defaults.level = summonlevel;
-            }
+
+            
+            
             let wordoptions = functions.extractOptions(message, false, ["-name", "-level", "-attack", "-defense", "-health", "-reward", "-ability", "-abilitydesc"])
             functions.sendMessage(message.channel, JSON.stringify(wordoptions))
             if (wordoptions.name == undefined) { wordoptions.name = defaults.name }
