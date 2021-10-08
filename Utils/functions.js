@@ -1223,11 +1223,14 @@ function locationsummon(raid) {
         let raidref = Assets.locationraidData[loc][0]
         let ro = {}
         ro.level = 1
+        ro.name = "Dummy"
         ro.url = raidref.url
         ro.attack = ro.level
         ro.health = 999999999
         ro.currenthealth = 999999999
         ro.reward = 0
+        ro.ability = raidref.ability
+        ro.abilitydesc = raidref.abilitydesc
         customsummon(raid, ro)
         return
     }
