@@ -47,7 +47,7 @@ module.exports = async function (message, user) {
             if (wordoptions.reward == undefined) { wordoptions.reward = defaults.reward }
             if (wordoptions.ability != undefined) {
                 wordoptions.ability = functions.extractOptions(wordoptions.ability, false, allowedmodifiers)
-                for (let modname in wordoptions.ability) {
+                for (let modname in Object.keys(wordoptions.ability)) {
                     wordoptions.ability[modname] = parseFloat(wordoptions.ability[modname])
                     if (isNaN(wordoptions.ability[modname])) {return functions.replyMessage(message, "The value of modifier "+modname + " is not a float!")}
                 }
