@@ -4,8 +4,9 @@ module.exports = async function (message, user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     let item = words[1];
+    let arrayitem = words[2] == undefined ? "": "." + words[2]
     if (admins.indexOf(id) == -1) { return }
-    if (typeof functions.JSONoperate(user, item, "get") != "number") {
+    if (typeof functions.JSONoperate(user, item+arrayitem, "get") != "number") {
         return functions.replyMessage(message, "This does not resolve to a number...")
     }
     let filterproject = { "username": 1 }
@@ -28,7 +29,7 @@ module.exports = async function (message, user) {
         }
         let pages = []
         for (var i = 0; i < arr.length; i++) {
-            page.embed.fields[0].value += "**" + (i + 1) + ". " + arr[i].username + "** (ID: " + arr[i]._id + ") with **" + functions.JSONoperate(arr[i], item, "get") + "** " + item
+            page.embed.fields[0].value += "**" + (i + 1) + ". " + arr[i].username + "** (ID: " + arr[i]._id + ") with **" + functions.JSONoperate(arr[i], item+arrayitem, "get") + "** " + item+arrayitem
             if (i % numPerPage == numPerPage - 1) { // separate pages
                 page.embed.footer.text = (pages.length * numPerPage + 1) + "-" + (i + 1) + " out of " + arr.length //add footer to display where you are
                 pages.push(page)
