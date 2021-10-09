@@ -18,8 +18,9 @@ module.exports = async function (message, user) {
     let pages = []
     for (let i = 0; i < categories.length; i++) {
         let text = ""
-        for (var enchant of categories[i]) {
-            text += "**" + enchant + "**: " + stats[enchant] + "\n"
+        for (let j = 0; j < categories.length; j++) {
+            let enchantName = categories[i][j]
+            text += "**" + enchantName + "**: " + stats[enchantName] + "\n"
         }
         let page = {
             "embed": {
