@@ -20,7 +20,7 @@ module.exports = async function (message, user) {
         let text = ""
         for (let j = 0; j < categories.length; j++) {
             let enchantName = categories[i][j]
-            text += "**" + enchantName + "**: " + stats[enchantName] + "\n"
+            text += "**" + enchantName + "**: " + Math.round(1000*stats[enchantName])/1000 + "\n"
         }
         let page = {
             "embed": {
