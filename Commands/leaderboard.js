@@ -12,7 +12,11 @@ module.exports = async function (message, user) {
     let filterproject = { "username": 1 }
     filterproject[item] = 1
     functions.findUsers({}, filterproject).then(arr => {
-        arr.sort(function (a, b) { return functions.JSONoperate(b, item, "get") - functions.JSONoperate(a, item, "get") }) //what sorts the array. Search up array.sort() on w3schools.
+        arr.sort(function (a, b) {
+            if (functions.JSONoperate(b, item + arrayitem, "get") == undefined) { return -1 }
+            if (functions.JSONoperate(a, item + arrayitem, "get") == undefined) { return 1 }
+            return functions.JSONoperate(b, item + arrayitem, "get") - functions.JSONoperate(a, item + arrayitem, "get")
+        }) //what sorts the array. Search up array.sort() on w3schools.
         let numPerPage = 10
         let page = {
             "embed": { //displays guild stats
