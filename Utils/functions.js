@@ -1162,10 +1162,12 @@ function customsummon(raid, options) {
     raid.statusEffects = {}
     raid.attacklist = {};
     raid.damagelist = {};
+    raid.attack = undefined;
+    raid.defense = undefined;
+    raid.health = undefined;
     raid.ability = undefined;
     raid.abilitydesc = undefined;
     raid.stareventmob = undefined
-    raid.defense = 0;
     if (options == undefined) {
         options = {}
     }
@@ -1175,7 +1177,7 @@ function customsummon(raid, options) {
     if (raid.level == undefined) { raid.level = 1;}
     if (raid.attack == undefined) { raid.attack = 0; }
     if (raid.defense == undefined) { raid.defense = 0; }
-    if (raid.health == undefined) { raid.health = 0; }
+    if (raid.health == undefined) { raid.health = 1; }
     if (options.currenthealth == undefined || raid.currenthealth == undefined) { raid.currenthealth = raid.health; }
 }
 function locationsummon(raid) {
@@ -1246,7 +1248,7 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability, abilityde
         ro.ability = ability;
         ro.abilitydesc = (abilitydesc == undefined) ? JSON.stringify(ability) : abilitydesc
     }
-    let summonlevel = Math.floor((ro.minlevel) + (((ro.maxlevel) - (ro.minlevel)) * Math.random())) + 1
+    let summonlevel = Math.floor((raid.minlevel) + (((raid.maxlevel) - (raid.minlevel)) * Math.random())) + 1
     if (level != undefined && !isNaN(level)) { summonlevel = level}
     if (raid._id == "world") { 
         //world 
