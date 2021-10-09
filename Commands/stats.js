@@ -18,7 +18,7 @@ module.exports = async function (message, user) {
     let pages = []
     for (let i = 0; i < categories.length; i++) {
         let text = ""
-        for (var enchant in categories[i]) {
+        for (var enchant of categories[i]) {
             text += "**" + enchant + "**: " + stats[enchant] + "\n"
         }
         let page = {
