@@ -45,7 +45,7 @@ module.exports = async function (message, user) {
 
             if (wordoptions.attack == undefined) { wordoptions.attack = defaults.attack }
             wordoptions.attack = parseInt(wordoptions.attack)
-            if (isNaN(wordoptions.attack)) { return functions.replyMessage(message, "Please specify an integer level!")  }
+            if (isNaN(wordoptions.attack)) { return functions.replyMessage(message, "Please specify an integer level!") }
             if (wordoptions.health == undefined) { wordoptions.health = defaults.health }
             wordoptions.health = parseInt(wordoptions.health)
             if (isNaN(wordoptions.health)) { return functions.replyMessage(message, "Please specify an integer health!") }
@@ -84,13 +84,14 @@ module.exports = async function (message, user) {
             ro.level = 1
             let wordoptions = functions.extractOptions(message, false, ["-level"])
             if (wordoptions.level != undefined) { ro.level = parseInt(wordoptions.level) }
-            if (isNaN(ro.level) || ro.level > ro.maxlevel || ro.level < ro.minlevel) {return functions.replyMessage(message, "Please specify a level between "+ro.minlevel + " and "+ro.maxlevel)}
+            if (isNaN(ro.level) || ro.level > ro.maxlevel || ro.level < ro.minlevel) { return functions.replyMessage(message, "Please specify a level between " + ro.minlevel + " and " + ro.maxlevel) }
             ro.attack = wordoptions.level
             ro.health = 999999999
             ro.reward = 0
-            
+
             functions.customsummon(raid, ro)
             functions.replyMessage(message, "You have summoned a level " + raid.level + " " + raid.name + "!\n")
             functions.setObject("mobData", raid)
+        })
     }
 }
