@@ -35,6 +35,7 @@ module.exports = async function (message, user) {
                 }
                 if (user.boughtghost || user.triangleid == 2000) { toSet.$set.eventClass.ghost = true; }
                 if (user.boughtstar || user.triangleid == 2001) { toSet.$set.eventClass.celestial = true; }
+                if (user.startts == undefined) {toSet.$set.startts = ts}
                 tasks.push({
                     updateOne:
                     {

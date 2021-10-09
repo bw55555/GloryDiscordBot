@@ -53,7 +53,7 @@ module.exports = async function (message, user) {
             wordoptions.reward = parseInt(wordoptions.reward)
             if (isNaN(wordoptions.reward)) { return functions.replyMessage(message, "Please specify an integer reward!") }
             if (wordoptions.ability != undefined) {
-                wordoptions.ability = functions.extractOptions(wordoptions.ability, false, allowedmodifiers)
+                wordoptions.ability = functions.extractOptions(wordoptions.ability, false, possibleModifiers.map(x => x.name))
                 for (let modname of Object.keys(wordoptions.ability)) {
                     wordoptions.ability[modname] = parseFloat(wordoptions.ability[modname])
                     if (isNaN(wordoptions.ability[modname])) { return functions.replyMessage(message, "The value of modifier " + modname + " is not a float!") }
