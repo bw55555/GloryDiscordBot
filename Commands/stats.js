@@ -18,7 +18,7 @@ module.exports = async function (message, user) {
     let pages = []
     for (let i = 0; i < categories.length; i++) {
         let text = ""
-        for (let j = 0; j < categories.length; j++) {
+        for (let j = 0; j < categories[i].length; j++) {
             let enchantName = categories[i][j]
             text += "**" + enchantName + "**: " + Math.round(1000*stats[enchantName])/1000 + "\n"
         }
