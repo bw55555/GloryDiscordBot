@@ -11,7 +11,7 @@ module.exports = async function (message, user) {
         ['critRate', 'critDamage', 'block', 'pierce', 'lifeSteal', 'sacrifice', 'rage'],
         ['tempo', 'antitempo', 'combo', 'revenge', 'burn', 'regen', 'evade', 'spikes', 'maxhp'],
         ['bleed', 'silence', 'vulnerable', 'weakness', 'stun', 'petrify'],
-        ['defmult', 'reflect', 'guard', 'poison', 'survive', 'attackvariance']
+        ['defmult', 'reflect', 'guard', 'poison', 'survive', 'attackvariance'],
         ['resistance', 'critResist', 'pierceResist', 'silenceResist', 'stunResist', 'petrifyResist']
     ]
     let categorynames = ["Main Stats", "1st Gen Enchants", "2nd Gen Enchants", "3rd Gen Enchants", "4th Gen Enchants", "Resistances"]
