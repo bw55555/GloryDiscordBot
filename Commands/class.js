@@ -94,7 +94,7 @@ module.exports = async function (message, user) {
         user.triangle = '<:bloodlifeweaver:542188575333023754> Lifeweaver';
         user.triangleid = 11;
         user.trianglemod = 1.4;
-        functions.replyMessage(message, 'You are now an Lifeweaver!');
+        functions.replyMessage(message, 'You are now a Lifeweaver!');
     } else if (classpick === 'BLOODWEAVER') {
         if (user.ascension == 0 || (user.ascension == 1 && user.level < 10) || (user.triangleid) % 3 !== 2) {
             functions.replyMessage(message, "You must be an ascension 1 level 10 Mage to choose this subclass");
@@ -103,7 +103,7 @@ module.exports = async function (message, user) {
         user.triangle = '<:bloodlifeweaver:542188575333023754> Bloodweaver';
         user.triangleid = 14;
         user.trianglemod = 1.4;
-        functions.replyMessage(message, 'You are now an Lifeweaver!');
+        functions.replyMessage(message, 'You are now a Bloodweaver!');
     } else if (classpick === 'BERSERKER') {
         if (user.ascension == 0 || (user.ascension == 1 && user.level < 10) || (user.triangleid) % 3 !== 0) {
             functions.replyMessage(message, "You must be an ascension 1 level 10 Warrior to choose this subclass");
