@@ -1233,9 +1233,11 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability, abilityde
         ro.name = name;
     }
     if (minlevel != undefined) {
+        raid.minlevel = minlevel;
         ro.minlevel = minlevel;
     }
     if (maxlevel != undefined) {
+        raid.maxlevel = maxlevel;
         ro.maxlevel = maxlevel;
     }
     if (image != undefined) {
