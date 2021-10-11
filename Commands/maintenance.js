@@ -21,7 +21,9 @@ module.exports = async function (message, user) {
             let tasks = []
             for (let thisuser of res) {
                 let gloryinc = 20 * thisuser.ascension - 15 - 10 - 5
-                if (thisuser.ascension <= 3) {gloryinc = Math.floor(5*(thisuser.ascension)* (thisuser.ascension+1)/2) }
+                if (thisuser.ascension <= 3) { gloryinc = Math.floor(5 * (thisuser.ascension) * (thisuser.ascension + 1) / 2) }
+                gloryinc -= 150;
+                if (gloryinc + thisuser.glory < 0) {gloryinc = thisuser.glory * -1}
                 let toSet = {
                     $set: {
                         "eventClass": {},
