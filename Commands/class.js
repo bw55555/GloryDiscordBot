@@ -86,13 +86,22 @@ module.exports = async function (message, user) {
         user.triangleid = 8;
         user.trianglemod = 1.4;
         functions.replyMessage(message, 'You are now an Oracle!');
-    } else if (classpick === 'LIFEWEAVER' || classpick === 'BLOODWEAVER' || classpick === 'WEAVER') {
+    } else if (classpick === 'LIFEWEAVER' || classpick === 'WEAVER') {
         if (user.ascension == 0 || (user.ascension == 1 && user.level < 10) || (user.triangleid) % 3 !== 2) {
             functions.replyMessage(message, "You must be an ascension 1 level 10 Mage to choose this subclass");
             return;
         }
-        user.triangle = '<:bloodlifeweaver:542188575333023754> Life/Bloodweaver';
+        user.triangle = '<:bloodlifeweaver:542188575333023754> Lifeweaver';
         user.triangleid = 11;
+        user.trianglemod = 1.4;
+        functions.replyMessage(message, 'You are now an Lifeweaver!');
+    } else if (classpick === 'BLOODWEAVER') {
+        if (user.ascension == 0 || (user.ascension == 1 && user.level < 10) || (user.triangleid) % 3 !== 2) {
+            functions.replyMessage(message, "You must be an ascension 1 level 10 Mage to choose this subclass");
+            return;
+        }
+        user.triangle = '<:bloodlifeweaver:542188575333023754> Bloodweaver';
+        user.triangleid = 14;
         user.trianglemod = 1.4;
         functions.replyMessage(message, 'You are now an Lifeweaver!');
     } else if (classpick === 'BERSERKER') {
@@ -118,7 +127,7 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You must be ascension 3 to class advance!");
             return;
         }
-        let classnames = { 304: "Ninja", 305: "Priest", 306: "Beast", 307: "Landlord", 308: "Seer", 309: "Templar", 311: "Vampire", 314: "Vampire" }
+        let classnames = { 304: "Ninja", 305: "Priest", 306: "Beast", 307: "Landlord", 308: "Seer", 309: "Templar", 311: "Life Vampire", 314: "Blood Vampire" }
         if (classnames[user.triangleid + 300] == undefined) { return functions.replyMessage(message, "This class cannot advance!")}
         user.triangleid += 300
         user.trianglemod = 1.6
@@ -143,7 +152,7 @@ module.exports = async function (message, user) {
     }
     functions.completeQuest(user, "class", {"oldid": oldid}, 1)
     if (oldid != 0) {
-        if (!(user.triangleid > 3 && oldid <= 3)) {
+        if (!(user.triangleid > 3 && oldid <= 3) && !(user.triangleid - oldid == 300)) {
             user.level -= 1;
             user.xp = 0;
         }
