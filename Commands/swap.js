@@ -11,7 +11,7 @@ module.exports = async function (message, user) {
     }
     if (user.triangleid % 300 == 11) {
         user.triangleid += 3;
-        functions.replyMessage(message, 'You are now a '+triangleids[user.triangleid]+' You sacrifice life to deal more damage!');
+        functions.replyMessage(message, 'You are now a '+triangleids[user.triangleid]+'! You sacrifice life to deal more damage!');
     }
     else if (user.triangleid % 300 == 14) {
         user.triangleid -= 3;
