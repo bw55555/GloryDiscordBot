@@ -142,7 +142,6 @@ global.templateUser = {
     trianglemod: 1,
     weapon: false,
     ability: {},
-    inventory: {},
     marry: "None",
     guild: "None",
     guildpos: "None",
