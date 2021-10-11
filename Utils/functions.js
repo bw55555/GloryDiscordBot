@@ -446,14 +446,6 @@ function calcBaseStat(user, stat) {
     const statlevels = { "health": 10, "attack": 1, "defense": 1 }
     return (user.level+10*user.ascension) * statlevels[stat]
 }
-function calcExtraStat(user, stat) {
-    let extrastat = 0
-    if (stat == "health") {
-        if (user.weapon != false && user.weapon != undefined && user.weapon.modifiers.maxhp != undefined) extrastat += user.weapon.modifiers.maxhp
-        if (user.triangleid % 3000 == 305) { extrastat += user.basehealth * 0.25}
-    }
-    return Math.floor(extrastat)
-}
 function calcLuckyBuff(user) {
     let lb = calcEnchants(user).lucky
     if (isGameEvent("starevent", "lucky")) {lb += user.luckycointotal*0.01}
@@ -1267,6 +1259,16 @@ function summon(raid, level, minlevel, maxlevel, name, image, ability, abilityde
         customsummon(raid, ro)
     }
 }
+
+function calcExtraStat(user, stat) {
+    let extrastat = 0
+    if (stat == "health") {
+        if (user.weapon != false && user.weapon != undefined && user.weapon.modifiers.maxhp != undefined) extrastat += user.weapon.modifiers.maxhp
+        if (user.triangleid % 3000 == 305) { extrastat += user.basehealth * 0.25 }
+    }
+    return Math.floor(extrastat)
+}
+
 function checkProps(message,user) {
     let ts = message.createdTimestamp;
     if (user.username != message.author.username) user.username = message.author.username; //Creates object with name as username
@@ -1298,9 +1300,9 @@ function checkProps(message,user) {
         if (user.baseattack < user.ascension * 10) { user.baseattack = calcBaseStat(user, "attack") }
         if (user.basedefense < user.ascension * 10) { user.basedefense = calcBaseStat(user, "defense") }
         if (user.basehealth < user.ascension * 100) { user.basehealth = calcBaseStat(user, "health") }
-        user.attack = Math.max(user.baseattack + calcExtraStat(user, "attack"), user.attack)
-        user.defense = Math.max(user.basedefense + calcExtraStat(user, "defense"), user.defense)
-        user.health = Math.max(user.basehealth + calcExtraStat(user, "health"), user.health)
+        user.attack = user.baseattack + calcExtraStat(user, "attack")
+        user.defense = user.basedefense + calcExtraStat(user, "defense")
+        user.health = user.basehealth + calcExtraStat(user, "health")
     } else {
         if (user.baseattack < user.ascension * 10) { user.baseattack = calcBaseStat(user, "attack") }
         if (user.basedefense < user.ascension * 10) { user.basedefense = calcBaseStat(user, "defense") }
