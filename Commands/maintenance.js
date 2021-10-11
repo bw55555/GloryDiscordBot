@@ -20,22 +20,20 @@ module.exports = async function (message, user) {
         functions.findUsers({}).then(res => {
             let tasks = []
             for (let thisuser of res) {
-                let gloryinc = 20 * user.ascension - 15 - 10 - 5
-                if (user.ascension <= 3) {gloryinc = Math.floor(5*(user.ascension)* (user.ascension+1)/2) }
+                let gloryinc = 20 * thisuser.ascension - 15 - 10 - 5
+                if (thisuser.ascension <= 3) {gloryinc = Math.floor(5*(thisuser.ascension)* (thisuser.ascension+1)/2) }
                 let toSet = {
                     $set: {
-                        "basehealth": 10 * (thisuser.level + thisuser.ascension * 10),
-                        "baseattack": thisuser.level + thisuser.ascension * 10,
-                        "basedefense": thisuser.level + thisuser.ascension * 10,
-                        "eventClass": {}
+                        "eventClass": {},
+                        'maintenance': true
                     },
                     $inc: {
                         "glory": gloryinc
                     }
                 }
-                if (user.boughtghost || user.triangleid == 2000) { toSet.$set.eventClass.ghost = true; }
-                if (user.boughtstar || user.triangleid == 2001) { toSet.$set.eventClass.celestial = true; }
-                if (user.startts == undefined) {toSet.$set.startts = ts}
+                if (thisuser.boughtghost || thisuser.triangleid == 2000) { toSet.$set.eventClass.ghost = true; }
+                if (thisuser.boughtstar || thisuser.triangleid == 2001) { toSet.$set.eventClass.celestial = true; }
+                if (thisuser.startts == undefined) {toSet.$set.startts = ts}
                 tasks.push({
                     updateOne:
                     {
