@@ -127,7 +127,7 @@ module.exports = async function (message, user) {
             functions.replyMessage(message, "You must be ascension 3 to class advance!");
             return;
         }
-        let classnames = { 304: "Ninja", 305: "Priest", 306: "Beast", 307: "Landlord", 308: "Seer", 309: "Templar", 311: "Life Vampire", 314: "Blood Vampire" }
+        let classnames = { 304: "Ninja", 305: "Priest", 306: "Beast", 307: "Landlord", 308: "Seer", 309: "Guardian", 311: "Life Vampire", 314: "Blood Vampire" }
         if (classnames[user.triangleid + 300] == undefined) { return functions.replyMessage(message, "This class cannot advance!")}
         user.triangleid += 300
         user.trianglemod = 1.6

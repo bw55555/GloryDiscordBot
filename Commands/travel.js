@@ -5,7 +5,7 @@ module.exports = async function (message, user) {
     let words = message.content.trim().split(/\s+/)
     if (words.length == 1) { return functions.replyMessage(message, "Please specify a place to travel to!") }
     let word2 = words[1].toLowerCase();
-    if (functions.isCD(user, ts, "travel")) { return functions.replyMessage(message, "The teleport network is still cooling down... Please try again in " + functions.displayTime(user.cooldowns.travel, ts)) }
+    if (functions.isCD(user, ts, "travel") && word2 != "list") { return functions.replyMessage(message, "The teleport network is still cooling down... Please try again in " + functions.displayTime(user.cooldowns.travel, ts)) }
     if (user.dead) { return functions.replyMessage(message, "You cannot teleport while dead!") }
     let text = ""
     if (word2 == "list") {

@@ -44,7 +44,8 @@ module.exports = async function (message, user) {
             { "name": "Lord of the Abyss", "url": "https://i.imgur.com/Mhu1t7M.png", "level": 300, "health": 3000000, "attack": 3000 * (1+300/400), "reward": 100000000 },
             { "name": "Star Queen", "url": "https://cdn.discordapp.com/attachments/547415056065757194/792921517133529098/images.jpeg", "level": 400, "health": 4000000, "attack": 4000*(1+400/400), "reward": 150000000, "ability": {"vulnerable": 3}, "abilitydesc": "Applies 3 vulnerable on attack. "},
             { "name": "Starmie Pinata", "url": "https://cdn.discordapp.com/attachments/744331762146082837/775925715442729010/image0-9.png", "level": 77, "health": 7777777, "attack": 777, "reward": 77777777, "ability": { "stun": 0.07, "silence": 0.07, "critRate": 0.07, "critDamage": 6, "pierce": 0.07, "block": 0.07, "evade": 0.07 }, "abilitydesc": "7% chance to stun, 7% chance to silence, 7% chance to deal a critical and do 7 times the damage, 7% chance to pierce, 7% chance to block, 7% chance to evade" },
-            { "name": "Goku Pinata", "url": "https://cdn.discordapp.com/attachments/722206616769790003/789597232424812544/image0.png", "level": 222, "health": 2500000, "attack": 1234, "reward": 66666666 }
+            { "name": "Goku Pinata", "url": "https://cdn.discordapp.com/attachments/722206616769790003/789597232424812544/image0.png", "level": 222, "health": 2500000, "attack": 1234, "reward": 66666666 },
+            { "name": "Baal Pinata", "url": "https://cdn.discordapp.com/attachments/531858145480540170/901089548946272316/unknown.png", "level": 126, "health": 1266666, "attack": 666, "reward": 66666666, "ability": { 'stun': 0.06 }, "abilitydesc": "6% chance to stun." }
         ]
         let raidnum = 4;
         raid.name = raidoptions[raidnum].name
