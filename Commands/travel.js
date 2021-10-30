@@ -40,6 +40,9 @@ module.exports = async function (message, user) {
     } else if (word2 == "event") {
         user.location = word2
         text += "Welcome to the event raid!"
+    } else if (word2 == "ghost") {
+        user.location = word2
+        text += "Welcome to the ghost raid!"
     } else if (Assets.locationraidData[word2] != undefined) {
         let key = words[2];
         if (key == undefined) { key = getRandomKey() }

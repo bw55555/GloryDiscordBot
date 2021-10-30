@@ -21,7 +21,7 @@ module.exports = async function (message, user) {
                 return;
             }
             let type = "raid"
-            if (user.location == "world" || user.location == "event") { type = user.location }
+            if (user.location == "world" || user.location == "event" || user.location == "ghost") { type = user.location }
             functions.raidAttack(message, user, raid, type)
             functions.setObject("mobData", raid)
         })
