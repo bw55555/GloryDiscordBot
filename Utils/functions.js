@@ -1621,7 +1621,11 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                     num -= 1;
                 }
                 for (let person in candyrewards) {
-                    if (user._id == person) { user.candy += candyrewards[person] }
+                    if (user._id == person) {
+                        if (user.eventCurrency == undefined) { user.eventCurrency = {} }
+                        if (isNaN(user.eventCurrency.candy)) {user.eventCurrency.candy = 0}
+                        user.eventCurrency.candy += candyrewards[person]
+                    }
                     else {
                         let toSet = {};
                         toSet["candy"] = candyrewards[person];

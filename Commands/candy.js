@@ -65,7 +65,7 @@ module.exports = async function (message, user) {
         if (itemid == undefined || items[itemid] == undefined) { return functions.replyMessage(message, "Please select a valid item id!"); }
         if (words.length < 4) { amount = 1 }
         if (isNaN(amount) || amount < 0) { return functions.replyMessage(message, "Please select a positive number of items to buy!") }
-        if (amount * items[itemid].cost > user.candy) { return functions.replyMessage(message, "You do not have enough candy to buy this!"); }
+        if (amount * items[itemid].cost > user.eventCurrency.eventCurrency.candy) { return functions.replyMessage(message, "You do not have enough candy to buy this!"); }
         let type = items[itemid].type
 
         if (type == "ghostclass") {
@@ -75,6 +75,8 @@ module.exports = async function (message, user) {
             user.triangleid = 2000;
             user.trianglemod = 1.6;
             user.boughtghost = true;
+            if (user.eventClass == undefined) { user.eventClass = {}}
+            user.eventClass.ghost = true;
         } else if (type == "item") {
             amount = 1;
             functions.craftItem(message, user, 7, 7)
@@ -87,7 +89,7 @@ module.exports = async function (message, user) {
             }
             functions.JSONoperate(user, type, "add", amount * items[itemid].amount)
         }
-        user.candy -= amount * items[itemid].cost
+        user.eventCurrency.candy -= amount * items[itemid].cost
 
         functions.replyMessage(message, "You have bought " + amount + " " + items[itemid].name + " for " + (items[itemid].cost * amount) + " candy. ")
     } else if (word2 == "use" || word2 == "eat") {
@@ -95,7 +97,7 @@ module.exports = async function (message, user) {
 
         if (words.length < 3) { amount = 1 }
         if (isNaN(amount) || amount < 0) { return functions.replyMessage(message, "Please select a positive number of items to buy!") }
-        if (amount > user.candy) { return functions.replyMessage(message, "You don't have enough candy!") }
+        if (amount > user.eventCurrency.candy) { return functions.replyMessage(message, "You don't have enough candy!") }
         let xpforasc = 0;
         for (let i = 1; i <= 99; i++) {
             xpforasc += functions.checkxp({ "ascension": user.ascension, "level": i })
@@ -104,10 +106,10 @@ module.exports = async function (message, user) {
         for (let i = 0; i < amount; i++) {
             xpgain += Math.ceil(xpforasc * (0.0003 * Math.random() - 0.0001))
         }
-        user.candy -= amount
+        user.eventCurrency.candy -= amount
         user.xp += xpgain
         functions.replyMessage(message, "You have eaten " + amount + " candy and gained " + xpgain + " xp. ")
     } else {
-        functions.replyMessage(message, "You have " + user.candy + " candy. ")
+        functions.replyMessage(message, "You have " + user.eventCurrency.candy + " candy. ")
     }
 }

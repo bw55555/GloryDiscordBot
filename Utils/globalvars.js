@@ -172,7 +172,8 @@ global.templateUser = {
     present: 0,
     luckycoin: 0,
     luckycointotal: 0,
-    eventClass: {}
+    eventClass: {},
+    eventCurrency: {candy: 0}
 }
 global.runeNames = ["Rune Shard", "Wisdom Rune", "Energy Rune", "Arcane Rune", "Force Rune", "Guard Rune", "Life Rune"]
 global.allowedcollections = ["userData", "itemData", "guildData", "auctionData", "dungeonData", "mobData"]
