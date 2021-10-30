@@ -4,8 +4,8 @@ module.exports = async function (message, user) {
     let ts = message.createdTimestamp;
     let words = message.content.trim().split(/\s+/)
     if (devs.indexOf(id) == -1) { return }
-    if (words.length < 5) {
-        functions.sendMessage(message.channel, "Syntax: !dataset collection id attribute value");
+    if (words.length < 3) {
+        functions.sendMessage(message.channel, "Syntax: !dataset collection id attribute");
         return user;
     }
     let coll = words[1];
