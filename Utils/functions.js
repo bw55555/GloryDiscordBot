@@ -1628,7 +1628,7 @@ function raidAttack(message, user, raid, type, extra) { //raid attack
                     }
                     else {
                         let toSet = {};
-                        toSet["candy"] = candyrewards[person];
+                        toSet["eventCurrency.candy"] = candyrewards[person];
                         tasks.push({
                             updateOne:
                             {
