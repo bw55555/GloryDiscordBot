@@ -104,7 +104,7 @@ module.exports = async function (message, user) {
         }
         let xpgain = 0;
         for (let i = 0; i < amount; i++) {
-            xpgain += Math.ceil(xpforasc * (0.0003 * Math.random() - 0.0001))
+            xpgain += Math.ceil(xpforasc * (0.00025 * Math.random()))
         }
         user.eventCurrency.candy -= amount
         user.xp += xpgain
