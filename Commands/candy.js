@@ -64,12 +64,13 @@ module.exports = async function (message, user) {
         let amount = parseInt(words[3])
         if (itemid == undefined || items[itemid] == undefined) { return functions.replyMessage(message, "Please select a valid item id!"); }
         if (words.length < 4) { amount = 1 }
-        if (isNaN(amount) || amount < 0) { return functions.replyMessage(message, "Please select a positive number of items to buy!") }
+        if (isNaN(amount) || amount <= 0) { return functions.replyMessage(message, "Please select a positive number of items to buy!") }
         if (amount * items[itemid].cost > user.eventCurrency.candy) { return functions.replyMessage(message, "You do not have enough candy to buy this!"); }
         let type = items[itemid].type
 
         if (type == "ghostclass") {
             amount = 1;
+            if (amount * items[itemid].cost > user.eventCurrency.candy) { return functions.replyMessage(message, "You do not have enough candy to buy this!"); }
             if (user.triangleid == 2000) { return functions.replyMessage(message, "You are already a ghost!") }
             user.triangle = '<:ghostclass:771114679941595156> Ghost';
             user.triangleid = 2000;
