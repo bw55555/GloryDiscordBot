@@ -70,6 +70,9 @@ module.exports = async function (message, user) {
         functions.sendMessage(message.channel, "Please specify an integer amount.");
         return;
     }
+    if (amount > 100) {
+        amount = 100;
+    }
     if (attributeToUpgrade == 'ATTACK' || attributeToUpgrade == 'ATK') { //Upgrade Atk
         text += upgradeStats("baseattack", amount, user)[0]
     }
