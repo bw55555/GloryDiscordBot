@@ -599,7 +599,7 @@ function calcDamage(message, attacker, defender, initiator, astatus, dstatus) {
             defender.dead = true;
             return [defendername + " bled to death...\n", 0, 0]
         }
-        text += defendername + " is bleeding and will lose " + Math.floor(amt * 100) + "% of their defense." + defendername + " has " + defender.statusEffects.bleed + " stacks of bleed.\n"
+        text += defendername + " is bleeding and will lose " + Math.floor(amt * 100) + "% of their defense." + defendername + " has " + (dstatus.bleed-1) + " stacks of bleed.\n"
         defense *= (1 - amt)
     } else if (defender.statusEffects.bleed != undefined && defender.statusEffects.bleed > 0) {
         text += defendername + " is starting to bleed!"+defendername+" has " + defender.statusEffects.bleed + " stacks of bleed.\n"
