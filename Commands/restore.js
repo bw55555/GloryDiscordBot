@@ -5,7 +5,7 @@ module.exports = async function (message, user) {
     let words = message.content.trim().split(/\s+/)
     if (devs.indexOf(id) == -1) { return }
     var FS = require('fs');
-    if (len(words) == 1) {return functions.replyMessage(message, "Please specify a folder name!")}
+    if (words.length == 1) {return functions.replyMessage(message, "Please specify a folder name!")}
     folder = words[1];
     collections = ['userData', 'itemData', 'guildData', 'mobData', 'devData', 'serverData', 'auctionData', 'dungeonData', 'familiarData']
     for (let coll of collections) {

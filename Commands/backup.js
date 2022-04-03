@@ -5,7 +5,7 @@ module.exports = async function (message, user) {
     let words = message.content.trim().split(/\s+/)
     if (admins.indexOf(id) == -1) { return }
     var FS = require('fs');
-    var foldername = len(words) == 1 ? ts : words[1]
+    var foldername = words.length == 1 ? ts : words[1]
     collections = ['userData', 'itemData', 'guildData', 'mobData', 'devData', 'serverData', 'auctionData', 'dungeonData', 'familiarData']
     for (let coll of collections) {
         functions.findObjects(coll, {}).then(ret => FS.writeFile('backup/' + foldername + '/' + coll + '.json', JSON.stringify(ret), (err) => {
