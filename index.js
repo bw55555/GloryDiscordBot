@@ -350,7 +350,13 @@ function evaluateMessage(message) {
             if (channelnum >= devData.commandLogChannels.length) { channelnum = 0; }
             functions.logCommand(message, "CLOG", undefined, devData.commandLogGuild, devData.commandLogChannels[channelnum])
         }
-        commands[command](message, user).then(ret => { functions.postCommandCheck(message, user);functions.setUser(user) })
+        commands[command](message, user).then(ret => {
+            functions.postCommandCheck(message, user);
+            if (command == 'restore' || command == 'eval') {
+                return;
+            }
+            functions.setUser(user)
+        })
         //console.timeEnd("run")
         //console.timeEnd("Command")
         //Command cooldowns
