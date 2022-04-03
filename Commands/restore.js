@@ -32,6 +32,6 @@ module.exports = async function (message, user) {
             return functions.replyMessage(message, "Missing collection: "+coll)
         }
     }
-    functions.replyMessage(message, 'Backup created!')
+    functions.replyMessage(message, 'Data restored from folder `'+folder+'`!')
     functions.logCommand(message)
 }
