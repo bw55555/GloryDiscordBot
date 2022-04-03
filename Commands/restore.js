@@ -24,7 +24,7 @@ module.exports = async function (message, user) {
                         })
                     }
                     console.log("Updating " + coll);
-                    functions.bulkWrite(coll, tasks);
+                    if (tasks.length > 0) functions.bulkWrite(coll, tasks);
                 }
             })
             
