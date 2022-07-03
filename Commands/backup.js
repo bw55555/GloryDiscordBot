@@ -7,6 +7,7 @@ module.exports = async function (message, user) {
     var FS = require('fs');
     var foldername = words.length == 1 ? ts : words[1]
     collections = ['userData', 'itemData', 'guildData', 'mobData', 'devData', 'serverData', 'auctionData', 'dungeonData', 'familiarData']
+    FS.mkdirSync('backup/' + foldername);
     for (let coll of collections) {
         functions.findObjects(coll, {}).then(ret => FS.writeFile('backup/' + foldername + '/' + coll + '.json', JSON.stringify(ret), (err) => {
             if (err) { console.log(err) } else { console.log("Backed up " + coll);}
