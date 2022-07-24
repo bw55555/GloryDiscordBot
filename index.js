@@ -400,7 +400,7 @@ bot.on('ready', function () {
 bot.on("guildCreate", guild => {
     console.log("Joined a new guild: " + guild.name);
     addServer(guild)
-
+    /*
     var allowedchannels = guild.channels.cache.filter(channel => channel.type == "text" && channel.permissionsFor(bot.user).has("SEND_MESSAGES"))
     if (allowedchannels.size == 0) { return }
     var channel = allowedchannels.find(channel => channel.name == "botspam" || channel.name == "general")
@@ -454,6 +454,7 @@ bot.on("guildCreate", guild => {
             ]
         }
     });
+    */
 
 })
 bot.on("disconnect", event => {
