@@ -299,68 +299,72 @@ function evaluateMessage(message) {
             functions.replyMessage(message, `The command ${commandName} has been reloaded!`);
         }
     }
-    functions.getUser(message.author.id).then(user => {
-        if (user == false && commandlist[command] != undefined && command != "start" && command != "create") {
-            functions.replyMessage(message, 'Create a character with `' + prefix + 'start` first! (Use all lowercase)');
-            return;
-        } else if (command == "start" || command == "create") {
-            commands.start(message, user)
-            return;
-        } else if (commandlist[command] == undefined) {
-            return;
-        }
-        if (functions.checkStuff(message, user) == false) { return}
-        if (commandlist[command] == undefined) { return }
-        if (user.cnumbers == undefined) { user.cnumbers = [0, 0] }
-        if (admins.indexOf(message.author.id) == -1 && functions.calcTime(ts, user.cooldowns.normal) < 1) {
-            functions.replyMessage(message, 'don\'t spam commands');
-            functions.deleteMessage(message);
-            return; //fml
-        }
-        if (user.maintenance) {
-            delete user.maintenance
-            if (devData.maintenancetext != undefined && devData.maintenancetext != "") {
-                functions.sendMessage(message.channel, devData.maintenancetext)
+    try {
+        functions.getUser(message.author.id).then(user => {
+            if (user == false && commandlist[command] != undefined && command != "start" && command != "create") {
+                functions.replyMessage(message, 'Create a character with `' + prefix + 'start` first! (Use all lowercase)');
+                return;
+            } else if (command == "start" || command == "create") {
+                commands.start(message, user)
+                return;
+            } else if (commandlist[command] == undefined) {
+                return;
             }
-        }
-        if (devs.indexOf(id) == -1) {
-            if (user.macro) {
-                functions.logCommand(message, "MACRO")
+            if (functions.checkStuff(message, user) == false) { return }
+            if (commandlist[command] == undefined) { return }
+            if (user.cnumbers == undefined) { user.cnumbers = [0, 0] }
+            if (admins.indexOf(message.author.id) == -1 && functions.calcTime(ts, user.cooldowns.normal) < 1) {
+                functions.replyMessage(message, 'don\'t spam commands');
+                functions.deleteMessage(message);
+                return; //fml
             }
-            if (Math.random() < devData.security || user.macro) {
-                functions.antimacro(message, user)
+            if (user.maintenance) {
+                delete user.maintenance
+                if (devData.maintenancetext != undefined && devData.maintenancetext != "") {
+                    functions.sendMessage(message.channel, devData.maintenancetext)
+                }
+            }
+            if (devs.indexOf(id) == -1) {
+                if (user.macro) {
+                    functions.logCommand(message, "MACRO")
+                }
+                if (Math.random() < devData.security || user.macro) {
+                    functions.antimacro(message, user)
+                    functions.setUser(user)
+                    return;
+                }
+            }
+            user.cnumbers[0] += nctlist[message.author.id]
+            user.cnumbers[1] += 1
+            nctlist[message.author.id] = 0;
+
+            user.cooldowns.normal = ts;
+            if (user.flag == true) {
+                functions.logCommand(message, "FLAG")
+            }
+
+            //sendMessage(bot.guilds.cache.get("536599503608872961").channels.cache.get("538710109241606154"), message.author.id + "|" + message.content + "|" + ts)
+            //console.time("run")
+            if (devData.commandLogGuild != undefined) {
+                iterchannel++;
+                if (iterchannel % 5 == 0) { channelnum++; iterchannel = 0; }
+                if (channelnum >= devData.commandLogChannels.length) { channelnum = 0; }
+                functions.logCommand(message, "CLOG", undefined, devData.commandLogGuild, devData.commandLogChannels[channelnum])
+            }
+            commands[command](message, user).then(ret => {
+                functions.postCommandCheck(message, user);
+                if (command == 'restore' || command == 'eval') {
+                    return;
+                }
                 functions.setUser(user)
-                return;
-            }
-        }
-        user.cnumbers[0] += nctlist[message.author.id]
-        user.cnumbers[1] += 1
-        nctlist[message.author.id] = 0;
-        
-        user.cooldowns.normal = ts;
-        if (user.flag == true) {
-            functions.logCommand(message, "FLAG")
-        }
-        
-        //sendMessage(bot.guilds.cache.get("536599503608872961").channels.cache.get("538710109241606154"), message.author.id + "|" + message.content + "|" + ts)
-        //console.time("run")
-        if (devData.commandLogGuild != undefined) {
-            iterchannel++;
-            if (iterchannel % 5 == 0) { channelnum++; iterchannel = 0; }
-            if (channelnum >= devData.commandLogChannels.length) { channelnum = 0; }
-            functions.logCommand(message, "CLOG", undefined, devData.commandLogGuild, devData.commandLogChannels[channelnum])
-        }
-        commands[command](message, user).then(ret => {
-            functions.postCommandCheck(message, user);
-            if (command == 'restore' || command == 'eval') {
-                return;
-            }
-            functions.setUser(user)
-        })
-        //console.timeEnd("run")
-        //console.timeEnd("Command")
-        //Command cooldowns
-    });
+            })
+            //console.timeEnd("run")
+            //console.timeEnd("Command")
+            //Command cooldowns
+        });
+    } catch (e) {
+        console.log(e);
+    }
 }
 bot.on("message", message => {
     evaluateMessage(message)
