@@ -287,6 +287,11 @@ module.exports = async function (message, user) {
                 if (target.guildpos == "Member") {
                     target.guildpos = "Co-Leader"
                     functions.replyMessage(message, "You have promoted <@" + target._id + "> to Co-Leader!");
+                } else if (target.guildpos == "Co-Leader" && user.guildpos == "Leader") {
+                    target.guildpos = "Leader"
+                    user.guildpos = "Co-Leader"
+                    guild.leader = target._id
+                    functions.replyMessage(message, "You have promoted <@" + target._id + "> to Leader!");
                 } else {
                     functions.replyMessage(message, "They can't be promoted any further!");
                 }
