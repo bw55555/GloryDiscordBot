@@ -324,8 +324,8 @@ module.exports = async function (message, user) {
             })
         }
         else if (command == "KICK") {
-            if (user.guildpos != "Leader" && user.guildpos != "Co-Leader") {//Honestly, there should be a better name for a "coleader"
-                functions.replyMessage(message, "Only Leaders and Co-Leaders can kick others!")
+            if (!hasPermissions(user, "kick")) {//Honestly, there should be a better name for a "coleader"
+                functions.replyMessage(message, "You do not have permission to do this!")
                 return;
             }
             return Promise.all([functions.validate(message, user, 2)]).then(ret => {
