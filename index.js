@@ -113,7 +113,7 @@ function addServer(guild) {
 function evaluateMessage(message) {
     if (ready == false) { console.log("Not Ready"); return }
 
-    console.log("ts: " + message.createdTimestamp + ", ChannelId: " + message.channel.id + ", Author:" + message.author.id + ", Text: " + message.content);
+    //console.log("ts: " + message.createdTimestamp + ", ChannelId: " + message.channel.id + ", Author:" + message.author.id + ", Text: " + message.content);
 
     if (bot.user.id === message.author.id) { return }
     functions.respond(message)
