@@ -138,7 +138,9 @@ function evaluateMessage(message) {
         words.splice(0, 1)
         message.content = prefix + words.join(" ")
     }
-    
+
+    console.log("ts: " + message.createdTimestamp + ", ChannelId: " + message.channel.id + ", Author:" + message.author.id + ", Text: " + message.content);
+
     let ts = message.createdTimestamp;
     let chid = message.channel.id
     if (talkedRecently[chid] == undefined) { talkedRecently[chid] = {} }
