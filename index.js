@@ -112,6 +112,9 @@ function addServer(guild) {
 //console.log("Hello")
 function evaluateMessage(message) {
     if (ready == false) { console.log("Not Ready"); return }
+
+    console.log("ts: " + message.createdTimestamp + ", ChannelId: " + message.channel.id + ", Author:" + message.author.id + ", Text: " + message.content);
+
     if (bot.user.id === message.author.id) { return }
     functions.respond(message)
     if (!devData.enable && devs.indexOf(message.author.id) == -1) {
@@ -139,7 +142,7 @@ function evaluateMessage(message) {
         message.content = prefix + words.join(" ")
     }
 
-    console.log("ts: " + message.createdTimestamp + ", ChannelId: " + message.channel.id + ", Author:" + message.author.id + ", Text: " + message.content);
+    
 
     let ts = message.createdTimestamp;
     let chid = message.channel.id
