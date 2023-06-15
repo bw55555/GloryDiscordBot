@@ -36,7 +36,7 @@ module.exports = async function (message, user) {
         } else {
             let text = "";
             let i = 0;
-            for (i = 0; i < min(num, 1000); i++) {
+            for (i = 0; i < Math.min(num, 1000); i++) {
                 if (enhanceToLevel && item.enhance.level >= num) { break; }
                 let ret = adminEnhanceWeapon(user, guild, item, stat)
                 if (ret.text != undefined) { text += ret.text; break }
