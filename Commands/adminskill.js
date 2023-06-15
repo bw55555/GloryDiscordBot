@@ -11,7 +11,7 @@ module.exports = async function (message, user) {
     return Promise.all([functions.validate(message, user)]).then(ret => {
         let target = ret[0];
         if (target == false) { return user; }
-        let text = "Successfully added skills: "
+        let text = "Successfully added skills to <@" +target._id+ ">: "
         for (let i = 2; i < words.length; i++) {
             let skillid = parseInt(words[i])
             if (skillid < 0 || skillid >= skillData.length) { continue; }
