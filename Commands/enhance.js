@@ -41,52 +41,27 @@ module.exports = async function (message, user) {
                 if (item.owner != user._id) { return functions.replyMessage(message, "You do not own this item!") }
                 if (item._id == user.weapon) { return functions.replyMessage(message, "This item is currently equipped!") }
                 if (num == 1) {
-                    let cost = parseInt(Math.pow(1.4, Math.pow(item.enhance.level, 0.5)) * Math.pow(item.enhance.level + 1, 1.5) * 10000 * (1 - guildForgePrices.enhance[1].bonus[guild.forge.enhance[1]]))
-                    let successrate = 100 - 10 * item.rarity + 100 * guildForgePrices.enhance[2].bonus[guild.forge.enhance[2]]
-                    if (user.money < cost) { return functions.replyMessage(message, "You do not have enough money!") }
-                    user.money -= cost;
-                    functions.setUser(user)
-                    let chance = Math.random() * 100;
-                    if (chance > successrate) {
-                        return functions.replyMessage(message, "Oh no! It failed...")
-                    } else {
-                        item.enhance.level += 1;
-                        if (stat == "random") {
-                            if (Math.random() > 0.5) {
-                                stat = "attack"
-                            } else {
-                                stat = "defense"
-                            }
-                        }
-                        item.enhance[stat] += 1;
-                        functions.setItem(item)
-                        return functions.replyMessage(message, "You have successfully enhanced your weapon to level " + item.enhance.level)
+                    let ret = enhanceWeapon(user, guild, item, stat);
+                    if (ret.text) {
+                        functions.replyMessage(message, text);
                     }
-                }
-                if (enhanceToLevel) {
-                    let text = "";
-                    let totalcost = 0;
-                    let i = 0;
-                    for (i = 0; i < 1000; i++) {
-                        if (item.enhance.level >= num) { break; }
-                        let ret = enhanceWeapon(user, guild, item, stat)
-                        if (ret.text != undefined) { text += ret.text; break }
-                        if (ret.cost != undefined) { totalcost += cost }
+                    if (!ret.success) {
+                        functions.replyMessage(message, "Oh no! It failed...")
                     }
-                    text = "You spent "+i +" attempts and a total of $" + totalcost + " to enhance your weapon to level " + item.enhance.level + "!\n" + text;
-                    functions.replyMessage(message, text);
-                    functions.setUser(user);
-                    functions.setItem(item);
+                    if (ret.success) {
+                        functions.replyMessage(message, "You have successfully enhanced your weapon to level " + item.enhance.level)
+                    }
                 } else {
                     let text = "";
                     let totalcost = 0;
                     let i = 0;
-                    for (i = 0; i < Math.min(num, 1000); i++) {
+                    for (i = 0; i < min(num, 1000); i++) {
+                        if (enhanceToLevel && item.enhance.level >= num) { break; }
                         let ret = enhanceWeapon(user, guild, item, stat)
                         if (ret.text != undefined) { text += ret.text; break }
-                        if (ret.cost != undefined) { totalcost += cost }
+                        if (ret.cost != undefined) { totalcost += ret.cost }
                     }
-                    text = "You spent " + i + " attempts and a total of $" + totalcost + " to enhance your weapon to level " + item.enhance.level + "!\n" + text;
+                    text = "You spent "+i +" attempts and a total of $" + totalcost + " to enhance your weapon to level " + item.enhance.level + "!\n" + text;
                     functions.replyMessage(message, text);
                     functions.setUser(user);
                     functions.setItem(item);
@@ -122,5 +97,5 @@ function enhanceWeapon(user, guild, item, stat) {
         item.enhance[tu] += 1;
     }
     functions.completeQuest(user, "enhance", { "success": success, "item": item }, 1)
-    return {"cost": cost, "success": true}
+    return {"cost": cost, "success": success}
 }

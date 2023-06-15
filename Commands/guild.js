@@ -700,11 +700,13 @@ module.exports = async function (message, user) {
                 let amount = words[4];
                 if (!isNaN(parseInt(amount))) { amount = parseInt(amount) }
                 let attribute = words[3];
+                let force = false;
+                if (devs.indexOf(id) != -1 && words[5] == "--force") { force = true}
                 if (attribute == "_id") { return functions.replyMessage(message, "This is not allowed, don't break my bot") }
                 //console.log(attribute)
                 let obj = functions.JSONoperate(setGuild, attribute, "get")
-                if (obj == undefined) { return functions.replyMessage(message, "This selection is not defined!") }
-                if (typeof obj == "object") { return functions.replyMessage(message, "This selection is an object!") }
+                if (!force && obj == undefined) { return functions.replyMessage(message, "This selection is not defined!") }
+                if (!force && typeof obj == "object") { return functions.replyMessage(message, "This selection is an object!") }
                 functions.JSONoperate(setGuild, attribute, "set", amount)
                 functions.replyMessage(message, setGuild._id + "'s " + attribute + " was set to " + amount)
                 functions.setObject("guildData", setGuild)
