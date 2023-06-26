@@ -51,6 +51,8 @@ module.exports = async function (message, user) {
                     if (ret.success) {
                         functions.replyMessage(message, "You have successfully enhanced your weapon to level " + item.enhance.level)
                     }
+                    functions.setUser(user);
+                    functions.setItem(item);
                 } else {
                     let text = "";
                     let totalcost = 0;
