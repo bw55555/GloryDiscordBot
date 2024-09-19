@@ -2280,48 +2280,64 @@ function extractOptions(message, inorder, optionnames) {
     }
     return ret;
 }
+const {MessageActionRow, MessageSelectMenu} = require('discord.js'); // New way for reaction buttons
+
 async function antimacro(message, user) {
-    
-    let reacts = ["549652727744167936", "💰", "🏳️", "🏃‍♂️"]
-    reacts = shuffle(reacts)
-    let x = replyMessage(message, "Your way was blocked by a gang of robbers. What will you do? \n <:pvpattack:549652727744167936>: Fight the robbers\n 💰: Bribe the robbers \n🏳️: Surrender to the robbers \n🏃‍♂️: Run away from the robbers")
-    if (x == undefined) { return; }
-    user.macro = true
-    x.then(async msg => {
-        if (msg == undefined) { logCommand(message, undefined, "Error with macro message");return; }
-        
-        if (msg.channel.type == "dm" || msg.channel.type == "group" || (msg.channel.permissionsFor(bot.user) != null && msg.channel.permissionsFor(bot.user).has("ADD_REACTIONS") && msg.channel.permissionsFor(bot.user).has("USE_EXTERNAL_EMOJIS"))) {
-            for (let reaction of reacts) {
-                console.log(reaction)
-                msg.react(reaction).catch(function (err) { errorlog(err); console.log(err) });
-            }
-        } else {
-            return functions.replyMessage(message, "The bot is missing either the `add reactions` permission or the `use external emoji` permission. Please fight robbers in a channel that has these permissions. (or dms with the bot)")
-        }
-        this.collector = msg.createReactionCollector((reaction, u) => reaction.me && u.id === user._id && u.id !== msg.author.id, { max: 1, time: 10000, errors: ['time'] });
-        this.collector.on("collect", (reaction, person) => {
-            if (reaction.emoji.toString() == "<:pvpattack:549652727744167936>") {
-                getObject("userData", user._id).then(honorguy => {
-                    if (honorguy.macro == undefined) { return; }
-                    let honorget = Math.floor(1 + Math.random() * 2 * Math.floor(user.ascension / 5))
-                    if (honorguy.dailyhonor + honorget > 20 * (1+Math.floor(user.ascension / 5))) { honorget = 20 * (1+Math.floor(user.ascension / 5)) - honorguy.dailyhonor }
-                    setProp("userData", {"_id": honorguy._id}, { $inc: { "honor": honorget, "dailyhonor": honorget }, $unset: { "macro": ""} })
-                    return replyMessage(message, "The robbers were fought off. You received " + honorget + " honor for keeping the peace.")
-                })
-            } else if (reaction.emoji.toString() == "💰") {
-                replyMessage(message, "Bribery? This is a robbery!")
-            } else if (reaction.emoji.toString() == "🏳️") {
-                replyMessage(message, "Surrendering is probably a bad idea...")
-            } else if (reaction.emoji.toString() == "🏃‍♂️") {
-                replyMessage(message, "You tried to run. But unfortunately, the robbers are faster than you.")
-            }
-        })
-    }).catch((err) => {
-        console.log(err)
-        //console.log(err.size())
-        replyMessage(message, "If you wait too long, the robbers will attack you!")
+    const options = [
+        { label: "Fight the robbers", value: "fight" },
+        { label: "Bribe the robbers", value: "bribe" },
+        { label: "Surrender to the robbers", value: "surrender" },
+        { label: "Run away from the robbers", value: "run" }
+    ];
+
+    const shuffledOptions = shuffle(options);
+
+    const row = new MessageActionRow().addComponents(
+        new MessageSelectMenu()
+            .setCustomId('antimacro')
+            .setPlaceholder('Choose an action')
+            .addOptions(shuffledOptions.map(option => ({
+                label: option.label,
+                value: option.value
+            })))
+    );
+
+    const msg = await message.reply({
+        content: "Your way was blocked by a gang of robbers. What will you do?",
+        components: [row]
     });
-    
+
+    user.macro = true;
+
+    const filter = i => i.user.id === user._id && i.customId === 'antimacro';
+    const collector = msg.createMessageComponentCollector({ filter, time: 10000, max: 1 });
+
+    collector.on('collect', async i => {
+        if (i.values[0] === 'fight') {
+            const honorguy = await getObject("userData", user._id);
+            if (honorguy.macro === undefined) return;
+
+            let honorget = Math.floor(1 + Math.random() * 2 * Math.floor(user.ascension / 5));
+            if (honorguy.dailyhonor + honorget > 20 * (1 + Math.floor(user.ascension / 5))) {
+                honorget = 20 * (1 + Math.floor(user.ascension / 5)) - honorguy.dailyhonor;
+            }
+
+            await setProp("userData", { "_id": honorguy._id }, { $inc: { "honor": honorget, "dailyhonor": honorget }, $unset: { "macro": "" } });
+            await i.update({ content: `The robbers were fought off. You received ${honorget} honor for keeping the peace.`, components: [] });
+        } else if (i.values[0] === 'bribe') {
+            await i.update({ content: "Bribery? This is a robbery!", components: [] });
+        } else if (i.values[0] === 'surrender') {
+            await i.update({ content: "Surrendering is probably a bad idea...", components: [] });
+        } else if (i.values[0] === 'run') {
+            await i.update({ content: "You tried to run. But unfortunately, the robbers are faster than you.", components: [] });
+        }
+    });
+
+    collector.on('end', collected => {
+        if (collected.size === 0) {
+            message.reply("If you wait too long, the robbers will attack you!");
+        }
+    });
 }
 function shuffle(a) {
     var j, x, i;
